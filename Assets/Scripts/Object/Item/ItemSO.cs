@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSO : MonoBehaviour
+[CreateAssetMenu(fileName = "New Item", menuName = "Item")]
+public class ItemSO : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int itemId;
+    public string itemName;
+    public Sprite itemSprite;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool canRefining; //재련가능한 아이템인지
 }
