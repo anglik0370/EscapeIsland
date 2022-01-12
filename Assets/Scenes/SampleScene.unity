@@ -164,11 +164,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 28347461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcebb750a1748ff47aa5094bff261f39, type: 3}
+  m_Script: {fileID: 11500000, guid: d57735355dc80f44f83134618033b36b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmountItemList: []
-  curAmountItemList: []
+  timer: 0
+  timeToNextSlot: 5
+  curSlot: 0
 --- !u!114 &28347464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,10 +179,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 28347461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e4d0ce5b7f91824190ab8c3e9aab22f, type: 3}
+  m_Script: {fileID: 11500000, guid: f3eee05e44c10b84490cd60b035edf72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemList: []
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Boat : MonoBehaviour
+public class ItemStorage : MonoBehaviour
 {
     public List<ItemAmount> maxAmountItemList;
     public List<ItemAmount> curAmountItemList;
