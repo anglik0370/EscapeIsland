@@ -10,9 +10,9 @@ public enum eSlot
     DarkTime //밤 시간대
 }
 
-public class MGTime : MonoBehaviour
+public class TimeHandler : MonoBehaviour
 {
-    public static MGTime Instance{get; private set;}
+    public static TimeHandler Instance{get; private set;}
 
     [SerializeField]
     private float timer; //현재 시간

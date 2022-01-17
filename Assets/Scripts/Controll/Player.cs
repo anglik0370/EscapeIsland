@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         moveDir.x = Input.GetAxis("Horizontal");
         moveDir.y = Input.GetAxis("Vertical");
 
-        transform.Translate(moveDir * speed * Time.deltaTime);
+        transform.Translate(moveDir.normalized * speed * Time.deltaTime);
     }
 
     IEnumerator SendPosition()
