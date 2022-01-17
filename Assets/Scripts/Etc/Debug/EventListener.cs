@@ -6,7 +6,7 @@ public class EventListener : MonoBehaviour
 {
     private void Start() 
     {
-        MGTime.Instance.OnSlotChanged += slot =>
+        TimeHandler.Instance.OnSlotChanged += slot =>
         {
             print(slot.ToString());
         };
