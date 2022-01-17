@@ -1,14 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EventListener : MonoBehaviour
 {
-    private void Start() 
+    public EventSO gEvent;
+
+    public UnityEvent respons = new UnityEvent();
+
+    private void OnEnable() 
     {
-        TimeHandler.Instance.OnSlotChanged += slot =>
-        {
-            print(slot.ToString());
-        };
+        gEvent.Register(this);
+    }
+
+    private void OnDisbale()
+    {
+        gEvent.UnRegister(this);
+    }
+
+    public void OnEventOccurs()
+    {
+        respons.Invoke();
     }
 }
