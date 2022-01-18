@@ -1,14 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-
-//시간대
-public enum eSlot
-{
-    LightTime, //낮 시간대
-    DarkTime //밤 시간대
-}
 
 public class TimeHandler : MonoBehaviour
 {
@@ -20,9 +12,12 @@ public class TimeHandler : MonoBehaviour
     private float timeToNextSlot; //낮 밤이 바뀌는 주기
 
     [SerializeField]
-    private eSlot curSlot; //현재 시간대
+    private bool isLightTime = true;
 
-    public event Action<eSlot> OnSlotChanged = slot => {};
+    [SerializeField]
+    private EventSO darkTimeEvent;
+    [SerializeField]
+    private EventSO lightTimeEvent;
 
     private void Awake() 
     {
@@ -40,17 +35,16 @@ public class TimeHandler : MonoBehaviour
 
         if(timer <= 0)
         {
-            switch(curSlot)
+            if(isLightTime)
             {
-                case eSlot.LightTime:
-                    curSlot = eSlot.DarkTime;
-                    break;
-                case eSlot.DarkTime:
-                    curSlot = eSlot.LightTime;
-                    break;
+                darkTimeEvent.Occurred();
+            }
+            else
+            {
+                lightTimeEvent.Occurred();
             }
 
-            OnSlotChanged(curSlot);
+            isLightTime = !isLightTime;
 
             timer = timeToNextSlot;
         }

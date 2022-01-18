@@ -10,6 +10,10 @@ public class ItemSpawner : MonoBehaviour
     private void Awake() 
     {
         poolObj = Instantiate(poolObj, transform);
+
+        poolObj.SetPosition(transform.position);
+        poolObj.SetSprite(item.itemSprite);
+
         poolObj.SetActive(false);
     }
 
@@ -20,9 +24,11 @@ public class ItemSpawner : MonoBehaviour
 
     public void SpawnItem()
     {
-        poolObj.SetPosition(transform.position);
-        poolObj.SetSprite(item.itemSprite);
-
         poolObj.SetActive(true);
+    }
+
+    public void DeSpawnItem()
+    {
+        poolObj.SetActive(false);
     }
 }

@@ -23,6 +23,6 @@ public class PoolObj : MonoBehaviour
 
     public void SetActive(bool value)
     {
-        SetActive(value);
+        gameObject.SetActive(value);
     }
 }
