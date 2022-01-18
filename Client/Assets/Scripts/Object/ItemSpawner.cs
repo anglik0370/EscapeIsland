@@ -31,4 +31,17 @@ public class ItemSpawner : MonoBehaviour
     {
         poolObj.SetActive(false);
     }
+
+    public ItemSO PickUpItem()
+    {
+        ItemSO temp = null;
+
+        if(poolObj.gameObject.activeSelf)
+        {
+            poolObj.SetActive(false);
+            temp = this.item;
+        }
+
+        return temp;
+    }
 }

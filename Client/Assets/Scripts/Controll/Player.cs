@@ -25,11 +25,15 @@ public class Player : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
+        inventory = GetComponent<Inventory>();
     }
 
     private void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            PickUpNearlestItem();
+        }
     }
     private void FixedUpdate()
     {
@@ -46,6 +50,25 @@ public class Player : MonoBehaviour
         moveDir.y = Input.GetAxis("Vertical");
 
         transform.Translate(moveDir.normalized * speed * Time.deltaTime);
+    }
+
+    public void PickUpNearlestItem()
+    {
+        //디버그용 함수로 가장 가까이에 있는 아이템을 인벤토리에 넣습니다
+
+        ItemSpawner spawner = GameObject.FindObjectOfType<ItemSpawner>();
+
+        if(spawner != null)
+        {
+            ItemSO item = spawner.PickUpItem();
+
+            print(item);
+
+            if(item != null)
+            {
+                inventory.AddItem(item);
+            }
+        }
     }
 
     IEnumerator SendPosition()
