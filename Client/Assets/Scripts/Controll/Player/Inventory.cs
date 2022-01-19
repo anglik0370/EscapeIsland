@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<ItemSO> itemList;
+    public List<ItemSO> itemList = new List<ItemSO>();
 
     private const int MAX_ITEM_COUNT = 7;
 

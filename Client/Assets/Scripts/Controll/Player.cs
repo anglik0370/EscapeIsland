@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     float yMove { get; set; }
 
     [SerializeField]
-    private int speed = 5;
+    public int speed = 5;
 
     private void Awake()
     {
@@ -34,22 +34,21 @@ public class Player : MonoBehaviour
         {
             PickUpNearlestItem();
         }
+        
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            PutItemInStorage();
+        }
     }
-    private void FixedUpdate()
-    {
-        Move();
-    }
+
     public void InitPlayer()
     {
 
     }
 
-    public void Move()
+    public void Move(Vector3 dir)
     {
-        moveDir.x = Input.GetAxis("Horizontal");
-        moveDir.y = Input.GetAxis("Vertical");
-
-        transform.Translate(moveDir.normalized * speed * Time.deltaTime);
+        transform.position += dir;
     }
 
     public void PickUpNearlestItem()
@@ -67,6 +66,21 @@ public class Player : MonoBehaviour
             if(item != null)
             {
                 inventory.AddItem(item);
+            }
+        }
+    }
+
+    public void PutItemInStorage()
+    {
+        //디버그용 함수로 가지고있는 모든 아이템을 배에 채웁니다
+
+        ItemStorage storage = GameObject.FindObjectOfType<ItemStorage>();
+
+        if(storage != null)
+        {
+            foreach(ItemSO item in inventory.itemList)
+            {
+                storage.AddItem(item);
             }
         }
     }

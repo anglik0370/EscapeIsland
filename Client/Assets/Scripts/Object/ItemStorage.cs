@@ -8,6 +8,8 @@ public class ItemStorage : MonoBehaviour
     public List<ItemAmount> maxAmountItemList;
     public List<ItemAmount> curAmountItemList;
 
+    public ItemSO debugItem;
+
     private void Awake() 
     {
         maxAmountItemList = new List<ItemAmount>();
@@ -18,8 +20,6 @@ public class ItemStorage : MonoBehaviour
 
         for(int i = 0; i < itemList.Count; i++)
         {
-            print(itemList[i]);
-
             ItemAmount temp = new ItemAmount(itemList[i], 0);
             curAmountItemList.Add(temp);
         }
@@ -36,7 +36,11 @@ public class ItemStorage : MonoBehaviour
 
     private ItemAmount FindItemAmount(List<ItemAmount> list, ItemSO item)
     {
-        return list.Find(x => x.item == item);
+        ItemAmount amount = list.Find(x => x.item.itemId == item.itemId);
+
+        print($"{amount.item} : {amount.amount}");
+
+        return amount;
     }
 
     public void AddItem(ItemSO item)
@@ -46,7 +50,7 @@ public class ItemStorage : MonoBehaviour
         ItemAmount maxItemAmount = FindItemAmount(maxAmountItemList, item);
 
         //생각해보니까 MAX 넘으면 안되네 현재보유량 + 넣는양이 작으면 더해주는걸로
-        if(curItemAmount.amount <= maxItemAmount.amount)
+        if(curItemAmount.amount < maxItemAmount.amount)
         {
             //갯수만큼 더해준다
             curItemAmount.amount++;
