@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Connect : MonoBehaviour
+public class Connect : Popup
 {
     public InputField ipInput;
     public InputField portInput;
 
     public Button connectBtn;
-    private CanvasGroup cg;
 
     private void Start()
     {
@@ -23,6 +22,7 @@ public class Connect : MonoBehaviour
 
             SocketClient.instance.ConnectSocket(ipInput.text, portInput.text);
             //로그인 창으로 넘어가야함
+            PopupManager.instance.OpenPopup("login");
         });
     }
 }
