@@ -22,8 +22,7 @@ public class Connect : Popup
 
             SocketClient.instance.ConnectSocket(ipInput.text, portInput.text);
             //로그인 창으로 넘어가야함
-            PopupManager.instance.ClosePopup();
-            PopupManager.instance.OpenPopup("login");
+            PopupManager.instance.CloseAndOpen("login");
         });
     }
 }

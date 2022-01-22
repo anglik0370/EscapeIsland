@@ -52,6 +52,12 @@ public class PopupManager : MonoBehaviour
         OpenPopup("connect");
     }
 
+    public void CloseAndOpen(string open)
+    {
+        ClosePopup();
+        OpenPopup(open);
+    }
+
     public void OpenPopup(string name, object data = null, int closeCount = 1) // µñ¼Å³Ê¸®¿¡ ÀÖ´Â UI ÇÁ¸®ÆéÀ» È°¼ºÈ­
     {
         if (popupStack.Count == 0)

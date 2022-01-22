@@ -47,12 +47,27 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public void InitData()
+    {
+        socketId = -1;
+        socketName = "";
+        roomNum = 0;
+    }
+
     public void Login(string name)
     {
         LoginVO vo = new LoginVO();
         vo.name = name;
 
         DataVO dataVO = new DataVO("LOGIN",JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+    public void CreateRoom(string name, int userNum)
+    {
+        RoomVO vo = new RoomVO(name, 0, userNum);
+
+        DataVO dataVO = new DataVO("CREATE_ROOM", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

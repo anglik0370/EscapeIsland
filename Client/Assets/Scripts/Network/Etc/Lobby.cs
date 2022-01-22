@@ -27,12 +27,14 @@ public class Lobby : Popup
         });
         exitBtn.onClick.AddListener(() =>
         {
-            
+            NetworkManager.instance.InitData();
+            SocketClient.instance.InitWebSocket();
+            PopupManager.instance.CloseAndOpen("connect");
         });
 
         createRoomBtn.onClick.AddListener(() =>
         {
-
+            NetworkManager.instance.CreateRoom(roomNameInput.text,8);
         });
         cancelBtn.onClick.AddListener(() =>
         {

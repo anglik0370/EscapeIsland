@@ -47,6 +47,12 @@ public class SocketClient : MonoBehaviour
             ReceiveData((WebSocket)s, e);
         };
     }
+    public void InitWebSocket()
+    {
+        if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
+            webSocket.Close();
+        webSocket = null;
+    }
     private void ReceiveData(WebSocket sender, MessageEventArgs e)
     {
         DataVO vo = JsonUtility.FromJson<DataVO>(e.Data);

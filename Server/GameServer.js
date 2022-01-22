@@ -6,6 +6,7 @@ const Vector2 = require('./Vector2.js');
 const LoginHandler = require('./LoginHandler.js');
 
 let socketIdx = 0;
+let roomIdx = 1; 
 
 let roomList = {}; //룸들의 정보들을 담고있는 배열
 let userList = {}; //유저들의 정보들을 담고있는 배열
@@ -78,7 +79,43 @@ wsService.on("connection", socket => {
                         return;
                     }
                     let userData = LoginHandler(data.payload,socket);
+                    userData.position = Vector2.zero;
+
+
                     userList[socket.id] = userData;
+                    break;
+                case "CREATE_ROOM":
+                    if(socket.state !== SocketState.IN_LOBBY){
+                        sendError("로비가 아닌 곳에서 시도를 하였습니다.", socket);
+                        return;
+                    }
+
+                    let roomInfo = JSON.parse(data.payload);
+
+                    if(roomInfo.name === ""){
+                        sendError("방이름을 입력해 주세요.", socket);
+                        return;
+                    }
+
+                    roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,userNum:roomInfo.userNum,playing:false};
+
+                    socket.state = SocketState.IN_ROOM;
+                    socket.room = roomIdx;
+
+                    if(userList[socket.id] !== undefined){
+                        userList[socket.id].roomNum = roomIdx;
+                        userList[socket.id].master = true;
+                        //userList[socket.id].position = 
+                    }
+
+                    wsService.clients.forEach(soc=>{
+                        if(soc.state != SocketState.IN_LOBBY) 
+                            return;
+                        refreshRoom(soc);
+                    });
+                    refreshUser(socket, roomIdx);
+
+                    roomIdx++;
                     break;
             }
         }
