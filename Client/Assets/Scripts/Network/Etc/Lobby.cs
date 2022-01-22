@@ -27,7 +27,7 @@ public class Lobby : Popup
         });
         exitBtn.onClick.AddListener(() =>
         {
-            OpenCreateRoomPopup(false);
+            
         });
 
         createRoomBtn.onClick.AddListener(() =>
@@ -36,7 +36,7 @@ public class Lobby : Popup
         });
         cancelBtn.onClick.AddListener(() =>
         {
-
+            OpenCreateRoomPopup(false);
         });
     }
 

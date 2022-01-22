@@ -14,6 +14,7 @@ public class Login : Popup
         connectBtn.onClick.AddListener(() =>
         {
             //로그인 수행 후 로비로 이동해야함
+            NetworkManager.instance.Login(nameInput.text);
             nameInput.text = "";
         });
     }

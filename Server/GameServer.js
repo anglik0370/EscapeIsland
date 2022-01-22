@@ -3,6 +3,7 @@ const port = 31012;
 
 const SocketState = require('./SocketState.js');
 const Vector2 = require('./Vector2.js');
+const LoginHandler = require('./LoginHandler.js');
 
 let socketIdx = 0;
 
@@ -69,21 +70,15 @@ wsService.on("connection", socket => {
         //여기서는 클라이언트에서 받은 메시지를 처리해줘야 한다.
         try {
             const data = JSON.parse(msg);
-
             switch (data.type) {
                 case "LOGIN":
                     let payload = JSON.parse(data.payload);
-
-                    // if(payload.name === ""){
-                    //     sendError("이름을 입력해주세요", socket);
-                    //     return;
-                    // }
-
-                    // let userData = {socketId:socket.id, name:payload.name, roomNum:0};
-                    // userList[socket.id] = userData;
-                    // socket.state = SocketState.IN_LOBBY;
-                    // socket.room = 0;
-                    // socket.send(JSON.stringify({type:"LOGIN", payload:JSON.stringify({name:payload.name, socketId:socket.id})}))
+                    if(payload.name === ""){
+                        sendError("이름을 입력해주세요", socket);
+                        return;
+                    }
+                    let userData = LoginHandler(data.payload,socket);
+                    userList[socket.id] = userData;
                     break;
             }
         }

@@ -48,6 +48,8 @@ public class PopupManager : MonoBehaviour
         popupDic.Add("login", Instantiate(loginPopup, popupParent));
         popupDic.Add("lobby", Instantiate(lobbyPopup, popupParent));
         popupDic.Add("room", Instantiate(roomPopup, popupParent));
+
+        OpenPopup("connect");
     }
 
     public void OpenPopup(string name, object data = null, int closeCount = 1) // µñ¼Å³Ê¸®¿¡ ÀÖ´Â UI ÇÁ¸®ÆéÀ» È°¼ºÈ­

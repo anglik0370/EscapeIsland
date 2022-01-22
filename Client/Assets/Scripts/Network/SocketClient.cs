@@ -30,7 +30,7 @@ public class SocketClient : MonoBehaviour
     private void Start()
     {
         //핸들러 딕셔너리에 필요한것들 추가해주기
-
+        handlerDic.Add("LOGIN", handlerParent.GetComponent<LoginHandler>());
 
 
         webSocket = new WebSocket($"{url}:{port}");
