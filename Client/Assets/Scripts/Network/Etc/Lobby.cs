@@ -9,6 +9,8 @@ public class Lobby : Popup
     public Button createPopupOpenBtn;
     public Button exitBtn;
 
+    public Transform roomParent;
+
     [Header("CreateRoomPopup°ü·Ã")]
     public CanvasGroup createRoomPopup;
     public InputField roomNameInput;

@@ -37,6 +37,15 @@ public class NetworkManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(Frame());
+    }
+
+    IEnumerator Frame()
+    {
+        yield return null;
+
+        roomParent = FindObjectOfType<Lobby>().roomParent;
+
         for (int i = 0; i < 10; i++)
         {
             RoomEnterBtn room = Instantiate(roomEnterBtnPrefab, roomParent).GetComponent<RoomEnterBtn>();

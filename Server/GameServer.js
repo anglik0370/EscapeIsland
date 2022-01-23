@@ -181,3 +181,7 @@ function refreshUser(socket, roomNum) //유저정보 갱신
     //console.log(userList);
     socket.send(JSON.stringify({type:"REFRESH_USER", payload:JSON.stringify({dataList})}));
 }
+
+// let ms200Timer = setInterval(() => {
+    
+// },200);

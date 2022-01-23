@@ -1480,7 +1480,7 @@ GameObject:
   - component: {fileID: 6386988843397441735}
   - component: {fileID: 6386988843397441734}
   m_Layer: 5
-  m_Name: Content
+  m_Name: roomParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1623,6 +1623,7 @@ MonoBehaviour:
   refreshBtn: {fileID: 6386988843156007503}
   createPopupOpenBtn: {fileID: 6386988842741576483}
   exitBtn: {fileID: 6386988842069536513}
+  roomParent: {fileID: 6386988843397441729}
   createRoomPopup: {fileID: 6386988841901846733}
   roomNameInput: {fileID: 6386988842749218233}
   createRoomBtn: {fileID: 6386988842532352963}
