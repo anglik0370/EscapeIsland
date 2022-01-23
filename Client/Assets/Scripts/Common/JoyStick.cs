@@ -28,7 +28,7 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     private void Update() 
     {
-        if(isTouch)
+        if(isTouch && !player.isRemote)
         {
             player.Move(moveDir);
         }

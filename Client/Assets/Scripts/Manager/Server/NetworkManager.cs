@@ -13,7 +13,17 @@ public class NetworkManager : MonoBehaviour
 
     public object lockObj = new object();
 
+    private List<RoomVO> roomList;
+    private List<RoomEnterBtn> roomEnterBtnList = new List<RoomEnterBtn>();
+    public GameObject roomEnterBtnPrefab;
+    public Transform roomParent;
+
+    private List<UserVO> userList;
+
+
     private bool isLogin = false;
+    private bool needRoomRefresh = false;
+    private bool needUserRefresh = false;
 
     private void Awake()
     {
@@ -25,12 +35,41 @@ public class NetworkManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            RoomEnterBtn room = Instantiate(roomEnterBtnPrefab, roomParent).GetComponent<RoomEnterBtn>();
+            room.gameObject.SetActive(false);
+            roomEnterBtnList.Add(room);
+        }
+    }
+
+    public static void SetRoomRefreshData(List<RoomVO> list)
+    {
+        lock(instance.lockObj)
+        {
+            instance.roomList = list;
+            instance.needRoomRefresh = true;
+        }
+    }
+
+    public static void SetUserRefreshData(List<DataVO> list)
+    {
+        lock(instance.lockObj)
+        {
+            //foreach (UserVO item in list)
+            //{
+            //    if(item.)
+            //}
+        }
+    }
+
 
     public static void SetLoginData(string name, int socketId)
     {
         lock(instance.lockObj)
         {
-            Debug.Log("SetLoginData");
             instance.socketName = name;
             instance.socketId = socketId;
             instance.isLogin = true;
@@ -45,6 +84,12 @@ public class NetworkManager : MonoBehaviour
             PopupManager.instance.OpenPopup("lobby");
             isLogin = false;
         }
+
+        if(needRoomRefresh)
+        {
+
+            needRoomRefresh = false;
+        }
     }
 
     public void InitData()
@@ -52,6 +97,33 @@ public class NetworkManager : MonoBehaviour
         socketId = -1;
         socketName = "";
         roomNum = 0;
+    }
+
+    public void RefreshRoom()
+    {
+        for (int i = 0; i < roomEnterBtnList.Count; i++)
+        {
+            roomEnterBtnList[i].gameObject.SetActive(false);
+        }
+        
+        foreach (RoomVO roomVO in roomList)
+        {
+            RoomEnterBtn room = roomEnterBtnList.Find(x => !x.gameObject.activeSelf);
+
+            if(room == null)
+            {
+                room = Instantiate(roomEnterBtnPrefab, roomParent).GetComponent<RoomEnterBtn>();
+                roomEnterBtnList.Add(room);
+            }
+
+            room.SetInfo(roomVO.name, roomVO.curUserNum, roomVO.userNum, roomVO.roomNum);
+
+        }
+    }
+
+    public void RefreshUser()
+    {
+
     }
 
     public void Login(string name)
@@ -63,12 +135,17 @@ public class NetworkManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
-    public void CreateRoom(string name, int userNum)
+    public void CreateRoom(string name, int curUserNum, int userNum)
     {
-        RoomVO vo = new RoomVO(name, 0, userNum);
+        RoomVO vo = new RoomVO(name, 0,curUserNum, userNum);
 
         DataVO dataVO = new DataVO("CREATE_ROOM", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void JoinRoom(int roomNum)
+    {
+
     }
 }

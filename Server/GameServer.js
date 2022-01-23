@@ -4,6 +4,7 @@ const port = 31012;
 const SocketState = require('./SocketState.js');
 const Vector2 = require('./Vector2.js');
 const LoginHandler = require('./LoginHandler.js');
+const waitingPos = require('./SpawnPoint.js');
 
 let socketIdx = 0;
 let roomIdx = 1; 
@@ -97,7 +98,7 @@ wsService.on("connection", socket => {
                         return;
                     }
 
-                    roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,userNum:roomInfo.userNum,playing:false};
+                    roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,curUserNum:1,userNum:roomInfo.userNum,playing:false};
 
                     socket.state = SocketState.IN_ROOM;
                     socket.room = roomIdx;
@@ -105,8 +106,10 @@ wsService.on("connection", socket => {
                     if(userList[socket.id] !== undefined){
                         userList[socket.id].roomNum = roomIdx;
                         userList[socket.id].master = true;
-                        //userList[socket.id].position = 
+                        userList[socket.id].position = waitingPos;
                     }
+
+                    socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
                     wsService.clients.forEach(soc=>{
                         if(soc.state != SocketState.IN_LOBBY) 

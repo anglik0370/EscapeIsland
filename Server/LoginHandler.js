@@ -1,4 +1,3 @@
-const { stringify } = require('nodemon/lib/utils');
 const SocketState = require('./SocketState.js');
 const Vector2 = require('./Vector2.js');
 

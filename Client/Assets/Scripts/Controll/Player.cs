@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,15 +9,10 @@ public class Player : MonoBehaviour
     private Rigidbody2D rigid;
 
     public int id;
-    public bool isRemote;
+    public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
     public Inventory inventory;
     public Color color;
     public Vector2 targetPos;
-
-    public Vector2 moveDir = new Vector2();
-
-    float xMove { get; set; }
-    float yMove { get; set; }
 
     [SerializeField]
     public int speed = 5;
@@ -28,16 +24,31 @@ public class Player : MonoBehaviour
         inventory = GetComponent<Inventory>();
     }
 
+    private void Start()
+    {
+        if(!isRemote)
+        {
+            StartCoroutine(SendPosition());
+        }
+    }
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(!isRemote)
         {
-            PickUpNearlestItem();
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                PickUpNearlestItem();
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                PutItemInStorage();
+            }
         }
-        
-        if(Input.GetKeyDown(KeyCode.E))
+        else
         {
-            PutItemInStorage();
+            transform.position = Vector3.Lerp(transform.position, targetPos, speed * Time.deltaTime);
         }
     }
 
@@ -88,5 +99,13 @@ public class Player : MonoBehaviour
     IEnumerator SendPosition()
     {
         yield return null;
+    }
+
+    public void SetTransform(Vector2 pos)
+    {
+        if(isRemote)
+        {
+            targetPos = pos;
+        }
     }
 }

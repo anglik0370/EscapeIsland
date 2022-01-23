@@ -253,6 +253,8 @@ MonoBehaviour:
   socketId: -1
   socketName: 
   roomNum: 0
+  roomEnterBtnPrefab: {fileID: 0}
+  roomParent: {fileID: 0}
 --- !u!1 &577199754
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1409138585}
   - component: {fileID: 1409138586}
+  - component: {fileID: 1409138587}
   m_Layer: 0
   m_Name: HandlerParent
   m_TagString: Untagged
@@ -632,6 +635,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 698c6d169dab0e84cbed9d86ef6bc58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1409138587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409138584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1c269b2d07ff14da69115278409960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1425163256
