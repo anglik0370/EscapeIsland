@@ -130,8 +130,7 @@ wsService.on("connection", socket => {
                             return;
                         refreshRoom(soc);
                     });
-                    //refreshUser(socket, roomIdx);
-                    roomBroadcast(r);
+                    //roomBroadcast(r);
 
                     roomIdx++;
                     break;
