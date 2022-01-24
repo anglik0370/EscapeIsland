@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 286106275306360834}
   - component: {fileID: 286106275306360835}
-  - component: {fileID: 4036424015278962249}
   m_Layer: 0
   m_Name: TreeBig
   m_TagString: Untagged
@@ -69,8 +68,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1865585133
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 29d1c819b556b0f48b22c3cba2e56c0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -83,44 +82,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &4036424015278962249
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 286106275306360836}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.71, y: 3.54}
-    newSize: {x: 1.71, y: 3.54}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.2910076, y: -1.7327796}
-      - {x: -0.28658432, y: -1.7733753}
-      - {x: -0.20981163, y: -0.89161223}
-      - {x: -0.16962624, y: -0.3303547}
-      - {x: -0.44504738, y: -0.40189552}
-      - {x: -0.7734909, y: -0.1510849}
-      - {x: -0.8806, y: 0.80704784}
-      - {x: -0.6700325, y: 1.2736177}
-      - {x: -0.41589355, y: 1.7071085}
-      - {x: 0.045944214, y: 1.7870436}
-      - {x: 0.69527435, y: 1.4171209}
-      - {x: 0.8421078, y: 0.7124157}
-      - {x: 0.74004173, y: -0.23028183}
-      - {x: 0.4375534, y: -0.4407034}
-      - {x: 0.16379166, y: -0.35778713}
-      - {x: 0.16499999, y: -0.69}
