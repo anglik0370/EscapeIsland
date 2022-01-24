@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimeHandler : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class TimeHandler : MonoBehaviour
     [SerializeField]
     private EventSO lightTimeEvent;
 
+    [SerializeField]
+    private Text dayAndSlotText;
+
+    [SerializeField]
+    private int day = 1;
+
     private void Awake() 
     {
         if(Instance == null)
@@ -27,6 +34,8 @@ public class TimeHandler : MonoBehaviour
         }
 
         timer = timeToNextSlot;
+
+        dayAndSlotText.text = $"{day}번째 낮";
     }
 
     private void Update() 
@@ -38,10 +47,14 @@ public class TimeHandler : MonoBehaviour
             if(isLightTime)
             {
                 darkTimeEvent.Occurred();
+                dayAndSlotText.text = $"{day}번째 밤";
             }
             else
             {
                 lightTimeEvent.Occurred();
+                day++;
+
+                dayAndSlotText.text = $"{day}번째 낮";
             }
 
             isLightTime = !isLightTime;
