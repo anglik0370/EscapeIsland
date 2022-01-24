@@ -2515,7 +2515,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.9215687, g: 0.8588236, b: 0.7019608, a: 1}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -5106,16 +5106,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 930445714}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1878972815}
-  m_RootOrder: 0
+  m_Father: {fileID: 1955469916}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: 0}
+  m_AnchoredPosition: {x: -410, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &930445716
@@ -7661,7 +7661,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1441571764}
   m_Layer: 0
-  m_Name: Refining
+  m_Name: Refinery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9965,8 +9965,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 930445715}
+  m_Children: []
   m_Father: {fileID: 1955469916}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10207,6 +10206,7 @@ GameObject:
   - component: {fileID: 1955469918}
   - component: {fileID: 1955469917}
   - component: {fileID: 1955469919}
+  - component: {fileID: 1955469921}
   - component: {fileID: 1955469920}
   m_Layer: 5
   m_Name: RefiningPanel
@@ -10232,6 +10232,7 @@ RectTransform:
   - {fileID: 2086881760}
   - {fileID: 1158709935}
   - {fileID: 1878972815}
+  - {fileID: 930445715}
   m_Father: {fileID: 2000760350}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10286,7 +10287,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955469915}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -10299,9 +10300,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1955469915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e26a131333a2b6f41a163aef7669d75d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1441e2edbe531c943887f40d6790acc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oreSlotImg: {fileID: 1743478046}
+  ingotSlotImg: {fileID: 2086881762}
+  oreNameText: {fileID: 1341265078}
+  ingotNameText: {fileID: 1158709936}
+  progressArrowImg: {fileID: 1878972816}
+  progressTimeText: {fileID: 930445716}
+--- !u!114 &1955469921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955469915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed239778d8710245b9ba6ef3ea5a248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refiningTime: 0
 --- !u!43 &1978843315
 Mesh:
   m_ObjectHideFlags: 0
@@ -11059,8 +11079,10 @@ PolygonCollider2D:
       - {x: -0.34990263, y: 15.352679}
       - {x: -0.37428236, y: 15.704847}
       - {x: -2.1521335, y: 16.293642}
-      - {x: -0.27256083, y: 18.266268}
-      - {x: -0.72571754, y: 18.36887}
+      - {x: -0.4918468, y: 17.978455}
+      - {x: 5.745481, y: 17.869776}
+      - {x: 5.304644, y: 18.355164}
+      - {x: -0.7310097, y: 18.38108}
       - {x: -4.792531, y: 14.220811}
       - {x: -4.8636303, y: 12.669379}
       - {x: -9.992676, y: 13.200099}
@@ -11097,7 +11119,7 @@ PolygonCollider2D:
       - {x: 10.104634, y: 11.001836}
       - {x: 9.91898, y: 14.207997}
       - {x: 5.7582154, y: 18.378056}
-      - {x: 5.344441, y: 18.271011}
+      - {x: 5.3170304, y: 18.353245}
       - {x: 7.1520805, y: 16.379011}
       - {x: 5.4804873, y: 15.727832}
       - {x: 5.501092, y: 15.3390665}

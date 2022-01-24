@@ -6,10 +6,10 @@ using System.Linq;
 
 public class InventoryUI : MonoBehaviour
 {
-    public List<InventorySlotUI> slots = new List<InventorySlotUI>();
+    public List<ItemSlot> slots = new List<ItemSlot>();
 
     private void Awake() 
     {
-        slots = GetComponentsInChildren<InventorySlotUI>().ToList();
+        slots = GetComponentsInChildren<ItemSlot>().ToList();
     }
 }

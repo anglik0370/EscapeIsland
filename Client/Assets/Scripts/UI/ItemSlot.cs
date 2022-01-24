@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlotUI : MonoBehaviour
+public class ItemSlot : MonoBehaviour
 {
     private Image image;
 
