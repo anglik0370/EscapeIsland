@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer sr;
     private Rigidbody2D rigid;
+    private Animator anim;
 
     public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
     public bool master;
@@ -22,9 +23,10 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        sr = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         inventory = GetComponent<Inventory>();
+        anim = GetComponent<Animator>();
     }
 
     private void Start()
@@ -76,7 +78,24 @@ public class Player : MonoBehaviour
 
     public void Move(Vector3 dir)
     {
-        transform.position += dir;
+        if(dir != Vector3.zero)
+        {
+            if(dir.x > 0)
+            {
+                sr.flipX = true;
+            }
+            else if (dir.x < 0)
+            {
+                sr.flipX = false;
+            }
+
+            anim.SetBool("isMoving", true);
+            transform.position += dir;
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
+        }
     }
 
     public void PickUpNearlestItem()
