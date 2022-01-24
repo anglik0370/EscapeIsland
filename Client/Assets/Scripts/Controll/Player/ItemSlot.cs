@@ -6,14 +6,18 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour
 {
     private Image image;
+    public ItemSO item;
+
+    public bool IsEmpty => item == null;
 
     private void Awake() 
     {
         image = GetComponent<Image>();
     }
 
-    public void UpdateImage(Sprite sprite)
+    public void SetItem(ItemSO item)
     {
-        image.sprite = sprite;
+        this.item = item;
+        image.sprite = item.itemSprite;
     }
 }

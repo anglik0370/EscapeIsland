@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    public ItemSO item;
-    public PoolObj poolObj;
+    [SerializeField]
+    private ItemSO item;
+    [SerializeField]
+    private PoolObj poolObj;
+
+    public bool IsItemSpawned => poolObj.gameObject.activeSelf;
 
     private void Awake() 
     {
@@ -14,12 +18,7 @@ public class ItemSpawner : MonoBehaviour
         poolObj.SetPosition(transform.position);
         poolObj.SetSprite(item.itemSprite);
 
-        poolObj.SetActive(false);
-    }
-
-    public void SetItem(ItemSO item)
-    {
-        this.item = item;
+        SpawnItem();
     }
 
     public void SpawnItem()
@@ -34,14 +33,9 @@ public class ItemSpawner : MonoBehaviour
 
     public ItemSO PickUpItem()
     {
-        ItemSO temp = null;
+        //플레이어에서 검사하니까 여기선 검사할 필요 없다
+        DeSpawnItem();
 
-        if(poolObj.gameObject.activeSelf)
-        {
-            poolObj.SetActive(false);
-            temp = this.item;
-        }
-
-        return temp;
+        return item;
     }
 }

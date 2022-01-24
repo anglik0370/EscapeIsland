@@ -1,34 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Inventory : MonoBehaviour
 {
-    public List<ItemSO> itemList = new List<ItemSO>();
+    public List<ItemSlot> slotList = new List<ItemSlot>();
 
-    private const int MAX_ITEM_COUNT = 7;
+    public bool IsAllSlotFull => CheckAllSlotFull();
 
-    public void AddItem(ItemSO item)
+    private void Awake() 
     {
-        if(itemList.Count >= MAX_ITEM_COUNT)
-        {
-            //만약 최대로 가질 수 있는 아이템보다 많다면 리턴
-
-            //경고 메세지? 그런거 띄워도 될듯
-            return;
-        }
-
-        //일단 지금은 리스트에만 넣어둠
-        itemList.Add(item);
+        slotList = GetComponentsInChildren<ItemSlot>().ToList();
     }
 
-    //이름은 Remove지만 아이템을 뽑아오는 함수다
-    public ItemSO RemoveItem(int itemId)
+    //생각해보니까 그냥 넣는함수만 있어도 되지않나 넣는거 뺴고는 나머지 다 드래그앤드랍이니까
+    public void AddItem(ItemSO item)
     {
-        ItemSO item = null;
-        
-        item = itemList.Find(x => x.itemId == itemId);
+        //빈 슬롯을 찾자
+        ItemSlot emptySlot = slotList.Find(x => x.IsEmpty);
 
-        return item;
+        if(emptySlot != null)
+        {
+            emptySlot.SetItem(item);
+        }
+        else
+        {
+            Debug.Log("인벤토리가 꽉찼습니다");
+        }
+    }
+
+    private bool CheckAllSlotFull()
+    {
+        foreach(ItemSlot slot in slotList)
+        {
+            if(slot.IsEmpty)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

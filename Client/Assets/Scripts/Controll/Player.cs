@@ -19,13 +19,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     public int speed = 5;
 
+    public float range = 5f;
+
     private WaitForSeconds ws = new WaitForSeconds(1 / 5); //200ms 간격으로 자신의 데이터갱신
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
-        inventory = GetComponent<Inventory>();
         anim = GetComponent<Animator>();
     }
 
@@ -100,20 +101,43 @@ public class Player : MonoBehaviour
 
     public void PickUpNearlestItem()
     {
-        //디버그용 함수로 가장 가까이에 있는 아이템을 인벤토리에 넣습니다
+        //모든 슬롯이 꽉차있으면 리턴
+        if(inventory.IsAllSlotFull) return;
 
-        ItemSpawner spawner = GameObject.FindObjectOfType<ItemSpawner>();
+        List<ItemSpawner> spawnerList = GameManager.Instance.spawnerList;
 
-        if(spawner != null)
+        ItemSpawner nearlestSpawner = null;
+
+        //켜져있는 스포너 하나를 찾는다(비교대상이 있어야하니까)
+        for(int i = 0; i < spawnerList.Count; i++)
         {
-            ItemSO item = spawner.PickUpItem();
-
-            print(item);
-
-            if(item != null)
+            if(spawnerList[i].IsItemSpawned)
             {
-                inventory.AddItem(item);
+                nearlestSpawner = spawnerList[i];
+                break;
             }
+        }
+
+        //켜져있는게 없으면 비교할 필요도 없다
+        if(nearlestSpawner == null) return;
+
+        //이후 나머지 켜져있는 스포너들과 거리비교
+        for(int i = 0; i < spawnerList.Count; i++)
+        {
+            if(!spawnerList[i].IsItemSpawned) continue;
+
+            if(Vector2.Distance(transform.position, nearlestSpawner.transform.position) >
+                Vector2.Distance(transform.position, spawnerList[i].transform.position))
+            {
+                nearlestSpawner = spawnerList[i];
+            }
+        }
+
+        //수집범위 안에 있는지 체크
+        if(Vector2.Distance(transform.position, nearlestSpawner.transform.position) <= range)
+        {
+            //있다면 넣어준다
+            inventory.AddItem(nearlestSpawner.PickUpItem());
         }
     }
 
@@ -125,9 +149,9 @@ public class Player : MonoBehaviour
 
         if(storage != null)
         {
-            foreach(ItemSO item in inventory.itemList)
+            foreach(ItemSlot slot in inventory.slotList)
             {
-                storage.AddItem(item);
+                storage.AddItem(slot.item);
             }
         }
     }
