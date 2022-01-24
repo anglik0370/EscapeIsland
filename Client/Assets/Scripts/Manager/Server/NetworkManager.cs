@@ -6,6 +6,7 @@ public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
 
+    public GameObject playerPrefab;
 
     public int socketId = -1;
     public string socketName;
@@ -18,10 +19,12 @@ public class NetworkManager : MonoBehaviour
     public GameObject roomEnterBtnPrefab;
     public Transform roomParent;
 
-    private List<UserVO> userList;
+    private Dictionary<int, Player> playerList = new Dictionary<int, Player>();
+    private List<UserVO> userDataList;
 
 
     private bool isLogin = false;
+    private bool once = false;
     private bool needRoomRefresh = false;
     private bool needUserRefresh = false;
 
@@ -37,6 +40,8 @@ public class NetworkManager : MonoBehaviour
 
     private void Start()
     {
+        PoolManager.CreatePool<Player>(playerPrefab, transform, 10);
+
         StartCoroutine(Frame());
     }
 
@@ -63,14 +68,12 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetUserRefreshData(List<DataVO> list)
+    public static void SetUserRefreshData(List<UserVO> list)
     {
         lock(instance.lockObj)
         {
-            //foreach (UserVO item in list)
-            //{
-            //    if(item.)
-            //}
+            instance.userDataList = list;
+            instance.needUserRefresh = true;
         }
     }
 
@@ -89,15 +92,21 @@ public class NetworkManager : MonoBehaviour
     {
         if(isLogin)
         {
-            PopupManager.instance.ClosePopup();
-            PopupManager.instance.OpenPopup("lobby");
+            PopupManager.instance.CloseAndOpen("lobby");
             isLogin = false;
         }
 
         if(needRoomRefresh)
         {
-
+            print("refreshRoom");
+            RefreshRoom();
             needRoomRefresh = false;
+        }
+
+        if(needUserRefresh)
+        {
+            RefreshUser();
+            needUserRefresh = false;
         }
     }
 
@@ -108,6 +117,10 @@ public class NetworkManager : MonoBehaviour
         roomNum = 0;
     }
 
+    public void EnterRoom()
+    {
+        PopupManager.instance.CloseAndOpen("room");
+    }
     public void RefreshRoom()
     {
         for (int i = 0; i < roomEnterBtnList.Count; i++)
@@ -126,13 +139,39 @@ public class NetworkManager : MonoBehaviour
             }
 
             room.SetInfo(roomVO.name, roomVO.curUserNum, roomVO.userNum, roomVO.roomNum);
-
+            room.gameObject.SetActive(true);
         }
     }
 
     public void RefreshUser()
     {
+        foreach (UserVO uv in userDataList)
+        {
+            if (uv.socketId != socketId)
+            {
+                Player p = null;
+                playerList.TryGetValue(uv.socketId, out p);
 
+                if (p == null)
+                {
+                    MakeRemotePlayer(uv);
+                }
+                else
+                {
+                    p.SetTransform(uv.position);
+                }
+            }
+            else
+            {
+                if(!once)
+                {
+                    Player p = PoolManager.GetItem<Player>();
+                    p.InitPlayer(uv, false);
+                    //ÆÈ·Î¿ì Ä· ¼³Á¤
+                    once = true;
+                }
+            }
+        }
     }
 
     public void Login(string name)
@@ -156,5 +195,20 @@ public class NetworkManager : MonoBehaviour
     public void JoinRoom(int roomNum)
     {
 
+    }
+
+    public Player MakeRemotePlayer(UserVO data)
+    {
+        Player rpc = PoolManager.GetItem<Player>();
+        rpc.InitPlayer(data, true);
+
+        playerList.Add(data.socketId, rpc);
+        return null;
+    }
+
+    public void ReqRoomRefresh()
+    {
+        DataVO dataVO = new DataVO("ROOM_REFRESH_REQ", "");
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 }

@@ -49,7 +49,7 @@ public class PopupManager : MonoBehaviour
         popupDic.Add("lobby", Instantiate(lobbyPopup, popupParent));
         popupDic.Add("room", Instantiate(roomPopup, popupParent));
 
-        OpenPopup("connect");
+        OpenPopup("login");
     }
 
     public void CloseAndOpen(string open)

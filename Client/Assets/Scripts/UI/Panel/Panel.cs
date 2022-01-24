@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class Panel : MonoBehaviour
 {
-    private CanvasGroup cvs;
+    protected CanvasGroup cvs;
 
-    private void Awake() 
+    protected virtual void Awake() 
     {
         cvs = GetComponent<CanvasGroup>();
 
         Close();
     }
 
-    public void Open()
+    public virtual void Open()
     {
         cvs.alpha = 1f;
         cvs.blocksRaycasts = true;
         cvs.interactable = true;
     }
 
-    public void Close()
+    public virtual void Close()
     {
         cvs.alpha = 0f;
         cvs.blocksRaycasts = false;

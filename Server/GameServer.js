@@ -3,6 +3,7 @@ const port = 31012;
 
 const SocketState = require('./SocketState.js');
 const Vector2 = require('./Vector2.js');
+const Room = require('./Room.js');
 const LoginHandler = require('./LoginHandler.js');
 const waitingPos = require('./SpawnPoint.js');
 
@@ -85,6 +86,15 @@ wsService.on("connection", socket => {
 
                     userList[socket.id] = userData;
                     break;
+                case "TRANSFORM":
+                    let transformVO = JSON.parse(data.payload);
+                    if(userList[transformVO.socketId] !== undefined) {
+                        userList[transformVO.socketId].position = transformVO.position;
+                    }
+                    break;
+                case "ROOM_REFRESH_REQ":
+                    refreshRoom(socket);
+                    break;
                 case "CREATE_ROOM":
                     if(socket.state !== SocketState.IN_LOBBY){
                         sendError("로비가 아닌 곳에서 시도를 하였습니다.", socket);
@@ -92,16 +102,18 @@ wsService.on("connection", socket => {
                     }
 
                     let roomInfo = JSON.parse(data.payload);
-
                     if(roomInfo.name === ""){
                         sendError("방이름을 입력해 주세요.", socket);
                         return;
                     }
 
-                    roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,curUserNum:1,userNum:roomInfo.userNum,playing:false};
-
+                    //roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,curUserNum:1,userNum:roomInfo.userNum,playing:false};
+                    let r = new Room(roomInfo.name,roomIdx,1,roomInfo.userNum,false);
                     socket.state = SocketState.IN_ROOM;
                     socket.room = roomIdx;
+                    r.addSocket(socket);
+                    roomList[roomIdx] = r;
+                    
 
                     if(userList[socket.id] !== undefined){
                         userList[socket.id].roomNum = roomIdx;
@@ -116,7 +128,8 @@ wsService.on("connection", socket => {
                             return;
                         refreshRoom(soc);
                     });
-                    refreshUser(socket, roomIdx);
+                    //refreshUser(socket, roomIdx);
+                    roomBroadcast(r);
 
                     roomIdx++;
                     break;
@@ -165,21 +178,44 @@ function refreshRoom(socket) //룸정보 갱신
     let keys = Object.keys(roomList); //roomList의 키들을 받아오고
     let dataList = []; // 전송할 배열
     for(let i=0; i<keys.length; i++){
-        dataList.push(roomList[keys[i]]); //현재 존재하는 룸들의 정보를 푸시해준다.
+        let a = roomList[keys[i]];
+        let name = a.roomName;
+        let roomNum = a.roomNum;
+        let curUserNum = a.curUserNum;
+        let userNum = a.userNum;
+        let playing = a.playing;
+
+        dataList.push({name, roomNum,curUserNum,userNum,playing}); //현재 존재하는 룸들의 정보를 푸시해준다.
     }
+    console.log(dataList);
     socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
 }
-function refreshUser(socket, roomNum) //유저정보 갱신
-{
+// function refreshUser(socket, roomNum) //유저정보 갱신
+// {
+//     let keys = Object.keys(userList); //userList의 키들을 받아오고
+//     let dataList = []; // 전송할 배열
+//     for(let i=0; i<keys.length; i++){
+//         if(userList[keys[i]].roomNum === roomNum){ //유저중 roomNum에 있는 유저들이라면
+//             dataList.push(userList[keys[i]]); //푸시
+//         }
+//     }
+//     //console.log(userList);
+//     socket.send(JSON.stringify({type:"REFRESH_USER", payload:JSON.stringify({dataList})}));
+// }
+
+function roomBroadcast(room) {
     let keys = Object.keys(userList); //userList의 키들을 받아오고
     let dataList = []; // 전송할 배열
+
     for(let i=0; i<keys.length; i++){
-        if(userList[keys[i]].roomNum === roomNum){ //유저중 roomNum에 있는 유저들이라면
+        if(userList[keys[i]].roomNum === room.roomNum){ //유저중 roomNum에 있는 유저들이라면
             dataList.push(userList[keys[i]]); //푸시
         }
     }
-    //console.log(userList);
-    socket.send(JSON.stringify({type:"REFRESH_USER", payload:JSON.stringify({dataList})}));
+
+    room.socketList.forEach(soc => {
+        soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
+    });
 }
 
 // let ms200Timer = setInterval(() => {
