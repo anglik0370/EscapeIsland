@@ -50,7 +50,6 @@ public class PopupManager : MonoBehaviour
         popupDic.Add("room", Instantiate(roomPopup, popupParent));
 
         OpenPopup("login");
-        print(popupDic.Count);
     }
 
     public void CloseAndOpen(string open)
@@ -61,7 +60,6 @@ public class PopupManager : MonoBehaviour
 
     public void OpenPopup(string name, object data = null, int closeCount = 1) // µñ¼Å³Ê¸®¿¡ ÀÖ´Â UI ÇÁ¸®ÆéÀ» È°¼ºÈ­
     {
-        print("OPEN :" + name);
         if (popupStack.Count == 0)
         {
             DOTween.To(() => popupCanvasGroup.alpha, value => popupCanvasGroup.alpha = value, 1, 0.8f).OnComplete(() =>

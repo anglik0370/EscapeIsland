@@ -6,7 +6,7 @@ public class RefreshRoomHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        List<RoomVO> roomList = JsonUtility.FromJson<List<RoomVO>>(payload);
-        NetworkManager.SetRoomRefreshData(roomList);
+        RoomListVO roomList = JsonUtility.FromJson<RoomListVO>(payload);
+        NetworkManager.SetRoomRefreshData(roomList.dataList);
     }
 }

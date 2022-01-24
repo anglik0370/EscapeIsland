@@ -178,8 +178,16 @@ function refreshRoom(socket) //룸정보 갱신
     let keys = Object.keys(roomList); //roomList의 키들을 받아오고
     let dataList = []; // 전송할 배열
     for(let i=0; i<keys.length; i++){
-        dataList.push(roomList[keys[i]]); //현재 존재하는 룸들의 정보를 푸시해준다.
+        let a = roomList[keys[i]];
+        let name = a.roomName;
+        let roomNum = a.roomNum;
+        let curUserNum = a.curUserNum;
+        let userNum = a.userNum;
+        let playing = a.playing;
+
+        dataList.push({name, roomNum,curUserNum,userNum,playing}); //현재 존재하는 룸들의 정보를 푸시해준다.
     }
+    console.log(dataList);
     socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
 }
 // function refreshUser(socket, roomNum) //유저정보 갱신

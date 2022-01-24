@@ -37,8 +37,7 @@ public class Lobby : Popup
         createRoomBtn.onClick.AddListener(() =>
         {
             OpenCreateRoomPopup(false);
-            NetworkManager.instance.CreateRoom(roomNameInput.text,8,0);
-            PopupManager.instance.CloseAndOpen("room");
+            NetworkManager.instance.CreateRoom(roomNameInput.text,0,8);
         });
         cancelBtn.onClick.AddListener(() =>
         {
