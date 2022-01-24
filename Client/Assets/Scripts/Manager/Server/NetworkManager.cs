@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -21,12 +22,19 @@ public class NetworkManager : MonoBehaviour
 
     private Dictionary<int, Player> playerList = new Dictionary<int, Player>();
     private List<UserVO> userDataList;
-
+    private List<UserVO> masterDataList;
 
     private bool isLogin = false;
     private bool once = false;
     private bool needRoomRefresh = false;
     private bool needUserRefresh = false;
+    private bool needMasterRefresh = false;
+
+    private Player user = null;
+    public JoyStick joyStick;
+    public GameObject gameCanvas;
+
+    public Button startBtn;
 
     private void Awake()
     {
@@ -50,6 +58,7 @@ public class NetworkManager : MonoBehaviour
         yield return null;
 
         roomParent = FindObjectOfType<Lobby>().roomParent;
+        startBtn = GameObject.Find("Room(Clone)").GetComponent<Room>().startBtn;
 
         for (int i = 0; i < 10; i++)
         {
@@ -76,7 +85,14 @@ public class NetworkManager : MonoBehaviour
             instance.needUserRefresh = true;
         }
     }
-
+    public static void SetMasterRefreshData(List<UserVO> list)
+    {
+        lock (instance.lockObj)
+        {
+            instance.masterDataList = list;
+            instance.needMasterRefresh = true;
+        }
+    }
 
     public static void SetLoginData(string name, int socketId)
     {
@@ -106,6 +122,13 @@ public class NetworkManager : MonoBehaviour
         {
             RefreshUser();
             needUserRefresh = false;
+        }
+
+        if(needMasterRefresh)
+        {
+            RefreshMaster();
+
+            needMasterRefresh = false;
         }
     }
 
@@ -142,7 +165,28 @@ public class NetworkManager : MonoBehaviour
             room.gameObject.SetActive(true);
         }
     }
+    IEnumerator RefreshM()
+    {
+        yield return new WaitForSeconds(0.25f);
 
+        RefreshMaster();
+    }
+    public void RefreshMaster()
+    {
+        foreach (UserVO uv in masterDataList)
+        {
+            if (uv.socketId == socketId)
+            {
+                print("refresh");
+                user.master = uv.master;
+                startBtn.enabled = uv.master;
+            }
+            else
+            {
+                print("¿Ö ¾Æ´Ô");
+            }
+        }
+    }
     public void RefreshUser()
     {
         foreach (UserVO uv in userDataList)
@@ -165,12 +209,19 @@ public class NetworkManager : MonoBehaviour
             {
                 if(!once)
                 {
-                    Player p = PoolManager.GetItem<Player>();
-                    p.InitPlayer(uv, false);
+                    user = PoolManager.GetItem<Player>();
+                    user.InitPlayer(uv, false);
+                    if(user.master)
+                    {
+                        startBtn.enabled = true;
+                    }
+                    joyStick.player = user;
+                    gameCanvas.SetActive(true);
                     //ÆÈ·Î¿ì Ä· ¼³Á¤
                     once = true;
                 }
             }
+            
         }
     }
 
