@@ -250,6 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cab07e40dcdda44ca324e43729e8823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 4941352829889900955, guid: 391e751cf826c024e9b53a5f42c9b322, type: 3}
   socketId: -1
   socketName: 
   roomNum: 0
@@ -604,6 +605,8 @@ GameObject:
   - component: {fileID: 1409138585}
   - component: {fileID: 1409138586}
   - component: {fileID: 1409138587}
+  - component: {fileID: 1409138588}
+  - component: {fileID: 1409138589}
   m_Layer: 0
   m_Name: HandlerParent
   m_TagString: Untagged
@@ -647,6 +650,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb1c269b2d07ff14da69115278409960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1409138588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409138584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27f98f0ebef44c449e2fc4fc066aeda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1409138589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409138584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4690a6307a0b214697d036180c22e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1425163256

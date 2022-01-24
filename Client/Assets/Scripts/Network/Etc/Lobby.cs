@@ -21,7 +21,7 @@ public class Lobby : Popup
     {
         refreshBtn.onClick.AddListener(() =>
         {
-
+            NetworkManager.instance.ReqRoomRefresh();
         });
         createPopupOpenBtn.onClick.AddListener(() =>
         {
@@ -36,7 +36,9 @@ public class Lobby : Popup
 
         createRoomBtn.onClick.AddListener(() =>
         {
+            OpenCreateRoomPopup(false);
             NetworkManager.instance.CreateRoom(roomNameInput.text,8,0);
+            PopupManager.instance.CloseAndOpen("room");
         });
         cancelBtn.onClick.AddListener(() =>
         {
