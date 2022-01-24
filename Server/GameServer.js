@@ -6,6 +6,7 @@ const Vector2 = require('./Vector2.js');
 const Room = require('./Room.js');
 const LoginHandler = require('./LoginHandler.js');
 const waitingPos = require('./SpawnPoint.js');
+const { IN_LOBBY } = require('./SocketState.js');
 
 let socketIdx = 0;
 let roomIdx = 1; 
@@ -37,7 +38,8 @@ wsService.on("connection", socket => {
             exitRoom(socket,roomNum); //방 나가기
             wsService.clients.forEach(soc => {
                 if(soc.room === roomNum) { //소켓이 해제된 유저가 있었던 방에 있다면
-                    refreshUser(soc,roomNum); 
+                    //refreshUser(soc,roomNum); 
+                    roomBroadcast(roomList[roomNum]);
                 }
                 if(soc.state === SocketState.IN_LOBBY) {
                     refreshRoom(soc);
@@ -133,6 +135,35 @@ wsService.on("connection", socket => {
 
                     roomIdx++;
                     break;
+                case "JOIN_ROOM":
+                    if(socket.state !== SocketState.IN_LOBBY){
+                        sendError("로비가 아닌 곳에서 시도를 하였습니다.", socket);
+                        return;
+                    }
+
+                    let roomNum = JSON.parse(data.payload).roomNum;
+                    let targetRoom = roomList[roomNum];
+
+                    if(targetRoom === undefined || targetRoom.curUserNum >= targetRoom.userNum || targetRoom.playing) {
+                        sendError("들어갈 수 없는 방입니다.");
+                    }
+                    socket.room = roomNum;
+
+                    if(userList[socket.id] !== undefined) {
+                        userList[socket.id].roomNum = roomNum;
+                        userList[socket.id].master = false;
+                    }
+                    socket.state = SocketState.IN_ROOM;
+                    targetRoom.curUserNum++;
+
+                    socket.send(JSON.stringify({type:"ENTER_ROOM"}));
+
+                    wsService.clients.forEach(soc => {
+                        if(soc.state === SocketState.IN_LOBBY) {
+                            refreshRoom(soc);
+                        }
+                    });
+                    break;
             }
         }
         catch (error) {
@@ -159,18 +190,17 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     }
 
     socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
-    targetRoom.number--; //그 방의 인원수--;
+    targetRoom.curUserNum--; //그 방의 인원수--;
 
-    if(targetRoom.number === 0){ //사람이 0명일때 room delete
+    if(userList[socket.id].master) { //마스터가 나갔을때 방장권한을 넘겨주기
+        targetRoom.socketList[0].master = true;
+        userList[socket.id].master = false; //나간 유저의 방장권한은 해제해준다.
+    }
+
+    if(targetRoom.curUserNum === 0){ //사람이 0명일때 room delete
         delete roomList[roomNum];
     }
-    else if(targetRoom.number === 1){ //1명만 있을때 그 1명에게 방장권한을 넘김
-        wsService.clients.forEach(soc=>{
-            if(soc.room === roomNum)
-                userList[soc.id].master = true;
-        })
-    }
-    userList[socket.id].master = false; //나간 유저의 방장권한은 해제해준다.
+    
 }
 
 function refreshRoom(socket) //룸정보 갱신
@@ -190,18 +220,6 @@ function refreshRoom(socket) //룸정보 갱신
     console.log(dataList);
     socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
 }
-// function refreshUser(socket, roomNum) //유저정보 갱신
-// {
-//     let keys = Object.keys(userList); //userList의 키들을 받아오고
-//     let dataList = []; // 전송할 배열
-//     for(let i=0; i<keys.length; i++){
-//         if(userList[keys[i]].roomNum === roomNum){ //유저중 roomNum에 있는 유저들이라면
-//             dataList.push(userList[keys[i]]); //푸시
-//         }
-//     }
-//     //console.log(userList);
-//     socket.send(JSON.stringify({type:"REFRESH_USER", payload:JSON.stringify({dataList})}));
-// }
 
 function roomBroadcast(room) {
     let keys = Object.keys(userList); //userList의 키들을 받아오고

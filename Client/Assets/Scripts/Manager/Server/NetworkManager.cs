@@ -115,6 +115,7 @@ public class NetworkManager : MonoBehaviour
         socketId = -1;
         socketName = "";
         roomNum = 0;
+        once = false;
     }
 
     public void EnterRoom()
@@ -194,7 +195,12 @@ public class NetworkManager : MonoBehaviour
 
     public void JoinRoom(int roomNum)
     {
+        RoomVO vo = new RoomVO();
+        vo.roomNum = roomNum;
 
+        DataVO dataVO = new DataVO("JOIN_ROOM", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
     public Player MakeRemotePlayer(UserVO data)
