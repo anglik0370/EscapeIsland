@@ -31,10 +31,14 @@ public class SocketClient : MonoBehaviour
     {
         //핸들러 딕셔너리에 필요한것들 추가해주기
         handlerDic.Add("LOGIN", handlerParent.GetComponent<LoginHandler>());
+        handlerDic.Add("ENTER_ROOM", handlerParent.GetComponent<EnterRoomHandler>());
+        handlerDic.Add("REFRESH_ROOM", handlerParent.GetComponent<RefreshRoomHandler>());
+        handlerDic.Add("REFRESH_USER", handlerParent.GetComponent<RefreshUserHandler>());
 
 
-        webSocket = new WebSocket($"{url}:{port}");
-
+        //webSocket = new WebSocket($"{url}:{port}");
+        ConnectSocket("localhost", port.ToString());
+        PopupManager.instance.OpenPopup("login");
     }
 
     public void ConnectSocket(string ip, string port)
@@ -66,6 +70,7 @@ public class SocketClient : MonoBehaviour
         else
         {
             Debug.LogError($"존재하지 않은 프로토콜 요청 {vo.type}");
+            Debug.LogError(vo.payload);
         }
     }
 

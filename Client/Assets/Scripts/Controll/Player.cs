@@ -8,14 +8,17 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigid;
 
-    public int id;
     public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
+    public bool master;
+
     public Inventory inventory;
     public Color color;
     public Vector2 targetPos;
 
     [SerializeField]
     public int speed = 5;
+
+    private WaitForSeconds ws = new WaitForSeconds(1 / 5); //200ms 간격으로 자신의 데이터갱신
 
     private void Awake()
     {
@@ -26,10 +29,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        if(!isRemote)
-        {
-            StartCoroutine(SendPosition());
-        }
     }
 
     private void Update()
@@ -52,9 +51,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void InitPlayer()
+    public void InitPlayer(UserVO vo, bool isRemote)
     {
+        transform.position = vo.position;
+        this.isRemote = isRemote;
+        master = vo.master;
 
+        if(!isRemote)
+        {
+            StartCoroutine(SendData());
+        }
     }
 
     public void Move(Vector3 dir)
@@ -96,9 +102,27 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator SendPosition()
+    IEnumerator SendData()
     {
-        yield return null;
+        int socketId = NetworkManager.instance.socketId;
+        string socketName = NetworkManager.instance.socketName;
+        int roomNum = NetworkManager.instance.roomNum;
+        while (true)
+        {
+            yield return ws;
+
+            TransformVO vo = new TransformVO(transform.position, socketId);
+            string payload = JsonUtility.ToJson(vo);
+            DataVO dataVO = new DataVO("TRANSFORM", payload);
+
+            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+
+            //UserVO vo = new UserVO(socketId, socketName, roomNum,transform.position,master);
+
+            //string payload = JsonUtility.ToJson(vo);
+
+            //DataVO dataVO = new DataVO("")
+        }
     }
 
     public void SetTransform(Vector2 pos)
