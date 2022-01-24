@@ -11,6 +11,7 @@ public class AreaExplanationPanel : Panel
 
     public Text areaNameText;
     public Text areaExplanationText;
+    public Text areaItemText;
 
     public List<Image> itemImgList = new List<Image>();
 
@@ -37,9 +38,9 @@ public class AreaExplanationPanel : Panel
         areaNameText.text = areaSO.areaName;
         areaExplanationText.text = areaSO.areaExplanation;
 
-        if(areaSO.dropItemList.Count > 0)
+        if(areaSO.dropItemList.Count == 0)
         {
-            areaExplanationText.gameObject.SetActive(false);
+            areaItemText.gameObject.SetActive(false);
         }
 
         for(int i = 0; i < areaSO.dropItemList.Count; i++)
