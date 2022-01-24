@@ -16,6 +16,8 @@ public class SocketClient : MonoBehaviour
 
     private Dictionary<string, IMsgHandler> handlerDic;
 
+    private Queue<DataVO> packetList = new Queue<DataVO>();
+
     public static void SendDataToSocket(string json)
     {
         instance.SendData(json);
@@ -48,7 +50,9 @@ public class SocketClient : MonoBehaviour
 
         webSocket.OnMessage += (s, e) =>
         {
-            ReceiveData((WebSocket)s, e);
+            //ReceiveData((WebSocket)s, e);
+            DataVO vo = JsonUtility.FromJson<DataVO>(e.Data);
+            packetList.Enqueue(vo);
         };
     }
     public void InitWebSocket()
@@ -57,26 +61,29 @@ public class SocketClient : MonoBehaviour
             webSocket.Close();
         webSocket = null;
     }
-    private void ReceiveData(WebSocket sender, MessageEventArgs e)
-    {
-        DataVO vo = JsonUtility.FromJson<DataVO>(e.Data);
-
-        IMsgHandler handler = null;
-
-        if(handlerDic.TryGetValue(vo.type, out handler))
-        {
-            handler.HandleMsg(vo.payload);
-        }
-        else
-        {
-            Debug.LogError($"존재하지 않은 프로토콜 요청 {vo.type}");
-            Debug.LogError(vo.payload);
-        }
-    }
+    
 
     private void SendData(string json)
     {
         webSocket.Send(json);
+    }
+
+    private void Update()
+    {
+        if(packetList.Count > 0)
+        {
+            IMsgHandler handler = null;
+            DataVO vo = packetList.Dequeue();
+            if (handlerDic.TryGetValue(vo.type, out handler))
+            {
+                handler.HandleMsg(vo.payload);
+            }
+            else
+            {
+                Debug.LogError($"존재하지 않은 프로토콜 요청 {vo.type}");
+                Debug.LogError(vo.payload);
+            }
+        }
     }
 
     private void OnDestroy()
