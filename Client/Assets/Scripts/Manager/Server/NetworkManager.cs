@@ -98,7 +98,6 @@ public class NetworkManager : MonoBehaviour
 
         if(needRoomRefresh)
         {
-            print("refreshRoom");
             RefreshRoom();
             needRoomRefresh = false;
         }

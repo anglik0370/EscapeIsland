@@ -113,15 +113,15 @@ wsService.on("connection", socket => {
                     let r = new Room(roomInfo.name,roomIdx,1,roomInfo.userNum,false);
                     socket.state = SocketState.IN_ROOM;
                     socket.room = roomIdx;
-                    r.addSocket(socket);
-                    roomList[roomIdx] = r;
-                    
 
                     if(userList[socket.id] !== undefined){
                         userList[socket.id].roomNum = roomIdx;
                         userList[socket.id].master = true;
                         userList[socket.id].position = waitingPos;
                     }
+
+                    r.addSocket(socket, userList[socket.id]);
+                    roomList[roomIdx] = r;
 
                     socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
@@ -191,12 +191,14 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
     socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
     targetRoom.curUserNum--; //그 방의 인원수--;
+    targetRoom.removeSocket(socket.id);
 
-    if(userList[socket.id].master) { //마스터가 나갔을때 방장권한을 넘겨주기
-        targetRoom.socketList[0].master = true;
-        userList[socket.id].master = false; //나간 유저의 방장권한은 해제해준다.
+    if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
+        targetRoom.userList[0].master = true;
+        
     }
-
+    userList[socket.id].master = false; //나간 유저의 방장권한은 해제해준다.
+    
     if(targetRoom.curUserNum === 0){ //사람이 0명일때 room delete
         delete roomList[roomNum];
     }
@@ -236,6 +238,19 @@ function roomBroadcast(room) {
     });
 }
 
-// let ms200Timer = setInterval(() => {
-    
-// },200);
+function allRoomBroadcast(roomList) {
+    let keys = Object.keys(roomList);
+
+    for(let i = 0; i < keys.length; i++) {
+        let targetRoom = roomList[keys[i]];
+        let roomUsers = targetRoom.userList;
+
+        targetRoom.socketList.forEach(soc => {
+            soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({roomUsers})}));
+        });
+    }
+}
+
+let ms200Timer = setInterval(() => {
+    allRoomBroadcast(roomList);
+},200);

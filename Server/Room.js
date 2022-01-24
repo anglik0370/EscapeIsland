@@ -7,16 +7,20 @@ class Room {
         this.playing = playing;
 
         this.socketList = [];
+        this.userList = [];
     }
 
-    addSocket(socket) {
+    addSocket(socket,user) {
         this.socketList.push(socket);
+        this.userList.push(user);
     }
 
-    removesocket(rSocketIdx) {
-        let idx = this.socketList.findIndex(soc => soc.id ==rSocketIdx);
+    removeSocket(rSocketIdx) {
+        let idx = this.socketList.findIndex(soc => soc.id == rSocketIdx);
         this.socketList.splice(idx);
+        this.userList.splice(idx);
     }
+
 }
 
 module.exports = Room;
