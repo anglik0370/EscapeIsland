@@ -57,6 +57,8 @@ public class Player : MonoBehaviour
             {
                 PutItemInStorage();
             }
+
+            
         }
         else
         {
