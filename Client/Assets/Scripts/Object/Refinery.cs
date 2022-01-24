@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Refinery : MonoBehaviour
 {
-    private ItemSO oreItem;
-    private ItemSO ingotItem;
+    public ItemSO oreItem;
+    public ItemSO ingotItem;
 
     private Dictionary<ItemSO, ItemSO> refiningDic;
 
@@ -17,10 +17,10 @@ public class Refinery : MonoBehaviour
         "Copper", "Iron", "Sand"
     };
 
-    private bool isRefiningEnd; //재련이 끝났는지
+    public bool isRefiningEnd; //재련이 끝났는지
 
     public float refiningTime; //재련하는데 걸리는 시간
-    private float remainTime; //남은 재련시간
+    public float remainTime; //남은 재련시간
 
     private void Awake() 
     {
@@ -59,6 +59,7 @@ public class Refinery : MonoBehaviour
 
     public void EndRefining()
     {
+        remainTime = 0f;
         isRefiningEnd = true;
 
         //제련 끝나면 해줄일
