@@ -15,6 +15,7 @@ public class PopupManager : MonoBehaviour
     public Lobby lobbyPopup;
     public Room roomPopup;
     public InGame inGamePopup;
+    public Alert alertPopup;
     
     private CanvasGroup popupCanvasGroup;
 
@@ -50,6 +51,9 @@ public class PopupManager : MonoBehaviour
         popupDic.Add("lobby", Instantiate(lobbyPopup, popupParent));
         popupDic.Add("room", Instantiate(roomPopup, popupParent));
         popupDic.Add("ingame", Instantiate(inGamePopup, popupParent));
+
+        //alert는 항상 밑에 있어야함
+        popupDic.Add("alert", Instantiate(alertPopup, popupParent));
 
         OpenPopup("login");
     }

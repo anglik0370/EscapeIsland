@@ -6,6 +6,8 @@ public class GameStartHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        NetworkManager.GameStart();
+        UserListVO vo = JsonUtility.FromJson<UserListVO>(payload);
+
+        NetworkManager.GameStart(vo.dataList);
     }
 }

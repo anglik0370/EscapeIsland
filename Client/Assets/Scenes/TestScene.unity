@@ -297,6 +297,7 @@ MonoBehaviour:
   lobbyPopup: {fileID: 5595325862193580477, guid: bbb7c3af5e984844f8381b8fff7d30f1, type: 3}
   roomPopup: {fileID: 888369681408419840, guid: f3cf30ebc0879ba41a31fd1464c68532, type: 3}
   inGamePopup: {fileID: 267424890165332122, guid: 79f81e3589831434395f531c3b87216b, type: 3}
+  alertPopup: {fileID: 8643533440485442339, guid: d288c0696ef54f743a2e28ca49a0747e, type: 3}
 --- !u!4 &503429445
 Transform:
   m_ObjectHideFlags: 0
@@ -784,6 +785,7 @@ GameObject:
   - component: {fileID: 1409138588}
   - component: {fileID: 1409138589}
   - component: {fileID: 1409138590}
+  - component: {fileID: 1409138591}
   m_Layer: 0
   m_Name: HandlerParent
   m_TagString: Untagged
@@ -865,6 +867,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328a5abf12132ea449c70f3941f94441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1409138591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409138584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91aa62c98b47f5b4eae47c62a5bbd797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1425163256
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,7 +925,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1425163256}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -928,8 +942,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 0}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
