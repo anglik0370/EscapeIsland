@@ -166,6 +166,28 @@ wsService.on("connection", socket => {
                         }
                     });
                     break;
+                case "EXIT_ROOM":
+                    if(socket.state !== SocketState.IN_ROOM){
+                        sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
+                        return;
+                    }
+
+                    let eRoomNum = JSON.parse(data.payload).roomNum;
+
+                    exitRoom(socket,eRoomNum);
+
+                    socket.send(JSON.stringify({type:"EXIT_ROOM"}));
+
+                    wsService.clients.forEach(soc=>{
+                        if(soc.room === eRoomNum) { //소켓이 해제된 유저가 있었던 방에 있다면
+                            //refreshUser(soc,roomNum); 
+                            roomBroadcast(roomList[eRoomNum]);
+                        }
+                        if(soc.state === SocketState.IN_LOBBY) {
+                            refreshRoom(soc);
+                        }
+                    });
+                    break;
                 case "GameStart":
                     if(socket.state !== SocketState.IN_ROOM){
                         sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
@@ -198,7 +220,7 @@ wsService.on("connection", socket => {
 
                     let posList = SetSpawnPoint(keys.length);
 
-                    for(let i = 0; i < posList.length; i++) {
+                    for(let i = 0; i < keys.length; i++) {
                         userList[keys[i]].position = posList[i];
                     }
                     
@@ -239,7 +261,6 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
     targetRoom.curUserNum--; //그 방의 인원수--;
     targetRoom.removeSocket(socket.id);
-
     if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
         let keys = Object.keys(targetRoom.userList);
         //targetRoom.userList[keys[0]].master = true;
@@ -254,7 +275,10 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     //     roomBroadcast(targetRoom);
     // }
 
-    
+    targetRoom.socketList.forEach(soc => {
+        if(soc.id === socket.id) return;
+        soc.send(JSON.stringify({type:"DISCONNECT",payload:socket.id}))
+    });
 }
 
 function refreshRoom(socket) //룸정보 갱신
@@ -271,11 +295,12 @@ function refreshRoom(socket) //룸정보 갱신
 
         dataList.push({name, roomNum,curUserNum,userNum,playing}); //현재 존재하는 룸들의 정보를 푸시해준다.
     }
-    console.log(dataList);
     socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
 }
 
 function roomBroadcast(room) {
+    if(room === undefined) return;
+
     let dataList = Object.values(room.userList); // 전송할 배열
     //console.log(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList})}));
     room.socketList.forEach(soc => {

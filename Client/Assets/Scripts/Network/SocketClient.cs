@@ -38,6 +38,9 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("REFRESH_USER", handlerParent.GetComponent<RefreshUserHandler>());
         handlerDic.Add("REFRESH_MASTER", handlerParent.GetComponent<RefreshMasterHandler>());
         handlerDic.Add("GAME_START", handlerParent.GetComponent<GameStartHandler>());
+        handlerDic.Add("EXIT_ROOM", handlerParent.GetComponent<ExitRoomHandler>());
+        handlerDic.Add("ERROR", handlerParent.GetComponent<ErrorHandler>());
+        handlerDic.Add("DISCONNECT", handlerParent.GetComponent<DisconnectHandler>());
 
 
         //webSocket = new WebSocket($"{url}:{port}");

@@ -33,7 +33,7 @@ public class Lobby : Popup
         {
             NetworkManager.instance.InitData();
             SocketClient.instance.InitWebSocket();
-            PopupManager.instance.CloseAndOpen("connect");
+            PopupManager.instance.CloseAndOpen("ingame");
         });
 
         createRoomBtn.onClick.AddListener(() =>

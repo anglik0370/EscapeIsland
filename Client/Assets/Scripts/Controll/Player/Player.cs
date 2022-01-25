@@ -71,6 +71,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetDisable()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void Move(Vector3 dir)
     {
         if(dir != Vector3.zero)

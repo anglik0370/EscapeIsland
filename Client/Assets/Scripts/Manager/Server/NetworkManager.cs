@@ -21,6 +21,7 @@ public class NetworkManager : MonoBehaviour
     public Transform roomParent;
 
     private Dictionary<int, Player> playerList = new Dictionary<int, Player>();
+    private Queue<int> removeSocketQueue = new Queue<int>();
     private List<UserVO> userDataList;
     private List<UserVO> masterDataList;
 
@@ -111,6 +112,14 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void DisconnectUser(int id)
+    {
+        lock(instance.lockObj)
+        {
+            instance.removeSocketQueue.Enqueue(id);
+        }
+    }
+
     private void Update()
     {
         if(isLogin)
@@ -143,6 +152,13 @@ public class NetworkManager : MonoBehaviour
             OnGameStart();
 
             needStartGame = false;
+        }
+
+        while (removeSocketQueue.Count > 0)
+        {
+            int soc = removeSocketQueue.Dequeue();
+            playerList[soc].SetDisable();
+            playerList.Remove(soc);
         }
     }
 
@@ -184,6 +200,27 @@ public class NetworkManager : MonoBehaviour
     {
         PopupManager.instance.CloseAndOpen("room");
     }
+    public void ExitRoom()
+    {
+        PopupManager.instance.CloseAndOpen("lobby");
+
+
+    }
+
+    public void PlayerClear()
+    {
+        user.SetDisable();
+        user = null;
+
+        foreach (int key in playerList.Keys)
+        {
+            playerList[key].SetDisable();
+        }
+        playerList.Clear();
+    }
+    
+
+    
     public void RefreshRoom()
     {
         for (int i = 0; i < roomEnterBtnList.Count; i++)
@@ -285,12 +322,27 @@ public class NetworkManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
+    public void ExitRoomSend()
+    {
+        RoomVO vo = new RoomVO();
+        vo.roomNum = roomNum;
+
+        roomNum = 0;
+        once = false;
+        startBtn.enabled = false;
+        PlayerClear();
+
+        DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
     public void GameStartBtn()
     {
         //PopupManager.instance.CloseAndOpen("ingame");
 
         RoomVO vo = new RoomVO();
-        vo.roomNum = instance.roomNum;
+        vo.roomNum = roomNum;
 
         DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
 

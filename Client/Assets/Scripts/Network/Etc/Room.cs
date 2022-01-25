@@ -22,7 +22,7 @@ public class Room : Popup
 
         exitBtn.onClick.AddListener(() =>
         {
-
+            NetworkManager.instance.ExitRoomSend();
         });
     }
 }
