@@ -301,6 +301,7 @@ public class NetworkManager : MonoBehaviour
     {
         Player rpc = PoolManager.GetItem<Player>();
         rpc.InitPlayer(data, true);
+        rpc.SetTransform(data.position);
 
         playerList.Add(data.socketId, rpc);
         return null;

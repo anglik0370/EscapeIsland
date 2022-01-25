@@ -17,6 +17,7 @@ public class Connect : Popup
             if(ipInput.text.Equals("") || portInput.text.Equals(""))
             {
                 //에러 : 필수 값은 비워두실 수 없습니다.
+                PopupManager.instance.OpenPopup("alert", "필수 값은 비워두실 수 없습니다.");
                 return;
             }
 
