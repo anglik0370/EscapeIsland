@@ -6,19 +6,19 @@ using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    private Image image;
-    public ItemSO item;
+    protected Image image;
+    protected ItemSO item;
 
     //아이템 이미지가 몇번째에 있는지
     [SerializeField]
-    private int itemImgDepth;
+    protected int itemImgDepth;
 
     public bool IsEmpty => item == null;
 
-    private ItemGhost itemGhost;
-    private bool isDraging;
+    protected ItemGhost itemGhost;
+    protected bool isDraging;
 
-    private void Awake() 
+    protected virtual void Awake() 
     {
         Image[] imgs = GetComponentsInChildren<Image>();
 
@@ -49,7 +49,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
         if(IsEmpty) return;
 
@@ -58,7 +58,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         isDraging = true;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData eventData)
     {
         if(isDraging)
         {
@@ -66,8 +66,10 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
-    public void OnDrop(PointerEventData eventData)
+    public virtual void OnDrop(PointerEventData eventData)
     {
+        //드롭 오브젝트에서 발생
+        
         if(itemGhost.GetItem() != null)
         {
             ItemSO temp = item;
@@ -80,8 +82,10 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
+    public virtual void OnEndDrag(PointerEventData eventData)
+    {   
+        //드래그 오브젝트에서 발생
+
         if(isDraging)
         {
             if(itemGhost.GetItem() != null)

@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class IngotSlot : MonoBehaviour
+public class IngotSlot : ItemSlot
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Awake()
     {
-        
+        base.Awake();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnBeginDrag(PointerEventData eventData)
     {
-        
+        base.OnBeginDrag(eventData);
+    }
+
+    public override void OnDrag(PointerEventData eventData)
+    {
+        base.OnDrag(eventData);
+    }
+
+    public override void OnDrop(PointerEventData eventData)
+    {
+        //아이템을 가져갈수만 있는 슬롯이니 리턴
+        return;
+    }
+
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        base.OnEndDrag(eventData);
     }
 }
