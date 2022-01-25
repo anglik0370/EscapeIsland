@@ -98,21 +98,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void PutItemInStorage()
-    {
-        //디버그용 함수로 가지고있는 모든 아이템을 배에 채웁니다
-
-        ItemStorage storage = GameObject.FindObjectOfType<ItemStorage>();
-
-        if(storage != null)
-        {
-            foreach(ItemSlot slot in inventory.slotList)
-            {
-                storage.AddItem(slot.item);
-            }
-        }
-    }
-
     IEnumerator SendData()
     {
         int socketId = NetworkManager.instance.socketId;
