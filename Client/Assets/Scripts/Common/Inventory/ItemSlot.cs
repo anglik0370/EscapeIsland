@@ -17,14 +17,24 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     private void Awake() 
     {
-        image = GameObject.Find("item").GetComponent<Image>();
+        Image[] imgs = GetComponentsInChildren<Image>();
+
+        image = imgs[1];
         itemGhost = FindObjectOfType<ItemGhost>();
     }
 
     public void SetItem(ItemSO item)
     {
         this.item = item;
-        image.sprite = item.itemSprite;
+
+        if(item == null)
+        {
+            image.sprite = null;
+        }
+        else
+        {
+            image.sprite = item.itemSprite;
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -49,7 +59,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if(itemGhost.GetItem() != null)
         {
             ItemSO temp = item;
-            item = itemGhost.GetItem();
+            SetItem(itemGhost.GetItem());
             itemGhost.SetItem(temp);
         }
         else
@@ -64,11 +74,11 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         {
             if(itemGhost.GetItem() != null)
             {
-                item = itemGhost.GetItem();
+                SetItem(itemGhost.GetItem());
             }
             else
             {
-                item = null;
+                SetItem(null);
             }
         }
 

@@ -31,12 +31,17 @@ public class ItemGhost : MonoBehaviour
 
     public void SetItem(ItemSO item)
     {
-        print(item);
-
-        if(item == null) return;
-
         this.item = item;
-        image.sprite = item.itemSprite;
+
+        if(item == null)
+        {
+            image.sprite = null;
+        }
+        else
+        {
+            image.sprite = item.itemSprite;
+        }
+
         cvs.alpha = 1f;
     }
 
