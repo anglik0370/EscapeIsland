@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Cinemachine;
 public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
@@ -33,6 +33,7 @@ public class NetworkManager : MonoBehaviour
     private bool needStartGame = false;
 
     private Player user = null;
+    public CinemachineVirtualCamera followCam;
     public JoyStick roomJoyStick;
     public JoyStick inGameJoyStick;
 
@@ -287,6 +288,7 @@ public class NetworkManager : MonoBehaviour
                     inGameJoyStick.player = user;
                     //PopupManager.instance.CloseAndOpen("ingame");
                     //ÆÈ·Î¿ì Ä· ¼³Á¤
+                    followCam.Follow = user.gameObject.transform;
                     once = true;
                 }
             }
