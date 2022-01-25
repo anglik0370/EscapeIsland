@@ -7,16 +7,8 @@ public class RefineryPanel : Panel
 {
     public static RefineryPanel Instance;
 
-    public Sprite noneItemSprite;
-
-    public Image oreSlotImg;
-    public Text oreNameText;
-
-    public Image ingotSlotImg;
-    public Text ingotNameText;
-
-    public Image progressArrowImg;
-    public Text progressTimeText;
+    public ItemSlot oreSlot;
+    public ItemSlot ingotSlot;
 
     public Refinery nowOpenRefinery;
 
@@ -32,27 +24,7 @@ public class RefineryPanel : Panel
 
     private void Update() 
     {
-        if(nowOpenRefinery != null)
-        {
-            if(nowOpenRefinery.isRefiningEnd)
-            {
-                //광석 스프라이트 바꿔주고
-                oreSlotImg.sprite = nowOpenRefinery.oreItem.itemSprite;
-                ingotSlotImg.sprite = noneItemSprite;
-
-                //시간도 바꿔주고
-                progressTimeText.text = Mathf.RoundToInt(nowOpenRefinery.remainTime).ToString();
-
-                //화살표도 채워주고
-                progressArrowImg.fillAmount = nowOpenRefinery.remainTime / nowOpenRefinery.refiningTime;
-            }
-            else
-            {
-                //재련이 끝나면
-                oreSlotImg.sprite = noneItemSprite;
-                ingotSlotImg.sprite = nowOpenRefinery.ingotItem.itemSprite;
-            }
-        }
+        
     }
 
     public void Open(Refinery refinery)

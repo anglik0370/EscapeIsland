@@ -13478,13 +13478,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1441e2edbe531c943887f40d6790acc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noneItemSprite: {fileID: 21300000, guid: e396248b2619ae24aa3b08c2797737ff, type: 3}
-  oreSlotImg: {fileID: 1743478046}
-  oreNameText: {fileID: 1341265078}
-  ingotSlotImg: {fileID: 2086881762}
-  ingotNameText: {fileID: 1158709936}
-  progressArrowImg: {fileID: 1878972816}
-  progressTimeText: {fileID: 930445716}
+  oreSlot: {fileID: 0}
+  ingotSlot: {fileID: 0}
   nowOpenRefinery: {fileID: 0}
 --- !u!1 &1968274543
 GameObject:
