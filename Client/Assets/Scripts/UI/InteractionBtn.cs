@@ -7,6 +7,7 @@ public class InteractionBtn : MonoBehaviour
 {
     [SerializeField]
     private Player player;
+    private Transform playerTrm;
     private Inventory inventory;
     private float range;
 
@@ -16,10 +17,33 @@ public class InteractionBtn : MonoBehaviour
     {
         btn = GetComponent<Button>();
 
-        range = player.range;
+        playerTrm = player.transform;
         inventory = player.inventory;
+        range = player.range;
 
         btn.onClick.AddListener(PickUpNearlestItem);
+    }
+
+    private void Update() 
+    {
+        if(FindNearlestRefinery() != null)
+        {
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() =>
+            {
+                OpenRefineryPanel(FindNearlestRefinery());
+            });
+        }
+        else
+        {
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(PickUpNearlestItem);
+        }
+    }
+
+    public void OpenRefineryPanel(Refinery refinery)
+    {
+        RefineryPanel.Instance.Open(refinery);
     }
 
     public void PickUpNearlestItem()
@@ -49,18 +73,49 @@ public class InteractionBtn : MonoBehaviour
         {
             if(!spawnerList[i].IsItemSpawned) continue;
 
-            if(Vector2.Distance(transform.position, nearlestSpawner.transform.position) >
-                Vector2.Distance(transform.position, spawnerList[i].transform.position))
+            if(Vector2.Distance(playerTrm.position, nearlestSpawner.transform.position) >
+                Vector2.Distance(playerTrm.position, spawnerList[i].transform.position))
             {
                 nearlestSpawner = spawnerList[i];
             }
         }
 
-        //수집범위 안에 있는지 체크
-        if(Vector2.Distance(transform.position, nearlestSpawner.transform.position) <= range)
+        //상호작용범위 안에 있는지 체크
+        if(Vector2.Distance(playerTrm.position, nearlestSpawner.transform.position) <= range)
         {
             //있다면 넣어준다
             inventory.AddItem(nearlestSpawner.PickUpItem());
         }
+    }
+
+    public Refinery FindNearlestRefinery()
+    {
+        Refinery nearlestRefinery = null;
+
+        List<Refinery> refienryList = GameManager.Instance.refineryList;
+
+        for(int i = 0; i < refienryList.Count; i++)
+        {
+            //상호작용범위 안에 있는지 체크
+            if(Vector2.Distance(playerTrm.position, refienryList[i].transform.position) <= range)
+            {
+                if(nearlestRefinery == null)
+                {   
+                    //없으면 하나 넣어주고
+                    nearlestRefinery = refienryList[i];
+                }
+                else
+                {
+                    //있으면 거리비교
+                    if(Vector2.Distance(playerTrm.position, nearlestRefinery.transform.position) >
+                        Vector2.Distance(playerTrm.position, refienryList[i].transform.position))
+                    {
+                        nearlestRefinery = refienryList[i];
+                    }
+                }
+            }
+        }
+
+        return nearlestRefinery;
     }
 }

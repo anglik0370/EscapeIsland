@@ -6,9 +6,12 @@ using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    [SerializeField]
     private Image image;
     public ItemSO item;
+
+    //아이템 이미지가 몇번째에 있는지
+    [SerializeField]
+    private int itemImgDepth;
 
     public bool IsEmpty => item == null;
 
@@ -19,8 +22,17 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         Image[] imgs = GetComponentsInChildren<Image>();
 
-        image = imgs[1];
+        image = imgs[itemImgDepth];
         itemGhost = FindObjectOfType<ItemGhost>();
+
+        if(item == null)
+        {
+            image.sprite = null;
+        }
+        else
+        {
+            image.sprite = item.itemSprite;
+        }
     }
 
     public void SetItem(ItemSO item)
