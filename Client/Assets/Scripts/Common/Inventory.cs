@@ -22,7 +22,6 @@ public class Inventory : MonoBehaviour
 
         if(emptySlot != null)
         {
-            print(emptySlot);
             emptySlot.SetItem(item);
         }
         else

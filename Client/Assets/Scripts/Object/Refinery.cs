@@ -17,9 +17,9 @@ public class Refinery : MonoBehaviour
         "Copper", "Iron", "Sand"
     };
 
-    public bool isRefiningEnd; //재련이 끝났는지
+    public bool isRefiningEnd = true; //재련이 끝났는지
 
-    public float refiningTime; //재련하는데 걸리는 시간
+    public float refiningTime = 5f; //재련하는데 걸리는 시간
     public float remainTime; //남은 재련시간
 
     private void Awake() 
@@ -41,7 +41,7 @@ public class Refinery : MonoBehaviour
         {
             remainTime -= Time.deltaTime;
 
-            if(remainTime >= 0)
+            if(remainTime <= 0)
             {
                 EndRefining();
             }
@@ -54,7 +54,8 @@ public class Refinery : MonoBehaviour
         remainTime = refiningTime;
 
         this.oreItem = oreItem;
-        ingotItem = refiningDic[oreItem];
+
+        RefineryPanel.Instance.SetNameText(oreItem.ToString(), FindIngotFromOre(oreItem).ToString());
     }
 
     public void EndRefining()
@@ -63,5 +64,17 @@ public class Refinery : MonoBehaviour
         isRefiningEnd = true;
 
         //제련 끝나면 해줄일
+        ingotItem = FindIngotFromOre(oreItem);
+        oreItem = null;
+
+        if(RefineryPanel.Instance.IsOpenRefinery(this))
+        {
+            RefineryPanel.Instance.UpdateImg();
+        }
+    }
+
+    public ItemSO FindIngotFromOre(ItemSO oreItem)
+    {
+        return refiningDic[oreItem];
     }
 }

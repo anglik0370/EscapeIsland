@@ -5,9 +5,16 @@ using UnityEngine.EventSystems;
 
 public class OreSlot : ItemSlot
 {
+    private RefineryPanel refineryPanel;
+
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    private void Start() 
+    {
+        refineryPanel = RefineryPanel.Instance;
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -29,6 +36,7 @@ public class OreSlot : ItemSlot
         }
         else
         {
+            refineryPanel.SetOreItem(itemGhost.GetItem());
             base.OnDrop(eventData);
         }
     }

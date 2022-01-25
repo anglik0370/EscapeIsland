@@ -5,9 +5,16 @@ using UnityEngine.EventSystems;
 
 public class IngotSlot : ItemSlot
 {
+    private RefineryPanel refineryPanel;
+
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    private void Start() 
+    {
+        refineryPanel = RefineryPanel.Instance;
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -29,5 +36,8 @@ public class IngotSlot : ItemSlot
     public override void OnEndDrag(PointerEventData eventData)
     {
         base.OnEndDrag(eventData);
+        refineryPanel.TakeIngotItem();
+        RefineryPanel.Instance.SetNameText("(재련할 재료)", "(재련된 재료)");
+        RefineryPanel.Instance.SetTimerText("");
     }
 }
