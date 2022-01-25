@@ -102,10 +102,11 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void GameStart()
+    public static void GameStart(List<UserVO> list)
     {
         lock(instance.lockObj)
         {
+            instance.masterDataList = list;
             instance.needStartGame = true;
         }
     }
@@ -156,6 +157,27 @@ public class NetworkManager : MonoBehaviour
     public void OnGameStart()
     {
         PopupManager.instance.CloseAndOpen("ingame");
+
+        foreach (UserVO uv in masterDataList)
+        {
+            if(uv.socketId == socketId)
+            {
+                inGameJoyStick.enabled = true;
+                
+                user.transform.position = uv.position;
+            }
+            else
+            {
+                Player p = null;
+
+                playerList.TryGetValue(uv.socketId, out p);
+
+                if(p != null)
+                {
+                    p.SetTransform(uv.position);
+                }
+            }
+        }
     }
 
     public void EnterRoom()
@@ -219,13 +241,14 @@ public class NetworkManager : MonoBehaviour
                 {
                     user = PoolManager.GetItem<Player>();
                     user.InitPlayer(uv, false);
+                    roomNum = uv.roomNum;
                     if(user.master)
                     {
                         startBtn.enabled = true;
                     }
                     roomJoyStick.player = user;
                     inGameJoyStick.player = user;
-                    PopupManager.instance.CloseAndOpen("ingame");
+                    //PopupManager.instance.CloseAndOpen("ingame");
                     //ÆÈ·Î¿ì Ä· ¼³Á¤
                     once = true;
                 }

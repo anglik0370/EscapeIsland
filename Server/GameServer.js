@@ -6,6 +6,7 @@ const Vector2 = require('./Vector2.js');
 const Room = require('./Room.js');
 const LoginHandler = require('./LoginHandler.js');
 const waitingPos = require('./SpawnPoint.js');
+const SetSpawnPoint = require('./GameSpawnHandler.js');
 
 let socketIdx = 0;
 let roomIdx = 1; 
@@ -18,6 +19,7 @@ const wsService = new WebSocket.Server({port}, ()=>{
     console.log(`웹 소켓이 ${port}에서 구동중`);
 });
 
+SetSpawnPoint(3);
 
 wsService.on("connection", socket => {
     console.log("소켓 연결");
@@ -170,35 +172,42 @@ wsService.on("connection", socket => {
                         return;
                     }
 
-                    let roomNum = JSON.parse(data.payload).roomNum;
-                    let targetRoom = roomList[roomNum];
+                    let gRoomNum = JSON.parse(data.payload).roomNum;
+                    let gTargetRoom = roomList[gRoomNum];
 
-                    if(targetRoom.curUserNum < 4) {
-                        sendError("최소 4명 이상의 인원이 있어야 합니다.",socket);
-                        return;
-                    }
+                    // if(gTargetRoom.curUserNum < 4) {
+                    //     sendError("최소 4명 이상의 인원이 있어야 합니다.",socket);
+                    //     return;
+                    // }
 
                     //룸의 인원수의 맞게 임포 수 조정
 
-                    let keys = Object.keys(targetRoom.userList);
+                    let keys = Object.keys(gTargetRoom.userList);
                     let imposterLength = keys.length / 4;
                     let idx;
 
                     for(let i = 0; i < imposterLength; i++) {
                         do {
                             idx = Math.floor(Math.random() * keys.length);
-                        }while(targetRoom.userList[keys[idx]].isImposter)
+                        }while(userList[keys[idx]].isImposter)
 
-                        targetRoom.userList[keys[idx]].isImposter = true;
+                        userList[keys[idx]].isImposter = true;
                     }
 
                     //룸에 있는 플레이어들의 포지션 조정
-                    
 
-                    targetRoom.playing = true;
-                    targetRoom.socketList.forEach(soc => {
+                    let posList = SetSpawnPoint(keys.length);
+
+                    for(let i = 0; i < posList.length; i++) {
+                        userList[keys[i]].position = posList[i];
+                    }
+                    
+                    let dataList = Object.values(gTargetRoom.userList);
+
+                    gTargetRoom.playing = true;
+                    gTargetRoom.socketList.forEach(soc => {
                         soc.state = SocketState.IN_PLAYING;
-                        soc.send(JSON.stringify({type:"GAME_START"}));
+                        soc.send(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
                     });
 
                     break;
@@ -233,7 +242,7 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
     if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
         let keys = Object.keys(targetRoom.userList);
-        targetRoom.userList[keys[0]].master = true;
+        //targetRoom.userList[keys[0]].master = true;
         userList[keys[0]].master = true;
     }
     userList[socket.id].master = false; //나간 유저의 방장권한은 해제해준다.
