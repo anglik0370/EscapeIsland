@@ -37,6 +37,7 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("REFRESH_ROOM", handlerParent.GetComponent<RefreshRoomHandler>());
         handlerDic.Add("REFRESH_USER", handlerParent.GetComponent<RefreshUserHandler>());
         handlerDic.Add("REFRESH_MASTER", handlerParent.GetComponent<RefreshMasterHandler>());
+        handlerDic.Add("GAME_START", handlerParent.GetComponent<GameStartHandler>());
 
 
         //webSocket = new WebSocket($"{url}:{port}");

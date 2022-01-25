@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
     public bool master;
+    public bool isImposter; //true : 맢 / false : 시민
 
     public Inventory inventory;
     public Color color;

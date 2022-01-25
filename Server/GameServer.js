@@ -83,6 +83,7 @@ wsService.on("connection", socket => {
                     }
                     let userData = LoginHandler(data.payload,socket);
                     userData.position = Vector2.zero;
+                    userData.isImposter = false;
 
 
                     userList[socket.id] = userData;
@@ -162,6 +163,44 @@ wsService.on("connection", socket => {
                             refreshRoom(soc);
                         }
                     });
+                    break;
+                case "GameStart":
+                    if(socket.state !== SocketState.IN_ROOM){
+                        sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
+                        return;
+                    }
+
+                    let roomNum = JSON.parse(data.payload).roomNum;
+                    let targetRoom = roomList[roomNum];
+
+                    if(targetRoom.curUserNum < 4) {
+                        sendError("최소 4명 이상의 인원이 있어야 합니다.",socket);
+                        return;
+                    }
+
+                    //룸의 인원수의 맞게 임포 수 조정
+
+                    let keys = Object.keys(targetRoom.userList);
+                    let imposterLength = keys.length / 4;
+                    let idx;
+
+                    for(let i = 0; i < imposterLength; i++) {
+                        do {
+                            idx = Math.floor(Math.random() * keys.length);
+                        }while(targetRoom.userList[keys[idx]].isImposter)
+
+                        targetRoom.userList[keys[idx]].isImposter = true;
+                    }
+
+                    //룸에 있는 플레이어들의 포지션 조정
+                    
+
+                    targetRoom.playing = true;
+                    targetRoom.socketList.forEach(soc => {
+                        soc.state = SocketState.IN_PLAYING;
+                        soc.send(JSON.stringify({type:"GAME_START"}));
+                    });
+
                     break;
             }
         }

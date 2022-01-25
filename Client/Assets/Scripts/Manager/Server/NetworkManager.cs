@@ -29,10 +29,11 @@ public class NetworkManager : MonoBehaviour
     private bool needRoomRefresh = false;
     private bool needUserRefresh = false;
     private bool needMasterRefresh = false;
+    private bool needStartGame = false;
 
     private Player user = null;
-    public JoyStick joyStick;
-    public GameObject gameCanvas;
+    public JoyStick roomJoyStick;
+    public JoyStick inGameJoyStick;
 
     public Button startBtn;
 
@@ -56,9 +57,6 @@ public class NetworkManager : MonoBehaviour
     IEnumerator Frame()
     {
         yield return null;
-
-        roomParent = FindObjectOfType<Lobby>().roomParent;
-        startBtn = GameObject.Find("Room(Clone)").GetComponent<Room>().startBtn;
 
         for (int i = 0; i < 10; i++)
         {
@@ -104,6 +102,14 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void GameStart()
+    {
+        lock(instance.lockObj)
+        {
+            instance.needStartGame = true;
+        }
+    }
+
     private void Update()
     {
         if(isLogin)
@@ -130,6 +136,13 @@ public class NetworkManager : MonoBehaviour
 
             needMasterRefresh = false;
         }
+
+        if(needStartGame)
+        {
+            OnGameStart();
+
+            needStartGame = false;
+        }
     }
 
     public void InitData()
@@ -138,6 +151,11 @@ public class NetworkManager : MonoBehaviour
         socketName = "";
         roomNum = 0;
         once = false;
+    }
+
+    public void OnGameStart()
+    {
+        PopupManager.instance.CloseAndOpen("ingame");
     }
 
     public void EnterRoom()
@@ -165,25 +183,15 @@ public class NetworkManager : MonoBehaviour
             room.gameObject.SetActive(true);
         }
     }
-    IEnumerator RefreshM()
-    {
-        yield return new WaitForSeconds(0.25f);
-
-        RefreshMaster();
-    }
     public void RefreshMaster()
     {
         foreach (UserVO uv in masterDataList)
         {
             if (uv.socketId == socketId)
             {
-                print("refresh");
                 user.master = uv.master;
                 startBtn.enabled = uv.master;
-            }
-            else
-            {
-                print("¿Ö ¾Æ´Ô");
+                user.isImposter = uv.isImposter;
             }
         }
     }
@@ -215,8 +223,9 @@ public class NetworkManager : MonoBehaviour
                     {
                         startBtn.enabled = true;
                     }
-                    joyStick.player = user;
-                    gameCanvas.SetActive(true);
+                    roomJoyStick.player = user;
+                    inGameJoyStick.player = user;
+                    PopupManager.instance.CloseAndOpen("ingame");
                     //ÆÈ·Î¿ì Ä· ¼³Á¤
                     once = true;
                 }
@@ -249,6 +258,18 @@ public class NetworkManager : MonoBehaviour
         vo.roomNum = roomNum;
 
         DataVO dataVO = new DataVO("JOIN_ROOM", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void GameStartBtn()
+    {
+        //PopupManager.instance.CloseAndOpen("ingame");
+
+        RoomVO vo = new RoomVO();
+        vo.roomNum = instance.roomNum;
+
+        DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

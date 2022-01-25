@@ -19,6 +19,8 @@ public class Lobby : Popup
 
     private void Start()
     {
+        NetworkManager.instance.roomParent = roomParent;
+
         refreshBtn.onClick.AddListener(() =>
         {
             NetworkManager.instance.ReqRoomRefresh();
