@@ -197,10 +197,10 @@ wsService.on("connection", socket => {
                     let gRoomNum = JSON.parse(data.payload).roomNum;
                     let gTargetRoom = roomList[gRoomNum];
 
-                    // if(gTargetRoom.curUserNum < 4) {
-                    //     sendError("최소 4명 이상의 인원이 있어야 합니다.",socket);
-                    //     return;
-                    // }
+                    if(gTargetRoom.curUserNum < 4) {
+                        sendError("최소 4명 이상의 인원이 있어야 합니다.",socket);
+                        return;
+                    }
 
                     //룸의 인원수의 맞게 임포 수 조정
 
@@ -268,7 +268,7 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     }
     userList[socket.id].master = false; //나간 유저의 방장권한은 해제해준다.
     
-    if(targetRoom.curUserNum === 0){ //사람이 0명일때 room delete
+    if(targetRoom.curUserNum <= 0){ //사람이 0명일때 room delete
         delete roomList[roomNum];
     }
     // else {
