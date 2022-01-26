@@ -42,10 +42,12 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if(item == null)
         {
             image.sprite = null;
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
         }
         else
         {
             image.sprite = item.itemSprite;
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
         }
     }
 

@@ -31,12 +31,7 @@ public class OreSlot : ItemSlot
     {
         if(itemGhost.GetItem() == null) return;
 
-        if(!itemGhost.GetItem().canRefining)
-        {
-            //재련할 수 없는 아이템이라면
-            return;
-        }
-        else
+        if(itemGhost.GetItem().canRefining)
         {
             refineryPanel.SetOreItem(itemGhost.GetItem());
             base.OnDrop(eventData);
@@ -45,6 +40,10 @@ public class OreSlot : ItemSlot
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        base.OnEndDrag(eventData);
+        if(itemGhost.GetItem().canRefining)
+        {
+            refineryPanel.ResetOreItem(itemGhost.GetItem());
+            base.OnEndDrag(eventData);
+        }
     }
 }

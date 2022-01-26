@@ -58,6 +58,17 @@ public class Refinery : MonoBehaviour
         RefineryPanel.Instance.SetNameText(oreItem.ToString(), FindIngotFromOre(oreItem).ToString());
     }
 
+    public void ResetRefining()
+    {
+        remainTime = 0f;
+        isRefiningEnd = true;
+
+        if(RefineryPanel.Instance.IsOpenRefinery(this))
+        {
+            RefineryPanel.Instance.UpdateImg();
+        }
+    }
+
     public void EndRefining()
     {
         remainTime = 0f;

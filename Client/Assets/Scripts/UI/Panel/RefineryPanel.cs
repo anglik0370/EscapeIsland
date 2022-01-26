@@ -54,6 +54,12 @@ public class RefineryPanel : Panel
         nowOpenRefinery.StartRefining(item);
     }
 
+    public void ResetOreItem(ItemSO item)
+    {
+        nowOpenRefinery.ResetRefining();
+        nowOpenRefinery.StartRefining(item);
+    }
+
     public void TakeIngotItem()
     {
         nowOpenRefinery.ingotItem = null;

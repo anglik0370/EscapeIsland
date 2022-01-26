@@ -27,17 +27,17 @@ public class StorageSlot : ItemSlot
 
     public void SetAmountText(int max, int cur)
     {
-        amountText.text = $"{max} / {cur}";
+        amountText.text = $"{cur} / {max}";
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        base.OnBeginDrag(eventData);
+        
     }
 
     public override void OnDrag(PointerEventData eventData)
     {
-        base.OnDrag(eventData);
+        
     }
 
     public override void OnDrop(PointerEventData eventData)
@@ -62,6 +62,6 @@ public class StorageSlot : ItemSlot
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        base.OnEndDrag(eventData);
+        
     }
 }
