@@ -181,7 +181,6 @@ wsService.on("connection", socket => {
 
                     wsService.clients.forEach(soc=>{
                         if(soc.room === eRoomNum) { //소켓이 해제된 유저가 있었던 방에 있다면
-                            //refreshUser(soc,roomNum); 
                             roomBroadcast(roomList[eRoomNum]);
                         }
                         if(soc.state === SocketState.IN_LOBBY) {
@@ -198,15 +197,15 @@ wsService.on("connection", socket => {
                     let gRoomNum = JSON.parse(data.payload).roomNum;
                     let gTargetRoom = roomList[gRoomNum];
 
-                    // if(gTargetRoom.curUserNum < 4) {
-                    //     sendError("최소 4명 이상의 인원이 있어야 합니다.",socket);
-                    //     return;
-                    // }
+                    if(gTargetRoom.curUserNum < 2) {
+                        sendError("최소 2명 이상의 인원이 있어야 합니다.",socket);
+                        return;
+                    }
 
                     //룸의 인원수의 맞게 임포 수 조정
 
                     let keys = Object.keys(gTargetRoom.userList);
-                    let imposterLength = keys.length / 4;
+                    let imposterLength = keys.length / 2;
                     let idx;
 
                     for(let i = 0; i < imposterLength; i++) {
@@ -241,6 +240,8 @@ wsService.on("connection", socket => {
                     if(userList[socket.id] !== undefined) {
                         userList[socket.id].isDie = true;
                     }
+
+                    //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
 
                     roomBroadcast(roomList[dRoomNum]);
                     
@@ -288,9 +289,6 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
         delete roomList[roomNum];
         return;
     }
-    // else {
-    //     roomBroadcast(targetRoom);
-    // }
 
     targetRoom.socketList.forEach(soc => {
         if(soc.id === socket.id) return;
