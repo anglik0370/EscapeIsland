@@ -277,7 +277,6 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
     if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
         let keys = Object.keys(targetRoom.userList);
-        //targetRoom.userList[keys[0]].master = true;
         userList[keys[0]].master = true;
     }
     // 초기화
@@ -298,29 +297,22 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
 function refreshRoom(socket) //룸정보 갱신
 {
-    let keys = Object.keys(roomList); //roomList의 키들을 받아오고
+    //let keys = Object.keys(roomList); //roomList의 키들을 받아오고
+    let value = Object.values(roomList);
     let dataList = [];
-    for(let i=0; i<keys.length; i++){
-        let a = roomList[keys[i]];
-        let name = a.roomName;
-        let roomNum = a.roomNum;
-        let curUserNum = a.curUserNum;
-        let userNum = a.userNum;
-        let playing = a.playing;
-
-        dataList.push({name, roomNum,curUserNum,userNum,playing}); //현재 존재하는 룸들의 정보를 푸시해준다.
+    for(let i = 0; i < value.length; i++) {
+        dataList.push(value[i].returnData());
     }
     socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
 }
 
 //나중에는 type도 변수로 받아서 처리해 줘야 분리가 된다.
-function roomBroadcast(room) {
+function roomBroadcast(room,sendType = "REFRESH_MASTER") {
     if(room === undefined) return;
 
     let dataList = Object.values(room.userList); // 전송할 배열
-    //console.log(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList})}));
     room.socketList.forEach(soc => {
-        soc.send(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList})}));
+        soc.send(JSON.stringify({type:sendType,payload:JSON.stringify({dataList})}));
     });
 }
 

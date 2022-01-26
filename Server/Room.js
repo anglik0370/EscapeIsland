@@ -22,6 +22,16 @@ class Room {
         delete this.userList[rSocketIdx];
     }
 
+    returnData() {
+        let data = {};
+        data.name = this.roomName;
+        data.roomNum = this.roomNum; 
+        data.curUserNum = this.curUserNum;
+        data.userNum = this.userNum; 
+        data.playing = this.playing; 
+        return data;
+    }
+
 }
 
 module.exports = Room;
