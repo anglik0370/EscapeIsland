@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     public Color color;
     public Vector2 targetPos;
 
-    [SerializeField]
     public int speed = 5;
 
     public float range = 5f;
@@ -112,12 +111,6 @@ public class Player : MonoBehaviour
             DataVO dataVO = new DataVO("TRANSFORM", payload);
 
             SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-
-            //UserVO vo = new UserVO(socketId, socketName, roomNum,transform.position,master);
-
-            //string payload = JsonUtility.ToJson(vo);
-
-            //DataVO dataVO = new DataVO("")
         }
     }
 
@@ -125,6 +118,25 @@ public class Player : MonoBehaviour
     {
         if(isRemote)
         {
+            Vector2 dir = (pos - (Vector2)transform.position);
+
+            if(dir != Vector2.zero)
+            {
+                if (dir.x > 0)
+                {
+                    sr.flipX = true;
+                }
+                else if (dir.x < 0)
+                {
+                    sr.flipX = false;
+                }
+                anim.SetBool("isMoving", true);
+            }
+            else
+            {
+                anim.SetBool("isMoving", false);
+            }
+
             targetPos = pos;
         }
     }
