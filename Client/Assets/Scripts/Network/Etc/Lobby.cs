@@ -37,7 +37,7 @@ public class Lobby : Popup
             SocketClient.instance.InitWebSocket();
             //PopupManager.instance.CloseAndOpen("ingame");
             PopupManager.instance.ClosePopup();
-            NetworkManager.instance.ingameCanvas.SetActive(true);
+            NetworkManager.instance.SetIngameCanvas(false);
         });
 
         createRoomBtn.onClick.AddListener(() =>

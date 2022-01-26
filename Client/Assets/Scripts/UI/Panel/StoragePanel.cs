@@ -21,7 +21,9 @@ public class StoragePanel : Panel
 
         base.Awake();
 
-        
+        slotList = GetComponentsInChildren<StorageSlot>().ToList();
+        storage = FindObjectOfType<ItemStorage>();
+        progressUI = FindObjectOfType<ProgressUI>();
     }
 
     private void Start() 
@@ -33,13 +35,6 @@ public class StoragePanel : Panel
 
             slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
         }
-    }
-
-    public void GameStart()
-    {
-        slotList = GetComponentsInChildren<StorageSlot>().ToList();
-        storage = FindObjectOfType<ItemStorage>();
-        progressUI = FindObjectOfType<ProgressUI>();
     }
 
     public void AddItem(ItemSO item, StorageSlot slot)

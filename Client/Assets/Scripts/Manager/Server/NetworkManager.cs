@@ -42,7 +42,7 @@ public class NetworkManager : MonoBehaviour
 
     public Button startBtn;
     public GameObject map;
-    public GameObject ingameCanvas;
+    public CanvasGroup ingameCanvas;
 
     public InteractionBtn interactionBtn;
 
@@ -66,6 +66,7 @@ public class NetworkManager : MonoBehaviour
     IEnumerator Frame()
     {
         yield return null;
+
 
         for (int i = 0; i < 10; i++)
         {
@@ -177,14 +178,21 @@ public class NetworkManager : MonoBehaviour
         roomNum = 0;
         once = false;
         map.SetActive(false);
-        ingameCanvas.SetActive(false);
+        SetIngameCanvas(false);
         TimeHandler.Instance.SetGame(false);
+    }
+
+    public void SetIngameCanvas(bool enable)
+    {
+        ingameCanvas.alpha = enable ? 1f : 0f;
+        ingameCanvas.interactable = enable;
+        ingameCanvas.blocksRaycasts = enable;
     }
 
     public void OnGameStart()
     {
         PopupManager.instance.ClosePopup();
-        ingameCanvas.SetActive(true);
+        SetIngameCanvas(true);
         TimeHandler.Instance.SetGame(true);
 
 
@@ -198,8 +206,6 @@ public class NetworkManager : MonoBehaviour
                 user.inventory = FindObjectOfType<Inventory>();
                 interactionBtn.Init(user);
                 user.transform.position = uv.position;
-                GameManager.Instance.GameStart();
-                StoragePanel.Instance.GameStart();
             }
             else
             {
