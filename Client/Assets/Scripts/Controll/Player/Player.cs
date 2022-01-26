@@ -70,7 +70,6 @@ public class Player : MonoBehaviour
 
         if(!isRemote)
         {
-            inventory = FindObjectOfType<Inventory>();
             sendData = StartCoroutine(SendData());
         }
     }
