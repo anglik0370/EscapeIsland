@@ -45,7 +45,7 @@ public class AreaExplanationPanel : Panel
 
         for(int i = 0; i < areaSO.dropItemList.Count; i++)
         {
-            //itemImgList[i].sprite = areaSO.dropItemList[i].itemSprite;
+            itemImgList[i].sprite = areaSO.dropItemList[i].itemSprite;
         }
 
         for(int i = areaSO.dropItemList.Count; i < itemImgList.Count; i++)

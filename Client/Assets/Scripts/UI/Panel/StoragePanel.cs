@@ -7,6 +7,8 @@ public class StoragePanel : Panel
 {
     public static StoragePanel Instance;
 
+
+    private ProgressUI progressUI;
     private List<StorageSlot> slotList;
     private ItemStorage storage;
 
@@ -21,6 +23,7 @@ public class StoragePanel : Panel
 
         slotList = GetComponentsInChildren<StorageSlot>().ToList();
         storage = FindObjectOfType<ItemStorage>();
+        progressUI = FindObjectOfType<ProgressUI>();
     }
 
     private void Start() 
@@ -42,6 +45,8 @@ public class StoragePanel : Panel
         ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, item);
 
         slot.SetAmountText(maxAmount.amount, curAmount.amount);
+
+        progressUI.UpdateProgress(storage.GetProgress());
     }
 
     public bool IsItemFull(ItemSO item)

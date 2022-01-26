@@ -5,15 +5,16 @@ using UnityEngine.UI;
 
 public class ProgressUI : MonoBehaviour
 {
+    [SerializeField]
     private Text percentText;
+    [SerializeField]
     private Image gaugeImg;
 
     private const float MAX_AMOUNT = 100f;
 
-    private void Awake() 
+    private void Start() 
     {
-        percentText = GameObject.Find("Text").GetComponent<Text>();
-        gaugeImg = GameObject.Find("Gauge").GetComponent<Image>();
+        UpdateProgress(0);
     }
 
     public void UpdateProgress(float progress)

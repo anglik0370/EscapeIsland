@@ -8,6 +8,19 @@ public class ItemStorage : MonoBehaviour
     public List<ItemAmount> maxAmountItemList;
     public List<ItemAmount> curAmountItemList;
 
+    private int totalNeedItemAmount;
+    private int totalCollectedItemAmount;
+
+    private void Start() 
+    {
+        totalNeedItemAmount = 0;
+
+        for(int i = 0; i < maxAmountItemList.Count; i++)
+        {
+            totalNeedItemAmount += maxAmountItemList[i].amount;
+        }
+    }
+
     public ItemSO debugItem;
 
     public ItemAmount FindItemAmount(List<ItemAmount> list, ItemSO item)
@@ -28,6 +41,8 @@ public class ItemStorage : MonoBehaviour
         {
             //갯수만큼 더해준다
             curItemAmount.amount++;
+
+            totalCollectedItemAmount++;
         }
     }
 
@@ -55,5 +70,10 @@ public class ItemStorage : MonoBehaviour
         }    
 
         return true;
+    }
+
+    public float GetProgress()
+    {
+        return ((float)totalCollectedItemAmount / (float)totalNeedItemAmount) * 100;
     }
 }
