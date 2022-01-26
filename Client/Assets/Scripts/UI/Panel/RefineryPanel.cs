@@ -21,6 +21,13 @@ public class RefineryPanel : Panel
     private Text ingotNameText;
 
     private Refinery nowOpenRefinery;
+    public Refinery NowOpenRefinery
+    {
+        get
+        {
+            return nowOpenRefinery;
+        }
+    }
 
     protected override void Awake()
     {

@@ -286,6 +286,24 @@ wsService.on("connection", socket => {
                     });
 
                     break;
+                case "RESET_REFINERY":
+                    let resetRefineryId = JSON.parse(data.payload).refineryId;
+
+                    let resetRoom = roomList[socket.id];
+
+                    resetRoom.socketList.forEach(soc => {
+                        if(soc.id == socket.id) return;
+                        soc.send(JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
+                    });
+                    break;
+                case "END_REFINERY":
+                    let endRefineryId = JSON.parse(data.payload).refineryId;
+                    let endRoom = roomList[socket.id];
+
+                    endRoom.socketList.forEach(soc => {
+                        soc.send(JSON.stringify({type:"END_REFINERY",payload:endRefineryId}));
+                    });
+                    break;
             }
         }
         catch (error) {

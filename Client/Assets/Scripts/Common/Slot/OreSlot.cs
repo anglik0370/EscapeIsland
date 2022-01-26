@@ -33,6 +33,7 @@ public class OreSlot : ItemSlot
 
         if(itemGhost.GetItem().canRefining)
         {
+            NetworkManager.instance.StartRefinery(refineryPanel.NowOpenRefinery.id, itemGhost.GetItem().itemId);
             refineryPanel.SetOreItem(itemGhost.GetItem());
             base.OnDrop(eventData);
         }
@@ -42,6 +43,8 @@ public class OreSlot : ItemSlot
     {
         if(itemGhost.GetItem().canRefining)
         {
+            NetworkManager.instance.ResetRefinery(refineryPanel.NowOpenRefinery.id);
+
             refineryPanel.ResetOreItem(itemGhost.GetItem());
             base.OnEndDrag(eventData);
         }

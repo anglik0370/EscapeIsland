@@ -44,6 +44,9 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("GET_ITEM", handlerParent.GetComponent<GetItemHandler>());
         handlerDic.Add("STORAGE_DROP", handlerParent.GetComponent<StorageDropHandler>());
         handlerDic.Add("START_REFINERY", handlerParent.GetComponent<StartRefineryHandler>());
+        handlerDic.Add("RESET_REFINERY", handlerParent.GetComponent<ResetRefineryHandler>());
+        handlerDic.Add("END_REFINERY", handlerParent.GetComponent<EndRefineryHandler>());
+
 
 
         //webSocket = new WebSocket($"{url}:{port}");

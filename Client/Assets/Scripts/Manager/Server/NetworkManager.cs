@@ -241,6 +241,22 @@ public class NetworkManager : MonoBehaviour
     public void SetStartRefinery(int refineryId, int itemSOId)
     {
         ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
+
+        GameManager.Instance.refineryList.Find(x => x.id == refineryId).StartRefining(so);
+    }
+
+    public void SetResetRefinery(int refineryId)
+    {
+        Refinery refinery = GameManager.Instance.refineryList.Find(x => x.id == refineryId);
+        refinery.ResetRefining();
+        refinery.oreItem = null;
+    }
+
+    public void SetEndRefinery(int refineryId)
+    {
+        Refinery refinery = GameManager.Instance.refineryList.Find(x => x.id == refineryId);
+        refinery.EndRefining();
+        refinery.ingotItem = null;
     }
 
     public void EnterRoom()
@@ -465,6 +481,24 @@ public class NetworkManager : MonoBehaviour
         RefineryVO vo = new RefineryVO(refineryId, itemSOId);
 
         DataVO dataVO = new DataVO("START_REFINERY", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void ResetRefinery(int refineryId)
+    {
+        RefineryVO vo = new RefineryVO(refineryId, 0);
+
+        DataVO dataVO = new DataVO("RESET_REFINERY", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void EndRefinery(int refineryId)
+    {
+        RefineryVO vo = new RefineryVO(refineryId, 0);
+
+        DataVO dataVO = new DataVO("END_REFINERY", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

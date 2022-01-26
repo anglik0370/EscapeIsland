@@ -38,6 +38,7 @@ public class IngotSlot : ItemSlot
         base.OnEndDrag(eventData);
         refineryPanel.TakeIngotItem();
         //제련된 아이템을 가져간 상태
+        NetworkManager.instance.EndRefinery(refineryPanel.NowOpenRefinery.id);
         RefineryPanel.Instance.SetNameText("(재련할 재료)", "(재련된 재료)");
         RefineryPanel.Instance.SetTimerText("");
     }
