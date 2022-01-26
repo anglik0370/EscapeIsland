@@ -20,13 +20,22 @@ public class AreaEntrance : MonoBehaviour
 
         if(other.gameObject.CompareTag("Player"))
         {
-            cover.Enter();
-            isEntering = true;
+            if(!other.GetComponent<Player>().isRemote)
+            {
+                cover.Enter();
+                isEntering = true;
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) 
     {
-        isEntering = false;
+        if(other.gameObject.CompareTag("Player"))
+        {
+            if(!other.GetComponent<Player>().isRemote)
+            {
+                isEntering = false;
+            }
+        }
     }
 }
