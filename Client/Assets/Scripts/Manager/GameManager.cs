@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+        
+    }
+
+    public void GameStart()
+    {
         spawnerList = GameObject.FindObjectsOfType<ItemSpawner>().ToList();
         refineryList = GameObject.FindObjectsOfType<Refinery>().ToList();
     }

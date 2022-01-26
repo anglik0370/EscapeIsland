@@ -198,7 +198,7 @@ public class NetworkManager : MonoBehaviour
                 user.inventory = FindObjectOfType<Inventory>();
                 interactionBtn.Init(user);
                 user.transform.position = uv.position;
-
+                GameManager.Instance.GameStart();
             }
             else
             {
