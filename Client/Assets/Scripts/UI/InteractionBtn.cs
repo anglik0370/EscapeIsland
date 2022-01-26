@@ -32,9 +32,9 @@ public class InteractionBtn : MonoBehaviour
         storage = FindObjectOfType<ItemStorage>();
         storageTrm = storage.transform;
 
-        playerTrm = player.transform;
-        inventory = player.inventory;
-        range = player.range;
+        //playerTrm = player.transform;
+        //inventory = player.inventory;
+        //range = player.range;
 
         btn.onClick.AddListener(PickUpNearlestItem);
     }
@@ -63,6 +63,15 @@ public class InteractionBtn : MonoBehaviour
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(PickUpNearlestItem);
         }
+    }
+
+    public void Init(Player p)
+    {
+        player = p;
+
+        playerTrm = p.transform;
+        inventory = p.inventory;
+        range = p.range;
     }
 
     public void OpenStoragePanel()

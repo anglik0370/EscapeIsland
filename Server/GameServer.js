@@ -234,14 +234,26 @@ wsService.on("connection", socket => {
                 case "DIE":
 
                     let dRoomNum = socket.room;
-
+                    let dRoom = roomList[dRoomNum];
                     if(userList[socket.id] !== undefined) {
                         userList[socket.id].isDie = true;
                     }
 
                     //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
 
-                    roomBroadcast(roomList[dRoomNum]);
+                    let imposterCount = 0;
+                    let citizenCount = 0;
+
+                    dRoom.userList.forEach(user => {
+                        if(user.isImposter && !user.isDie) imposterCount++;
+                        else if(!user.isImposter && !user.isDie) citizenCount++;
+                    });
+
+                    if(imposterCount >= citizenCount) {
+                        
+                    }
+
+                    roomBroadcast(dRoom);
                     
                     break;
             }

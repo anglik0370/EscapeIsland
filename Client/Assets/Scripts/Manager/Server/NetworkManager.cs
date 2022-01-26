@@ -38,6 +38,10 @@ public class NetworkManager : MonoBehaviour
     public JoyStick inGameJoyStick;
 
     public Button startBtn;
+    public GameObject map;
+    public GameObject ingameCanvas;
+
+    public InteractionBtn interactionBtn;
 
     private void Awake()
     {
@@ -169,11 +173,16 @@ public class NetworkManager : MonoBehaviour
         socketName = "";
         roomNum = 0;
         once = false;
+        map.SetActive(false);
+        ingameCanvas.SetActive(false);
+        TimeHandler.Instance.SetGame(false);
     }
 
     public void OnGameStart()
     {
-        PopupManager.instance.CloseAndOpen("ingame");
+        PopupManager.instance.ClosePopup();
+        ingameCanvas.SetActive(true);
+        TimeHandler.Instance.SetGame(true);
 
         foreach (UserVO uv in tempDataList)
         {
@@ -200,12 +209,12 @@ public class NetworkManager : MonoBehaviour
     public void EnterRoom()
     {
         PopupManager.instance.CloseAndOpen("room");
+        map.SetActive(true);
     }
     public void ExitRoom()
     {
         PopupManager.instance.CloseAndOpen("lobby");
-
-
+        map.SetActive(false);
     }
 
     public void PlayerClear()
@@ -320,6 +329,9 @@ public class NetworkManager : MonoBehaviour
                     inGameJoyStick.player = user;
                     //ÆÈ·Î¿ì Ä· ¼³Á¤
                     followCam.Follow = user.gameObject.transform;
+
+                    interactionBtn.Init(user);
+
                     once = true;
                 }
             }
@@ -373,6 +385,8 @@ public class NetworkManager : MonoBehaviour
     public void GameStartBtn()
     {
         //PopupManager.instance.CloseAndOpen("ingame");
+        
+        
 
         RoomVO vo = new RoomVO();
         vo.roomNum = roomNum;

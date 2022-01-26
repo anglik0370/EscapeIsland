@@ -26,6 +26,8 @@ public class TimeHandler : MonoBehaviour
     [SerializeField]
     private int day = 1;
 
+    private bool inGame;
+
     private void Awake() 
     {
         if(Instance == null)
@@ -40,26 +42,34 @@ public class TimeHandler : MonoBehaviour
 
     private void Update() 
     {
-        timer -= Time.deltaTime;
-
-        if(timer <= 0)
+        if(inGame)
         {
-            if(isLightTime)
+            timer -= Time.deltaTime;
+
+            if (timer <= 0)
             {
-                darkTimeEvent.Occurred();
-                dayAndSlotText.text = $"{day}번째 밤";
+                if (isLightTime)
+                {
+                    darkTimeEvent.Occurred();
+                    dayAndSlotText.text = $"{day}번째 밤";
+                }
+                else
+                {
+                    lightTimeEvent.Occurred();
+                    day++;
+
+                    dayAndSlotText.text = $"{day}번째 낮";
+                }
+
+                isLightTime = !isLightTime;
+
+                timer = timeToNextSlot;
             }
-            else
-            {
-                lightTimeEvent.Occurred();
-                day++;
-
-                dayAndSlotText.text = $"{day}번째 낮";
-            }
-
-            isLightTime = !isLightTime;
-
-            timer = timeToNextSlot;
         }
+    }
+    public void SetGame(bool on)
+    {
+        timer = timeToNextSlot;
+        inGame = on;
     }
 }

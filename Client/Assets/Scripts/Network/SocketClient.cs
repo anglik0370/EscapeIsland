@@ -45,7 +45,7 @@ public class SocketClient : MonoBehaviour
 
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());
-        PopupManager.instance.OpenPopup("login");
+        
     }
 
     public void ConnectSocket(string ip, string port)
