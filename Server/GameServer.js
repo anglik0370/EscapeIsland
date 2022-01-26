@@ -279,11 +279,10 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
         //targetRoom.userList[keys[0]].master = true;
         userList[keys[0]].master = true;
     }
-    userList[socket.id].master = false; //나간 유저의 방장권한은 해제해준다.
-
-    if(userList[socket.id].isImposter) {
-        userList[socket.id].isImposter = false;
-    }
+    // 초기화
+    userList[socket.id].master = false; 
+    userList[socket.id].isImposter = false;
+    userList[socket.id].isDie = false;
     
     if(targetRoom.curUserNum <= 0){ //사람이 0명일때 room delete
         delete roomList[roomNum];
@@ -316,6 +315,7 @@ function refreshRoom(socket) //룸정보 갱신
     socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
 }
 
+//나중에는 type도 변수로 받아서 처리해 줘야 분리가 된다.
 function roomBroadcast(room) {
     if(room === undefined) return;
 
