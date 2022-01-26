@@ -24,6 +24,9 @@ public class InteractionBtn : MonoBehaviour
     private Button btn;
     private Image image;
 
+    public bool gameStart;
+
+
     private void Awake() 
     {
         btn = GetComponent<Button>();
@@ -42,27 +45,31 @@ public class InteractionBtn : MonoBehaviour
     private void Update() 
     {
         //가까운 재련소를 찾는다(팔길이보다 멀리있으면 null이 나옴)
-        if(FindNearlestRefinery() != null)
+        if(gameStart)
         {
-            image.sprite = interactionSprite;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() =>
+            if (FindNearlestRefinery() != null)
             {
-                OpenRefineryPanel(FindNearlestRefinery());
-            });
+                image.sprite = interactionSprite;
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() =>
+                {
+                    OpenRefineryPanel(FindNearlestRefinery());
+                });
+            }
+            else if (Vector2.Distance(playerTrm.position, storageTrm.position) <= player.range)
+            {
+                image.sprite = interactionSprite;
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(OpenStoragePanel);
+            }
+            else
+            {
+                image.sprite = PickUpSprite;
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(PickUpNearlestItem);
+            }
         }
-        else if(Vector2.Distance(playerTrm.position, storageTrm.position) <= player.range)
-        {
-            image.sprite = interactionSprite;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(OpenStoragePanel);
-        }
-        else
-        {
-            image.sprite = PickUpSprite;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(PickUpNearlestItem);
-        }
+        
     }
 
     public void Init(Player p)

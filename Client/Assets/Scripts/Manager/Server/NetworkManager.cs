@@ -66,7 +66,7 @@ public class NetworkManager : MonoBehaviour
     IEnumerator Frame()
     {
         yield return null;
-
+        map.SetActive(false);
 
         for (int i = 0; i < 10; i++)
         {
@@ -177,6 +177,7 @@ public class NetworkManager : MonoBehaviour
         socketName = "";
         roomNum = 0;
         once = false;
+        interactionBtn.gameStart = false;
         map.SetActive(false);
         SetIngameCanvas(false);
         TimeHandler.Instance.SetGame(false);
@@ -194,6 +195,7 @@ public class NetworkManager : MonoBehaviour
         PopupManager.instance.ClosePopup();
         SetIngameCanvas(true);
         TimeHandler.Instance.SetGame(true);
+        interactionBtn.gameStart = true;
 
 
 
