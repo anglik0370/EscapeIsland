@@ -199,6 +199,7 @@ public class NetworkManager : MonoBehaviour
                 interactionBtn.Init(user);
                 user.transform.position = uv.position;
                 GameManager.Instance.GameStart();
+                StoragePanel.Instance.GameStart();
             }
             else
             {
