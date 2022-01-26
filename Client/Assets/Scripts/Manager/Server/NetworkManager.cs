@@ -33,6 +33,9 @@ public class NetworkManager : MonoBehaviour
     private bool needStartGame = false;
 
     private Player user = null;
+
+    public GameObject[] lights;
+
     public CinemachineVirtualCamera followCam;
     public JoyStick roomJoyStick;
     public JoyStick inGameJoyStick;
@@ -320,6 +323,12 @@ public class NetworkManager : MonoBehaviour
                 {
                     user = PoolManager.GetItem<Player>();
                     user.InitPlayer(uv, false);
+
+                    for (int i = 0; i < lights.Length; i++)
+                    {
+                        GameObject obj = Instantiate(lights[i], Vector3.zero, Quaternion.identity, user.transform);
+                    }
+
                     roomNum = uv.roomNum;
                     if(user.master)
                     {

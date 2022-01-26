@@ -66,10 +66,11 @@ public class Player : MonoBehaviour
         this.isRemote = isRemote;
         master = vo.master;
 
-        inventory = FindObjectOfType<Inventory>();
+        
 
         if(!isRemote)
         {
+            inventory = FindObjectOfType<Inventory>();
             sendData = StartCoroutine(SendData());
         }
     }
