@@ -36,12 +36,18 @@ public class StoragePanel : Panel
         }
     }
 
-    public void AddItem(ItemSO item, StorageSlot slot)
+    public void AddItem(ItemSO item)
     {
         storage.AddItem(item);
+        UpdateUIs(item);
+    }
 
+    public void UpdateUIs(ItemSO item)
+    {
         ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, item);
         ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, item);
+
+        StorageSlot slot = slotList.Find(x => x.OriginItem.itemId == item.itemId);
 
         slot.SetAmountText(maxAmount.amount, curAmount.amount);
 

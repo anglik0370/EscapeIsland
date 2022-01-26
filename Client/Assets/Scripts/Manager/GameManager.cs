@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public List<Refinery> refineryList = new List<Refinery>();
     public List<ItemSO> itemList = new List<ItemSO>();
 
-    private ItemStorage itemStorage;
+    private StoragePanel storagePanel;
 
     private void Awake() 
     {
@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
         itemList = Resources.LoadAll<ItemSO>("ItemSO/").ToList();
         spawnerList = GameObject.FindObjectsOfType<ItemSpawner>().ToList();
         refineryList = GameObject.FindObjectsOfType<Refinery>().ToList();
-        itemStorage = FindObjectOfType<ItemStorage>();
+        storagePanel = FindObjectOfType<StoragePanel>();
     }
 
     public ItemSO FindItemFromItemId(int id)
@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
         return itemList.Find(x => x.itemId == id);
     }
 
-    public void AddItem(ItemSO so)
+    public void AddItemInStorage(ItemSO so)
     {
-        itemStorage.AddItem(so);
+        storagePanel.AddItem(so);
     }
 }
