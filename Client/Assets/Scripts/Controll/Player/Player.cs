@@ -66,6 +66,8 @@ public class Player : MonoBehaviour
         this.isRemote = isRemote;
         master = vo.master;
 
+        inventory = FindObjectOfType<Inventory>();
+
         if(!isRemote)
         {
             sendData = StartCoroutine(SendData());
