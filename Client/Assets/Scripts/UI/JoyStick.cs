@@ -46,7 +46,7 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         leverPos = Vector2.ClampMagnitude(leverPos, radius);
         leverRect.localPosition = leverPos;
 
-        moveDir = new Vector3(leverPos.x, leverPos.y).normalized * player.speed * Time.deltaTime;
+        moveDir = new Vector3(leverPos.x, leverPos.y).normalized;
     }
 
     public void OnDrag(PointerEventData eventData)

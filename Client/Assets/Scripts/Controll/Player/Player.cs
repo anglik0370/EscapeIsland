@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public Color color;
     public Vector2 targetPos;
 
-    public int speed = 5;
+    public float speed = 5;
 
     public float range = 5f;
 
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        Vector3 dir = new Vector3(h, v, 0).normalized * speed * Time.deltaTime;
+        Vector3 dir = new Vector3(h, v, 0).normalized;
 
         Move(dir);
 
@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
             }
 
             anim.SetBool("isMoving", true);
-            transform.position += dir;
+            transform.position += dir * speed * Time.deltaTime;
         }
         else
         {
