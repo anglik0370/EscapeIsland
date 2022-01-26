@@ -16,6 +16,8 @@ public class Lobby : Popup
     public InputField roomNameInput;
     public Button createRoomBtn;
     public Button cancelBtn;
+    public Slider userNumslider;
+    public Text userNumtext;
 
     private void Start()
     {
@@ -45,6 +47,10 @@ public class Lobby : Popup
         {
             OpenCreateRoomPopup(false);
         });
+        userNumslider.onValueChanged.AddListener(x =>
+        {
+            userNumtext.text = $"Players : {(int)x}";
+        });
     }
 
     public void OpenCreateRoomPopup(bool on)
@@ -52,5 +58,10 @@ public class Lobby : Popup
         createRoomPopup.alpha = on ? 1f : 0f;
         createRoomPopup.interactable = on;
         createRoomPopup.blocksRaycasts = on;
+
+        if(!on)
+        {
+            userNumslider.value = 8;
+        }
     }
 }
