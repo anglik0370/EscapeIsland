@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
+    public int id;
+
     [SerializeField]
     private ItemSO item;
     [SerializeField]

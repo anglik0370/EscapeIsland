@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Refinery : MonoBehaviour
 {
+    public int id;
+
     public ItemSO oreItem;
     public ItemSO ingotItem;
 
