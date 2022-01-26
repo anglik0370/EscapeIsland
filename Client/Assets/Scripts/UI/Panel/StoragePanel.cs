@@ -7,7 +7,6 @@ public class StoragePanel : Panel
 {
     public static StoragePanel Instance;
 
-
     private ProgressUI progressUI;
     private List<StorageSlot> slotList;
     private ItemStorage storage;
@@ -28,6 +27,19 @@ public class StoragePanel : Panel
 
     private void Start() 
     {
+        for(int i = 0; i < slotList.Count; i++)
+        {
+            ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, slotList[i].OriginItem);
+            ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, slotList[i].OriginItem);
+
+            slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
+        }
+    }
+
+    public override void Open()
+    {
+        base.Open();
+
         for(int i = 0; i < slotList.Count; i++)
         {
             ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, slotList[i].OriginItem);
