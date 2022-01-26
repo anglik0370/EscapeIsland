@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public List<ItemSpawner> spawnerList = new List<ItemSpawner>();
     public List<Refinery> refineryList = new List<Refinery>();
+    public List<ItemSO> itemList = new List<ItemSO>();
 
     private void Awake() 
     {
@@ -17,7 +18,13 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+        itemList = Resources.LoadAll<ItemSO>("ItemSO/").ToList();
         spawnerList = GameObject.FindObjectsOfType<ItemSpawner>().ToList();
         refineryList = GameObject.FindObjectsOfType<Refinery>().ToList();
+    }
+
+    public ItemSO FindItemFromItemId(int id)
+    {
+        return itemList.Find(x => x.itemId == id);
     }
 }
