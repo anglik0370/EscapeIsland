@@ -11,6 +11,9 @@ public class LightHandler : MonoBehaviour
     [SerializeField]
     private Light2D point;
 
+    [SerializeField]
+    private GameObject[] lightMapObjs;
+
     public float lightGlobalIntensity;
     public float lightPointIntensity;
     public float darkGlobalIntensity;
@@ -19,6 +22,14 @@ public class LightHandler : MonoBehaviour
     [SerializeField]
     private float duration = 1f;
     
+    private void Awake() 
+    {
+        for(int i = 0; i < lightMapObjs.Length; i++)
+        {
+            lightMapObjs[i].SetActive(true);
+        }
+    }
+
     public void Dark()
     {
         DOTween.To(() => global.intensity, x => global.intensity = x, darkGlobalIntensity, duration);
