@@ -52,7 +52,7 @@ public class NetworkManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogError("´Ù¼öÀÇ NetworkManager°¡ ½ÇÇàÁß");
+            Debug.LogError("ï¿½Ù¼ï¿½ï¿½ï¿½ NetworkManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             return;
         }
         instance = this;
@@ -235,7 +235,7 @@ public class NetworkManager : MonoBehaviour
     {
         ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
 
-        GameManager.Instance.AddItem(so);
+        GameManager.Instance.AddItemInStorage(so);
     }
 
     public void SetStartRefinery(int refineryId, int itemSOId)
@@ -314,7 +314,7 @@ public class NetworkManager : MonoBehaviour
             }
             else
             {
-                //pÀÇ °ÔÀÓ¿ÀºêÁ§Æ®°¡ ÄÑÁ®ÀÖÀ¸¸ç p°¡ Á×¾úÀ»¶§, À¯Àú°¡ Á×Áö ¾Ê¾ÒÀ»¶§ gameObject¸¦ ²¨ÁØ´Ù
+                //pï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pï¿½ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ gameObjectï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½
 
                 Player p = null;
 
@@ -372,7 +372,7 @@ public class NetworkManager : MonoBehaviour
                     }
                     roomJoyStick.player = user;
                     inGameJoyStick.player = user;
-                    //ÆÈ·Î¿ì Ä· ¼³Á¤
+                    //ï¿½È·Î¿ï¿½ Ä· ï¿½ï¿½ï¿½ï¿½
                     followCam.Follow = user.gameObject.transform;
 
 

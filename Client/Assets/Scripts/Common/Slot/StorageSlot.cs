@@ -55,7 +55,7 @@ public class StorageSlot : ItemSlot
             if(!storagePanel.IsItemFull(itemGhost.GetItem()))
             {
                 NetworkManager.instance.StorageDrop(itemGhost.GetItem().itemId);
-                storagePanel.AddItem(itemGhost.GetItem(), this);
+                storagePanel.AddItem(itemGhost.GetItem());
                 itemGhost.SetItem(null);
             }
         }
