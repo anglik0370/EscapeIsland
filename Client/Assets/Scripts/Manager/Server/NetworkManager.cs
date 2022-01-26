@@ -286,7 +286,6 @@ public class NetworkManager : MonoBehaviour
                     }
                     roomJoyStick.player = user;
                     inGameJoyStick.player = user;
-                    //PopupManager.instance.CloseAndOpen("ingame");
                     //ÆÈ·Î¿ì Ä· ¼³Á¤
                     followCam.Follow = user.gameObject.transform;
                     once = true;
