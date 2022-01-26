@@ -29,6 +29,8 @@ public class OreSlot : ItemSlot
 
     public override void OnDrop(PointerEventData eventData)
     {
+        if(itemGhost.GetItem() == null) return;
+
         if(!itemGhost.GetItem().canRefining)
         {
             //재련할 수 없는 아이템이라면

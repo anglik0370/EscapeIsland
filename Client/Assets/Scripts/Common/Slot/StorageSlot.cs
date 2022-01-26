@@ -5,11 +5,16 @@ using UnityEngine.EventSystems;
 
 public class StorageSlot : ItemSlot
 {
-    public ItemSO originItem;
+    [SerializeField]
+    private ItemSO originItem;
+
+    private StoragePanel storagePanel;
 
     protected override void Awake()
     {
         base.Awake();
+
+        SetItem(originItem);
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -24,6 +29,8 @@ public class StorageSlot : ItemSlot
 
     public override void OnDrop(PointerEventData eventData)
     {
+        if(itemGhost.GetItem() == null) return;
+
         if(itemGhost.GetItem().itemId != originItem.itemId)
         {
             //다른 아이템이라면
@@ -31,14 +38,10 @@ public class StorageSlot : ItemSlot
         }
         else
         {
-            if(itemGhost.GetItem() != null)
+            //꽉안찼으면 실행
+            if(!storagePanel.IsItemFull(itemGhost.GetItem()))
             {
-                ItemSO temp = item;
-                SetItem(itemGhost.GetItem());
-                itemGhost.SetItem(temp);
-            }
-            else
-            {
+                storagePanel.AddItem(itemGhost.GetItem());
                 itemGhost.SetItem(null);
             }
         }
