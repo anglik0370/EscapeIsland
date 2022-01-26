@@ -64,6 +64,9 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public void OnPointerUp(PointerEventData eventData)
     {
         leverRect.localPosition = Vector2.zero;
+        moveDir = Vector2.zero;
+        player.Move(moveDir);
+
         isTouch = false;
     }
 

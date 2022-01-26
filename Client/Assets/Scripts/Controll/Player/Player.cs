@@ -39,17 +39,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        #if UNITY_EDITOR
-
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        Vector3 dir = new Vector3(h, v, 0).normalized;
-
-        //Move(dir);
-
-        #endif
-
         if(!isRemote)
         {
 
@@ -101,12 +90,18 @@ public class Player : MonoBehaviour
             }
 
             anim.SetBool("isMoving", true);
-            transform.position += dir * speed * Time.deltaTime;
         }
         else
         {
             anim.SetBool("isMoving", false);
         }
+
+        transform.position += dir * speed * Time.deltaTime;
+    }
+
+    private void SetAnimation(Vector2 dir)
+    {
+        
     }
 
     IEnumerator SendData()
