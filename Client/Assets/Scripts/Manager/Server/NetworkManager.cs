@@ -326,7 +326,8 @@ public class NetworkManager : MonoBehaviour
 
                     for (int i = 0; i < lights.Length; i++)
                     {
-                        GameObject obj = Instantiate(lights[i], Vector3.zero, Quaternion.identity, user.transform);
+                        GameObject obj = Instantiate(lights[i], user.transform);
+                        obj.transform.localPosition = Vector3.zero;
                     }
 
                     roomNum = uv.roomNum;
