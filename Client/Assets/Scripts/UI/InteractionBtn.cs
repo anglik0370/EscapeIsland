@@ -129,6 +129,7 @@ public class InteractionBtn : MonoBehaviour
         if(Vector2.Distance(playerTrm.position, nearlestSpawner.transform.position) <= range)
         {
             //있다면 넣어준다
+            NetworkManager.instance.GetItem(nearlestSpawner.id);
             inventory.AddItem(nearlestSpawner.PickUpItem());
         }
     }

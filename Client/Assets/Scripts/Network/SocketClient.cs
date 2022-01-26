@@ -41,6 +41,9 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("EXIT_ROOM", handlerParent.GetComponent<ExitRoomHandler>());
         handlerDic.Add("ERROR", handlerParent.GetComponent<ErrorHandler>());
         handlerDic.Add("DISCONNECT", handlerParent.GetComponent<DisconnectHandler>());
+        handlerDic.Add("GET_ITEM", handlerParent.GetComponent<GetItemHandler>());
+        handlerDic.Add("STORAGE_DROP", handlerParent.GetComponent<StorageDropHandler>());
+        handlerDic.Add("START_REFINERY", handlerParent.GetComponent<StartRefineryHandler>());
 
 
         //webSocket = new WebSocket($"{url}:{port}");

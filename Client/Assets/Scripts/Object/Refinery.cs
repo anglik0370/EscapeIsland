@@ -52,6 +52,8 @@ public class Refinery : MonoBehaviour
 
     public void StartRefining(ItemSO oreItem)
     {
+        //제련 시작 시 (제련 전 아이템을 넣었을 때)
+        //필요한것 - 제련소 id, 넣은 아이템SO
         isRefiningEnd = false;
         remainTime = refiningTime;
 
@@ -62,6 +64,7 @@ public class Refinery : MonoBehaviour
 
     public void ResetRefining()
     {
+        //제련이 다 되기 전에 뺐을때
         remainTime = 0f;
         isRefiningEnd = true;
 

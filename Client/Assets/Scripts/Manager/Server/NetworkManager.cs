@@ -46,6 +46,8 @@ public class NetworkManager : MonoBehaviour
 
     public InteractionBtn interactionBtn;
 
+    
+
     private void Awake()
     {
         if (instance != null)
@@ -221,6 +223,24 @@ public class NetworkManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetItemDisable(int spawnerId)
+    {
+        ItemSpawner s = GameManager.Instance.spawnerList.Find(x => x.id == spawnerId);
+        s.DeSpawnItem();
+    }
+
+    public void SetItemStorage(int itemSOId)
+    {
+        ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
+
+        GameManager.Instance.AddItem(so);
+    }
+
+    public void SetStartRefinery(int refineryId, int itemSOId)
+    {
+        ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
     }
 
     public void EnterRoom()
@@ -416,6 +436,35 @@ public class NetworkManager : MonoBehaviour
         vo.roomNum = roomNum;
 
         DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void GetItem(int spawnerId)
+    {
+        ItemSpawnerVO vo = new ItemSpawnerVO();
+        vo.spawnerId = spawnerId;
+
+        DataVO dataVO = new DataVO("GET_ITEM", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void StorageDrop(int itemSOId)
+    {
+        ItemStorageVO vo = new ItemStorageVO();
+        vo.itemSOId = itemSOId;
+
+        DataVO dataVO = new DataVO("STORAGE_DROP", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void StartRefinery(int refineryId, int itemSOId)
+    {
+        RefineryVO vo = new RefineryVO(refineryId, itemSOId);
+
+        DataVO dataVO = new DataVO("START_REFINERY", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

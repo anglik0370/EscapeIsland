@@ -250,11 +250,41 @@ wsService.on("connection", socket => {
                     });
 
                     if(imposterCount >= citizenCount) {
-                        
+
                     }
 
                     roomBroadcast(dRoom);
                     
+                    break;
+                case "GET_ITEM":
+                    let spawnerId = JSON.parse(data.payload).spawnerId;
+                    let getItemRoom = roomList[socket.room];
+
+                    getItemRoom.socketList.forEach(soc => {
+                        if(soc.id == socket.id) return;
+                        soc.send(JSON.stringify({type:"GET_ITEM",payload:spawnerId}));
+                    });
+                    break;
+                case "STORAGE_DROP":
+                    let itemSOId = JSON.parse(data.payload).itemSOId;
+                    let getItemR = roomList[socket.room];
+                    getItemR.socketList.forEach(soc => {
+                        if(soc.id == socket.id) return;
+                        soc.send(JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
+                    });
+                    break;
+                case "START_REFINERY":
+                    let startData = JSON.parse(data.payload);
+                    let startRefineryId = startData.refineryId;
+                    let startItemSOId = startData.refineryId;
+
+                    let startRoom = roomList[socket.id];
+
+                    startRoom.socketList.forEach(soc => {
+                        if(soc.id == socket.id) return;
+                        soc.send(JSON.stringify({type:"START_REFINERY",payload:{refineryId:startRefineryId,itemSOId:startItemSOId}}));
+                    });
+
                     break;
             }
         }
