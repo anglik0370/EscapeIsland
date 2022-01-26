@@ -196,6 +196,7 @@ public class NetworkManager : MonoBehaviour
                 inGameJoyStick.enabled = true;
              
                 user.inventory = FindObjectOfType<Inventory>();
+                interactionBtn.Init(user);
                 user.transform.position = uv.position;
 
             }
@@ -345,7 +346,6 @@ public class NetworkManager : MonoBehaviour
                     //ÆÈ·Î¿ì Ä· ¼³Á¤
                     followCam.Follow = user.gameObject.transform;
 
-                    interactionBtn.Init(user);
 
                     once = true;
                 }
