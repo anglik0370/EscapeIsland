@@ -7,7 +7,10 @@ public class InteractionBtn : MonoBehaviour
 {
     [SerializeField]
     private Player player;
+    private ItemStorage storage;
     private Transform playerTrm;
+    private Transform storageTrm;
+
     private Inventory inventory;
     private float range;
 
@@ -16,6 +19,9 @@ public class InteractionBtn : MonoBehaviour
     private void Awake() 
     {
         btn = GetComponent<Button>();
+
+        storage = FindObjectOfType<ItemStorage>();
+        storageTrm = storage.transform;
 
         playerTrm = player.transform;
         inventory = player.inventory;
@@ -26,6 +32,7 @@ public class InteractionBtn : MonoBehaviour
 
     private void Update() 
     {
+        //가까운 재련소를 찾는다(팔길이보다 멀리있으면 null이 나옴)
         if(FindNearlestRefinery() != null)
         {
             btn.onClick.RemoveAllListeners();
@@ -34,11 +41,21 @@ public class InteractionBtn : MonoBehaviour
                 OpenRefineryPanel(FindNearlestRefinery());
             });
         }
+        else if(Vector2.Distance(playerTrm.position, storageTrm.position) <= player.range)
+        {
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(OpenStoragePanel);
+        }
         else
         {
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(PickUpNearlestItem);
         }
+    }
+
+    public void OpenStoragePanel()
+    {
+        StoragePanel.Instance.Open();
     }
 
     public void OpenRefineryPanel(Refinery refinery)
