@@ -14,6 +14,8 @@ public class StorageSlot : ItemSlot
     {
         base.Awake();
 
+        storagePanel = StoragePanel.Instance;
+
         SetItem(originItem);
     }
 

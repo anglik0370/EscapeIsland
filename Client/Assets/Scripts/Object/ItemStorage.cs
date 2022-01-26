@@ -38,8 +38,6 @@ public class ItemStorage : MonoBehaviour
     {
         ItemAmount amount = list.Find(x => x.item.itemId == item.itemId);
 
-        print($"{amount.item} : {amount.amount}");
-
         return amount;
     }
 
@@ -54,6 +52,7 @@ public class ItemStorage : MonoBehaviour
         {
             //갯수만큼 더해준다
             curItemAmount.amount++;
+            print($"{curItemAmount.item}:{curItemAmount.amount}");
         }
     }
 
