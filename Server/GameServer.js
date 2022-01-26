@@ -5,7 +5,7 @@ const SocketState = require('./SocketState.js');
 const Vector2 = require('./Vector2.js');
 const Room = require('./Room.js');
 const LoginHandler = require('./LoginHandler.js');
-const waitingPos = require('./SpawnPoint.js');
+const respawnPoint = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 
 let socketIdx = 0;
@@ -18,8 +18,6 @@ let connectedSocket = {}; //연결되어있는 소켓들을 담고있는 배열
 const wsService = new WebSocket.Server({port}, ()=>{
     console.log(`웹 소켓이 ${port}에서 구동중`);
 });
-
-SetSpawnPoint(3);
 
 wsService.on("connection", socket => {
     console.log("소켓 연결");
@@ -120,7 +118,7 @@ wsService.on("connection", socket => {
                     if(userList[socket.id] !== undefined){
                         userList[socket.id].roomNum = roomIdx;
                         userList[socket.id].master = true;
-                        userList[socket.id].position = waitingPos;
+                        userList[socket.id].position = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
                     }
 
                     r.addSocket(socket, userList[socket.id]);
@@ -153,7 +151,7 @@ wsService.on("connection", socket => {
                     if(userList[socket.id] !== undefined) {
                         userList[socket.id].roomNum = roomNum;
                         userList[socket.id].master = false;
-                        userList[socket.id].position = waitingPos;
+                        userList[socket.id].position = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
                     }
                     socket.state = SocketState.IN_ROOM;
                     targetRoom.curUserNum++;

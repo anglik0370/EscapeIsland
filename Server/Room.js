@@ -23,12 +23,7 @@ class Room {
     }
 
     returnData() {
-        let data = {};
-        data.name = this.roomName;
-        data.roomNum = this.roomNum; 
-        data.curUserNum = this.curUserNum;
-        data.userNum = this.userNum; 
-        data.playing = this.playing; 
+        let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,playing:this.playing};
         return data;
     }
 

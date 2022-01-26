@@ -8,6 +8,6 @@ let respawnPoint = [
     new Vector2(5,13.5)
 ];
 
-let waitingPos = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
+//let waitingPos = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
 
-module.exports = waitingPos;
+module.exports = respawnPoint;
