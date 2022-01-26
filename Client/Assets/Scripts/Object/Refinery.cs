@@ -59,7 +59,10 @@ public class Refinery : MonoBehaviour
 
         this.oreItem = oreItem;
 
-        RefineryPanel.Instance.SetNameText(oreItem.ToString(), FindIngotFromOre(oreItem).ToString());
+        if(RefineryPanel.Instance.IsOpenRefinery(this))
+        {
+            RefineryPanel.Instance.SetNameText(oreItem.ToString(), FindIngotFromOre(oreItem).ToString());
+        }
     }
 
     public void ResetRefining()
