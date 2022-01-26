@@ -181,7 +181,6 @@ wsService.on("connection", socket => {
 
                     wsService.clients.forEach(soc=>{
                         if(soc.room === eRoomNum) { //소켓이 해제된 유저가 있었던 방에 있다면
-                            //refreshUser(soc,roomNum); 
                             roomBroadcast(roomList[eRoomNum]);
                         }
                         if(soc.state === SocketState.IN_LOBBY) {
@@ -198,15 +197,15 @@ wsService.on("connection", socket => {
                     let gRoomNum = JSON.parse(data.payload).roomNum;
                     let gTargetRoom = roomList[gRoomNum];
 
-                    // if(gTargetRoom.curUserNum < 4) {
-                    //     sendError("최소 4명 이상의 인원이 있어야 합니다.",socket);
-                    //     return;
-                    // }
+                    if(gTargetRoom.curUserNum < 2) {
+                        sendError("최소 2명 이상의 인원이 있어야 합니다.",socket);
+                        return;
+                    }
 
                     //룸의 인원수의 맞게 임포 수 조정
 
                     let keys = Object.keys(gTargetRoom.userList);
-                    let imposterLength = keys.length / 4;
+                    let imposterLength = keys.length / 2;
                     let idx;
 
                     for(let i = 0; i < imposterLength; i++) {
@@ -242,6 +241,8 @@ wsService.on("connection", socket => {
                         userList[socket.id].isDie = true;
                     }
 
+                    //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
+
                     roomBroadcast(roomList[dRoomNum]);
                     
                     break;
@@ -276,7 +277,6 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
     if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
         let keys = Object.keys(targetRoom.userList);
-        //targetRoom.userList[keys[0]].master = true;
         userList[keys[0]].master = true;
     }
     // 초기화
@@ -288,9 +288,6 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
         delete roomList[roomNum];
         return;
     }
-    // else {
-    //     roomBroadcast(targetRoom);
-    // }
 
     targetRoom.socketList.forEach(soc => {
         if(soc.id === socket.id) return;
@@ -300,29 +297,22 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
 function refreshRoom(socket) //룸정보 갱신
 {
-    let keys = Object.keys(roomList); //roomList의 키들을 받아오고
+    //let keys = Object.keys(roomList); //roomList의 키들을 받아오고
+    let value = Object.values(roomList);
     let dataList = [];
-    for(let i=0; i<keys.length; i++){
-        let a = roomList[keys[i]];
-        let name = a.roomName;
-        let roomNum = a.roomNum;
-        let curUserNum = a.curUserNum;
-        let userNum = a.userNum;
-        let playing = a.playing;
-
-        dataList.push({name, roomNum,curUserNum,userNum,playing}); //현재 존재하는 룸들의 정보를 푸시해준다.
+    for(let i = 0; i < value.length; i++) {
+        dataList.push(value[i].returnData());
     }
     socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
 }
 
 //나중에는 type도 변수로 받아서 처리해 줘야 분리가 된다.
-function roomBroadcast(room) {
+function roomBroadcast(room,sendType = "REFRESH_MASTER") {
     if(room === undefined) return;
 
     let dataList = Object.values(room.userList); // 전송할 배열
-    //console.log(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList})}));
     room.socketList.forEach(soc => {
-        soc.send(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList})}));
+        soc.send(JSON.stringify({type:sendType,payload:JSON.stringify({dataList})}));
     });
 }
 
