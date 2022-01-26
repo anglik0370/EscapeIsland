@@ -23,9 +23,25 @@ public class StoragePanel : Panel
         storage = FindObjectOfType<ItemStorage>();
     }
 
-    public void AddItem(ItemSO item)
+    private void Start() 
+    {
+        for(int i = 0; i < slotList.Count; i++)
+        {
+            ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, slotList[i].OriginItem);
+            ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, slotList[i].OriginItem);
+
+            slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
+        }
+    }
+
+    public void AddItem(ItemSO item, StorageSlot slot)
     {
         storage.AddItem(item);
+
+        ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, item);
+        ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, item);
+
+        slot.SetAmountText(maxAmount.amount, curAmount.amount);
     }
 
     public bool IsItemFull(ItemSO item)

@@ -10,31 +10,7 @@ public class ItemStorage : MonoBehaviour
 
     public ItemSO debugItem;
 
-    private void Awake() 
-    {
-        maxAmountItemList = new List<ItemAmount>();
-        curAmountItemList = new List<ItemAmount>();
-
-        //처음에 먼저 curAmountItemList를 초기화 해주자
-        List<ItemSO> itemList = Resources.LoadAll<ItemSO>(typeof(ItemSO).ToString()).ToList();
-
-        for(int i = 0; i < itemList.Count; i++)
-        {
-            ItemAmount temp = new ItemAmount(itemList[i], 0);
-            curAmountItemList.Add(temp);
-        }
-
-        {
-            //여긴 디버깅 영역임
-            for(int i = 0; i < itemList.Count; i++)
-            {
-                ItemAmount temp = new ItemAmount(itemList[i], 10);
-                maxAmountItemList.Add(temp);
-            }
-        }
-    }
-
-    private ItemAmount FindItemAmount(List<ItemAmount> list, ItemSO item)
+    public ItemAmount FindItemAmount(List<ItemAmount> list, ItemSO item)
     {
         ItemAmount amount = list.Find(x => x.item.itemId == item.itemId);
 
@@ -52,7 +28,6 @@ public class ItemStorage : MonoBehaviour
         {
             //갯수만큼 더해준다
             curItemAmount.amount++;
-            print($"{curItemAmount.item}:{curItemAmount.amount}");
         }
     }
 

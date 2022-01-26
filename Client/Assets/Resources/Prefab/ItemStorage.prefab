@@ -43,6 +43,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1abad0ea36d30304699a93b06ead0344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmountItemList: []
-  curAmountItemList: []
+  maxAmountItemList:
+  - item: {fileID: 11400000, guid: fee03967ae882aa48993d808ad328c17, type: 2}
+    amount: 35
+  - item: {fileID: 11400000, guid: 163c15a84ffd8d34a9d42d8250f299e8, type: 2}
+    amount: 10
+  - item: {fileID: 11400000, guid: b7cea592480d9fd4ea90e02208888870, type: 2}
+    amount: 15
+  - item: {fileID: 11400000, guid: 7c429e31e4a47ce4b928a5aeca902a04, type: 2}
+    amount: 10
+  - item: {fileID: 11400000, guid: 260bb6314c9cf4642ad80936c0114d87, type: 2}
+    amount: 10
+  - item: {fileID: 11400000, guid: 2e2dbe9c1ef0be145bdc3ee6e04875b1, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: 1b88f1f35ccc54e498f59466aa5bce2c, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: ab5df78f8957f9444a8a07ca474a0120, type: 2}
+    amount: 12
+  - item: {fileID: 11400000, guid: 5745278686f99ab4498b7e2602d4b57b, type: 2}
+    amount: 8
+  - item: {fileID: 11400000, guid: 9d5253843983b0c488dc63bc871b1311, type: 2}
+    amount: 6
+  curAmountItemList:
+  - item: {fileID: 11400000, guid: fee03967ae882aa48993d808ad328c17, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: 163c15a84ffd8d34a9d42d8250f299e8, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: b7cea592480d9fd4ea90e02208888870, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: 7c429e31e4a47ce4b928a5aeca902a04, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: 260bb6314c9cf4642ad80936c0114d87, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: 2e2dbe9c1ef0be145bdc3ee6e04875b1, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: 1b88f1f35ccc54e498f59466aa5bce2c, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: ab5df78f8957f9444a8a07ca474a0120, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: 5745278686f99ab4498b7e2602d4b57b, type: 2}
+    amount: 0
+  - item: {fileID: 11400000, guid: 9d5253843983b0c488dc63bc871b1311, type: 2}
+    amount: 0
   debugItem: {fileID: 11400000, guid: fee03967ae882aa48993d808ad328c17, type: 2}

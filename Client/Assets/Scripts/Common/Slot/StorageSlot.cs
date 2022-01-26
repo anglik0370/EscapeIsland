@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class StorageSlot : ItemSlot
 {
+    private Text amountText;
+
     [SerializeField]
     private ItemSO originItem;
+
+    public ItemSO OriginItem => originItem;
 
     private StoragePanel storagePanel;
 
@@ -15,8 +20,14 @@ public class StorageSlot : ItemSlot
         base.Awake();
 
         storagePanel = StoragePanel.Instance;
+        amountText = GetComponentInChildren<Text>();
 
         SetItem(originItem);
+    }
+
+    public void SetAmountText(int max, int cur)
+    {
+        amountText.text = $"{max} / {cur}";
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -43,7 +54,7 @@ public class StorageSlot : ItemSlot
             //꽉안찼으면 실행
             if(!storagePanel.IsItemFull(itemGhost.GetItem()))
             {
-                storagePanel.AddItem(itemGhost.GetItem());
+                storagePanel.AddItem(itemGhost.GetItem(), this);
                 itemGhost.SetItem(null);
             }
         }
