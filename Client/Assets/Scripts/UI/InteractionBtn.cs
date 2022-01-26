@@ -11,14 +11,23 @@ public class InteractionBtn : MonoBehaviour
     private Transform playerTrm;
     private Transform storageTrm;
 
+    [SerializeField]
+    private Sprite interactionSprite;
+    [SerializeField]
+    private Sprite killSprite;
+    [SerializeField]
+    private Sprite PickUpSprite;
+
     private Inventory inventory;
     private float range;
 
     private Button btn;
+    private Image image;
 
     private void Awake() 
     {
         btn = GetComponent<Button>();
+        image = GetComponent<Image>();
 
         storage = FindObjectOfType<ItemStorage>();
         storageTrm = storage.transform;
@@ -35,6 +44,7 @@ public class InteractionBtn : MonoBehaviour
         //가까운 재련소를 찾는다(팔길이보다 멀리있으면 null이 나옴)
         if(FindNearlestRefinery() != null)
         {
+            image.sprite = interactionSprite;
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() =>
             {
@@ -43,11 +53,13 @@ public class InteractionBtn : MonoBehaviour
         }
         else if(Vector2.Distance(playerTrm.position, storageTrm.position) <= player.range)
         {
+            image.sprite = interactionSprite;
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(OpenStoragePanel);
         }
         else
         {
+            image.sprite = PickUpSprite;
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(PickUpNearlestItem);
         }

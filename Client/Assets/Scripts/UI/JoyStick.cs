@@ -9,7 +9,7 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     RectTransform backgroundRect;
     RectTransform leverRect;
 
-    private readonly Vector3 ORIGIN_SCALE = new Vector3(0.5f, 0.5f, 1);
+    private readonly Vector3 MIN_SCALE = new Vector3(0.5f, 0.5f, 1);
 
     public Player player;
 
@@ -71,6 +71,6 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     {
         //0.5에서 1.5의 크기가 되도록 만들면 될듯?
 
-        parentRect.localScale = new Vector3(ORIGIN_SCALE.x + add, ORIGIN_SCALE.y + add, ORIGIN_SCALE.z);
+        parentRect.localScale = new Vector3(MIN_SCALE.x + add, MIN_SCALE.y + add, MIN_SCALE.z);
     }
 }
