@@ -602,6 +602,7 @@ MonoBehaviour:
   interactionSprite: {fileID: 21300000, guid: 781ef471377a4554fa51741ff2b1bec9, type: 3}
   killSprite: {fileID: 21300000, guid: 858ce065b4c069147952c840443fe900, type: 3}
   PickUpSprite: {fileID: 21300000, guid: dab9a7dfe67d2934bb8872d3a11d24e3, type: 3}
+  gameStart: 0
 --- !u!1 &39856548
 GameObject:
   m_ObjectHideFlags: 0
@@ -18017,7 +18018,7 @@ MonoBehaviour:
   inGameJoyStick: {fileID: 1576144299}
   startBtn: {fileID: 0}
   map: {fileID: 1010997809}
-  ingameCanvas: {fileID: 2000760349}
+  ingameCanvas: {fileID: 2000760351}
   interactionBtn: {fileID: 34412905}
 --- !u!114 &1591480864
 MonoBehaviour:
