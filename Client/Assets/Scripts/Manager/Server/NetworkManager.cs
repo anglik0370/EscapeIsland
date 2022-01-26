@@ -243,6 +243,8 @@ public class NetworkManager : MonoBehaviour
         ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
 
         GameManager.Instance.refineryList.Find(x => x.id == refineryId).StartRefining(so);
+
+        print("start");
     }
 
     public void SetResetRefinery(int refineryId)
@@ -250,6 +252,7 @@ public class NetworkManager : MonoBehaviour
         Refinery refinery = GameManager.Instance.refineryList.Find(x => x.id == refineryId);
         refinery.ResetRefining();
         refinery.oreItem = null;
+        print("reset");
     }
 
     public void SetEndRefinery(int refineryId)
@@ -257,6 +260,7 @@ public class NetworkManager : MonoBehaviour
         Refinery refinery = GameManager.Instance.refineryList.Find(x => x.id == refineryId);
         refinery.EndRefining();
         refinery.ingotItem = null;
+        print("end");
     }
 
     public void EnterRoom()

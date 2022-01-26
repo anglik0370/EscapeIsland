@@ -7,7 +7,7 @@ public class StartRefineryHandler : MonoBehaviour,IMsgHandler
     public void HandleMsg(string payload)
     {
         RefineryVO vo = JsonUtility.FromJson<RefineryVO>(payload);
-        NetworkManager.instance.SetStartRefinery(vo.refineryId,vo.itemSOId);
+        NetworkManager.instance.SetStartRefinery(vo.refineryId, vo.itemSOId);
     }
 
 }

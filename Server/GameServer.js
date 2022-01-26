@@ -276,29 +276,28 @@ wsService.on("connection", socket => {
                 case "START_REFINERY":
                     let startData = JSON.parse(data.payload);
                     let startRefineryId = startData.refineryId;
-                    let startItemSOId = startData.refineryId;
+                    let startItemSOId = startData.itemSOId;
 
-                    let startRoom = roomList[socket.id];
+                    let startRoom = roomList[socket.room];
 
                     startRoom.socketList.forEach(soc => {
                         if(soc.id == socket.id) return;
-                        soc.send(JSON.stringify({type:"START_REFINERY",payload:{refineryId:startRefineryId,itemSOId:startItemSOId}}));
+                        soc.send(JSON.stringify({type:"START_REFINERY",payload:JSON.stringify({refineryId:startRefineryId,itemSOId:startItemSOId})}));
                     });
 
                     break;
                 case "RESET_REFINERY":
                     let resetRefineryId = JSON.parse(data.payload).refineryId;
 
-                    let resetRoom = roomList[socket.id];
+                    let resetRoom = roomList[socket.room];
 
                     resetRoom.socketList.forEach(soc => {
-                        if(soc.id == socket.id) return;
                         soc.send(JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
                     });
                     break;
                 case "END_REFINERY":
                     let endRefineryId = JSON.parse(data.payload).refineryId;
-                    let endRoom = roomList[socket.id];
+                    let endRoom = roomList[socket.room];
 
                     endRoom.socketList.forEach(soc => {
                         soc.send(JSON.stringify({type:"END_REFINERY",payload:endRefineryId}));
