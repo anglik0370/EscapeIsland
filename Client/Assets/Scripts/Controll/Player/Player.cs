@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
     public bool master;
     public bool isImposter; //true : 맢 / false : 시민
+    public bool isDie = false;
 
     public Inventory inventory;
     public Color color;
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
     public float range = 5f;
 
     private WaitForSeconds ws = new WaitForSeconds(1 / 5); //200ms 간격으로 자신의 데이터갱신
+    private Coroutine sendData;
 
     private void Awake()
     {
@@ -32,7 +34,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-
+        
     }
 
     private void Update()
@@ -66,13 +68,21 @@ public class Player : MonoBehaviour
 
         if(!isRemote)
         {
-            StartCoroutine(SendData());
+            sendData = StartCoroutine(SendData());
         }
     }
 
     public void SetDisable()
     {
+        if (!gameObject.activeSelf) return;
+
         gameObject.SetActive(false);
+    }
+
+    public void SetDead()
+    {
+        isDie = true;
+        NetworkManager.instance.Die();
     }
 
     public void Move(Vector3 dir)
@@ -111,6 +121,14 @@ public class Player : MonoBehaviour
             DataVO dataVO = new DataVO("TRANSFORM", payload);
 
             SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+        }
+    }
+
+    public void StopCo()
+    {
+        if(sendData != null)
+        {
+            StopCoroutine(sendData);
         }
     }
 

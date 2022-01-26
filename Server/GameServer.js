@@ -86,6 +86,7 @@ wsService.on("connection", socket => {
                     let userData = LoginHandler(data.payload,socket);
                     userData.position = Vector2.zero;
                     userData.isImposter = false;
+                    userData.isDie = false;
 
 
                     userList[socket.id] = userData;
@@ -233,6 +234,17 @@ wsService.on("connection", socket => {
                     });
 
                     break;
+                case "DIE":
+
+                    let dRoomNum = socket.room;
+
+                    if(userList[socket.id] !== undefined) {
+                        userList[socket.id].isDie = true;
+                    }
+
+                    roomBroadcast(roomList[dRoomNum]);
+                    
+                    break;
             }
         }
         catch (error) {
@@ -261,6 +273,7 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
     targetRoom.curUserNum--; //그 방의 인원수--;
     targetRoom.removeSocket(socket.id);
+
     if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
         let keys = Object.keys(targetRoom.userList);
         //targetRoom.userList[keys[0]].master = true;
@@ -274,6 +287,7 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     
     if(targetRoom.curUserNum <= 0){ //사람이 0명일때 room delete
         delete roomList[roomNum];
+        return;
     }
     // else {
     //     roomBroadcast(targetRoom);
@@ -288,7 +302,7 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 function refreshRoom(socket) //룸정보 갱신
 {
     let keys = Object.keys(roomList); //roomList의 키들을 받아오고
-    let dataList = []; // 전송할 배열
+    let dataList = [];
     for(let i=0; i<keys.length; i++){
         let a = roomList[keys[i]];
         let name = a.roomName;
