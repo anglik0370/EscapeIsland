@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 
         Vector3 dir = new Vector3(h, v, 0).normalized;
 
-        Move(dir);
+        //Move(dir);
 
         #endif
 
