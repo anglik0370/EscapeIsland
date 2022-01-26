@@ -36,19 +36,6 @@ public class StoragePanel : Panel
         }
     }
 
-    public override void Open()
-    {
-        base.Open();
-
-        for(int i = 0; i < slotList.Count; i++)
-        {
-            ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, slotList[i].OriginItem);
-            ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, slotList[i].OriginItem);
-
-            slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
-        }
-    }
-
     public void AddItem(ItemSO item, StorageSlot slot)
     {
         storage.AddItem(item);
@@ -64,5 +51,18 @@ public class StoragePanel : Panel
     public bool IsItemFull(ItemSO item)
     {
         return storage.IsItemFull(item);
+    }
+
+    public override void Open()
+    {
+        base.Open();
+
+        for(int i = 0; i < slotList.Count; i++)
+        {
+            ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, slotList[i].OriginItem);
+            ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, slotList[i].OriginItem);
+
+            slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
+        }
     }
 }
