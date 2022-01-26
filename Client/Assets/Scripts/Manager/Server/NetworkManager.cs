@@ -187,13 +187,17 @@ public class NetworkManager : MonoBehaviour
         ingameCanvas.SetActive(true);
         TimeHandler.Instance.SetGame(true);
 
+
+
         foreach (UserVO uv in tempDataList)
         {
             if(uv.socketId == socketId)
             {
                 inGameJoyStick.enabled = true;
-                
+             
+                user.inventory = FindObjectOfType<Inventory>();
                 user.transform.position = uv.position;
+
             }
             else
             {
@@ -323,6 +327,7 @@ public class NetworkManager : MonoBehaviour
                 {
                     user = PoolManager.GetItem<Player>();
                     user.InitPlayer(uv, false);
+
 
                     for (int i = 0; i < lights.Length; i++)
                     {
