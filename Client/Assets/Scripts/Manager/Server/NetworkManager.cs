@@ -23,7 +23,7 @@ public class NetworkManager : MonoBehaviour
     private Dictionary<int, Player> playerList = new Dictionary<int, Player>();
     private Queue<int> removeSocketQueue = new Queue<int>();
     private List<UserVO> userDataList;
-    private List<UserVO> masterDataList;
+    private List<UserVO> tempDataList;
 
     private bool isLogin = false;
     private bool once = false;
@@ -89,7 +89,7 @@ public class NetworkManager : MonoBehaviour
     {
         lock (instance.lockObj)
         {
-            instance.masterDataList = list;
+            instance.tempDataList = list;
             instance.needMasterRefresh = true;
         }
     }
@@ -108,7 +108,7 @@ public class NetworkManager : MonoBehaviour
     {
         lock(instance.lockObj)
         {
-            instance.masterDataList = list;
+            instance.tempDataList = list;
             instance.needStartGame = true;
         }
     }
@@ -175,7 +175,7 @@ public class NetworkManager : MonoBehaviour
     {
         PopupManager.instance.CloseAndOpen("ingame");
 
-        foreach (UserVO uv in masterDataList)
+        foreach (UserVO uv in tempDataList)
         {
             if(uv.socketId == socketId)
             {
@@ -210,6 +210,7 @@ public class NetworkManager : MonoBehaviour
 
     public void PlayerClear()
     {
+        user.StopCo();
         user.SetDisable();
         user = null;
 
@@ -220,6 +221,18 @@ public class NetworkManager : MonoBehaviour
         playerList.Clear();
     }
     
+    public void PlayerEnable()
+    {
+        if (!user.isDie) return;
+
+        foreach (int key in playerList.Keys)
+        {
+            if(playerList[key].isDie && !playerList[key].gameObject.activeSelf)
+            {
+                playerList[key].gameObject.SetActive(true);
+            }
+        }
+    }
 
     
     public void RefreshRoom()
@@ -245,7 +258,7 @@ public class NetworkManager : MonoBehaviour
     }
     public void RefreshMaster()
     {
-        foreach (UserVO uv in masterDataList)
+        foreach (UserVO uv in tempDataList)
         {
             if (uv.socketId == socketId)
             {
@@ -253,7 +266,25 @@ public class NetworkManager : MonoBehaviour
                 startBtn.enabled = uv.master;
                 user.isImposter = uv.isImposter;
             }
+            else
+            {
+                //p의 게임오브젝트가 켜져있으며 p가 죽었을때, 유저가 죽지 않았을때 gameObject를 꺼준다
+
+                Player p = null;
+
+                playerList.TryGetValue(uv.socketId, out p);
+
+                if(p != null)
+                {
+                    p.isDie = uv.isDie;
+                    if (p.gameObject.activeSelf && p.isDie && !user.isDie)
+                    {
+                        p.SetDisable();
+                    }
+                }
+            }
         }
+        PlayerEnable();
     }
     public void RefreshUser()
     {
@@ -270,6 +301,7 @@ public class NetworkManager : MonoBehaviour
                 }
                 else
                 {
+                    
                     p.SetTransform(uv.position);
                 }
             }
@@ -346,6 +378,14 @@ public class NetworkManager : MonoBehaviour
         vo.roomNum = roomNum;
 
         DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+
+    public void Die()
+    {
+        DataVO dataVO = new DataVO("DIE", "");
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
