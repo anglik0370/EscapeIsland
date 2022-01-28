@@ -8,11 +8,6 @@ public class TimeHandler : MonoBehaviour
     public static TimeHandler Instance{get; private set;}
 
     [SerializeField]
-    private float timer; //현재 시간
-    [SerializeField]
-    private float timeToNextSlot; //낮 밤이 바뀌는 주기
-
-    [SerializeField]
     private bool isLightTime = true;
 
     [SerializeField]
@@ -26,7 +21,7 @@ public class TimeHandler : MonoBehaviour
     [SerializeField]
     private int day = 1;
 
-    private bool inGame;
+    private bool needRefresh = false;
 
     private void Awake() 
     {
@@ -35,41 +30,31 @@ public class TimeHandler : MonoBehaviour
             Instance = this;
         }
 
-        timer = timeToNextSlot;
-
         dayAndSlotText.text = $"{day}번째 낮";
     }
 
     private void Update() 
     {
-        if(inGame)
+        if(needRefresh)
         {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
+            if (!isLightTime)
             {
-                if (isLightTime)
-                {
-                    darkTimeEvent.Occurred();
-                    dayAndSlotText.text = $"{day}번째 밤";
-                }
-                else
-                {
-                    lightTimeEvent.Occurred();
-                    day++;
-
-                    dayAndSlotText.text = $"{day}번째 낮";
-                }
-
-                isLightTime = !isLightTime;
-
-                timer = timeToNextSlot;
+                darkTimeEvent.Occurred();
+                dayAndSlotText.text = $"{day}번째 밤";
             }
+            else
+            {
+                lightTimeEvent.Occurred();
+                dayAndSlotText.text = $"{day}번째 낮";
+            }
+            needRefresh = false;
         }
     }
-    public void SetGame(bool on)
+
+    public void TimeRefresh(int day, bool isLightTime)
     {
-        timer = timeToNextSlot;
-        inGame = on;
+        this.day = day;
+        this.isLightTime = isLightTime;
+        needRefresh = true;
     }
 }
