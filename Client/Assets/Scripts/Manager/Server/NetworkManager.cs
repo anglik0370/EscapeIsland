@@ -182,7 +182,6 @@ public class NetworkManager : MonoBehaviour
         interactionBtn.gameStart = false;
         map.SetActive(false);
         SetIngameCanvas(false);
-        TimeHandler.Instance.SetGame(false);
     }
 
     public void SetIngameCanvas(bool enable)
@@ -196,7 +195,6 @@ public class NetworkManager : MonoBehaviour
     {
         PopupManager.instance.ClosePopup();
         SetIngameCanvas(true);
-        TimeHandler.Instance.SetGame(true);
         interactionBtn.gameStart = true;
 
 
@@ -401,6 +399,11 @@ public class NetworkManager : MonoBehaviour
             }
             
         }
+    }
+
+    public void RefreshTime(int day,bool isLightTime)
+    {
+        TimeHandler.Instance.TimeRefresh(day, isLightTime);
     }
 
     public void Login(string name)

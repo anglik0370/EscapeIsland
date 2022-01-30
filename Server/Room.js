@@ -1,3 +1,5 @@
+const InGameTimer = require('./InGameTimer.js');
+
 class Room {
     constructor(roomName,roomNum,curUserNum,userNum,playing) {
         this.roomName = roomName;
@@ -6,8 +8,29 @@ class Room {
         this.userNum = userNum;
         this.playing = playing;
 
+        this.inGameTimer = new InGameTimer();
+        this.interval = 1000;
+        this.nextTime = 0;
+        this.expected = Date.now();
+
         this.socketList = [];
         this.userList = {};
+    }
+
+    startTimer() {
+        this.expected = Date.now() + 1000; //현재시간 + 1초
+        setTimeout(this.rTimer.bind(this),this.interval);
+    }
+
+    rTimer() {
+        let dt = Date.now() - this.expected; //현재 시간 - 시작시간
+
+        this.inGameTimer.timeRefresh(this.socketList);
+
+        this.expected += this.interval;
+
+        this.nextTime = Math.max(0,this.interval - dt);
+        setTimeout(this.rTimer.bind(this),this.nextTime);
     }
 
     addSocket(socket,user) {

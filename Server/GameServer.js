@@ -4,6 +4,7 @@ const port = 31012;
 const SocketState = require('./SocketState.js');
 const Vector2 = require('./Vector2.js');
 const Room = require('./Room.js');
+const InGameTimer = require('./InGameTimer.js');
 const LoginHandler = require('./LoginHandler.js');
 const respawnPoint = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
@@ -112,6 +113,7 @@ wsService.on("connection", socket => {
 
                     //roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,curUserNum:1,userNum:roomInfo.userNum,playing:false};
                     let r = new Room(roomInfo.name,roomIdx,1,roomInfo.userNum,false);
+                    r.inGameTimer = new InGameTimer();
                     socket.state = SocketState.IN_ROOM;
                     socket.room = roomIdx;
 
@@ -225,6 +227,7 @@ wsService.on("connection", socket => {
                     let dataList = Object.values(gTargetRoom.userList);
 
                     gTargetRoom.playing = true;
+                    gTargetRoom.startTimer();
                     gTargetRoom.socketList.forEach(soc => {
                         soc.state = SocketState.IN_PLAYING;
                         soc.send(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
