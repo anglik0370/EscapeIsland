@@ -33,11 +33,11 @@ public class Lobby : Popup
         });
         exitBtn.onClick.AddListener(() =>
         {
+            NetworkManager.instance.SetIngameCanvas(false);
             NetworkManager.instance.InitData();
             SocketClient.instance.InitWebSocket();
             //PopupManager.instance.CloseAndOpen("ingame");
-            PopupManager.instance.ClosePopup();
-            NetworkManager.instance.SetIngameCanvas(false);
+            PopupManager.instance.CloseAndOpen("connect");
         });
 
         createRoomBtn.onClick.AddListener(() =>

@@ -256,7 +256,7 @@ wsService.on("connection", socket => {
 
                     }
 
-                    roomBroadcast(dRoom);
+                    roomBroadcast(dRoom,"DIE");
                     
                     break;
                 case "GET_ITEM":
