@@ -48,23 +48,17 @@ wsService.on("connection", socket => {
         }
         //현재 socket의 state가 IN_PLAYING일때
         if(socket.state === SocketState.IN_PLAYING) {
-            //밑에 코드는 2인용 기준(1ㄷ1게임)이므로 수정해야함.
-            //플레이중에 나갔을때 해줘야 할 것 해주기
-
-            // roomBroadcast(JSON.stringify({type:"WIN"}),socket,roomNum);
-            // wsService.clients.forEach(soc => {
-            //     if(soc.room === roomNum) {
-            //         exitRoom(soc, roomNum);
-            //     }
-            // });
-            // if(roomList[roomNum] !== undefined) {
-            //     delete roomList[roomNum];
-            // }
-            // wsService.clients.forEach(soc=>{
-            //     if(soc.state !== SocketState.IN_LOBBY) 
-            //         return;
-            //     refreshRoom(soc);
-            // })
+            if(socket.room > 0) {
+                exitRoom(socket,roomNum);
+            }
+            wsService.clients.forEach(soc=>{
+                if(soc.state === SocketState.IN_LOBBY) {
+                    refreshRoom(soc);
+                }
+                if(soc.room === roomNum) {
+                    roomBroadcast(roomList[roomNum]);
+                }
+            })
 
         }
         delete connectedSocket[socket.id];
