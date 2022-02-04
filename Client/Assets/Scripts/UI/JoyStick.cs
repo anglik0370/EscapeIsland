@@ -30,9 +30,9 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         radius = backgroundRect.rect.width * 0.5f;
     }
 
-    private void FixedUpdate() 
+    private void Update() 
     {
-        if(isTouch && !player.isRemote)
+        if(isTouch)
         {
             player.Move(moveDir);
         }

@@ -34,11 +34,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if(!isRemote)
-        {
-
-        }
-        else
+        if(isRemote)
         {
             transform.position = Vector3.Lerp(transform.position, targetPos, speed * Time.deltaTime);
         }
@@ -49,9 +45,7 @@ public class Player : MonoBehaviour
         transform.position = vo.position;
         this.isRemote = isRemote;
         master = vo.master;
-
         
-
         if(!isRemote)
         {
             sendData = StartCoroutine(SendData());
@@ -73,6 +67,8 @@ public class Player : MonoBehaviour
 
     public void Move(Vector3 dir)
     {
+        if(isRemote) return;
+
         if(dir != Vector3.zero)
         {
             if(dir.x > 0)
@@ -123,11 +119,11 @@ public class Player : MonoBehaviour
     {
         if(isRemote)
         {
-            Vector2 dir = (pos - (Vector2)transform.position);
+            Vector3 dir = (Vector3)targetPos - transform.position;
 
-            if(dir != Vector2.zero)
+            if(dir != Vector3.zero)
             {
-                if (dir.x > 0)
+                if(dir.x > 0)
                 {
                     sr.flipX = true;
                 }
@@ -135,6 +131,7 @@ public class Player : MonoBehaviour
                 {
                     sr.flipX = false;
                 }
+
                 anim.SetBool("isMoving", true);
             }
             else
