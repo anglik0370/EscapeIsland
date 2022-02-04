@@ -31,6 +31,7 @@ public class NetworkManager : MonoBehaviour
     private bool needUserRefresh = false;
     private bool needMasterRefresh = false;
     private bool needStartGame = false;
+    private bool needDieRefresh = false;
 
     private Player user = null;
 
@@ -104,6 +105,15 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void SetDieData(List<UserVO> list)
+    {
+        lock(instance.lockObj)
+        {
+            instance.tempDataList = list;
+            instance.needDieRefresh = true;
+        }
+    }
+
     public static void SetLoginData(string name, int socketId)
     {
         lock(instance.lockObj)
@@ -163,6 +173,12 @@ public class NetworkManager : MonoBehaviour
             OnGameStart();
 
             needStartGame = false;
+        }
+
+        if(needDieRefresh)
+        {
+
+            needDieRefresh = false;
         }
 
         while (removeSocketQueue.Count > 0)
@@ -339,6 +355,24 @@ public class NetworkManager : MonoBehaviour
                 playerList.TryGetValue(uv.socketId, out p);
 
                 if(p != null)
+                {
+                    p.master = uv.master;
+                    p.isImposter = uv.isImposter;
+                }
+            }
+        }
+    }
+    public void RefreshDie()
+    {
+        foreach (UserVO uv in tempDataList)
+        {
+            if(uv.socketId != socketId)
+            {
+                Player p = null;
+
+                playerList.TryGetValue(uv.socketId, out p);
+
+                if (p != null)
                 {
                     p.isDie = uv.isDie;
                     if (p.gameObject.activeSelf && p.isDie && !user.isDie)
