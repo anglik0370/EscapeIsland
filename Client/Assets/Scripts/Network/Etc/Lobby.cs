@@ -11,7 +11,7 @@ public class Lobby : Popup
 
     public Transform roomParent;
 
-    [Header("CreateRoomPopup°ü·Ã")]
+    [Header("CreateRoomPopupï¿½ï¿½ï¿½ï¿½")]
     public CanvasGroup createRoomPopup;
     public InputField roomNameInput;
     public Button createRoomBtn;

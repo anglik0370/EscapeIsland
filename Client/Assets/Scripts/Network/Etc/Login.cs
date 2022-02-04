@@ -13,9 +13,11 @@ public class Login : Popup
     {
         connectBtn.onClick.AddListener(() =>
         {
-            //·Î±×ÀÎ ¼öÇà ÈÄ ·Îºñ·Î ÀÌµ¿ÇØ¾ßÇÔ
+            //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Îºï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
             NetworkManager.instance.Login(nameInput.text);
             nameInput.text = "";
+
+            NetworkManager.instance.ReqRoomRefresh();
         });
     }
 }
