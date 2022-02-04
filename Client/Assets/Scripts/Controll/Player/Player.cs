@@ -32,11 +32,6 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         if(!isRemote)
@@ -97,11 +92,6 @@ public class Player : MonoBehaviour
         }
 
         transform.position += dir * speed * Time.deltaTime;
-    }
-
-    private void SetAnimation(Vector2 dir)
-    {
-        
     }
 
     IEnumerator SendData()
