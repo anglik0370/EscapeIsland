@@ -256,6 +256,8 @@ public class NetworkManager : MonoBehaviour
     {
         ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
 
+        Debug.Log($"재련소{refineryId}에서 {so}재련 시작");
+
         GameManager.Instance.refineryList.Find(x => x.id == refineryId).StartRefining(so);
 
         print("start");
@@ -269,12 +271,12 @@ public class NetworkManager : MonoBehaviour
         print("reset");
     }
 
-    public void SetEndRefinery(int refineryId)
+    public void SetTakeRefineryIngotItem(int refineryId)
     {
         Refinery refinery = GameManager.Instance.refineryList.Find(x => x.id == refineryId);
-        refinery.EndRefining();
-        refinery.ingotItem = null;
-        print("end");
+        refinery.TakeIngotItem();
+        //refinery.ingotItem = null;
+        print("take");
     }
 
     public void EnterRoom()
@@ -535,7 +537,7 @@ public class NetworkManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void EndRefinery(int refineryId)
+    public void TakeRefineryIngotItem(int refineryId)
     {
         RefineryVO vo = new RefineryVO(refineryId, 0);
 

@@ -6,6 +6,6 @@ public class EndRefineryHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        NetworkManager.instance.SetEndRefinery(int.Parse(payload));
+        NetworkManager.instance.SetTakeRefineryIngotItem(int.Parse(payload));
     }
 }

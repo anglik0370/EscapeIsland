@@ -55,12 +55,6 @@ public class RefineryPanel : Panel
         SetTimerText($"{Mathf.RoundToInt(nowOpenRefinery.remainTime).ToString()}초");
     }
 
-    public void SetOreItem(ItemSO item)
-    {   
-        //재련가능한 아이템인지는 슬롯에서 체크해준다
-        nowOpenRefinery.StartRefining(item);
-    }
-
     public void ResetOreItem(ItemSO item)
     {
         nowOpenRefinery.ResetRefining();

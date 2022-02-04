@@ -92,6 +92,19 @@ public class Refinery : MonoBehaviour
         }
     }
 
+    public void TakeIngotItem()
+    {
+        //아이템을 가져갔을 때
+        ingotItem = null;
+
+        if(RefineryPanel.Instance.IsOpenRefinery(this))
+        {
+            RefineryPanel.Instance.UpdateImg();
+            RefineryPanel.Instance.SetNameText("(재련할 재료)", "(재련된 재료)");
+            RefineryPanel.Instance.SetTimerText("");
+        }
+    }
+
     public ItemSO FindIngotFromOre(ItemSO oreItem)
     {
         return refiningDic[oreItem];
