@@ -34,19 +34,13 @@ public class OreSlot : ItemSlot
         if(itemGhost.GetItem().canRefining)
         {
             NetworkManager.instance.StartRefinery(refineryPanel.NowOpenRefinery.id, itemGhost.GetItem().itemId);
-            //refineryPanel.SetOreItem(itemGhost.GetItem());
             base.OnDrop(eventData);
         }
     }
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        if(itemGhost.GetItem().canRefining)
-        {
-            NetworkManager.instance.ResetRefinery(refineryPanel.NowOpenRefinery.id);
-
-            refineryPanel.ResetOreItem(itemGhost.GetItem());
-            base.OnEndDrag(eventData);
-        }
+        NetworkManager.instance.ResetRefinery(refineryPanel.NowOpenRefinery.id);
+        base.OnEndDrag(eventData);
     }
 }

@@ -55,10 +55,9 @@ public class RefineryPanel : Panel
         SetTimerText($"{Mathf.RoundToInt(nowOpenRefinery.remainTime).ToString()}초");
     }
 
-    public void ResetOreItem(ItemSO item)
+    public void ResetOreItem()
     {
         nowOpenRefinery.ResetRefining();
-        nowOpenRefinery.StartRefining(item);
     }
 
     public void TakeIngotItem()

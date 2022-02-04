@@ -61,6 +61,7 @@ public class Refinery : MonoBehaviour
 
         if(RefineryPanel.Instance.IsOpenRefinery(this))
         {
+            RefineryPanel.Instance.UpdateImg();
             RefineryPanel.Instance.SetNameText(oreItem.ToString(), FindIngotFromOre(oreItem).ToString());
         }
     }
@@ -70,10 +71,14 @@ public class Refinery : MonoBehaviour
         //제련이 다 되기 전에 뺐을때
         remainTime = 0f;
         isRefiningEnd = true;
+        oreItem = null;
 
         if(RefineryPanel.Instance.IsOpenRefinery(this))
         {
             RefineryPanel.Instance.UpdateImg();
+            RefineryPanel.Instance.SetNameText("(재련할 재료)", "(재련된 재료)");
+            RefineryPanel.Instance.SetArrowProgress(0f);
+            RefineryPanel.Instance.SetTimerText("");
         }
     }
 

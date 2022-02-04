@@ -267,7 +267,6 @@ public class NetworkManager : MonoBehaviour
     {
         Refinery refinery = GameManager.Instance.refineryList.Find(x => x.id == refineryId);
         refinery.ResetRefining();
-        refinery.oreItem = null;
         print("reset");
     }
 
