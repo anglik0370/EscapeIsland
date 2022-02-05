@@ -162,11 +162,11 @@ wsService.on("connection", socket => {
                     });
                     break;
                 case "EXIT_ROOM":
-                    if(socket.state !== SocketState.IN_ROOM || socket.state !== SocketState.IN_PLAYING){
+                    if(socket.state !== SocketState.IN_ROOM && socket.state !== SocketState.IN_PLAYING){
                         sendError("잘못된 접근입니다.", socket);
                         return;
                     }
-
+                    console.log(socket.state);
                     let eRoomNum = JSON.parse(data.payload).roomNum;
 
                     exitRoom(socket,eRoomNum);
@@ -223,7 +223,8 @@ wsService.on("connection", socket => {
                     gTargetRoom.playing = true;
                     gTargetRoom.startTimer();
                     gTargetRoom.socketList.forEach(soc => {
-                        soc.state = SocketState.IN_PLAYING;
+                        //soc.state = SocketState.IN_PLAYING;
+                        connectedSocket[soc.id].state = SocketState.IN_PLAYING;
                         soc.send(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
                     });
 

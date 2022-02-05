@@ -202,7 +202,7 @@ public class NetworkManager : MonoBehaviour
 
     public void EnterLobby()
     {
-        interactionBtn.gameStart = false;
+        print("enter lobby");
         ExitRoomSend();
     }
 
@@ -291,9 +291,10 @@ public class NetworkManager : MonoBehaviour
     }
     public void ExitRoom()
     {
-        PopupManager.instance.CloseAndOpen("lobby");
+        PlayerClear();
         map.SetActive(false);
         SetIngameCanvas(false);
+        PopupManager.instance.OpenPopup("lobby");
     }
 
     public void PlayerClear()
@@ -484,7 +485,8 @@ public class NetworkManager : MonoBehaviour
         roomNum = 0;
         once = false;
         startBtn.enabled = false;
-        PlayerClear();
+        interactionBtn.gameStart = false;
+        //PlayerClear();
 
         DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));
 
