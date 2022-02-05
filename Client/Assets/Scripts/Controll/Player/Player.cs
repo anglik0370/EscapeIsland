@@ -119,15 +119,6 @@ public class Player : MonoBehaviour
     {
         if(isRemote)
         {
-            if(Vector2.Distance(pos,transform.position) <= 0.03f)
-            {
-                anim.SetBool("isMoving", false);
-            }
-            else
-            {
-                anim.SetBool("isMoving", true);
-            }
-
             Vector3 dir = (Vector3)pos - transform.position;
 
             if(dir != Vector3.zero)
