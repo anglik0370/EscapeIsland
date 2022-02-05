@@ -119,7 +119,16 @@ public class Player : MonoBehaviour
     {
         if(isRemote)
         {
-            Vector3 dir = (Vector3)targetPos - transform.position;
+            if(Vector2.Distance(pos,transform.position) <= 0.03f)
+            {
+                anim.SetBool("isMoving", false);
+            }
+            else
+            {
+                anim.SetBool("isMoving", true);
+            }
+
+            Vector3 dir = (Vector3)pos - transform.position;
 
             if(dir != Vector3.zero)
             {
@@ -132,11 +141,20 @@ public class Player : MonoBehaviour
                     sr.flipX = false;
                 }
 
-                anim.SetBool("isMoving", true);
+                if (Vector2.Distance(pos, transform.position) <= 0.03f)
+                {
+                    anim.SetBool("isMoving", false);
+                }
+                else
+                {
+                    anim.SetBool("isMoving", true);
+                }
+
+                //anim.SetBool("isMoving", true);
             }
             else
             {
-                anim.SetBool("isMoving", false);
+                //anim.SetBool("isMoving", false);
             }
 
             targetPos = pos;
