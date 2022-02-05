@@ -16,8 +16,12 @@ public class Lobby : Popup
     public InputField roomNameInput;
     public Button createRoomBtn;
     public Button cancelBtn;
+
     public Slider userNumslider;
     public Text userNumtext;
+
+    public Slider kidnapperNumSlider;
+    public Text kidnapperNumText;
 
     private void Start()
     {
@@ -34,7 +38,7 @@ public class Lobby : Popup
         exitBtn.onClick.AddListener(() =>
         {
             NetworkManager.instance.SetIngameCanvas(false);
-            NetworkManager.instance.InitData();
+            NetworkManager.instance.SocketDisconnect();
             SocketClient.instance.InitWebSocket();
             //PopupManager.instance.CloseAndOpen("ingame");
             PopupManager.instance.CloseAndOpen("connect");
@@ -42,8 +46,8 @@ public class Lobby : Popup
 
         createRoomBtn.onClick.AddListener(() =>
         {
+            NetworkManager.instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)kidnapperNumSlider.value);
             OpenCreateRoomPopup(false);
-            NetworkManager.instance.CreateRoom(roomNameInput.text,0,8);
         });
         cancelBtn.onClick.AddListener(() =>
         {
@@ -51,7 +55,12 @@ public class Lobby : Popup
         });
         userNumslider.onValueChanged.AddListener(x =>
         {
-            userNumtext.text = $"Players : {(int)x}";
+            userNumtext.text = $"{(int)x}";
+        });
+
+        kidnapperNumSlider.onValueChanged.AddListener(x =>
+        {
+            kidnapperNumText.text = $"{(int)x}";
         });
     }
 
@@ -63,7 +72,8 @@ public class Lobby : Popup
 
         if(!on)
         {
-            userNumslider.value = 8;
+            userNumslider.value = 5;
+            kidnapperNumSlider.value = 1;
         }
     }
 }

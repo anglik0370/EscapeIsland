@@ -106,7 +106,7 @@ wsService.on("connection", socket => {
                     }
 
                     //roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,curUserNum:1,userNum:roomInfo.userNum,playing:false};
-                    let r = new Room(roomInfo.name,roomIdx,1,roomInfo.userNum,false);
+                    let r = new Room(roomInfo.name,roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
                     r.inGameTimer = new InGameTimer();
                     socket.state = SocketState.IN_ROOM;
                     socket.room = roomIdx;
@@ -162,8 +162,8 @@ wsService.on("connection", socket => {
                     });
                     break;
                 case "EXIT_ROOM":
-                    if(socket.state !== SocketState.IN_ROOM){
-                        sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
+                    if(socket.state !== SocketState.IN_ROOM || socket.state !== SocketState.IN_PLAYING){
+                        sendError("잘못된 접근입니다.", socket);
                         return;
                     }
 
@@ -199,7 +199,7 @@ wsService.on("connection", socket => {
                     //룸의 인원수의 맞게 임포 수 조정
 
                     let keys = Object.keys(gTargetRoom.userList);
-                    let imposterLength = keys.length / 2;
+                    let imposterLength = gTargetRoom.kidnapperNum;
                     let idx;
 
                     for(let i = 0; i < imposterLength; i++) {
@@ -292,12 +292,12 @@ wsService.on("connection", socket => {
                         soc.send(JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
                     });
                     break;
-                case "END_REFINERY":
-                    let endRefineryId = JSON.parse(data.payload).refineryId;
-                    let endRoom = roomList[socket.room];
+                case "TAKE_REFINERY":
+                    let takeRefineryId = JSON.parse(data.payload).refineryId;
+                    let takeRoom = roomList[socket.room];
 
-                    endRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"END_REFINERY",payload:endRefineryId}));
+                    takeRoom.socketList.forEach(soc => {
+                        soc.send(JSON.stringify({type:"TAKE_REFINERY",payload:takeRefineryId}));
                     });
                     break;
             }

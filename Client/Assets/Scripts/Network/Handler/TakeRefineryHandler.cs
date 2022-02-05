@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndRefineryHandler : MonoBehaviour, IMsgHandler
+public class TakeRefineryHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {

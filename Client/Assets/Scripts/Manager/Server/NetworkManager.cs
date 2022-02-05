@@ -189,7 +189,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public void InitData()
+    public void SocketDisconnect()
     {
         socketId = -1;
         socketName = "";
@@ -198,6 +198,12 @@ public class NetworkManager : MonoBehaviour
         interactionBtn.gameStart = false;
         map.SetActive(false);
         SetIngameCanvas(false);
+    }
+
+    public void EnterLobby()
+    {
+        interactionBtn.gameStart = false;
+        ExitRoomSend();
     }
 
     public void SetIngameCanvas(bool enable)
@@ -287,6 +293,7 @@ public class NetworkManager : MonoBehaviour
     {
         PopupManager.instance.CloseAndOpen("lobby");
         map.SetActive(false);
+        SetIngameCanvas(false);
     }
 
     public void PlayerClear()
@@ -450,9 +457,9 @@ public class NetworkManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
-    public void CreateRoom(string name, int curUserNum, int userNum)
+    public void CreateRoom(string name, int curUserNum, int userNum,int kidnapperNum)
     {
-        RoomVO vo = new RoomVO(name, 0,curUserNum, userNum);
+        RoomVO vo = new RoomVO(name, 0,curUserNum, userNum,kidnapperNum);
 
         DataVO dataVO = new DataVO("CREATE_ROOM", JsonUtility.ToJson(vo));
 

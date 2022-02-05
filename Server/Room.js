@@ -1,11 +1,12 @@
 const InGameTimer = require('./InGameTimer.js');
 
 class Room {
-    constructor(roomName,roomNum,curUserNum,userNum,playing) {
+    constructor(roomName,roomNum,curUserNum,userNum,kidnapperNum,playing) {
         this.roomName = roomName;
         this.roomNum = roomNum;
         this.curUserNum = curUserNum;
         this.userNum = userNum;
+        this.kidnapperNum = kidnapperNum;
         this.playing = playing;
 
         this.inGameTimer = new InGameTimer();
@@ -46,7 +47,7 @@ class Room {
     }
 
     returnData() {
-        let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,playing:this.playing};
+        let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,kidnapperNum:this.kidnapperNum,playing:this.playing};
         return data;
     }
 
