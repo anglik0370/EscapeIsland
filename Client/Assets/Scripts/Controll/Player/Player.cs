@@ -37,6 +37,15 @@ public class Player : MonoBehaviour
         if(isRemote)
         {
             transform.position = Vector3.Lerp(transform.position, targetPos, speed * Time.deltaTime);
+
+            if (Vector2.Distance(targetPos, transform.position) <= 0.03f)
+            {
+                anim.SetBool("isMoving", false);
+            }
+            else
+            {
+                anim.SetBool("isMoving", true);
+            }
         }
     }
 
@@ -132,14 +141,7 @@ public class Player : MonoBehaviour
                     sr.flipX = false;
                 }
 
-                if (Vector2.Distance(pos, transform.position) <= 0.03f)
-                {
-                    anim.SetBool("isMoving", false);
-                }
-                else
-                {
-                    anim.SetBool("isMoving", true);
-                }
+                
 
                 //anim.SetBool("isMoving", true);
             }

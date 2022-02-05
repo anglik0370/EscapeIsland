@@ -166,7 +166,6 @@ wsService.on("connection", socket => {
                         sendError("잘못된 접근입니다.", socket);
                         return;
                     }
-                    console.log(socket.state);
                     let eRoomNum = JSON.parse(data.payload).roomNum;
 
                     exitRoom(socket,eRoomNum);
