@@ -565,7 +565,7 @@ public class NetworkManager : MonoBehaviour
     {
         RefineryVO vo = new RefineryVO(refineryId, 0);
 
-        DataVO dataVO = new DataVO("END_REFINERY", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("TAKE_REFINERY", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

@@ -195,6 +195,11 @@ wsService.on("connection", socket => {
                         return;
                     }
 
+                    if(gTargetRoom.curUserNum <= gTargetRoom.kidnapperNum) {
+                        sendError("현재 유저의 수가 납치자의 수보다 적습니다.",socket);
+                        return;
+                    }
+
                     let keys = Object.keys(gTargetRoom.userList);
                     let imposterLength = gTargetRoom.kidnapperNum;
                     let idx;
@@ -244,13 +249,17 @@ wsService.on("connection", socket => {
                     // let imposterCount = 0;
                     // let citizenCount = 0;
 
-                    // dRoom.userList.forEach(user => {
-                    //     if(user.isImposter && !user.isDie) imposterCount++;
-                    //     else if(!user.isImposter && !user.isDie) citizenCount++;
+                    // let dRoomUserList = Object.values(dRoom.userList);
+
+                    // dRoomUserList.forEach(user => {
+                    //     if(user.isDie) return;
+
+                    //     if(user.isImposter) imposterCount++;
+                    //     else citizenCount++;
                     // });
 
                     // if(imposterCount >= citizenCount) {
-
+                    //     //임포승
                     // }
 
                     roomBroadcast(dRoom,"KILL");
@@ -281,7 +290,6 @@ wsService.on("connection", socket => {
                     let startRoom = roomList[socket.room];
 
                     startRoom.socketList.forEach(soc => {
-                        if(soc.id == socket.id) return;
                         soc.send(JSON.stringify({type:"START_REFINERY",payload:JSON.stringify({refineryId:startRefineryId,itemSOId:startItemSOId})}));
                     });
 
