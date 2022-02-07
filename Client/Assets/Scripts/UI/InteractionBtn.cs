@@ -47,7 +47,13 @@ public class InteractionBtn : MonoBehaviour
         //가까운 재련소를 찾는다(팔길이보다 멀리있으면 null이 나옴)
         if(gameStart)
         {
-            if (FindNearlestRefinery() != null)
+            if (NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
+            {
+                image.sprite = killSprite;
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(KillPlayer);
+            }
+            else if (FindNearlestRefinery() != null)
             {
                 image.sprite = interactionSprite;
                 btn.onClick.RemoveAllListeners();
@@ -61,12 +67,6 @@ public class InteractionBtn : MonoBehaviour
                 image.sprite = interactionSprite;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OpenStoragePanel);
-            }
-            else if(NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
-            {
-                image.sprite = killSprite;
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(KillPlayer);
             }
             else
             {

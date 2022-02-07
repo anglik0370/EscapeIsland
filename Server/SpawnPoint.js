@@ -8,6 +8,17 @@ let respawnPoint = [
     new Vector2(5,13.5)
 ];
 
+let idx = 0;
+
+function getWaitingPoint() {
+    let pos =  respawnPoint[idx++];
+    if(idx >= respawnPoint.length) {
+        idx = 0;
+    }
+
+    return pos;
+}
+
 //let waitingPos = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
 
-module.exports = respawnPoint;
+module.exports = getWaitingPoint;

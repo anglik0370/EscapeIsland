@@ -6,7 +6,7 @@ const Vector2 = require('./Vector2.js');
 const Room = require('./Room.js');
 const InGameTimer = require('./InGameTimer.js');
 const LoginHandler = require('./LoginHandler.js');
-const respawnPoint = require('./SpawnPoint.js');
+const getWaitingPoint = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 
 let socketIdx = 0;
@@ -114,7 +114,7 @@ wsService.on("connection", socket => {
                     if(userList[socket.id] !== undefined){
                         userList[socket.id].roomNum = roomIdx;
                         userList[socket.id].master = true;
-                        userList[socket.id].position = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
+                        userList[socket.id].position = getWaitingPoint();
                     }
 
                     r.addSocket(socket, userList[socket.id]);
@@ -147,7 +147,7 @@ wsService.on("connection", socket => {
                     if(userList[socket.id] !== undefined) {
                         userList[socket.id].roomNum = roomNum;
                         userList[socket.id].master = false;
-                        userList[socket.id].position = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
+                        userList[socket.id].position = getWaitingPoint();
                     }
                     socket.state = SocketState.IN_ROOM;
                     targetRoom.curUserNum++;
@@ -239,7 +239,6 @@ wsService.on("connection", socket => {
                     let dRoom = roomList[dRoomNum];
                     let socId = JSON.parse(data.payload).targetSocketId;
 
-                    console.log(socId);
                     if(userList[socId] !== undefined) {
                         userList[socId].isDie = true;
                     }

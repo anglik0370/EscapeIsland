@@ -251,7 +251,8 @@ public class NetworkManager : MonoBehaviour
 
                 if(p != null)
                 {
-                    p.SetTransform(uv.position);
+                    //p.SetTransform(uv.position);
+                    p.transform.position = uv.position;
                 }
             }
         }
@@ -306,7 +307,7 @@ public class NetworkManager : MonoBehaviour
         PlayerClear();
         map.SetActive(false);
         SetIngameCanvas(false);
-        PopupManager.instance.OpenPopup("lobby");
+        PopupManager.instance.CloseAndOpen("lobby");
     }
 
     public void PlayerClear()
@@ -395,13 +396,14 @@ public class NetworkManager : MonoBehaviour
 
                 if (p != null)
                 {
-                    p.isDie = uv.isDie;
-                    print(p.gameObject.activeSelf);
-                    print(p.isDie);
-                    print(!user.isDie);
+                    if (uv.isDie)
+                    {
+                        //p.isDie = uv.isDie;
+                        p.SetDead();
+                    }
+                    
                     if (p.gameObject.activeSelf && p.isDie && !user.isDie)
                     {
-                        print("SetDisable");
                         p.SetDisable();
                     }
                 }
