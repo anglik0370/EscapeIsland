@@ -92,6 +92,8 @@ public class InteractionBtn : MonoBehaviour
         Player targetPlayer = FindNearlestPlayer();
 
         targetPlayer.SetDead();
+
+        NetworkManager.instance.Kill(targetPlayer);
     }
 
     public void OpenStoragePanel()

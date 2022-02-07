@@ -47,7 +47,7 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("RESET_REFINERY", handlerParent.GetComponent<ResetRefineryHandler>());
         handlerDic.Add("TAKE_REFINERY", handlerParent.GetComponent<TakeRefineryHandler>());
         handlerDic.Add("TIME_REFRESH", handlerParent.GetComponent<TimeRefreshHandler>());
-        handlerDic.Add("DIE", handlerParent.GetComponent<DieHandler>());
+        handlerDic.Add("KILL", handlerParent.GetComponent<KillHandler>());
 
 
 

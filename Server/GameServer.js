@@ -228,12 +228,15 @@ wsService.on("connection", socket => {
                     });
 
                     break;
-                case "DIE":
+                case "KILL":
 
                     let dRoomNum = socket.room;
                     let dRoom = roomList[dRoomNum];
-                    if(userList[socket.id] !== undefined) {
-                        userList[socket.id].isDie = true;
+                    let socId = JSON.parse(data.payload).targetSocketId;
+
+                    console.log(socId);
+                    if(userList[socId] !== undefined) {
+                        userList[socId].isDie = true;
                     }
 
                     //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
@@ -250,7 +253,7 @@ wsService.on("connection", socket => {
 
                     // }
 
-                    roomBroadcast(dRoom,"DIE");
+                    roomBroadcast(dRoom,"KILL");
                     
                     break;
                 case "GET_ITEM":

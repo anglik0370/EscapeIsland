@@ -71,7 +71,6 @@ public class Player : MonoBehaviour
     public void SetDead()
     {
         isDie = true;
-        NetworkManager.instance.Die();
     }
 
     public void Move(Vector3 dir)

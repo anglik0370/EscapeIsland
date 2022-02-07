@@ -396,8 +396,12 @@ public class NetworkManager : MonoBehaviour
                 if (p != null)
                 {
                     p.isDie = uv.isDie;
+                    print(p.gameObject.activeSelf);
+                    print(p.isDie);
+                    print(!user.isDie);
                     if (p.gameObject.activeSelf && p.isDie && !user.isDie)
                     {
+                        print("SetDisable");
                         p.SetDisable();
                     }
                 }
@@ -567,9 +571,29 @@ public class NetworkManager : MonoBehaviour
     }
 
 
-    public void Die()
+    //public void Die()
+    //{
+    //    DataVO dataVO = new DataVO("DIE", "");
+
+    //    SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    //}
+
+    public void Kill(Player targetPlayer)
     {
-        DataVO dataVO = new DataVO("DIE", "");
+        int targetSocketId = 0;
+
+        foreach (int socketId in playerList.Keys)
+        {
+            if(playerList[socketId] == targetPlayer)
+            {
+                targetSocketId = socketId;
+                break;
+            }
+        }
+
+        KillVO vo = new KillVO(targetSocketId);
+
+        DataVO dataVO = new DataVO("KILL", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
