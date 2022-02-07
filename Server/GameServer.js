@@ -195,8 +195,6 @@ wsService.on("connection", socket => {
                         return;
                     }
 
-                    //룸의 인원수의 맞게 임포 수 조정
-
                     let keys = Object.keys(gTargetRoom.userList);
                     let imposterLength = gTargetRoom.kidnapperNum;
                     let idx;
@@ -208,6 +206,8 @@ wsService.on("connection", socket => {
 
                         userList[keys[idx]].isImposter = true;
                     }
+
+                    roomBroadcast(gTargetRoom);
 
                     //룸에 있는 플레이어들의 포지션 조정
 
@@ -222,8 +222,8 @@ wsService.on("connection", socket => {
                     gTargetRoom.playing = true;
                     gTargetRoom.startTimer();
                     gTargetRoom.socketList.forEach(soc => {
-                        //soc.state = SocketState.IN_PLAYING;
-                        connectedSocket[soc.id].state = SocketState.IN_PLAYING;
+                        soc.state = SocketState.IN_PLAYING;
+                        //connectedSocket[soc.id].state = SocketState.IN_PLAYING;
                         soc.send(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
                     });
 
@@ -238,17 +238,17 @@ wsService.on("connection", socket => {
 
                     //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
 
-                    let imposterCount = 0;
-                    let citizenCount = 0;
+                    // let imposterCount = 0;
+                    // let citizenCount = 0;
 
-                    dRoom.userList.forEach(user => {
-                        if(user.isImposter && !user.isDie) imposterCount++;
-                        else if(!user.isImposter && !user.isDie) citizenCount++;
-                    });
+                    // dRoom.userList.forEach(user => {
+                    //     if(user.isImposter && !user.isDie) imposterCount++;
+                    //     else if(!user.isImposter && !user.isDie) citizenCount++;
+                    // });
 
-                    if(imposterCount >= citizenCount) {
+                    // if(imposterCount >= citizenCount) {
 
-                    }
+                    // }
 
                     roomBroadcast(dRoom,"DIE");
                     

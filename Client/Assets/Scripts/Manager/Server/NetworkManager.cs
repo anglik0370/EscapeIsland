@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
+using System.Linq;
+
 public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
@@ -177,7 +179,7 @@ public class NetworkManager : MonoBehaviour
 
         if(needDieRefresh)
         {
-
+            RefreshDie();
             needDieRefresh = false;
         }
 
@@ -187,6 +189,16 @@ public class NetworkManager : MonoBehaviour
             playerList[soc].SetDisable();
             playerList.Remove(soc);
         }
+    }
+
+    public List<Player> GetPlayerList()
+    {
+        return playerList.Values.ToList();
+    }
+
+    public bool IsKidnapper()
+    {
+        return user.isImposter;
     }
 
     public void SocketDisconnect()

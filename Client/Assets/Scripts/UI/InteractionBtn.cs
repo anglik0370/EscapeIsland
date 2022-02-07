@@ -62,6 +62,12 @@ public class InteractionBtn : MonoBehaviour
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OpenStoragePanel);
             }
+            else if(NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
+            {
+                image.sprite = killSprite;
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(KillPlayer);
+            }
             else
             {
                 image.sprite = PickUpSprite;
@@ -79,6 +85,13 @@ public class InteractionBtn : MonoBehaviour
         playerTrm = p.transform;
         inventory = p.inventory;
         range = p.range;
+    }
+
+    public void KillPlayer()
+    {
+        Player targetPlayer = FindNearlestPlayer();
+
+        targetPlayer.SetDead();
     }
 
     public void OpenStoragePanel()
@@ -163,5 +176,35 @@ public class InteractionBtn : MonoBehaviour
         }
 
         return nearlestRefinery;
+    }
+
+    public Player FindNearlestPlayer()
+    {
+        Player p = null;
+
+        List<Player> playerList = NetworkManager.instance.GetPlayerList();
+
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            if (playerList[i].isDie) continue;
+
+            if (Vector2.Distance(playerTrm.position, playerList[i].transform.position) <= range)
+            {
+                if(p == null)
+                {
+                    p = playerList[i];
+                }
+                else
+                {
+                    if (Vector2.Distance(playerTrm.position, p.transform.position) >
+                        Vector2.Distance(playerTrm.position, playerList[i].transform.position))
+                    {
+                        p = playerList[i];
+                    }
+                }
+            }
+        }
+
+        return p;
     }
 }
