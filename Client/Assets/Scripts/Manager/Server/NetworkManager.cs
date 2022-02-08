@@ -354,7 +354,7 @@ public class NetworkManager : MonoBehaviour
                 roomEnterBtnList.Add(room);
             }
 
-            room.SetInfo(roomVO.name, roomVO.curUserNum, roomVO.userNum, roomVO.roomNum);
+            room.SetInfo(roomVO.name, roomVO.curUserNum, roomVO.userNum, roomVO.roomNum,roomVO.kidnapperNum);
             room.gameObject.SetActive(true);
         }
     }

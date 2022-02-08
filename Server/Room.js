@@ -1,4 +1,5 @@
 const InGameTimer = require('./InGameTimer.js');
+const InVoteTimer = require('./InVoteTimer.js');
 
 class Room {
     constructor(roomName,roomNum,curUserNum,userNum,kidnapperNum,playing) {
@@ -10,6 +11,8 @@ class Room {
         this.playing = playing;
 
         this.inGameTimer = new InGameTimer();
+        this.inVoteTImer = new InVoteTimer();
+        
         this.interval = 1000;
         this.nextTime = 0;
         this.expected = Date.now();
@@ -26,12 +29,39 @@ class Room {
     rTimer() {
         let dt = Date.now() - this.expected; //현재 시간 - 시작시간
 
-        this.inGameTimer.timeRefresh(this.socketList);
+        if(this.inGameTimer.timeRefresh(this.socketList)) {
+            let dataList = Object.values(this.userList);
+            this.socketList.forEach(soc => {
+                soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList})}));
+            });
+            this.expected = Date.now() + 1000;
+            setTimeout(this.voteTimer.bind(this),this.interval);
+            return;
+        }
 
         this.expected += this.interval;
 
         this.nextTime = Math.max(0,this.interval - dt);
         setTimeout(this.rTimer.bind(this),this.nextTime);
+    }
+
+    voteTimer() {
+        let dt = Date.now() - this.expected;
+
+        if(this.voteTimer.timeRefresh()) {
+            let p = this.inGameTimer.returnPayload();
+            this.socketList.forEach(soc => {
+                soc.send(JSON.stringify({type:"TIME_REFRESH",payload:p}));
+            });
+
+            this.startTimer();
+            return;
+        }
+
+        this.expected += this.interval;
+
+        this.nextTime = Math.max(0,this.interval - dt);
+        setTimeout(this.voteTimer.bind(this),this.nextTime);
     }
 
     addSocket(socket,user) {
