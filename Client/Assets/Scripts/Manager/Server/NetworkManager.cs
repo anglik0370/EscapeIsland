@@ -293,9 +293,17 @@ public class NetworkManager : MonoBehaviour
         ingameCanvas.blocksRaycasts = enable;
     }
 
+    public void StopOrPlay(bool on)
+    {
+        inGameJoyStick.SetEnable(on);
+        interactionBtn.enabled = on;
+    }
+
     public void OnVoteTimeStart()
     {
+        StopOrPlay(false);
         PopupManager.instance.OpenPopup("vote");
+        
 
         foreach (UserVO uv in tempDataList)
         {

@@ -36,6 +36,7 @@ public class TimeHandler : MonoBehaviour
         {
             darkTimeEvent.Occurred();
             PopupManager.instance.ClosePopup();
+            NetworkManager.instance.StopOrPlay(true);
             dayAndSlotText.text = $"{day}번째 밤";
         }
         else

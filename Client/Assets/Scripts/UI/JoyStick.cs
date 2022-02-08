@@ -70,6 +70,17 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         isTouch = false;
     }
 
+    public void SetEnable(bool on)
+    {
+        this.enabled = on;
+
+        if(!on)
+        {
+            leverRect.localPosition = Vector2.zero;
+            moveDir = Vector2.zero;
+        }
+    }
+
     public void SetLocalScale(float add)
     {
         //0.5에서 1.5의 크기가 되도록 만들면 될듯?
