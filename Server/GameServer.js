@@ -310,6 +310,14 @@ wsService.on("connection", socket => {
                         soc.send(JSON.stringify({type:"TAKE_REFINERY",payload:takeRefineryId}));
                     });
                     break;
+                case "CHAT":
+                    let chatRoom = roomList[socket.room];
+
+                    chatRoom.socketList.forEach(soc => {
+                        soc.send(JSON.stringify({type:"CHAT",payload:data.payload}));
+                    });
+
+                    break;
             }
         }
         catch (error) {

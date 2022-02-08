@@ -8,6 +8,6 @@ public class TimeRefreshHandler : MonoBehaviour,IMsgHandler
     {
         print(payload);
         TimeVO vo = JsonUtility.FromJson<TimeVO>(payload);
-        NetworkManager.instance.RefreshTime(vo.day, vo.isLightTime);
+        NetworkManager.SetTimeRefresh(vo);
     }
 }

@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     private Rigidbody2D rigid;
     private Animator anim;
 
+    public string socketName;
+    public int socketId;
+
     public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
     public bool master;
     public bool isImposter; //true : 맢 / false : 시민
@@ -54,8 +57,10 @@ public class Player : MonoBehaviour
         transform.position = vo.position;
         this.isRemote = isRemote;
         master = vo.master;
-        
-        if(!isRemote)
+        socketName = vo.name;
+        socketId = vo.socketId;
+
+        if (!isRemote)
         {
             sendData = StartCoroutine(SendData());
         }

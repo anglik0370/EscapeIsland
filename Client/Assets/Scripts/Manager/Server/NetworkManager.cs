@@ -24,8 +24,13 @@ public class NetworkManager : MonoBehaviour
 
     private Dictionary<int, Player> playerList = new Dictionary<int, Player>();
     private Queue<int> removeSocketQueue = new Queue<int>();
+
+    private Queue<ChatVO> chatQueue = new Queue<ChatVO>();
+
     private List<UserVO> userDataList;
     private List<UserVO> tempDataList;
+
+    private TimeVO timeVO;
 
     private bool isLogin = false;
     private bool once = false;
@@ -34,6 +39,9 @@ public class NetworkManager : MonoBehaviour
     private bool needMasterRefresh = false;
     private bool needStartGame = false;
     private bool needDieRefresh = false;
+    private bool needVoteRefresh = false;
+    private bool needTimeRefresh = false;
+    private bool needPosRefresh = false;
 
     private Player user = null;
 
@@ -48,6 +56,8 @@ public class NetworkManager : MonoBehaviour
     public CanvasGroup ingameCanvas;
 
     public InteractionBtn interactionBtn;
+
+    public Vote voteTab;
 
     
 
@@ -78,6 +88,33 @@ public class NetworkManager : MonoBehaviour
             RoomEnterBtn room = Instantiate(roomEnterBtnPrefab, roomParent).GetComponent<RoomEnterBtn>();
             room.gameObject.SetActive(false);
             roomEnterBtnList.Add(room);
+        }
+    }
+
+    public static void SetPos(List<UserVO> list)
+    {
+        lock(instance.lockObj)
+        {
+            instance.tempDataList = list;
+            instance.needPosRefresh = true;
+        }
+    }
+
+    public static void SetTimeRefresh(TimeVO vo)
+    {
+        lock (instance.lockObj)
+        {
+            instance.timeVO = vo;
+            instance.needTimeRefresh = true;
+        }
+    }
+
+    public static void SetVoteTime(List<UserVO> list)
+    {
+        lock (instance.lockObj)
+        {
+            instance.tempDataList = list;
+            instance.needVoteRefresh = true;
         }
     }
 
@@ -143,6 +180,14 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void ReceiveChat(ChatVO vo)
+    {
+        lock(instance.lockObj)
+        {
+            instance.chatQueue.Enqueue(vo);
+        }
+    }
+
     private void Update()
     {
         if(isLogin)
@@ -169,6 +214,11 @@ public class NetworkManager : MonoBehaviour
 
             needMasterRefresh = false;
         }
+        if(needTimeRefresh)
+        {
+            RefreshTime(timeVO.day, timeVO.isLightTime);
+            needTimeRefresh = false;
+        }
 
         if(needStartGame)
         {
@@ -181,6 +231,39 @@ public class NetworkManager : MonoBehaviour
         {
             RefreshDie();
             needDieRefresh = false;
+        }
+
+        if(needVoteRefresh)
+        {
+            OnVoteTimeStart();
+            needVoteRefresh = false;
+        }
+
+        if(needPosRefresh)
+        {
+            SetUserPos();
+            needPosRefresh = false;
+        }
+
+        while(chatQueue.Count > 0)
+        {
+            ChatVO vo = chatQueue.Dequeue();
+
+            Player p = null;
+            playerList.TryGetValue(vo.socketId, out p);
+
+            if(p != null)
+            {
+                if((!p.isDie && !user.isDie) || user.isDie)
+                    voteTab.AddTestText($"{p.socketName} : {vo.msg} \n");
+            }
+            else
+            {
+                if(user.socketId == vo.socketId)
+                {
+                    voteTab.AddTestText($"{user.socketName} : {vo.msg} \n");
+                }
+            }
         }
 
         while (removeSocketQueue.Count > 0)
@@ -225,6 +308,11 @@ public class NetworkManager : MonoBehaviour
         ingameCanvas.blocksRaycasts = enable;
     }
 
+    public void OnVoteTimeStart()
+    {
+        PopupManager.instance.OpenPopup("vote");
+    }
+
     public void OnGameStart()
     {
         PopupManager.instance.ClosePopup();
@@ -252,6 +340,28 @@ public class NetworkManager : MonoBehaviour
                 if(p != null)
                 {
                     //p.SetTransform(uv.position);
+                    p.transform.position = uv.position;
+                }
+            }
+        }
+    }
+
+    public void SetUserPos()
+    {
+        foreach (UserVO uv in tempDataList)
+        {
+            if (uv.socketId == socketId)
+            {
+                user.transform.position = uv.position;
+            }
+            else
+            {
+                Player p = null;
+
+                playerList.TryGetValue(uv.socketId, out p);
+
+                if (p != null)
+                {
                     p.transform.position = uv.position;
                 }
             }
@@ -596,6 +706,15 @@ public class NetworkManager : MonoBehaviour
         KillVO vo = new KillVO(targetSocketId);
 
         DataVO dataVO = new DataVO("KILL", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void SendChat(string msg)
+    {
+        ChatVO vo = new ChatVO(socketId, msg);
+
+        DataVO dataVO = new DataVO("CHAT", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

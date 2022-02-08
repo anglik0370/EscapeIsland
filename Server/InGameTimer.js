@@ -1,7 +1,7 @@
 class InGameTimer {
     constructor() {
         this.timeToNextSlot = 60;
-        this.curTime = 60;
+        this.curTime = 10;
         this.isLightTime = true;
         this.sec = 1;
         this.day = 1;
@@ -10,7 +10,7 @@ class InGameTimer {
     returnPayload() {
         return JSON.stringify({day:this.day,isLightTime:this.isLightTime});
     }
-    
+
     timeRefresh(socketList) {
         this.curTime -= this.sec;
 

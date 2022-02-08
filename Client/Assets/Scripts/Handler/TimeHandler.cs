@@ -35,6 +35,7 @@ public class TimeHandler : MonoBehaviour
         if (!isLightTime)
         {
             darkTimeEvent.Occurred();
+            PopupManager.instance.ClosePopup();
             dayAndSlotText.text = $"{day}번째 밤";
         }
         else

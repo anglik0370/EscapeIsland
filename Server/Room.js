@@ -1,5 +1,6 @@
 const InGameTimer = require('./InGameTimer.js');
 const InVoteTimer = require('./InVoteTimer.js');
+const SetSpawnPoint = require('./GameSpawnHandler.js');
 
 class Room {
     constructor(roomName,roomNum,curUserNum,userNum,kidnapperNum,playing) {
@@ -36,6 +37,7 @@ class Room {
             });
             this.expected = Date.now() + 1000;
             setTimeout(this.voteTimer.bind(this),this.interval);
+            console.log("vote time start");
             return;
         }
 
@@ -48,12 +50,25 @@ class Room {
     voteTimer() {
         let dt = Date.now() - this.expected;
 
-        if(this.voteTimer.timeRefresh()) {
+        if(this.inVoteTImer.timeRefresh()) {
             let p = this.inGameTimer.returnPayload();
+
+            let keys = Object.keys(this.userList);
+            let posList = SetSpawnPoint(keys.length);
+
+            for(let i = 0; i< keys.length; i++) {
+                this.userList[keys[i]].position = posList[i];
+            }
+
+            let dataList = Object.values(this.userList);
+
+
+
             this.socketList.forEach(soc => {
                 soc.send(JSON.stringify({type:"TIME_REFRESH",payload:p}));
+                soc.send(JSON.stringify({type:"SET_POSITION",payload:JSON.stringify({dataList})}));
             });
-
+            console.log("vote time end");
             this.startTimer();
             return;
         }

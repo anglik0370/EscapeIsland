@@ -72,6 +72,7 @@ public class Lobby : Popup
 
         if(!on)
         {
+            roomNameInput.text = "";
             userNumslider.value = 5;
             kidnapperNumSlider.value = 1;
         }

@@ -49,7 +49,8 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("TIME_REFRESH", handlerParent.GetComponent<TimeRefreshHandler>());
         handlerDic.Add("KILL", handlerParent.GetComponent<KillHandler>());
         handlerDic.Add("VOTE_TIME", handlerParent.GetComponent<VoteTimeHandler>());
-
+        handlerDic.Add("CHAT", handlerParent.GetComponent<ChatHandler>());
+        handlerDic.Add("SET_POSITION", handlerParent.GetComponent<SetPosHandler>());
 
 
         //webSocket = new WebSocket($"{url}:{port}");
