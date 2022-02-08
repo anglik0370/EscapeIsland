@@ -41,7 +41,6 @@ public class NetworkManager : MonoBehaviour
     private bool needDieRefresh = false;
     private bool needVoteRefresh = false;
     private bool needTimeRefresh = false;
-    private bool needPosRefresh = false;
 
     private Player user = null;
 
@@ -91,14 +90,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetPos(List<UserVO> list)
-    {
-        lock(instance.lockObj)
-        {
-            instance.tempDataList = list;
-            instance.needPosRefresh = true;
-        }
-    }
 
     public static void SetTimeRefresh(TimeVO vo)
     {
@@ -239,12 +230,6 @@ public class NetworkManager : MonoBehaviour
             needVoteRefresh = false;
         }
 
-        if(needPosRefresh)
-        {
-            SetUserPos();
-            needPosRefresh = false;
-        }
-
         while(chatQueue.Count > 0)
         {
             ChatVO vo = chatQueue.Dequeue();
@@ -311,6 +296,25 @@ public class NetworkManager : MonoBehaviour
     public void OnVoteTimeStart()
     {
         PopupManager.instance.OpenPopup("vote");
+
+        foreach (UserVO uv in tempDataList)
+        {
+            if (uv.socketId == socketId)
+            {
+                user.transform.position = uv.position;
+            }
+            else
+            {
+                Player p = null;
+
+                playerList.TryGetValue(uv.socketId, out p);
+
+                if (p != null)
+                {
+                    p.transform.position = uv.position;
+                }
+            }
+        }
     }
 
     public void OnGameStart()
@@ -340,28 +344,6 @@ public class NetworkManager : MonoBehaviour
                 if(p != null)
                 {
                     //p.SetTransform(uv.position);
-                    p.transform.position = uv.position;
-                }
-            }
-        }
-    }
-
-    public void SetUserPos()
-    {
-        foreach (UserVO uv in tempDataList)
-        {
-            if (uv.socketId == socketId)
-            {
-                user.transform.position = uv.position;
-            }
-            else
-            {
-                Player p = null;
-
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if (p != null)
-                {
                     p.transform.position = uv.position;
                 }
             }

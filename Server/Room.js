@@ -31,7 +31,15 @@ class Room {
         let dt = Date.now() - this.expected; //현재 시간 - 시작시간
 
         if(this.inGameTimer.timeRefresh(this.socketList)) {
+            let keys = Object.keys(this.userList);
+            let posList = SetSpawnPoint(keys.length);
+
+            for(let i = 0; i< keys.length; i++) {
+                this.userList[keys[i]].position = posList[i];
+            }
+
             let dataList = Object.values(this.userList);
+
             this.socketList.forEach(soc => {
                 soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList})}));
             });
@@ -53,20 +61,12 @@ class Room {
         if(this.inVoteTImer.timeRefresh()) {
             let p = this.inGameTimer.returnPayload();
 
-            let keys = Object.keys(this.userList);
-            let posList = SetSpawnPoint(keys.length);
-
-            for(let i = 0; i< keys.length; i++) {
-                this.userList[keys[i]].position = posList[i];
-            }
-
-            let dataList = Object.values(this.userList);
+            
 
 
 
             this.socketList.forEach(soc => {
                 soc.send(JSON.stringify({type:"TIME_REFRESH",payload:p}));
-                soc.send(JSON.stringify({type:"SET_POSITION",payload:JSON.stringify({dataList})}));
             });
             console.log("vote time end");
             this.startTimer();
