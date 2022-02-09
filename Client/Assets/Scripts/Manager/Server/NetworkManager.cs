@@ -431,7 +431,7 @@ public class NetworkManager : MonoBehaviour
         {
             if(playerList[key].isDie && !playerList[key].gameObject.activeSelf)
             {
-                playerList[key].gameObject.SetActive(true);
+                playerList[key].SetEnable();
             }
         }
     }
@@ -502,7 +502,7 @@ public class NetworkManager : MonoBehaviour
                         p.SetDead();
                     }
                     
-                    if (p.gameObject.activeSelf && p.isDie && !user.isDie)
+                    if (p.gameObject.activeSelf && uv.isDie && !user.isDie)
                     {
                         p.SetDisable();
                     }
@@ -535,7 +535,8 @@ public class NetworkManager : MonoBehaviour
                 if(!once)
                 {
                     user = PoolManager.GetItem<Player>();
-                    user.InitPlayer(uv, false);
+                    InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
+                    user.InitPlayer(uv, ui, false);
 
 
                     for (int i = 0; i < lights.Length; i++)
@@ -712,7 +713,8 @@ public class NetworkManager : MonoBehaviour
     public Player MakeRemotePlayer(UserVO data)
     {
         Player rpc = PoolManager.GetItem<Player>();
-        rpc.InitPlayer(data, true);
+        InfoUI ui = InfoManager.SetInfoUI(rpc.transform, data.name);
+        rpc.InitPlayer(data,ui, true);
         rpc.SetTransform(data.position);
 
         playerList.Add(data.socketId, rpc);

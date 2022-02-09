@@ -61,10 +61,6 @@ class Room {
         if(this.inVoteTImer.timeRefresh()) {
             let p = this.inGameTimer.returnPayload();
 
-            
-
-
-
             this.socketList.forEach(soc => {
                 soc.send(JSON.stringify({type:"TIME_REFRESH",payload:p}));
             });

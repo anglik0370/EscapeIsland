@@ -196,7 +196,7 @@ wsService.on("connection", socket => {
                     }
 
                     if(gTargetRoom.curUserNum <= gTargetRoom.kidnapperNum) {
-                        sendError("현재 유저의 수가 납치자의 수보다 적습니다.",socket);
+                        sendError("현재 유저의 수가 납치자의 수보다 같거나 적습니다.",socket);
                         return;
                     }
 

@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     private WaitForSeconds ws = new WaitForSeconds(1 / 5); //200ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
 
+    private InfoUI ui = null;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -52,8 +54,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void InitPlayer(UserVO vo, bool isRemote)
+    public void InitPlayer(UserVO vo,InfoUI ui, bool isRemote)
     {
+        this.ui = ui;
         transform.position = vo.position;
         this.isRemote = isRemote;
         master = vo.master;
@@ -71,6 +74,12 @@ public class Player : MonoBehaviour
         if (!gameObject.activeSelf) return;
 
         gameObject.SetActive(false);
+        ui.gameObject.SetActive(false);
+    }
+    public void SetEnable()
+    {
+        gameObject.SetActive(true);
+        ui.gameObject.SetActive(true);
     }
 
     public void SetDead()
