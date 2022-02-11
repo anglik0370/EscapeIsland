@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
 
     private InfoUI ui = null;
 
+    public Sprite charSprite;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -62,6 +64,8 @@ public class Player : MonoBehaviour
         master = vo.master;
         socketName = vo.name;
         socketId = vo.socketId;
+
+        charSprite = null;
 
         if (!isRemote)
         {

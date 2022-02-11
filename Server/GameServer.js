@@ -357,7 +357,10 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     userList[socket.id].isDie = false;
     
     if(targetRoom.curUserNum <= 0){ //사람이 0명일때 room delete
+        //console.log(roomList);
+        targetRoom.deleteRoom();
         delete roomList[roomNum];
+        //console.log(roomList);
         return;
     }
 

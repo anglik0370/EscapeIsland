@@ -47,7 +47,7 @@ public class InteractionBtn : MonoBehaviour
         //가까운 재련소를 찾는다(팔길이보다 멀리있으면 null이 나옴)
         if(gameStart)
         {
-            if (NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
+            if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
             {
                 image.sprite = killSprite;
                 btn.onClick.RemoveAllListeners();

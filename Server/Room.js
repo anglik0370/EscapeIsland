@@ -13,6 +13,7 @@ class Room {
 
         this.inGameTimer = new InGameTimer();
         this.inVoteTImer = new InVoteTimer();
+        this.curTimer = undefined;
         
         this.interval = 1000;
         this.nextTime = 0;
@@ -24,7 +25,7 @@ class Room {
 
     startTimer() {
         this.expected = Date.now() + 1000; //현재시간 + 1초
-        setTimeout(this.rTimer.bind(this),this.interval);
+        this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
     }
 
     rTimer() {
@@ -44,7 +45,7 @@ class Room {
                 soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList})}));
             });
             this.expected = Date.now() + 1000;
-            setTimeout(this.voteTimer.bind(this),this.interval);
+            this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval);
             console.log("vote time start");
             return;
         }
@@ -52,7 +53,7 @@ class Room {
         this.expected += this.interval;
 
         this.nextTime = Math.max(0,this.interval - dt);
-        setTimeout(this.rTimer.bind(this),this.nextTime);
+        this.curTimer = setTimeout(this.rTimer.bind(this),this.nextTime);
     }
 
     voteTimer() {
@@ -72,7 +73,7 @@ class Room {
         this.expected += this.interval;
 
         this.nextTime = Math.max(0,this.interval - dt);
-        setTimeout(this.voteTimer.bind(this),this.nextTime);
+        this.curTimer = setTimeout(this.voteTimer.bind(this),this.nextTime);
     }
 
     addSocket(socket,user) {
@@ -85,6 +86,10 @@ class Room {
         this.socketList.splice(idx,1);
         
         delete this.userList[rSocketIdx];
+    }
+
+    deleteRoom() {
+        clearTimeout(this.curTimer);
     }
 
     returnData() {

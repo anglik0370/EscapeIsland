@@ -58,8 +58,6 @@ public class NetworkManager : MonoBehaviour
 
     public Vote voteTab;
 
-    
-
     private void Awake()
     {
         if (instance != null)
@@ -240,13 +238,16 @@ public class NetworkManager : MonoBehaviour
             if(p != null)
             {
                 if((!p.isDie && !user.isDie) || user.isDie)
-                    voteTab.AddTestText($"{p.socketName} : {vo.msg} \n");
+                {
+                    voteTab.CreateChat(false, p.socketName, vo.msg, p.charSprite);
+                }
+                voteTab.chatRect.verticalNormalizedPosition = 0.0f;
             }
             else
             {
                 if(user.socketId == vo.socketId)
                 {
-                    voteTab.AddTestText($"{user.socketName} : {vo.msg} \n");
+                    voteTab.CreateChat(true, user.socketName, vo.msg, user.charSprite);
                 }
             }
         }
