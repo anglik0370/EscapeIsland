@@ -11,6 +11,11 @@ public class PoolObj : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
+    public Sprite GetSprite()
+    {
+        return sr.sprite;
+    }
+
     public void SetSprite(Sprite sprite)
     {
         sr.sprite = sprite;

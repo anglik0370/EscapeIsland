@@ -5,18 +5,24 @@ using UnityEngine.UI;
 
 public class InteractionBtn : MonoBehaviour
 {
+    [Header("플레이어")]
     [SerializeField]
     private Player player;
     private ItemStorage storage;
     private Transform playerTrm;
     private Transform storageTrm;
 
+    [Header("버튼 스프라이트")]
     [SerializeField]
     private Sprite interactionSprite;
     [SerializeField]
     private Sprite killSprite;
     [SerializeField]
     private Sprite PickUpSprite;
+
+    [Header("강조 오브젝트")]
+    [SerializeField]
+    private ObjectAccent accent;
 
     private Inventory inventory;
     private float range;
@@ -44,7 +50,6 @@ public class InteractionBtn : MonoBehaviour
 
     private void Update() 
     {
-        //가까운 재련소를 찾는다(팔길이보다 멀리있으면 null이 나옴)
         if(gameStart)
         {
             if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
@@ -52,6 +57,8 @@ public class InteractionBtn : MonoBehaviour
                 image.sprite = killSprite;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(KillPlayer);
+
+                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetPos());
             }
             else if (FindNearlestRefinery() != null)
             {
@@ -61,18 +68,32 @@ public class InteractionBtn : MonoBehaviour
                 {
                     OpenRefineryPanel(FindNearlestRefinery());
                 });
+
+                accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetPos());
             }
             else if (Vector2.Distance(playerTrm.position, storageTrm.position) <= player.range)
             {
                 image.sprite = interactionSprite;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OpenStoragePanel);
+
+                accent.Disable();
             }
             else
             {
                 image.sprite = PickUpSprite;
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(PickUpNearlestItem);
+
+                if(FindNearlestSpawner() != null)
+                {
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(PickUpNearlestItem);
+
+                    accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetPos());
+                }
+                else
+                {
+                    accent.Disable();
+                }
             }
         }
         
@@ -111,6 +132,18 @@ public class InteractionBtn : MonoBehaviour
         //모든 슬롯이 꽉차있으면 리턴
         if(inventory.IsAllSlotFull) return;
 
+        ItemSpawner nearlestSpawner = FindNearlestSpawner();
+
+        //스포너가 없다면 리턴
+        if(nearlestSpawner == null) return;
+
+        //있다면 넣어준다
+        NetworkManager.instance.GetItem(nearlestSpawner.id);
+        inventory.AddItem(nearlestSpawner.PickUpItem());
+    }
+
+    public ItemSpawner FindNearlestSpawner()
+    {
         List<ItemSpawner> spawnerList = GameManager.Instance.spawnerList;
 
         ItemSpawner nearlestSpawner = null;
@@ -125,8 +158,8 @@ public class InteractionBtn : MonoBehaviour
             }
         }
 
-        //켜져있는게 없으면 비교할 필요도 없다
-        if(nearlestSpawner == null) return;
+        //켜져있는게 없으면 null 리턴
+        if(nearlestSpawner == null) return null;
 
         //이후 나머지 켜져있는 스포너들과 거리비교
         for(int i = 0; i < spawnerList.Count; i++)
@@ -143,9 +176,13 @@ public class InteractionBtn : MonoBehaviour
         //상호작용범위 안에 있는지 체크
         if(Vector2.Distance(playerTrm.position, nearlestSpawner.transform.position) <= range)
         {
-            //있다면 넣어준다
-            NetworkManager.instance.GetItem(nearlestSpawner.id);
-            inventory.AddItem(nearlestSpawner.PickUpItem());
+            //안에 있다면 스포너 리턴
+            return nearlestSpawner;
+        }
+        else
+        {
+            //거리 밖이라면 null리턴
+            return null;
         }
     }
 

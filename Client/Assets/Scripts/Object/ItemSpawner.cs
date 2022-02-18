@@ -23,6 +23,16 @@ public class ItemSpawner : MonoBehaviour
         SpawnItem();
     }
 
+    public Sprite GetItemSprite()
+    {
+        return poolObj.GetSprite();
+    }
+
+    public Vector3 GetPos()
+    {
+        return transform.position;
+    }
+
     public void SpawnItem()
     {
         poolObj.SetActive(true);

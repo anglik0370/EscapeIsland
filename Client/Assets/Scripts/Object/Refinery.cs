@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Refinery : MonoBehaviour
 {
+    private SpriteRenderer sr;
+
     public int id;
 
     public ItemSO oreItem;
@@ -26,6 +28,8 @@ public class Refinery : MonoBehaviour
 
     private void Awake() 
     {
+        sr = GetComponent<SpriteRenderer>();
+
         refiningDic = new Dictionary<ItemSO, ItemSO>();
 
         for(int i = 0; i < oreNames.Length; i++)
@@ -48,6 +52,16 @@ public class Refinery : MonoBehaviour
                 EndRefining();
             }
         }
+    }
+
+    public Sprite GetSprite()
+    {
+        return sr.sprite;
+    }
+
+    public Vector3 GetPos()
+    {
+        return transform.position;
     }
 
     public void StartRefining(ItemSO oreItem)

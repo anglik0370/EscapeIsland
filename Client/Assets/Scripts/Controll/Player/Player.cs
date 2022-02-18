@@ -73,6 +73,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Vector3 GetPos()
+    {
+        return transform.position;
+    }
+
+    public Sprite GetSprite()
+    {
+        return sr.sprite;
+    }
+
     public void SetDisable()
     {
         if (!gameObject.activeSelf) return;
