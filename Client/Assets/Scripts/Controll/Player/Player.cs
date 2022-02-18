@@ -73,14 +73,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    public Vector3 GetPos()
+    public Transform GetTrm()
     {
-        return transform.position;
+        return transform;
     }
 
     public Sprite GetSprite()
     {
         return sr.sprite;
+    }
+
+    public bool GetFlip()
+    {
+        return sr.flipX;
     }
 
     public void SetDisable()

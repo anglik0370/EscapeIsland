@@ -25,12 +25,15 @@ public class ObjectAccent : MonoBehaviour
         sr.material.SetFloat("_OutlineThickness", outlineThickness);
     }
 
-    public void Enable(Sprite sprite, Vector3 pos)
+    public void Enable(Sprite sprite, Transform trm, bool isFlip = false)
     {
         sr.color = visibleColor;
         sr.sprite = sprite;
 
-        transform.position = pos;
+        sr.flipX = isFlip;
+
+        transform.position = trm.position;
+        transform.localScale = trm.localScale;
     }
 
     public void Disable()

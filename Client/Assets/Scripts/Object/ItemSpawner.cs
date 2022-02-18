@@ -23,14 +23,14 @@ public class ItemSpawner : MonoBehaviour
         SpawnItem();
     }
 
+    public Transform GetTrm()
+    {
+        return transform;
+    }
+
     public Sprite GetItemSprite()
     {
         return poolObj.GetSprite();
-    }
-
-    public Vector3 GetPos()
-    {
-        return transform.position;
     }
 
     public void SpawnItem()

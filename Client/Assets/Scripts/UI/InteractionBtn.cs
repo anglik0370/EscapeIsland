@@ -58,7 +58,7 @@ public class InteractionBtn : MonoBehaviour
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(KillPlayer);
 
-                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetPos());
+                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
             }
             else if (FindNearlestRefinery() != null)
             {
@@ -69,7 +69,7 @@ public class InteractionBtn : MonoBehaviour
                     OpenRefineryPanel(FindNearlestRefinery());
                 });
 
-                accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetPos());
+                accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
             }
             else if (Vector2.Distance(playerTrm.position, storageTrm.position) <= player.range)
             {
@@ -88,7 +88,7 @@ public class InteractionBtn : MonoBehaviour
                     btn.onClick.RemoveAllListeners();
                     btn.onClick.AddListener(PickUpNearlestItem);
 
-                    accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetPos());
+                    accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
                 }
                 else
                 {

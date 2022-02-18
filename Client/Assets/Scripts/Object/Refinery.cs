@@ -54,14 +54,14 @@ public class Refinery : MonoBehaviour
         }
     }
 
+    public Transform GetTrm()
+    {
+        return transform;
+    }
+
     public Sprite GetSprite()
     {
         return sr.sprite;
-    }
-
-    public Vector3 GetPos()
-    {
-        return transform.position;
     }
 
     public void StartRefining(ItemSO oreItem)
