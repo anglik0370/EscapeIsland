@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +20,16 @@ public class Vote : Popup
     public InputField msgInputField;
     public Button sendMsgBtn;
 
+    public ToggleGroup toggleGroup;
+    public Transform voteParent;
+    public Button voteCompleteBtn;
+
+    public List<VoteUI> voteUIList = new List<VoteUI>();
+
     private void Start()
     {
+        voteUIList = voteParent.GetComponentsInChildren<VoteUI>().ToList();
+
         sendMsgBtn.onClick.AddListener(() =>
         {
             if (msgInputField.text == "") return;
@@ -33,6 +42,12 @@ public class Vote : Popup
         {
             CanvasOpenAndClose(chatPanel, !chatPanel.interactable);
         });
+
+        voteCompleteBtn.onClick.AddListener(() =>
+        {
+            //여기서 서버에 보내줘야 한다
+        });
+
     }
 
     public void CanvasOpenAndClose(CanvasGroup cg, bool on)
@@ -40,6 +55,24 @@ public class Vote : Popup
         cg.alpha = on ? 1f : 0f;
         cg.interactable = on;
         cg.blocksRaycasts = on;
+    }
+
+    public void SetVoteUI(string name, Sprite charSprite)
+    {
+        VoteUI ui = voteUIList.Find(x => !x.gameObject.activeSelf);
+
+        if(ui == null)
+        {
+            Debug.LogError("없음");
+            return;
+        }
+
+        ui.SetVoteUI(name, charSprite, toggleGroup);
+    }
+
+    public void VoteUIDisable()
+    {
+        voteUIList.ForEach(x => x.OnOff(false));
     }
 
     public void CreateChat(bool myChat,string name, string chatMsg, Sprite charSpr)
