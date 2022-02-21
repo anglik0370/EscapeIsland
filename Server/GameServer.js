@@ -80,6 +80,8 @@ wsService.on("connection", socket => {
                     userData.position = Vector2.zero;
                     userData.isImposter = false;
                     userData.isDie = false;
+                    userData.voteNum = 0;
+                    userData.voteComplete = false;
 
 
                     userList[socket.id] = userData;
@@ -318,6 +320,18 @@ wsService.on("connection", socket => {
                     });
 
                     break;
+                case "VOTE_COMPLETE":
+                    let completePayload = JSON.parse(data.payload);
+
+                    let completeRoom = roomList[socket.room];
+
+                    userList[completePayload.voteTargetId].voteNum++;
+                    userList[completePayload.voterId].voteComplete = true;
+
+                    completeRoom.socketList.forEach(soc => {
+                        soc.send(JSON.stringify({type:"VOTE_COMPLETE",payload:completePayload}))
+                    });
+                    break;
             }
         }
         catch (error) {
@@ -340,7 +354,14 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     socket.room = 0; //나왔으니 룸 초기화
 
     if(userList[socket.id] !== undefined){ 
+        // 초기화
+        
         userList[socket.id].roomNum = 0;
+        userList[socket.id].master = false; 
+        userList[socket.id].isImposter = false;
+        userList[socket.id].isDie = false;
+        userList[socket.id].voteNum = 0;
+        userList[socket.id].voteComplete = false;
     }
 
     socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
@@ -351,10 +372,7 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
         let keys = Object.keys(targetRoom.userList);
         userList[keys[0]].master = true;
     }
-    // 초기화
-    userList[socket.id].master = false; 
-    userList[socket.id].isImposter = false;
-    userList[socket.id].isDie = false;
+    
     
     if(targetRoom.curUserNum <= 0){ //사람이 0명일때 room delete
         //console.log(roomList);

@@ -46,7 +46,6 @@ class Room {
             });
             this.expected = Date.now() + 1000;
             this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval);
-            console.log("vote time start");
             return;
         }
 
@@ -65,7 +64,14 @@ class Room {
             this.socketList.forEach(soc => {
                 soc.send(JSON.stringify({type:"TIME_REFRESH",payload:p}));
             });
-            console.log("vote time end");
+            
+            let keys = Object.keys(this.userList);
+
+            for(let i = 0; i < keys; i++) {
+                this.userList[keys[i]].voteNum = 0;
+                this.userList[keys[i]].voteComplete = false;
+            }
+            
             this.startTimer();
             return;
         }

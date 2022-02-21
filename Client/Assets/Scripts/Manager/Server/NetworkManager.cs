@@ -311,6 +311,7 @@ public class NetworkManager : MonoBehaviour
             if (uv.socketId == socketId)
             {
                 user.transform.position = uv.position;
+                voteTab.SetVoteUI(uv.socketId, uv.name, user.charSprite);
             }
             else
             {
@@ -321,8 +322,10 @@ public class NetworkManager : MonoBehaviour
                 if (p != null)
                 {
                     p.transform.position = uv.position;
+                    voteTab.SetVoteUI(uv.socketId, uv.name, p.charSprite);
                 }
             }
+            
         }
     }
 

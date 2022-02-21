@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 public class VoteUI : MonoBehaviour
 {
+    public int socId;
+
     public Text nickNameText;
     public Image charImg;
     public Toggle checkToggle;
     public Image voteCompleteImg;
 
-    public void SetVoteUI(string name,Sprite charSprite,ToggleGroup group)
+    public void SetVoteUI(int socId,string name,Sprite charSprite,ToggleGroup group)
     {
+        this.socId = socId;
         nickNameText.text = name;
         charImg.sprite = charSprite;
         checkToggle.group = group;

@@ -46,6 +46,20 @@ public class Vote : Popup
         voteCompleteBtn.onClick.AddListener(() =>
         {
             //여기서 서버에 보내줘야 한다
+            Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
+
+            if(toggle == null)
+            {
+                print("투표 x");
+                return;
+            }
+
+            int selectSocket = toggle.gameObject.GetComponent<VoteUI>().socId;
+            VoteCompleteVO vo = new VoteCompleteVO(NetworkManager.instance.socketId, selectSocket);
+
+            DataVO dataVO = new DataVO("VOTE_COMPLETE", JsonUtility.ToJson(vo));
+
+            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
         });
 
     }
@@ -57,7 +71,7 @@ public class Vote : Popup
         cg.blocksRaycasts = on;
     }
 
-    public void SetVoteUI(string name, Sprite charSprite)
+    public void SetVoteUI(int socId,string name, Sprite charSprite)
     {
         VoteUI ui = voteUIList.Find(x => !x.gameObject.activeSelf);
 
@@ -67,7 +81,7 @@ public class Vote : Popup
             return;
         }
 
-        ui.SetVoteUI(name, charSprite, toggleGroup);
+        ui.SetVoteUI(socId,name, charSprite, toggleGroup);
     }
 
     public void VoteUIDisable()
