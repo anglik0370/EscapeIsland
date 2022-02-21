@@ -20,7 +20,7 @@ public class VoteUI : MonoBehaviour
         checkToggle.group = group;
 
         checkToggle.isOn = false;
-        checkToggle.gameObject.SetActive(true);
+        ToggleOnOff(true);
         voteCompleteImg.gameObject.SetActive(false);
 
         OnOff(true);
@@ -31,9 +31,14 @@ public class VoteUI : MonoBehaviour
         gameObject.SetActive(on);
     }
 
+    public void ToggleOnOff(bool on)
+    {
+        checkToggle.gameObject.SetActive(on);
+    }
+
     public void VoteComplete()
     {
-        checkToggle.gameObject.SetActive(false);
+        //checkToggle.gameObject.SetActive(false);
         voteCompleteImg.gameObject.SetActive(true);
     }
 }

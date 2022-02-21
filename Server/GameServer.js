@@ -329,8 +329,40 @@ wsService.on("connection", socket => {
                     userList[completePayload.voterId].voteComplete = true;
 
                     completeRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"VOTE_COMPLETE",payload:completePayload}))
+                        soc.send(JSON.stringify({type:"VOTE_COMPLETE",payload:JSON.stringify({voterId:completePayload.voterId,voteTargetId:completePayload.voteTargetId})}))
                     });
+
+                    let comRoomKeys = Object.keys(completeRoom.userList);
+                    let allComplete = true;
+                    let targetSocIdArr = [];
+
+                    for(let i = 0; i < comRoomKeys.length; i++) {
+                        if(!userList[comRoomKeys[i]].voteComplete) {
+                            allComplete = false;
+                            return;
+                        }
+                    }
+                    
+                    if(allComplete) {
+                        let dummy = 0;
+
+                        for(let i = 0; i < comRoomKeys.length; i++) {
+                            if(dummy != 0 && userList[comRoomKeys[i]].voteNum == dummy) {
+                                targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
+                            }
+                            else if(userList[comRoomKeys[i]].voteNum > dummy) {
+                                dummy = userList[comRoomKeys[i]].voteNum;
+                                targetSocIdArr.length = 0;
+                                targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
+                            }
+                        }
+
+                        if(targetSocIdArr.length != 1) {
+                            //아무도 표를 받지 않았거나 동표임
+                            return;
+                        }
+                    }
+
                     break;
             }
         }

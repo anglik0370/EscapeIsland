@@ -67,7 +67,7 @@ class Room {
             
             let keys = Object.keys(this.userList);
 
-            for(let i = 0; i < keys; i++) {
+            for(let i = 0; i < keys.length; i++) {
                 this.userList[keys[i]].voteNum = 0;
                 this.userList[keys[i]].voteComplete = false;
             }

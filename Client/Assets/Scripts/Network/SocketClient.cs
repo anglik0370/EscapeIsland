@@ -50,7 +50,7 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("KILL", handlerParent.GetComponent<KillHandler>());
         handlerDic.Add("VOTE_TIME", handlerParent.GetComponent<VoteTimeHandler>());
         handlerDic.Add("CHAT", handlerParent.GetComponent<ChatHandler>());
-
+        handlerDic.Add("VOTE_COMPLETE", handlerParent.GetComponent<VoteCompleteHandler>());
 
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());

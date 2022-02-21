@@ -29,6 +29,7 @@ public class Vote : Popup
     private void Start()
     {
         voteUIList = voteParent.GetComponentsInChildren<VoteUI>().ToList();
+        voteUIList.ForEach(x => x.OnOff(false));
 
         sendMsgBtn.onClick.AddListener(() =>
         {
@@ -54,7 +55,7 @@ public class Vote : Popup
                 return;
             }
 
-            int selectSocket = toggle.gameObject.GetComponent<VoteUI>().socId;
+            int selectSocket = toggle.GetComponentInParent<VoteUI>().socId;
             VoteCompleteVO vo = new VoteCompleteVO(NetworkManager.instance.socketId, selectSocket);
 
             DataVO dataVO = new DataVO("VOTE_COMPLETE", JsonUtility.ToJson(vo));
@@ -82,6 +83,19 @@ public class Vote : Popup
         }
 
         ui.SetVoteUI(socId,name, charSprite, toggleGroup);
+    }
+
+    public VoteUI FindVoteUI(int socId)
+    {
+        return voteUIList.Find(x => x.socId == socId);
+    }
+
+    public void CompleteVote()
+    {
+        voteUIList.ForEach(x =>
+        {
+            x.ToggleOnOff(false);
+        });
     }
 
     public void VoteUIDisable()

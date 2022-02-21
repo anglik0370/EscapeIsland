@@ -31,6 +31,7 @@ public class NetworkManager : MonoBehaviour
     private List<UserVO> tempDataList;
 
     private TimeVO timeVO;
+    private VoteCompleteVO voteCompleteVO;
 
     private bool isLogin = false;
     private bool once = false;
@@ -41,6 +42,7 @@ public class NetworkManager : MonoBehaviour
     private bool needDieRefresh = false;
     private bool needVoteRefresh = false;
     private bool needTimeRefresh = false;
+    private bool needVoteComplete = false;
 
     private Player user = null;
 
@@ -104,6 +106,15 @@ public class NetworkManager : MonoBehaviour
         {
             instance.tempDataList = list;
             instance.needVoteRefresh = true;
+        }
+    }
+
+    public static void SetVoteComplete(VoteCompleteVO vo)
+    {
+        lock (instance.lockObj)
+        {
+            instance.voteCompleteVO = vo;
+            instance.needVoteComplete = true;
         }
     }
 
@@ -228,6 +239,12 @@ public class NetworkManager : MonoBehaviour
             needVoteRefresh = false;
         }
 
+        if(needVoteComplete)
+        {
+            VoteComplete();
+            needVoteComplete = false;
+        }
+
         while(chatQueue.Count > 0)
         {
             ChatVO vo = chatQueue.Dequeue();
@@ -298,6 +315,18 @@ public class NetworkManager : MonoBehaviour
     {
         inGameJoyStick.SetEnable(on);
         interactionBtn.enabled = on;
+    }
+
+    public void VoteComplete()
+    {
+        VoteUI ui = voteTab.FindVoteUI(voteCompleteVO.voterId);
+        ui.VoteComplete();
+
+        if (voteCompleteVO.voterId == socketId)
+        {
+            voteTab.CompleteVote();
+        }
+        
     }
 
     public void OnVoteTimeStart()
