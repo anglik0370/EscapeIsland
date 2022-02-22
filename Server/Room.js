@@ -28,6 +28,10 @@ class Room {
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
     }
 
+    stopTimer() {
+        clearTimeout(this.curTimer);
+    }
+
     rTimer() {
         let dt = Date.now() - this.expected; //현재 시간 - 시작시간
 
@@ -55,11 +59,8 @@ class Room {
         this.curTimer = setTimeout(this.rTimer.bind(this),this.nextTime);
     }
 
-    voteTimer() {
-        let dt = Date.now() - this.expected;
-
-        if(this.inVoteTImer.timeRefresh()) {
-            let p = this.inGameTimer.returnPayload();
+    changeTime() {
+        let p = this.inGameTimer.returnPayload();
 
             this.socketList.forEach(soc => {
                 soc.send(JSON.stringify({type:"TIME_REFRESH",payload:p}));
@@ -73,6 +74,13 @@ class Room {
             }
             
             this.startTimer();
+    }
+
+    voteTimer() {
+        let dt = Date.now() - this.expected;
+
+        if(this.inVoteTImer.timeRefresh()) {
+            this.changeTime();
             return;
         }
 
@@ -97,6 +105,8 @@ class Room {
     deleteRoom() {
         clearTimeout(this.curTimer);
     }
+
+    
 
     returnData() {
         let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,kidnapperNum:this.kidnapperNum,playing:this.playing};

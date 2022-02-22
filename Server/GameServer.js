@@ -339,7 +339,7 @@ wsService.on("connection", socket => {
                     for(let i = 0; i < comRoomKeys.length; i++) {
                         if(!userList[comRoomKeys[i]].voteComplete) {
                             allComplete = false;
-                            return;
+                            break;
                         }
                     }
                     
@@ -356,11 +356,22 @@ wsService.on("connection", socket => {
                                 targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
                             }
                         }
-
+                        //아직 리폿했을때나 긴급 회의시때의 처리는 안되어있음. 해줘야한다
                         if(targetSocIdArr.length != 1) {
                             //아무도 표를 받지 않았거나 동표임
+
+                            completeRoom.changeTime();
+                            completeRoom.inVoteTImer.initTime();
+
+                            // completeRoom.socketList.forEach(soc => {
+                            //     soc.send(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
+                            // });
                             return;
                         }
+
+                        completeRoom.socketList.forEach(soc => {
+                            soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
+                        });
                     }
 
                     break;

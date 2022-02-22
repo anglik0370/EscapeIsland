@@ -5,6 +5,10 @@ class InVoteTimer {
         this.sec = 1;
     }
 
+    initTime() {
+        this.curTime = this.timeToNextSlot;
+    }
+
     timeRefresh() {
         this.curTime -= this.sec;
 
