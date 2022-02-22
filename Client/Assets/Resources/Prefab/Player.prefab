@@ -138,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3aba0d78e21d214f9fa22716d66110b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  socketName: 
+  socketId: 0
   isRemote: 0
   master: 0
   isImposter: 0
@@ -146,7 +148,8 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   targetPos: {x: 0, y: 0}
   speed: 6
-  range: 5
+  range: 4
+  charSprite: {fileID: 0}
 --- !u!70 &7774014217760711641
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

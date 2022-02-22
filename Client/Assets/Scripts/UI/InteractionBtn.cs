@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class InteractionBtn : MonoBehaviour
 {
-    [Header("플레이어")]
+    [Header("하나밖에 없는 오브젝트들")]
     [SerializeField]
     private Player player;
     private ItemStorage storage;
-    private Transform playerTrm;
-    private Transform storageTrm;
+    private EmergencyMeetingTable meetingTable;
 
     [Header("버튼 스프라이트")]
     [SerializeField]
@@ -18,7 +17,9 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private Sprite killSprite;
     [SerializeField]
-    private Sprite PickUpSprite;
+    private Sprite pickUpSprite;
+    [SerializeField]
+    private Sprite emergencySprite;
 
     [Header("강조 오브젝트")]
     [SerializeField]
@@ -39,7 +40,7 @@ public class InteractionBtn : MonoBehaviour
         image = GetComponent<Image>();
 
         storage = FindObjectOfType<ItemStorage>();
-        storageTrm = storage.transform;
+        meetingTable = FindObjectOfType<EmergencyMeetingTable>();
 
         //playerTrm = player.transform;
         //inventory = player.inventory;
@@ -54,6 +55,8 @@ public class InteractionBtn : MonoBehaviour
         {
             if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
             {
+                //여긴 킬하는곳
+
                 image.sprite = killSprite;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(KillPlayer);
@@ -62,6 +65,8 @@ public class InteractionBtn : MonoBehaviour
             }
             else if (FindNearlestRefinery() != null)
             {
+                //여긴 제련소 여는곳
+
                 image.sprite = interactionSprite;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(() =>
@@ -71,17 +76,34 @@ public class InteractionBtn : MonoBehaviour
 
                 accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
             }
-            else if (Vector2.Distance(playerTrm.position, storageTrm.position) <= player.range)
+            else if (Vector2.Distance(player.GetTrm().position, storage.GetTrm().position) <= player.range)
             {
+                //여긴 저장소 여는 곳
+
                 image.sprite = interactionSprite;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OpenStoragePanel);
 
                 accent.Disable();
             }
+            else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
+            {
+                //여긴 긴급회의 여는 곳
+
+                image.sprite = emergencySprite;
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() =>
+                {
+                    meetingTable.Meeting();
+                });
+
+                accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
+            }
             else
             {
-                image.sprite = PickUpSprite;
+                //여긴 아이템 줍는곳
+
+                image.sprite = pickUpSprite;
 
                 if(FindNearlestSpawner() != null)
                 {
@@ -103,7 +125,6 @@ public class InteractionBtn : MonoBehaviour
     {
         player = p;
 
-        playerTrm = p.transform;
         inventory = p.inventory;
         range = p.range;
     }
@@ -166,15 +187,15 @@ public class InteractionBtn : MonoBehaviour
         {
             if(!spawnerList[i].IsItemSpawned) continue;
 
-            if(Vector2.Distance(playerTrm.position, nearlestSpawner.transform.position) >
-                Vector2.Distance(playerTrm.position, spawnerList[i].transform.position))
+            if(Vector2.Distance(player.GetTrm().position, nearlestSpawner.transform.position) >
+                Vector2.Distance(player.GetTrm().position, spawnerList[i].transform.position))
             {
                 nearlestSpawner = spawnerList[i];
             }
         }
 
         //상호작용범위 안에 있는지 체크
-        if(Vector2.Distance(playerTrm.position, nearlestSpawner.transform.position) <= range)
+        if(Vector2.Distance(player.GetTrm().position, nearlestSpawner.transform.position) <= range)
         {
             //안에 있다면 스포너 리턴
             return nearlestSpawner;
@@ -195,7 +216,7 @@ public class InteractionBtn : MonoBehaviour
         for(int i = 0; i < refienryList.Count; i++)
         {
             //상호작용범위 안에 있는지 체크
-            if(Vector2.Distance(playerTrm.position, refienryList[i].transform.position) <= range)
+            if(Vector2.Distance(player.GetTrm().position, refienryList[i].transform.position) <= range)
             {
                 if(nearlestRefinery == null)
                 {   
@@ -205,8 +226,8 @@ public class InteractionBtn : MonoBehaviour
                 else
                 {
                     //있으면 거리비교
-                    if(Vector2.Distance(playerTrm.position, nearlestRefinery.transform.position) >
-                        Vector2.Distance(playerTrm.position, refienryList[i].transform.position))
+                    if(Vector2.Distance(player.GetTrm().position, nearlestRefinery.transform.position) >
+                        Vector2.Distance(player.GetTrm().position, refienryList[i].transform.position))
                     {
                         nearlestRefinery = refienryList[i];
                     }
@@ -227,7 +248,7 @@ public class InteractionBtn : MonoBehaviour
         {
             if (playerList[i].isDie) continue;
 
-            if (Vector2.Distance(playerTrm.position, playerList[i].transform.position) <= range)
+            if (Vector2.Distance(player.GetTrm().position, playerList[i].transform.position) <= range)
             {
                 if(p == null)
                 {
@@ -235,8 +256,8 @@ public class InteractionBtn : MonoBehaviour
                 }
                 else
                 {
-                    if (Vector2.Distance(playerTrm.position, p.transform.position) >
-                        Vector2.Distance(playerTrm.position, playerList[i].transform.position))
+                    if (Vector2.Distance(player.GetTrm().position, p.transform.position) >
+                        Vector2.Distance(player.GetTrm().position, playerList[i].transform.position))
                     {
                         p = playerList[i];
                     }

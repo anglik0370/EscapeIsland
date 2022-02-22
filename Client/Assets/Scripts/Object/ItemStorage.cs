@@ -30,6 +30,11 @@ public class ItemStorage : MonoBehaviour
         return amount;
     }
 
+    public Transform GetTrm()
+    {
+        return transform;
+    }
+
     public void AddItem(ItemSO item)
     {
         //아이템에 맞는 Amount클래스 찾아주고
