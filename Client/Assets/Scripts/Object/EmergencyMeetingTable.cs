@@ -23,6 +23,6 @@ public class EmergencyMeetingTable : MonoBehaviour
 
     public void Meeting()
     {
-        //긴급회의 할떄 어케할지 여따가 하면 댐
+        MeetManager.Instance.Meet(true);
     }
 }

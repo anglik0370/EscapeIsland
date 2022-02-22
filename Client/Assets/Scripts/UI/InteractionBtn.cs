@@ -101,16 +101,27 @@ public class InteractionBtn : MonoBehaviour
             }
             else
             {
-                //여긴 아이템 줍는곳
-
                 image.sprite = pickUpSprite;
 
-                if(FindNearlestSpawner() != null)
+                if (FindNearlestSpawner() != null)
                 {
+                    //여긴 아이템 줍는곳
+
+                    image.sprite = pickUpSprite;
                     btn.onClick.RemoveAllListeners();
                     btn.onClick.AddListener(PickUpNearlestItem);
 
                     accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
+                }
+                else if (FindNearlestDeadBody() != null)
+                {
+                    //여긴 주변 시체 신고하는곳
+
+                    image.sprite = emergencySprite;
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(ReportNearlestDeadbody);
+
+                    accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
                 }
                 else
                 {
@@ -118,7 +129,6 @@ public class InteractionBtn : MonoBehaviour
                 }
             }
         }
-        
     }
 
     public void Init(Player p)
@@ -161,6 +171,15 @@ public class InteractionBtn : MonoBehaviour
         //있다면 넣어준다
         NetworkManager.instance.GetItem(nearlestSpawner.id);
         inventory.AddItem(nearlestSpawner.PickUpItem());
+    }
+
+    public void ReportNearlestDeadbody()
+    {
+        DeadBody nearlestDeadbody = FindNearlestDeadBody();
+
+        if (nearlestDeadbody == null) return;
+
+        nearlestDeadbody.Report();
     }
 
     public ItemSpawner FindNearlestSpawner()
@@ -266,5 +285,36 @@ public class InteractionBtn : MonoBehaviour
         }
 
         return p;
+    }
+
+    public DeadBody FindNearlestDeadBody()
+    {
+        DeadBody deadBody = null;
+
+        List<DeadBody> deadBodyList = GameManager.Instance.deadBodyList;
+
+        for (int i = 0; i < deadBodyList.Count; i++)
+        {
+            //상호작용범위 안에 있는지 체크
+            if (Vector2.Distance(player.GetTrm().position, deadBodyList[i].transform.position) <= range)
+            {
+                if (deadBody == null)
+                {
+                    //없으면 하나 넣어주고
+                    deadBody = deadBodyList[i];
+                }
+                else
+                {
+                    //있으면 거리비교
+                    if (Vector2.Distance(player.GetTrm().position, deadBody.transform.position) >
+                        Vector2.Distance(player.GetTrm().position, deadBodyList[i].transform.position))
+                    {
+                        deadBody = deadBodyList[i];
+                    }
+                }
+            }
+        }
+
+        return deadBody;
     }
 }

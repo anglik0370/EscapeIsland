@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     public List<ItemSpawner> spawnerList = new List<ItemSpawner>();
     public List<Refinery> refineryList = new List<Refinery>();
     public List<ItemSO> itemList = new List<ItemSO>();
+    public List<DeadBody> deadBodyList = new List<DeadBody>();
+
+    public DeadBody deadBodyPrefab;
 
     private StoragePanel storagePanel;
 
@@ -24,6 +27,8 @@ public class GameManager : MonoBehaviour
         spawnerList = GameObject.FindObjectsOfType<ItemSpawner>().ToList();
         refineryList = GameObject.FindObjectsOfType<Refinery>().ToList();
         storagePanel = FindObjectOfType<StoragePanel>();
+
+        PoolManager.CreatePool<DeadBody>(deadBodyPrefab.gameObject, transform, 5);
     }
 
     public ItemSO FindItemFromItemId(int id)

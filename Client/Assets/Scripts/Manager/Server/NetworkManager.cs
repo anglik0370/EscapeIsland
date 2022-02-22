@@ -468,7 +468,6 @@ public class NetworkManager : MonoBehaviour
             }
         }
     }
-
     
     public void RefreshRoom()
     {

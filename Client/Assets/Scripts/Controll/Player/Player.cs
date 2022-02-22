@@ -94,7 +94,14 @@ public class Player : MonoBehaviour
 
         gameObject.SetActive(false);
         ui.gameObject.SetActive(false);
+
+        DeadBody deadBody = PoolManager.GetItem<DeadBody>();
+
+        deadBody.GetTrm().position = transform.position;
+
+        GameManager.Instance.deadBodyList.Add(deadBody);
     }
+
     public void SetEnable()
     {
         gameObject.SetActive(true);
@@ -172,8 +179,6 @@ public class Player : MonoBehaviour
                 {
                     sr.flipX = false;
                 }
-
-                
 
                 //anim.SetBool("isMoving", true);
             }

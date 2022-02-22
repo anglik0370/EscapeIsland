@@ -34,6 +34,7 @@ public class ObjectAccent : MonoBehaviour
 
         transform.position = trm.position;
         transform.localScale = trm.localScale;
+        transform.rotation = trm.rotation;
     }
 
     public void Disable()
