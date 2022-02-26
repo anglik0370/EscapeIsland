@@ -21,6 +21,8 @@ class Room {
 
         this.socketList = [];
         this.userList = {};
+
+        this.isEnd = true;
     }
 
     startTimer() {

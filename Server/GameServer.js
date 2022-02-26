@@ -360,20 +360,24 @@ wsService.on("connection", socket => {
                             userList[comRoomKeys[i]].voteComplete = false;
                         }
                         
-                        if(targetSocIdArr.length != 1) {
-                            //아무도 표를 받지 않았거나 동표임
-
-                            completeRoom.changeTime();
-
-                            // completeRoom.socketList.forEach(soc => {
-                            //     soc.send(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
-                            // });
+                        if(targetSocIdArr.length == 1) {
+                            completeRoom.socketList.forEach(soc => {
+                                soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
+                            });
                             return;
                         }
-
-                        completeRoom.socketList.forEach(soc => {
-                            soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
-                        });
+                        //아무도 표를 받지 않았거나 동표임
+                        
+                        if(completeRoom.isEnd) {
+                            completeRoom.changeTime();
+                        }
+                        else{
+                            completeRoom.socketList.forEach(soc => {
+                                soc.send(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
+                            });
+            
+                            completeRoom.startTimer();
+                        }
                     }
 
                     break;
@@ -387,13 +391,13 @@ wsService.on("connection", socket => {
                     }
 
                     emRoom.startVoteTimer();
+                    emRoom.isEnd = false;
 
                     let emDataList = Object.values(emRoom.userList);
 
                     emRoom.socketList.forEach(soc => {
                         soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:emDataList})}));
                     });
-
                     break;
                 case "DEAD_REPORT":
                     let drRoom = roomList[socket.room];
@@ -405,6 +409,7 @@ wsService.on("connection", socket => {
                     }
 
                     drRoom.startVoteTimer();
+                    drRoom.isEnd = false;
 
                     let drDataList = Object.values(drRoom.userList);
 
