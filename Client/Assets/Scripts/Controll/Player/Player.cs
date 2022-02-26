@@ -95,6 +95,11 @@ public class Player : MonoBehaviour
         gameObject.SetActive(false);
         ui.gameObject.SetActive(false);
 
+        
+    }
+
+    public void SetDeadBody()
+    {
         DeadBody deadBody = PoolManager.GetItem<DeadBody>();
 
         deadBody.GetTrm().position = transform.position;

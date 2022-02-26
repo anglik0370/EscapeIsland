@@ -19,10 +19,18 @@ public class MeetManager : MonoBehaviour
         if(isEmergency)
         {
             print("긴급 회의 시작");
+
+            DataVO dataVO = new DataVO("EMERGENCY", "");
+
+            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
         }
         else
         {
             print("시체 발견");
+
+            DataVO dataVO = new DataVO("DEAD_REPORT", "");
+
+            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
         }
     }
 }

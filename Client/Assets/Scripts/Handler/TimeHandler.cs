@@ -18,7 +18,7 @@ public class TimeHandler : MonoBehaviour
     [SerializeField]
     private int day = 1;
 
-    private float endTime = 0f;
+    public float endTime = 0f;
 
     private void Awake() 
     {
@@ -45,9 +45,7 @@ public class TimeHandler : MonoBehaviour
         if (!isLightTime)
         {
             darkTimeEvent.Occurred();
-            endTime = 15f;
-            PopupManager.instance.ClosePopup();
-            NetworkManager.instance.StopOrPlay(true);
+            
             dayAndSlotText.text = $"{day}번째 밤";
         }
         else

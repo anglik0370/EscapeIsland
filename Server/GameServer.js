@@ -375,6 +375,41 @@ wsService.on("connection", socket => {
                     }
 
                     break;
+                case "EMERGENCY":
+                    let emRoom = roomList[socket.room];
+                    let emKeys = Object.keys(emRoom.userList);
+                    let emPosList = SetSpawnPoint(emKeys.length);
+
+                    for(let i = 0; i < emKeys.length; i++) {
+                        userList[emKeys[i]].position = emPosList[i];
+                    }
+
+                    emRoom.startVoteTimer();
+
+                    let emDataList = Object.values(emRoom.userList);
+
+                    emRoom.socketList.forEach(soc => {
+                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:emDataList})}));
+                    });
+
+                    break;
+                case "DEAD_REPORT":
+                    let drRoom = roomList[socket.room];
+                    let drKeys = Object.keys(drRoom.userList);
+                    let drPosList = SetSpawnPoint(drKeys.length);
+
+                    for(let i = 0; i < drKeys.length; i++) {
+                        userList[drKeys[i]].position = drPosList[i];
+                    }
+
+                    drRoom.startVoteTimer();
+
+                    let drDataList = Object.values(drRoom.userList);
+
+                    drRoom.socketList.forEach(soc => {
+                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:drDataList})}));
+                    });
+                    break;
             }
         }
         catch (error) {

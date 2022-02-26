@@ -43,6 +43,7 @@ public class NetworkManager : MonoBehaviour
     private bool needVoteRefresh = false;
     private bool needTimeRefresh = false;
     private bool needVoteComplete = false;
+    private bool endVoteTime = false;
 
     private Player user = null;
 
@@ -106,6 +107,14 @@ public class NetworkManager : MonoBehaviour
         {
             instance.tempDataList = list;
             instance.needVoteRefresh = true;
+        }
+    }
+
+    public static void SetVoteEnd()
+    {
+        lock(instance.lockObj)
+        {
+            instance.endVoteTime = true;
         }
     }
 
@@ -243,6 +252,12 @@ public class NetworkManager : MonoBehaviour
         {
             VoteComplete();
             needVoteComplete = false;
+        }
+
+        if(endVoteTime)
+        {
+            EndVoteTime();
+            endVoteTime = false;
         }
 
         while(chatQueue.Count > 0)
@@ -537,6 +552,7 @@ public class NetworkManager : MonoBehaviour
                     if (p.gameObject.activeSelf && uv.isDie && !user.isDie)
                     {
                         p.SetDisable();
+                        p.SetDeadBody();
                     }
                 }
             }
@@ -597,7 +613,16 @@ public class NetworkManager : MonoBehaviour
 
     public void RefreshTime(int day,bool isLightTime)
     {
+        EndVoteTime();
         TimeHandler.Instance.TimeRefresh(day, isLightTime);
+    }
+    
+    public void EndVoteTime()
+    {
+        TimeHandler.Instance.endTime = 15f;
+        PopupManager.instance.ClosePopup();
+        voteTab.VoteUIDisable();
+        StopOrPlay(true);
     }
 
     public void Login(string name)

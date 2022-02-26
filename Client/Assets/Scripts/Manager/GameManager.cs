@@ -40,4 +40,21 @@ public class GameManager : MonoBehaviour
     {
         storagePanel.AddItem(so);
     }
+
+    public void ClearDeadBody()
+    {
+        if (deadBodyList.Count == 0) return;
+
+        foreach (DeadBody deadBody in deadBodyList)
+        {
+            if (!deadBody.gameObject.activeSelf)
+            {
+                continue;
+            }
+
+            deadBody.gameObject.SetActive(false);
+        }
+
+        deadBodyList.Clear();
+    }
 }

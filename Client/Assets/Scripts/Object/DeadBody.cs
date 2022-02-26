@@ -25,16 +25,8 @@ public class DeadBody : MonoBehaviour
     {
         MeetManager.Instance.Meet(false);
 
-        foreach(DeadBody deadBody in GameManager.Instance.deadBodyList)
-        {
-            if(!deadBody.gameObject.activeSelf)
-            {
-                continue;
-            }
-
-            deadBody.gameObject.SetActive(false);
-        }
-
-        GameManager.Instance.deadBodyList.Clear();
+       GameManager.Instance.ClearDeadBody();
     }
+
+    
 }
