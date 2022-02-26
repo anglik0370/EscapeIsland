@@ -7,5 +7,6 @@ public class VoteDieHandler : MonoBehaviour,IMsgHandler
     public void HandleMsg(string payload)
     {
         int dieSocId = int.Parse(payload);
+        NetworkManager.SetVoteDead(dieSocId);
     }
 }

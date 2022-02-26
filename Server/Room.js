@@ -87,6 +87,32 @@ class Room {
         let dt = Date.now() - this.expected;
 
         if(this.inVoteTImer.timeRefresh()) {
+            let dummy = 0;
+            let targetSocIdArr = [];
+
+            let comRoomKeys = Object.keys(this.userList);
+
+            for(let i = 0; i < comRoomKeys.length; i++) {
+                if(dummy != 0 && this.userList[comRoomKeys[i]].voteNum == dummy) {
+                    targetSocIdArr.push(this.userList[comRoomKeys[i]].socketId);
+                }
+                else if(this.userList[comRoomKeys[i]].voteNum > dummy) {
+                    dummy = this.userList[comRoomKeys[i]].voteNum;
+                    targetSocIdArr.length = 0;
+                    targetSocIdArr.push(this.userList[comRoomKeys[i]].socketId);
+                }
+
+                this.userList[comRoomKeys[i]].voteNum = 0;
+                this.userList[comRoomKeys[i]].voteComplete = false;
+            }
+            
+            
+            if(targetSocIdArr.length == 1) {
+                this.socketList.forEach(soc => {
+                    soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
+                });
+            }
+
             if(isEnd) {
                 this.changeTime();
             }

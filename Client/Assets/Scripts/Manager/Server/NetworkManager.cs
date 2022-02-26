@@ -44,6 +44,9 @@ public class NetworkManager : MonoBehaviour
     private bool needTimeRefresh = false;
     private bool needVoteComplete = false;
     private bool endVoteTime = false;
+    private bool needVoteDeadRefresh;
+
+    private int tempId = -1;
 
     private Player user = null;
 
@@ -107,6 +110,15 @@ public class NetworkManager : MonoBehaviour
         {
             instance.tempDataList = list;
             instance.needVoteRefresh = true;
+        }
+    }
+
+    public static void SetVoteDead(int deadId)
+    {
+        lock(instance.lockObj)
+        {
+            instance.needVoteDeadRefresh = true;
+            instance.tempId = deadId;
         }
     }
 
@@ -254,6 +266,12 @@ public class NetworkManager : MonoBehaviour
             needVoteComplete = false;
         }
 
+        if(needVoteDeadRefresh)
+        {
+            SetDeadRefresh();
+            needVoteDeadRefresh = false;
+        }
+
         if(endVoteTime)
         {
             EndVoteTime();
@@ -372,7 +390,28 @@ public class NetworkManager : MonoBehaviour
             
         }
     }
+    public void SetDeadRefresh()
+    {
+        if(tempId == socketId)
+        {
 
+            
+        }
+        else if(playerList.ContainsKey(tempId))
+        {
+            Player p = playerList[tempId];
+
+            p.SetDead();
+
+            if (p.gameObject.activeSelf && p.isDie && !user.isDie)
+            {
+                p.SetDisable();
+            }
+        }
+        PlayerEnable();
+
+        EndVoteTime();
+    }
     public void OnGameStart()
     {
         PopupManager.instance.ClosePopup();

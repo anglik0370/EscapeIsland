@@ -80,6 +80,8 @@ public class PopupManager : MonoBehaviour
     }
     public void ClosePopup() //UI 비활성화
     {
+        if (popupStack.Count == 0) return;
+
         popupStack.Pop().Close();
 
         if (popupStack.Count == 0)
