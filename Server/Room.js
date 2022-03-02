@@ -113,6 +113,7 @@ class Room {
                 this.socketList.forEach(soc => {
                     soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
                 });
+                this.userList[targetSocIdArr[0]].isDie = true;
             }
 
             if(isEnd) {

@@ -143,6 +143,8 @@ public class InteractionBtn : MonoBehaviour
     {
         Player targetPlayer = FindNearlestPlayer();
 
+        if (targetPlayer == null) return;
+
         targetPlayer.SetDead();
 
         NetworkManager.instance.Kill(targetPlayer);

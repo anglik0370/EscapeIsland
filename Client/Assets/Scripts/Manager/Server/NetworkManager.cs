@@ -317,6 +317,22 @@ public class NetworkManager : MonoBehaviour
         return playerList.Values.ToList();
     }
 
+    public bool GetPlayerDie()
+    {
+        return user.isDie;
+    }
+
+    public bool GetPlayerDie(int socId)
+    {
+        Player p = null;
+
+        playerList.TryGetValue(socId, out p);
+
+        
+
+        return p == null ? false : p.isDie;
+    }
+
     public bool IsKidnapper()
     {
         return user.isImposter;
@@ -396,8 +412,8 @@ public class NetworkManager : MonoBehaviour
     {
         if(tempId == socketId)
         {
+            user.SetDead();
 
-            
         }
         else if(playerList.ContainsKey(tempId))
         {
@@ -576,7 +592,15 @@ public class NetworkManager : MonoBehaviour
     {
         foreach (UserVO uv in tempDataList)
         {
-            if(uv.socketId != socketId)
+            if(uv.socketId == socketId)
+            {
+               if(uv.isDie)
+                {
+                    user.SetDead();
+                }
+                
+            }
+            else //if(uv.socketId != socketId)
             {
                 Player p = null;
 
@@ -597,6 +621,7 @@ public class NetworkManager : MonoBehaviour
                     }
                 }
             }
+
         }
         PlayerEnable();
     }
@@ -661,6 +686,7 @@ public class NetworkManager : MonoBehaviour
     public void EndVoteTime()
     {
         TimeHandler.Instance.endTime = 15f;
+        GameManager.Instance.ClearDeadBody();
         PopupManager.instance.ClosePopup();
         voteTab.VoteUIDisable();
         StopOrPlay(true);
