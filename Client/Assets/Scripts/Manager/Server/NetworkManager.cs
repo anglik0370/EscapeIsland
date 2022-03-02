@@ -344,7 +344,7 @@ public class NetworkManager : MonoBehaviour
         socketName = "";
         roomNum = 0;
         once = false;
-        interactionBtn.gameStart = false;
+        interactionBtn.isGameStart = false;
         map.SetActive(false);
         SetIngameCanvas(false);
     }
@@ -434,7 +434,8 @@ public class NetworkManager : MonoBehaviour
     {
         PopupManager.instance.ClosePopup();
         SetIngameCanvas(true);
-        interactionBtn.gameStart = true;
+
+        //interactionBtn.gameStart = true;
 
         foreach (UserVO uv in tempDataList)
         {
@@ -442,11 +443,9 @@ public class NetworkManager : MonoBehaviour
             {
                 inGameJoyStick.enabled = true;
              
-                user.inventory = FindObjectOfType<Inventory>();
-                interactionBtn.Init(user);
                 user.transform.position = uv.position;
 
-                covers.ForEach(x => x.SetPlayer(user));
+                EventManager.OccurGameStart(user);
             }
             else
             {
@@ -669,8 +668,9 @@ public class NetworkManager : MonoBehaviour
                     //�ȷο� ķ ����
                     followCam.Follow = user.gameObject.transform;
 
-
                     once = true;
+
+                    EventManager.OccurEnterRoom(user);
                 }
             }
             
@@ -728,7 +728,7 @@ public class NetworkManager : MonoBehaviour
         roomNum = 0;
         once = false;
         startBtn.enabled = false;
-        interactionBtn.gameStart = false;
+        interactionBtn.isGameStart = false;
         //PlayerClear();
 
         DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));

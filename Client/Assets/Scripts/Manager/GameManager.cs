@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<DeadBody>(deadBodyPrefab.gameObject, transform, 5);
     }
 
+    private void Start()
+    {
+        EventManager.SubGameStart(p =>
+        {
+            p.inventory = FindObjectOfType<Inventory>();
+        });
+    }
+
     public ItemSO FindItemFromItemId(int id)
     {
         return itemList.Find(x => x.itemId == id);

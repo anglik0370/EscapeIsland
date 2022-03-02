@@ -31,7 +31,7 @@ public class InteractionBtn : MonoBehaviour
     private Button btn;
     private Image image;
 
-    public bool gameStart;
+    public bool isGameStart;
 
 
     private void Awake() 
@@ -47,86 +47,92 @@ public class InteractionBtn : MonoBehaviour
         //range = player.range;
 
         btn.onClick.AddListener(PickUpNearlestItem);
+
+        isGameStart = false;
+    }
+
+    private void Start()
+    {
+        EventManager.SubGameStart(Init);
     }
 
     private void Update() 
     {
-        if(gameStart)
+        if (!isGameStart) return;
+
+        if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
         {
-            if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
-            {
-                //여긴 킬하는곳
+            //여긴 킬하는곳
 
-                image.sprite = killSprite;
+            image.sprite = killSprite;
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(KillPlayer);
+
+            accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
+        }
+        else if (FindNearlestRefinery() != null)
+        {
+            //여긴 제련소 여는곳
+
+            image.sprite = interactionSprite;
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() =>
+            {
+                OpenRefineryPanel(FindNearlestRefinery());
+            });
+
+            accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
+        }
+        else if (Vector2.Distance(player.GetTrm().position, storage.GetTrm().position) <= player.range)
+        {
+            //여긴 저장소 여는 곳
+
+            image.sprite = interactionSprite;
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(OpenStoragePanel);
+
+            accent.Disable();
+        }
+        else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
+        {
+            //여긴 긴급회의 여는 곳
+
+            image.sprite = emergencySprite;
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() =>
+            {
+                meetingTable.Meeting();
+            });
+
+            accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
+        }
+        else
+        {
+            image.sprite = pickUpSprite;
+
+            if (FindNearlestSpawner() != null)
+            {
+                //여긴 아이템 줍는곳
+
+                image.sprite = pickUpSprite;
                 btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(KillPlayer);
+                btn.onClick.AddListener(PickUpNearlestItem);
 
-                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
+                accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
             }
-            else if (FindNearlestRefinery() != null)
+            else if (FindNearlestDeadBody() != null)
             {
-                //여긴 제련소 여는곳
-
-                image.sprite = interactionSprite;
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(() =>
-                {
-                    OpenRefineryPanel(FindNearlestRefinery());
-                });
-
-                accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
-            }
-            else if (Vector2.Distance(player.GetTrm().position, storage.GetTrm().position) <= player.range)
-            {
-                //여긴 저장소 여는 곳
-
-                image.sprite = interactionSprite;
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(OpenStoragePanel);
-
-                accent.Disable();
-            }
-            else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
-            {
-                //여긴 긴급회의 여는 곳
+                //여긴 주변 시체 신고하는곳
 
                 image.sprite = emergencySprite;
                 btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(() =>
-                {
-                    meetingTable.Meeting();
-                });
+                btn.onClick.AddListener(ReportNearlestDeadbody);
 
-                accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
+                accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
             }
             else
             {
-                image.sprite = pickUpSprite;
-
-                if (FindNearlestSpawner() != null)
-                {
-                    //여긴 아이템 줍는곳
-
-                    image.sprite = pickUpSprite;
-                    btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(PickUpNearlestItem);
-
-                    accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
-                }
-                else if (FindNearlestDeadBody() != null)
-                {
-                    //여긴 주변 시체 신고하는곳
-
-                    image.sprite = emergencySprite;
-                    btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(ReportNearlestDeadbody);
-
-                    accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
-                }
-                else
-                {
-                    accent.Disable();
-                }
+                accent.Disable();
             }
         }
     }
@@ -137,6 +143,8 @@ public class InteractionBtn : MonoBehaviour
 
         inventory = p.inventory;
         range = p.range;
+
+        isGameStart = true;
     }
 
     public void KillPlayer()

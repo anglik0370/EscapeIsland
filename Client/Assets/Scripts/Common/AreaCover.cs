@@ -32,6 +32,11 @@ public class AreaCover : MonoBehaviour
         isCovered = true;
     }
 
+    private void Start()
+    {
+        EventManager.SubEnterRoom(SetPlayer);
+    }
+
     public void SetPlayer(Player p)
     {
         player = p;
