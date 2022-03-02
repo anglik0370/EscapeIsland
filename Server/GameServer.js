@@ -337,7 +337,8 @@ wsService.on("connection", socket => {
                     let targetSocIdArr = [];
 
                     for(let i = 0; i < comRoomKeys.length; i++) {
-                        if(!userList[comRoomKeys[i]].voteComplete) {
+                        //안죽었을때 & 투표완료했을때 넘어가야함
+                        if((!userList[comRoomKeys[i]].voteComplete && !userList[comRoomKeys[i]].isDie)) {
                             allComplete = false;
                             break;
                         }
@@ -364,6 +365,7 @@ wsService.on("connection", socket => {
                             completeRoom.socketList.forEach(soc => {
                                 soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
                             });
+                            userList[targetSocIdArr[0]].isDie = true;
                             return;
                         }
                         //아무도 표를 받지 않았거나 동표임

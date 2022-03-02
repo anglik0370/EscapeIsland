@@ -12,7 +12,7 @@ public class VoteUI : MonoBehaviour
     public Toggle checkToggle;
     public Image voteCompleteImg;
 
-    public void SetVoteUI(int socId,string name,Sprite charSprite,ToggleGroup group)
+    public void SetVoteUI(int socId, string name, Sprite charSprite, ToggleGroup group)
     {
         this.socId = socId;
         nickNameText.text = name;
@@ -20,7 +20,16 @@ public class VoteUI : MonoBehaviour
         checkToggle.group = group;
 
         checkToggle.isOn = false;
-        ToggleOnOff(true);
+        if(NetworkManager.instance.GetPlayerDie())
+        {
+            ToggleOnOff(false);
+
+        }
+        else
+        {
+            ToggleOnOff(true);
+        }
+
         voteCompleteImg.gameObject.SetActive(false);
 
         OnOff(true);
