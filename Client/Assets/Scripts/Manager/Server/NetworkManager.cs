@@ -64,6 +64,8 @@ public class NetworkManager : MonoBehaviour
 
     public Vote voteTab;
 
+    public List<AreaCover> covers = new List<AreaCover>();
+
     private void Awake()
     {
         if (instance != null)
@@ -418,8 +420,6 @@ public class NetworkManager : MonoBehaviour
         SetIngameCanvas(true);
         interactionBtn.gameStart = true;
 
-
-
         foreach (UserVO uv in tempDataList)
         {
             if(uv.socketId == socketId)
@@ -429,6 +429,8 @@ public class NetworkManager : MonoBehaviour
                 user.inventory = FindObjectOfType<Inventory>();
                 interactionBtn.Init(user);
                 user.transform.position = uv.position;
+
+                covers.ForEach(x => x.SetPlayer(user));
             }
             else
             {
