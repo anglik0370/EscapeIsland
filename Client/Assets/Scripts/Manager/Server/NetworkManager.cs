@@ -383,6 +383,7 @@ public class NetworkManager : MonoBehaviour
     public void OnVoteTimeStart()
     {
         StopOrPlay(false);
+        GameManager.Instance.ClearDeadBody();
         PopupManager.instance.OpenPopup("vote");
         
 
@@ -686,7 +687,7 @@ public class NetworkManager : MonoBehaviour
     public void EndVoteTime()
     {
         TimeHandler.Instance.endTime = 15f;
-        GameManager.Instance.ClearDeadBody();
+        
         PopupManager.instance.ClosePopup();
         voteTab.VoteUIDisable();
         StopOrPlay(true);
