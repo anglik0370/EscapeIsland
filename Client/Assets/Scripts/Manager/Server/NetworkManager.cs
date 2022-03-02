@@ -320,6 +320,17 @@ public class NetworkManager : MonoBehaviour
         return user.isDie;
     }
 
+    public bool GetPlayerDie(int socId)
+    {
+        Player p = null;
+
+        playerList.TryGetValue(socId, out p);
+
+        
+
+        return p == null ? false : p.isDie;
+    }
+
     public bool IsKidnapper()
     {
         return user.isImposter;
