@@ -48,22 +48,18 @@ public class NetworkManager : MonoBehaviour
     private bool endVoteTime = false;
     private bool needVoteDeadRefresh = false;
     private bool needWinRefresh = false;
+    private bool needStorageFullRefresh = false;
 
     private int tempId = -1;
+    private string msg = string.Empty;
 
     private Player user = null;
 
     public GameObject[] lights;
 
     public CinemachineVirtualCamera followCam;
-    public JoyStick roomJoyStick;
-    public JoyStick inGameJoyStick;
 
-    public Button startBtn;
     public GameObject map;
-    public CanvasGroup ingameCanvas;
-
-    public InteractionBtn interactionBtn;
 
     public Vote voteTab;
 
@@ -106,6 +102,15 @@ public class NetworkManager : MonoBehaviour
             instance.needWinRefresh = true;
             instance.winUserList = list;
             instance.isKidnapperWin = isKidnapperWin;
+        }
+    }
+
+    public static void SetStorageFullData(string msg)
+    {
+        lock(instance.lockObj)
+        {
+            instance.needStorageFullRefresh = true;
+            instance.msg = msg;
         }
     }
 
@@ -291,6 +296,12 @@ public class NetworkManager : MonoBehaviour
             EndVoteTime();
             endVoteTime = false;
         }
+
+        if(needStorageFullRefresh)
+        {
+            SetStorageFull();
+            needStorageFullRefresh = false;
+        }
         
         if(needWinRefresh)
         {
@@ -362,9 +373,10 @@ public class NetworkManager : MonoBehaviour
         socketName = "";
         roomNum = 0;
         once = false;
-        interactionBtn.isGameStart = false;
+
         map.SetActive(false);
-        SetIngameCanvas(false);
+
+        EventManager.OccurExitRoom();
     }
 
     public void EnterLobby()
@@ -373,17 +385,15 @@ public class NetworkManager : MonoBehaviour
         ExitRoomSend();
     }
 
-    public void SetIngameCanvas(bool enable)
-    {
-        ingameCanvas.alpha = enable ? 1f : 0f;
-        ingameCanvas.interactable = enable;
-        ingameCanvas.blocksRaycasts = enable;
-    }
-
     public void StopOrPlay(bool on)
     {
-        inGameJoyStick.SetEnable(on);
-        interactionBtn.enabled = on;
+        //inGameJoyStick.SetEnable(on);
+        //interactionBtn.enabled = on;
+    }
+
+    public void SetStorageFull()
+    {
+        //msg띄워주기
     }
 
     //
@@ -469,7 +479,6 @@ public class NetworkManager : MonoBehaviour
     public void OnGameStart()
     {
         PopupManager.instance.ClosePopup();
-        SetIngameCanvas(true);
 
         //interactionBtn.gameStart = true;
 
@@ -477,7 +486,7 @@ public class NetworkManager : MonoBehaviour
         {
             if(uv.socketId == socketId)
             {
-                inGameJoyStick.enabled = true;
+                //inGameJoyStick.enabled = true;
              
                 user.transform.position = uv.position;
 
@@ -539,28 +548,26 @@ public class NetworkManager : MonoBehaviour
 
     public void EnterRoom()
     {
-        PopupManager.instance.CloseAndOpen("room");
+        //PopupManager.instance.CloseAndOpen("room");
+        PopupManager.instance.ClosePopup();
         map.SetActive(true);
     }
     public void ExitRoom()
     {
         roomNum = 0;
         once = false;
-        startBtn.enabled = false;
-        interactionBtn.isGameStart = false;
 
         PlayerClear();
         map.SetActive(false);
-        SetIngameCanvas(false);
+
+        EventManager.OccurExitRoom();
         PopupManager.instance.CloseAndOpen("lobby");
     }
 
     public void GameEnd()
     {
-        interactionBtn.isGameStart = false;
-        
-        SetIngameCanvas(false);
-        PopupManager.instance.OpenPopup("room");
+        //EventManager.OccurExitRoom();
+        EventManager.OccurBackToRoom();
     }
 
     public void PlayerClear()
@@ -617,7 +624,6 @@ public class NetworkManager : MonoBehaviour
             if (uv.socketId == socketId)
             {
                 user.master = uv.master;
-                startBtn.enabled = uv.master;
                 user.isImposter = uv.isImposter;
             }
             else
@@ -700,20 +706,18 @@ public class NetworkManager : MonoBehaviour
                     InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
                     user.InitPlayer(uv, ui, false);
 
-
-                    for (int i = 0; i < lights.Length; i++)
+                    if(user.transform.childCount <= 0)
                     {
-                        GameObject obj = Instantiate(lights[i], user.transform);
-                        obj.transform.localPosition = Vector3.zero;
+                        for (int i = 0; i < lights.Length; i++)
+                        {
+                            GameObject obj = Instantiate(lights[i], user.transform);
+                            obj.transform.localPosition = Vector3.zero;
+                        }
                     }
+                    
 
                     roomNum = uv.roomNum;
-                    if(user.master)
-                    {
-                        startBtn.enabled = true;
-                    }
-                    roomJoyStick.player = user;
-                    inGameJoyStick.player = user;
+
                     //�ȷο� ķ ����
                     followCam.Follow = user.gameObject.transform;
 
@@ -774,7 +778,11 @@ public class NetworkManager : MonoBehaviour
         RoomVO vo = new RoomVO();
         vo.roomNum = roomNum;
 
-        
+        roomNum = 0;
+        once = false;
+
+        EventManager.OccurExitRoom();
+
         //PlayerClear();
 
         DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));
@@ -785,7 +793,7 @@ public class NetworkManager : MonoBehaviour
     public void GameStartBtn()
     {
         //PopupManager.instance.CloseAndOpen("ingame");
-        
+        if (!user.master) return;
         
 
         RoomVO vo = new RoomVO();
@@ -812,6 +820,13 @@ public class NetworkManager : MonoBehaviour
         vo.itemSOId = itemSOId;
 
         DataVO dataVO = new DataVO("STORAGE_DROP", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void StorageFull()
+    {
+        DataVO dataVO = new DataVO("STORAGE_FULL", "");
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

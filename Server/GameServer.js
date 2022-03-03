@@ -266,6 +266,7 @@ wsService.on("connection", socket => {
                     //     dRoom.socketList.forEach(soc => {
                     //         soc.send(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList:dRoomUserList})}));
                     //     });
+                    //     dRoom.initRoom();
                     // }
 
                     
@@ -286,6 +287,27 @@ wsService.on("connection", socket => {
                         if(soc.id == socket.id) return;
                         soc.send(JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
                     });
+                    break;
+                case "STORAGE_FULL":
+                    let fullRoom = roomList[socket.room];
+
+                    if(fullRoom.inGameTimer.isLightTime) {
+                        fullRoom.inGameTimer.isEndGame = true;
+                        fullRoom.socketList.forEach(soc => {
+                            soc.send(JSON.stringify({type:"STORAGE_FULL",payload:"저녁까지 쳐 버티도록 하세요"}));
+                        });
+                    }
+                    else {
+                        let dataList = Object.values(fullRoom.userList);
+
+                        fullRoom.socketList.forEach(soc => {
+                            soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList})}));
+                        });
+
+                        fullRoom.initRoom();
+                    }
+
+                    
                     break;
                 case "START_REFINERY":
                     let startData = JSON.parse(data.payload);
@@ -329,7 +351,13 @@ wsService.on("connection", socket => {
 
                     let completeRoom = roomList[socket.room];
 
-                    userList[completePayload.voteTargetId].voteNum++;
+                    if(completePayload.voteTargetId === -1){
+
+                    }
+                    else {
+                        userList[completePayload.voteTargetId].voteNum++;
+                    }
+
                     userList[completePayload.voterId].voteComplete = true;
 
                     completeRoom.socketList.forEach(soc => {
@@ -444,6 +472,15 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
     socket.room = 0; //나왔으니 룸 초기화
 
+    socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
+    targetRoom.curUserNum--; //그 방의 인원수--;
+    targetRoom.removeSocket(socket.id);
+
+    if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
+        let keys = Object.keys(targetRoom.userList);
+        userList[keys[0]].master = true;
+    }
+
     if(userList[socket.id] !== undefined){ 
         // 초기화
         
@@ -453,15 +490,6 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
         userList[socket.id].isDie = false;
         userList[socket.id].voteNum = 0;
         userList[socket.id].voteComplete = false;
-    }
-
-    socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
-    targetRoom.curUserNum--; //그 방의 인원수--;
-    targetRoom.removeSocket(socket.id);
-
-    if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
-        let keys = Object.keys(targetRoom.userList);
-        userList[keys[0]].master = true;
     }
     
     

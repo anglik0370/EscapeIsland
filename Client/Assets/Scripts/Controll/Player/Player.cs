@@ -116,6 +116,8 @@ public class Player : MonoBehaviour
     public void SetDead()
     {
         isDie = true;
+
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.3f);
     }
 
     public void Move(Vector3 dir)

@@ -24,6 +24,13 @@ class Room {
 
         this.isEnd = true;
     }
+    
+    initRoom() {
+        this.playing = false;
+        this.stopTimer();
+        this.inGameTimer = new InGameTimer();
+        this.inVoteTImer = new InVoteTimer();
+    }
 
     startTimer() {
         this.expected = Date.now() + 1000; //현재시간 + 1초
@@ -44,6 +51,17 @@ class Room {
         let dt = Date.now() - this.expected; //현재 시간 - 시작시간
 
         if(this.inGameTimer.timeRefresh(this.socketList)) {
+
+            if(this.inGameTimer.isEndGame) {
+                let dataList = Object.values(this.userList);
+
+                this.socketList.forEach(soc => {
+                    soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList})}));
+                });
+                this.initRoom();
+
+                return;
+            }
             let keys = Object.keys(this.userList);
             let posList = SetSpawnPoint(keys.length);
 
@@ -143,7 +161,8 @@ class Room {
     removeSocket(rSocketIdx) {
         let idx = this.socketList.findIndex(soc => soc.id == rSocketIdx);
         this.socketList.splice(idx,1);
-        
+
+        //this.userList[rSocketIdx] = undefined;
         delete this.userList[rSocketIdx];
     }
 

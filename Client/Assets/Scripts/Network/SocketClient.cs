@@ -53,11 +53,14 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("VOTE_COMPLETE", handlerParent.GetComponent<VoteCompleteHandler>());
         handlerDic.Add("VOTE_DIE", handlerParent.GetComponent<VoteDieHandler>());
         handlerDic.Add("VOTE_TIME_END", handlerParent.GetComponent<VoteTimeEndHandler>());
+        handlerDic.Add("STORAGE_FULL", handlerParent.GetComponent<StorageFullHandler>());
         handlerDic.Add("WIN_KIDNAPPER", handlerParent.GetComponent<WinKidnapperHandler>());
+        handlerDic.Add("WIN_CITIZEN", handlerParent.GetComponent<WinCitizenHandler>());
 
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());
-        
+        //25.17.255.82
+
     }
 
     public void ConnectSocket(string ip, string port)
@@ -93,6 +96,7 @@ public class SocketClient : MonoBehaviour
             DataVO vo = packetList.Dequeue();
             if (handlerDic.TryGetValue(vo.type, out handler))
             {
+                print(vo.type);
                 handler.HandleMsg(vo.payload);
             }
             else

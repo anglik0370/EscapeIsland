@@ -37,7 +37,6 @@ public class Lobby : Popup
         });
         exitBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.SetIngameCanvas(false);
             NetworkManager.instance.SocketDisconnect();
             SocketClient.instance.InitWebSocket();
             //PopupManager.instance.CloseAndOpen("ingame");

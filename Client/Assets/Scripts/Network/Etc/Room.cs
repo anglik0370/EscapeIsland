@@ -12,9 +12,6 @@ public class Room : Popup
 
     private void Start()
     {
-        NetworkManager.instance.roomJoyStick = roomJoyStick;
-        NetworkManager.instance.startBtn = startBtn;
-
         startBtn.onClick.AddListener(() =>
         {
             NetworkManager.instance.GameStartBtn();

@@ -28,6 +28,11 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
         //반지름을 가져온다
         radius = backgroundRect.rect.width * 0.5f;
+
+        EventManager.SubEnterRoom(p =>
+        {
+            player = p;
+        });
     }
 
     private void Update() 

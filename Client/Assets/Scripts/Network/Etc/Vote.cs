@@ -23,6 +23,7 @@ public class Vote : Popup
     public ToggleGroup toggleGroup;
     public Transform voteParent;
     public Button voteCompleteBtn;
+    public Toggle skipToggle;
 
     public List<VoteUI> voteUIList = new List<VoteUI>();
 
@@ -30,6 +31,8 @@ public class Vote : Popup
     {
         voteUIList = voteParent.GetComponentsInChildren<VoteUI>().ToList();
         voteUIList.ForEach(x => x.OnOff(false));
+
+        //skipToggle.group = toggleGroup;
 
         sendMsgBtn.onClick.AddListener(() =>
         {
@@ -43,6 +46,7 @@ public class Vote : Popup
         {
             CanvasOpenAndClose(chatPanel, !chatPanel.interactable);
         });
+        
 
         voteCompleteBtn.onClick.AddListener(() =>
         {
@@ -55,7 +59,9 @@ public class Vote : Popup
                 return;
             }
 
-            int selectSocket = toggle.GetComponentInParent<VoteUI>().socId;
+            VoteUI ui = toggle.GetComponentInParent<VoteUI>();
+
+            int selectSocket = ui == null ? -1 : ui.socId;
             VoteCompleteVO vo = new VoteCompleteVO(NetworkManager.instance.socketId, selectSocket);
 
             DataVO dataVO = new DataVO("VOTE_COMPLETE", JsonUtility.ToJson(vo));
