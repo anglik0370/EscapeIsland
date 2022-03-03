@@ -53,12 +53,9 @@ public class NetworkManager : MonoBehaviour
     public GameObject[] lights;
 
     public CinemachineVirtualCamera followCam;
-    public JoyStick roomJoyStick;
-    public JoyStick inGameJoyStick;
 
-    public Button startBtn;
+    //public Button startBtn;
     public GameObject map;
-    public CanvasGroup ingameCanvas;
 
     public InteractionBtn interactionBtn;
 
@@ -346,7 +343,8 @@ public class NetworkManager : MonoBehaviour
         once = false;
         interactionBtn.isGameStart = false;
         map.SetActive(false);
-        SetIngameCanvas(false);
+
+        EventManager.OccurExitRoom();
     }
 
     public void EnterLobby()
@@ -355,17 +353,10 @@ public class NetworkManager : MonoBehaviour
         ExitRoomSend();
     }
 
-    public void SetIngameCanvas(bool enable)
-    {
-        ingameCanvas.alpha = enable ? 1f : 0f;
-        ingameCanvas.interactable = enable;
-        ingameCanvas.blocksRaycasts = enable;
-    }
-
     public void StopOrPlay(bool on)
     {
-        inGameJoyStick.SetEnable(on);
-        interactionBtn.enabled = on;
+        //inGameJoyStick.SetEnable(on);
+        //interactionBtn.enabled = on;
     }
 
     public void VoteComplete()
@@ -434,7 +425,6 @@ public class NetworkManager : MonoBehaviour
     public void OnGameStart()
     {
         PopupManager.instance.ClosePopup();
-        SetIngameCanvas(true);
 
         //interactionBtn.gameStart = true;
 
@@ -442,7 +432,7 @@ public class NetworkManager : MonoBehaviour
         {
             if(uv.socketId == socketId)
             {
-                inGameJoyStick.enabled = true;
+                //inGameJoyStick.enabled = true;
              
                 user.transform.position = uv.position;
 
@@ -504,14 +494,16 @@ public class NetworkManager : MonoBehaviour
 
     public void EnterRoom()
     {
-        PopupManager.instance.CloseAndOpen("room");
+        //PopupManager.instance.CloseAndOpen("room");
+        PopupManager.instance.ClosePopup();
         map.SetActive(true);
     }
     public void ExitRoom()
     {
         PlayerClear();
         map.SetActive(false);
-        SetIngameCanvas(false);
+
+        EventManager.OccurExitRoom();
         PopupManager.instance.CloseAndOpen("lobby");
     }
 
@@ -569,7 +561,6 @@ public class NetworkManager : MonoBehaviour
             if (uv.socketId == socketId)
             {
                 user.master = uv.master;
-                startBtn.enabled = uv.master;
                 user.isImposter = uv.isImposter;
             }
             else
@@ -660,12 +651,7 @@ public class NetworkManager : MonoBehaviour
                     }
 
                     roomNum = uv.roomNum;
-                    if(user.master)
-                    {
-                        startBtn.enabled = true;
-                    }
-                    roomJoyStick.player = user;
-                    inGameJoyStick.player = user;
+
                     //�ȷο� ķ ����
                     followCam.Follow = user.gameObject.transform;
 
@@ -728,8 +714,9 @@ public class NetworkManager : MonoBehaviour
 
         roomNum = 0;
         once = false;
-        startBtn.enabled = false;
-        interactionBtn.isGameStart = false;
+
+        EventManager.OccurExitRoom();
+
         //PlayerClear();
 
         DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));

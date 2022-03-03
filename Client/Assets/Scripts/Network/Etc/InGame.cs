@@ -9,6 +9,6 @@ public class InGame : Popup
 
     private void Start()
     {
-        NetworkManager.instance.inGameJoyStick = inGameJoyStick;
+        //NetworkManager.instance.inGameJoyStick = inGameJoyStick;
     }
 }

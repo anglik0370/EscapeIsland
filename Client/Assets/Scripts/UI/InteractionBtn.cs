@@ -3,6 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+enum InteractionState
+{
+    Nothing,
+    KillPlayer,
+    OpenRefienry,
+    OpenStorage,
+    EmergencyMeeting,
+    ReportDeadbody,
+    PickUpItem,
+}
+
 public class InteractionBtn : MonoBehaviour
 {
     [Header("하나밖에 없는 오브젝트들")]
@@ -25,6 +36,10 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private ObjectAccent accent;
 
+    [Header("현재 상태")]
+    [SerializeField]
+    private InteractionState state;
+
     private Inventory inventory;
     private float range;
 
@@ -46,14 +61,62 @@ public class InteractionBtn : MonoBehaviour
         //inventory = player.inventory;
         //range = player.range;
 
-        btn.onClick.AddListener(PickUpNearlestItem);
-
         isGameStart = false;
     }
 
     private void Start()
     {
-        EventManager.SubGameStart(Init);
+        EventManager.SubEnterRoom(p =>
+        {
+            player = p;
+
+            inventory = p.inventory;
+            range = p.range;
+
+            if(p.master)
+            {
+                btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
+            }
+        });
+
+        EventManager.SubGameStart(p =>
+        {
+            isGameStart = true;
+
+            btn.onClick.RemoveAllListeners();
+
+            btn.onClick.AddListener(() =>
+            {
+                switch (state)
+                {
+                    case InteractionState.KillPlayer:
+                        KillPlayer();
+                        break;
+                    case InteractionState.OpenRefienry:
+                        OpenRefineryPanel(FindNearlestRefinery());
+                        break;
+                    case InteractionState.OpenStorage:
+                        OpenStoragePanel();
+                        break;
+                    case InteractionState.EmergencyMeeting:
+                        meetingTable.Meeting();
+                        break;
+                    case InteractionState.ReportDeadbody:
+                        ReportNearlestDeadbody();
+                        break;
+                    case InteractionState.PickUpItem:
+                        PickUpNearlestItem();
+                        break;
+                    case InteractionState.Nothing:
+                        return;
+                }
+            });
+        });
+
+        EventManager.SubExitRoom(() =>
+        {
+            isGameStart = false;
+        });
     }
 
     private void Update() 
@@ -63,88 +126,62 @@ public class InteractionBtn : MonoBehaviour
         if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
         {
             //여긴 킬하는곳
+            state = InteractionState.KillPlayer;
 
             image.sprite = killSprite;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(KillPlayer);
-
             accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
         }
         else if (FindNearlestRefinery() != null)
         {
             //여긴 제련소 여는곳
+            state = InteractionState.OpenRefienry;
 
             image.sprite = interactionSprite;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() =>
-            {
-                OpenRefineryPanel(FindNearlestRefinery());
-            });
-
             accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
         }
         else if (Vector2.Distance(player.GetTrm().position, storage.GetTrm().position) <= player.range)
         {
             //여긴 저장소 여는 곳
+            state = InteractionState.OpenStorage;
 
             image.sprite = interactionSprite;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(OpenStoragePanel);
-
             accent.Disable();
         }
         else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
         {
             //여긴 긴급회의 여는 곳
+            state = InteractionState.EmergencyMeeting;
 
             image.sprite = emergencySprite;
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() =>
-            {
-                meetingTable.Meeting();
-            });
-
             accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
         }
         else
         {
-            image.sprite = pickUpSprite;
-
             if (FindNearlestSpawner() != null)
             {
                 //여긴 아이템 줍는곳
+                state = InteractionState.PickUpItem;
 
                 image.sprite = pickUpSprite;
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(PickUpNearlestItem);
-
                 accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
             }
             else if (FindNearlestDeadBody() != null)
             {
                 //여긴 주변 시체 신고하는곳
+                state = InteractionState.ReportDeadbody;
 
                 image.sprite = emergencySprite;
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(ReportNearlestDeadbody);
-
                 accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
             }
             else
             {
+                //여긴 아무것도 아닌곳
+                state = InteractionState.Nothing;
+
+                image.sprite = pickUpSprite;
                 accent.Disable();
             }
         }
-    }
-
-    public void Init(Player p)
-    {
-        player = p;
-
-        inventory = p.inventory;
-        range = p.range;
-
-        isGameStart = true;
     }
 
     public void KillPlayer()

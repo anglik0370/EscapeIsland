@@ -13,7 +13,6 @@ public class PopupManager : MonoBehaviour
     public Connect connectPopup;
     public Login loginPopup;
     public Lobby lobbyPopup;
-    public Room roomPopup;
     public Alert alertPopup;
     public Vote votePopup;
     
@@ -49,7 +48,6 @@ public class PopupManager : MonoBehaviour
         popupDic.Add("connect", Instantiate(connectPopup, popupParent));
         popupDic.Add("login", Instantiate(loginPopup, popupParent));
         popupDic.Add("lobby", Instantiate(lobbyPopup, popupParent));
-        popupDic.Add("room", Instantiate(roomPopup, popupParent));
         popupDic.Add("vote", Instantiate(votePopup, popupParent));
 
 
