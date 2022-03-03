@@ -117,6 +117,16 @@ public class InteractionBtn : MonoBehaviour
         {
             isGameStart = false;
         });
+
+        EventManager.SubBackToRoom(() =>
+        {
+            isGameStart = false;
+
+            if (player.master)
+            {
+                btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
+            }
+        });
     }
 
     private void Update() 

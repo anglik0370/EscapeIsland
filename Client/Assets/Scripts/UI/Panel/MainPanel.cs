@@ -45,6 +45,15 @@ public class MainPanel : MonoBehaviour
         {
             cvsList.ForEach(x => SetCvsActive(x, false));
         });
+
+        EventManager.SubBackToRoom(() =>
+        {
+            cvsList.ForEach(x => SetCvsActive(x, false));
+
+            SetCvsActive(cvsList[JOYSTICK]);
+            SetCvsActive(cvsList[INTERACTIONBTN]);
+            SetCvsActive(cvsList[SETTINGBTN]);
+        });
     }
 
     private void SetCvsActive(CanvasGroup cvs, bool isEnable = true)

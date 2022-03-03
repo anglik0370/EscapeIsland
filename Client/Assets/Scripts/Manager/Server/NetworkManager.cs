@@ -566,7 +566,8 @@ public class NetworkManager : MonoBehaviour
 
     public void GameEnd()
     {
-        
+        //EventManager.OccurExitRoom();
+        EventManager.OccurBackToRoom();
     }
 
     public void PlayerClear()

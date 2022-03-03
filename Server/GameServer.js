@@ -351,7 +351,13 @@ wsService.on("connection", socket => {
 
                     let completeRoom = roomList[socket.room];
 
-                    userList[completePayload.voteTargetId].voteNum++;
+                    if(completePayload.voteTargetId === -1){
+
+                    }
+                    else {
+                        userList[completePayload.voteTargetId].voteNum++;
+                    }
+
                     userList[completePayload.voterId].voteComplete = true;
 
                     completeRoom.socketList.forEach(soc => {

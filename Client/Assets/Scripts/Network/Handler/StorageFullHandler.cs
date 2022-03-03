@@ -6,6 +6,6 @@ public class StorageFullHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-
+        NetworkManager.SetStorageFullData(payload);
     }
 }

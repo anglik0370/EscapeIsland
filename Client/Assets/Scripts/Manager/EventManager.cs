@@ -7,7 +7,18 @@ public class EventManager
 {
     private static Action<Player> EnterRoom = p => { };
     private static Action<Player> GameStart = p => { };
+    private static Action BackToRoom = () => { };
     private static Action ExitRoom = () => { };
+
+    public static void SubBackToRoom(Action Callback)
+    {
+        BackToRoom += Callback;
+    }
+
+    public static void OccurBackToRoom()
+    {
+        BackToRoom?.Invoke();
+    }
 
     public static void SubExitRoom(Action Callback)
     {
