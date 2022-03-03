@@ -59,10 +59,7 @@ public class NetworkManager : MonoBehaviour
 
     public CinemachineVirtualCamera followCam;
 
-    //public Button startBtn;
     public GameObject map;
-
-    public InteractionBtn interactionBtn;
 
     public Vote voteTab;
 
@@ -376,7 +373,7 @@ public class NetworkManager : MonoBehaviour
         socketName = "";
         roomNum = 0;
         once = false;
-        interactionBtn.isGameStart = false;
+
         map.SetActive(false);
 
         EventManager.OccurExitRoom();
@@ -559,8 +556,6 @@ public class NetworkManager : MonoBehaviour
     {
         roomNum = 0;
         once = false;
-        startBtn.enabled = false;
-        interactionBtn.isGameStart = false;
 
         PlayerClear();
         map.SetActive(false);
@@ -571,10 +566,7 @@ public class NetworkManager : MonoBehaviour
 
     public void GameEnd()
     {
-        interactionBtn.isGameStart = false;
         
-        SetIngameCanvas(false);
-        PopupManager.instance.OpenPopup("room");
     }
 
     public void PlayerClear()
