@@ -625,8 +625,6 @@ public class NetworkManager : MonoBehaviour
             {
                 user.master = uv.master;
                 user.isImposter = uv.isImposter;
-                print("넘김");
-                print(uv.master);
             }
             else
             {
@@ -708,12 +706,15 @@ public class NetworkManager : MonoBehaviour
                     InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
                     user.InitPlayer(uv, ui, false);
 
-
-                    for (int i = 0; i < lights.Length; i++)
+                    if(user.transform.childCount <= 0)
                     {
-                        GameObject obj = Instantiate(lights[i], user.transform);
-                        obj.transform.localPosition = Vector3.zero;
+                        for (int i = 0; i < lights.Length; i++)
+                        {
+                            GameObject obj = Instantiate(lights[i], user.transform);
+                            obj.transform.localPosition = Vector3.zero;
+                        }
                     }
+                    
 
                     roomNum = uv.roomNum;
 

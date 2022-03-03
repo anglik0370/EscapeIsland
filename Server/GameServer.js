@@ -478,7 +478,6 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
     if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
         let keys = Object.keys(targetRoom.userList);
-        console.log(keys.length);
         userList[keys[0]].master = true;
     }
 
