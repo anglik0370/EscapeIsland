@@ -29,12 +29,14 @@ public class NetworkManager : MonoBehaviour
 
     private List<UserVO> userDataList;
     private List<UserVO> tempDataList;
+    private List<UserVO> winUserList;
 
     private TimeVO timeVO;
     private VoteCompleteVO voteCompleteVO;
 
     private bool isLogin = false;
     private bool once = false;
+    private bool isKidnapperWin = false;
     private bool needRoomRefresh = false;
     private bool needUserRefresh = false;
     private bool needMasterRefresh = false;
@@ -44,9 +46,12 @@ public class NetworkManager : MonoBehaviour
     private bool needTimeRefresh = false;
     private bool needVoteComplete = false;
     private bool endVoteTime = false;
-    private bool needVoteDeadRefresh;
+    private bool needVoteDeadRefresh = false;
+    private bool needWinRefresh = false;
+    private bool needStorageFullRefresh = false;
 
     private int tempId = -1;
+    private string msg = string.Empty;
 
     private Player user = null;
 
@@ -93,6 +98,24 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void SetWinUserData(List<UserVO> list,bool isKidnapperWin)
+    {
+        lock (instance.lockObj)
+        {
+            instance.needWinRefresh = true;
+            instance.winUserList = list;
+            instance.isKidnapperWin = isKidnapperWin;
+        }
+    }
+
+    public static void SetStorageFullData(string msg)
+    {
+        lock(instance.lockObj)
+        {
+            instance.needStorageFullRefresh = true;
+            instance.msg = msg;
+        }
+    }
 
     public static void SetTimeRefresh(TimeVO vo)
     {
@@ -277,6 +300,18 @@ public class NetworkManager : MonoBehaviour
             endVoteTime = false;
         }
 
+        if(needStorageFullRefresh)
+        {
+            SetStorageFull();
+            needStorageFullRefresh = false;
+        }
+        
+        if(needWinRefresh)
+        {
+            SetWinTeam();
+            needWinRefresh = false;
+        }
+
         while(chatQueue.Count > 0)
         {
             ChatVO vo = chatQueue.Dequeue();
@@ -357,6 +392,28 @@ public class NetworkManager : MonoBehaviour
     {
         //inGameJoyStick.SetEnable(on);
         //interactionBtn.enabled = on;
+    }
+
+    public void SetStorageFull()
+    {
+        //msg띄워주기
+    }
+
+    //
+    public void SetWinTeam()
+    {
+        //이긴 팀에 따라 해줘야 할 일 해주기
+        if(isKidnapperWin)
+        {
+
+        }
+        else
+        {
+
+        }
+
+        //변수들 초기화 해주고 room 팝업 열어주기
+        //GameEnd();
     }
 
     public void VoteComplete()
@@ -500,11 +557,24 @@ public class NetworkManager : MonoBehaviour
     }
     public void ExitRoom()
     {
+        roomNum = 0;
+        once = false;
+        startBtn.enabled = false;
+        interactionBtn.isGameStart = false;
+
         PlayerClear();
         map.SetActive(false);
 
         EventManager.OccurExitRoom();
         PopupManager.instance.CloseAndOpen("lobby");
+    }
+
+    public void GameEnd()
+    {
+        interactionBtn.isGameStart = false;
+        
+        SetIngameCanvas(false);
+        PopupManager.instance.OpenPopup("room");
     }
 
     public void PlayerClear()
@@ -758,6 +828,13 @@ public class NetworkManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
+    public void StorageFull()
+    {
+        DataVO dataVO = new DataVO("STORAGE_FULL", "");
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
     public void StartRefinery(int refineryId, int itemSOId)
     {
         RefineryVO vo = new RefineryVO(refineryId, itemSOId);
@@ -805,7 +882,7 @@ public class NetworkManager : MonoBehaviour
                 break;
             }
         }
-
+        
         KillVO vo = new KillVO(targetSocketId);
 
         DataVO dataVO = new DataVO("KILL", JsonUtility.ToJson(vo));

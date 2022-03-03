@@ -5,6 +5,8 @@ class InGameTimer {
         this.isLightTime = true;
         this.sec = 1;
         this.day = 1;
+
+        this.isEndGame = false;
     }
 
     returnPayload() {

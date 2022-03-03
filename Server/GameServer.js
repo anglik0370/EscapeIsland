@@ -245,6 +245,8 @@ wsService.on("connection", socket => {
                         userList[socId].isDie = true;
                     }
 
+                    roomBroadcast(dRoom,"KILL");
+
                     //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
 
                     // let imposterCount = 0;
@@ -261,9 +263,12 @@ wsService.on("connection", socket => {
 
                     // if(imposterCount >= citizenCount) {
                     //     //임포승
+                    //     dRoom.socketList.forEach(soc => {
+                    //         soc.send(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList:dRoomUserList})}));
+                    //     });
+                    //     dRoom.initRoom();
                     // }
 
-                    roomBroadcast(dRoom,"KILL");
                     
                     break;
                 case "GET_ITEM":
@@ -282,6 +287,27 @@ wsService.on("connection", socket => {
                         if(soc.id == socket.id) return;
                         soc.send(JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
                     });
+                    break;
+                case "STORAGE_FULL":
+                    let fullRoom = roomList[socket.room];
+
+                    if(fullRoom.inGameTimer.isLightTime) {
+                        fullRoom.inGameTimer.isEndGame = true;
+                        fullRoom.socketList.forEach(soc => {
+                            soc.send(JSON.stringify({type:"STORAGE_FULL",payload:"저녁까지 쳐 버티도록 하세요"}));
+                        });
+                    }
+                    else {
+                        let dataList = Object.values(fullRoom.userList);
+
+                        fullRoom.socketList.forEach(soc => {
+                            soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList})}));
+                        });
+
+                        fullRoom.initRoom();
+                    }
+
+                    
                     break;
                 case "START_REFINERY":
                     let startData = JSON.parse(data.payload);

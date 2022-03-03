@@ -186,12 +186,18 @@ public class InteractionBtn : MonoBehaviour
 
     public void KillPlayer()
     {
+        if(!TimeHandler.Instance.KillAble())
+        {
+            //킬 스택이 부족합니다 <- 메시지 표시
+            return;
+        }
         Player targetPlayer = FindNearlestPlayer();
 
         if (targetPlayer == null) return;
 
         targetPlayer.SetDead();
 
+        TimeHandler.Instance.KillStack -= 2;
         NetworkManager.instance.Kill(targetPlayer);
     }
 

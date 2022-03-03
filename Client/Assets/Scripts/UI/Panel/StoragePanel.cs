@@ -59,6 +59,11 @@ public class StoragePanel : Panel
         return storage.IsItemFull(item);
     }
 
+    public bool IsItemFull()
+    {
+        return storage.IsItemFull();
+    }
+
     public override void Open()
     {
         base.Open();
