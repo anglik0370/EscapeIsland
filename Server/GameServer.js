@@ -472,6 +472,16 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 
     socket.room = 0; //나왔으니 룸 초기화
 
+    socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
+    targetRoom.curUserNum--; //그 방의 인원수--;
+    targetRoom.removeSocket(socket.id);
+
+    if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
+        let keys = Object.keys(targetRoom.userList);
+        console.log(keys.length);
+        userList[keys[0]].master = true;
+    }
+
     if(userList[socket.id] !== undefined){ 
         // 초기화
         
@@ -481,15 +491,6 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
         userList[socket.id].isDie = false;
         userList[socket.id].voteNum = 0;
         userList[socket.id].voteComplete = false;
-    }
-
-    socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
-    targetRoom.curUserNum--; //그 방의 인원수--;
-    targetRoom.removeSocket(socket.id);
-
-    if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
-        let keys = Object.keys(targetRoom.userList);
-        userList[keys[0]].master = true;
     }
     
     

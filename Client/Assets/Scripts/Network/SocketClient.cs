@@ -59,7 +59,8 @@ public class SocketClient : MonoBehaviour
 
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());
-        
+        //25.17.255.82
+
     }
 
     public void ConnectSocket(string ip, string port)
@@ -95,6 +96,7 @@ public class SocketClient : MonoBehaviour
             DataVO vo = packetList.Dequeue();
             if (handlerDic.TryGetValue(vo.type, out handler))
             {
+                print(vo.type);
                 handler.HandleMsg(vo.payload);
             }
             else

@@ -625,6 +625,8 @@ public class NetworkManager : MonoBehaviour
             {
                 user.master = uv.master;
                 user.isImposter = uv.isImposter;
+                print("넘김");
+                print(uv.master);
             }
             else
             {
@@ -790,7 +792,7 @@ public class NetworkManager : MonoBehaviour
     public void GameStartBtn()
     {
         //PopupManager.instance.CloseAndOpen("ingame");
-        
+        if (!user.master) return;
         
 
         RoomVO vo = new RoomVO();

@@ -161,7 +161,8 @@ class Room {
     removeSocket(rSocketIdx) {
         let idx = this.socketList.findIndex(soc => soc.id == rSocketIdx);
         this.socketList.splice(idx,1);
-        
+
+        //this.userList[rSocketIdx] = undefined;
         delete this.userList[rSocketIdx];
     }
 

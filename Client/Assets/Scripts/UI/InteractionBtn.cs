@@ -77,10 +77,7 @@ public class InteractionBtn : MonoBehaviour
 
             btn.onClick.RemoveAllListeners();
 
-            if (p.master)
-            {
-                btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
-            }
+            btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
         });
 
         EventManager.SubGameStart(p =>
