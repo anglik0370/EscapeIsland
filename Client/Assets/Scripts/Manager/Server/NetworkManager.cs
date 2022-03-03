@@ -48,8 +48,10 @@ public class NetworkManager : MonoBehaviour
     private bool endVoteTime = false;
     private bool needVoteDeadRefresh = false;
     private bool needWinRefresh = false;
+    private bool needStorageFullRefresh = false;
 
     private int tempId = -1;
+    private string msg = string.Empty;
 
     private Player user = null;
 
@@ -106,6 +108,15 @@ public class NetworkManager : MonoBehaviour
             instance.needWinRefresh = true;
             instance.winUserList = list;
             instance.isKidnapperWin = isKidnapperWin;
+        }
+    }
+
+    public static void SetStorageFullData(string msg)
+    {
+        lock(instance.lockObj)
+        {
+            instance.needStorageFullRefresh = true;
+            instance.msg = msg;
         }
     }
 
@@ -291,6 +302,12 @@ public class NetworkManager : MonoBehaviour
             EndVoteTime();
             endVoteTime = false;
         }
+
+        if(needStorageFullRefresh)
+        {
+            SetStorageFull();
+            needStorageFullRefresh = false;
+        }
         
         if(needWinRefresh)
         {
@@ -384,6 +401,11 @@ public class NetworkManager : MonoBehaviour
     {
         inGameJoyStick.SetEnable(on);
         interactionBtn.enabled = on;
+    }
+
+    public void SetStorageFull()
+    {
+        //msg띄워주기
     }
 
     //
@@ -812,6 +834,13 @@ public class NetworkManager : MonoBehaviour
         vo.itemSOId = itemSOId;
 
         DataVO dataVO = new DataVO("STORAGE_DROP", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void StorageFull()
+    {
+        DataVO dataVO = new DataVO("STORAGE_FULL", "");
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
