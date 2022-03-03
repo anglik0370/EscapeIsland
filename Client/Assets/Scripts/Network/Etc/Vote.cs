@@ -32,7 +32,7 @@ public class Vote : Popup
         voteUIList = voteParent.GetComponentsInChildren<VoteUI>().ToList();
         voteUIList.ForEach(x => x.OnOff(false));
 
-        skipToggle.group = toggleGroup;
+        //skipToggle.group = toggleGroup;
 
         sendMsgBtn.onClick.AddListener(() =>
         {
