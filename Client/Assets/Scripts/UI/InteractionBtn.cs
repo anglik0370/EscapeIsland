@@ -73,7 +73,9 @@ public class InteractionBtn : MonoBehaviour
             inventory = p.inventory;
             range = p.range;
 
-            if(p.master)
+            btn.onClick.RemoveAllListeners();
+
+            if (p.master)
             {
                 btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
             }
@@ -121,6 +123,8 @@ public class InteractionBtn : MonoBehaviour
         EventManager.SubBackToRoom(() =>
         {
             isGameStart = false;
+
+            btn.onClick.RemoveAllListeners();
 
             if (player.master)
             {

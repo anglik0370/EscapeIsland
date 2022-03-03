@@ -24,6 +24,11 @@ public class UIManager : MonoBehaviour
         {
             SetPanelActive(true);
         });
+
+        EventManager.SubExitRoom(() =>
+        {
+            SetPanelActive(false);
+        });
     }
 
     public static void SetPanelActive(bool isEnable)
