@@ -29,12 +29,14 @@ public class NetworkManager : MonoBehaviour
 
     private List<UserVO> userDataList;
     private List<UserVO> tempDataList;
+    private List<UserVO> winUserList;
 
     private TimeVO timeVO;
     private VoteCompleteVO voteCompleteVO;
 
     private bool isLogin = false;
     private bool once = false;
+    private bool isKidnapperWin = false;
     private bool needRoomRefresh = false;
     private bool needUserRefresh = false;
     private bool needMasterRefresh = false;
@@ -44,7 +46,8 @@ public class NetworkManager : MonoBehaviour
     private bool needTimeRefresh = false;
     private bool needVoteComplete = false;
     private bool endVoteTime = false;
-    private bool needVoteDeadRefresh;
+    private bool needVoteDeadRefresh = false;
+    private bool needWinRefresh = false;
 
     private int tempId = -1;
 
@@ -96,6 +99,15 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void SetWinUserData(List<UserVO> list,bool isKidnapperWin)
+    {
+        lock (instance.lockObj)
+        {
+            instance.needWinRefresh = true;
+            instance.winUserList = list;
+            instance.isKidnapperWin = isKidnapperWin;
+        }
+    }
 
     public static void SetTimeRefresh(TimeVO vo)
     {
@@ -279,6 +291,12 @@ public class NetworkManager : MonoBehaviour
             EndVoteTime();
             endVoteTime = false;
         }
+        
+        if(needWinRefresh)
+        {
+            SetWinTeam();
+            needWinRefresh = false;
+        }
 
         while(chatQueue.Count > 0)
         {
@@ -366,6 +384,23 @@ public class NetworkManager : MonoBehaviour
     {
         inGameJoyStick.SetEnable(on);
         interactionBtn.enabled = on;
+    }
+
+    //
+    public void SetWinTeam()
+    {
+        //이긴 팀에 따라 해줘야 할 일 해주기
+        if(isKidnapperWin)
+        {
+
+        }
+        else
+        {
+
+        }
+
+        //변수들 초기화 해주고 room 팝업 열어주기
+        //GameEnd();
     }
 
     public void VoteComplete()
@@ -509,10 +544,23 @@ public class NetworkManager : MonoBehaviour
     }
     public void ExitRoom()
     {
+        roomNum = 0;
+        once = false;
+        startBtn.enabled = false;
+        interactionBtn.isGameStart = false;
+
         PlayerClear();
         map.SetActive(false);
         SetIngameCanvas(false);
         PopupManager.instance.CloseAndOpen("lobby");
+    }
+
+    public void GameEnd()
+    {
+        interactionBtn.isGameStart = false;
+        
+        SetIngameCanvas(false);
+        PopupManager.instance.OpenPopup("room");
     }
 
     public void PlayerClear()
@@ -726,10 +774,7 @@ public class NetworkManager : MonoBehaviour
         RoomVO vo = new RoomVO();
         vo.roomNum = roomNum;
 
-        roomNum = 0;
-        once = false;
-        startBtn.enabled = false;
-        interactionBtn.isGameStart = false;
+        
         //PlayerClear();
 
         DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));
@@ -818,7 +863,7 @@ public class NetworkManager : MonoBehaviour
                 break;
             }
         }
-
+        
         KillVO vo = new KillVO(targetSocketId);
 
         DataVO dataVO = new DataVO("KILL", JsonUtility.ToJson(vo));

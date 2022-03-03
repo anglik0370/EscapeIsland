@@ -245,6 +245,8 @@ wsService.on("connection", socket => {
                         userList[socId].isDie = true;
                     }
 
+                    roomBroadcast(dRoom,"KILL");
+
                     //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
 
                     // let imposterCount = 0;
@@ -261,9 +263,11 @@ wsService.on("connection", socket => {
 
                     // if(imposterCount >= citizenCount) {
                     //     //임포승
+                    //     dRoom.socketList.forEach(soc => {
+                    //         soc.send(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList:dRoomUserList})}));
+                    //     });
                     // }
 
-                    roomBroadcast(dRoom,"KILL");
                     
                     break;
                 case "GET_ITEM":
