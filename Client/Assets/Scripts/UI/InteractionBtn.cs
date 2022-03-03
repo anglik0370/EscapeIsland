@@ -70,6 +70,8 @@ public class InteractionBtn : MonoBehaviour
         {
             player = p;
 
+            p.inventory = FindObjectOfType<Inventory>();
+
             inventory = p.inventory;
             range = p.range;
 
@@ -89,6 +91,8 @@ public class InteractionBtn : MonoBehaviour
 
             btn.onClick.AddListener(() =>
             {
+                if (player.isDie) return;
+
                 switch (state)
                 {
                     case InteractionState.KillPlayer:
@@ -135,7 +139,7 @@ public class InteractionBtn : MonoBehaviour
 
     private void Update() 
     {
-        if (!isGameStart) return;
+        if (!isGameStart || player.isDie) return;
 
         if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
         {

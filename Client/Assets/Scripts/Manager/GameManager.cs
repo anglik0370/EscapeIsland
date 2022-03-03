@@ -33,9 +33,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        EventManager.SubGameStart(p =>
+        EventManager.SubEnterRoom(p =>
         {
-            p.inventory = FindObjectOfType<Inventory>();
+            
         });
     }
 
