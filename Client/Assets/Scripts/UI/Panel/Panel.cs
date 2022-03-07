@@ -63,7 +63,7 @@ public class Panel : MonoBehaviour
 
             seq = DOTween.Sequence();
 
-            seq.Append(cvs.DOFade(1f, TWEEN_DURATION));
+            seq.Append(cvs.DOFade(0f, TWEEN_DURATION));
             seq.AppendCallback(() =>
             {
                 cvs.blocksRaycasts = false;
