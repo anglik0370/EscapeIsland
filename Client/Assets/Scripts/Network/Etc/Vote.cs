@@ -32,7 +32,7 @@ public class Vote : Popup
         voteUIList = voteParent.GetComponentsInChildren<VoteUI>().ToList();
         voteUIList.ForEach(x => x.OnOff(false));
 
-        //skipToggle.group = toggleGroup;
+        skipToggle.group = toggleGroup;
 
         sendMsgBtn.onClick.AddListener(() =>
         {
@@ -52,12 +52,15 @@ public class Vote : Popup
         {
             //여기서 서버에 보내줘야 한다
             Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
+            toggle.isOn = false;
 
             if(toggle == null)
             {
                 print("투표 x");
                 return;
             }
+
+
 
             VoteUI ui = toggle.GetComponentInParent<VoteUI>();
 

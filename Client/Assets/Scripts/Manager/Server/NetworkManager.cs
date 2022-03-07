@@ -474,7 +474,7 @@ public class NetworkManager : MonoBehaviour
         }
         PlayerEnable();
 
-        EndVoteTime();
+        //EndVoteTime();
     }
     public void OnGameStart()
     {

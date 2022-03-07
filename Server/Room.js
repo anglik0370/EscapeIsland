@@ -14,6 +14,8 @@ class Room {
         this.inGameTimer = new InGameTimer();
         this.inVoteTImer = new InVoteTimer();
         this.curTimer = undefined;
+
+        this.skipCount = 0;
         
         this.interval = 1000;
         this.nextTime = 0;
@@ -28,11 +30,13 @@ class Room {
     initRoom() {
         this.playing = false;
         this.stopTimer();
+        this.skipCount = 0;
         this.inGameTimer = new InGameTimer();
         this.inVoteTImer = new InVoteTimer();
     }
 
     startTimer() {
+        //this.skipCount = 0;
         this.expected = Date.now() + 1000; //현재시간 + 1초
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
     }
@@ -87,6 +91,7 @@ class Room {
 
     changeTime() {
         this.inVoteTImer.initTime();
+        //this.skipCount = 0;
         let p = this.inGameTimer.returnPayload();
 
             this.socketList.forEach(soc => {
@@ -125,7 +130,7 @@ class Room {
                 this.userList[comRoomKeys[i]].voteNum = 0;
                 this.userList[comRoomKeys[i]].voteComplete = false;
             }
-            
+            this.skipCount = 0;
             
             if(targetSocIdArr.length == 1) {
                 this.socketList.forEach(soc => {

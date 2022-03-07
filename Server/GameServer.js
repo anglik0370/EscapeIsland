@@ -352,7 +352,7 @@ wsService.on("connection", socket => {
                     let completeRoom = roomList[socket.room];
 
                     if(completePayload.voteTargetId === -1){
-
+                        completeRoom.skipCount++;
                     }
                     else {
                         userList[completePayload.voteTargetId].voteNum++;
@@ -377,14 +377,16 @@ wsService.on("connection", socket => {
                     }
                     
                     if(allComplete) {
-                        let dummy = 0;
+                        let dummy = -1;
 
                         for(let i = 0; i < comRoomKeys.length; i++) {
-                            if(dummy != 0 && userList[comRoomKeys[i]].voteNum == dummy) {
+                            let idx = userList[comRoomKeys[i]].voteNum;
+
+                            if(dummy != 0 &&  idx == dummy) {
                                 targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
                             }
-                            else if(userList[comRoomKeys[i]].voteNum > dummy) {
-                                dummy = userList[comRoomKeys[i]].voteNum;
+                            else if(idx > dummy && idx > completeRoom.skipCount) {
+                                dummy = idx;
                                 targetSocIdArr.length = 0;
                                 targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
                             }
@@ -392,13 +394,14 @@ wsService.on("connection", socket => {
                             userList[comRoomKeys[i]].voteNum = 0;
                             userList[comRoomKeys[i]].voteComplete = false;
                         }
+                        completeRoom.skipCount = 0;
                         
                         if(targetSocIdArr.length == 1) {
                             completeRoom.socketList.forEach(soc => {
                                 soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
                             });
                             userList[targetSocIdArr[0]].isDie = true;
-                            return;
+                            //return;
                         }
                         //아무도 표를 받지 않았거나 동표임
                         
