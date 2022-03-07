@@ -64,7 +64,7 @@ public class StoragePanel : Panel
         return storage.IsItemFull();
     }
 
-    public override void Open()
+    public override void Open(bool isTweenSkip = false)
     {
         base.Open();
 

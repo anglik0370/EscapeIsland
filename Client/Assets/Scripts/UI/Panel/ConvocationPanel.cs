@@ -25,6 +25,6 @@ public class ConvocationPanel : Panel
                 break;
         }
 
-        base.Open();
+        base.Open(false);
     }
 }
