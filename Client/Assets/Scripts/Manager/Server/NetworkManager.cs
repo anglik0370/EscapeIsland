@@ -51,7 +51,9 @@ public class NetworkManager : MonoBehaviour
     private bool needStorageFullRefresh = false;
 
     private int tempId = -1;
+    private MeetingType meetingType = MeetingType.EMERGENCY;
     private string msg = string.Empty;
+    private bool isTest = false;
 
     private Player user = null;
 
@@ -123,11 +125,12 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetVoteTime(List<UserVO> list)
+    public static void SetVoteTime(List<UserVO> list,int type)
     {
         lock (instance.lockObj)
         {
             instance.tempDataList = list;
+            instance.meetingType = (MeetingType)type;
             instance.needVoteRefresh = true;
         }
     }
@@ -422,15 +425,13 @@ public class NetworkManager : MonoBehaviour
         {
             voteTab.CompleteVote();
         }
-        
     }
 
     public void OnVoteTimeStart()
     {
-        StopOrPlay(false);
         GameManager.Instance.ClearDeadBody();
-        PopupManager.instance.OpenPopup("vote");
-        
+
+        EventManager.OccurStartMeet(meetingType);
 
         foreach (UserVO uv in tempDataList)
         {
@@ -474,7 +475,7 @@ public class NetworkManager : MonoBehaviour
         }
         PlayerEnable();
 
-        EndVoteTime();
+        //EndVoteTime();
     }
     public void OnGameStart()
     {
@@ -714,6 +715,20 @@ public class NetworkManager : MonoBehaviour
                             obj.transform.localPosition = Vector3.zero;
                         }
                     }
+
+                    if(isTest)
+                    {
+                        user.isImposter = true;
+                        //for (int i = 0; i < 3; i++)
+                        //{
+                        //    float radian = (float)((2.0 * Mathf.PI) / 3);
+                        //    radian *= i;
+                        //    MakeRemotePlayer(new UserVO(-1 * i, $"test{i}", roomNum, user.transform.position + new Vector3((float)(Mathf.Cos(radian) * 0.7), (float)(Mathf.Sin(radian) * 0.7),0),false,false,false));
+                        //}
+                        DataVO dataVO = new DataVO("TEST_CLIENT", null);
+
+                        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+                    }
                     
 
                     roomNum = uv.roomNum;
@@ -754,8 +769,10 @@ public class NetworkManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
-    public void CreateRoom(string name, int curUserNum, int userNum,int kidnapperNum)
+    public void CreateRoom(string name, int curUserNum, int userNum,int kidnapperNum,bool isTest)
     {
+        this.isTest = isTest;
+
         RoomVO vo = new RoomVO(name, 0,curUserNum, userNum,kidnapperNum);
 
         DataVO dataVO = new DataVO("CREATE_ROOM", JsonUtility.ToJson(vo));

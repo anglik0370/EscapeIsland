@@ -54,7 +54,7 @@ public class AreaExplanationPanel : Panel
         }
     }
 
-    public override void Close()
+    public override void Close(bool isTweenSkip = false)
     {
         base.Close();
         isOpen = false;

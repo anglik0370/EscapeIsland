@@ -23,6 +23,8 @@ public class Lobby : Popup
     public Slider kidnapperNumSlider;
     public Text kidnapperNumText;
 
+    public Toggle testToggle;
+
     private void Start()
     {
         NetworkManager.instance.roomParent = roomParent;
@@ -45,7 +47,7 @@ public class Lobby : Popup
 
         createRoomBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)kidnapperNumSlider.value);
+            NetworkManager.instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)kidnapperNumSlider.value,testToggle.isOn);
             OpenCreateRoomPopup(false);
         });
         cancelBtn.onClick.AddListener(() =>
@@ -74,6 +76,7 @@ public class Lobby : Popup
             roomNameInput.text = "";
             userNumslider.value = 5;
             kidnapperNumSlider.value = 1;
+            testToggle.isOn = false;
         }
     }
 }

@@ -8,9 +8,12 @@ const InGameTimer = require('./InGameTimer.js');
 const LoginHandler = require('./LoginHandler.js');
 const getWaitingPoint = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
+const _ = require('lodash');
 
 let socketIdx = 0;
 let roomIdx = 1; 
+
+let testIdx = 1000;
 
 let roomList = {}; //룸들의 정보들을 담고있는 배열
 let userList = {}; //유저들의 정보들을 담고있는 배열
@@ -157,6 +160,37 @@ wsService.on("connection", socket => {
 
                     socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
+                    wsService.clients.forEach(soc => {d
+                        if(soc.state === SocketState.IN_LOBBY) {
+                            refreshRoom(soc);
+                        }
+                    });
+                    break;
+                case "TEST_CLIENT":
+                    for(let i = 0; i < 3; i++) {
+                        let testRoom = roomList[socket.room];
+                        let dummySocket = new WebSocket("ws://localhost:31012");
+                        let testUserData = _.cloneDeep(userList[socket.id]);
+                        dummySocket.id = 0;
+                        dummySocket.id = ++testIdx + dummySocket.id;
+    
+                        dummySocket.state = SocketState.IN_ROOM;
+                        dummySocket.room = socket.room;
+    
+                        connectedSocket[dummySocket.id] = dummySocket;
+    
+                        userList[dummySocket.id] = testUserData;
+    
+                        userList[dummySocket.id].master = false;
+                        userList[dummySocket.id].name = `test${dummySocket.id - 1000}`;
+                        userList[dummySocket.id].socketId = dummySocket.id;
+                        userList[dummySocket.id].position = getWaitingPoint();
+                        
+                        testRoom.curUserNum++;
+                        testRoom.addSocket(dummySocket,userList[dummySocket.id]);
+    
+                    }
+                   
                     wsService.clients.forEach(soc => {
                         if(soc.state === SocketState.IN_LOBBY) {
                             refreshRoom(soc);
@@ -352,7 +386,7 @@ wsService.on("connection", socket => {
                     let completeRoom = roomList[socket.room];
 
                     if(completePayload.voteTargetId === -1){
-
+                        completeRoom.skipCount++;
                     }
                     else {
                         userList[completePayload.voteTargetId].voteNum++;
@@ -377,14 +411,16 @@ wsService.on("connection", socket => {
                     }
                     
                     if(allComplete) {
-                        let dummy = 0;
+                        let dummy = -1;
 
                         for(let i = 0; i < comRoomKeys.length; i++) {
-                            if(dummy != 0 && userList[comRoomKeys[i]].voteNum == dummy) {
+                            let idx = userList[comRoomKeys[i]].voteNum;
+
+                            if(dummy != 0 &&  idx == dummy) {
                                 targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
                             }
-                            else if(userList[comRoomKeys[i]].voteNum > dummy) {
-                                dummy = userList[comRoomKeys[i]].voteNum;
+                            else if(idx > dummy && idx > completeRoom.skipCount) {
+                                dummy = idx;
                                 targetSocIdArr.length = 0;
                                 targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
                             }
@@ -392,13 +428,14 @@ wsService.on("connection", socket => {
                             userList[comRoomKeys[i]].voteNum = 0;
                             userList[comRoomKeys[i]].voteComplete = false;
                         }
+                        completeRoom.skipCount = 0;
                         
                         if(targetSocIdArr.length == 1) {
                             completeRoom.socketList.forEach(soc => {
                                 soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
                             });
                             userList[targetSocIdArr[0]].isDie = true;
-                            return;
+                            //return;
                         }
                         //아무도 표를 받지 않았거나 동표임
                         
@@ -430,7 +467,7 @@ wsService.on("connection", socket => {
                     let emDataList = Object.values(emRoom.userList);
 
                     emRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:emDataList})}));
+                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:emDataList,type:"EMERGENCY"})}));
                     });
                     break;
                 case "DEAD_REPORT":
@@ -448,7 +485,7 @@ wsService.on("connection", socket => {
                     let drDataList = Object.values(drRoom.userList);
 
                     drRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:drDataList})}));
+                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:drDataList,type:"EMERGENCY"})}));
                     });
                     break;
             }
@@ -534,7 +571,7 @@ function allRoomBroadcast(roomList) {
     for(let i = 0; i < keys.length; i++) {
         let targetRoom = roomList[keys[i]];
         let dataList = Object.values(targetRoom.userList);
-
+        //console.log(JSON.stringify({dataList}));
         targetRoom.socketList.forEach(soc => {
             soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
         });

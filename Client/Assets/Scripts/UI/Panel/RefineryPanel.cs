@@ -102,7 +102,7 @@ public class RefineryPanel : Panel
         }
     }
 
-    public override void Close()
+    public override void Close(bool isTweenSkip = false)
     {
         base.Close();
 
