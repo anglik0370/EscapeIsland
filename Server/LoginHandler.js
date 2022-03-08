@@ -7,25 +7,40 @@ const Vector2 = require('./Vector2.js');
 //     new Vector3(7,2,0)
 // ];
 
-function LoginHandler(data,socket) {
-    data = JSON.parse(data);
-    const {name,socketId} = data;
+function LoginHandler(data,socket,isTest = false) {
+    if(!isTest) {
+        data = JSON.parse(data);
+        const {name,socketId} = data;
 
-    socket.state = SocketState.IN_LOBBY;
+        socket.state = SocketState.IN_LOBBY;
 
-    //let position = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
+        //let position = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
 
-    let sendData = {
-        socketId:socket.id,
-        name,
-        roomNum:0
-    };
+        let sendData = {
+            socketId:socket.id,
+            name,
+            roomNum:0
+        };
 
-    let payload = JSON.stringify(sendData);
-    let type = "LOGIN";
-    socket.send(JSON.stringify({type,payload}));
+        let payload = JSON.stringify(sendData);
+        let type = "LOGIN";
+        socket.send(JSON.stringify({type,payload}));
 
-    return sendData;
+        return sendData;
+    }
+    else {
+
+        let sendData = {
+            socketId:socket.id,
+            name:"test",
+            roomNum:socket.room
+        };
+
+        return sendData;
+    }
+    
+
+   
 }
 
 module.exports = LoginHandler;

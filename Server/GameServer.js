@@ -8,9 +8,12 @@ const InGameTimer = require('./InGameTimer.js');
 const LoginHandler = require('./LoginHandler.js');
 const getWaitingPoint = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
+const _ = require('lodash');
 
 let socketIdx = 0;
 let roomIdx = 1; 
+
+let testIdx = 1000;
 
 let roomList = {}; //룸들의 정보들을 담고있는 배열
 let userList = {}; //유저들의 정보들을 담고있는 배열
@@ -157,6 +160,37 @@ wsService.on("connection", socket => {
 
                     socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
+                    wsService.clients.forEach(soc => {d
+                        if(soc.state === SocketState.IN_LOBBY) {
+                            refreshRoom(soc);
+                        }
+                    });
+                    break;
+                case "TEST_CLIENT":
+                    for(let i = 0; i < 3; i++) {
+                        let testRoom = roomList[socket.room];
+                        let dummySocket = new WebSocket("ws://localhost:31012");
+                        let testUserData = _.cloneDeep(userList[socket.id]);
+                        dummySocket.id = 0;
+                        dummySocket.id = ++testIdx + dummySocket.id;
+    
+                        dummySocket.state = SocketState.IN_ROOM;
+                        dummySocket.room = socket.room;
+    
+                        connectedSocket[dummySocket.id] = dummySocket;
+    
+                        userList[dummySocket.id] = testUserData;
+    
+                        userList[dummySocket.id].master = false;
+                        userList[dummySocket.id].name = `test${dummySocket.id - 1000}`;
+                        userList[dummySocket.id].socketId = dummySocket.id;
+                        userList[dummySocket.id].position = getWaitingPoint();
+                        
+                        testRoom.curUserNum++;
+                        testRoom.addSocket(dummySocket,userList[dummySocket.id]);
+    
+                    }
+                   
                     wsService.clients.forEach(soc => {
                         if(soc.state === SocketState.IN_LOBBY) {
                             refreshRoom(soc);
@@ -537,7 +571,7 @@ function allRoomBroadcast(roomList) {
     for(let i = 0; i < keys.length; i++) {
         let targetRoom = roomList[keys[i]];
         let dataList = Object.values(targetRoom.userList);
-
+        //console.log(JSON.stringify({dataList}));
         targetRoom.socketList.forEach(soc => {
             soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
         });

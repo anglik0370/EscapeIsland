@@ -161,6 +161,9 @@ class Room {
     addSocket(socket,user) {
         this.socketList.push(socket);
         this.userList[user.socketId] = user;
+
+        //console.log(this.socketList.length);
+        console.log(JSON.stringify({userList:this.userList}))
     }
 
     removeSocket(rSocketIdx) {
