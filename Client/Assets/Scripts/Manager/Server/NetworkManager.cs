@@ -49,11 +49,14 @@ public class NetworkManager : MonoBehaviour
     private bool needVoteDeadRefresh = false;
     private bool needWinRefresh = false;
     private bool needStorageFullRefresh = false;
+    private bool needTimerRefresh = false;
 
     private int tempId = -1;
+    private int curTime = -1;
     private MeetingType meetingType = MeetingType.EMERGENCY;
     private string msg = string.Empty;
     private bool isTest = false;
+    private bool isTextChange = false;
 
     private Player user = null;
 
@@ -97,6 +100,15 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+
+    public static void SetTimerData(int curTime)
+    {
+        lock(instance.lockObj)
+        {
+            instance.needTimerRefresh = true;
+            instance.curTime = curTime;
+        }
+    }
     public static void SetWinUserData(List<UserVO> list,bool isKidnapperWin)
     {
         lock (instance.lockObj)
@@ -312,6 +324,12 @@ public class NetworkManager : MonoBehaviour
             needWinRefresh = false;
         }
 
+        if(needTimerRefresh)
+        {
+            TimerText();
+            needTimerRefresh = false;
+        }
+
         while(chatQueue.Count > 0)
         {
             ChatVO vo = chatQueue.Dequeue();
@@ -416,6 +434,23 @@ public class NetworkManager : MonoBehaviour
         //GameEnd();
     }
 
+    public void TimerText()
+    {
+        if (isTextChange) return;
+
+        voteTab.ChangeMiddleText(curTime.ToString());
+    }
+
+    IEnumerator TextChange(string msg)
+    {
+        isTextChange = true;
+        voteTab.ChangeMiddleText(msg);
+
+        yield return new WaitForSeconds(1.5f);
+
+        isTextChange = false;
+    }
+
     public void VoteComplete()
     {
         VoteUI ui = voteTab.FindVoteUI(voteCompleteVO.voterId);
@@ -432,6 +467,7 @@ public class NetworkManager : MonoBehaviour
         GameManager.Instance.ClearDeadBody();
 
         EventManager.OccurStartMeet(meetingType);
+        StartCoroutine(TextChange("투표시간 시작"));
 
         foreach (UserVO uv in tempDataList)
         {

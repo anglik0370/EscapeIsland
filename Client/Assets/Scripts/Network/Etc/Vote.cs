@@ -25,6 +25,8 @@ public class Vote : Popup
     public Button voteCompleteBtn;
     public Toggle skipToggle;
 
+    public Text middleText;
+
     public List<VoteUI> voteUIList = new List<VoteUI>();
 
     private void Start()
@@ -78,6 +80,11 @@ public class Vote : Popup
             SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
         });
 
+    }
+
+    public void ChangeMiddleText(string msg)
+    {
+        middleText.text = msg;
     }
 
     public void CanvasOpenAndClose(CanvasGroup cg, bool on)

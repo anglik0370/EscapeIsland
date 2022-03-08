@@ -111,7 +111,7 @@ class Room {
     voteTimer(isEnd) {
         let dt = Date.now() - this.expected;
 
-        if(this.inVoteTImer.timeRefresh()) {
+        if(this.inVoteTImer.timeRefresh(this.socketList)) {
             let dummy = 0;
             let targetSocIdArr = [];
 

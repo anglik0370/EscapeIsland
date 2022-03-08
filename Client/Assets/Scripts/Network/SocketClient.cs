@@ -56,6 +56,7 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("STORAGE_FULL", handlerParent.GetComponent<StorageFullHandler>());
         handlerDic.Add("WIN_KIDNAPPER", handlerParent.GetComponent<WinKidnapperHandler>());
         handlerDic.Add("WIN_CITIZEN", handlerParent.GetComponent<WinCitizenHandler>());
+        handlerDic.Add("TIMER", handlerParent.GetComponent<TimerHandler>());
 
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());

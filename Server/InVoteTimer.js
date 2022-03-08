@@ -9,8 +9,12 @@ class InVoteTimer {
         this.curTime = this.timeToNextSlot;
     }
 
-    timeRefresh() {
+    timeRefresh(socketList) {
         this.curTime -= this.sec;
+
+        socketList.forEach(soc => {
+            soc.send(JSON.stringify({type:"TIMER",payload:this.curTime}));
+        });
 
         if(this.curTime <= 0) {
             
