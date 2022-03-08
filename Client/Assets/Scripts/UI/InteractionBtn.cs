@@ -24,6 +24,8 @@ public class InteractionBtn : MonoBehaviour
 
     [Header("버튼 스프라이트")]
     [SerializeField]
+    private Sprite startSprite;
+    [SerializeField]
     private Sprite interactionSprite;
     [SerializeField]
     private Sprite killSprite;
@@ -34,9 +36,9 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private Sprite findDeadBodySprite;
 
-    [Header("긴급회의 텍스트")]
+    [Header("텍스트")]
     [SerializeField]
-    private CanvasGroup emergencyBtnText;
+    private Text text;
 
     [Header("강조 오브젝트")]
     [SerializeField]
@@ -67,7 +69,7 @@ public class InteractionBtn : MonoBehaviour
         //inventory = player.inventory;
         //range = player.range;
 
-        emergencyBtnText.alpha = 0f;
+        text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
 
         isGameStart = false;
     }
@@ -83,6 +85,14 @@ public class InteractionBtn : MonoBehaviour
             inventory = p.inventory;
             range = p.range;
 
+            text.text = "Start";
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+
+            if(!p.master)
+            {
+                btn.interactable = false;
+            }
+
             btn.onClick.RemoveAllListeners();
 
             btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
@@ -91,6 +101,11 @@ public class InteractionBtn : MonoBehaviour
         EventManager.SubGameStart(p =>
         {
             isGameStart = true;
+
+            text.text = "Help!";
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+
+            btn.interactable = true;
 
             btn.onClick.RemoveAllListeners();
 
@@ -152,7 +167,7 @@ public class InteractionBtn : MonoBehaviour
             //여긴 킬하는곳
             state = InteractionState.KillPlayer;
 
-            emergencyBtnText.alpha = 0f;
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
 
             image.sprite = killSprite;
             accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
@@ -162,7 +177,7 @@ public class InteractionBtn : MonoBehaviour
             //여긴 제련소 여는곳
             state = InteractionState.OpenRefienry;
 
-            emergencyBtnText.alpha = 0f;
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
 
             image.sprite = interactionSprite;
             accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
@@ -172,7 +187,7 @@ public class InteractionBtn : MonoBehaviour
             //여긴 저장소 여는 곳
             state = InteractionState.OpenStorage;
 
-            emergencyBtnText.alpha = 0f;
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
 
             image.sprite = interactionSprite;
             accent.Disable();
@@ -182,7 +197,7 @@ public class InteractionBtn : MonoBehaviour
             //여긴 긴급회의 여는 곳
             state = InteractionState.EmergencyMeeting;
 
-            emergencyBtnText.alpha = 1f;
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
 
             image.sprite = emergencySprite;
             accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
@@ -214,7 +229,7 @@ public class InteractionBtn : MonoBehaviour
                 accent.Disable();
             }
 
-            emergencyBtnText.alpha = 0f;
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
         }
     }
 
