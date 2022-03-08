@@ -22,7 +22,7 @@ public class TimeHandler : MonoBehaviour
 
     [Header("킬 관련")]
     private bool isNightStart = false;
-    private int killStack = 0;
+    private int killStack = 2;
     public int KillStack { get { return killStack; } set { killStack = value; } }
     private float curTime = 0f;
     private float timeToNextStack = 20f;

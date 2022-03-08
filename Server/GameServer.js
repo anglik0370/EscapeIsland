@@ -220,275 +220,51 @@ wsService.on("connection", socket => {
                     });
                     break;
                 case "GameStart":
-                    if(socket.state !== SocketState.IN_ROOM){
-                        sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
-                        return;
-                    }
-
-                    let gRoomNum = JSON.parse(data.payload).roomNum;
-                    let gTargetRoom = roomList[gRoomNum];
-
-                    if(gTargetRoom.curUserNum < 2) {
-                        sendError("최소 2명 이상의 인원이 있어야 합니다.",socket);
-                        return;
-                    }
-
-                    if(gTargetRoom.curUserNum <= gTargetRoom.kidnapperNum) {
-                        sendError("현재 유저의 수가 납치자의 수보다 같거나 적습니다.",socket);
-                        return;
-                    }
-
-                    let keys = Object.keys(gTargetRoom.userList);
-                    let imposterLength = gTargetRoom.kidnapperNum;
-                    let idx;
-
-                    for(let i = 0; i < imposterLength; i++) {
-                        do {
-                            idx = Math.floor(Math.random() * keys.length);
-                        }while(userList[keys[idx]].isImposter)
-
-                        userList[keys[idx]].isImposter = true;
-                    }
-
-                    roomBroadcast(gTargetRoom);
-
-                    //룸에 있는 플레이어들의 포지션 조정
-
-                    let posList = SetSpawnPoint(keys.length);
-
-                    for(let i = 0; i < keys.length; i++) {
-                        userList[keys[i]].position = posList[i];
-                    }
-                    
-                    let dataList = Object.values(gTargetRoom.userList);
-
-                    gTargetRoom.playing = true;
-                    gTargetRoom.startTimer();
-                    gTargetRoom.socketList.forEach(soc => {
-                        soc.state = SocketState.IN_PLAYING;
-                        //connectedSocket[soc.id].state = SocketState.IN_PLAYING;
-                        soc.send(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
-                    });
-
+                    gameStart(socket,JSON.parse(data.payload));
                     break;
                 case "KILL":
-
-                    let dRoomNum = socket.room;
-                    let dRoom = roomList[dRoomNum];
-                    let socId = JSON.parse(data.payload).targetSocketId;
-
-                    if(userList[socId] !== undefined) {
-                        userList[socId].isDie = true;
-                    }
-
-                    roomBroadcast(dRoom,"KILL");
-
-                    //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
-
-                    // let imposterCount = 0;
-                    // let citizenCount = 0;
-
-                    // let dRoomUserList = Object.values(dRoom.userList);
-
-                    // dRoomUserList.forEach(user => {
-                    //     if(user.isDie) return;
-
-                    //     if(user.isImposter) imposterCount++;
-                    //     else citizenCount++;
-                    // });
-
-                    // if(imposterCount >= citizenCount) {
-                    //     //임포승
-                    //     dRoom.socketList.forEach(soc => {
-                    //         soc.send(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList:dRoomUserList})}));
-                    //     });
-                    //     dRoom.initRoom();
-                    // }
-
-                    
+                    kill(socket,JSON.parse(data.payload));
                     break;
                 case "GET_ITEM":
                     let spawnerId = JSON.parse(data.payload).spawnerId;
-                    let getItemRoom = roomList[socket.room];
 
-                    getItemRoom.socketList.forEach(soc => {
-                        if(soc.id == socket.id) return;
-                        soc.send(JSON.stringify({type:"GET_ITEM",payload:spawnerId}));
-                    });
+                    broadcast(socket,JSON.stringify({type:"GET_ITEM",payload:spawnerId}));
                     break;
                 case "STORAGE_DROP":
                     let itemSOId = JSON.parse(data.payload).itemSOId;
-                    let getItemR = roomList[socket.room];
-                    getItemR.socketList.forEach(soc => {
-                        if(soc.id == socket.id) return;
-                        soc.send(JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
-                    });
+
+                    broadcast(socket,JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
                     break;
                 case "STORAGE_FULL":
-                    let fullRoom = roomList[socket.room];
-
-                    if(fullRoom.inGameTimer.isLightTime) {
-                        fullRoom.inGameTimer.isEndGame = true;
-                        fullRoom.socketList.forEach(soc => {
-                            soc.send(JSON.stringify({type:"STORAGE_FULL",payload:"저녁까지 쳐 버티도록 하세요"}));
-                        });
-                    }
-                    else {
-                        let dataList = Object.values(fullRoom.userList);
-
-                        fullRoom.socketList.forEach(soc => {
-                            soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList})}));
-                        });
-
-                        fullRoom.initRoom();
-                    }
-
-                    
+                    storageFull(socket);
                     break;
                 case "START_REFINERY":
                     let startData = JSON.parse(data.payload);
-                    let startRefineryId = startData.refineryId;
-                    let startItemSOId = startData.itemSOId;
 
-                    let startRoom = roomList[socket.room];
-
-                    startRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"START_REFINERY",payload:JSON.stringify({refineryId:startRefineryId,itemSOId:startItemSOId})}));
-                    });
+                    broadcast(socket,JSON.stringify({type:"START_REFINERY",payload:JSON.stringify({refineryId:startData.refineryId,itemSOId:startData.itemSOId})}))
 
                     break;
                 case "RESET_REFINERY":
                     let resetRefineryId = JSON.parse(data.payload).refineryId;
 
-                    let resetRoom = roomList[socket.room];
-
-                    resetRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
-                    });
+                    broadcast(socket,JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
                     break;
                 case "TAKE_REFINERY":
                     let takeRefineryId = JSON.parse(data.payload).refineryId;
-                    let takeRoom = roomList[socket.room];
 
-                    takeRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"TAKE_REFINERY",payload:takeRefineryId}));
-                    });
+                    broadcast(socket,JSON.stringify({type:"TAKE_REFINERY",payload:takeRefineryId}));
                     break;
                 case "CHAT":
-                    let chatRoom = roomList[socket.room];
-
-                    chatRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"CHAT",payload:data.payload}));
-                    });
-
+                    broadcast(socket,JSON.stringify({type:"CHAT",payload:data.payload}))
                     break;
                 case "VOTE_COMPLETE":
-                    let completePayload = JSON.parse(data.payload);
-
-                    let completeRoom = roomList[socket.room];
-
-                    if(completePayload.voteTargetId === -1){
-                        completeRoom.skipCount++;
-                    }
-                    else {
-                        userList[completePayload.voteTargetId].voteNum++;
-                    }
-
-                    userList[completePayload.voterId].voteComplete = true;
-
-                    completeRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"VOTE_COMPLETE",payload:JSON.stringify({voterId:completePayload.voterId,voteTargetId:completePayload.voteTargetId})}))
-                    });
-
-                    let comRoomKeys = Object.keys(completeRoom.userList);
-                    let allComplete = true;
-                    let targetSocIdArr = [];
-
-                    for(let i = 0; i < comRoomKeys.length; i++) {
-                        //안죽었을때 & 투표완료했을때 넘어가야함
-                        if((!userList[comRoomKeys[i]].voteComplete && !userList[comRoomKeys[i]].isDie)) {
-                            allComplete = false;
-                            break;
-                        }
-                    }
-                    
-                    if(allComplete) {
-                        let dummy = -1;
-
-                        for(let i = 0; i < comRoomKeys.length; i++) {
-                            let idx = userList[comRoomKeys[i]].voteNum;
-
-                            if(dummy != 0 &&  idx == dummy) {
-                                targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
-                            }
-                            else if(idx > dummy && idx > completeRoom.skipCount) {
-                                dummy = idx;
-                                targetSocIdArr.length = 0;
-                                targetSocIdArr.push(userList[comRoomKeys[i]].socketId);
-                            }
-
-                            userList[comRoomKeys[i]].voteNum = 0;
-                            userList[comRoomKeys[i]].voteComplete = false;
-                        }
-                        completeRoom.skipCount = 0;
-                        
-                        if(targetSocIdArr.length == 1) {
-                            completeRoom.socketList.forEach(soc => {
-                                soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
-                            });
-                            userList[targetSocIdArr[0]].isDie = true;
-                            //return;
-                        }
-                        //아무도 표를 받지 않았거나 동표임
-                        
-                        if(completeRoom.isEnd) {
-                            completeRoom.changeTime();
-                        }
-                        else{
-                            completeRoom.socketList.forEach(soc => {
-                                soc.send(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
-                            });
-            
-                            completeRoom.startTimer();
-                        }
-                    }
-
+                    voteComplete(socket,JSON.parse(data.payload));
                     break;
                 case "EMERGENCY":
-                    let emRoom = roomList[socket.room];
-                    let emKeys = Object.keys(emRoom.userList);
-                    let emPosList = SetSpawnPoint(emKeys.length);
-
-                    for(let i = 0; i < emKeys.length; i++) {
-                        userList[emKeys[i]].position = emPosList[i];
-                    }
-
-                    emRoom.startVoteTimer();
-                    emRoom.isEnd = false;
-
-                    let emDataList = Object.values(emRoom.userList);
-
-                    emRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:emDataList,type:"EMERGENCY"})}));
-                    });
+                    deadReportOrEmergency(socket,0);
                     break;
                 case "DEAD_REPORT":
-                    let drRoom = roomList[socket.room];
-                    let drKeys = Object.keys(drRoom.userList);
-                    let drPosList = SetSpawnPoint(drKeys.length);
-
-                    for(let i = 0; i < drKeys.length; i++) {
-                        userList[drKeys[i]].position = drPosList[i];
-                    }
-
-                    drRoom.startVoteTimer();
-                    drRoom.isEnd = false;
-
-                    let drDataList = Object.values(drRoom.userList);
-
-                    drRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:drDataList,type:"EMERGENCY"})}));
-                    });
+                    deadReportOrEmergency(socket,1);
                     break;
             }
         }
@@ -499,6 +275,196 @@ wsService.on("connection", socket => {
     });
 
 });
+function gameStart(socket,payload) {
+    if(socket.state !== SocketState.IN_ROOM){
+        sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
+        return;
+    }
+    let room = roomList[payload.roomNum];
+
+    if(room.curUserNum < 2) {
+        sendError("최소 2명 이상의 인원이 있어야 합니다.",socket);
+        return;
+    }
+
+    if(room.curUserNum <= room.kidnapperNum) {
+        sendError("현재 유저의 수가 납치자의 수보다 같거나 적습니다.",socket);
+        return;
+    }
+
+    let keys = Object.keys(room.userList);
+    let imposterLength = room.kidnapperNum;
+    let idx;
+
+    for(let i = 0; i < imposterLength; i++) {
+        do {
+            idx = Math.floor(Math.random() * keys.length);
+        }while(userList[keys[idx]].isImposter)
+
+        userList[keys[idx]].isImposter = true;
+    }
+
+    roomBroadcast(room);
+
+    //룸에 있는 플레이어들의 포지션 조정
+
+    let posList = SetSpawnPoint(keys.length);
+
+    for(let i = 0; i < keys.length; i++) {
+        userList[keys[i]].position = posList[i];
+    }
+    
+    let dataList = Object.values(room.userList);
+
+    room.playing = true;
+    room.startTimer();
+    room.socketList.forEach(soc => {
+        soc.state = SocketState.IN_PLAYING;
+        //connectedSocket[soc.id].state = SocketState.IN_PLAYING;
+        soc.send(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
+    });
+}
+
+function kill(socket,payload) {
+    let room = roomList[socket.room];
+    let socId = payload.targetSocketId;
+
+    if(userList[socId] !== undefined) {
+        userList[socId].isDie = true;
+    }
+
+    roomBroadcast(room,"KILL");
+
+    //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
+
+    // let imposterCount = 0;
+    // let citizenCount = 0;
+
+    // let dataList = Object.values(room.userList);
+
+    // dataList.forEach(user => {
+    //     if(user.isDie) return;
+
+    //     if(user.isImposter) imposterCount++;
+    //     else citizenCount++;
+    // });
+
+    // if(imposterCount >= citizenCount) {
+    //     //임포승
+    //     broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
+    //     room.initRoom();
+    // }
+}
+
+function storageFull(socket) {
+    let room = roomList[socket.room];
+
+    if(room.inGameTimer.isLightTime) {
+        room.inGameTimer.isEndGame = true;
+        broadcast(socket,JSON.stringify({type:"STORAGE_FULL",payload:"저녁까지 쳐 버티도록 하세요"}));
+    }
+    else {
+        let dataList = Object.values(room.userList);
+
+        broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList})}));
+        room.initRoom();
+    }
+}
+
+function voteComplete(socket,payload) {
+    let room = roomList[socket.room];
+
+    if(payload.voteTargetId === -1){
+        room.skipCount++;
+    }
+    else {
+        userList[payload.voteTargetId].voteNum++;
+    }
+
+    userList[payload.voterId].voteComplete = true;
+
+    broadcast(socket,JSON.stringify({type:"VOTE_COMPLETE",payload:JSON.stringify({voterId:payload.voterId,voteTargetId:payload.voteTargetId})}));
+
+    let keys = Object.keys(room.userList);
+    let allComplete = true;
+    let targetSocIdArr = [];
+
+    for(let i = 0; i < keys.length; i++) {
+        //안죽었을때 & 투표완료했을때 넘어가야함
+        if((!userList[keys[i]].voteComplete && !userList[keys[i]].isDie)) {
+            allComplete = false;
+            break;
+        }
+    }
+    
+    if(allComplete) {
+        let dummy = -1;
+
+        for(let i = 0; i < keys.length; i++) {
+            let idx = userList[keys[i]].voteNum;
+
+            if(dummy != 0 &&  idx == dummy) {
+                targetSocIdArr.push(userList[keys[i]].socketId);
+            }
+            else if(idx > dummy && idx > room.skipCount) {
+                dummy = idx;
+                targetSocIdArr.length = 0;
+                targetSocIdArr.push(userList[keys[i]].socketId);
+            }
+
+            userList[keys[i]].voteNum = 0;
+            userList[keys[i]].voteComplete = false;
+        }
+        room.skipCount = 0;
+        
+        if(targetSocIdArr.length == 1) {
+            room.socketList.forEach(soc => {
+                soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
+            });
+            userList[targetSocIdArr[0]].isDie = true;
+            //return;
+        }
+        //아무도 표를 받지 않았거나 동표임
+        
+        if(room.isEnd) {
+            room.changeTime();
+        }
+        else{
+            room.socketList.forEach(soc => {
+                soc.send(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
+            });
+
+            room.startTimer();
+        }
+    }
+}
+
+function deadReportOrEmergency(socket,type) {
+
+    let room = roomList[socket.room];
+    let keys = Object.keys(room.userList);
+
+    let posList = SetSpawnPoint(keys.length);
+
+    for(let i = 0; i < keys.length; i++) {
+        userList[keys[i]].position = posList[i];
+    }
+
+    room.startVoteTimer();
+    room.isEnd = false;
+
+    let dataList = Object.values(room.userList);
+
+    broadcast(socket,JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type})}));
+}
+
+function broadcast(socket,msg) {
+    let room = roomList[socket.room];
+
+    room.socketList.forEach(soc => { 
+        soc.send(msg);
+    });
+}
 
 function sendError(msg, socket) //에러 보내기용 함수
 {
