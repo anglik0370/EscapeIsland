@@ -94,8 +94,6 @@ public class Player : MonoBehaviour
 
         gameObject.SetActive(false);
         ui.gameObject.SetActive(false);
-
-        
     }
 
     public void SetDeadBody()
@@ -116,6 +114,8 @@ public class Player : MonoBehaviour
     public void SetDead()
     {
         isDie = true;
+
+        anim.SetFloat("isDie", 1f);
 
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.3f);
     }

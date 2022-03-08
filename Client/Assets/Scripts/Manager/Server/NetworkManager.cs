@@ -51,6 +51,7 @@ public class NetworkManager : MonoBehaviour
     private bool needStorageFullRefresh = false;
 
     private int tempId = -1;
+    private MeetingType meetingType = MeetingType.EMERGENCY;
     private string msg = string.Empty;
 
     private Player user = null;
@@ -123,11 +124,12 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetVoteTime(List<UserVO> list)
+    public static void SetVoteTime(List<UserVO> list,int type)
     {
         lock (instance.lockObj)
         {
             instance.tempDataList = list;
+            instance.meetingType = (MeetingType)type;
             instance.needVoteRefresh = true;
         }
     }
