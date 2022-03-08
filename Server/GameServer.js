@@ -74,23 +74,11 @@ wsService.on("connection", socket => {
             const data = JSON.parse(msg);
             switch (data.type) {
                 case "LOGIN":
-                    let payload = JSON.parse(data.payload);
-                    if(payload.name === ""){
-                        sendError("이름을 입력해주세요", socket);
-                        return;
-                    }
-                    let userData = LoginHandler(data.payload,socket);
-                    userData.position = Vector2.zero;
-                    userData.isImposter = false;
-                    userData.isDie = false;
-                    userData.voteNum = 0;
-                    userData.voteComplete = false;
-
-
-                    userList[socket.id] = userData;
+                    login(socket,JSON.parse(data.payload));
                     break;
                 case "TRANSFORM":
                     let transformVO = JSON.parse(data.payload);
+
                     if(userList[transformVO.socketId] !== undefined) {
                         userList[transformVO.socketId].position = transformVO.position;
                     }
@@ -99,125 +87,17 @@ wsService.on("connection", socket => {
                     refreshRoom(socket);
                     break;
                 case "CREATE_ROOM":
-                    if(socket.state !== SocketState.IN_LOBBY){
-                        sendError("로비가 아닌 곳에서 시도를 하였습니다.", socket);
-                        return;
-                    }
-
-                    let roomInfo = JSON.parse(data.payload);
-                    if(roomInfo.name === ""){
-                        sendError("방이름을 입력해 주세요.", socket);
-                        return;
-                    }
-
-                    //roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,curUserNum:1,userNum:roomInfo.userNum,playing:false};
-                    let r = new Room(roomInfo.name,roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
-                    r.inGameTimer = new InGameTimer();
-                    socket.state = SocketState.IN_ROOM;
-                    socket.room = roomIdx;
-
-                    if(userList[socket.id] !== undefined){
-                        userList[socket.id].roomNum = roomIdx;
-                        userList[socket.id].master = true;
-                        userList[socket.id].position = getWaitingPoint();
-                    }
-
-                    r.addSocket(socket, userList[socket.id]);
-                    roomList[roomIdx] = r;
-
-                    socket.send(JSON.stringify({type:"ENTER_ROOM"}));
-
-                    wsService.clients.forEach(soc=>{
-                        if(soc.state != SocketState.IN_LOBBY) 
-                            return;
-                        refreshRoom(soc);
-                    });
-
-                    roomIdx++;
+                    roomCreate(socket,JSON.parse(data.payload));
                     break;
                 case "JOIN_ROOM":
-                    if(socket.state !== SocketState.IN_LOBBY){
-                        sendError("로비가 아닌 곳에서 시도를 하였습니다.", socket);
-                        return;
-                    }
-
-                    let roomNum = JSON.parse(data.payload).roomNum;
-                    let targetRoom = roomList[roomNum];
-
-                    if(targetRoom === undefined || targetRoom.curUserNum >= targetRoom.userNum || targetRoom.playing) {
-                        sendError("들어갈 수 없는 방입니다.");
-                    }
-                    socket.room = roomNum;
-
-                    if(userList[socket.id] !== undefined) {
-                        userList[socket.id].roomNum = roomNum;
-                        userList[socket.id].master = false;
-                        userList[socket.id].position = getWaitingPoint();
-                    }
-                    socket.state = SocketState.IN_ROOM;
-                    targetRoom.curUserNum++;
-                    targetRoom.addSocket(socket,userList[socket.id]);
-
-                    socket.send(JSON.stringify({type:"ENTER_ROOM"}));
-
-                    wsService.clients.forEach(soc => {d
-                        if(soc.state === SocketState.IN_LOBBY) {
-                            refreshRoom(soc);
-                        }
-                    });
+                    roomJoin(socket,JSON.parse(data.payload).roomNum);
                     break;
                 case "TEST_CLIENT":
                     //userList[socket.id].isImposter = true;
-                    
-                    for(let i = 0; i < 3; i++) {
-                        let testRoom = roomList[socket.room];
-                        let dummySocket = new WebSocket("ws://localhost:31012");
-                        let testUserData = _.cloneDeep(userList[socket.id]);
-                        dummySocket.id = 0;
-                        dummySocket.id = ++testIdx + dummySocket.id;
-    
-                        dummySocket.state = SocketState.IN_ROOM;
-                        dummySocket.room = socket.room;
-    
-                        connectedSocket[dummySocket.id] = dummySocket;
-    
-                        userList[dummySocket.id] = testUserData;
-    
-                        userList[dummySocket.id].master = false;
-                        userList[dummySocket.id].name = `test${dummySocket.id - 1000}`;
-                        userList[dummySocket.id].socketId = dummySocket.id;
-                        userList[dummySocket.id].position = getWaitingPoint();
-                        
-                        testRoom.curUserNum++;
-                        testRoom.addSocket(dummySocket,userList[dummySocket.id]);
-    
-                    }
-                   
-                    wsService.clients.forEach(soc => {
-                        if(soc.state === SocketState.IN_LOBBY) {
-                            refreshRoom(soc);
-                        }
-                    });
+                    testClient(socket);
                     break;
                 case "EXIT_ROOM":
-                    if(socket.state !== SocketState.IN_ROOM && socket.state !== SocketState.IN_PLAYING){
-                        sendError("잘못된 접근입니다.", socket);
-                        return;
-                    }
-                    let eRoomNum = JSON.parse(data.payload).roomNum;
-
-                    exitRoom(socket,eRoomNum);
-
-                    socket.send(JSON.stringify({type:"EXIT_ROOM"}));
-
-                    wsService.clients.forEach(soc=>{
-                        if(soc.room === eRoomNum) { //소켓이 해제된 유저가 있었던 방에 있다면
-                            roomBroadcast(roomList[eRoomNum]);
-                        }
-                        if(soc.state === SocketState.IN_LOBBY) {
-                            refreshRoom(soc);
-                        }
-                    });
+                    roomExit(socket,JSON.parse(data.payload).roomNum);
                     break;
                 case "GameStart":
                     gameStart(socket,JSON.parse(data.payload));
@@ -275,6 +155,143 @@ wsService.on("connection", socket => {
     });
 
 });
+
+function login(socket,payload) {
+    if(payload.name === ""){
+        sendError("이름을 입력해주세요", socket);
+        return;
+    }
+    let userData = LoginHandler(payload,socket);
+    userData.position = Vector2.zero;
+    userData.isImposter = false;
+    userData.isDie = false;
+    userData.voteNum = 0;
+    userData.voteComplete = false;
+
+
+    userList[socket.id] = userData;
+}
+
+function roomCreate(socket,roomInfo) {
+    if(socket.state !== SocketState.IN_LOBBY){
+        sendError("로비가 아닌 곳에서 시도를 하였습니다.", socket);
+        return;
+    }
+
+    if(roomInfo.name === ""){
+        sendError("방이름을 입력해 주세요.", socket);
+        return;
+    }
+
+    //roomList[roomIdx] = {name:roomInfo.name, roomNum:roomIdx,curUserNum:1,userNum:roomInfo.userNum,playing:false};
+    let r = new Room(roomInfo.name,roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
+    r.inGameTimer = new InGameTimer();
+    socket.state = SocketState.IN_ROOM;
+    socket.room = roomIdx;
+
+    if(userList[socket.id] !== undefined){
+        userList[socket.id].roomNum = roomIdx;
+        userList[socket.id].master = true;
+        userList[socket.id].position = getWaitingPoint();
+    }
+
+    r.addSocket(socket, userList[socket.id]);
+    roomList[roomIdx] = r;
+
+    socket.send(JSON.stringify({type:"ENTER_ROOM"}));
+
+    wsService.clients.forEach(soc=>{
+        if(soc.state != SocketState.IN_LOBBY) 
+            return;
+        refreshRoom(soc);
+    });
+
+    roomIdx++;
+}
+
+function testClient(socket) {
+    for(let i = 0; i < 3; i++) {
+        let testRoom = roomList[socket.room];
+        let dummySocket = new WebSocket("ws://localhost:31012");
+        let testUserData = _.cloneDeep(userList[socket.id]);
+        dummySocket.id = 0;
+        dummySocket.id = ++testIdx + dummySocket.id;
+
+        dummySocket.state = SocketState.IN_ROOM;
+        dummySocket.room = socket.room;
+
+        connectedSocket[dummySocket.id] = dummySocket;
+
+        userList[dummySocket.id] = testUserData;
+
+        userList[dummySocket.id].master = false;
+        userList[dummySocket.id].name = `test${dummySocket.id - 1000}`;
+        userList[dummySocket.id].socketId = dummySocket.id;
+        userList[dummySocket.id].position = getWaitingPoint();
+        
+        testRoom.curUserNum++;
+        testRoom.addSocket(dummySocket,userList[dummySocket.id]);
+
+    }
+   
+    wsService.clients.forEach(soc => {
+        if(soc.state === SocketState.IN_LOBBY) {
+            refreshRoom(soc);
+        }
+    });
+}
+
+function roomJoin(socket,roomNum) {
+    if(socket.state !== SocketState.IN_LOBBY){
+        sendError("로비가 아닌 곳에서 시도를 하였습니다.", socket);
+        return;
+    }
+    let room = roomList[roomNum];
+
+    if(room === undefined || room.curUserNum >= room.userNum || room.playing) {
+        sendError("들어갈 수 없는 방입니다.");
+    }
+    socket.room = roomNum;
+
+    if(userList[socket.id] !== undefined) {
+        userList[socket.id].roomNum = roomNum;
+        userList[socket.id].master = false;
+        userList[socket.id].position = getWaitingPoint();
+    }
+
+    socket.state = SocketState.IN_ROOM;
+    room.curUserNum++;
+    room.addSocket(socket,userList[socket.id]);
+
+    socket.send(JSON.stringify({type:"ENTER_ROOM"}));
+
+    wsService.clients.forEach(soc => {d
+        if(soc.state === SocketState.IN_LOBBY) {
+            refreshRoom(soc);
+        }
+    });
+}
+
+function roomExit(socket,roomNum) {
+    if(socket.state !== SocketState.IN_ROOM && socket.state !== SocketState.IN_PLAYING){
+        sendError("잘못된 접근입니다.", socket);
+        return;
+    }
+
+    exitRoom(socket,roomNum);
+
+    socket.send(JSON.stringify({type:"EXIT_ROOM"}));
+
+    wsService.clients.forEach(soc=>{
+        if(soc.room === roomNum) { //소켓이 해제된 유저가 있었던 방에 있다면
+            roomBroadcast(roomList[roomNum]);
+        }
+        if(soc.state === SocketState.IN_LOBBY) {
+            refreshRoom(soc);
+        }
+    });
+}
+
 function gameStart(socket,payload) {
     if(socket.state !== SocketState.IN_ROOM){
         sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
@@ -473,16 +490,16 @@ function sendError(msg, socket) //에러 보내기용 함수
 
 function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
 {
-    let targetRoom = roomList[roomNum]; //해당 방 받아오기
+    let room = roomList[roomNum]; //해당 방 받아오기
 
     socket.room = 0; //나왔으니 룸 초기화
 
     socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
-    targetRoom.curUserNum--; //그 방의 인원수--;
-    targetRoom.removeSocket(socket.id);
+    room.curUserNum--; //그 방의 인원수--;
+    room.removeSocket(socket.id);
 
-    if(userList[socket.id].master && targetRoom.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
-        let keys = Object.keys(targetRoom.userList);
+    if(userList[socket.id].master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
+        let keys = Object.keys(room.userList);
         userList[keys[0]].master = true;
     }
 
@@ -498,15 +515,15 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     }
     
     
-    if(targetRoom.curUserNum <= 0){ //사람이 0명일때 room delete
+    if(room.curUserNum <= 0){ //사람이 0명일때 room delete
         //console.log(roomList);
-        targetRoom.deleteRoom();
+        room.deleteRoom();
         delete roomList[roomNum];
         //console.log(roomList);
         return;
     }
 
-    targetRoom.socketList.forEach(soc => {
+    room.socketList.forEach(soc => {
         if(soc.id === socket.id) return;
         soc.send(JSON.stringify({type:"DISCONNECT",payload:socket.id}))
     });
@@ -537,10 +554,10 @@ function allRoomBroadcast(roomList) {
     let keys = Object.keys(roomList);
 
     for(let i = 0; i < keys.length; i++) {
-        let targetRoom = roomList[keys[i]];
-        let dataList = Object.values(targetRoom.userList);
+        let room = roomList[keys[i]];
+        let dataList = Object.values(room.userList);
         //console.log(JSON.stringify({dataList}));
-        targetRoom.socketList.forEach(soc => {
+        room.socketList.forEach(soc => {
             soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
         });
     }

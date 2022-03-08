@@ -160,8 +160,8 @@ public class InteractionBtn : MonoBehaviour
     private void Update() 
     {
         if (!isGameStart || player.isDie) return;
-        print(TimeHandler.Instance.EndOfVote());
-        print(FindNearlestPlayer());
+        //print(TimeHandler.Instance.EndOfVote());
+        //print(FindNearlestPlayer());
         if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
         {
             //여긴 킬하는곳
