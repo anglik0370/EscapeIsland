@@ -6,7 +6,7 @@ public class TimeRefreshHandler : MonoBehaviour,IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        print(payload);
+        //print(payload);
         TimeVO vo = JsonUtility.FromJson<TimeVO>(payload);
         NetworkManager.SetTimeRefresh(vo);
     }

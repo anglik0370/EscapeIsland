@@ -6,6 +6,6 @@ public class TimerHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        int.Parse(payload);
+       NetworkManager.SetTimerData(int.Parse(payload));
     }
 }

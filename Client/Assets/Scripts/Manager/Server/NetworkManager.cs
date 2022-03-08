@@ -437,7 +437,6 @@ public class NetworkManager : MonoBehaviour
     public void TimerText()
     {
         if (isTextChange) return;
-        print(curTime);
         voteTab.ChangeMiddleText(curTime.ToString());
     }
 
