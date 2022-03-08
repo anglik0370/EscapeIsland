@@ -138,7 +138,7 @@ class Room {
                 });
                 this.userList[targetSocIdArr[0]].isDie = true;
             }
-
+            console.log(isEnd);
             if(isEnd) {
                 this.changeTime();
             }
@@ -155,7 +155,7 @@ class Room {
         this.expected += this.interval;
 
         this.nextTime = Math.max(0,this.interval - dt);
-        this.curTimer = setTimeout(this.voteTimer.bind(this),this.nextTime);
+        this.curTimer = setTimeout(this.voteTimer.bind(this),this.nextTime,isEnd);
     }
 
     addSocket(socket,user) {

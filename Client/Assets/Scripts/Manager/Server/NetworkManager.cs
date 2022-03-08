@@ -437,7 +437,7 @@ public class NetworkManager : MonoBehaviour
     public void TimerText()
     {
         if (isTextChange) return;
-
+        print(curTime);
         voteTab.ChangeMiddleText(curTime.ToString());
     }
 
@@ -446,7 +446,7 @@ public class NetworkManager : MonoBehaviour
         isTextChange = true;
         voteTab.ChangeMiddleText(msg);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
 
         isTextChange = false;
     }
