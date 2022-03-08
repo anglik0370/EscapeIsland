@@ -13,6 +13,9 @@ public class ConvocationPanel : Panel
 {
     public Text caseTxt;
 
+    private const float LIFETIME = 1f;
+    private WaitForSeconds ws;
+
     protected override void Awake()
     {
         EventManager.SubStartMeet(type =>
@@ -20,6 +23,8 @@ public class ConvocationPanel : Panel
             Open(type);
             PopupManager.instance.OpenPopup("vote");
         });
+
+        ws = new WaitForSeconds(LIFETIME);
 
         base.Awake();
     }
@@ -36,6 +41,15 @@ public class ConvocationPanel : Panel
                 break;
         }
 
+        StartCoroutine(DelayClose());
+
         base.Open(false);
+    }
+
+    private IEnumerator DelayClose()
+    {
+        yield return ws;
+
+        base.Close();
     }
 }
