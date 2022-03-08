@@ -163,7 +163,7 @@ class Room {
         this.userList[user.socketId] = user;
 
         //console.log(this.socketList.length);
-        console.log(JSON.stringify({userList:this.userList}))
+        //console.log(JSON.stringify({userList:this.userList}))
     }
 
     removeSocket(rSocketIdx) {

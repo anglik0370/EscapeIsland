@@ -167,6 +167,8 @@ wsService.on("connection", socket => {
                     });
                     break;
                 case "TEST_CLIENT":
+                    userList[socket.id].isImposter = true;
+                    
                     for(let i = 0; i < 3; i++) {
                         let testRoom = roomList[socket.room];
                         let dummySocket = new WebSocket("ws://localhost:31012");
