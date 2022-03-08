@@ -425,15 +425,13 @@ public class NetworkManager : MonoBehaviour
         {
             voteTab.CompleteVote();
         }
-        
     }
 
     public void OnVoteTimeStart()
     {
-        StopOrPlay(false);
         GameManager.Instance.ClearDeadBody();
-        PopupManager.instance.OpenPopup("vote");
-        
+
+        EventManager.OccurStartMeet(meetingType);
 
         foreach (UserVO uv in tempDataList)
         {

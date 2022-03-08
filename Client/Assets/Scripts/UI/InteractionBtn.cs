@@ -31,6 +31,12 @@ public class InteractionBtn : MonoBehaviour
     private Sprite pickUpSprite;
     [SerializeField]
     private Sprite emergencySprite;
+    [SerializeField]
+    private Sprite findDeadBodySprite;
+
+    [Header("긴급회의 텍스트")]
+    [SerializeField]
+    private CanvasGroup emergencyBtnText;
 
     [Header("강조 오브젝트")]
     [SerializeField]
@@ -60,6 +66,8 @@ public class InteractionBtn : MonoBehaviour
         //playerTrm = player.transform;
         //inventory = player.inventory;
         //range = player.range;
+
+        emergencyBtnText.alpha = 0f;
 
         isGameStart = false;
     }
@@ -143,6 +151,8 @@ public class InteractionBtn : MonoBehaviour
             //여긴 킬하는곳
             state = InteractionState.KillPlayer;
 
+            emergencyBtnText.alpha = 0f;
+
             image.sprite = killSprite;
             accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
         }
@@ -150,6 +160,8 @@ public class InteractionBtn : MonoBehaviour
         {
             //여긴 제련소 여는곳
             state = InteractionState.OpenRefienry;
+
+            emergencyBtnText.alpha = 0f;
 
             image.sprite = interactionSprite;
             accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
@@ -159,6 +171,8 @@ public class InteractionBtn : MonoBehaviour
             //여긴 저장소 여는 곳
             state = InteractionState.OpenStorage;
 
+            emergencyBtnText.alpha = 0f;
+
             image.sprite = interactionSprite;
             accent.Disable();
         }
@@ -166,6 +180,8 @@ public class InteractionBtn : MonoBehaviour
         {
             //여긴 긴급회의 여는 곳
             state = InteractionState.EmergencyMeeting;
+
+            emergencyBtnText.alpha = 1f;
 
             image.sprite = emergencySprite;
             accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
@@ -185,7 +201,7 @@ public class InteractionBtn : MonoBehaviour
                 //여긴 주변 시체 신고하는곳
                 state = InteractionState.ReportDeadbody;
 
-                image.sprite = emergencySprite;
+                image.sprite = findDeadBodySprite;
                 accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
             }
             else
@@ -196,6 +212,8 @@ public class InteractionBtn : MonoBehaviour
                 image.sprite = pickUpSprite;
                 accent.Disable();
             }
+
+            emergencyBtnText.alpha = 0f;
         }
     }
 

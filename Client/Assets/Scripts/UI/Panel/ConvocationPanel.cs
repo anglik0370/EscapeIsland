@@ -13,6 +13,17 @@ public class ConvocationPanel : Panel
 {
     public Text caseTxt;
 
+    protected override void Awake()
+    {
+        EventManager.SubStartMeet(type =>
+        {
+            Open(type);
+            PopupManager.instance.OpenPopup("vote");
+        });
+
+        base.Awake();
+    }
+
     public void Open(MeetingType type)
     {
         switch(type)
