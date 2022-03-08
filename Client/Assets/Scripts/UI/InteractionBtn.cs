@@ -105,7 +105,7 @@ public class InteractionBtn : MonoBehaviour
             text.text = "Help!";
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
 
-            btn.interactable = false;
+            btn.interactable = true;
 
             btn.onClick.RemoveAllListeners();
 
