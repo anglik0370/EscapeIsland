@@ -7,6 +7,7 @@ public enum MeetingType
 {
     EMERGENCY,
     REPORT,
+    REGULAR,
 }
 
 public class ConvocationPanel : Panel
@@ -38,6 +39,9 @@ public class ConvocationPanel : Panel
                 break;
             case MeetingType.REPORT:
                 caseTxt.text = "시체 발견";
+                break;
+            case MeetingType.REGULAR:
+                caseTxt.text = "정기 회의";
                 break;
         }
 

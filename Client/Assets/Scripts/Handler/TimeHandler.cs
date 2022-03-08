@@ -45,8 +45,6 @@ public class TimeHandler : MonoBehaviour
         {
             endTime -= Time.deltaTime;
         }
-
-        
     }
 
     public void KillStackTimer()

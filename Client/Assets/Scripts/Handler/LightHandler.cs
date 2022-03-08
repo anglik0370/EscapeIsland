@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class LightHandler : MonoBehaviour
 {
+    [Header("조명들")]
     [SerializeField]
     private Light2D global;
     [SerializeField]
@@ -13,18 +14,27 @@ public class LightHandler : MonoBehaviour
     [SerializeField]
     private Light2D lightMapPoint;
 
+    [Header("편집할때 꺼놔야하는것들")]
     [SerializeField]
     private GameObject[] lightMapObjs;
 
+    [Header("GlobalLight 밝기")]
     public float lightGlobalIntensity;
-    public float lightPointIntensity;
-    public float lightInnerRadius;
-    public float lightOuterRadius;
     public float darkGlobalIntensity;
+
+    [Header("Player PointLight 밝기")]
+    public float lightPointIntensity;
     public float darkPointIntensity;
+
+    [Header("Player PointLight 안쪽 반지름 크기")]
+    public float lightInnerRadius;
     public float darkInnerRadius;
+
+    [Header("Player PointLight 바깥쪽 반지름 크기")]
+    public float lightOuterRadius;
     public float darkOuterRadius;
 
+    [Header("밝기 변화 시간")]
     [SerializeField]
     private float duration = 1f;
     
@@ -34,6 +44,14 @@ public class LightHandler : MonoBehaviour
         {
             lightMapObjs[i].SetActive(true);
         }
+
+        EventManager.SubEnterRoom(p =>
+        {
+            Light2D[] lights = p.GetComponentsInChildren<Light2D>();
+
+            lightMapPoint = lights[0];
+            shadowPoint = lights[1];
+        });
     }
 
     public void Dark()
