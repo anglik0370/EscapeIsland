@@ -433,7 +433,7 @@ wsService.on("connection", socket => {
                     let emDataList = Object.values(emRoom.userList);
 
                     emRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:emDataList})}));
+                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:emDataList,type:"EMERGENCY"})}));
                     });
                     break;
                 case "DEAD_REPORT":
@@ -451,7 +451,7 @@ wsService.on("connection", socket => {
                     let drDataList = Object.values(drRoom.userList);
 
                     drRoom.socketList.forEach(soc => {
-                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:drDataList})}));
+                        soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList:drDataList,type:"EMERGENCY"})}));
                     });
                     break;
             }
