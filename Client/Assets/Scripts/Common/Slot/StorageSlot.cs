@@ -19,10 +19,14 @@ public class StorageSlot : ItemSlot
     {
         base.Awake();
 
-        storagePanel = StoragePanel.Instance;
         amountText = GetComponentInChildren<Text>();
 
         SetItem(originItem);
+    }
+
+    private void Start()
+    {
+        storagePanel = StoragePanel.Instance;
     }
 
     public void SetAmountText(int max, int cur)

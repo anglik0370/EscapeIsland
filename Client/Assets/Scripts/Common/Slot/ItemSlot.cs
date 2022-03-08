@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     protected Image image;
+    [SerializeField]
     protected ItemSO item;
 
     //아이템 이미지가 몇번째에 있는지

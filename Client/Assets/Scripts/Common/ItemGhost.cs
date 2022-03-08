@@ -7,6 +7,8 @@ public class ItemGhost : MonoBehaviour
 {
     private CanvasGroup cvs;
     private Image image;
+
+    [SerializeField]
     private ItemSO item;
 
     private void Awake() 
