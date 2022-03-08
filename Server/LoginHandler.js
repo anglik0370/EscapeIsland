@@ -9,7 +9,7 @@ const Vector2 = require('./Vector2.js');
 
 function LoginHandler(data,socket,isTest = false) {
     if(!isTest) {
-        data = JSON.parse(data);
+        //data = JSON.parse(data);
         const {name,socketId} = data;
 
         socket.state = SocketState.IN_LOBBY;

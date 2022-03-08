@@ -34,6 +34,12 @@ public class Vote : Popup
 
         skipToggle.group = toggleGroup;
 
+        EventManager.SubStartMeet(meetType =>
+        {
+            skipToggle.isOn = false;
+            skipToggle.gameObject.SetActive(true);
+        });
+
         sendMsgBtn.onClick.AddListener(() =>
         {
             if (msgInputField.text == "") return;
@@ -105,6 +111,7 @@ public class Vote : Popup
         {
             x.ToggleOnOff(false);
         });
+        skipToggle.gameObject.SetActive(false);
     }
 
     public void VoteUIDisable()
