@@ -205,7 +205,6 @@ function roomCreate(socket,roomInfo) {
             return;
         refreshRoom(soc);
     });
-
     roomIdx++;
 }
 
@@ -391,6 +390,8 @@ function storageFull(socket) {
 function voteComplete(socket,payload) {
     let room = roomList[socket.room];
 
+    if(room === undefined) return;
+
     if(payload.voteTargetId === -1){
         room.skipCount++;
     }
@@ -477,6 +478,8 @@ function deadReportOrEmergency(socket,type) {
 
 function broadcast(socket,msg) {
     let room = roomList[socket.room];
+
+    if(room === undefined) return;
 
     room.socketList.forEach(soc => { 
         soc.send(msg);
