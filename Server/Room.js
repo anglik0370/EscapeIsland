@@ -138,7 +138,7 @@ class Room {
                 });
                 this.userList[targetSocIdArr[0]].isDie = true;
             }
-            console.log(isEnd);
+            //console.log(isEnd);
             if(isEnd) {
                 this.changeTime();
             }
