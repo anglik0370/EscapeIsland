@@ -25,10 +25,9 @@ public class TimeHandler : MonoBehaviour
 
     [Header("킬 관련")]
     private bool isNightStart = false;
-    private int killStack = 2;
-    public int KillStack { get { return killStack; } set { killStack = value; } }
     private float curTime = 0f;
     private float timeToNextStack = 20f;
+    public bool isKillAble = false;
 
     private void Awake() 
     {
@@ -54,13 +53,13 @@ public class TimeHandler : MonoBehaviour
     {
         if (!NetworkManager.instance.IsKidnapper()) return;
 
-        if (isNightStart)
+        if (isNightStart && !isKillAble)
         {
             curTime -= Time.deltaTime;
 
             if(curTime <= 0f)
             {
-                killStack++;
+                isKillAble = true;
 
                 curTime = timeToNextStack;
             }
@@ -69,11 +68,6 @@ public class TimeHandler : MonoBehaviour
         cooltimeImg.UpdateUI(curTime, timeToNextStack);
     }
 
-
-    public bool KillAble()
-    {
-        return killStack >= 2;
-    }
 
     public void TimeRefresh(int day, bool isLightTime)
     {
@@ -102,7 +96,6 @@ public class TimeHandler : MonoBehaviour
     public void Init()
     {
         isNightStart = false;
-        killStack = 0;
         curTime = timeToNextStack;
     }
 }

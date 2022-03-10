@@ -250,10 +250,10 @@ public class InteractionBtn : MonoBehaviour
 
     public void KillPlayer()
     {
-        if(!TimeHandler.Instance.KillAble())
+        if(!TimeHandler.Instance.isKillAble)
         {
             //킬 스택이 부족합니다 <- 메시지 표시
-            UIManager.Instance.SetWarningText("킬 스택이 부족합니다!");
+            UIManager.Instance.SetWarningText("아직 킬 할 수 없습니다.");
             return;
         }
         Player targetPlayer = FindNearlestPlayer();
@@ -262,7 +262,7 @@ public class InteractionBtn : MonoBehaviour
 
         targetPlayer.SetDead();
 
-        TimeHandler.Instance.KillStack -= 2;
+        TimeHandler.Instance.isKillAble = false;
         NetworkManager.instance.Kill(targetPlayer);
     }
 
