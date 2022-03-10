@@ -40,6 +40,10 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private Text text;
 
+    [Header("쿨타임 이미지")]
+    [SerializeField]
+    private CanvasGroup cooltimeImg;
+
     [Header("강조 오브젝트")]
     [SerializeField]
     private ObjectAccent accent;
@@ -104,6 +108,7 @@ public class InteractionBtn : MonoBehaviour
 
             text.text = "Help!";
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+            cooltimeImg.alpha = 0f;
 
             btn.interactable = true;
 
@@ -169,6 +174,8 @@ public class InteractionBtn : MonoBehaviour
 
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
 
+            cooltimeImg.alpha = 1f;
+
             image.sprite = killSprite;
             accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
         }
@@ -178,6 +185,8 @@ public class InteractionBtn : MonoBehaviour
             state = InteractionState.OpenRefienry;
 
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+
+            cooltimeImg.alpha = 0f;
 
             image.sprite = interactionSprite;
             accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
@@ -189,6 +198,8 @@ public class InteractionBtn : MonoBehaviour
 
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
 
+            cooltimeImg.alpha = 0f;
+
             image.sprite = interactionSprite;
             accent.Disable();
         }
@@ -198,6 +209,8 @@ public class InteractionBtn : MonoBehaviour
             state = InteractionState.EmergencyMeeting;
 
             text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+
+            cooltimeImg.alpha = 0f;
 
             image.sprite = emergencySprite;
             accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
@@ -230,6 +243,8 @@ public class InteractionBtn : MonoBehaviour
             }
 
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+
+            cooltimeImg.alpha = 0f;
         }
     }
 

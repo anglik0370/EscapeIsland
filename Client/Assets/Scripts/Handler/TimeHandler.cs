@@ -16,6 +16,9 @@ public class TimeHandler : MonoBehaviour
     private Text dayAndSlotText;
 
     [SerializeField]
+    private CircleFillImage cooltimeImg;
+
+    [SerializeField]
     private int day = 1;
 
     public float endTime = 0f;
@@ -62,6 +65,8 @@ public class TimeHandler : MonoBehaviour
                 curTime = timeToNextStack;
             }
         }
+
+        cooltimeImg.UpdateUI(curTime, timeToNextStack);
     }
 
 
