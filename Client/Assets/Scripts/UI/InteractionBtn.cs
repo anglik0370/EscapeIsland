@@ -92,7 +92,9 @@ public class InteractionBtn : MonoBehaviour
             text.text = "Start";
             text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
 
-            if(!p.master)
+            cooltimeImg.alpha = 0f;
+
+            if (!p.master)
             {
                 btn.interactable = false;
             }
