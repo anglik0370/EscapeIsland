@@ -112,6 +112,8 @@ public class InteractionBtn : MonoBehaviour
 
             btn.interactable = true;
 
+            image.sprite = startSprite;
+
             btn.onClick.RemoveAllListeners();
 
             btn.onClick.AddListener(() =>
