@@ -406,12 +406,6 @@ public class NetworkManager : MonoBehaviour
         ExitRoomSend();
     }
 
-    public void StopOrPlay(bool on)
-    {
-        //inGameJoyStick.SetEnable(on);
-        //interactionBtn.enabled = on;
-    }
-
     public void SetStorageFull()
     {
         //msg띄워주기
@@ -437,7 +431,6 @@ public class NetworkManager : MonoBehaviour
     public void TimerText()
     {
         if (isTextChange) return;
-        print(curTime);
         voteTab.ChangeMiddleText(curTime.ToString());
     }
 
@@ -665,8 +658,6 @@ public class NetworkManager : MonoBehaviour
             }
             else
             {
-                //p�� ���ӿ�����Ʈ�� ���������� p�� �׾�����, ������ ���� �ʾ����� gameObject�� ���ش�
-
                 Player p = null;
 
                 playerList.TryGetValue(uv.socketId, out p);
@@ -691,7 +682,7 @@ public class NetworkManager : MonoBehaviour
                 }
                 
             }
-            else //if(uv.socketId != socketId)
+            else 
             {
                 Player p = null;
 
@@ -701,7 +692,6 @@ public class NetworkManager : MonoBehaviour
                 {
                     if (uv.isDie)
                     {
-                        //p.isDie = uv.isDie;
                         p.SetDead();
                     }
                     
@@ -755,12 +745,6 @@ public class NetworkManager : MonoBehaviour
                     if(isTest)
                     {
                         user.isImposter = true;
-                        //for (int i = 0; i < 3; i++)
-                        //{
-                        //    float radian = (float)((2.0 * Mathf.PI) / 3);
-                        //    radian *= i;
-                        //    MakeRemotePlayer(new UserVO(-1 * i, $"test{i}", roomNum, user.transform.position + new Vector3((float)(Mathf.Cos(radian) * 0.7), (float)(Mathf.Sin(radian) * 0.7),0),false,false,false));
-                        //}
                         DataVO dataVO = new DataVO("TEST_CLIENT", null);
 
                         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
@@ -769,7 +753,6 @@ public class NetworkManager : MonoBehaviour
 
                     roomNum = uv.roomNum;
 
-                    //�ȷο� ķ ����
                     followCam.Follow = user.gameObject.transform;
 
                     once = true;
@@ -793,7 +776,6 @@ public class NetworkManager : MonoBehaviour
         
         PopupManager.instance.ClosePopup();
         voteTab.VoteUIDisable();
-        StopOrPlay(true);
     }
 
     public void Login(string name)

@@ -238,6 +238,7 @@ public class InteractionBtn : MonoBehaviour
         if(!TimeHandler.Instance.KillAble())
         {
             //킬 스택이 부족합니다 <- 메시지 표시
+            UIManager.Instance.SetWarningText("킬 스택이 부족합니다!");
             return;
         }
         Player targetPlayer = FindNearlestPlayer();

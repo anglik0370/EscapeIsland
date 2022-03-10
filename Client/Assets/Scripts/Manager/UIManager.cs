@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
     public CanvasGroup panels;
+
+    public Text warningText;
+
+    private WaitForSeconds waitOneSeconds;
 
     private void Awake()
     {
@@ -16,6 +21,8 @@ public class UIManager : MonoBehaviour
         }
 
         SetPanelActive(false);
+
+        waitOneSeconds = new WaitForSeconds(1f);
     }
 
     private void Start()
@@ -36,5 +43,20 @@ public class UIManager : MonoBehaviour
         Instance.panels.alpha = isEnable ? 1f : 0f;
         Instance.panels.interactable = isEnable;
         Instance.panels.blocksRaycasts = isEnable;
+    }
+
+    IEnumerator WarningLog(string msg)
+    {
+        warningText.text = msg;
+        warningText.enabled = true;
+
+        yield return waitOneSeconds;
+
+        warningText.enabled = false;
+    }
+
+    public void SetWarningText(string msg)
+    {
+        StartCoroutine(WarningLog(msg));
     }
 }
