@@ -56,7 +56,7 @@ public class AreaExplanationPanel : Panel
 
     public override void Close(bool isTweenSkip = false)
     {
-        base.Close();
+        base.Close(isTweenSkip);
         isOpen = false;
 
         for(int i = 0; i < itemImgList.Count; i++)
