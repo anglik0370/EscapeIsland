@@ -169,7 +169,7 @@ public class InteractionBtn : MonoBehaviour
         if (!isGameStart || player.isDie) return;
         //print(TimeHandler.Instance.EndOfVote());
         //print(FindNearlestPlayer());
-        if (NetworkManager.instance.IsKidnapper() && TimeHandler.Instance.EndOfVote() && FindNearlestPlayer() != null)
+        if (NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
         {
             //여긴 킬하는곳
             state = InteractionState.KillPlayer;
@@ -252,12 +252,13 @@ public class InteractionBtn : MonoBehaviour
 
     public void KillPlayer()
     {
-        if(!TimeHandler.Instance.isKillAble)
+        if(!TimeHandler.Instance.isKillAble || !TimeHandler.Instance.EndOfVote())
         {
             //킬 스택이 부족합니다 <- 메시지 표시
             UIManager.Instance.SetWarningText("아직 킬 할 수 없습니다.");
             return;
         }
+
         Player targetPlayer = FindNearlestPlayer();
 
         if (targetPlayer == null) return;

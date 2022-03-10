@@ -24,7 +24,7 @@ public class TimeHandler : MonoBehaviour
     public float endTime = 0f;
 
     [Header("킬 관련")]
-    private bool isNightStart = false;
+    private bool isNightTime = false;
     private float curTime = 0f;
     private float timeToNextStack = 20f;
     public bool isKillAble = false;
@@ -41,31 +41,44 @@ public class TimeHandler : MonoBehaviour
         Init();
     }
 
+    private void Start()
+    {
+        EventManager.SubGameStart(p =>
+        {
+            cooltimeImg.UpdateUI(curTime, timeToNextStack);
+        });
+    }
+
     private void Update()
     {
         if(endTime > 0f)
         {
             endTime -= Time.deltaTime;
         }
+
+        KillStackTimer();
     }
 
     public void KillStackTimer()
     {
         if (!NetworkManager.instance.IsKidnapper()) return;
 
-        if (isNightStart && !isKillAble)
+        if (isNightTime && !isKillAble)
         {
             curTime -= Time.deltaTime;
 
             if(curTime <= 0f)
             {
                 isKillAble = true;
-
+                
                 curTime = timeToNextStack;
             }
         }
 
-        cooltimeImg.UpdateUI(curTime, timeToNextStack);
+        if(!isKillAble)
+        {
+            cooltimeImg.UpdateUI(curTime, timeToNextStack);
+        }
     }
 
 
@@ -76,14 +89,14 @@ public class TimeHandler : MonoBehaviour
         if (!isLightTime)
         {
             darkTimeEvent.Occurred();
-            isNightStart = true;
+            isNightTime = true;
             
             dayAndSlotText.text = $"{day}번째 밤";
         }
         else
         {
             lightTimeEvent.Occurred();
-            isNightStart = false;
+            isNightTime = false;
             dayAndSlotText.text = $"{day}번째 낮";
         }
     }
@@ -95,7 +108,7 @@ public class TimeHandler : MonoBehaviour
 
     public void Init()
     {
-        isNightStart = false;
+        isNightTime = false;
         curTime = timeToNextStack;
     }
 }
