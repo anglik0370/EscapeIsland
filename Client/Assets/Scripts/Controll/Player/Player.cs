@@ -107,6 +107,7 @@ public class Player : MonoBehaviour
 
     public void SetEnable()
     {
+        print("player.SetEnable");
         gameObject.SetActive(true);
         ui.gameObject.SetActive(true);
     }
@@ -118,6 +119,15 @@ public class Player : MonoBehaviour
         anim.SetFloat("isDie", 1f);
 
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.3f);
+    }
+
+    public void InitPlayer()
+    {
+        isImposter = isDie = false;
+
+        anim.SetFloat("isDie", 0f);
+
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
     }
 
     public void Move(Vector3 dir)

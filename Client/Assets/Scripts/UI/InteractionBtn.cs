@@ -156,6 +156,7 @@ public class InteractionBtn : MonoBehaviour
         EventManager.SubBackToRoom(() =>
         {
             isGameStart = false;
+            //player.InitPlayer();
 
             btn.onClick.RemoveAllListeners();
 
