@@ -32,6 +32,15 @@ public class AreaExplanationPanel : Panel
             return;
         }
 
+        //초기화
+        for (int i = 0; i < itemImgList.Count; i++)
+        {
+            itemImgList[i].gameObject.SetActive(true);
+        }
+
+        areaExplanationText.gameObject.SetActive(true);
+
+        //열기 시작
         base.Open();
         isOpen = true;
 
@@ -58,12 +67,5 @@ public class AreaExplanationPanel : Panel
     {
         base.Close(isTweenSkip);
         isOpen = false;
-
-        for(int i = 0; i < itemImgList.Count; i++)
-        {
-            itemImgList[i].gameObject.SetActive(true);
-        }
-
-        areaExplanationText.gameObject.SetActive(true);
     }
 }
