@@ -325,6 +325,8 @@ function gameStart(socket,payload) {
 
     //     userList[keys[idx]].isImposter = true;
     // }
+
+    //테스트용 코드
     if(userList[socket.id] !== undefined) {
         userList[socket.id].isImposter = true;
     }
