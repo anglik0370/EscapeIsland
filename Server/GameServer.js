@@ -6,7 +6,7 @@ const Vector2 = require('./Vector2.js');
 const Room = require('./Room.js');
 const InGameTimer = require('./InGameTimer.js');
 const LoginHandler = require('./LoginHandler.js');
-const getWaitingPoint = require('./SpawnPoint.js');
+const GetRandomPos = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 const _ = require('lodash');
 
@@ -192,7 +192,7 @@ function roomCreate(socket,roomInfo) {
     if(userList[socket.id] !== undefined){
         userList[socket.id].roomNum = roomIdx;
         userList[socket.id].master = true;
-        userList[socket.id].position = getWaitingPoint();
+        userList[socket.id].position = GetRandomPos();
     }
 
     r.addSocket(socket, userList[socket.id]);
@@ -232,7 +232,7 @@ function testClient(socket) {
         userList[dummySocket.id].master = false;
         userList[dummySocket.id].name = `test${dummySocket.id - 1000}`;
         userList[dummySocket.id].socketId = dummySocket.id;
-        userList[dummySocket.id].position = getWaitingPoint();
+        userList[dummySocket.id].position = GetRandomPos();
         
         room.curUserNum++;
         room.addSocket(dummySocket,userList[dummySocket.id]);
@@ -261,7 +261,7 @@ function roomJoin(socket,roomNum) {
     if(userList[socket.id] !== undefined) {
         userList[socket.id].roomNum = roomNum;
         userList[socket.id].master = false;
-        userList[socket.id].position = getWaitingPoint();
+        userList[socket.id].position = GetRandomPos();
     }
 
     socket.state = SocketState.IN_ROOM;
