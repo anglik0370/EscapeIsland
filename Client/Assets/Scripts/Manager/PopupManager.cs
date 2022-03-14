@@ -55,6 +55,14 @@ public class PopupManager : MonoBehaviour
         popupDic.Add("alert", Instantiate(alertPopup, popupParent));
         NetworkManager.instance.voteTab = popupDic["vote"] as Vote;
         OpenPopup("login");
+
+        EventManager.SubGameOver(gameOverCase =>
+        {
+            for(int i = 0; i < popupStack.Count; i++)
+            {
+                ClosePopup();
+            }
+        });
     }
 
     public void CloseAndOpen(string open)
