@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public Text warningText;
 
     private WaitForSeconds waitOneSeconds;
+    private Coroutine warningLog = null;
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class UIManager : MonoBehaviour
         SetPanelActive(false);
 
         waitOneSeconds = new WaitForSeconds(1f);
+
     }
 
     private void Start()
@@ -45,9 +47,8 @@ public class UIManager : MonoBehaviour
         Instance.panels.blocksRaycasts = isEnable;
     }
 
-    IEnumerator WarningLog(string msg)
+    IEnumerator WarningLog()
     {
-        warningText.text = msg;
         warningText.enabled = true;
 
         yield return waitOneSeconds;
@@ -57,6 +58,11 @@ public class UIManager : MonoBehaviour
 
     public void SetWarningText(string msg)
     {
-        StartCoroutine(WarningLog(msg));
+        if(warningLog != null)
+        {
+            StopCoroutine(warningLog);
+        }
+        warningText.text = msg;
+        warningLog = StartCoroutine(WarningLog());
     }
 }
