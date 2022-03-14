@@ -194,6 +194,7 @@ class Room {
             }
             else {
                 this.socketList.forEach(soc => {
+                    soc.state = SocketState.IN_ROOM;
                     soc.send(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
                 });
 
