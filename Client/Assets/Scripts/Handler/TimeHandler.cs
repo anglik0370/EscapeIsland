@@ -29,6 +29,8 @@ public class TimeHandler : MonoBehaviour
     private float timeToNextStack = 20f;
     public bool isKillAble = false;
 
+    private bool isGameStarted = false;
+
     private void Awake() 
     {
         if(Instance == null)
@@ -45,12 +47,15 @@ public class TimeHandler : MonoBehaviour
     {
         EventManager.SubGameStart(p =>
         {
+            isGameStarted = true;
             cooltimeImg.UpdateUI(curTime, timeToNextStack);
         });
     }
 
     private void Update()
     {
+        if (!isGameStarted) return;
+
         if(endTime > 0f)
         {
             endTime -= Time.deltaTime;

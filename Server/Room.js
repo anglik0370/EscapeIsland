@@ -174,12 +174,6 @@ class Room {
         delete this.userList[rSocketIdx];
     }
 
-    deleteRoom() {
-        clearTimeout(this.curTimer);
-    }
-
-    
-
     returnData() {
         let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,kidnapperNum:this.kidnapperNum,playing:this.playing};
         return data;

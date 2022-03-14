@@ -10,6 +10,17 @@ public class EventManager
     private static Action BackToRoom = () => { };
     private static Action ExitRoom = () => { };
     private static Action<MeetingType> StartMeet = type => { };
+    private static Action<bool> GameOver = isKidnapperWin => { };
+
+    public static void SubGameOver(Action<bool> Callback)
+    {
+        GameOver += Callback;
+    }
+
+    public static void OccurGameOver(bool type)
+    {
+        GameOver?.Invoke(type);
+    }
 
     public static void SubStartMeet(Action<MeetingType> Callback)
     {

@@ -6,7 +6,7 @@ const Vector2 = require('./Vector2.js');
 const Room = require('./Room.js');
 const InGameTimer = require('./InGameTimer.js');
 const LoginHandler = require('./LoginHandler.js');
-const getWaitingPoint = require('./SpawnPoint.js');
+const GetRandomPos = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 const _ = require('lodash');
 
@@ -192,7 +192,7 @@ function roomCreate(socket,roomInfo) {
     if(userList[socket.id] !== undefined){
         userList[socket.id].roomNum = roomIdx;
         userList[socket.id].master = true;
-        userList[socket.id].position = getWaitingPoint();
+        userList[socket.id].position = GetRandomPos();
     }
 
     r.addSocket(socket, userList[socket.id]);
@@ -209,8 +209,14 @@ function roomCreate(socket,roomInfo) {
 }
 
 function testClient(socket) {
+    // if(userList[socket.id] !== undefined)
+    //     userList[socket.id].isImposter = true;
+
+    let room = roomList[socket.room];
+
+    if(room === undefined) return;
+    
     for(let i = 0; i < 3; i++) {
-        let testRoom = roomList[socket.room];
         let dummySocket = new WebSocket("ws://localhost:31012");
         let testUserData = _.cloneDeep(userList[socket.id]);
         dummySocket.id = 0;
@@ -226,10 +232,10 @@ function testClient(socket) {
         userList[dummySocket.id].master = false;
         userList[dummySocket.id].name = `test${dummySocket.id - 1000}`;
         userList[dummySocket.id].socketId = dummySocket.id;
-        userList[dummySocket.id].position = getWaitingPoint();
+        userList[dummySocket.id].position = GetRandomPos();
         
-        testRoom.curUserNum++;
-        testRoom.addSocket(dummySocket,userList[dummySocket.id]);
+        room.curUserNum++;
+        room.addSocket(dummySocket,userList[dummySocket.id]);
 
     }
    
@@ -255,7 +261,7 @@ function roomJoin(socket,roomNum) {
     if(userList[socket.id] !== undefined) {
         userList[socket.id].roomNum = roomNum;
         userList[socket.id].master = false;
-        userList[socket.id].position = getWaitingPoint();
+        userList[socket.id].position = GetRandomPos();
     }
 
     socket.state = SocketState.IN_ROOM;
@@ -264,7 +270,7 @@ function roomJoin(socket,roomNum) {
 
     socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
-    wsService.clients.forEach(soc => {d
+    wsService.clients.forEach(soc => {
         if(soc.state === SocketState.IN_LOBBY) {
             refreshRoom(soc);
         }
@@ -309,15 +315,20 @@ function gameStart(socket,payload) {
     }
 
     let keys = Object.keys(room.userList);
-    let imposterLength = room.kidnapperNum;
-    let idx;
+    // let imposterLength = room.kidnapperNum;
+    // let idx;
 
-    for(let i = 0; i < imposterLength; i++) {
-        do {
-            idx = Math.floor(Math.random() * keys.length);
-        }while(userList[keys[idx]].isImposter)
+    // for(let i = 0; i < imposterLength; i++) {
+    //     do {
+    //         idx = Math.floor(Math.random() * keys.length);
+    //     }while(userList[keys[idx]].isImposter)
 
-        userList[keys[idx]].isImposter = true;
+    //     userList[keys[idx]].isImposter = true;
+    // }
+
+    //테스트용 코드
+    if(userList[socket.id] !== undefined) {
+        userList[socket.id].isImposter = true;
     }
 
     roomBroadcast(room);
@@ -343,6 +354,9 @@ function gameStart(socket,payload) {
 
 function kill(socket,payload) {
     let room = roomList[socket.room];
+
+    if(room === undefined) return;
+
     let socId = payload.targetSocketId;
 
     if(userList[socId] !== undefined) {
@@ -370,6 +384,12 @@ function kill(socket,payload) {
     //     broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
     //     room.initRoom();
     // }
+
+    //테스트용 코드
+    let dataList = Object.values(room.userList);
+
+    broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
+    room.initRoom();
 }
 
 function storageFull(socket) {
@@ -520,7 +540,7 @@ function exitRoom(socket, roomNum) //방에서 나갔을 때의 처리
     
     if(room.curUserNum <= 0){ //사람이 0명일때 room delete
         //console.log(roomList);
-        room.deleteRoom();
+        room.stopTimer();
         delete roomList[roomNum];
         //console.log(roomList);
         return;

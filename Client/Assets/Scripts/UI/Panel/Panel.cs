@@ -50,7 +50,7 @@ public class Panel : MonoBehaviour
     {
         if (isTweenSkip)
         {
-            cvs.alpha = 1f;
+            cvs.alpha = 0f;
             cvs.blocksRaycasts = false;
             cvs.interactable = false;
         }

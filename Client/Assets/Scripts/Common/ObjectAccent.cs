@@ -23,6 +23,16 @@ public class ObjectAccent : MonoBehaviour
     {
         sr.material.SetColor("_OutlineColor", outlineColor);
         sr.material.SetFloat("_OutlineThickness", outlineThickness);
+
+        EventManager.SubEnterRoom(p =>
+        {
+            Disable();
+        });
+
+        EventManager.SubBackToRoom(() =>
+        {
+            Disable();
+        });
     }
 
     public void Enable(Sprite sprite, Transform trm, bool isFlip = false)

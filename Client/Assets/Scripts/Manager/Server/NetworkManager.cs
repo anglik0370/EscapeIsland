@@ -84,6 +84,12 @@ public class NetworkManager : MonoBehaviour
     {
         PoolManager.CreatePool<Player>(playerPrefab, transform, 10);
 
+        EventManager.SubBackToRoom(() =>
+        {
+            GameManager.Instance.ClearDeadBody();
+            InitPlayers();
+        });
+
         StartCoroutine(Frame());
     }
 
@@ -415,17 +421,21 @@ public class NetworkManager : MonoBehaviour
     public void SetWinTeam()
     {
         //이긴 팀에 따라 해줘야 할 일 해주기
-        if(isKidnapperWin)
-        {
-
-        }
-        else
-        {
-
-        }
+        EventManager.OccurGameOver(isKidnapperWin);
 
         //변수들 초기화 해주고 room 팝업 열어주기
         //GameEnd();
+    }
+    public void InitPlayers()
+    {
+        user.InitPlayer();
+
+        foreach (int idx in playerList.Keys)
+        {
+            playerList[idx].InitPlayer();
+        }
+
+        PlayerEnable(true);
     }
 
     public void TimerText()
@@ -613,13 +623,13 @@ public class NetworkManager : MonoBehaviour
         playerList.Clear();
     }
     
-    public void PlayerEnable()
+    public void PlayerEnable(bool isEnd = false)
     {
-        if (!user.isDie) return;
+        if (!user.isDie && !isEnd) return;
 
         foreach (int key in playerList.Keys)
         {
-            if(playerList[key].isDie && !playerList[key].gameObject.activeSelf)
+            if(!playerList[key].gameObject.activeSelf)
             {
                 playerList[key].SetEnable();
             }

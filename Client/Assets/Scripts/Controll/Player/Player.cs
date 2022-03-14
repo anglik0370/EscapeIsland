@@ -120,6 +120,15 @@ public class Player : MonoBehaviour
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.3f);
     }
 
+    public void InitPlayer()
+    {
+        isImposter = isDie = false;
+
+        anim.SetFloat("isDie", 0f);
+
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+    }
+
     public void Move(Vector3 dir)
     {
         if(isRemote) return;
