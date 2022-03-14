@@ -8,14 +8,14 @@ function makeRandom(min,max) {
 }
 
 function GetRandomPos() {
-    let x = makeRandom(-radius + spawnTrm.x,radius + spawnTrm.x);
-    let d_y = Math.sqrt(Math.pow(radius,2) - Math.pow(x - spawnTrm.x,2)); //(9 - (5.76~9))^2
-    if(d_y > 0) {
-        d_y *= Math.floor(Math.random() * 2) === 0 ? -1 : 1;
-    }
-    let y = spawnTrm.y + d_y;
+    let angle = Math.random() * 360;
 
-    console.log(`x = ${x}, y = ${y}`);
+    let x = Math.cos(angle *  (2 * Math.PI / 360) ) * radius;
+    let y = Math.sin(angle *  (2 * Math.PI / 360) ) * radius;
+
+    x+=spawnTrm.x;
+    y+=spawnTrm.y;
+    
     return new Vector2(x,y);
 }
 
