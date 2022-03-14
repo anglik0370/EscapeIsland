@@ -35,11 +35,36 @@ public class GameOverPanel : Panel
 
 
     //일단 임시로 이렇게 해둠 - 나중에 뭐 리소스 나오면 enum으로 하던 뭐로 하던 바꾸면 될듯
-    public void Open(GameOverCase isKidnapperWin)
+    public void Open(GameOverCase gameOverCase)
     {
-        //CanvasGroupOpenAndClose(isKidnapperWin ? kidnapperCg : citizenCg, true);
+        switch (gameOverCase)
+        {
+            case GameOverCase.KillAllCitizen:
+                {
+                    CanvasGroupOpenAndClose(kidnapperCg, true);
+                    print("모든 시민 사망");
+                }
+                break;
+            case GameOverCase.FindAllKidnapper:
+                {
+                    CanvasGroupOpenAndClose(citizenCg, true);
+                    print("모든 납치자 검거");
+                }
+                break;
+            case GameOverCase.CollectAllItem:
+                {
+                    print("모든 재료 수집");
+                    CanvasGroupOpenAndClose(citizenCg, true);
+                }
+                break;
+            default:
+                {
+                    print("유효하지 않은 Case입니다");
+                }
+                break;
+        }
 
-        base.Open(false);
+        base.Open();
 
         StartCoroutine(ClosePanel());
     }
