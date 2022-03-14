@@ -82,7 +82,14 @@ public class TimeHandler : MonoBehaviour
 
         if(!isKillAble)
         {
-            cooltimeImg.UpdateUI(curTime, timeToNextStack);
+            if(!EndOfVote())
+            {
+                cooltimeImg.UpdateUI(1, 1);
+            }
+            else
+            {
+                cooltimeImg.UpdateUI(curTime, timeToNextStack);
+            }
         }
     }
 
