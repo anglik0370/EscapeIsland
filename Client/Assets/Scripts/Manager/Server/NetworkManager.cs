@@ -58,6 +58,8 @@ public class NetworkManager : MonoBehaviour
     private bool isTest = false;
     private bool isTextChange = false;
 
+    public bool isVoteTime = false;
+
     private Player user = null;
 
     public GameObject[] lights;
@@ -484,6 +486,7 @@ public class NetworkManager : MonoBehaviour
     public void OnVoteTimeStart()
     {
         GameManager.Instance.ClearDeadBody();
+        isVoteTime = true;
 
         EventManager.OccurStartMeet(meetingType);
         StartCoroutine(TextChange("투표시간 시작"));
@@ -798,6 +801,7 @@ public class NetworkManager : MonoBehaviour
     
     public void EndVoteTime()
     {
+        isVoteTime = true;
         TimeHandler.Instance.endTime = 15f;
         
         PopupManager.instance.ClosePopup();
