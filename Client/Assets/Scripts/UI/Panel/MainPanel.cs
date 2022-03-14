@@ -31,6 +31,8 @@ public class MainPanel : MonoBehaviour
     {
         EventManager.SubEnterRoom(p =>
         {
+            cvsList.ForEach(x => SetCvsActive(x, false));
+
             SetCvsActive(cvsList[JOYSTICK]);
             SetCvsActive(cvsList[INTERACTIONBTN]);
             SetCvsActive(cvsList[SETTINGBTN]);
@@ -43,7 +45,7 @@ public class MainPanel : MonoBehaviour
 
         EventManager.SubGameOver(gameOverCase =>
         {
-            cvsList.ForEach(x => SetCvsActive(x, false));
+            
         });
 
         EventManager.SubExitRoom(() =>
@@ -53,6 +55,8 @@ public class MainPanel : MonoBehaviour
 
         EventManager.SubBackToRoom(() =>
         {
+            cvsList.ForEach(x => SetCvsActive(x, false));
+
             SetCvsActive(cvsList[JOYSTICK]);
             SetCvsActive(cvsList[INTERACTIONBTN]);
             SetCvsActive(cvsList[SETTINGBTN]);
