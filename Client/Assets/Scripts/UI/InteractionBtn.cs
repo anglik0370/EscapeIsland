@@ -89,6 +89,8 @@ public class InteractionBtn : MonoBehaviour
             inventory = p.inventory;
             range = p.range;
 
+            image.sprite = startSprite;
+
             text.text = "Start";
             text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
 
@@ -156,14 +158,22 @@ public class InteractionBtn : MonoBehaviour
         EventManager.SubBackToRoom(() =>
         {
             isGameStart = false;
-            //player.InitPlayer();
+
+            image.sprite = startSprite;
+
+            text.text = "Start";
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+
+            cooltimeImg.alpha = 0f;
+
+            if (!player.master)
+            {
+                btn.interactable = false;
+            }
 
             btn.onClick.RemoveAllListeners();
 
-            if (player.master)
-            {
-                btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
-            }
+            btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
         });
     }
 
