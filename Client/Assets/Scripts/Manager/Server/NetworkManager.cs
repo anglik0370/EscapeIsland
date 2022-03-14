@@ -631,7 +631,6 @@ public class NetworkManager : MonoBehaviour
         {
             if(!playerList[key].gameObject.activeSelf)
             {
-                print("Asdf");
                 playerList[key].SetEnable();
             }
         }

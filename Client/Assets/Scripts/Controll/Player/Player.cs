@@ -107,7 +107,6 @@ public class Player : MonoBehaviour
 
     public void SetEnable()
     {
-        print("player.SetEnable");
         gameObject.SetActive(true);
         ui.gameObject.SetActive(true);
     }
