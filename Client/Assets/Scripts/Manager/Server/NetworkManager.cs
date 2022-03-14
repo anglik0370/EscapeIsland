@@ -424,6 +424,7 @@ public class NetworkManager : MonoBehaviour
     {
         //이긴 팀에 따라 해줘야 할 일 해주기
         EventManager.OccurGameOver(gameOverCase);
+        print("GameOver실행");
 
         foreach (UserVO uv in gameOverUserList)
         {
@@ -627,6 +628,7 @@ public class NetworkManager : MonoBehaviour
     {
         //EventManager.OccurExitRoom();
         EventManager.OccurBackToRoom();
+        print("BackToRoom 실행");
     }
 
     public void PlayerClear()

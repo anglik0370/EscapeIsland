@@ -50,6 +50,12 @@ public class TimeHandler : MonoBehaviour
             isGameStarted = true;
             cooltimeImg.UpdateUI(curTime, timeToNextStack);
         });
+
+        EventManager.SubBackToRoom(() =>
+        {
+            lightTimeEvent.Occurred();
+            Init();
+        });
     }
 
     private void Update()
@@ -85,10 +91,12 @@ public class TimeHandler : MonoBehaviour
             if(!EndOfVote())
             {
                 cooltimeImg.UpdateUI(1, 1);
+                cooltimeImg.SetColor(false);
             }
             else
             {
                 cooltimeImg.UpdateUI(curTime, timeToNextStack);
+                cooltimeImg.SetColor(true);
             }
         }
     }
@@ -122,5 +130,6 @@ public class TimeHandler : MonoBehaviour
     {
         isNightTime = false;
         curTime = timeToNextStack;
+        isKillAble = false;
     }
 }

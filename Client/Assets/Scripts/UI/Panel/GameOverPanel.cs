@@ -66,7 +66,8 @@ public class GameOverPanel : Panel
 
         base.Open();
 
-        StartCoroutine(ClosePanel());
+        NetworkManager.instance.GameEnd();
+        //StartCoroutine(ClosePanel());
     }
 
     //일단 이렇게 쓰고 나중에 트위닝을 쓰던가 하면 될 듯
@@ -77,7 +78,13 @@ public class GameOverPanel : Panel
 
         curCg.alpha = isOpen ? 1f : 0f;
         curCg.interactable = isOpen;
-        //curCg.blocksRaycasts = isOpen;
+        curCg.blocksRaycasts = isOpen;
+    }
+
+    public void CloseGameOverPanel()
+    {
+        CanvasGroupOpenAndClose(curCg, false);
+        base.Close();
     }
 
     IEnumerator ClosePanel()
