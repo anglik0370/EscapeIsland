@@ -41,6 +41,11 @@ public class MainPanel : MonoBehaviour
             cvsList.ForEach(x => SetCvsActive(x));
         });
 
+        EventManager.SubGameOver(gameOverCase =>
+        {
+            cvsList.ForEach(x => SetCvsActive(x, false));
+        });
+
         EventManager.SubExitRoom(() =>
         {
             cvsList.ForEach(x => SetCvsActive(x, false));
@@ -48,8 +53,6 @@ public class MainPanel : MonoBehaviour
 
         EventManager.SubBackToRoom(() =>
         {
-            cvsList.ForEach(x => SetCvsActive(x, false));
-
             SetCvsActive(cvsList[JOYSTICK]);
             SetCvsActive(cvsList[INTERACTIONBTN]);
             SetCvsActive(cvsList[SETTINGBTN]);

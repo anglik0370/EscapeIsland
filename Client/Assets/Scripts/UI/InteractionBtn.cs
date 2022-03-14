@@ -150,6 +150,11 @@ public class InteractionBtn : MonoBehaviour
             });
         });
 
+        EventManager.SubGameOver(gameOverCase =>
+        {
+            btn.onClick.RemoveAllListeners();
+        });
+
         EventManager.SubExitRoom(() =>
         {
             isGameStart = false;
