@@ -367,29 +367,30 @@ function kill(socket,payload) {
 
     //여기서 추가로 게임 승패 여부도 검사해야 할 듯?
 
-    // let imposterCount = 0;
-    // let citizenCount = 0;
+    let imposterCount = 0;
+    let citizenCount = 0;
 
-    // let dataList = Object.values(room.userList);
-
-    // dataList.forEach(user => {
-    //     if(user.isDie) return;
-
-    //     if(user.isImposter) imposterCount++;
-    //     else citizenCount++;
-    // });
-
-    // if(imposterCount >= citizenCount) {
-    //     //임포승
-    //     broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
-    //     room.initRoom();
-    // }
-
-    //테스트용 코드
     let dataList = Object.values(room.userList);
 
-    broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
-    room.initRoom();
+    dataList.forEach(user => {
+        if(user.isDie) return;
+
+        if(user.isImposter) imposterCount++;
+        else citizenCount++;
+    });
+
+    //살아있는 임포가 시민보다 많을 경우
+    if(imposterCount >= citizenCount) {
+        //임포승
+        broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}));
+        room.initRoom();
+    }
+
+    //테스트용 코드
+    // let dataList = Object.values(room.userList);
+
+    // broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
+    // room.initRoom();
 }
 
 function storageFull(socket) {
@@ -402,7 +403,12 @@ function storageFull(socket) {
     else {
         let dataList = Object.values(room.userList);
 
-        broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList})}));
+        // 납치자가 있었을때 배에 탔다면의 경우인데 폐기 됨. (혹시 모르니 주석처리만)
+        // let filteredList = dataList.filter(user => user.isImposter && !user.isDie); 
+        // let type = filteredList.length > 0 ? "WIN_KIDNAPPER" : "WIN_CITIZEN";
+
+        //다 모아서 탈출 시 시민 승
+        broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}));
         room.initRoom();
     }
 }
@@ -460,7 +466,17 @@ function voteComplete(socket,payload) {
                 soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
             });
             userList[targetSocIdArr[0]].isDie = true;
-            //return;
+
+            //납치자를 모두 찾았을때
+            let dataList = Object.values(room.userList);
+            let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
+
+            if(filteredArr.length <= 0) {
+                room.socketList.forEach(soc => {
+                    soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}));
+                });
+                return;
+            }
         }
         //아무도 표를 받지 않았거나 동표임
         

@@ -6,7 +6,7 @@ public class WinKidnapperHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        UserListVO vo = JsonUtility.FromJson<UserListVO>(payload);
-        NetworkManager.SetWinUserData(vo.dataList, true);
+        GameOverVO vo = JsonUtility.FromJson<GameOverVO>(payload);
+        NetworkManager.SetWinUserData(vo.dataList, vo.gameOverCase);
     }
 }

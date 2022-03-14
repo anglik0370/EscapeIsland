@@ -36,7 +36,6 @@ public class NetworkManager : MonoBehaviour
 
     private bool isLogin = false;
     private bool once = false;
-    private bool isKidnapperWin = false;
     private bool needRoomRefresh = false;
     private bool needUserRefresh = false;
     private bool needMasterRefresh = false;
@@ -54,6 +53,7 @@ public class NetworkManager : MonoBehaviour
     private int tempId = -1;
     private int curTime = -1;
     private MeetingType meetingType = MeetingType.EMERGENCY;
+    private GameOverCase gameOverCase = GameOverCase.CollectAllItem;
     private string msg = string.Empty;
     private bool isTest = false;
     private bool isTextChange = false;
@@ -115,13 +115,13 @@ public class NetworkManager : MonoBehaviour
             instance.curTime = curTime;
         }
     }
-    public static void SetWinUserData(List<UserVO> list,bool isKidnapperWin)
+    public static void SetWinUserData(List<UserVO> list,int gameOverCase)
     {
         lock (instance.lockObj)
         {
             instance.needWinRefresh = true;
             instance.winUserList = list;
-            instance.isKidnapperWin = isKidnapperWin;
+            instance.gameOverCase = (GameOverCase)gameOverCase;
         }
     }
 
@@ -421,7 +421,7 @@ public class NetworkManager : MonoBehaviour
     public void SetWinTeam()
     {
         //이긴 팀에 따라 해줘야 할 일 해주기
-        EventManager.OccurGameOver(isKidnapperWin);
+        EventManager.OccurGameOver(gameOverCase);
 
         //변수들 초기화 해주고 room 팝업 열어주기
         //GameEnd();

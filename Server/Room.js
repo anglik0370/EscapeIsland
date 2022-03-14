@@ -60,7 +60,7 @@ class Room {
                 let dataList = Object.values(this.userList);
 
                 this.socketList.forEach(soc => {
-                    soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList})}));
+                    soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}));
                 });
                 this.initRoom();
 
@@ -115,20 +115,20 @@ class Room {
             let dummy = 0;
             let targetSocIdArr = [];
 
-            let comRoomKeys = Object.keys(this.userList);
+            let keys = Object.keys(this.userList);
 
-            for(let i = 0; i < comRoomKeys.length; i++) {
-                if(dummy != 0 && this.userList[comRoomKeys[i]].voteNum == dummy) {
-                    targetSocIdArr.push(this.userList[comRoomKeys[i]].socketId);
+            for(let i = 0; i < keys.length; i++) {
+                if(dummy != 0 && this.userList[keys[i]].voteNum == dummy) {
+                    targetSocIdArr.push(this.userList[keys[i]].socketId);
                 }
-                else if(this.userList[comRoomKeys[i]].voteNum > dummy) {
-                    dummy = this.userList[comRoomKeys[i]].voteNum;
+                else if(this.userList[keys[i]].voteNum > dummy) {
+                    dummy = this.userList[keys[i]].voteNum;
                     targetSocIdArr.length = 0;
-                    targetSocIdArr.push(this.userList[comRoomKeys[i]].socketId);
+                    targetSocIdArr.push(this.userList[keys[i]].socketId);
                 }
 
-                this.userList[comRoomKeys[i]].voteNum = 0;
-                this.userList[comRoomKeys[i]].voteComplete = false;
+                this.userList[keys[i]].voteNum = 0;
+                this.userList[keys[i]].voteComplete = false;
             }
             this.skipCount = 0;
             
@@ -137,7 +137,21 @@ class Room {
                     soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
                 });
                 this.userList[targetSocIdArr[0]].isDie = true;
+
+                //납치자를 모두 찾았을때
+                let dataList = Object.values(this.userList);
+                let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
+
+                if(filteredArr.length <= 0) {
+                    this.socketList.forEach(soc => {
+                        soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}));
+                    });
+                    return;
+                }
             }
+
+
+
             //console.log(isEnd);
             if(isEnd) {
                 this.changeTime();

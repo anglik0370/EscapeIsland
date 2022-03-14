@@ -17,8 +17,3 @@ function GetRandomPos() {
 }
 
 module.exports = GetRandomPos;
-
-
-//let waitingPos = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
-
-//module.exports = getWaitingPoint;

@@ -4,7 +4,7 @@ let spawnTrm = new Vector2(2.4,11.4);
 
 let spawnDistance = 3;
 
-let spawnPoint = {};
+let spawnPoint = [];
 
 function SetSpawnPoint(userLength) {
     for(let i = 0; i < userLength; i++) {
@@ -13,7 +13,7 @@ function SetSpawnPoint(userLength) {
         spawnPoint[i] = new Vector2((Math.cos(radian) * spawnDistance) + spawnTrm.x, (Math.sin(radian) * spawnDistance) + spawnTrm.y);
     }
 
-    return Object.values(spawnPoint);
+    return spawnPoint;
 }
 
 module.exports = SetSpawnPoint;
