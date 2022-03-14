@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameOverCase
+{
+    KillAllCitizen,
+    FindAllKidnapper,
+    CollectAllItem,
+}
+
 public class GameOverPanel : Panel
 {
     public CanvasGroup citizenCg;
@@ -20,17 +27,17 @@ public class GameOverPanel : Panel
 
     private void Start()
     {
-        EventManager.SubGameOver(isKidnapperWin =>
+        EventManager.SubGameOver(gameOverCase =>
         {
-            Open(isKidnapperWin);
+            Open(gameOverCase);
         });
     }
 
 
     //일단 임시로 이렇게 해둠 - 나중에 뭐 리소스 나오면 enum으로 하던 뭐로 하던 바꾸면 될듯
-    public override void Open(bool isKidnapperWin)
+    public void Open(GameOverCase isKidnapperWin)
     {
-        CanvasGroupOpenAndClose(isKidnapperWin ? kidnapperCg : citizenCg, true);
+        //CanvasGroupOpenAndClose(isKidnapperWin ? kidnapperCg : citizenCg, true);
 
         base.Open(false);
 
