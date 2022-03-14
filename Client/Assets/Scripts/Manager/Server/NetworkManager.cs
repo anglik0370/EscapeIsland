@@ -90,6 +90,7 @@ public class NetworkManager : MonoBehaviour
         {
             GameManager.Instance.ClearDeadBody();
             InitPlayers();
+            voteTab.VoteUIDisable();
         });
 
         StartCoroutine(Frame());
@@ -801,7 +802,7 @@ public class NetworkManager : MonoBehaviour
     
     public void EndVoteTime()
     {
-        isVoteTime = true;
+        isVoteTime = false;
         TimeHandler.Instance.endTime = 15f;
         
         PopupManager.instance.ClosePopup();
