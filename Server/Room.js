@@ -165,6 +165,23 @@ class Room {
                     });
                     return;
                 }
+
+                let imposterCount = 0;
+                let citizenCount = 0;
+            
+                for(let i = 0; i < keys.length; i++) {
+                    if(this.userList[keys[i]].isDie) continue;
+            
+                    if(this.userList[keys[i]].isImposter) imposterCount++;
+                    else citizenCount++;
+                }
+    
+                if(imposterCount >= citizenCount) {
+                    //임포승
+                    broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
+                    this.initRoom();
+                    return;
+                }
             }
 
 

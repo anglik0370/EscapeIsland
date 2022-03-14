@@ -498,6 +498,24 @@ function voteComplete(socket,payload) {
                 broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
                 return;
             }
+
+            let imposterCount = 0;
+            let citizenCount = 0;
+        
+            for(let i = 0; i < keys.length; i++) {
+                if(userList[keys[i]].isDie) continue;
+        
+                if(userList[keys[i]].isImposter) imposterCount++;
+                else citizenCount++;
+            }
+
+            if(imposterCount >= citizenCount) {
+                //임포승
+                broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
+                room.initRoom();
+                return;
+            }
+
         }
         //아무도 표를 받지 않았거나 동표임
         
