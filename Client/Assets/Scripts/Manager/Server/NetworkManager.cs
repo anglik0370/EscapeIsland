@@ -29,7 +29,7 @@ public class NetworkManager : MonoBehaviour
 
     private List<UserVO> userDataList;
     private List<UserVO> tempDataList;
-    private List<UserVO> winUserList;
+    private List<UserVO> gameOverUserList;
 
     private TimeVO timeVO;
     private VoteCompleteVO voteCompleteVO;
@@ -120,7 +120,7 @@ public class NetworkManager : MonoBehaviour
         lock (instance.lockObj)
         {
             instance.needWinRefresh = true;
-            instance.winUserList = list;
+            instance.gameOverUserList = list;
             instance.gameOverCase = (GameOverCase)gameOverCase;
         }
     }
@@ -423,8 +423,24 @@ public class NetworkManager : MonoBehaviour
         //이긴 팀에 따라 해줘야 할 일 해주기
         EventManager.OccurGameOver(gameOverCase);
 
-        //변수들 초기화 해주고 room 팝업 열어주기
-        //GameEnd();
+        foreach (UserVO uv in gameOverUserList)
+        {
+            if (uv.socketId == socketId)
+            {
+                user.transform.position = uv.position;
+            }
+            else
+            {
+                Player p = null;
+
+                playerList.TryGetValue(uv.socketId, out p);
+
+                if (p != null)
+                {
+                    p.transform.position = uv.position;
+                }
+            }
+        }
     }
     public void InitPlayers()
     {

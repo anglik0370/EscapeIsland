@@ -1,6 +1,7 @@
 const InGameTimer = require('./InGameTimer.js');
 const InVoteTimer = require('./InVoteTimer.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
+const SocketState = require('./SocketState.js');
 
 class Room {
     constructor(roomName,roomNum,curUserNum,userNum,kidnapperNum,playing) {
@@ -57,9 +58,17 @@ class Room {
         if(this.inGameTimer.timeRefresh(this.socketList)) {
 
             if(this.inGameTimer.isEndGame) {
+                let keys = Object.keys(this.userList);
+                let posList = SetSpawnPoint(keys.length);
+    
+                for(let i = 0; i < keys.length; i++) {
+                    this.userList[keys[i]].position = posList[i];
+                }
+                
                 let dataList = Object.values(this.userList);
 
                 this.socketList.forEach(soc => {
+                    soc.state = SocketState.IN_ROOM;
                     soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}));
                 });
                 this.initRoom();
@@ -138,12 +147,20 @@ class Room {
                 });
                 this.userList[targetSocIdArr[0]].isDie = true;
 
+                let keys = Object.keys(this.userList);
+                let posList = SetSpawnPoint(keys.length);
+    
+                for(let i = 0; i < keys.length; i++) {
+                    this.userList[keys[i]].position = posList[i];
+                }
+
                 //납치자를 모두 찾았을때
                 let dataList = Object.values(this.userList);
                 let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
 
                 if(filteredArr.length <= 0) {
                     this.socketList.forEach(soc => {
+                        soc.state = SocketState.IN_ROOM;
                         soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}));
                     });
                     return;

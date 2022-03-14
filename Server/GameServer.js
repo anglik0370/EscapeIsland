@@ -9,6 +9,7 @@ const LoginHandler = require('./LoginHandler.js');
 const GetRandomPos = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 const _ = require('lodash');
+const { use } = require('express/lib/application');
 
 let socketIdx = 0;
 let roomIdx = 1; 
@@ -370,19 +371,26 @@ function kill(socket,payload) {
     let imposterCount = 0;
     let citizenCount = 0;
 
-    let dataList = Object.values(room.userList);
+    let keys = Object.keys(room.userList);
 
-    dataList.forEach(user => {
-        if(user.isDie) return;
+    for(let i = 0; i < keys.length; i++) {
+        if(userList[keys[i]].isDie) continue;
 
-        if(user.isImposter) imposterCount++;
+        if(userList[keys[i]].isImposter) imposterCount++;
         else citizenCount++;
-    });
+    }
+
+    let posList = SetSpawnPoint(keys.length);
+
+    for(let i = 0; i < keys.length; i++) {
+        userList[keys[i]].position = posList[i];
+    }
+    let dataList = Object.values(room.userList);
 
     //살아있는 임포가 시민보다 많을 경우
     if(imposterCount >= citizenCount) {
         //임포승
-        broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}));
+        broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
         room.initRoom();
     }
 
@@ -401,6 +409,13 @@ function storageFull(socket) {
         broadcast(socket,JSON.stringify({type:"STORAGE_FULL",payload:"저녁까지 쳐 버티도록 하세요"}));
     }
     else {
+        let keys = Object.keys(room.userList);
+        let posList = SetSpawnPoint(keys.length);
+
+        for(let i = 0; i < keys.length; i++) {
+            userList[keys[i]].position = posList[i];
+        }
+
         let dataList = Object.values(room.userList);
 
         // 납치자가 있었을때 배에 탔다면의 경우인데 폐기 됨. (혹시 모르니 주석처리만)
@@ -408,7 +423,7 @@ function storageFull(socket) {
         // let type = filteredList.length > 0 ? "WIN_KIDNAPPER" : "WIN_CITIZEN";
 
         //다 모아서 탈출 시 시민 승
-        broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}));
+        broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
         room.initRoom();
     }
 }
@@ -468,13 +483,19 @@ function voteComplete(socket,payload) {
             userList[targetSocIdArr[0]].isDie = true;
 
             //납치자를 모두 찾았을때
+
+            let keys = Object.keys(room.userList);
+            let posList = SetSpawnPoint(keys.length);
+
+            for(let i = 0; i < keys.length; i++) {
+                userList[keys[i]].position = posList[i];
+            }
+            
             let dataList = Object.values(room.userList);
             let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
 
             if(filteredArr.length <= 0) {
-                room.socketList.forEach(soc => {
-                    soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}));
-                });
+                broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
                 return;
             }
         }
@@ -512,12 +533,13 @@ function deadReportOrEmergency(socket,type) {
     broadcast(socket,JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type})}));
 }
 
-function broadcast(socket,msg) {
+function broadcast(socket,msg,isEnd = false) {
     let room = roomList[socket.room];
 
     if(room === undefined) return;
 
     room.socketList.forEach(soc => { 
+        if(isEnd) soc.state = SocketState.IN_ROOM;
         soc.send(msg);
     });
 }
