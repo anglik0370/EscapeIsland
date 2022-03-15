@@ -28,6 +28,8 @@ public class AreaExplanationPanel : Panel
     private void Start()
     {
         EventManager.SubGameOver(gos => Close(true));
+
+        EventManager.SubStartMeet(mt => Close(true));
     }
 
     public void Open(AreaSO areaSO)

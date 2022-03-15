@@ -53,6 +53,8 @@ public class RefineryPanel : Panel
 
             Close(true);
         });
+
+        EventManager.SubStartMeet(mt => Close(true));
     }
 
     private void Update() 

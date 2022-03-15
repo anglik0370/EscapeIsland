@@ -36,6 +36,8 @@ public class StoragePanel : Panel
         }
 
         EventManager.SubGameOver(gos => Close(true));
+
+        EventManager.SubStartMeet(mt => Close(true));
     }
 
     public void AddItem(ItemSO item)
