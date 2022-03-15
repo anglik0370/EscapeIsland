@@ -198,6 +198,8 @@ function roomCreate(socket,roomInfo) {
     r.addSocket(socket, userList[socket.id]);
     roomList[roomIdx] = r;
 
+    roomBroadcast(roomList[roomIdx]);
+
     socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
     wsService.clients.forEach(soc=>{
