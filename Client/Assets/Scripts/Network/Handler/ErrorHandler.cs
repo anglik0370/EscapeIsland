@@ -6,6 +6,6 @@ public class ErrorHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        PopupManager.instance.OpenPopup("alert", payload);
+        print(payload);
     }
 }

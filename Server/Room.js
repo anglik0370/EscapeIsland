@@ -34,6 +34,16 @@ class Room {
         this.skipCount = 0;
         this.inGameTimer = new InGameTimer();
         this.inVoteTImer = new InVoteTimer();
+
+        let dataList = Object.values(this.userList);
+
+        dataList.forEach(user => {
+            user.isDie = false;
+            user.isImposter = false;
+            user.voteNum = 0;
+            user.voteComplete = false;
+        });
+        
     }
 
     startTimer() {

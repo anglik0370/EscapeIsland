@@ -9,7 +9,6 @@ const LoginHandler = require('./LoginHandler.js');
 const GetRandomPos = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 const _ = require('lodash');
-const { use } = require('express/lib/application');
 
 let socketIdx = 0;
 let roomIdx = 1; 
@@ -255,8 +254,7 @@ function roomJoin(socket,roomNum) {
     let room = roomList[roomNum];
 
     if(room === undefined || room.curUserNum >= room.userNum || room.playing) {
-        sendError("들어갈 수 없는 방입니다.",socket);
-        return;
+        sendError("들어갈 수 없는 방입니다.");
     }
     socket.room = roomNum;
 
@@ -317,21 +315,21 @@ function gameStart(socket,payload) {
     }
 
     let keys = Object.keys(room.userList);
-    // let imposterLength = room.kidnapperNum;
-    // let idx;
+    let imposterLength = room.kidnapperNum;
+    let idx;
 
-    // for(let i = 0; i < imposterLength; i++) {
-    //     do {
-    //         idx = Math.floor(Math.random() * keys.length);
-    //     }while(userList[keys[idx]].isImposter)
+    for(let i = 0; i < imposterLength; i++) {
+        do {
+            idx = Math.floor(Math.random() * keys.length);
+        }while(userList[keys[idx]].isImposter)
 
-    //     userList[keys[idx]].isImposter = true;
-    // }
+        userList[keys[idx]].isImposter = true;
+    }
 
     //테스트용 코드
-    if(userList[socket.id] !== undefined) {
-        userList[socket.id].isImposter = true;
-    }
+    // if(userList[socket.id] !== undefined) {
+    //     userList[socket.id].isImposter = true;
+    // }
 
     roomBroadcast(room);
 
