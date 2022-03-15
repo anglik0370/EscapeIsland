@@ -23,6 +23,14 @@ public class ItemSpawner : MonoBehaviour
         SpawnItem();
     }
 
+    private void Start()
+    {
+        EventManager.SubGameOver(gameOverCase =>
+        {
+            DeSpawnItem();
+        });
+    }
+
     public Transform GetTrm()
     {
         return transform;
