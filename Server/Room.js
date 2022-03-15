@@ -43,7 +43,7 @@ class Room {
             user.voteNum = 0;
             user.voteComplete = false;
         });
-        
+
     }
 
     startTimer() {
@@ -173,6 +173,7 @@ class Room {
                         soc.state = SocketState.IN_ROOM;
                         soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}));
                     });
+                    this.initRoom();
                     return;
                 }
 
