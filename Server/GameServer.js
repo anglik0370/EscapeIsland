@@ -495,6 +495,7 @@ function voteComplete(socket,payload) {
 
             if(filteredArr.length <= 0) {
                 broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
+                room.initRoom();
                 return;
             }
 
