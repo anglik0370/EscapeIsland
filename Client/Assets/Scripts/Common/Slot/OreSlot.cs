@@ -31,6 +31,9 @@ public class OreSlot : ItemSlot
     {
         if(itemGhost.GetItem() == null) return;
 
+        if (!refineryPanel.NowOpenRefinery.isRefiningEnd) return;
+        if (refineryPanel.NowOpenRefinery.ingotItem != null) return;
+
         if(itemGhost.GetItem().canRefining)
         {
             NetworkManager.instance.StartRefinery(refineryPanel.NowOpenRefinery.id, itemGhost.GetItem().itemId);
