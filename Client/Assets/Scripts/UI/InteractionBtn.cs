@@ -374,7 +374,7 @@ public class InteractionBtn : MonoBehaviour
         for(int i = 0; i < refienryList.Count; i++)
         {
             //상호작용범위 안에 있는지 체크
-            if(Vector2.Distance(player.GetTrm().position, refienryList[i].transform.position) <= range)
+            if(Vector2.Distance(player.GetTrm().position, refienryList[i].GetInteractionTrm().position) <= range)
             {
                 if(nearlestRefinery == null)
                 {   
@@ -384,8 +384,8 @@ public class InteractionBtn : MonoBehaviour
                 else
                 {
                     //있으면 거리비교
-                    if(Vector2.Distance(player.GetTrm().position, nearlestRefinery.transform.position) >
-                        Vector2.Distance(player.GetTrm().position, refienryList[i].transform.position))
+                    if(Vector2.Distance(player.GetTrm().position, nearlestRefinery.GetTrm().position) >
+                        Vector2.Distance(player.GetTrm().position, refienryList[i].GetTrm().position))
                     {
                         nearlestRefinery = refienryList[i];
                     }

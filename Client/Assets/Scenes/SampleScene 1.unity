@@ -12472,7 +12472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &959831394
 Transform:
   m_ObjectHideFlags: 0
@@ -28350,10 +28350,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1441571764}
     m_Modifications:
-    - target: {fileID: -1033911348534546578, guid: 5e415ea3b54f9944cbe56a8ac59def60, type: 3}
-      propertyPath: id
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 361184424440011064, guid: 5e415ea3b54f9944cbe56a8ac59def60, type: 3}
       propertyPath: m_Name
       value: Smelter3
@@ -28401,14 +28397,6 @@ PrefabInstance:
     - target: {fileID: 361184424440011066, guid: 5e415ea3b54f9944cbe56a8ac59def60, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 361184424440011067, guid: 5e415ea3b54f9944cbe56a8ac59def60, type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 361184424440011067, guid: 5e415ea3b54f9944cbe56a8ac59def60, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1865585133
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e415ea3b54f9944cbe56a8ac59def60, type: 3}
@@ -28874,14 +28862,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Smelter1
       objectReference: {fileID: 0}
-    - target: {fileID: 6951821480079095736, guid: fab155cd3a38afb42a8662cc64cb8478, type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6951821480079095736, guid: fab155cd3a38afb42a8662cc64cb8478, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1865585133
-      objectReference: {fileID: 0}
     - target: {fileID: 6951821480079095737, guid: fab155cd3a38afb42a8662cc64cb8478, type: 3}
       propertyPath: m_LocalPosition.x
       value: -32.09
@@ -28919,18 +28899,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1441571764}
     m_Modifications:
-    - target: {fileID: -9041361703802557989, guid: 408e70dadeb2c0842bed9325e32125d0, type: 3}
-      propertyPath: id
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7186350198068997472, guid: 408e70dadeb2c0842bed9325e32125d0, type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7186350198068997472, guid: 408e70dadeb2c0842bed9325e32125d0, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1865585133
-      objectReference: {fileID: 0}
     - target: {fileID: 7186350198068997473, guid: 408e70dadeb2c0842bed9325e32125d0, type: 3}
       propertyPath: m_Name
       value: Smelter2

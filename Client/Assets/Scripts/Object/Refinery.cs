@@ -11,6 +11,8 @@ public class Refinery : MonoBehaviour
     public ItemSO oreItem;
     public ItemSO ingotItem;
 
+    public Transform interactionTrm;
+
     private Dictionary<ItemSO, ItemSO> refiningDic;
 
     private string orePathFormat = "ItemSO/Item{0}Ore";
@@ -57,6 +59,11 @@ public class Refinery : MonoBehaviour
     public Transform GetTrm()
     {
         return transform;
+    }
+
+    public Transform GetInteractionTrm()
+    {
+        return interactionTrm;
     }
 
     public Sprite GetSprite()
