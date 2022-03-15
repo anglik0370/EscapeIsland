@@ -179,6 +179,7 @@ class Room {
                 if(imposterCount >= citizenCount) {
                     //임포승
                     this.socketList.forEach(soc => {
+                        soc.state = SocketState.IN_ROOM;
                         soc.send(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}));
                     });
                     this.initRoom();
