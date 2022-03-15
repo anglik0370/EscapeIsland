@@ -42,6 +42,11 @@ public class Vote : Popup
             skipToggle.gameObject.SetActive(true);
         });
 
+        EventManager.SubGameStart(p =>
+        {
+            InitChat();
+        });
+
         sendMsgBtn.onClick.AddListener(() =>
         {
             if (msgInputField.text == "") return;
@@ -154,6 +159,14 @@ public class Vote : Popup
         }
         StartCoroutine(EndFrame());
         
+    }
+
+    private void InitChat()
+    {
+        for (int i = 0; i < chatParent.childCount; i++)
+        {
+            chatParent.GetChild(i).gameObject.SetActive(false);
+        }
     }
 
     IEnumerator EndFrame()
