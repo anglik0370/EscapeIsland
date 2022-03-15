@@ -30,8 +30,12 @@ public class ItemSpawner : MonoBehaviour
 
         EventManager.SubGameStart(p =>
         {
-            DeSpawnItem();
             SpawnItem();
+        });
+
+        EventManager.SubGameOver(goc =>
+        {
+            DeSpawnItem();
         });
 
         EventManager.SubTimeChange(isLight =>

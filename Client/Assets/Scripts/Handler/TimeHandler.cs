@@ -40,12 +40,12 @@ public class TimeHandler : MonoBehaviour
         EventManager.SubGameOver(goc =>
         {
             Init();
+            EventManager.OccurTimeChange(true);
         });
 
         EventManager.SubGameStart(p =>
         {
             isGameStarted = true;
-            EventManager.OccurTimeChange(true);
         });
     }
 
