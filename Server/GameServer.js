@@ -198,11 +198,10 @@ function roomCreate(socket,roomInfo) {
     r.addSocket(socket, userList[socket.id]);
     roomList[roomIdx] = r;
 
-    //;
+    socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
     setTimeout(() => roomBroadcast(roomList[roomIdx]),200);
 
-    socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
     wsService.clients.forEach(soc=>{
         if(soc.state != SocketState.IN_LOBBY) 
