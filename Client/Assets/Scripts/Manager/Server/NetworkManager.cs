@@ -807,7 +807,8 @@ public class NetworkManager : MonoBehaviour
     public void EndVoteTime()
     {
         isVoteTime = false;
-        TimeHandler.Instance.endTime = 15f;
+
+        TimeHandler.Instance.InitKillCool();
         
         PopupManager.instance.ClosePopup();
         voteTab.VoteUIDisable();

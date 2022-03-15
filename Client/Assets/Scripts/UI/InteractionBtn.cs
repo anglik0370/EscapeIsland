@@ -38,7 +38,7 @@ public class InteractionBtn : MonoBehaviour
 
     [Header("텍스트")]
     [SerializeField]
-    private Text text;
+    private Text txt;
 
     [Header("쿨타임 이미지")]
     [SerializeField]
@@ -73,7 +73,7 @@ public class InteractionBtn : MonoBehaviour
         //inventory = player.inventory;
         //range = player.range;
 
-        text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+        txt.text = string.Empty;
 
         isGameStart = false;
     }
@@ -91,8 +91,7 @@ public class InteractionBtn : MonoBehaviour
 
             image.sprite = startSprite;
 
-            text.text = "Start";
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+            txt.text = "Start";
 
             cooltimeImg.alpha = 0f;
 
@@ -110,8 +109,8 @@ public class InteractionBtn : MonoBehaviour
         {
             isGameStart = true;
 
-            text.text = "Help!";
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+            txt.text = string.Empty;
+
             cooltimeImg.alpha = 0f;
 
             btn.interactable = true;
@@ -166,8 +165,7 @@ public class InteractionBtn : MonoBehaviour
 
             image.sprite = startSprite;
 
-            text.text = "Start";
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+            txt.text = "Start";
 
             cooltimeImg.alpha = 0f;
 
@@ -192,7 +190,7 @@ public class InteractionBtn : MonoBehaviour
             //여긴 킬하는곳
             state = InteractionState.KillPlayer;
 
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+            txt.text = string.Empty;
 
             cooltimeImg.alpha = 1f;
 
@@ -204,7 +202,7 @@ public class InteractionBtn : MonoBehaviour
             //여긴 제련소 여는곳
             state = InteractionState.OpenRefienry;
 
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+            txt.text = string.Empty;
 
             cooltimeImg.alpha = 0f;
 
@@ -216,7 +214,7 @@ public class InteractionBtn : MonoBehaviour
             //여긴 저장소 여는 곳
             state = InteractionState.OpenStorage;
 
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+            txt.text = string.Empty;
 
             cooltimeImg.alpha = 0f;
 
@@ -228,7 +226,7 @@ public class InteractionBtn : MonoBehaviour
             //여긴 긴급회의 여는 곳
             state = InteractionState.EmergencyMeeting;
 
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+            txt.text = "Help!";
 
             cooltimeImg.alpha = 0f;
 
@@ -262,7 +260,7 @@ public class InteractionBtn : MonoBehaviour
                 accent.Disable();
             }
 
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+            txt.text = string.Empty;
 
             cooltimeImg.alpha = 0f;
         }
@@ -270,7 +268,7 @@ public class InteractionBtn : MonoBehaviour
 
     public void KillPlayer()
     {
-        if(!TimeHandler.Instance.isKillAble || !TimeHandler.Instance.EndOfVote())
+        if(!TimeHandler.Instance.isKillAble)
         {
             //킬 스택이 부족합니다 <- 메시지 표시
             UIManager.Instance.SetWarningText("아직 킬 할 수 없습니다.");

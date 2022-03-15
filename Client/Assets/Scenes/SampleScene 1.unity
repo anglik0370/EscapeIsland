@@ -744,7 +744,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cca353ef4c98f654d90d136183cc48ed, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dab9a7dfe67d2934bb8872d3a11d24e3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23203,7 +23203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.6509804}
+  m_Color: {r: 0.028301895, g: 0.028301895, b: 0.028301895, a: 0.6509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23215,7 +23215,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -23240,8 +23240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d5d54f1bb29c248833fa27c08e5725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolColor: {r: 1, g: 1, b: 1, a: 0.5019608}
-  cantColor: {r: 0, g: 0, b: 0, a: 0.5019608}
 --- !u!225 &1790255470
 CanvasGroup:
   m_ObjectHideFlags: 0

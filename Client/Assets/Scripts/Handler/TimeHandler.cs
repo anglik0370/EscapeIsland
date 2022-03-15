@@ -16,11 +16,9 @@ public class TimeHandler : MonoBehaviour
     [SerializeField]
     private int day = 1;
 
-    public float endTime = 0f;
-
     [Header("킬 관련")]
     private bool isNightTime = false;
-    private float curTime = 0f;
+    private float curkillCoolTime = 0f;
     private float timeToNextStack = 20f;
     public bool isKillAble = false;
 
@@ -55,11 +53,6 @@ public class TimeHandler : MonoBehaviour
     {
         if (!isGameStarted) return;
 
-        if(endTime > 0f)
-        {
-            endTime -= Time.deltaTime;
-        }
-
         KillStackTimer();
     }
 
@@ -69,28 +62,19 @@ public class TimeHandler : MonoBehaviour
 
         if (isNightTime && !isKillAble)
         {
-            curTime -= Time.deltaTime;
+            curkillCoolTime -= Time.deltaTime;
 
-            if(curTime <= 0f)
+            if(curkillCoolTime <= 0f)
             {
                 isKillAble = true;
                 
-                curTime = timeToNextStack;
+                curkillCoolTime = timeToNextStack;
             }
         }
 
         if(!isKillAble)
         {
-            if(!EndOfVote())
-            {
-                cooltimeImg.UpdateUI(1, 1);
-                cooltimeImg.SetColor(false);
-            }
-            else
-            {
-                cooltimeImg.UpdateUI(curTime, timeToNextStack);
-                cooltimeImg.SetColor(true);
-            }
+            cooltimeImg.UpdateUI(curkillCoolTime, timeToNextStack);
         }
     }
 
@@ -114,18 +98,19 @@ public class TimeHandler : MonoBehaviour
         }
     }
 
-    public bool EndOfVote()
-    {
-        return endTime <= 0f;
-    }
-
     public void Init()
     {
         isNightTime = false;
-        curTime = timeToNextStack;
+        curkillCoolTime = timeToNextStack;
         isKillAble = false;
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
-        cooltimeImg.UpdateUI(curTime, timeToNextStack);
+        cooltimeImg.UpdateUI(curkillCoolTime, timeToNextStack);
+    }
+
+    public void InitKillCool()
+    {
+        isKillAble = false;
+        curkillCoolTime = timeToNextStack;
     }
 }
