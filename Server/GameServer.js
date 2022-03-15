@@ -198,7 +198,9 @@ function roomCreate(socket,roomInfo) {
     r.addSocket(socket, userList[socket.id]);
     roomList[roomIdx] = r;
 
-    roomBroadcast(roomList[roomIdx]);
+    //;
+
+    setTimeout(() => roomBroadcast(roomList[roomIdx]),200);
 
     socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
