@@ -315,21 +315,21 @@ function gameStart(socket,payload) {
     }
 
     let keys = Object.keys(room.userList);
-    // let imposterLength = room.kidnapperNum;
-    // let idx;
+    let imposterLength = room.kidnapperNum;
+    let idx;
 
-    // for(let i = 0; i < imposterLength; i++) {
-    //     do {
-    //         idx = Math.floor(Math.random() * keys.length);
-    //     }while(userList[keys[idx]].isImposter)
+    for(let i = 0; i < imposterLength; i++) {
+        do {
+            idx = Math.floor(Math.random() * keys.length);
+        }while(userList[keys[idx]].isImposter)
 
-    //     userList[keys[idx]].isImposter = true;
-    // }
+        userList[keys[idx]].isImposter = true;
+    }
 
     //테스트용 코드
-    if(userList[socket.id] !== undefined) {
-        userList[socket.id].isImposter = true;
-    }
+    // if(userList[socket.id] !== undefined) {
+    //     userList[socket.id].isImposter = true;
+    // }
 
     roomBroadcast(room);
 
