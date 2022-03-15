@@ -394,7 +394,12 @@ public class NetworkManager : MonoBehaviour
 
     public bool IsKidnapper()
     {
-        return user.isImposter;
+        if(user != null)
+        {
+            return user.isImposter;
+        }
+
+        return false;
     }
 
     public void SocketDisconnect()
