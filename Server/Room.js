@@ -95,7 +95,7 @@ class Room {
             let dataList = Object.values(this.userList);
 
             this.socketList.forEach(soc => {
-                soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList})}));
+                soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type:2})}));
             });
             this.expected = Date.now() + 1000;
             this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval,true);
