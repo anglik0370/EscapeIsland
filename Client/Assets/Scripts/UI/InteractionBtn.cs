@@ -240,6 +240,8 @@ public class InteractionBtn : MonoBehaviour
                 //여긴 아이템 줍는곳
                 state = InteractionState.PickUpItem;
 
+                cooltimeImg.alpha = 0f;
+
                 image.sprite = pickUpSprite;
                 accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
             }
@@ -247,6 +249,8 @@ public class InteractionBtn : MonoBehaviour
             {
                 //여긴 주변 시체 신고하는곳
                 state = InteractionState.ReportDeadbody;
+
+                cooltimeImg.alpha = 0f;
 
                 image.sprite = findDeadBodySprite;
                 accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
@@ -256,13 +260,13 @@ public class InteractionBtn : MonoBehaviour
                 //여긴 아무것도 아닌곳
                 state = InteractionState.Nothing;
 
+                cooltimeImg.alpha = 1f;
+
                 image.sprite = pickUpSprite;
                 accent.Disable();
             }
 
             txt.text = string.Empty;
-
-            cooltimeImg.alpha = 0f;
         }
     }
 
