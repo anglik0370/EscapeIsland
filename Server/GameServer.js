@@ -474,6 +474,7 @@ function voteComplete(socket,payload) {
             userList[keys[i]].voteComplete = false;
         }
         room.skipCount = 0;
+        room.inVoteTimer.initTime();
         
         if(targetSocIdArr.length == 1) {
             room.socketList.forEach(soc => {
