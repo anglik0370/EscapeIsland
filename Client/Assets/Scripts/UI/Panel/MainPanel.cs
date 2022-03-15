@@ -43,11 +43,6 @@ public class MainPanel : MonoBehaviour
             cvsList.ForEach(x => SetCvsActive(x));
         });
 
-        EventManager.SubGameOver(gameOverCase =>
-        {
-            
-        });
-
         EventManager.SubExitRoom(() =>
         {
             cvsList.ForEach(x => SetCvsActive(x, false));

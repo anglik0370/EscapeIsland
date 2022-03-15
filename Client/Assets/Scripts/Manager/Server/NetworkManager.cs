@@ -366,7 +366,7 @@ public class NetworkManager : MonoBehaviour
         while (removeSocketQueue.Count > 0)
         {
             int soc = removeSocketQueue.Dequeue();
-            playerList[soc].SetDisable();
+            playerList[soc].SetDisable(true);
             playerList.Remove(soc);
         }
     }
@@ -394,7 +394,12 @@ public class NetworkManager : MonoBehaviour
 
     public bool IsKidnapper()
     {
-        return user.isImposter;
+        if(user != null)
+        {
+            return user.isImposter;
+        }
+
+        return false;
     }
 
     public void SocketDisconnect()
@@ -635,7 +640,7 @@ public class NetworkManager : MonoBehaviour
     public void PlayerClear()
     {
         user.StopCo();
-        user.SetDisable();
+        user.SetDisable(true);
         user = null;
 
         foreach (int key in playerList.Keys)
@@ -765,16 +770,13 @@ public class NetworkManager : MonoBehaviour
                     InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
                     user.InitPlayer(uv, ui, false);
 
-                    if(user.transform.childCount <= 0)
+                    for (int i = 0; i < lights.Length; i++)
                     {
-                        for (int i = 0; i < lights.Length; i++)
-                        {
-                            GameObject obj = Instantiate(lights[i], user.transform);
-                            obj.transform.localPosition = Vector3.zero;
-                        }
+                        GameObject obj = Instantiate(lights[i], user.transform);
+                        obj.transform.localPosition = Vector3.zero;
                     }
 
-                    if(isTest)
+                    if (isTest)
                     {
                         user.isImposter = true;
                         DataVO dataVO = new DataVO("TEST_CLIENT", null);
@@ -805,7 +807,8 @@ public class NetworkManager : MonoBehaviour
     public void EndVoteTime()
     {
         isVoteTime = false;
-        TimeHandler.Instance.endTime = 15f;
+
+        TimeHandler.Instance.InitKillCool();
         
         PopupManager.instance.ClosePopup();
         voteTab.VoteUIDisable();

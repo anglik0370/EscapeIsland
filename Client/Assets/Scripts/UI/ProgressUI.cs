@@ -15,6 +15,11 @@ public class ProgressUI : MonoBehaviour
     private void Start() 
     {
         UpdateProgress(0);
+
+        EventManager.SubGameOver(goc =>
+        {
+            UpdateProgress(0);
+        });
     }
 
     public void UpdateProgress(float progress)

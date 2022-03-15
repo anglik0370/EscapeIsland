@@ -88,12 +88,23 @@ public class Player : MonoBehaviour
         return sr.flipX;
     }
 
-    public void SetDisable()
+    public void SetDisable(bool user = false)
     {
         if (!gameObject.activeSelf) return;
 
+        if (user)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
+        }
+
         gameObject.SetActive(false);
         ui.gameObject.SetActive(false);
+
+        
+        
     }
 
     public void SetDeadBody()

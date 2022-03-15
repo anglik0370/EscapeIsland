@@ -43,6 +43,20 @@ public class RefineryPanel : Panel
         SetArrowProgress(0f);
     }
 
+    private void Start()
+    {
+        EventManager.SubGameOver(goc =>
+        {
+            SetNameText("(재련할 재료)", "(재련된 재료)");
+            SetTimerText("");
+            SetArrowProgress(0f);
+
+            Close(true);
+        });
+
+        EventManager.SubStartMeet(mt => Close(true));
+    }
+
     private void Update() 
     {
         if(nowOpenRefinery == null) return;
@@ -100,6 +114,12 @@ public class RefineryPanel : Panel
             SetNameText(refinery.oreItem.ToString(), refinery.FindIngotFromOre(refinery.oreItem).ToString());
             SetTimerText($"{Mathf.RoundToInt(nowOpenRefinery.remainTime).ToString()}초");
         }
+        else
+        {
+            SetNameText("(재련할 재료)", "(재련된 재료)");
+            SetTimerText("");
+            SetArrowProgress(0f);
+        }
     }
 
     public override void Close(bool isTweenSkip = false)
@@ -107,10 +127,6 @@ public class RefineryPanel : Panel
         base.Close();
 
         nowOpenRefinery = null;
-
-        SetNameText("(재련할 재료)", "(재련된 재료)");
-        SetTimerText("");
-        SetArrowProgress(0f);
     }
 
     public bool IsOpenRefinery(Refinery refinery)

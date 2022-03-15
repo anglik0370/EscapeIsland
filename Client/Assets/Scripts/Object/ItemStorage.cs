@@ -19,9 +19,16 @@ public class ItemStorage : MonoBehaviour
         {
             totalNeedItemAmount += maxAmountItemList[i].amount;
         }
-    }
 
-    public ItemSO debugItem;
+        EventManager.SubGameStart(p =>
+        {
+            foreach(ItemAmount amount in curAmountItemList)
+            {
+                amount.amount = 0;
+                StoragePanel.Instance.UpdateUIs(amount.item);
+            }
+        });
+    }
 
     public ItemAmount FindItemAmount(List<ItemAmount> list, ItemSO item)
     {

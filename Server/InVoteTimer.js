@@ -1,6 +1,6 @@
 class InVoteTimer {
     constructor() {
-        this.timeToNextSlot = 180;
+        this.timeToNextSlot = 10;
         this.curTime = 10;
         this.sec = 1;
     }

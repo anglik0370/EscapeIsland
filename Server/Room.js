@@ -1,5 +1,5 @@
 const InGameTimer = require('./InGameTimer.js');
-const InVoteTimer = require('./InVoteTimer.js');
+const inVoteTimer = require('./inVoteTimer.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 const SocketState = require('./SocketState.js');
 
@@ -13,7 +13,7 @@ class Room {
         this.playing = playing;
 
         this.inGameTimer = new InGameTimer();
-        this.inVoteTImer = new InVoteTimer();
+        this.inVoteTimer = new inVoteTimer();
         this.curTimer = undefined;
 
         this.skipCount = 0;
@@ -33,7 +33,17 @@ class Room {
         this.stopTimer();
         this.skipCount = 0;
         this.inGameTimer = new InGameTimer();
-        this.inVoteTImer = new InVoteTimer();
+        this.inVoteTimer = new inVoteTimer();
+
+        let dataList = Object.values(this.userList);
+
+        dataList.forEach(user => {
+            user.isDie = false;
+            user.isImposter = false;
+            user.voteNum = 0;
+            user.voteComplete = false;
+        });
+
     }
 
     startTimer() {
@@ -43,7 +53,7 @@ class Room {
     }
 
     startVoteTimer() {
-        //this.inVoteTImer.initTime();
+        //this.inVoteTimer.initTime();
         this.stopTimer();
         this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval,false);
     }
@@ -85,7 +95,7 @@ class Room {
             let dataList = Object.values(this.userList);
 
             this.socketList.forEach(soc => {
-                soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList})}));
+                soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type:2})}));
             });
             this.expected = Date.now() + 1000;
             this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval,true);
@@ -99,7 +109,7 @@ class Room {
     }
 
     changeTime() {
-        this.inVoteTImer.initTime();
+        this.inVoteTimer.initTime();
         //this.skipCount = 0;
         let p = this.inGameTimer.returnPayload();
 
@@ -120,8 +130,8 @@ class Room {
     voteTimer(isEnd) {
         let dt = Date.now() - this.expected;
 
-        if(this.inVoteTImer.timeRefresh(this.socketList)) {
-            let dummy = 0;
+        if(this.inVoteTimer.timeRefresh(this.socketList)) {
+            let dummy = -1;
             let targetSocIdArr = [];
 
             let keys = Object.keys(this.userList);
@@ -130,7 +140,7 @@ class Room {
                 if(dummy != 0 && this.userList[keys[i]].voteNum == dummy) {
                     targetSocIdArr.push(this.userList[keys[i]].socketId);
                 }
-                else if(this.userList[keys[i]].voteNum > dummy) {
+                else if(this.userList[keys[i]].voteNum > dummy && this.userList[keys[i]].voteNum > this.skipCount) {
                     dummy = this.userList[keys[i]].voteNum;
                     targetSocIdArr.length = 0;
                     targetSocIdArr.push(this.userList[keys[i]].socketId);
@@ -163,6 +173,7 @@ class Room {
                         soc.state = SocketState.IN_ROOM;
                         soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}));
                     });
+                    this.initRoom();
                     return;
                 }
 

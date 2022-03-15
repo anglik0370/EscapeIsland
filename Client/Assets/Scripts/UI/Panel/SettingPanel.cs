@@ -10,5 +10,9 @@ public class SettingPanel : Panel
         {
             Close();
         });
+
+        EventManager.SubStartMeet(mt => Close(true));
+
+        EventManager.SubGameOver(gos => Close(true));
     }
 }

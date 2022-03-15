@@ -19,23 +19,31 @@ public class ItemSpawner : MonoBehaviour
 
         poolObj.SetPosition(transform.position);
         poolObj.SetSprite(item.itemSprite);
-
-        SpawnItem();
     }
 
     private void Start()
     {
+        EventManager.SubEnterRoom(p =>
+        {
+            DeSpawnItem();
+        });
+
+        EventManager.SubGameStart(p =>
+        {
+            SpawnItem();
+        });
+
+        EventManager.SubGameOver(goc =>
+        {
+            DeSpawnItem();
+        });
+
         EventManager.SubTimeChange(isLight =>
         {
-            if(!isLight)
+            if (!isLight)
             {
                 SpawnItem();
             }
-        });
-
-        EventManager.SubGameOver(gameOverCase =>
-        {
-            DeSpawnItem();
         });
     }
 

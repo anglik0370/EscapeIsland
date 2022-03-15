@@ -34,6 +34,10 @@ public class StoragePanel : Panel
 
             slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
         }
+
+        EventManager.SubGameOver(gos => Close(true));
+
+        EventManager.SubStartMeet(mt => Close(true));
     }
 
     public void AddItem(ItemSO item)

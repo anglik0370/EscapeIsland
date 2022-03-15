@@ -25,4 +25,11 @@ public class CharacterSelectPanel : Panel
 
         base.Awake();
     }
+
+    private void Start()
+    {
+        EventManager.SubGameOver(gos => Close(true));
+
+        EventManager.SubStartMeet(mt => Close(true));
+    }
 }

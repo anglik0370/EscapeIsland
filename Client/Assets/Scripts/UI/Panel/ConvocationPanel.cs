@@ -30,6 +30,11 @@ public class ConvocationPanel : Panel
         base.Awake();
     }
 
+    private void Start()
+    {
+        EventManager.SubGameOver(gos => Close(true));
+    }
+
     public void Open(MeetingType type)
     {
         switch(type)
