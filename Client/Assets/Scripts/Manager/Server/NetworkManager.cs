@@ -366,7 +366,7 @@ public class NetworkManager : MonoBehaviour
         while (removeSocketQueue.Count > 0)
         {
             int soc = removeSocketQueue.Dequeue();
-            playerList[soc].SetDisable();
+            playerList[soc].SetDisable(true);
             playerList.Remove(soc);
         }
     }
@@ -640,7 +640,7 @@ public class NetworkManager : MonoBehaviour
     public void PlayerClear()
     {
         user.StopCo();
-        user.SetDisable();
+        user.SetDisable(true);
         user = null;
 
         foreach (int key in playerList.Keys)
