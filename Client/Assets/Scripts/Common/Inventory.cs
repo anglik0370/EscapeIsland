@@ -14,6 +14,17 @@ public class Inventory : MonoBehaviour
         slotList = GetComponentsInChildren<ItemSlot>().ToList();
     }
 
+    private void Start()
+    {
+        EventManager.SubGameOver(goc =>
+        {
+            foreach (ItemSlot slot in slotList)
+            {
+                slot.SetItem(null);
+            }
+        });
+    }
+
     //생각해보니까 그냥 넣는함수만 있어도 되지않나 넣는거 뺴고는 나머지 다 드래그앤드랍이니까
     public void AddItem(ItemSO item)
     {

@@ -7,6 +7,8 @@ public class IngotSlot : ItemSlot
 {
     private RefineryPanel refineryPanel;
 
+    private Inventory inventory;
+
     protected override void Awake()
     {
         base.Awake();
@@ -15,6 +17,11 @@ public class IngotSlot : ItemSlot
     private void Start() 
     {
         refineryPanel = RefineryPanel.Instance;
+
+        EventManager.SubEnterRoom(p =>
+        {
+            inventory = p.inventory;
+        });
     }
 
     public override void OnBeginDrag(PointerEventData eventData)

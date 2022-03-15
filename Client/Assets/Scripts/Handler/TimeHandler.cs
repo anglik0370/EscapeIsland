@@ -126,5 +126,7 @@ public class TimeHandler : MonoBehaviour
         isNightTime = false;
         curTime = timeToNextStack;
         isKillAble = false;
+        day = 0;
+        dayAndSlotText.text = $"{day}번째 낮";
     }
 }

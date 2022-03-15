@@ -255,7 +255,8 @@ function roomJoin(socket,roomNum) {
     let room = roomList[roomNum];
 
     if(room === undefined || room.curUserNum >= room.userNum || room.playing) {
-        sendError("들어갈 수 없는 방입니다.");
+        sendError("들어갈 수 없는 방입니다.",socket);
+        return;
     }
     socket.room = roomNum;
 

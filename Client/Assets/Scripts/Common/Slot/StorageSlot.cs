@@ -59,13 +59,12 @@ public class StorageSlot : ItemSlot
             if(!storagePanel.IsItemFull(itemGhost.GetItem()))
             {
                 NetworkManager.instance.StorageDrop(itemGhost.GetItem().itemId);
-                storagePanel.AddItem(itemGhost.GetItem());
+                //storagePanel.AddItem(itemGhost.GetItem());
                 itemGhost.SetItem(null);
 
                 if(storagePanel.IsItemFull())
                 {
                     //꽉찼으니 꽉찼다고 서버에 보내줘야 한다.
-                    
                 }
             }
         }
