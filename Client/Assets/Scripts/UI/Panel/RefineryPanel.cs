@@ -43,6 +43,16 @@ public class RefineryPanel : Panel
         SetArrowProgress(0f);
     }
 
+    private void Start()
+    {
+        EventManager.SubGameOver(goc =>
+        {
+            SetNameText("(재련할 재료)", "(재련된 재료)");
+            SetTimerText("");
+            SetArrowProgress(0f);
+        });
+    }
+
     private void Update() 
     {
         if(nowOpenRefinery == null) return;

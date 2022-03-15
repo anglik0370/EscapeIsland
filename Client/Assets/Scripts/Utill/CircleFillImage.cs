@@ -19,7 +19,7 @@ public class CircleFillImage : MonoBehaviour
 
     private void Start()
     {
-        EventManager.SubGameStart(p =>
+        EventManager.SubGameOver(goc =>
         {
             SetColor(true);
         });

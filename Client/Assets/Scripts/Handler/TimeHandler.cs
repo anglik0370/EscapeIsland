@@ -40,16 +40,15 @@ public class TimeHandler : MonoBehaviour
 
     private void Start()
     {
+        EventManager.SubGameOver(goc =>
+        {
+            Init();
+        });
+
         EventManager.SubGameStart(p =>
         {
             isGameStarted = true;
-            cooltimeImg.UpdateUI(curTime, timeToNextStack);
-        });
-
-        EventManager.SubBackToRoom(() =>
-        {
             EventManager.OccurTimeChange(true);
-            Init();
         });
     }
 
@@ -128,5 +127,6 @@ public class TimeHandler : MonoBehaviour
         isKillAble = false;
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
+        cooltimeImg.UpdateUI(curTime, timeToNextStack);
     }
 }

@@ -30,6 +30,7 @@ public class ItemSpawner : MonoBehaviour
 
         EventManager.SubGameStart(p =>
         {
+            DeSpawnItem();
             SpawnItem();
         });
 
@@ -39,11 +40,6 @@ public class ItemSpawner : MonoBehaviour
             {
                 SpawnItem();
             }
-        });
-
-        EventManager.SubGameOver(gameOverCase =>
-        {
-            DeSpawnItem();
         });
     }
 

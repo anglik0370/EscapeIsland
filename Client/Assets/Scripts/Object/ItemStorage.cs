@@ -20,7 +20,7 @@ public class ItemStorage : MonoBehaviour
             totalNeedItemAmount += maxAmountItemList[i].amount;
         }
 
-        EventManager.SubGameOver(overcase =>
+        EventManager.SubGameStart(p =>
         {
             foreach(ItemAmount amount in curAmountItemList)
             {

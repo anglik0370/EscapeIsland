@@ -43,6 +43,19 @@ public class Refinery : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        EventManager.SubGameStart(p =>
+        {
+            oreItem = null;
+            ingotItem = null;
+
+            isRefiningEnd = true;
+
+            remainTime = 0f;
+        });
+    }
+
     private void Update() 
     {
         if(!isRefiningEnd)
