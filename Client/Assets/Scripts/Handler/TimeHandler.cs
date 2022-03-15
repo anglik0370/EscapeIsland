@@ -32,14 +32,13 @@ public class TimeHandler : MonoBehaviour
         {
             Instance = this;
         }
-
-        dayAndSlotText.text = $"{day}번째 낮";
-
-        Init();
     }
 
     private void Start()
     {
+        Init();
+        dayAndSlotText.text = $"{day}번째 낮";
+
         EventManager.SubGameOver(goc =>
         {
             Init();
