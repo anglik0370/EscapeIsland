@@ -9,7 +9,6 @@ const LoginHandler = require('./LoginHandler.js');
 const GetRandomPos = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 const _ = require('lodash');
-const { use } = require('express/lib/application');
 
 let socketIdx = 0;
 let roomIdx = 1; 
@@ -255,8 +254,7 @@ function roomJoin(socket,roomNum) {
     let room = roomList[roomNum];
 
     if(room === undefined || room.curUserNum >= room.userNum || room.playing) {
-        sendError("들어갈 수 없는 방입니다.",socket);
-        return;
+        sendError("들어갈 수 없는 방입니다.");
     }
     socket.room = roomNum;
 
