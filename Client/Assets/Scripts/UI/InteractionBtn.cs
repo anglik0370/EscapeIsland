@@ -42,7 +42,9 @@ public class InteractionBtn : MonoBehaviour
 
     [Header("쿨타임 이미지")]
     [SerializeField]
-    private CanvasGroup cooltimeImg;
+    private CanvasGroup coolTimeCvs;
+    [SerializeField]
+    private CircleFillImage coolTimeImg;
 
     [Header("강조 오브젝트")]
     [SerializeField]
@@ -93,7 +95,7 @@ public class InteractionBtn : MonoBehaviour
 
             txt.text = "Start";
 
-            cooltimeImg.alpha = 0f;
+            coolTimeCvs.alpha = 0f;
 
             if (!p.master)
             {
@@ -111,7 +113,7 @@ public class InteractionBtn : MonoBehaviour
 
             txt.text = string.Empty;
 
-            cooltimeImg.alpha = 0f;
+            coolTimeCvs.alpha = 0f;
 
             btn.interactable = true;
 
@@ -167,7 +169,7 @@ public class InteractionBtn : MonoBehaviour
 
             txt.text = "Start";
 
-            cooltimeImg.alpha = 0f;
+            coolTimeCvs.alpha = 0f;
 
             if (!player.master)
             {
@@ -192,7 +194,8 @@ public class InteractionBtn : MonoBehaviour
 
             txt.text = string.Empty;
 
-            cooltimeImg.alpha = 1f;
+            coolTimeCvs.alpha = 1f;
+            coolTimeImg.IsFill = false;
 
             image.sprite = killSprite;
             accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
@@ -204,7 +207,7 @@ public class InteractionBtn : MonoBehaviour
 
             txt.text = string.Empty;
 
-            cooltimeImg.alpha = 0f;
+            coolTimeCvs.alpha = 0f;
 
             image.sprite = interactionSprite;
             accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
@@ -216,7 +219,7 @@ public class InteractionBtn : MonoBehaviour
 
             txt.text = string.Empty;
 
-            cooltimeImg.alpha = 0f;
+            coolTimeCvs.alpha = 0f;
 
             image.sprite = interactionSprite;
             accent.Disable();
@@ -228,7 +231,7 @@ public class InteractionBtn : MonoBehaviour
 
             txt.text = "Help!";
 
-            cooltimeImg.alpha = 0f;
+            coolTimeCvs.alpha = 0f;
 
             image.sprite = emergencySprite;
             accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
@@ -240,7 +243,7 @@ public class InteractionBtn : MonoBehaviour
                 //여긴 아이템 줍는곳
                 state = InteractionState.PickUpItem;
 
-                cooltimeImg.alpha = 0f;
+                coolTimeCvs.alpha = 0f;
 
                 image.sprite = pickUpSprite;
                 accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
@@ -250,7 +253,7 @@ public class InteractionBtn : MonoBehaviour
                 //여긴 주변 시체 신고하는곳
                 state = InteractionState.ReportDeadbody;
 
-                cooltimeImg.alpha = 0f;
+                coolTimeCvs.alpha = 0f;
 
                 image.sprite = findDeadBodySprite;
                 accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
@@ -260,7 +263,8 @@ public class InteractionBtn : MonoBehaviour
                 //여긴 아무것도 아닌곳
                 state = InteractionState.Nothing;
 
-                cooltimeImg.alpha = 1f;
+                coolTimeCvs.alpha = 1f;
+                coolTimeImg.IsFill = true;
 
                 image.sprite = pickUpSprite;
                 accent.Disable();
