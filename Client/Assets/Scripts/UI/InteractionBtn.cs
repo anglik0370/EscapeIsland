@@ -192,7 +192,14 @@ public class InteractionBtn : MonoBehaviour
             //여긴 킬하는곳
             state = InteractionState.KillPlayer;
 
-            txt.text = string.Empty;
+            if(TimeHandler.Instance.CurKillCoolTime > 0)
+            {
+                txt.text = Mathf.Floor(TimeHandler.Instance.CurKillCoolTime).ToString();
+            }
+            else
+            {
+                txt.text = string.Empty;
+            }
 
             coolTimeCvs.alpha = 1f;
             coolTimeImg.IsFill = false;
@@ -289,7 +296,8 @@ public class InteractionBtn : MonoBehaviour
 
         targetPlayer.SetDead();
 
-        TimeHandler.Instance.isKillAble = false;
+        TimeHandler.Instance.InitKillCool();
+
         NetworkManager.instance.Kill(targetPlayer);
     }
 

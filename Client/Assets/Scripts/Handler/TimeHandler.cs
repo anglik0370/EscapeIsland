@@ -18,8 +18,12 @@ public class TimeHandler : MonoBehaviour
 
     [Header("킬 관련")]
     private bool isNightTime = false;
+
     private float curkillCoolTime = 0f;
+    public float CurKillCoolTime => curkillCoolTime;
+
     private float timeToNextStack = 20f;
+
     public bool isKillAble = false;
 
     private bool isGameStarted = false;
@@ -67,8 +71,6 @@ public class TimeHandler : MonoBehaviour
             if(curkillCoolTime <= 0f)
             {
                 isKillAble = true;
-                
-                curkillCoolTime = timeToNextStack;
             }
         }
 
