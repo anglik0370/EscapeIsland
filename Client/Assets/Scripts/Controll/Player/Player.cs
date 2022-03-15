@@ -92,16 +92,18 @@ public class Player : MonoBehaviour
     {
         if (!gameObject.activeSelf) return;
 
-        gameObject.SetActive(false);
-        ui.gameObject.SetActive(false);
-
-        if(user)
+        if (user)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
                 Destroy(transform.GetChild(i));
             }
         }
+
+        gameObject.SetActive(false);
+        ui.gameObject.SetActive(false);
+
+        
         
     }
 
