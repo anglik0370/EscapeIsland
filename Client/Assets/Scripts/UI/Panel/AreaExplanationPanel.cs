@@ -25,6 +25,11 @@ public class AreaExplanationPanel : Panel
         base.Awake();
     }
 
+    private void Start()
+    {
+        EventManager.SubGameOver(gos => Close(true));
+    }
+
     public void Open(AreaSO areaSO)
     {
         if(isOpen)

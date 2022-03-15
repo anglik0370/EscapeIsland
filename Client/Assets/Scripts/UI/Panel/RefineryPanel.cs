@@ -50,6 +50,8 @@ public class RefineryPanel : Panel
             SetNameText("(재련할 재료)", "(재련된 재료)");
             SetTimerText("");
             SetArrowProgress(0f);
+
+            Close(true);
         });
     }
 

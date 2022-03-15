@@ -10,5 +10,10 @@ public class SettingPanel : Panel
         {
             Close();
         });
+
+        private void Start()
+        {
+            EventManager.SubGameOver(gos => Close(true));
+        }
     }
 }
