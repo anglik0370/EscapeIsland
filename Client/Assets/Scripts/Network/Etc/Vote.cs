@@ -42,7 +42,7 @@ public class Vote : Popup
             skipToggle.gameObject.SetActive(true);
         });
 
-        EventManager.SubGameStart(p =>
+        EventManager.SubGameOver(p =>
         {
             InitChat();
         });
