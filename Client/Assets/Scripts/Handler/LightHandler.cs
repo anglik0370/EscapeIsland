@@ -13,6 +13,10 @@ public class LightHandler : MonoBehaviour
     private Light2D shadowPoint;
     [SerializeField]
     private Light2D lightMapPoint;
+    [SerializeField]
+    private Light2D refineryPoint;
+    [SerializeField]
+    private Light2D labotoryPoint;
 
     [Header("편집할때 꺼놔야하는것들")]
     [SerializeField]
@@ -33,6 +37,10 @@ public class LightHandler : MonoBehaviour
     [Header("Player PointLight 바깥쪽 반지름 크기")]
     public float lightOuterRadius;
     public float darkOuterRadius;
+
+    [Header("실내 조명 밝기")]
+    public float lightInsideLightIntensity;
+    public float darkInsideLightIntensity;
 
     [Header("밝기 변화 시간")]
     [SerializeField]
@@ -70,7 +78,10 @@ public class LightHandler : MonoBehaviour
     {
         DOTween.To(() => global.intensity, x => global.intensity = x, darkGlobalIntensity, duration);
         DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, darkPointIntensity, duration);
-        
+
+        DOTween.To(() => refineryPoint.intensity, x => refineryPoint.intensity = x, darkInsideLightIntensity, duration);
+        DOTween.To(() => labotoryPoint.intensity, x => labotoryPoint.intensity = x, darkInsideLightIntensity, duration);
+
         DOTween.To(() => shadowPoint.pointLightInnerRadius, x => shadowPoint.pointLightInnerRadius = x, darkInnerRadius, duration);
         DOTween.To(() => shadowPoint.pointLightOuterRadius, x => shadowPoint.pointLightOuterRadius = x, darkOuterRadius, duration);
         DOTween.To(() => lightMapPoint.pointLightInnerRadius, x => lightMapPoint.pointLightInnerRadius = x, darkInnerRadius, duration);
@@ -81,6 +92,9 @@ public class LightHandler : MonoBehaviour
     {
         DOTween.To(() => global.intensity, x => global.intensity = x, lightGlobalIntensity, duration);
         DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, lightPointIntensity, duration);
+
+        DOTween.To(() => refineryPoint.intensity, x => refineryPoint.intensity = x, lightInsideLightIntensity, duration);
+        DOTween.To(() => labotoryPoint.intensity, x => labotoryPoint.intensity = x, lightInsideLightIntensity, duration);
 
         DOTween.To(() => shadowPoint.pointLightInnerRadius, x => shadowPoint.pointLightInnerRadius = x, lightInnerRadius, duration);
         DOTween.To(() => shadowPoint.pointLightOuterRadius, x => shadowPoint.pointLightOuterRadius = x, lightOuterRadius, duration);
