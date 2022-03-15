@@ -45,6 +45,18 @@ public class LightHandler : MonoBehaviour
             lightMapObjs[i].SetActive(true);
         }
 
+        EventManager.SubTimeChange(isLight =>
+        {
+            if(isLight)
+            {
+                Light();
+            }
+            else
+            {
+                Dark();
+            }
+        });
+
         EventManager.SubEnterRoom(p =>
         {
             Light2D[] lights = p.GetComponentsInChildren<Light2D>();

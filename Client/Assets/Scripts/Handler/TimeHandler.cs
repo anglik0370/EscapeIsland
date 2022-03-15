@@ -8,11 +8,6 @@ public class TimeHandler : MonoBehaviour
     public static TimeHandler Instance{get; private set;}
 
     [SerializeField]
-    private EventSO darkTimeEvent;
-    [SerializeField]
-    private EventSO lightTimeEvent;
-
-    [SerializeField]
     private Text dayAndSlotText;
 
     [SerializeField]
@@ -53,7 +48,7 @@ public class TimeHandler : MonoBehaviour
 
         EventManager.SubBackToRoom(() =>
         {
-            lightTimeEvent.Occurred();
+            EventManager.OccurTimeChange(true);
             Init();
         });
     }
@@ -108,14 +103,14 @@ public class TimeHandler : MonoBehaviour
 
         if (!isLightTime)
         {
-            darkTimeEvent.Occurred();
+            EventManager.OccurTimeChange(false);
             isNightTime = true;
             
             dayAndSlotText.text = $"{day}번째 밤";
         }
         else
         {
-            lightTimeEvent.Occurred();
+            EventManager.OccurTimeChange(true);
             isNightTime = false;
             dayAndSlotText.text = $"{day}번째 낮";
         }

@@ -25,6 +25,14 @@ public class ItemSpawner : MonoBehaviour
 
     private void Start()
     {
+        EventManager.SubTimeChange(isLight =>
+        {
+            if(!isLight)
+            {
+                SpawnItem();
+            }
+        });
+
         EventManager.SubGameOver(gameOverCase =>
         {
             DeSpawnItem();
@@ -43,11 +51,15 @@ public class ItemSpawner : MonoBehaviour
 
     public void SpawnItem()
     {
+        if (poolObj.gameObject.activeSelf) return;
+
         poolObj.SetActive(true);
     }
 
     public void DeSpawnItem()
     {
+        if (!poolObj.gameObject.activeSelf) return;
+
         poolObj.SetActive(false);
     }
 

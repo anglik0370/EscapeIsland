@@ -21,6 +21,7 @@ public class EventListener : MonoBehaviour
 
     public void OnEventOccurs()
     {
+        Debug.LogError("경고 이 코드는 더 이상 사용되지 않습니다");
         respons.Invoke();
     }
 }

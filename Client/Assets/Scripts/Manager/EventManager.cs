@@ -7,10 +7,21 @@ public class EventManager
 {
     private static Action<Player> EnterRoom = p => { };
     private static Action<Player> GameStart = p => { };
+    private static Action<bool> TimeChange = isLight => { };
     private static Action BackToRoom = () => { };
     private static Action ExitRoom = () => { };
     private static Action<MeetingType> StartMeet = type => { };
     private static Action<GameOverCase> GameOver = overCase => { };
+
+    public static void SubTimeChange(Action<bool> Callback)
+    {
+        TimeChange += Callback;
+    }
+
+    public static void OccurTimeChange(bool isLight)
+    {
+        TimeChange?.Invoke(isLight);
+    }
 
     public static void SubGameOver(Action<GameOverCase> Callback)
     {
