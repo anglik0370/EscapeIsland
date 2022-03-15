@@ -65,6 +65,9 @@ public class StorageSlot : ItemSlot
                 if(storagePanel.IsItemFull())
                 {
                     //꽉찼으니 꽉찼다고 서버에 보내줘야 한다.
+                    DataVO dataVO = new DataVO("STORAGE_FULL", "");
+
+                    SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
                 }
             }
         }
