@@ -765,16 +765,13 @@ public class NetworkManager : MonoBehaviour
                     InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
                     user.InitPlayer(uv, ui, false);
 
-                    if(user.transform.childCount <= 0)
+                    for (int i = 0; i < lights.Length; i++)
                     {
-                        for (int i = 0; i < lights.Length; i++)
-                        {
-                            GameObject obj = Instantiate(lights[i], user.transform);
-                            obj.transform.localPosition = Vector3.zero;
-                        }
+                        GameObject obj = Instantiate(lights[i], user.transform);
+                        obj.transform.localPosition = Vector3.zero;
                     }
 
-                    if(isTest)
+                    if (isTest)
                     {
                         user.isImposter = true;
                         DataVO dataVO = new DataVO("TEST_CLIENT", null);

@@ -94,6 +94,11 @@ public class Player : MonoBehaviour
 
         gameObject.SetActive(false);
         ui.gameObject.SetActive(false);
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i));
+        }
     }
 
     public void SetDeadBody()
