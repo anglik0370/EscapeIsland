@@ -252,7 +252,7 @@ function kill(socket,payload) {
     //살아있는 임포가 시민보다 많을 경우
     if(imposterCount >= citizenCount) {
         //임포승
-        Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
+        room.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
         room.initRoom();
     }
 

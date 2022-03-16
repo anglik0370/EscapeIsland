@@ -221,21 +221,21 @@ class Room {
         }
     
         let keys = Object.keys(this.userList);
-        let imposterLength = this.kidnapperNum;
-        let idx;
+        // let imposterLength = this.kidnapperNum;
+        // let idx;
     
-        for(let i = 0; i < imposterLength; i++) {
-            do {
-                idx = Math.floor(Math.random() * keys.length);
-            }while(this.userList[keys[idx]].isImposter)
+        // for(let i = 0; i < imposterLength; i++) {
+        //     do {
+        //         idx = Math.floor(Math.random() * keys.length);
+        //     }while(this.userList[keys[idx]].isImposter)
     
-            this.userList[keys[idx]].isImposter = true;
-        }
+        //     this.userList[keys[idx]].isImposter = true;
+        // }
     
         //테스트용 코드
-        // if(userList[socket.id] !== undefined) {
-        //     userList[socket.id].isImposter = true;
-        // }
+        if(userList[socket.id] !== undefined) {
+            userList[socket.id].isImposter = true;
+        }
     
         Rooms.roomBroadcast(this.roomNum);
     
@@ -251,11 +251,7 @@ class Room {
     
         this.playing = true;
         this.startTimer();
-        this.socketList.forEach(soc => {
-            soc.state = SocketState.IN_PLAYING;
-            //connectedSocket[soc.id].state = SocketState.IN_PLAYING;
-            soc.send(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
-        });
+        this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
     }
     
     initRoom() {
