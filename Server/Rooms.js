@@ -59,16 +59,17 @@ class Rooms {
             return;
         }
     
-        exit(socket,roomNum);
-    
+        this.exit(socket,roomNum);
+   
+        socket.state = SocketState.IN_ROOM;
         socket.send(JSON.stringify({type:"EXIT_ROOM"}));
     
         socket.server.clients.forEach(soc=>{
             if(soc.room === roomNum) { //소켓이 해제된 유저가 있었던 방에 있다면
-                roomBroadcast(this.roomList[roomNum]);
+                this.roomBroadcast(this.roomList[roomNum]);
             }
             if(soc.state === SocketState.IN_LOBBY) {
-                refreshRoom(soc);
+                this.refreshRoom(soc);
             }
         });
     }
@@ -77,8 +78,8 @@ class Rooms {
     {
         let room = this.roomList[roomNum]; //해당 방 받아오기
 
-        if(room !== undefined) return;
-
+        if(room === undefined) return;
+        
         let user = room.userList[socket.id];
     
         socket.room = 0; //나왔으니 룸 초기화
@@ -106,7 +107,7 @@ class Rooms {
         
         if(room.curUserNum <= 0){ //사람이 0명일때 room delete
             room.stopTimer();
-            delete roomList[roomNum];
+            delete this.roomList[roomNum];
             return;
         }
     
@@ -233,18 +234,20 @@ class Room {
         // }
     
         //테스트용 코드
-        if(userList[socket.id] !== undefined) {
-            userList[socket.id].isImposter = true;
+        if(this.userList[socket.id] !== undefined) {
+            this.userList[socket.id].isImposter = true;
         }
     
-        Rooms.roomBroadcast(this.roomNum);
+        //Rooms.roomBroadcast(this.roomNum);
+        let d = Object.values(this.userList);
+        this.broadcast(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList:d})}));
     
         //룸에 있는 플레이어들의 포지션 조정
     
         let posList = SetSpawnPoint(keys.length);
     
         for(let i = 0; i < keys.length; i++) {
-            thisuserList[keys[i]].position = posList[i];
+            this.userList[keys[i]].position = posList[i];
         }
         
         let dataList = Object.values(this.userList);
@@ -458,8 +461,9 @@ class Room {
 
     removeSocket(rSocketIdx) {
         let idx = this.socketList.findIndex(soc => soc.id == rSocketIdx);
+        console.log(this.socketList.length);
         this.socketList.splice(idx,1);
-
+        console.log(this.socketList.length);
         //this.userList[rSocketIdx] = undefined;
         delete this.userList[rSocketIdx];
     }
@@ -480,5 +484,5 @@ class Room {
 
 //module.exports = Room;
 module.exports = {
-    Rooms: new Rooms()
+    Rooms: new Rooms(),Room
 }

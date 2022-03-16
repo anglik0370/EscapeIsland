@@ -3,7 +3,7 @@ const port = 31012;
 
 const SocketState = require('./SocketState.js');
 const Vector2 = require('./Vector2.js');
-const Room = require('./Room.js');
+const Room = require('./Rooms.js');
 const InGameTimer = require('./InGameTimer.js');
 const LoginHandler = require('./LoginHandler.js');
 const GetRandomPos = require('./SpawnPoint.js');

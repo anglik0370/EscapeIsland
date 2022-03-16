@@ -100,10 +100,10 @@ wsService.on("connection", socket => {
                     testClient(socket);
                     break;
                 case "EXIT_ROOM":
-                    Rooms.exitRoom(socket,JSON.parse(data.payload));
+                    Rooms.exitRoom(socket,JSON.parse(data.payload).roomNum);
                     break;
                 case "GameStart":
-                    Rooms.getRoom(JSON.parse(data.payload)).gameStart(socket);
+                    Rooms.getRoom(JSON.parse(data.payload).roomNum).gameStart(socket);
                     break;
                 case "KILL":
                     kill(socket,JSON.parse(data.payload));

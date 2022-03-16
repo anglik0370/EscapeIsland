@@ -1,6 +1,6 @@
 const Vector2 = require("./Vector2.js");
 
-let spawnTrm = new Vector2(2.4,11.4);
+let spawnTrm = new Vector2(0.76,14.4);
 
 let spawnDistance = 3;
 

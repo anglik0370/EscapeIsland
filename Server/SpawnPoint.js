@@ -1,7 +1,7 @@
 const Vector2 = require("./Vector2.js");
 
 let radius = 3;
-let spawnTrm = new Vector2(2.4,11.4);
+let spawnTrm = new Vector2(0.76,14.4);
 
 function makeRandom(min,max) {
     return ((Math.random() * (max-min+1)) + min);
