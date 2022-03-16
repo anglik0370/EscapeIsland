@@ -5,14 +5,21 @@ using System.Linq;
 
 public class ItemStorage : MonoBehaviour
 {
-    public List<ItemAmount> maxAmountItemList;
-    public List<ItemAmount> curAmountItemList;
-
     [SerializeField]
     private Transform interactionTrm;
 
+    private SpriteRenderer sr;
+
+    public List<ItemAmount> maxAmountItemList;
+    public List<ItemAmount> curAmountItemList;
+
     private int totalNeedItemAmount;
     private int totalCollectedItemAmount;
+
+    private void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
 
     private void Start() 
     {
@@ -48,6 +55,11 @@ public class ItemStorage : MonoBehaviour
     public Transform GetInteractionTrm()
     {
         return interactionTrm;
+    }
+
+    public Sprite GetSprite()
+    {
+        return sr.sprite;
     }
 
     public void AddItem(ItemSO item)

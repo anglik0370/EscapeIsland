@@ -219,7 +219,7 @@ public class InteractionBtn : MonoBehaviour
             image.sprite = interactionSprite;
             accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
         }
-        else if (Vector2.Distance(player.GetTrm().position, storage.GetTrm().position) <= player.range)
+        else if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
         {
             //여긴 저장소 여는 곳
             state = InteractionState.OpenStorage;
@@ -230,6 +230,7 @@ public class InteractionBtn : MonoBehaviour
 
             image.sprite = interactionSprite;
             accent.Disable();
+            accent.Enable(storage.GetSprite(), storage.GetTrm());
         }
         else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
         {
