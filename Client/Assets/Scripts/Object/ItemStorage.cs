@@ -8,6 +8,9 @@ public class ItemStorage : MonoBehaviour
     public List<ItemAmount> maxAmountItemList;
     public List<ItemAmount> curAmountItemList;
 
+    [SerializeField]
+    private Transform interactionTrm;
+
     private int totalNeedItemAmount;
     private int totalCollectedItemAmount;
 
@@ -40,6 +43,11 @@ public class ItemStorage : MonoBehaviour
     public Transform GetTrm()
     {
         return transform;
+    }
+
+    public Transform GetInteractionTrm()
+    {
+        return interactionTrm;
     }
 
     public void AddItem(ItemSO item)
