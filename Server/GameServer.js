@@ -110,13 +110,11 @@ wsService.on("connection", socket => {
                     break;
                 case "GET_ITEM":
                     let spawnerId = JSON.parse(data.payload).spawnerId;
-
-                   Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"GET_ITEM",payload:spawnerId}));
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"GET_ITEM",payload:spawnerId}));
                     break;
                 case "STORAGE_DROP":
                     let itemSOId = JSON.parse(data.payload).itemSOId;
-
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
                     break;
                 case "STORAGE_FULL":
                     storageFull(socket);
@@ -124,21 +122,21 @@ wsService.on("connection", socket => {
                 case "START_REFINERY":
                     let startData = JSON.parse(data.payload);
 
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"START_REFINERY",payload:JSON.stringify({refineryId:startData.refineryId,itemSOId:startData.itemSOId})}))
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"START_REFINERY",payload:JSON.stringify({refineryId:startData.refineryId,itemSOId:startData.itemSOId})}))
 
                     break;
                 case "RESET_REFINERY":
                     let resetRefineryId = JSON.parse(data.payload).refineryId;
 
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
                     break;
                 case "TAKE_REFINERY":
                     let takeRefineryId = JSON.parse(data.payload).refineryId;
 
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"TAKE_REFINERY",payload:takeRefineryId}));
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"TAKE_REFINERY",payload:takeRefineryId}));
                     break;
                 case "CHAT":
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"CHAT",payload:data.payload}))
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"CHAT",payload:data.payload}))
                     break;
                 case "VOTE_COMPLETE":
                     voteComplete(socket,JSON.parse(data.payload));
