@@ -428,9 +428,6 @@ class Room {
                 }
             }
 
-
-
-            //console.log(isEnd);
             if(isEnd) {
                 this.changeTime();
             }
@@ -461,9 +458,7 @@ class Room {
 
     removeSocket(rSocketIdx) {
         let idx = this.socketList.findIndex(soc => soc.id == rSocketIdx);
-        console.log(this.socketList.length);
         this.socketList.splice(idx,1);
-        console.log(this.socketList.length);
         //this.userList[rSocketIdx] = undefined;
         delete this.userList[rSocketIdx];
     }
