@@ -118,7 +118,7 @@ class Rooms {
     }
 
     join(socket,user,isMaster) {
-        this.roomList[this.roomIdx].addSocket(socket,user);
+        this.roomList[socket.room].addSocket(socket,user);
 
         socket.state = SocketState.IN_ROOM;
 
@@ -136,7 +136,7 @@ class Rooms {
         socket.server.clients.forEach(soc=>{
             if(soc.state != SocketState.IN_LOBBY) 
                 return;
-            refreshRoom(soc);
+            this.refreshRoom(soc);
         });
     }
 
@@ -428,9 +428,6 @@ class Room {
                 }
             }
 
-
-
-            //console.log(isEnd);
             if(isEnd) {
                 this.changeTime();
             }
@@ -461,9 +458,7 @@ class Room {
 
     removeSocket(rSocketIdx) {
         let idx = this.socketList.findIndex(soc => soc.id == rSocketIdx);
-        console.log(this.socketList.length);
         this.socketList.splice(idx,1);
-        console.log(this.socketList.length);
         //this.userList[rSocketIdx] = undefined;
         delete this.userList[rSocketIdx];
     }

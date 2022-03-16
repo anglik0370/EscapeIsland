@@ -110,13 +110,11 @@ wsService.on("connection", socket => {
                     break;
                 case "GET_ITEM":
                     let spawnerId = JSON.parse(data.payload).spawnerId;
-
-                   Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"GET_ITEM",payload:spawnerId}));
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"GET_ITEM",payload:spawnerId}));
                     break;
                 case "STORAGE_DROP":
                     let itemSOId = JSON.parse(data.payload).itemSOId;
-
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"STORAGE_DROP",payload:itemSOId}));
                     break;
                 case "STORAGE_FULL":
                     storageFull(socket);
@@ -124,21 +122,21 @@ wsService.on("connection", socket => {
                 case "START_REFINERY":
                     let startData = JSON.parse(data.payload);
 
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"START_REFINERY",payload:JSON.stringify({refineryId:startData.refineryId,itemSOId:startData.itemSOId})}))
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"START_REFINERY",payload:JSON.stringify({refineryId:startData.refineryId,itemSOId:startData.itemSOId})}))
 
                     break;
                 case "RESET_REFINERY":
                     let resetRefineryId = JSON.parse(data.payload).refineryId;
 
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"RESET_REFINERY",payload:resetRefineryId}));
                     break;
                 case "TAKE_REFINERY":
                     let takeRefineryId = JSON.parse(data.payload).refineryId;
 
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"TAKE_REFINERY",payload:takeRefineryId}));
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"TAKE_REFINERY",payload:takeRefineryId}));
                     break;
                 case "CHAT":
-                    Rooms.getRoom(socket.room).broadcast(socket,JSON.stringify({type:"CHAT",payload:data.payload}))
+                    Rooms.getRoom(socket.room).broadcast(JSON.stringify({type:"CHAT",payload:data.payload}))
                     break;
                 case "VOTE_COMPLETE":
                     voteComplete(socket,JSON.parse(data.payload));
@@ -264,11 +262,11 @@ function kill(socket,payload) {
 }
 
 function storageFull(socket) {
-    let room = roomList[socket.room];
+    let room = Rooms.getRoom(socket.room);
 
     if(room.inGameTimer.isLightTime) {
         room.inGameTimer.isEndGame = true;
-        broadcast(socket,JSON.stringify({type:"STORAGE_FULL",payload:"저녁까지 쳐 버티도록 하세요"}));
+        room.broadcast(JSON.stringify({type:"STORAGE_FULL",payload:"저녁까지 쳐 버티도록 하세요"}));
     }
     else {
         let keys = Object.keys(room.userList);
@@ -285,13 +283,13 @@ function storageFull(socket) {
         // let type = filteredList.length > 0 ? "WIN_KIDNAPPER" : "WIN_CITIZEN";
 
         //다 모아서 탈출 시 시민 승
-        broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
+        room.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
         room.initRoom();
     }
 }
 
 function voteComplete(socket,payload) {
-    let room = roomList[socket.room];
+    let room = Rooms.getRoom(socket.room);
 
     if(room === undefined) return;
 
@@ -304,7 +302,7 @@ function voteComplete(socket,payload) {
 
     userList[payload.voterId].voteComplete = true;
 
-    broadcast(socket,JSON.stringify({type:"VOTE_COMPLETE",payload:JSON.stringify({voterId:payload.voterId,voteTargetId:payload.voteTargetId})}));
+    room.broadcast(JSON.stringify({type:"VOTE_COMPLETE",payload:JSON.stringify({voterId:payload.voterId,voteTargetId:payload.voteTargetId})}));
 
     let keys = Object.keys(room.userList);
     let allComplete = true;
@@ -340,9 +338,7 @@ function voteComplete(socket,payload) {
         room.inVoteTimer.initTime();
         
         if(targetSocIdArr.length == 1) {
-            room.socketList.forEach(soc => {
-                soc.send(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
-            });
+            room.broadcast(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
             userList[targetSocIdArr[0]].isDie = true;
 
             //납치자를 모두 찾았을때
@@ -358,7 +354,7 @@ function voteComplete(socket,payload) {
             let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
 
             if(filteredArr.length <= 0) {
-                broadcast(socket,JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
+                room.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
                 room.initRoom();
                 return;
             }
@@ -375,7 +371,7 @@ function voteComplete(socket,payload) {
 
             if(imposterCount >= citizenCount) {
                 //임포승
-                broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
+                room.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
                 room.initRoom();
                 return;
             }
@@ -387,9 +383,7 @@ function voteComplete(socket,payload) {
             room.changeTime();
         }
         else{
-            room.socketList.forEach(soc => {
-                soc.send(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
-            });
+            room.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
 
             room.startTimer();
         }
@@ -398,7 +392,7 @@ function voteComplete(socket,payload) {
 
 function deadReportOrEmergency(socket,type) {
 
-    let room = roomList[socket.room];
+    let room = Rooms.getRoom(socket.room);
     let keys = Object.keys(room.userList);
 
     let posList = SetSpawnPoint(keys.length);
@@ -412,7 +406,7 @@ function deadReportOrEmergency(socket,type) {
 
     let dataList = Object.values(room.userList);
 
-    broadcast(socket,JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type})}));
+    room.broadcast(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type})}));
 }
 
 Rooms.startServer();
