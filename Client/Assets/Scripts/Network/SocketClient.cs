@@ -61,7 +61,7 @@ public class SocketClient : MonoBehaviour
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());
         //25.17.255.82
-
+        //이 코드안에 폭탄을 심어뒀다. 풀고싶다면 나를 찾아와라 (섻으킹) 
     }
 
     public void ConnectSocket(string ip, string port)
@@ -76,14 +76,14 @@ public class SocketClient : MonoBehaviour
             packetList.Enqueue(vo);
         };
     }
+
     public void InitWebSocket()
     {
         if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
             webSocket.Close();
         webSocket = null;
     }
-    
-
+   
     private void SendData(string json)
     {
         webSocket.Send(json);
