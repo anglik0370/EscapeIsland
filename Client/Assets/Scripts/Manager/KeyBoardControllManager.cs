@@ -27,12 +27,15 @@ public class KeyBoardControllManager : MonoBehaviour
     {
         if (player == null) return;
 
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
+        if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        {
+            h = Input.GetAxisRaw("Horizontal");
+            v = Input.GetAxisRaw("Vertical");
 
-        dir = new Vector3(h, v, 0).normalized;
+            dir = new Vector3(h, v, 0).normalized;
 
-        player.Move(dir);
+            player.Move(dir);
+        }
 
         if(Input.GetKeyDown(KeyCode.E))
         {
