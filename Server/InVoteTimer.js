@@ -9,6 +9,11 @@ class InVoteTimer {
         this.curTime = this.timeToNextSlot;
     }
 
+    setTimeToNextSlot(time) {
+        this.timeToNextSlot = time;
+        this.curTime = this.timeToNextSlot;
+    }
+
     timeRefresh(socketList) {
         this.curTime -= this.sec;
 

@@ -204,6 +204,10 @@ class Room {
 
         this.isEnd = true;
     }
+    setTimerSecond(ingameTime,voteTime) {
+        this.inGameTimer.setTimeToNextSlot(ingameTime);
+        this.inVoteTimer.setTimeToNextSlot(voteTime);
+    }
 
     gameStart(socket) {
         if(socket.state !== SocketState.IN_ROOM){
@@ -347,12 +351,12 @@ class Room {
                 soc.send(JSON.stringify({type:"TIME_REFRESH",payload:p}));
             });
             
-            let keys = Object.keys(this.userList);
+            // let keys = Object.keys(this.userList);
 
-            for(let i = 0; i < keys.length; i++) {
-                this.userList[keys[i]].voteNum = 0;
-                this.userList[keys[i]].voteComplete = false;
-            }
+            // for(let i = 0; i < keys.length; i++) {
+            //     this.userList[keys[i]].voteNum = 0;
+            //     this.userList[keys[i]].voteComplete = false;
+            // }
             
             this.startTimer();
     }
