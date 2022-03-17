@@ -796,6 +796,8 @@ public class NetworkManager : MonoBehaviour
             }
             
         }
+
+        GameManager.Instance.RefreshPlayerList();
     }
 
     public void RefreshTime(int day,bool isLightTime)

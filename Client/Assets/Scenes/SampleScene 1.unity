@@ -11423,36 +11423,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 887576710}
   m_CullTransparentMesh: 1
---- !u!1 &889281979
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 889281980}
-  m_Layer: 0
-  m_Name: InteractionTrm
-  m_TagString: Untagged
-  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &889281980
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 889281979}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.34, y: -5.24, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 18556660}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &889930030
 GameObject:
   m_ObjectHideFlags: 0
@@ -16929,6 +16899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 691fdec605e0fef4b96ae7c1979978f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefabParent: {fileID: 1591480865}
   spawnerList: []
   refineryList: []
   itemList: []
@@ -29317,10 +29288,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemStorage
       objectReference: {fileID: 0}
-    - target: {fileID: 3331426444376274550, guid: a52439fed1cb4ee449e5908000a23386, type: 3}
-      propertyPath: interactionTrm
-      value: 
-      objectReference: {fileID: 889281980}
     - target: {fileID: 3331426444376274551, guid: a52439fed1cb4ee449e5908000a23386, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -29364,10 +29331,6 @@ PrefabInstance:
     - target: {fileID: 3331426444376274551, guid: a52439fed1cb4ee449e5908000a23386, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8899339950899338801, guid: a52439fed1cb4ee449e5908000a23386, type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a52439fed1cb4ee449e5908000a23386, type: 3}

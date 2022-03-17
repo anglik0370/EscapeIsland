@@ -29,8 +29,8 @@ public class StoragePanel : Panel
     {
         for(int i = 0; i < slotList.Count; i++)
         {
-            ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, slotList[i].OriginItem);
-            ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, slotList[i].OriginItem);
+            ItemAmount maxAmount = storage.FindItemAmount(storage.MaxAmountItemList, slotList[i].OriginItem);
+            ItemAmount curAmount = storage.FindItemAmount(storage.CurAmountItemList, slotList[i].OriginItem);
 
             slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
         }
@@ -48,8 +48,8 @@ public class StoragePanel : Panel
 
     public void UpdateUIs(ItemSO item)
     {
-        ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, item);
-        ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, item);
+        ItemAmount maxAmount = storage.FindItemAmount(storage.MaxAmountItemList, item);
+        ItemAmount curAmount = storage.FindItemAmount(storage.CurAmountItemList, item);
 
         StorageSlot slot = slotList.Find(x => x.OriginItem.itemId == item.itemId);
 
@@ -74,8 +74,8 @@ public class StoragePanel : Panel
 
         for(int i = 0; i < slotList.Count; i++)
         {
-            ItemAmount maxAmount = storage.FindItemAmount(storage.maxAmountItemList, slotList[i].OriginItem);
-            ItemAmount curAmount = storage.FindItemAmount(storage.curAmountItemList, slotList[i].OriginItem);
+            ItemAmount maxAmount = storage.FindItemAmount(storage.MaxAmountItemList, slotList[i].OriginItem);
+            ItemAmount curAmount = storage.FindItemAmount(storage.CurAmountItemList, slotList[i].OriginItem);
 
             slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
         }
