@@ -1,5 +1,5 @@
 const InGameTimer = require('./InGameTimer.js');
-const inVoteTimer = require('./inVoteTimer.js');
+const InVoteTimer = require('./InVoteTimer.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 const SocketState = require('./SocketState.js');
 const GetRandomPos = require('./SpawnPoint.js');
@@ -29,7 +29,6 @@ class Rooms {
         let r = new Room(roomInfo.name,this.roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
         socket.room = this.roomIdx;
 
-        //r.addSocket(socket, user);
         this.roomList[this.roomIdx] = r;
         this.join(socket,user,true);
     
@@ -190,7 +189,7 @@ class Room {
         this.playing = playing;
 
         this.inGameTimer = new InGameTimer();
-        this.inVoteTimer = new inVoteTimer();
+        this.inVoteTimer = new InVoteTimer();
         this.curTimer = undefined;
 
         this.skipCount = 0;
@@ -266,7 +265,7 @@ class Room {
         this.stopTimer();
         this.skipCount = 0;
         this.inGameTimer = new InGameTimer();
-        this.inVoteTimer = new inVoteTimer();
+        this.inVoteTimer = new InVoteTimer();
 
         let keys = Object.keys(this.userList);
 
