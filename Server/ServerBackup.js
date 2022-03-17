@@ -203,7 +203,7 @@ function roomCreate(socket,roomInfo) {
     //여기
     //여기
     //여기
-    roomList[roomIdx].setTimerSecond(10,10) //낮밤주기,투표시간
+    roomList[roomIdx].setTimerSecond(120,10) //낮밤주기,투표시간
 
     socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 

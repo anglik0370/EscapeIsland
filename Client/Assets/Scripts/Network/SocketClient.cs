@@ -59,7 +59,7 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("TIMER", handlerParent.GetComponent<TimerHandler>());
 
         //webSocket = new WebSocket($"{url}:{port}");
-        ConnectSocket("localhost", port.ToString());
+        ConnectSocket("172.31.0.209", port.ToString());
         //25.17.255.82
         //이 코드안에 폭탄을 심어뒀다. 풀고싶다면 나를 찾아와라 (섻으킹) 
     }
