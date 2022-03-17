@@ -9,11 +9,55 @@ public class InfoUI : MonoBehaviour
     public float followSpeed = 50f;
     public Text txtName;
 
-    public void SetTarget(Transform playerTrm, string name)
+    private CanvasGroup cvs;
+
+    [SerializeField]
+    private Transform mainPlayerTrm;
+    [SerializeField]
+    private float hideRange; //안보이는 거리
+
+    private void Awake()
     {
+        cvs = GetComponent<CanvasGroup>();
+    }
+
+    private void Start()
+    {
+        hideRange = LightHandler.Instance.lightInnerRadius;
+
+        EventManager.SubTimeChange(isLight =>
+        {
+            if(isLight)
+            {
+                hideRange = LightHandler.Instance.lightInnerRadius;
+            }
+            else
+            {
+                hideRange = LightHandler.Instance.darkInnerRadius;
+            }
+        });
+    }
+
+    public void SetTarget(Transform playerTrm, Transform mainPlayerTrm, string name)
+    {
+        this.mainPlayerTrm = mainPlayerTrm;
         this.playerTrm = playerTrm;
         txtName.text = name;
         gameObject.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (mainPlayerTrm == null) return;
+
+        if(Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange)
+        {
+            cvs.alpha = 0f;
+        }
+        else
+        {
+            cvs.alpha = 1f;
+        }
     }
 
     private void LateUpdate()
