@@ -5,7 +5,6 @@ const {Rooms} = require('./Rooms.js');
 const SocketState = require('./SocketState.js');
 const Vector2 = require('./Vector2.js');
 //const Room = require('./Room.js');
-const InGameTimer = require('./InGameTimer.js');
 const LoginHandler = require('./LoginHandler.js');
 const GetRandomPos = require('./SpawnPoint.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
