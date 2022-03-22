@@ -6,7 +6,7 @@ module.exports = {
         let room = Rooms.getRoom(socket.room);
 
         if(room === undefined) return;
-
-        room.broadcast(JSON.stringify({type:"CHAT",payload:JSON.stringify({data})}));
+        room.broadcast(JSON.stringify({type:"CHAT",
+        payload:JSON.stringify({socketId:data.socketId,msg:data.msg})}));
     }
 }

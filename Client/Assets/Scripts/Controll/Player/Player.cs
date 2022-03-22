@@ -56,9 +56,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void InitPlayer(UserVO vo,InfoUI ui, bool isRemote)
+    public void InitPlayer(UserVO vo,InfoUI ui, bool isRemote,CharacterSO so)
     {
         this.ui = ui;
+        this.curSO = so;
         transform.position = vo.position;
         this.isRemote = isRemote;
         master = vo.master;

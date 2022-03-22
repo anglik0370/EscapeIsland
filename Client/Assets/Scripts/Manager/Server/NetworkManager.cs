@@ -357,17 +357,16 @@ public class NetworkManager : MonoBehaviour
         while(chatQueue.Count > 0)
         {
             ChatVO vo = chatQueue.Dequeue();
+            print("ChatHandler");
 
             Player p = null;
-            playerList.TryGetValue(vo.socketId, out p);
 
-            if(p != null)
+            if(playerList.TryGetValue(vo.socketId, out p))
             {
                 if((!p.isDie && !user.isDie) || user.isDie)
                 {
                     voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg);
                 }
-                voteTab.chatRect.verticalNormalizedPosition = 0.0f;
             }
             else
             {
@@ -786,7 +785,7 @@ public class NetworkManager : MonoBehaviour
     {
         foreach (UserVO uv in userDataList)
         {
-            //CharacterProfile profile = CharacterSelectPanel.Instance.GetNotSelectedProfile();
+            CharacterProfile profile = CharacterSelectPanel.Instance.GetNotSelectedProfile();
             if (uv.socketId != socketId)
             {
                 Player p = null;
@@ -794,7 +793,7 @@ public class NetworkManager : MonoBehaviour
 
                 if (p == null)
                 {
-                    MakeRemotePlayer(uv);
+                    MakeRemotePlayer(uv,profile.GetSO());
                 }
                 else
                 {
@@ -808,7 +807,7 @@ public class NetworkManager : MonoBehaviour
                 {
                     user = PoolManager.GetItem<Player>();
                     InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
-                    user.InitPlayer(uv, ui, false);
+                    user.InitPlayer(uv, ui, false,profile.GetSO());
 
                     for (int i = 0; i < lights.Length; i++)
                     {
@@ -1006,11 +1005,12 @@ public class NetworkManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public Player MakeRemotePlayer(UserVO data)
+    public Player MakeRemotePlayer(UserVO data,CharacterSO so)
     {
         Player rpc = PoolManager.GetItem<Player>();
         InfoUI ui = InfoManager.SetInfoUI(rpc.transform, data.name);
-        rpc.InitPlayer(data,ui, true);
+
+        rpc.InitPlayer(data,ui, true,so);
         rpc.SetTransform(data.position);
 
         playerList.Add(data.socketId, rpc);

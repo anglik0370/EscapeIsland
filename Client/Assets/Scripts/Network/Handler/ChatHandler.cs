@@ -6,8 +6,8 @@ public class ChatHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        ChatVO vo = JsonUtility.FromJson<ChatVO>(payload);
+        ChatVO data = JsonUtility.FromJson<ChatVO>(payload);
 
-        NetworkManager.ReceiveChat(vo);
+        NetworkManager.ReceiveChat(data);
     }
 }

@@ -38,6 +38,7 @@ public class CharacterProfile : MonoBehaviour
 
         profileImg.sprite = so.profileImg;
         nameTxt.text = so.charName;
+        selectBtn.enabled = true;
 
         switch (so.sex)
         {
@@ -63,5 +64,10 @@ public class CharacterProfile : MonoBehaviour
     public int GetId()
     {
         return charSO.id;
+    }
+
+    public CharacterSO GetSO()
+    {
+        return charSO != null ? charSO : null;
     }
 }
