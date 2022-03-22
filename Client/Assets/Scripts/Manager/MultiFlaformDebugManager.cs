@@ -5,7 +5,20 @@ using System.IO;
 
 public class MultiFlaformDebugManager : MonoBehaviour
 {
-    
+    private void Login()
+    {
+
+    }
+
+    private void CreateRoom()
+    {
+
+    }
+
+    private void AddKidnapperList()
+    {
+
+    }
 }
 
 /*
