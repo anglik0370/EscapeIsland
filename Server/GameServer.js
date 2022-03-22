@@ -76,7 +76,7 @@ wsService.on("connection", socket => {
 function onMessage(socket,msg) {
     const data = JSON.parse(msg);
 
-    //if(socket.readyState ==)
+    if(socket.readyState !== WebSocket.OPEN) return;
 
     if(handlers[data.type] !== undefined) {
         if(isJsonString(data.payload)) {
