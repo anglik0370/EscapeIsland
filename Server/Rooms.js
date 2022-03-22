@@ -12,6 +12,11 @@ class Rooms {
         this.roomIdx = 0;
     }
 
+    removeAllRoom() {
+        this.roomList = {};
+        this.roomIdx = 0;
+    }
+
     getRoom(roomNum) {
         return this.roomList[roomNum];
     }

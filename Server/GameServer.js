@@ -78,7 +78,7 @@ function onMessage(socket,msg) {
     const data = JSON.parse(msg);
 
     if(handlers[data.type] !== undefined) {
-        if(IsJsonString(data.payload)) {
+        if(isJsonString(data.payload)) {
             handlers[data.type].act(socket,JSON.parse(data.payload));
         }
         else {
@@ -87,7 +87,7 @@ function onMessage(socket,msg) {
     }
 }
 
-function IsJsonString(str) {
+function isJsonString(str) {
     try {
         let js = JSON.parse(str);
         return (typeof js === 'object');
