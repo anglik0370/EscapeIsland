@@ -13,7 +13,7 @@ class Rooms {
     }
 
     removeAllRoom() {
-        this.roomList = {};
+        delete this.roomList[0];
         this.roomIdx = 0;
     }
 
@@ -61,7 +61,8 @@ class Rooms {
         let room = this.roomList[roomNum];
     
         if(room === undefined || room.curUserNum >= room.userNum || room.playing) {
-            sendError("들어갈 수 없는 방입니다.");
+            sendError("들어갈 수 없는 방입니다.",socket);
+            return;
         }
 
         socket.room = roomNum;
