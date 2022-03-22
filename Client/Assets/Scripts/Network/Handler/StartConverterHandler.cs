@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartConvertingHandler : MonoBehaviour,IMsgHandler
+public class StartConverterHandler : MonoBehaviour,IMsgHandler
 {
     public void HandleMsg(string payload)
     {

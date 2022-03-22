@@ -297,9 +297,6 @@ class Room {
                 this.startTimer();
             }
         }
-        else {
-            this.changeTime();
-        }
     }
 
     kidnapperWinCheck() {
@@ -476,6 +473,7 @@ class Room {
 
         if(this.inVoteTimer.timeRefresh(this.socketList)) {
             this.voteEnd();
+            this.changeTime();
             return;
         }
 
