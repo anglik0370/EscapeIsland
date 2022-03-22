@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
     private InfoUI ui = null;
 
-    public Sprite charSprite;
+    public CharacterSO curSO;
 
     private void Awake()
     {
@@ -65,12 +65,26 @@ public class Player : MonoBehaviour
         socketName = vo.name;
         socketId = vo.socketId;
 
-        charSprite = null;
-
         if (!isRemote)
         {
             sendData = StartCoroutine(SendData());
         }
+    }
+    
+    public void ChangeCharacter(CharacterSO so)
+    {
+        curSO = so;
+
+        CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
+        profile.SelectBtn(false);
+        //플레이어 스프라이트 체인지
+    }
+
+    public void RemoveCharacter()
+    {
+        CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
+        profile.SelectBtn(true);
+        curSO = null;
     }
 
     public Transform GetTrm()

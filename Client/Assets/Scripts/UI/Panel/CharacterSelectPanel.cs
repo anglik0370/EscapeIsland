@@ -5,14 +5,19 @@ using UnityEngine;
 
 public class CharacterSelectPanel : Panel
 {
+    public static CharacterSelectPanel Instance { get; set; }
+
     private CharacterProfile profilePrefab;
     private List<CharacterSO> charSOList;
+    private List<CharacterProfile> profileList = new List<CharacterProfile>();
 
     [SerializeField]
     private Transform profileParent;
 
     protected override void Awake()
     {
+        Instance = this;
+
         profilePrefab = Resources.Load<CharacterProfile>("SelectUI/Profile");
 
         charSOList = Resources.LoadAll<CharacterSO>("CharacterSO/").ToList();
@@ -21,6 +26,7 @@ public class CharacterSelectPanel : Panel
         {
             CharacterProfile temp = Instantiate(profilePrefab, profileParent);
             temp.Init(charSOList[i]);
+            profileList.Add(temp);
         }
 
         base.Awake();
@@ -31,5 +37,15 @@ public class CharacterSelectPanel : Panel
         EventManager.SubGameOver(gos => Close(true));
 
         EventManager.SubStartMeet(mt => Close(true));
+    }
+
+    public CharacterProfile GetNotSelectedProfile()
+    {
+        return profileList.Find(profile => !profile.IsSelected());
+    }
+
+    public CharacterProfile GetCharacterProfile(int charId)
+    {
+        return profileList.Find(profile => profile.GetId() == charId);
     }
 }

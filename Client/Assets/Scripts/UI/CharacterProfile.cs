@@ -9,6 +9,8 @@ public class CharacterProfile : MonoBehaviour
     private CharacterSO charSO;
 
     [SerializeField]
+    private Button selectBtn;
+    [SerializeField]
     private Image profileImg;
     [SerializeField]
     private Text nameTxt;
@@ -19,6 +21,16 @@ public class CharacterProfile : MonoBehaviour
     private Color maleColor;
     [SerializeField]
     private Color femaleColor;
+
+    private void Start()
+    {
+        selectBtn.onClick.AddListener(() =>
+        {
+            NetworkManager.instance.SetCharacter(charSO);
+            selectBtn.enabled = false;
+        });
+
+    }
 
     public void Init(CharacterSO so)
     {
@@ -36,5 +48,20 @@ public class CharacterProfile : MonoBehaviour
                 sexImg.color = femaleColor;
                 break;
         }
+    }
+
+    public bool IsSelected()
+    {
+        return !selectBtn.enabled;
+    }
+
+    public void SelectBtn(bool enabled)
+    {
+        selectBtn.enabled = enabled;
+    }
+
+    public int GetId()
+    {
+        return charSO.id;
     }
 }

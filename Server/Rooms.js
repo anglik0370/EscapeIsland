@@ -1,4 +1,5 @@
 const {Users} = require('./Users.js');
+const WebSocket = require('ws');
 const InGameTimer = require('./InGameTimer.js');
 const InVoteTimer = require('./InVoteTimer.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
@@ -500,7 +501,7 @@ class Room {
     broadcast(msg,isEnd = false) {
         this.socketList.forEach(soc => {
             if(soc.readyState !== WebSocket.OPEN) return;
-            
+
             if(isEnd) soc.state = SocketState.IN_ROOM;
             soc.send(msg);
         });

@@ -33,6 +33,7 @@ public class NetworkManager : MonoBehaviour
 
     private TimeVO timeVO;
     private VoteCompleteVO voteCompleteVO;
+    private CharacterVO characterVO;
 
     private bool isLogin = false;
     private bool once = false;
@@ -49,6 +50,7 @@ public class NetworkManager : MonoBehaviour
     private bool needWinRefresh = false;
     private bool needStorageFullRefresh = false;
     private bool needTimerRefresh = false;
+    private bool needCharacterChangeRefresh = false;
 
     private int tempId = -1;
     private int curTime = -1;
@@ -109,7 +111,14 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-
+    public static void SetCharChange(CharacterVO vo)
+    {
+        lock(instance.lockObj)
+        {
+            instance.needCharacterChangeRefresh = true;
+            instance.characterVO = vo;
+        }
+    }
     public static void SetTimerData(int curTime)
     {
         lock(instance.lockObj)
@@ -339,6 +348,12 @@ public class NetworkManager : MonoBehaviour
             needTimerRefresh = false;
         }
 
+        if(needCharacterChangeRefresh)
+        {
+            SetCharacterChange();
+            needCharacterChangeRefresh = false;
+        }
+
         while(chatQueue.Count > 0)
         {
             ChatVO vo = chatQueue.Dequeue();
@@ -350,7 +365,7 @@ public class NetworkManager : MonoBehaviour
             {
                 if((!p.isDie && !user.isDie) || user.isDie)
                 {
-                    voteTab.CreateChat(false, p.socketName, vo.msg, p.charSprite);
+                    voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg);
                 }
                 voteTab.chatRect.verticalNormalizedPosition = 0.0f;
             }
@@ -358,7 +373,7 @@ public class NetworkManager : MonoBehaviour
             {
                 if(user.socketId == vo.socketId)
                 {
-                    voteTab.CreateChat(true, user.socketName, vo.msg, user.charSprite);
+                    voteTab.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg);
                 }
             }
         }
@@ -367,6 +382,7 @@ public class NetworkManager : MonoBehaviour
         {
             int soc = removeSocketQueue.Dequeue();
             playerList[soc].SetDisable(true);
+            playerList[soc].RemoveCharacter();
             playerList.Remove(soc);
         }
     }
@@ -503,7 +519,7 @@ public class NetworkManager : MonoBehaviour
             if (uv.socketId == socketId)
             {
                 user.transform.position = uv.position;
-                voteTab.SetVoteUI(uv.socketId, uv.name, user.charSprite);
+                voteTab.SetVoteUI(uv.socketId, uv.name, user.curSO.profileImg);
             }
             else
             {
@@ -514,7 +530,7 @@ public class NetworkManager : MonoBehaviour
                 if (p != null)
                 {
                     p.transform.position = uv.position;
-                    voteTab.SetVoteUI(uv.socketId, uv.name, p.charSprite);
+                    voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg);
                 }
             }
             
@@ -575,6 +591,14 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public void SetCharacterChange()
+    {
+        CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.characterId);
+        profile.SelectBtn(false);
+
+        //characterVO.changerId -> 이 사람 캐릭터 바꿔주기
+    }
+
     public void SetItemDisable(int spawnerId)
     {
         ItemSpawner s = GameManager.Instance.spawnerList.Find(x => x.id == spawnerId);
@@ -586,6 +610,19 @@ public class NetworkManager : MonoBehaviour
         ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
 
         GameManager.Instance.AddItemInStorage(so);
+    }
+
+    public void SetCharacter(CharacterSO so)
+    {
+        if (user == null) return;
+
+        user.ChangeCharacter(so);
+
+        CharacterVO vo = new CharacterVO(so.id, socketId);
+
+        DataVO dataVO = new DataVO("CHARACTER_CHANGE", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
     public void SetStartConvert(int converterId, int itemSOId)
@@ -749,6 +786,7 @@ public class NetworkManager : MonoBehaviour
     {
         foreach (UserVO uv in userDataList)
         {
+            //CharacterProfile profile = CharacterSelectPanel.Instance.GetNotSelectedProfile();
             if (uv.socketId != socketId)
             {
                 Player p = null;
