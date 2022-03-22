@@ -555,6 +555,7 @@ public class NetworkManager : MonoBehaviour
                 //inGameJoyStick.enabled = true;
              
                 user.transform.position = uv.position;
+                user.isImposter = uv.isImposter;
 
                 EventManager.OccurGameStart(user);
             }
@@ -568,6 +569,7 @@ public class NetworkManager : MonoBehaviour
                 {
                     //p.SetTransform(uv.position);
                     p.transform.position = uv.position;
+                    p.isImposter = uv.isImposter;
                 }
             }
         }
@@ -586,28 +588,28 @@ public class NetworkManager : MonoBehaviour
         GameManager.Instance.AddItemInStorage(so);
     }
 
-    public void SetStartRefinery(int refineryId, int itemSOId)
+    public void SetStartConvert(int converterId, int itemSOId)
     {
         ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
 
-        Debug.Log($"재련소{refineryId}에서 {so}재련 시작");
+        Debug.Log($"변환기{converterId}에서 {so}변환 시작");
 
-        GameManager.Instance.refineryList.Find(x => x.id == refineryId).StartRefining(so);
+        GameManager.Instance.refineryList.Find(x => x.id == converterId).ConvertingStart(so);
 
         print("start");
     }
 
-    public void SetResetRefinery(int refineryId)
+    public void SetResetConverter(int converterId)
     {
-        Refinery refinery = GameManager.Instance.refineryList.Find(x => x.id == refineryId);
-        refinery.ResetRefining();
+        ItemConverter converter = GameManager.Instance.refineryList.Find(x => x.id == converterId);
+        converter.ConvertingReset();
         print("reset");
     }
 
-    public void SetTakeRefineryIngotItem(int refineryId)
+    public void SetTakeConverterAfterItem(int converterId)
     {
-        Refinery refinery = GameManager.Instance.refineryList.Find(x => x.id == refineryId);
-        refinery.TakeIngotItem();
+        ItemConverter converter = GameManager.Instance.refineryList.Find(x => x.id == converterId);
+        converter.TakeIAfterItem();
         //refinery.ingotItem = null;
         print("take");
     }
@@ -691,7 +693,7 @@ public class NetworkManager : MonoBehaviour
             if (uv.socketId == socketId)
             {
                 user.master = uv.master;
-                user.isImposter = uv.isImposter;
+                //user.isImposter = uv.isImposter;
             }
             else
             {
@@ -702,7 +704,7 @@ public class NetworkManager : MonoBehaviour
                 if(p != null)
                 {
                     p.master = uv.master;
-                    p.isImposter = uv.isImposter;
+                    //p.isImposter = uv.isImposter;
                 }
             }
         }
@@ -904,7 +906,7 @@ public class NetworkManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void StartRefinery(int refineryId, int itemSOId)
+    public void StartConverting(int refineryId, int itemSOId)
     {
         RefineryVO vo = new RefineryVO(refineryId, itemSOId);
 
@@ -913,7 +915,7 @@ public class NetworkManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void ResetRefinery(int refineryId)
+    public void ResetConverter(int refineryId)
     {
         RefineryVO vo = new RefineryVO(refineryId, 0);
 
@@ -922,7 +924,7 @@ public class NetworkManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void TakeRefineryIngotItem(int refineryId)
+    public void TakeConverterAfterItem(int refineryId)
     {
         RefineryVO vo = new RefineryVO(refineryId, 0);
 

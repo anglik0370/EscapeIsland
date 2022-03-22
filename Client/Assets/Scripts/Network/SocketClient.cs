@@ -43,9 +43,9 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("DISCONNECT", handlerParent.GetComponent<DisconnectHandler>());
         handlerDic.Add("GET_ITEM", handlerParent.GetComponent<GetItemHandler>());
         handlerDic.Add("STORAGE_DROP", handlerParent.GetComponent<StorageDropHandler>());
-        handlerDic.Add("START_REFINERY", handlerParent.GetComponent<StartRefineryHandler>());
-        handlerDic.Add("RESET_REFINERY", handlerParent.GetComponent<ResetRefineryHandler>());
-        handlerDic.Add("TAKE_REFINERY", handlerParent.GetComponent<TakeRefineryHandler>());
+        handlerDic.Add("START_REFINERY", handlerParent.GetComponent<StartConvertingHandler>());
+        handlerDic.Add("RESET_REFINERY", handlerParent.GetComponent<ResetConverterHandler>());
+        handlerDic.Add("TAKE_REFINERY", handlerParent.GetComponent<TakeConverterHandler>());
         handlerDic.Add("TIME_REFRESH", handlerParent.GetComponent<TimeRefreshHandler>());
         handlerDic.Add("KILL", handlerParent.GetComponent<KillHandler>());
         handlerDic.Add("VOTE_TIME", handlerParent.GetComponent<VoteTimeHandler>());
@@ -60,8 +60,11 @@ public class SocketClient : MonoBehaviour
 
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());
+<<<<<<< HEAD
         //25.17.255.82
         //이 코드안에 폭탄을 심어뒀다. 풀고싶다면 나를 찾아와라 (섻으킹) 
+=======
+>>>>>>> 12f899812167314c9be44ecc66ddf6cff0159b4a
     }
 
     public void ConnectSocket(string ip, string port)
@@ -97,7 +100,7 @@ public class SocketClient : MonoBehaviour
             DataVO vo = packetList.Dequeue();
             if (handlerDic.TryGetValue(vo.type, out handler))
             {
-                print(vo.type);
+                //print(vo.type);
                 handler.HandleMsg(vo.payload);
             }
             else

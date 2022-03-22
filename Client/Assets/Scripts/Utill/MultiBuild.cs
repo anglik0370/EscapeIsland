@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -7,9 +8,6 @@ using UnityEditor;
 
 public class MultiBuild : MonoBehaviour
 {
-    [Header("한번에 빌드할 클라이언트의 갯수")]
-    public int numOfClient = 4;
-
 #if UNITY_EDITOR
     //%(Ctrl), #(Shift), &(Alt)
     [MenuItem("MultiPlayer/4Player #b")]
@@ -19,13 +17,13 @@ public class MultiBuild : MonoBehaviour
         Debug.Log($"{4}플레이어 빌드");
     }
 
-    static string GetProjectName()
+    public static string GetProjectName()
     {
         string[] names = Application.dataPath.Split('/');
         return names[names.Length - 2];
     }
 
-    static string[] GetScenePaths()
+    public static string[] GetScenePaths()
     {
         string[] scenes = new string[EditorBuildSettings.scenes.Length];
 
@@ -44,10 +42,41 @@ public class MultiBuild : MonoBehaviour
         for (int i = 1; i <= playerCount; i++)
         {
             BuildPipeline.BuildPlayer(GetScenePaths(),
+                //여기경로에 JSON을 심어서 실행할때 파싱해서 멀티플렛폼 테스트를 편하게
                 $"Builds/Win64/{GetProjectName()}{i}/{GetProjectName()}{i}.exe",
                 BuildTarget.StandaloneWindows64,
                 BuildOptions.AutoRunPlayer);
+
+            if (i == 1)
+            {
+                CreateDebugFile(i, true, true, true);
+            }
+            else if (i == 2)
+            {
+                CreateDebugFile(i, true);
+            }
+            else if (i == 3)
+            {
+                CreateDebugFile(i, true);
+            }
+            else if (i == 4)
+            {
+                CreateDebugFile(i, true);
+            }
         }
+    }
+
+    public static void CreateDebugFile(int clientNum, bool autoLogin = false, bool createRoom = false, bool isKidnapper = false)
+    {
+        DebugVO vo = new DebugVO();
+
+        vo.autoLogin = autoLogin;
+        vo.createRoom = createRoom;
+        vo.isKidnapper = isKidnapper;
+
+        string payload = JsonUtility.ToJson(vo);
+
+        File.WriteAllText($"Builds/Win64/{GetProjectName()}{clientNum}/{GetProjectName()}{clientNum}_Data/Debug.json", payload);
     }
 #endif
 }
