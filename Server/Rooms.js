@@ -499,6 +499,8 @@ class Room {
 
     broadcast(msg,isEnd = false) {
         this.socketList.forEach(soc => {
+            if(soc.readyState !== WebSocket.OPEN) return;
+            
             if(isEnd) soc.state = SocketState.IN_ROOM;
             soc.send(msg);
         });
