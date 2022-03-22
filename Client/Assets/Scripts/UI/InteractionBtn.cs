@@ -7,7 +7,7 @@ enum InteractionState
 {
     Nothing,
     KillPlayer,
-    OpenRefienry,
+    OpenConverter,
     OpenStorage,
     EmergencyMeeting,
     ReportDeadbody,
@@ -92,25 +92,11 @@ public class InteractionBtn : MonoBehaviour
 
             inventory = p.inventory;
             range = p.range;
-
-            image.sprite = startSprite;
-
-            txt.text = "Start";
-
-            coolTimeCvs.alpha = 0f;
         });
 
         EventManager.SubGameStart(p =>
         {
             isGameStart = true;
-
-            txt.text = string.Empty;
-
-            coolTimeCvs.alpha = 0f;
-
-            btn.interactable = true;
-
-            image.sprite = startSprite;
         });
 
         EventManager.SubExitRoom(() =>
@@ -121,12 +107,6 @@ public class InteractionBtn : MonoBehaviour
         EventManager.SubBackToRoom(() =>
         {
             isGameStart = false;
-
-            image.sprite = startSprite;
-
-            txt.text = "Start";
-
-            coolTimeCvs.alpha = 0f;
         });
 
         btn.onClick.AddListener(() =>
@@ -140,8 +120,8 @@ public class InteractionBtn : MonoBehaviour
                 case InteractionState.KillPlayer:
                     KillPlayer();
                     break;
-                case InteractionState.OpenRefienry:
-                    OpenRefineryPanel(FindNearlestRefinery());
+                case InteractionState.OpenConverter:
+                    OpenRefineryPanel(FindNearlestConverter());
                     break;
                 case InteractionState.OpenStorage:
                     OpenStoragePanel();
@@ -167,163 +147,175 @@ public class InteractionBtn : MonoBehaviour
 
     private void Update() 
     {
-        if (player == null) return; //플레이어가 없으면 방에 안들어온거니까 리턴
+        if (player != null) //플레이어가 없으면 방에 안들어온거니까 리턴
 
-        if(Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
+        if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
         {
-            //선택해야되니까 일단 켜
-            btn.interactable = true;
-
             //여긴 캐릭터 선택하는 곳
             state = InteractionState.SelectCharacter;
-
-            txt.text = "Select";
-
-            coolTimeCvs.alpha = 0f;
-
-            image.sprite = emergencySprite;
-            accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
         }
         else
         {
             //시작버튼으로 바꿔준다
             state = InteractionState.GameStart;
+        }
 
-            txt.text = "Start";
-
-            coolTimeCvs.alpha = 0f;
-
-            image.sprite = startSprite;
-            accent.Disable();
-
-            if (player.master)
+        if (isGameStart && !player.isDie)
+        {
+            if (NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
             {
-                //방장이라면 상호작용 킴
-                btn.interactable = true;
+                //여긴 킬하는곳
+                state = InteractionState.KillPlayer;
             }
-            else
+            else if (FindNearlestConverter() != null)
             {
-                //아니면 꺼
-                btn.interactable = false;
+                //여긴 제련소 여는곳
+                state = InteractionState.OpenConverter;
             }
-        }
-
-        if (!isGameStart || player.isDie) return;
-        //print(TimeHandler.Instance.EndOfVote());
-        //print(FindNearlestPlayer());
-        if (NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
-        {
-            //여긴 킬하는곳
-            state = InteractionState.KillPlayer;
-
-            if(TimeHandler.Instance.CurKillCoolTime > 0)
+            else if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
             {
-                txt.text = Mathf.Floor(TimeHandler.Instance.CurKillCoolTime).ToString();
+                //여긴 저장소 여는 곳
+                state = InteractionState.OpenStorage;
             }
-            else
+            else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
             {
-                txt.text = string.Empty;
+                //여긴 긴급회의 여는 곳
+                state = InteractionState.EmergencyMeeting;
             }
-
-            coolTimeCvs.alpha = 1f;
-            coolTimeImg.IsFill = false;
-
-            image.sprite = killSprite;
-            accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
-        }
-        else if (FindNearlestRefinery() != null)
-        {
-            //여긴 제련소 여는곳
-            state = InteractionState.OpenRefienry;
-
-            txt.text = string.Empty;
-
-            coolTimeCvs.alpha = 0f;
-
-            image.sprite = interactionSprite;
-            accent.Enable(FindNearlestRefinery().GetSprite(), FindNearlestRefinery().GetTrm());
-        }
-        else if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
-        {
-            //여긴 저장소 여는 곳
-            state = InteractionState.OpenStorage;
-
-            txt.text = string.Empty;
-
-            coolTimeCvs.alpha = 0f;
-
-            image.sprite = interactionSprite;
-            accent.Disable();
-            accent.Enable(storage.GetSprite(), storage.GetTrm());
-        }
-        else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
-        {
-            //여긴 긴급회의 여는 곳
-            state = InteractionState.EmergencyMeeting;
-
-            txt.text = "Help!";
-
-            coolTimeCvs.alpha = 0f;
-
-            image.sprite = emergencySprite;
-            accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
-        }
-        else
-        {
-            if (FindNearlestSpawner() != null)
+            else if (FindNearlestSpawner() != null)
             {
                 //여긴 아이템 줍는곳
                 state = InteractionState.PickUpItem;
-
-                coolTimeCvs.alpha = 0f;
-
-                image.sprite = pickUpSprite;
-                accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
             }
             else if (FindNearlestDeadBody() != null)
             {
                 //여긴 주변 시체 신고하는곳
                 state = InteractionState.ReportDeadbody;
-
-                coolTimeCvs.alpha = 0f;
-
-                image.sprite = findDeadBodySprite;
-                accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
             }
             else
             {
                 //여긴 아무것도 아닌곳
                 state = InteractionState.Nothing;
-
-                coolTimeCvs.alpha = 1f;
-                coolTimeImg.IsFill = true;
-
-                image.sprite = pickUpSprite;
-                accent.Disable();
             }
+        };
 
-            txt.text = string.Empty;
+        //state에 따라 버튼 처리
+        SetButtonFromState();
+    }
+
+    private void SetButtonState(Sprite btnSprite, Sprite accentSprite = null, Transform accentTrm = null, bool isAccnetFilp = false)
+    {
+        image.sprite = btnSprite;
+
+        if(accentSprite == null && accentTrm == null)
+        {
+            accent.Disable();
+        }
+        else
+        {
+            accent.Enable(accentSprite, accentTrm, isAccnetFilp);
         }
     }
 
-    public void KillPlayer()
+    private void SetCoolTimeImg(bool enable = false, bool isFill = false)
     {
-        if(!TimeHandler.Instance.isKillAble)
+        coolTimeCvs.alpha = enable ? 1 : 0;
+        coolTimeImg.IsFill = isFill;
+    }
+
+    private void SetText(string text = "")
+    {
+        txt.text = text;
+    }
+
+    private void SetButtonFromState()
+    {
+        switch (state)
         {
-            //킬 스택이 부족합니다 <- 메시지 표시
-            UIManager.Instance.SetWarningText("아직 킬 할 수 없습니다.");
-            return;
+            case InteractionState.Nothing:
+                {
+                    SetButtonState(pickUpSprite);
+                    SetText();
+                    SetCoolTimeImg(true, true);
+                }
+                break;
+            case InteractionState.KillPlayer:
+                {
+                    SetButtonState(killSprite, FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm());
+
+                    if (TimeHandler.Instance.CurKillCoolTime > 0)
+                    {
+                        SetText(Mathf.Floor(TimeHandler.Instance.CurKillCoolTime).ToString());
+                    }
+                    else
+                    {
+                        SetText();
+                    }
+
+                    SetCoolTimeImg(true);
+                }
+                break;
+            case InteractionState.OpenConverter:
+                {
+                    SetButtonState(interactionSprite, FindNearlestConverter().GetSprite(), FindNearlestConverter().GetTrm());
+                    SetText();
+                    SetCoolTimeImg();
+                }
+                break;
+            case InteractionState.OpenStorage:
+                {
+                    SetButtonState(interactionSprite, storage.GetSprite(), storage.GetTrm());
+                    SetText();
+                    SetCoolTimeImg();
+                }
+                break;
+            case InteractionState.EmergencyMeeting:
+                {
+                    SetButtonState(emergencySprite, meetingTable.GetSprite(), meetingTable.GetTrm());
+                    SetText("Help!");
+                    SetCoolTimeImg();
+                }
+                break;
+            case InteractionState.ReportDeadbody:
+                {
+                    SetButtonState(findDeadBodySprite, FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
+                    SetText();
+                    SetCoolTimeImg();
+                }
+                break;
+            case InteractionState.PickUpItem:
+                {
+                    SetButtonState(pickUpSprite, FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
+                    SetText();
+                    SetCoolTimeImg();
+                }
+                break;
+            case InteractionState.GameStart:
+                {
+                    SetButtonState(startSprite);
+                    SetText("Start");
+                    SetCoolTimeImg();
+
+                    if (player.master)
+                    {
+                        btn.interactable = true;
+                    }
+                    else
+                    {
+                        btn.interactable = false;
+                    }
+                }
+                break;
+            case InteractionState.SelectCharacter:
+                {
+                    btn.interactable = true;
+
+                    SetButtonState(emergencySprite, meetingTable.GetSprite(), meetingTable.GetTrm());
+                    SetText("Select");
+                    SetCoolTimeImg();
+                }
+                break;
         }
-
-        Player targetPlayer = FindNearlestPlayer();
-
-        if (targetPlayer == null) return;
-
-        targetPlayer.SetDead();
-
-        TimeHandler.Instance.InitKillCool();
-
-        NetworkManager.instance.Kill(targetPlayer);
     }
 
     public void OpenCharacterSelectPanel()
@@ -339,6 +331,26 @@ public class InteractionBtn : MonoBehaviour
     public void OpenRefineryPanel(ItemConverter refinery)
     {
         ConvertPanel.Instance.Open(refinery);
+    }
+
+    public void KillPlayer()
+    {
+        if (!TimeHandler.Instance.isKillAble)
+        {
+            //킬 스택이 부족합니다 <- 메시지 표시
+            UIManager.Instance.SetWarningText("아직 킬 할 수 없습니다.");
+            return;
+        }
+
+        Player targetPlayer = FindNearlestPlayer();
+
+        if (targetPlayer == null) return;
+
+        targetPlayer.SetDead();
+
+        TimeHandler.Instance.InitKillCool();
+
+        NetworkManager.instance.Kill(targetPlayer);
     }
 
     public void PickUpNearlestItem()
@@ -409,7 +421,7 @@ public class InteractionBtn : MonoBehaviour
         }
     }
 
-    public ItemConverter FindNearlestRefinery()
+    public ItemConverter FindNearlestConverter()
     {
         ItemConverter nearlestRefinery = null;
 
