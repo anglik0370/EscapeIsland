@@ -13,7 +13,6 @@ class Rooms {
     }
 
     removeAllRoom() {
-        delete this.roomList[0];
         this.roomIdx = 0;
     }
 
