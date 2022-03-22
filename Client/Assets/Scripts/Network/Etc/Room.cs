@@ -14,7 +14,7 @@ public class Room : Popup
     {
         startBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.GameStartBtn();
+            NetworkManager.instance.GameStart();
         });
 
         exitBtn.onClick.AddListener(() =>

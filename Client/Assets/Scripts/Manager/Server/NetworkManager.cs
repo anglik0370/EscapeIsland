@@ -902,7 +902,7 @@ public class NetworkManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void GameStartBtn()
+    public void GameStart()
     {
         //PopupManager.instance.CloseAndOpen("ingame");
 
