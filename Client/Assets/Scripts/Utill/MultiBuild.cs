@@ -13,8 +13,8 @@ public class MultiBuild : MonoBehaviour
     [MenuItem("MultiPlayer/4Player #b")]
     public static void BuildNPlayer()
     {
-        PerformWin64Build(4);
-        Debug.Log($"{4}플레이어 빌드");
+        PerformWin64Build(2);
+        Debug.Log($"{2}플레이어 빌드");
     }
 
     public static string GetProjectName()
@@ -51,17 +51,9 @@ public class MultiBuild : MonoBehaviour
             {
                 CreateDebugFile(i, true, true, true);
             }
-            else if (i == 2)
+            else
             {
-                CreateDebugFile(i, true);
-            }
-            else if (i == 3)
-            {
-                CreateDebugFile(i, true);
-            }
-            else if (i == 4)
-            {
-                CreateDebugFile(i, true);
+                CreateDebugFile(i, true, false, false);
             }
         }
     }
