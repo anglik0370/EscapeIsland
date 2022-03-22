@@ -30,7 +30,6 @@ public class CharacterProfile : MonoBehaviour
         selectBtn.onClick.AddListener(() =>
         {
             NetworkManager.instance.SetCharacter(charSO);
-            selectBtn.enabled = false;
         });
 
     }
