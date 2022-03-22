@@ -307,9 +307,9 @@ public class InteractionBtn : MonoBehaviour
         StoragePanel.Instance.Open();
     }
 
-    public void OpenRefineryPanel(Refinery refinery)
+    public void OpenRefineryPanel(ItemConverter refinery)
     {
-        RefineryPanel.Instance.Open(refinery);
+        ConvertPanel.Instance.Open(refinery);
     }
 
     public void PickUpNearlestItem()
@@ -380,11 +380,11 @@ public class InteractionBtn : MonoBehaviour
         }
     }
 
-    public Refinery FindNearlestRefinery()
+    public ItemConverter FindNearlestRefinery()
     {
-        Refinery nearlestRefinery = null;
+        ItemConverter nearlestRefinery = null;
 
-        List<Refinery> refienryList = GameManager.Instance.refineryList;
+        List<ItemConverter> refienryList = GameManager.Instance.refineryList;
 
         for(int i = 0; i < refienryList.Count; i++)
         {

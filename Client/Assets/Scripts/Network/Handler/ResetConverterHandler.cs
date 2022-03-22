@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResetRefineryHandler : MonoBehaviour, IMsgHandler
+public class ResetConverterHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
 
-        NetworkManager.instance.SetResetRefinery(int.Parse(payload));
+        NetworkManager.instance.SetResetConverter(int.Parse(payload));
     }
 }

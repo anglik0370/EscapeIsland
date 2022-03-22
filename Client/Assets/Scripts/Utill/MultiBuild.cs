@@ -8,9 +8,6 @@ using UnityEditor;
 
 public class MultiBuild : MonoBehaviour
 {
-    [Header("ÇÑ¹ø¿¡ ºôµåÇÒ Å¬¶óÀÌ¾ðÆ®ÀÇ °¹¼ö")]
-    public int numOfClient = 1;
-
 #if UNITY_EDITOR
     //%(Ctrl), #(Shift), &(Alt)
     [MenuItem("MultiPlayer/4Player #b")]
@@ -20,13 +17,13 @@ public class MultiBuild : MonoBehaviour
         Debug.Log($"{4}ÇÃ·¹ÀÌ¾î ºôµå");
     }
 
-    static string GetProjectName()
+    public static string GetProjectName()
     {
         string[] names = Application.dataPath.Split('/');
         return names[names.Length - 2];
     }
 
-    static string[] GetScenePaths()
+    public static string[] GetScenePaths()
     {
         string[] scenes = new string[EditorBuildSettings.scenes.Length];
 
@@ -50,7 +47,34 @@ public class MultiBuild : MonoBehaviour
                 BuildTarget.StandaloneWindows64,
                 BuildOptions.AutoRunPlayer);
 
-            File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/{GetProjectName()}{i}.json", "{\"msg:¾¾¹ß Á» µÅ¶ó\"}");
+            if (i == 1)
+            {
+                DebugVO vo = new DebugVO(true, false, CheatType.None);
+                string payload = JsonUtility.ToJson(vo);
+
+                File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/Debug.json", payload);
+            }
+            else if (i == 2)
+            {
+                DebugVO vo = new DebugVO(false, true, CheatType.KillPlayer);
+                string payload = JsonUtility.ToJson(vo);
+
+                File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/Debug.json", payload);
+            }
+            else if (i == 3)
+            {
+                DebugVO vo = new DebugVO(false, false, CheatType.GetItem);
+                string payload = JsonUtility.ToJson(vo);
+
+                File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/Debug.json", payload);
+            }
+            else if (i == 4)
+            {
+                DebugVO vo = new DebugVO(false, false, CheatType.FillItem);
+                string payload = JsonUtility.ToJson(vo);
+
+                File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/Debug.json", payload);
+            }
         }
     }
 #endif

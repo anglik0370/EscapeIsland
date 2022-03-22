@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6951821480079095737}
   - component: {fileID: 6951821480079095736}
-  - component: {fileID: 5487510475899906762}
+  - component: {fileID: 9015464866048992894}
   m_Layer: 0
   m_Name: Smelter1
   m_TagString: Untagged
@@ -103,7 +103,7 @@ SpriteRenderer:
   m_SortingLayerID: 1865585133
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 367867830ba01a6449fa839359a34221, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd57f1beac2ce6f43a31188c01b53be9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -114,7 +114,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5487510475899906762
+--- !u!114 &9015464866048992894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,13 +123,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6951821480079095719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ed239778d8710245b9ba6ef3ea5a248, type: 3}
+  m_Script: {fileID: 11500000, guid: c9ccae82ab550f84f9656143d02f119e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  oreItem: {fileID: 0}
-  ingotItem: {fileID: 0}
   interactionTrm: {fileID: 8210104671088364323}
-  isRefiningEnd: 1
-  refiningTime: 5
+  convertRecipeList:
+  - {fileID: 11400000, guid: ed47d28b945e0de4f8d9a928cf669061, type: 2}
+  - {fileID: 11400000, guid: b2d6384550e989248b72dd3901e39cd1, type: 2}
+  - {fileID: 11400000, guid: f338f872c895706468ea161605f39361, type: 2}
+  isConverting: 0
+  convertingTime: 5
   remainTime: 0
