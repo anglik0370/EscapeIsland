@@ -84,7 +84,7 @@ public class NetworkManager : MonoBehaviour
 
     private void Start()
     {
-        PoolManager.CreatePool<Player>(playerPrefab, transform, 10);
+        PoolManager.CreatePool<Player>(playerPrefab, transform, 2);
 
         EventManager.SubBackToRoom(() =>
         {
@@ -908,7 +908,7 @@ public class NetworkManager : MonoBehaviour
     {
         RefineryVO vo = new RefineryVO(refineryId, itemSOId);
 
-        DataVO dataVO = new DataVO("START_REFINERY", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("START_CONVERTER", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
@@ -917,7 +917,7 @@ public class NetworkManager : MonoBehaviour
     {
         RefineryVO vo = new RefineryVO(refineryId, 0);
 
-        DataVO dataVO = new DataVO("RESET_REFINERY", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("RESET_CONVERTER", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
@@ -926,7 +926,7 @@ public class NetworkManager : MonoBehaviour
     {
         RefineryVO vo = new RefineryVO(refineryId, 0);
 
-        DataVO dataVO = new DataVO("TAKE_REFINERY", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("TAKE_CONVERTER", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

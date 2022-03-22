@@ -9,11 +9,11 @@ const sendError = require('./SendError.js');
 class Rooms {
     constructor() {
         this.roomList = {};
-        this.roomIdx = 0;
+        this.roomIdx = 1;
     }
 
     removeAllRoom() {
-        this.roomIdx = 0;
+        this.roomIdx = 1;
     }
 
     getRoom(roomNum) {
@@ -78,7 +78,6 @@ class Rooms {
     
         this.exit(socket,roomNum);
    
-        socket.state = SocketState.IN_LOBBY;
         socket.send(JSON.stringify({type:"EXIT_ROOM"}));
     
         socket.server.clients.forEach(soc=>{
@@ -94,7 +93,6 @@ class Rooms {
     exit(socket, roomNum) //방에서 나갔을 때의 처리
     {
         let room = this.roomList[roomNum]; //해당 방 받아오기
-
         if(room === undefined) return;
         
         let user = room.userList[socket.id];
@@ -127,7 +125,7 @@ class Rooms {
             delete this.roomList[roomNum];
             return;
         }
-    
+        
         room.socketList.forEach(soc => {
             if(soc.id === socket.id) return;
             soc.send(JSON.stringify({type:"DISCONNECT",payload:socket.id}))
