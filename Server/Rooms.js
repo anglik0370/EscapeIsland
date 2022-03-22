@@ -340,25 +340,25 @@ class Room {
         }
     
         let keys = Object.keys(this.userList);
-        // let imposterLength = this.kidnapperNum;
-        // let idx;
+        let imposterLength = this.kidnapperNum;
+        let idx;
     
-        // for(let i = 0; i < imposterLength; i++) {
-        //     do {
-        //         idx = Math.floor(Math.random() * keys.length);
-        //     }while(this.userList[keys[idx]].isImposter)
+        for(let i = 0; i < imposterLength; i++) {
+            do {
+                idx = Math.floor(Math.random() * keys.length);
+            }while(this.userList[keys[idx]].isImposter)
     
-        //     this.userList[keys[idx]].isImposter = true;
-        // }
-    
-        //테스트용 코드
-        if(this.userList[socket.id] !== undefined) {
-            this.userList[socket.id].isImposter = true;
+            this.userList[keys[idx]].isImposter = true;
         }
     
+        //테스트용 코드
+        // if(this.userList[socket.id] !== undefined) {
+        //     this.userList[socket.id].isImposter = true;
+        // }
+    
         //Rooms.roomBroadcast(this.roomNum);
-        let d = Object.values(this.userList);
-        this.broadcast(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList:d})}));
+        //let d = Object.values(this.userList);
+        //this.broadcast(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList:d})}));
     
         //룸에 있는 플레이어들의 포지션 조정
     
@@ -415,24 +415,6 @@ class Room {
 
         if(this.inGameTimer.timeRefresh(this.socketList)) {
 
-            if(this.inGameTimer.isEndGame) {
-                let keys = Object.keys(this.userList);
-                let posList = SetSpawnPoint(keys.length);
-    
-                for(let i = 0; i < keys.length; i++) {
-                    this.userList[keys[i]].position = posList[i];
-                }
-                
-                let dataList = Object.values(this.userList);
-
-                this.socketList.forEach(soc => {
-                    soc.state = SocketState.IN_ROOM;
-                    soc.send(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}));
-                });
-                this.initRoom();
-
-                return;
-            }
             let keys = Object.keys(this.userList);
             let posList = SetSpawnPoint(keys.length);
 
@@ -442,9 +424,14 @@ class Room {
 
             let dataList = Object.values(this.userList);
 
-            this.socketList.forEach(soc => {
-                soc.send(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type:2})}));
-            });
+            if(this.inGameTimer.isEndGame) {
+                this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
+                this.initRoom();
+                return;
+            }
+            
+            this.broadcast(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type:2})}));
+
             this.expected = Date.now() + 1000;
             this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval,true);
             return;
@@ -461,18 +448,8 @@ class Room {
         //this.skipCount = 0;
         let p = this.inGameTimer.returnPayload();
 
-            this.socketList.forEach(soc => {
-                soc.send(JSON.stringify({type:"TIME_REFRESH",payload:p}));
-            });
-            
-            // let keys = Object.keys(this.userList);
-
-            // for(let i = 0; i < keys.length; i++) {
-            //     this.userList[keys[i]].voteNum = 0;
-            //     this.userList[keys[i]].voteComplete = false;
-            // }
-            
-            this.startTimer();
+        this.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:p}));
+        this.startTimer();
     }
 
     voteTimer(isEnd) {
@@ -492,15 +469,11 @@ class Room {
     addSocket(socket,user) {
         this.socketList.push(socket);
         this.userList[user.socketId] = user;
-
-        //console.log(this.socketList.length);
-        //console.log(JSON.stringify({userList:this.userList}))
     }
 
     removeSocket(rSocketIdx) {
         let idx = this.socketList.findIndex(soc => soc.id == rSocketIdx);
         this.socketList.splice(idx,1);
-        //this.userList[rSocketIdx] = undefined;
         delete this.userList[rSocketIdx];
     }
 

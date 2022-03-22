@@ -555,6 +555,7 @@ public class NetworkManager : MonoBehaviour
                 //inGameJoyStick.enabled = true;
              
                 user.transform.position = uv.position;
+                user.isImposter = uv.isImposter;
 
                 EventManager.OccurGameStart(user);
             }
@@ -568,6 +569,7 @@ public class NetworkManager : MonoBehaviour
                 {
                     //p.SetTransform(uv.position);
                     p.transform.position = uv.position;
+                    p.isImposter = uv.isImposter;
                 }
             }
         }
@@ -691,7 +693,7 @@ public class NetworkManager : MonoBehaviour
             if (uv.socketId == socketId)
             {
                 user.master = uv.master;
-                user.isImposter = uv.isImposter;
+                //user.isImposter = uv.isImposter;
             }
             else
             {
@@ -702,7 +704,7 @@ public class NetworkManager : MonoBehaviour
                 if(p != null)
                 {
                     p.master = uv.master;
-                    p.isImposter = uv.isImposter;
+                    //p.isImposter = uv.isImposter;
                 }
             }
         }

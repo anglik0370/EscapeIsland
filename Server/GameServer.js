@@ -4,15 +4,8 @@ const port = 31012;
 const {Rooms} = require('./Rooms.js');
 const {Users} = require('./Users.js');
 const SocketState = require('./SocketState.js');
-const sendError = require('./SendError.js');
 const fs = require('fs');
 
-let socketIdx = 0;
-
-let testIdx = 1000;
-
-let userList = {}; //유저들의 정보들을 담고있는 배열
-let connectedSocket = {}; //연결되어있는 소켓들을 담고있는 배열
 let handlers = {};
 
 fs.readdir("./handlers",(err,files) => {
@@ -92,7 +85,7 @@ function onMessage(socket,msg) {
             handlers[data.type].act(socket,JSON.parse(data.payload));
         }
         else {
-            handlers[data.type].act(socket,null);
+            handlers[data.type].act(socket,data.payload);
         }
     }
 }
