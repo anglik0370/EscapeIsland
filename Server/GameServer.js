@@ -77,9 +77,6 @@ wsService.on("connection", socket => {
 function onMessage(socket,msg) {
     const data = JSON.parse(msg);
 
-    // if(this.userList[socket.id] !== undefined) {
-    //     data.payload.user = this.userList[socket.id];
-    // }
     if(handlers[data.type] !== undefined) {
         if(IsJsonString(data.payload)) {
             handlers[data.type].act(socket,JSON.parse(data.payload));
