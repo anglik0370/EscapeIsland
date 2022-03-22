@@ -28,6 +28,8 @@ public class MultiPlaformDebugManager : MonoBehaviour
             if (vo.createRoom) CreateRoom();
             else JoinRoom();
 
+            if (vo.gameStart) StartGame();
+
             if (vo.isKidnapper) AddKidnapperList();
 
             PopupManager.instance.ClosePopup();

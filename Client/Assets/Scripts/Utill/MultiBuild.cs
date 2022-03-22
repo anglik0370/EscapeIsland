@@ -13,8 +13,8 @@ public class MultiBuild : MonoBehaviour
     [MenuItem("MultiPlayer/4Player #b")]
     public static void BuildNPlayer()
     {
-        PerformWin64Build(10);
-        Debug.Log($"{10}플레이어 빌드");
+        PerformWin64Build(4);
+        Debug.Log($"{4}플레이어 빌드");
     }
 
     public static string GetProjectName()
@@ -69,6 +69,7 @@ public class MultiBuild : MonoBehaviour
         vo.clientId = clientNum;
         vo.autoLogin = autoLogin;
         vo.createRoom = createRoom;
+        vo.gameStart = gameStart;
         vo.isKidnapper = isKidnapper;
 
         string payload = JsonUtility.ToJson(vo);
