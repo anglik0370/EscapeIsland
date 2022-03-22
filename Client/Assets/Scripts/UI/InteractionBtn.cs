@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-enum InteractionState
+public enum InteractionCase
 {
     Nothing,
     KillPlayer,
@@ -24,19 +24,9 @@ public class InteractionBtn : MonoBehaviour
     private ItemStorage storage;
     private EmergencyMeetingTable meetingTable;
 
-    [Header("버튼 스프라이트")]
-    [SerializeField]
-    private Sprite startSprite;
-    [SerializeField]
-    private Sprite interactionSprite;
-    [SerializeField]
-    private Sprite killSprite;
-    [SerializeField]
-    private Sprite pickUpSprite;
-    [SerializeField]
-    private Sprite emergencySprite;
-    [SerializeField]
-    private Sprite findDeadBodySprite;
+    [Header("상호작용 관련 SO")]
+    public List<InteractionHandlerSO> interactionCaseList = new List<InteractionHandlerSO>();
+    private Dictionary<InteractionCase, InteractionHandlerSO> interactionDic = new Dictionary<InteractionCase, InteractionHandlerSO>();
 
     [Header("텍스트")]
     [SerializeField]
@@ -54,7 +44,7 @@ public class InteractionBtn : MonoBehaviour
 
     [Header("현재 상태")]
     [SerializeField]
-    private InteractionState state;
+    private InteractionCase state;
 
     private Inventory inventory;
     private float range;
@@ -115,34 +105,47 @@ public class InteractionBtn : MonoBehaviour
 
             switch (state)
             {
-                case InteractionState.Nothing:
+                case InteractionCase.Nothing:
                     break;
-                case InteractionState.KillPlayer:
+                case InteractionCase.KillPlayer:
                     KillPlayer();
                     break;
-                case InteractionState.OpenConverter:
+                case InteractionCase.OpenConverter:
                     OpenRefineryPanel(FindNearlestConverter());
                     break;
-                case InteractionState.OpenStorage:
+                case InteractionCase.OpenStorage:
                     OpenStoragePanel();
                     break;
-                case InteractionState.EmergencyMeeting:
+                case InteractionCase.EmergencyMeeting:
                     meetingTable.Meeting();
                     break;
-                case InteractionState.ReportDeadbody:
+                case InteractionCase.ReportDeadbody:
                     ReportNearlestDeadbody();
                     break;
-                case InteractionState.PickUpItem:
+                case InteractionCase.PickUpItem:
                     PickUpNearlestItem();
                     break;
-                case InteractionState.GameStart:
+                case InteractionCase.GameStart:
                     NetworkManager.instance.GameStart();
                     break;
-                case InteractionState.SelectCharacter:
+                case InteractionCase.SelectCharacter:
                     OpenCharacterSelectPanel();
                     break;
             }
         });
+
+        for (int i = 0; i < interactionCaseList.Count; i++)
+        {
+            InteractionCase interactionCase = (InteractionCase)i;
+
+            foreach (InteractionHandlerSO handler in interactionCaseList)
+            {
+                if(handler.interactoinCase == interactionCase)
+                {
+                    interactionDic.Add((InteractionCase)i, handler);
+                }
+            }
+        }
     }
 
     private void Update() 
@@ -152,12 +155,14 @@ public class InteractionBtn : MonoBehaviour
         if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
         {
             //여긴 캐릭터 선택하는 곳
-            state = InteractionState.SelectCharacter;
+            state = InteractionCase.SelectCharacter;
+            accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
         }
         else
         {
             //시작버튼으로 바꿔준다
-            state = InteractionState.GameStart;
+            state = InteractionCase.GameStart;
+            accent.Disable();
         }
 
         if (isGameStart && !player.isDie)
@@ -165,37 +170,44 @@ public class InteractionBtn : MonoBehaviour
             if (NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
             {
                 //여긴 킬하는곳
-                state = InteractionState.KillPlayer;
+                state = InteractionCase.KillPlayer;
+                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm());
             }
             else if (FindNearlestConverter() != null)
             {
                 //여긴 제련소 여는곳
-                state = InteractionState.OpenConverter;
+                state = InteractionCase.OpenConverter;
+                accent.Enable(FindNearlestConverter().GetSprite(), FindNearlestConverter().GetTrm());
             }
             else if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
             {
                 //여긴 저장소 여는 곳
-                state = InteractionState.OpenStorage;
+                state = InteractionCase.OpenStorage;
+                accent.Enable(storage.GetSprite(), storage.GetTrm());
             }
             else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
             {
                 //여긴 긴급회의 여는 곳
-                state = InteractionState.EmergencyMeeting;
+                state = InteractionCase.EmergencyMeeting;
+                accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
             }
             else if (FindNearlestSpawner() != null)
             {
                 //여긴 아이템 줍는곳
-                state = InteractionState.PickUpItem;
+                state = InteractionCase.PickUpItem;
+                accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
             }
             else if (FindNearlestDeadBody() != null)
             {
                 //여긴 주변 시체 신고하는곳
-                state = InteractionState.ReportDeadbody;
+                state = InteractionCase.ReportDeadbody;
+                accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
             }
             else
             {
                 //여긴 아무것도 아닌곳
-                state = InteractionState.Nothing;
+                state = InteractionCase.Nothing;
+                accent.Disable();
             }
         };
 
@@ -203,119 +215,14 @@ public class InteractionBtn : MonoBehaviour
         SetButtonFromState();
     }
 
-    private void SetButtonState(Sprite btnSprite, Sprite accentSprite = null, Transform accentTrm = null, bool isAccnetFilp = false)
-    {
-        image.sprite = btnSprite;
-
-        if(accentSprite == null && accentTrm == null)
-        {
-            accent.Disable();
-        }
-        else
-        {
-            accent.Enable(accentSprite, accentTrm, isAccnetFilp);
-        }
-    }
-
-    private void SetCoolTimeImg(bool enable = false, bool isFill = false)
-    {
-        coolTimeCvs.alpha = enable ? 1 : 0;
-        coolTimeImg.IsFill = isFill;
-    }
-
-    private void SetText(string text = "")
-    {
-        txt.text = text;
-    }
-
     private void SetButtonFromState()
     {
-        switch (state)
-        {
-            case InteractionState.Nothing:
-                {
-                    SetButtonState(pickUpSprite);
-                    SetText();
-                    SetCoolTimeImg(true, true);
-                }
-                break;
-            case InteractionState.KillPlayer:
-                {
-                    SetButtonState(killSprite, FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm());
+        image.sprite = interactionDic[state].btnSprite;
 
-                    if (TimeHandler.Instance.CurKillCoolTime > 0)
-                    {
-                        SetText(Mathf.Floor(TimeHandler.Instance.CurKillCoolTime).ToString());
-                    }
-                    else
-                    {
-                        SetText();
-                    }
+        txt.text = interactionDic[state].btnText;
 
-                    SetCoolTimeImg(true);
-                }
-                break;
-            case InteractionState.OpenConverter:
-                {
-                    SetButtonState(interactionSprite, FindNearlestConverter().GetSprite(), FindNearlestConverter().GetTrm());
-                    SetText();
-                    SetCoolTimeImg();
-                }
-                break;
-            case InteractionState.OpenStorage:
-                {
-                    SetButtonState(interactionSprite, storage.GetSprite(), storage.GetTrm());
-                    SetText();
-                    SetCoolTimeImg();
-                }
-                break;
-            case InteractionState.EmergencyMeeting:
-                {
-                    SetButtonState(emergencySprite, meetingTable.GetSprite(), meetingTable.GetTrm());
-                    SetText("Help!");
-                    SetCoolTimeImg();
-                }
-                break;
-            case InteractionState.ReportDeadbody:
-                {
-                    SetButtonState(findDeadBodySprite, FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
-                    SetText();
-                    SetCoolTimeImg();
-                }
-                break;
-            case InteractionState.PickUpItem:
-                {
-                    SetButtonState(pickUpSprite, FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
-                    SetText();
-                    SetCoolTimeImg();
-                }
-                break;
-            case InteractionState.GameStart:
-                {
-                    SetButtonState(startSprite);
-                    SetText("Start");
-                    SetCoolTimeImg();
-
-                    if (player.master)
-                    {
-                        btn.interactable = true;
-                    }
-                    else
-                    {
-                        btn.interactable = false;
-                    }
-                }
-                break;
-            case InteractionState.SelectCharacter:
-                {
-                    btn.interactable = true;
-
-                    SetButtonState(emergencySprite, meetingTable.GetSprite(), meetingTable.GetTrm());
-                    SetText("Select");
-                    SetCoolTimeImg();
-                }
-                break;
-        }
+        coolTimeCvs.alpha = interactionDic[state].useCoolTimeImg ? 1 : 0;
+        coolTimeImg.IsFill = interactionDic[state].coolTimeImgFill;
     }
 
     public void OpenCharacterSelectPanel()
