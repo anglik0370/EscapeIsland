@@ -26,11 +26,23 @@ class Rooms {
             sendError("방이름을 입력해 주세요.", socket);
             return;
         }
+        
+        
     
         let r = new Room(roomInfo.name,this.roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
         socket.room = this.roomIdx;
 
         this.roomList[this.roomIdx] = r;
+
+        if(roomInfo.test !== undefined && roomInfo.test) {
+            this.roomList[this.roomIdx].setTimerSecond(180,160)
+        }
+
+        if(roomInfo.test2 !== undefined && roomInfo.test2) {
+            //여기
+            //여기
+            this.roomList[this.roomIdx].setTimerSecond(10,10);
+        }
         this.join(socket,true);
     
         this.roomIdx++;
