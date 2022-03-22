@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -29,9 +31,73 @@ public class SocketClient : MonoBehaviour
         handlerDic = new Dictionary<string, IMsgHandler>();
     }
 
+    public string GetTypeString(string s)
+    {
+        List<int> idx = new List<int>();
+        s = s.Replace("Handler", "");
+
+        for (int i = 1; i < s.Length; i++)
+        {
+            if(s[i].Equals(char.ToUpper(s[i])))
+            {
+                idx.Add(i);
+            }
+        }
+
+        for (int i = 0; i < idx.Count; i++)
+        {
+            if (i > 1)
+            {
+                s = s.Insert(idx[i] + 1, " ");
+                continue;
+            }
+            s = s.Insert(idx[i], " ");
+        }
+
+        //string rStr = "";
+
+        //for (int i = 0; i < idx.Count; i++)
+        //{
+        //    if(i == 0)
+        //        rStr += s.Substring(0, idx[i]);
+        //    else
+        //    {
+        //        rStr += s.Substring(idx[i - 1], idx[i]);
+        //    }
+
+        //    if(i + 1 < idx.Count)
+        //    {
+        //        rStr += "_";
+        //    }
+        //}
+
+
+        return "";
+    }
+
     private void Start()
     {
         //핸들러 딕셔너리에 필요한것들 추가해주기
+        string handlerPath = Application.dataPath + "/Scripts/Network/Handler/";
+        //IMsgHandler[] test = Resources.LoadAll<>("/Handler");
+        IMsgHandler[] handlerList = handlerParent.GetComponents<IMsgHandler>();
+        for (int i = 0; i < handlerList.Length; i++)
+        {
+            print(GetTypeString(handlerList[i].GetType().ToString()));
+        }
+
+        
+
+        //DirectoryInfo di = new DirectoryInfo(handlerPath);
+
+        //FileInfo[] fileInfo = di.GetFiles();
+
+        //for (int i = 0; i < fileInfo.Length; i++)
+        //{
+        //    print(fileInfo[i].);
+        //}
+        
+
         handlerDic.Add("LOGIN", handlerParent.GetComponent<LoginHandler>());
         handlerDic.Add("ENTER_ROOM", handlerParent.GetComponent<EnterRoomHandler>());
         handlerDic.Add("REFRESH_ROOM", handlerParent.GetComponent<RefreshRoomHandler>());
@@ -60,11 +126,6 @@ public class SocketClient : MonoBehaviour
 
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());
-<<<<<<< HEAD
-        //25.17.255.82
-        //이 코드안에 폭탄을 심어뒀다. 풀고싶다면 나를 찾아와라 (섻으킹) 
-=======
->>>>>>> 12f899812167314c9be44ecc66ddf6cff0159b4a
     }
 
     public void ConnectSocket(string ip, string port)
