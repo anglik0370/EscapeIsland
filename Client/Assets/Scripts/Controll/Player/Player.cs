@@ -69,22 +69,38 @@ public class Player : MonoBehaviour
         if (!isRemote)
         {
             sendData = StartCoroutine(SendData());
+
+            if (curSO != null)
+            {
+                CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
+                pr.BtnEnabled(false);
+            }
         }
     }
     
-    public void ChangeCharacter(CharacterSO so)
+    public int ChangeCharacter(CharacterSO so)
     {
+        int beforeSoId = 0;
+        //선택되어있던 캐릭터 select button 다시 활성화
+        if(curSO != null)
+        {
+            beforeSoId = curSO.id;
+            CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
+            pr.BtnEnabled(true);
+        }
         curSO = so;
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
-        profile.SelectBtn(false);
+        profile.BtnEnabled(false);
         //플레이어 스프라이트 체인지
+
+        return beforeSoId;
     }
 
     public void RemoveCharacter()
     {
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
-        profile.SelectBtn(true);
+        profile.BtnEnabled(true);
         curSO = null;
     }
 

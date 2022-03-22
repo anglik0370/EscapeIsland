@@ -6,6 +6,7 @@ using UnityEngine;
 public class CharacterVO
 {
     public int characterId;
+    public int beforeCharacterId;
     public int changerId;
 
     public CharacterVO()
@@ -13,9 +14,10 @@ public class CharacterVO
 
     }
 
-    public CharacterVO(int characterId, int changerId)
+    public CharacterVO(int characterId, int beforeCharacterId, int changerId)
     {
         this.characterId = characterId;
+        this.beforeCharacterId = beforeCharacterId;
         this.changerId = changerId;
     }
 }

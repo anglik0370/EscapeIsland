@@ -84,9 +84,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8000073838256375566}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &8000073838730748662
 GameObject:
@@ -533,7 +533,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -584,6 +584,7 @@ MonoBehaviour:
   profileImg: {fileID: 8000073839608396431}
   nameTxt: {fileID: 8000073838868415896}
   sexImg: {fileID: 8000073838730748656}
+  maskImg: {fileID: 8000073838256375560}
   maleColor: {r: 0, g: 0.53271246, b: 1, a: 1}
   femaleColor: {r: 1, g: 0.06987041, b: 0, a: 1}
 --- !u!1 &8000073839608396429
