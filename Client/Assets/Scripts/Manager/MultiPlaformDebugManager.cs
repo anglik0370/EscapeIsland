@@ -57,7 +57,7 @@ public class MultiPlaformDebugManager : MonoBehaviour
 
     private void StartGame()
     {
-        NetworkManager.instance.GameStartBtn();
+        NetworkManager.instance.GameStart();
     }
 
     private void AddKidnapperList()

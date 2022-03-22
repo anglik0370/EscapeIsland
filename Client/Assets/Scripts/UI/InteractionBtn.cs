@@ -12,6 +12,8 @@ enum InteractionState
     EmergencyMeeting,
     ReportDeadbody,
     PickUpItem,
+    GameStart,
+    SelectCharacter,
 }
 
 public class InteractionBtn : MonoBehaviour
@@ -96,15 +98,6 @@ public class InteractionBtn : MonoBehaviour
             txt.text = "Start";
 
             coolTimeCvs.alpha = 0f;
-
-            if (!p.master)
-            {
-                btn.interactable = false;
-            }
-
-            btn.onClick.RemoveAllListeners();
-
-            btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
         });
 
         EventManager.SubGameStart(p =>
@@ -118,42 +111,6 @@ public class InteractionBtn : MonoBehaviour
             btn.interactable = true;
 
             image.sprite = startSprite;
-
-            btn.onClick.RemoveAllListeners();
-
-            btn.onClick.AddListener(() =>
-            {
-                if (player.isDie) return;
-
-                switch (state)
-                {
-                    case InteractionState.KillPlayer:
-                        KillPlayer();
-                        break;
-                    case InteractionState.OpenRefienry:
-                        OpenRefineryPanel(FindNearlestRefinery());
-                        break;
-                    case InteractionState.OpenStorage:
-                        OpenStoragePanel();
-                        break;
-                    case InteractionState.EmergencyMeeting:
-                        meetingTable.Meeting();
-                        break;
-                    case InteractionState.ReportDeadbody:
-                        ReportNearlestDeadbody();
-                        break;
-                    case InteractionState.PickUpItem:
-                        PickUpNearlestItem();
-                        break;
-                    case InteractionState.Nothing:
-                        return;
-                }
-            });
-        });
-
-        EventManager.SubGameOver(gameOverCase =>
-        {
-            btn.onClick.RemoveAllListeners();
         });
 
         EventManager.SubExitRoom(() =>
@@ -170,20 +127,87 @@ public class InteractionBtn : MonoBehaviour
             txt.text = "Start";
 
             coolTimeCvs.alpha = 0f;
+        });
 
-            if (!player.master)
+        btn.onClick.AddListener(() =>
+        {
+            if (player.isDie) return;
+
+            switch (state)
             {
-                btn.interactable = false;
+                case InteractionState.Nothing:
+                    break;
+                case InteractionState.KillPlayer:
+                    KillPlayer();
+                    break;
+                case InteractionState.OpenRefienry:
+                    OpenRefineryPanel(FindNearlestRefinery());
+                    break;
+                case InteractionState.OpenStorage:
+                    OpenStoragePanel();
+                    break;
+                case InteractionState.EmergencyMeeting:
+                    meetingTable.Meeting();
+                    break;
+                case InteractionState.ReportDeadbody:
+                    ReportNearlestDeadbody();
+                    break;
+                case InteractionState.PickUpItem:
+                    PickUpNearlestItem();
+                    break;
+                case InteractionState.GameStart:
+                    NetworkManager.instance.GameStart();
+                    break;
+                case InteractionState.SelectCharacter:
+                    OpenCharacterSelectPanel();
+                    break;
             }
-
-            btn.onClick.RemoveAllListeners();
-
-            btn.onClick.AddListener(NetworkManager.instance.GameStartBtn);
         });
     }
 
     private void Update() 
     {
+        if (player == null) return; //플레이어가 없으면 방에 안들어온거니까 리턴
+
+        if(Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
+        {
+            //선택해야되니까 일단 켜
+            btn.interactable = true;
+
+            //여긴 캐릭터 선택하는 곳
+            state = InteractionState.SelectCharacter;
+
+            txt.text = "Select";
+
+            coolTimeCvs.alpha = 0f;
+
+            image.sprite = emergencySprite;
+            accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
+        }
+        else
+        {
+            //시작버튼으로 바꿔준다
+            state = InteractionState.GameStart;
+
+            txt.text = "Start";
+
+            coolTimeCvs.alpha = 0f;
+
+            image.sprite = startSprite;
+            accent.Disable();
+
+            if (player.master)
+            {
+                //방장이라면 상호작용 킴
+                btn.interactable = true;
+            }
+            else
+            {
+                //아니면 꺼
+                btn.interactable = false;
+            }
+        }
+
         if (!isGameStart || player.isDie) return;
         //print(TimeHandler.Instance.EndOfVote());
         //print(FindNearlestPlayer());
@@ -300,6 +324,11 @@ public class InteractionBtn : MonoBehaviour
         TimeHandler.Instance.InitKillCool();
 
         NetworkManager.instance.Kill(targetPlayer);
+    }
+
+    public void OpenCharacterSelectPanel()
+    {
+        CharacterSelectPanel.Instance.Open();
     }
 
     public void OpenStoragePanel()
