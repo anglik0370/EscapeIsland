@@ -28,7 +28,6 @@ wsService.on("connection", socket => {
     socket.on("close", () => {
         console.log(`소켓 연결 해제 id: ${socket.id}`);
         let roomNum = socket.room; //현재 소켓의 룸 idx를 받아옴
-
         //현재 socket이 룸에 들어가 있다면
         if(socket.room > 0 && socket.state === SocketState.IN_ROOM) {
             Rooms.exit(socket,roomNum); //방 나가기
@@ -76,6 +75,8 @@ wsService.on("connection", socket => {
 
 function onMessage(socket,msg) {
     const data = JSON.parse(msg);
+
+    //if(socket.readyState ==)
 
     if(handlers[data.type] !== undefined) {
         if(isJsonString(data.payload)) {

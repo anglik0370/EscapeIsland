@@ -46,33 +46,25 @@ public class SocketClient : MonoBehaviour
 
         for (int i = 0; i < idx.Count; i++)
         {
-            if (i > 1)
+            if (i >= 1)
             {
-                s = s.Insert(idx[i] + 1, " ");
+                s = s.Insert(idx[i] + i, " ");
                 continue;
             }
             s = s.Insert(idx[i], " ");
         }
 
-        //string rStr = "";
+        string[] strs = s.Split(' ');
+        string returnStr = "";
 
-        //for (int i = 0; i < idx.Count; i++)
-        //{
-        //    if(i == 0)
-        //        rStr += s.Substring(0, idx[i]);
-        //    else
-        //    {
-        //        rStr += s.Substring(idx[i - 1], idx[i]);
-        //    }
-
-        //    if(i + 1 < idx.Count)
-        //    {
-        //        rStr += "_";
-        //    }
-        //}
+        for (int i = 0; i < strs.Length; i++)
+        {
+            returnStr += strs[i];
+            if (i + 1 != strs.Length) returnStr += "_";
+        }
 
 
-        return "";
+        return returnStr.ToUpper();
     }
 
     private void Start()

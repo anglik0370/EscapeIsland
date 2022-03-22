@@ -39,7 +39,7 @@ module.exports =  {
        
         socket.server.clients.forEach(soc => {
             if(soc.state === SocketState.IN_LOBBY) {
-                room.refreshRoom(soc);
+                Rooms.refreshRoom(soc);
             }
         });
     }
