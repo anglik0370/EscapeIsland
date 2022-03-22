@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private List<Player> playerList = new List<Player>();
 
     public List<ItemSpawner> spawnerList = new List<ItemSpawner>();
-    public List<Refinery> refineryList = new List<Refinery>();
+    public List<ItemConverter> refineryList = new List<ItemConverter>();
     public List<ItemSO> itemList = new List<ItemSO>();
     public List<DeadBody> deadBodyList = new List<DeadBody>();
 
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
         itemList = Resources.LoadAll<ItemSO>("ItemSO/").ToList();
         spawnerList = GameObject.FindObjectsOfType<ItemSpawner>().ToList();
-        refineryList = GameObject.FindObjectsOfType<Refinery>().ToList();
+        refineryList = GameObject.FindObjectsOfType<ItemConverter>().ToList();
         storagePanel = FindObjectOfType<StoragePanel>();
 
         PoolManager.CreatePool<DeadBody>(deadBodyPrefab.gameObject, transform, 5);

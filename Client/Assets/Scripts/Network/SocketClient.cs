@@ -43,9 +43,9 @@ public class SocketClient : MonoBehaviour
         handlerDic.Add("DISCONNECT", handlerParent.GetComponent<DisconnectHandler>());
         handlerDic.Add("GET_ITEM", handlerParent.GetComponent<GetItemHandler>());
         handlerDic.Add("STORAGE_DROP", handlerParent.GetComponent<StorageDropHandler>());
-        handlerDic.Add("START_REFINERY", handlerParent.GetComponent<StartRefineryHandler>());
-        handlerDic.Add("RESET_REFINERY", handlerParent.GetComponent<ResetRefineryHandler>());
-        handlerDic.Add("TAKE_REFINERY", handlerParent.GetComponent<TakeRefineryHandler>());
+        handlerDic.Add("START_REFINERY", handlerParent.GetComponent<StartConvertingHandler>());
+        handlerDic.Add("RESET_REFINERY", handlerParent.GetComponent<ResetConverterHandler>());
+        handlerDic.Add("TAKE_REFINERY", handlerParent.GetComponent<TakeConverterHandler>());
         handlerDic.Add("TIME_REFRESH", handlerParent.GetComponent<TimeRefreshHandler>());
         handlerDic.Add("KILL", handlerParent.GetComponent<KillHandler>());
         handlerDic.Add("VOTE_TIME", handlerParent.GetComponent<VoteTimeHandler>());
@@ -97,7 +97,7 @@ public class SocketClient : MonoBehaviour
             DataVO vo = packetList.Dequeue();
             if (handlerDic.TryGetValue(vo.type, out handler))
             {
-                print(vo.type);
+                //print(vo.type);
                 handler.HandleMsg(vo.payload);
             }
             else
