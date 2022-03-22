@@ -1,7 +1,11 @@
-const Rooms = require('../Rooms.js');
-const Users = require('../Users.js');
+const {Rooms} = require('../Rooms.js');
+const {Users} = require('../Users.js');
+const WebSocket = require('ws');
 const SocketState = require('../SocketState.js');
 const _ = require('lodash');
+const GetRandomPos = require('../SpawnPoint.js');
+
+let testIdx = 1000;
 
 module.exports =  {
     type:"TEST_CLIENT",
@@ -29,13 +33,13 @@ module.exports =  {
             user.position = GetRandomPos();
             
             room.curUserNum++;
-            room.addSocket(dummySocket,userList[dummySocket.id]);
+            room.addSocket(dummySocket,Users.userList[dummySocket.id]);
     
         }
        
         socket.server.clients.forEach(soc => {
             if(soc.state === SocketState.IN_LOBBY) {
-                refreshRoom(soc);
+                room.refreshRoom(soc);
             }
         });
     }

@@ -1,4 +1,4 @@
-const Users = require('../Users.js');
+const {Users} = require('../Users.js');
 
 module.exports = {
     type:"TRANSFORM",

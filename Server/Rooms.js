@@ -1,4 +1,4 @@
-const Users = require('./Users.js');
+const {Users} = require('./Users.js');
 const InGameTimer = require('./InGameTimer.js');
 const InVoteTimer = require('./InVoteTimer.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
@@ -61,7 +61,7 @@ class Rooms {
     
         this.exit(socket,roomNum);
    
-        socket.state = SocketState.IN_ROOM;
+        socket.state = SocketState.IN_LOBBY;
         socket.send(JSON.stringify({type:"EXIT_ROOM"}));
     
         socket.server.clients.forEach(soc=>{

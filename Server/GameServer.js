@@ -88,7 +88,21 @@ function onMessage(socket,msg) {
     //     data.payload.user = this.userList[socket.id];
     // }
     if(handlers[data.type] !== undefined) {
-        handlers[data.type].act(socket,JSON.parse(data.payload));
+        if(IsJsonString(data.payload)) {
+            handlers[data.type].act(socket,JSON.parse(data.payload));
+        }
+        else {
+            handlers[data.type].act(socket,null);
+        }
+    }
+}
+
+function IsJsonString(str) {
+    try {
+        let js = JSON.parse(str);
+        return (typeof js === 'object');
+    } catch(e) {
+        return false;
     }
 }
 
