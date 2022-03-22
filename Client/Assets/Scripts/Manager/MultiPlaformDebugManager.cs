@@ -50,7 +50,12 @@ public class MultiPlaformDebugManager : MonoBehaviour
 
     private void JoinRoom()
     {
-        NetworkManager.instance.JoinRoom(0);
+        NetworkManager.instance.JoinRoom(1);
+    }
+
+    private void StartGame()
+    {
+        NetworkManager.instance.GameStartBtn();
     }
 
     private void AddKidnapperList()

@@ -868,8 +868,6 @@ public class NetworkManager : MonoBehaviour
     public void GameStartBtn()
     {
         //PopupManager.instance.CloseAndOpen("ingame");
-        if (!user.master) return;
-        
 
         RoomVO vo = new RoomVO();
         vo.roomNum = roomNum;
