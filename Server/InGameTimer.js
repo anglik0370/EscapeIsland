@@ -9,6 +9,11 @@ class InGameTimer {
         this.isEndGame = false;
     }
 
+    setTimeToNextSlot(time) {
+        this.timeToNextSlot = time;
+        this.curTime = this.timeToNextSlot;
+    }
+
     returnPayload() {
         return JSON.stringify({day:this.day,isLightTime:this.isLightTime});
     }

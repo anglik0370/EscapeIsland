@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class IngotSlot : ItemSlot
+public class BerforeSlot : ItemSlot
 {
-    private RefineryPanel refineryPanel;
-
-    private Inventory inventory;
+    private ConvertPanel convertPanel;
 
     protected override void Awake()
     {
@@ -16,12 +14,7 @@ public class IngotSlot : ItemSlot
 
     private void Start() 
     {
-        refineryPanel = RefineryPanel.Instance;
-
-        EventManager.SubEnterRoom(p =>
-        {
-            inventory = p.inventory;
-        });
+        convertPanel = ConvertPanel.Instance;
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -36,16 +29,21 @@ public class IngotSlot : ItemSlot
 
     public override void OnDrop(PointerEventData eventData)
     {
-        //아이템을 가져갈수만 있는 슬롯이니 리턴
-        return;
+        if(itemGhost.GetItem() == null) return;
+
+        if (convertPanel.CurOpenConverter.IsConverting) return;
+        if (convertPanel.CurOpenConverter.AfterItem != null) return;
+
+        if(itemGhost.GetItem().canRefining)
+        {
+            NetworkManager.instance.StartConverting(convertPanel.CurOpenConverter.id, itemGhost.GetItem().itemId);
+            base.OnDrop(eventData);
+        }
     }
 
     public override void OnEndDrag(PointerEventData eventData)
     {
+        NetworkManager.instance.ResetConverter(convertPanel.CurOpenConverter.id);
         base.OnEndDrag(eventData);
-        refineryPanel.TakeIngotItem();
-        //제련된 아이템을 가져간 상태
-
-        NetworkManager.instance.TakeRefineryIngotItem(refineryPanel.NowOpenRefinery.id);
     }
 }

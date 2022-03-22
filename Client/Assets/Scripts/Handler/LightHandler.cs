@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class LightHandler : MonoBehaviour
 {
+    public static LightHandler Instance { get; private set; }
+
     [Header("Α¶Ένµι")]
     [SerializeField]
     private Light2D global;
@@ -48,6 +50,11 @@ public class LightHandler : MonoBehaviour
     
     private void Awake() 
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+
         for(int i = 0; i < lightMapObjs.Length; i++)
         {
             lightMapObjs[i].SetActive(true);

@@ -7,7 +7,7 @@ public enum Sex
     Male,
     Female
 }
-[CreateAssetMenu(fileName = "new CharacterSO", menuName = "Character")]
+[CreateAssetMenu(fileName = "new CharacterSO", menuName = "SO/CharacterSO")]
 public class CharacterSO : ScriptableObject
 {
     public int id;

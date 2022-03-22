@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AreaSO", fileName = "New AreaSO")]
+[CreateAssetMenu(menuName = "SO/AreaSO", fileName = "New AreaSO")]
 public class AreaSO : ScriptableObject
 {
     public string areaName;

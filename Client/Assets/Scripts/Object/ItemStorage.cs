@@ -10,8 +10,16 @@ public class ItemStorage : MonoBehaviour
 
     private SpriteRenderer sr;
 
-    public List<ItemAmount> maxAmountItemList;
-    public List<ItemAmount> curAmountItemList;
+    [SerializeField]
+    private NeedItemSO needItemSO;
+
+    [SerializeField]
+    private List<ItemAmount> maxAmountItemList;
+    [SerializeField]
+    private List<ItemAmount> curAmountItemList;
+
+    public List<ItemAmount> MaxAmountItemList => maxAmountItemList;
+    public List<ItemAmount> CurAmountItemList => curAmountItemList;
 
     private int totalNeedItemAmount;
     private int totalCollectedItemAmount;
@@ -23,16 +31,23 @@ public class ItemStorage : MonoBehaviour
 
     private void Start() 
     {
-        totalNeedItemAmount = 0;
-
-        for(int i = 0; i < maxAmountItemList.Count; i++)
-        {
-            totalNeedItemAmount += maxAmountItemList[i].amount;
-        }
 
         EventManager.SubGameStart(p =>
         {
-            foreach(ItemAmount amount in curAmountItemList)
+            totalCollectedItemAmount = 0;
+            totalNeedItemAmount = 0;
+
+            for (int i = 0; i < maxAmountItemList.Count; i++)
+            {
+                maxAmountItemList[i].amount = needItemSO.itemAmountList[i].amount;
+            }
+
+            for (int i = 0; i < maxAmountItemList.Count; i++)
+            {
+                totalNeedItemAmount += maxAmountItemList[i].amount;
+            }
+
+            foreach (ItemAmount amount in curAmountItemList)
             {
                 amount.amount = 0;
                 StoragePanel.Instance.UpdateUIs(amount.item);
