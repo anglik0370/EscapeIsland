@@ -60,11 +60,8 @@ public class SocketClient : MonoBehaviour
 
         //webSocket = new WebSocket($"{url}:{port}");
         ConnectSocket("localhost", port.ToString());
-<<<<<<< HEAD
         //25.17.255.82
         //이 코드안에 폭탄을 심어뒀다. 풀고싶다면 나를 찾아와라 (섻으킹) 
-=======
->>>>>>> 12f899812167314c9be44ecc66ddf6cff0159b4a
     }
 
     public void ConnectSocket(string ip, string port)

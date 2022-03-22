@@ -45,7 +45,7 @@ public class MultiPlaformDebugManager : MonoBehaviour
         DataVO dataVO = new DataVO("REMOVE_ALL_ROOM", "");
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
 
-        NetworkManager.instance.CreateRoom("Room", 0, 4, 1, false);
+        NetworkManager.instance.CreateRoom("Room", 0, 10, 1, false);
     }
 
     private void JoinRoom()
