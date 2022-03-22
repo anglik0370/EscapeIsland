@@ -8,16 +8,6 @@ public class MultiFlaformDebugManager : MonoBehaviour
     
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * ¾È³ç¾È³ç
  * ³ª´Â µÅÁö¾ß

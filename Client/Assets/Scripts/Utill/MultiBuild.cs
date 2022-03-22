@@ -49,33 +49,34 @@ public class MultiBuild : MonoBehaviour
 
             if (i == 1)
             {
-                DebugVO vo = new DebugVO(true, false, CheatType.None);
-                string payload = JsonUtility.ToJson(vo);
-
-                File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/Debug.json", payload);
+                CreateDebugFile(i, true, true, true);
             }
             else if (i == 2)
             {
-                DebugVO vo = new DebugVO(false, true, CheatType.KillPlayer);
-                string payload = JsonUtility.ToJson(vo);
-
-                File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/Debug.json", payload);
+                CreateDebugFile(i, true);
             }
             else if (i == 3)
             {
-                DebugVO vo = new DebugVO(false, false, CheatType.GetItem);
-                string payload = JsonUtility.ToJson(vo);
-
-                File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/Debug.json", payload);
+                CreateDebugFile(i, true);
             }
             else if (i == 4)
             {
-                DebugVO vo = new DebugVO(false, false, CheatType.FillItem);
-                string payload = JsonUtility.ToJson(vo);
-
-                File.WriteAllText($"Builds/Win64/{GetProjectName()}{i}/Debug.json", payload);
+                CreateDebugFile(i, true);
             }
         }
+    }
+
+    public static void CreateDebugFile(int clientNum, bool autoLogin = false, bool createRoom = false, bool isKidnapper = false)
+    {
+        DebugVO vo = new DebugVO();
+
+        vo.autoLogin = autoLogin;
+        vo.createRoom = createRoom;
+        vo.isKidnapper = isKidnapper;
+
+        string payload = JsonUtility.ToJson(vo);
+
+        File.WriteAllText($"Builds/Win64/{GetProjectName()}{clientNum}/{GetProjectName()}{clientNum}_Data/Debug.json", payload);
     }
 #endif
 }
