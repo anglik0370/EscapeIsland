@@ -177,4 +177,10 @@ public class SocketClient : MonoBehaviour
         if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
             webSocket.Close();
     }
+
+    private void OnApplicationQuit()
+    {
+        if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
+            webSocket.Close();
+    }
 }
