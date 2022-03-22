@@ -3,21 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class MultiFlaformDebugManager : MonoBehaviour
+public class MultiPlaformDebugManager : MonoBehaviour
 {
+    private DebugVO vo = null;
+
+    private bool once = false;
+
+    private void Start()
+    {
+        if (!File.Exists($"{Application.dataPath}/Debug.json")) return;
+
+        string json = File.ReadAllText($"{Application.dataPath}/Debug.json");
+        vo = JsonUtility.FromJson<DebugVO>(json);
+    }
+
+    private void Update()
+    {
+        if (vo == null) return;
+
+        if(!once)
+        {
+            if (vo.autoLogin) Login();
+
+            if (vo.createRoom) CreateRoom();
+            else JoinRoom();
+
+            if (vo.isKidnapper) AddKidnapperList();
+
+            PopupManager.instance.ClosePopup();
+            once = true;
+        }
+    }
+
     private void Login()
     {
-
+        NetworkManager.instance.Login($"User{vo.clientId}");
     }
 
     private void CreateRoom()
     {
+        DataVO dataVO = new DataVO("REMOVE_ALL_ROOM", "");
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
 
+        NetworkManager.instance.CreateRoom("Room", 0, 4, 1, false);
+    }
+
+    private void JoinRoom()
+    {
+        NetworkManager.instance.JoinRoom(0);
     }
 
     private void AddKidnapperList()
     {
-
+        
     }
 }
 
