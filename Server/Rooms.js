@@ -297,6 +297,9 @@ class Room {
                 this.startTimer();
             }
         }
+        else {
+            this.changeTime();
+        }
     }
 
     kidnapperWinCheck() {

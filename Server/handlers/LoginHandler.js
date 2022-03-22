@@ -1,6 +1,7 @@
 const SocketState = require('../SocketState.js');
 const Vector2 = require('../Vector2.js');
 const {Users} = require('../Users.js');
+const sendError = require('../SendError.js');
 
 function loginHandler(socket,payload) {
     if(payload.name === ""){

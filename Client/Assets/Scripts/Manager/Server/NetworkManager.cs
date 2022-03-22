@@ -592,8 +592,11 @@ public class NetworkManager : MonoBehaviour
 
     public void SetCharacterChange()
     {
+        CharacterProfile beforeProfile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.beforeCharacterId);
+        beforeProfile.BtnEnabled(true);
+
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.characterId);
-        profile.SelectBtn(false);
+        profile.BtnEnabled(false);
 
         //characterVO.changerId -> 이 사람 캐릭터 바꿔주기
     }
@@ -615,9 +618,9 @@ public class NetworkManager : MonoBehaviour
     {
         if (user == null) return;
 
-        user.ChangeCharacter(so);
+        int beforeId = user.ChangeCharacter(so);
 
-        CharacterVO vo = new CharacterVO(so.id, socketId);
+        CharacterVO vo = new CharacterVO(so.id, beforeId, socketId);
 
         DataVO dataVO = new DataVO("CHARACTER_CHANGE", JsonUtility.ToJson(vo));
 

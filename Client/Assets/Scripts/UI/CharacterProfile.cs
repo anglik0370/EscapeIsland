@@ -18,6 +18,9 @@ public class CharacterProfile : MonoBehaviour
     private Image sexImg;
 
     [SerializeField]
+    private CanvasGroup maskImg;
+
+    [SerializeField]
     private Color maleColor;
     [SerializeField]
     private Color femaleColor;
@@ -69,5 +72,16 @@ public class CharacterProfile : MonoBehaviour
     public CharacterSO GetSO()
     {
         return charSO != null ? charSO : null;
+    }
+
+    public void MaskOnOff(bool on)
+    {
+        maskImg.alpha = on ? 1f : 0f;
+    }
+
+    public void BtnEnabled(bool enable)
+    {
+        SelectBtn(enable);
+        MaskOnOff(!enable);
     }
 }
