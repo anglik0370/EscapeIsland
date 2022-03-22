@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class DebugVO
 {
+    public int clientId = 0;
     public bool autoLogin = false;
     public bool createRoom = false;
     public bool isKidnapper = false;

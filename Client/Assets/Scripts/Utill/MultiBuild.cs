@@ -70,6 +70,7 @@ public class MultiBuild : MonoBehaviour
     {
         DebugVO vo = new DebugVO();
 
+        vo.clientId = clientNum;
         vo.autoLogin = autoLogin;
         vo.createRoom = createRoom;
         vo.isKidnapper = isKidnapper;
