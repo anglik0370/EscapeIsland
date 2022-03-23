@@ -24,4 +24,11 @@ public class ItemManager : MonoBehaviour
     {
         return itemList.Find(x => x.itemId == id);
     }
+
+    public ItemAmount FindItemAmount(List<ItemAmount> list, ItemSO item)
+    {
+        ItemAmount amount = list.Find(x => x.item.itemId == item.itemId);
+
+        return amount;
+    }
 }
