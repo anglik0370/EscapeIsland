@@ -58,6 +58,17 @@ public class NetworkManager : MonoBehaviour
     public bool isVoteTime = false;
 
     private Player user = null;
+    public Player User
+    {
+        get
+        {
+            return user;
+        }
+        set
+        {
+            user = value;
+        }
+    }
 
 
 
@@ -366,11 +377,6 @@ public class NetworkManager : MonoBehaviour
         return playerList.Values.ToList();
     }
 
-    public bool GetPlayerDie()
-    {
-        return user.isDie;
-    }
-
     public bool GetPlayerDie(int socId)
     {
         Player p = null;
@@ -380,16 +386,6 @@ public class NetworkManager : MonoBehaviour
         
 
         return p == null ? false : p.isDie;
-    }
-
-    public bool IsKidnapper()
-    {
-        if(user != null)
-        {
-            return user.isImposter;
-        }
-
-        return false;
     }
 
     public void SocketDisconnect()
