@@ -736,6 +736,7 @@ public class NetworkManager : MonoBehaviour
         }
         PlayerEnable();
     }
+<<<<<<< HEAD
     public void RefreshUser()
     {
         foreach (UserVO uv in userDataList)
@@ -791,6 +792,9 @@ public class NetworkManager : MonoBehaviour
             
         }
     }
+=======
+    
+>>>>>>> origin/main
 
     public void RefreshTime(int day,bool isLightTime)
     {
