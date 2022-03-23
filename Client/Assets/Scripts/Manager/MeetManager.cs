@@ -6,12 +6,36 @@ public class MeetManager : MonoBehaviour
 {
     public static MeetManager Instance;
 
+    private Player player;
+
+    private LogTable meetingTable;
+
     private void Awake()
     {
         if(Instance == null)
         {
             Instance = this;
         }
+
+        meetingTable = FindObjectOfType<LogTable>();
+    }
+
+    private void Start()
+    {
+        EventManager.SubEnterRoom(p =>
+        {
+            player = p;
+        });
+    }
+
+    public LogTable GetTableInRange()
+    {
+        if(Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
+        {
+            return meetingTable;
+        }
+
+        return null;
     }
 
     public void Meet(bool isEmergency = false)
