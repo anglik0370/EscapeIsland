@@ -545,7 +545,7 @@ public class NetworkManager : MonoBehaviour
     {
         ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
 
-        StoragePanel.Instance.AddItem(so);
+        StorageManager.Instance.AddItem(so);
     }
 
     public void SetCharacter(CharacterSO so)
