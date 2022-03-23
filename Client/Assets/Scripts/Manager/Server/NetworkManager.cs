@@ -27,7 +27,6 @@ public class NetworkManager : MonoBehaviour
 
     public Transform setDataScriptsParent;
 
-    private List<UserVO> userDataList;
     private List<UserVO> tempDataList;
     private List<UserVO> gameOverUserList;
 
@@ -36,8 +35,6 @@ public class NetworkManager : MonoBehaviour
     private CharacterVO characterVO;
 
     private bool isLogin = false;
-    private bool once = false;
-    private bool needUserRefresh = false;
     private bool needMasterRefresh = false;
     private bool needStartGame = false;
     private bool needDieRefresh = false;
@@ -56,16 +53,13 @@ public class NetworkManager : MonoBehaviour
     private MeetingType meetingType = MeetingType.EMERGENCY;
     private GameOverCase gameOverCase = GameOverCase.CollectAllItem;
     private string msg = string.Empty;
-    private bool isTest = false;
     private bool isTextChange = false;
 
     public bool isVoteTime = false;
 
     private Player user = null;
 
-    public GameObject[] lights;
 
-    public CinemachineVirtualCamera followCam;
 
     public GameObject map;
 
@@ -88,6 +82,8 @@ public class NetworkManager : MonoBehaviour
         PoolManager.CreatePool<Player>(playerPrefab, transform, 2);
 
         setDataScriptList = setDataScriptsParent.GetComponents<ISetAble>().ToList();
+
+        EventManager.SubEnterRoom(p => user = p);
 
         EventManager.SubBackToRoom(() =>
         {
@@ -190,14 +186,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetUserRefreshData(List<UserVO> list)
-    {
-        lock(instance.lockObj)
-        {
-            instance.userDataList = list;
-            instance.needUserRefresh = true;
-        }
-    }
+    
     public static void SetMasterRefreshData(List<UserVO> list)
     {
         lock (instance.lockObj)
@@ -261,11 +250,7 @@ public class NetworkManager : MonoBehaviour
 
         
 
-        if(needUserRefresh)
-        {
-            RefreshUser();
-            needUserRefresh = false;
-        }
+        
 
         if(needMasterRefresh)
         {
@@ -372,6 +357,10 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public Dictionary<int,Player> GetPlayerDic()
+    {
+        return playerList;
+    }
     public List<Player> GetPlayerList()
     {
         return playerList.Values.ToList();
@@ -408,7 +397,6 @@ public class NetworkManager : MonoBehaviour
         socketId = -1;
         socketName = "";
         roomNum = 0;
-        once = false;
 
         map.SetActive(false);
 
@@ -647,7 +635,6 @@ public class NetworkManager : MonoBehaviour
     public void ExitRoom()
     {
         roomNum = 0;
-        once = false;
 
         PlayerClear();
         map.SetActive(false);
@@ -749,61 +736,7 @@ public class NetworkManager : MonoBehaviour
         }
         PlayerEnable();
     }
-    public void RefreshUser()
-    {
-        foreach (UserVO uv in userDataList)
-        {
-            CharacterProfile profile = CharacterSelectPanel.Instance.GetNotSelectedProfile();
-            if (uv.socketId != socketId)
-            {
-                Player p = null;
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if (p == null)
-                {
-                    MakeRemotePlayer(uv,profile.GetSO());
-                }
-                else
-                {
-                    
-                    p.SetTransform(uv.position);
-                }
-            }
-            else
-            {
-                if(!once)
-                {
-                    user = PoolManager.GetItem<Player>();
-                    InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
-                    user.InitPlayer(uv, ui, false,profile.GetSO());
-
-                    for (int i = 0; i < lights.Length; i++)
-                    {
-                        GameObject obj = Instantiate(lights[i], user.transform);
-                        obj.transform.localPosition = Vector3.zero;
-                    }
-
-                    if (isTest)
-                    {
-                        user.isImposter = true;
-                        DataVO dataVO = new DataVO("TEST_CLIENT", null);
-
-                        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-                    }
-                    
-
-                    roomNum = uv.roomNum;
-
-                    followCam.Follow = user.gameObject.transform;
-
-                    once = true;
-
-                    EventManager.OccurEnterRoom(user);
-                }
-            }
-            
-        }
-    }
+    
 
     public void RefreshTime(int day,bool isLightTime)
     {
@@ -832,7 +765,7 @@ public class NetworkManager : MonoBehaviour
     }
     public void CreateRoom(string name, int curUserNum, int userNum,int kidnapperNum,bool isTest)
     {
-        this.isTest = isTest;
+        FindSetDataScript<RefreshUsers>().isTest = isTest;
 
         RoomVO vo = new RoomVO(name, 0,curUserNum, userNum,kidnapperNum);
 
@@ -856,11 +789,8 @@ public class NetworkManager : MonoBehaviour
         RoomVO vo = new RoomVO();
         vo.roomNum = roomNum;
 
-        roomNum = 0;
-        once = false;
-
-        EventManager.OccurExitRoom();
-
+        //roomNum = 0;
+        //EventManager.OccurExitRoom();
         //PlayerClear();
 
         DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));
