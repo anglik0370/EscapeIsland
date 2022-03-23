@@ -36,7 +36,6 @@ public class NetworkManager : MonoBehaviour
 
     private bool isLogin = false;
     private bool needMasterRefresh = false;
-    private bool needDieRefresh = false;
     private bool needVoteRefresh = false;
     private bool needTimeRefresh = false;
     private bool needVoteComplete = false;
@@ -200,14 +199,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetDieData(List<UserVO> list)
-    {
-        lock(instance.lockObj)
-        {
-            instance.tempDataList = list;
-            instance.needDieRefresh = true;
-        }
-    }
+    
 
     public static void SetLoginData(string name, int socketId)
     {
@@ -263,11 +255,7 @@ public class NetworkManager : MonoBehaviour
 
         
 
-        if(needDieRefresh)
-        {
-            RefreshDie();
-            needDieRefresh = false;
-        }
+        
 
         if(needVoteRefresh)
         {
@@ -545,7 +533,7 @@ public class NetworkManager : MonoBehaviour
     {
         ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
 
-        StorageManager.Instance.AddItem(so);
+        StoragePanel.Instance.AddItem(so);
     }
 
     public void SetCharacter(CharacterSO so)
@@ -661,42 +649,7 @@ public class NetworkManager : MonoBehaviour
             }
         }
     }
-    public void RefreshDie()
-    {
-        foreach (UserVO uv in tempDataList)
-        {
-            if(uv.socketId == socketId)
-            {
-               if(uv.isDie)
-                {
-                    user.SetDead();
-                }
-                
-            }
-            else 
-            {
-                Player p = null;
-
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if (p != null)
-                {
-                    if (uv.isDie)
-                    {
-                        p.SetDead();
-                    }
-                    
-                    if (p.gameObject.activeSelf && uv.isDie && !user.isDie)
-                    {
-                        p.SetDisable();
-                        p.SetDeadBody();
-                    }
-                }
-            }
-
-        }
-        PlayerEnable();
-    }
+    
 
     public void RefreshTime(int day,bool isLightTime)
     {
