@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSpawner : MonoBehaviour
+public class ItemSpawner : MonoBehaviour, IMapObject
 {
     public int id;
 
@@ -52,7 +52,12 @@ public class ItemSpawner : MonoBehaviour
         return transform;
     }
 
-    public Sprite GetItemSprite()
+    public Transform GetInteractionTrm()
+    {
+        return transform;
+    }
+
+    public Sprite GetSprite()
     {
         return poolObj.GetSprite();
     }

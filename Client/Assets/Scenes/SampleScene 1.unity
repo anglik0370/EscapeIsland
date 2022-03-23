@@ -5159,7 +5159,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomEnterBtnPrefab: {fileID: 7582510748723231593, guid: dca02974748349d4bafd754d64becba8, type: 3}
-  roomParent: {fileID: 0}
 --- !u!1001 &352227548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29505,7 +29504,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1933833538120188909, guid: df837c13d62214744b08939028aa5aa7, type: 3}
       propertyPath: m_Name
-      value: EmergencyMeetingTable
+      value: LogTable
       objectReference: {fileID: 0}
     - target: {fileID: 1933833538120188910, guid: df837c13d62214744b08939028aa5aa7, type: 3}
       propertyPath: m_RootOrder
@@ -29551,10 +29550,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1933833538120188911, guid: df837c13d62214744b08939028aa5aa7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 702cf86a095b8e54ba46469f0721f0ec, type: 3}
     - target: {fileID: 1933833538120188911, guid: df837c13d62214744b08939028aa5aa7, type: 3}
       propertyPath: m_SortingLayer
       value: 4

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeadBody : MonoBehaviour
+public class DeadBody : MonoBehaviour, IMapObject
 {
     private SpriteRenderer sr;
 
@@ -12,6 +12,11 @@ public class DeadBody : MonoBehaviour
     }
 
     public Transform GetTrm()
+    {
+        return transform;
+    }
+
+    public Transform GetInteractionTrm()
     {
         return transform;
     }

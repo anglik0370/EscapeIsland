@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmergencyMeetingTable : MonoBehaviour
+public class LogTable : MonoBehaviour, IMapObject
 {
     private SpriteRenderer sr;
 
@@ -16,13 +16,13 @@ public class EmergencyMeetingTable : MonoBehaviour
         return transform;
     }
 
+    public Transform GetInteractionTrm()
+    {
+        return transform;
+    }
+
     public Sprite GetSprite()
     {
         return sr.sprite;
-    }
-
-    public void Meeting()
-    {
-        MeetManager.Instance.Meet(true);
     }
 }

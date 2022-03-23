@@ -22,7 +22,7 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private Player player;
     private ItemStorage storage;
-    private EmergencyMeetingTable meetingTable;
+    private LogTable meetingTable;
 
     [Header("상호작용 관련 SO")]
     public List<InteractionHandlerSO> interactionCaseList = new List<InteractionHandlerSO>();
@@ -61,7 +61,7 @@ public class InteractionBtn : MonoBehaviour
         image = GetComponent<Image>();
 
         storage = FindObjectOfType<ItemStorage>();
-        meetingTable = FindObjectOfType<EmergencyMeetingTable>();
+        meetingTable = FindObjectOfType<LogTable>();
 
         //playerTrm = player.transform;
         //inventory = player.inventory;
@@ -111,13 +111,13 @@ public class InteractionBtn : MonoBehaviour
                     KillPlayer();
                     break;
                 case InteractionCase.OpenConverter:
-                    OpenRefineryPanel(FindNearlestConverter());
+                    ConvertPanel.Instance.Open(FindNearlestConverter());
                     break;
                 case InteractionCase.OpenStorage:
-                    OpenStoragePanel();
+                    StoragePanel.Instance.Open();
                     break;
                 case InteractionCase.EmergencyMeeting:
-                    meetingTable.Meeting();
+                    MeetManager.Instance.Meet(true);
                     break;
                 case InteractionCase.ReportDeadbody:
                     DeadBodyManager.Instance.ReportProximateDeadbody();
@@ -129,7 +129,7 @@ public class InteractionBtn : MonoBehaviour
                     NetworkManager.instance.GameStart();
                     break;
                 case InteractionCase.SelectCharacter:
-                    OpenCharacterSelectPanel();
+                    CharacterSelectPanel.Instance.Open();
                     break;
             }
         });
@@ -195,7 +195,7 @@ public class InteractionBtn : MonoBehaviour
             {
                 //여긴 아이템 줍는곳
                 state = InteractionCase.PickUpItem;
-                accent.Enable(SpawnerManager.Instance.FindProximateSpawner().GetItemSprite(),
+                accent.Enable(SpawnerManager.Instance.FindProximateSpawner().GetSprite(),
                     SpawnerManager.Instance.FindProximateSpawner().GetTrm());
             }
             else if (DeadBodyManager.Instance.FindProximateDeadBody() != null)
@@ -225,21 +225,6 @@ public class InteractionBtn : MonoBehaviour
 
         coolTimeCvs.alpha = interactionDic[state].useCoolTimeImg ? 1 : 0;
         coolTimeImg.IsFill = interactionDic[state].coolTimeImgFill;
-    }
-
-    public void OpenCharacterSelectPanel()
-    {
-        CharacterSelectPanel.Instance.Open();
-    }
-
-    public void OpenStoragePanel()
-    {
-        StoragePanel.Instance.Open();
-    }
-
-    public void OpenRefineryPanel(ItemConverter refinery)
-    {
-        ConvertPanel.Instance.Open(refinery);
     }
 
     public void KillPlayer()

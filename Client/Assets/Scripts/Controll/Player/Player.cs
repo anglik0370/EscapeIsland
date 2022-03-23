@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IMapObject
 {
     private SpriteRenderer sr;
     private Rigidbody2D rigid;
@@ -105,6 +105,11 @@ public class Player : MonoBehaviour
     }
 
     public Transform GetTrm()
+    {
+        return transform;
+    }
+
+    public Transform GetInteractionTrm()
     {
         return transform;
     }
