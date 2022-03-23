@@ -37,10 +37,10 @@ public class LobbyPopup : Popup
         });
         exitBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.SocketDisconnect();
-            SocketClient.instance.InitWebSocket();
+            NetworkManager.instance.BackLogin();
+            //SocketClient.instance.InitWebSocket();
             //PopupManager.instance.CloseAndOpen("ingame");
-            PopupManager.instance.CloseAndOpen("connect");
+            PopupManager.instance.CloseAndOpen("login");
         });
 
         createRoomBtn.onClick.AddListener(() =>

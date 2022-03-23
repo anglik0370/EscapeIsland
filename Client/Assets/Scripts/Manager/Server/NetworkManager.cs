@@ -397,9 +397,9 @@ public class NetworkManager : MonoBehaviour
         return false;
     }
 
-    public void SocketDisconnect()
+    public void BackLogin()
     {
-        socketId = -1;
+        //socketId = -1;
         socketName = "";
         roomNum = 0;
 
