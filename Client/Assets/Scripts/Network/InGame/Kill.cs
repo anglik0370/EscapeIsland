@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStart : MonoBehaviour,ISetAble
+public class Kill : MonoBehaviour,ISetAble
 {
     private Dictionary<int, Player> playerList;
     private List<UserVO> userDataList;
+
     private Player user = null;
 
-
-    private bool needStartGame = false;
+    private bool needDieRefresh = false;
+    private bool once = false;
 
     private object lockObj = new object();
+
 
     void Start()
     {
@@ -23,37 +25,35 @@ public class GameStart : MonoBehaviour,ISetAble
 
     void Update()
     {
-        if (needStartGame)
+        if (needDieRefresh)
         {
-            OnGameStart();
-
-            needStartGame = false;
+            RefreshDie();
+            needDieRefresh = false;
         }
     }
 
-    public void SetGameStart(List<UserVO> list)
+    public void SetDieData(List<UserVO> list)
     {
         lock (lockObj)
         {
             userDataList = list;
-            needStartGame = true;
+            needDieRefresh = true;
         }
     }
 
-    public void OnGameStart()
+    public void RefreshDie()
     {
-        PopupManager.instance.ClosePopup();
-
         playerList = NetworkManager.instance.GetPlayerDic();
 
         foreach (UserVO uv in userDataList)
         {
             if (uv.socketId == user.socketId)
             {
-                user.transform.position = uv.position;
-                user.isKidnapper = uv.isImposter;
+                if (uv.isDie)
+                {
+                    user.SetDead();
+                }
 
-                EventManager.OccurGameStart(user);
             }
             else
             {
@@ -63,10 +63,20 @@ public class GameStart : MonoBehaviour,ISetAble
 
                 if (p != null)
                 {
-                    p.transform.position = uv.position;
-                    p.isKidnapper = uv.isImposter;
+                    if (uv.isDie)
+                    {
+                        p.SetDead();
+                    }
+
+                    if (p.gameObject.activeSelf && uv.isDie && !user.isDie)
+                    {
+                        p.SetDisable();
+                        p.SetDeadBody();
+                    }
                 }
             }
+
         }
+        NetworkManager.instance.PlayerEnable();
     }
 }
