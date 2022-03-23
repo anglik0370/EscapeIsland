@@ -27,11 +27,7 @@ public class CharacterProfile : MonoBehaviour
 
     private void Start()
     {
-        selectBtn.onClick.AddListener(() =>
-        {
-            NetworkManager.instance.SetCharacter(charSO);
-        });
-
+        selectBtn.onClick.AddListener(() => NetworkManager.instance.SetCharacter(charSO));
     }
 
     public void Init(CharacterSO so)
@@ -40,7 +36,6 @@ public class CharacterProfile : MonoBehaviour
 
         profileImg.sprite = so.profileImg;
         nameTxt.text = so.charName;
-        selectBtn.enabled = true;
 
         switch (so.sex)
         {
@@ -52,6 +47,10 @@ public class CharacterProfile : MonoBehaviour
                 break;
         }
     }
+    public CharacterSO GetSO()
+    {
+        return charSO != null ? charSO : null;
+    }
 
     public bool IsSelected()
     {
@@ -61,16 +60,6 @@ public class CharacterProfile : MonoBehaviour
     public void SelectBtn(bool enabled)
     {
         selectBtn.enabled = enabled;
-    }
-
-    public int GetId()
-    {
-        return charSO.id;
-    }
-
-    public CharacterSO GetSO()
-    {
-        return charSO != null ? charSO : null;
     }
 
     public void MaskOnOff(bool on)

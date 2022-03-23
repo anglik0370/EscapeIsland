@@ -46,6 +46,6 @@ public class CharacterSelectPanel : Panel
 
     public CharacterProfile GetCharacterProfile(int charId)
     {
-        return profileList.Find(profile => profile.GetId() == charId);
+        return profileList.Find(profile => profile.GetSO().id == charId);
     }
 }
