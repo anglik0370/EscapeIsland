@@ -18,10 +18,9 @@ public enum InteractionCase
 
 public class InteractionBtn : MonoBehaviour
 {
-    [Header("하나밖에 없는 오브젝트들")]
+    [Header("하나밖에 없는 오브젝트")]
     [SerializeField]
     private Player player;
-    private ItemStorage storage;
 
     [Header("상호작용 관련 SO")]
     public List<InteractionHandlerSO> interactionCaseList = new List<InteractionHandlerSO>();
@@ -58,8 +57,6 @@ public class InteractionBtn : MonoBehaviour
     {
         btn = GetComponent<Button>();
         image = GetComponent<Image>();
-
-        storage = FindObjectOfType<ItemStorage>();
 
         //playerTrm = player.transform;
         //inventory = player.inventory;
@@ -178,11 +175,12 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.OpenConverter;
                 accent.Enable(FindNearlestConverter().GetSprite(), FindNearlestConverter().GetTrm());
             }
-            else if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
+            else if (StorageManager.Instance.GetStorageInRange() != null)
             {
                 //여긴 저장소 여는 곳
                 state = InteractionCase.OpenStorage;
-                accent.Enable(storage.GetSprite(), storage.GetTrm());
+                accent.Enable(StorageManager.Instance.GetStorageInRange().GetSprite(),
+                    StorageManager.Instance.GetStorageInRange().GetTrm());
             }
             else if (MeetManager.Instance.GetTableInRange() != null)
             {

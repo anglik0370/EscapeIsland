@@ -8,7 +8,8 @@ public class StoragePanel : Panel
     public static StoragePanel Instance;
 
     private ProgressUI progressUI;
-    private List<StorageSlot> slotList;
+    [SerializeField]
+    private List<StorageSlot> slotList = new List<StorageSlot>();
 
     protected override void Awake() 
     {
@@ -25,14 +26,6 @@ public class StoragePanel : Panel
 
     private void Start() 
     {
-        for(int i = 0; i < slotList.Count; i++)
-        {
-            ItemAmount maxAmount = StorageManager.Instance.FindItemAmount(true, slotList[i].OriginItem);
-            ItemAmount curAmount = StorageManager.Instance.FindItemAmount(false, slotList[i].OriginItem);
-
-            slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
-        }
-
         EventManager.SubGameOver(gos => Close(true));
 
         EventManager.SubStartMeet(mt => Close(true));

@@ -17,11 +17,10 @@ public class StorageManager : MonoBehaviour
     [SerializeField]
     private List<ItemAmount> curAmountItemList;
 
-    public List<ItemAmount> MaxAmountItemList => maxAmountItemList;
-    public List<ItemAmount> CurAmountItemList => curAmountItemList;
-
     private int totalNeedItemAmount;
     private int totalCollectedItemAmount;
+
+    private Player player;
 
     private void Awake()
     {
@@ -35,15 +34,19 @@ public class StorageManager : MonoBehaviour
 
     private void Start()
     {
-
         EventManager.SubGameStart(p =>
         {
+            player = p;
+
             totalCollectedItemAmount = 0;
             totalNeedItemAmount = 0;
 
-            for (int i = 0; i < maxAmountItemList.Count; i++)
+            maxAmountItemList.Clear();
+
+            for (int i = 0; i < needItemSO.itemAmountList.Count; i++)
             {
-                maxAmountItemList[i].amount = needItemSO.itemAmountList[i].amount;
+                maxAmountItemList.Add(needItemSO.itemAmountList[i]);
+                curAmountItemList.Add(new ItemAmount(needItemSO.itemAmountList[i].item, 0));
             }
 
             for (int i = 0; i < maxAmountItemList.Count; i++)
@@ -112,7 +115,7 @@ public class StorageManager : MonoBehaviour
     }
 
     //이건 전체가 꽉찼는지 검사하는거
-    public bool IsItemFull()
+    private bool IsItemFull()
     {
         for (int i = 0; i < curAmountItemList.Count; i++)
         {
@@ -126,8 +129,18 @@ public class StorageManager : MonoBehaviour
         return true;
     }
 
-    public float GetProgress()
+    private float GetProgress()
     {
         return ((float)totalCollectedItemAmount / (float)totalNeedItemAmount) * 100;
+    }
+
+    public ItemStorage GetStorageInRange()
+    {
+        if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
+        {
+            return storage;
+        }
+
+        return null;
     }
 }

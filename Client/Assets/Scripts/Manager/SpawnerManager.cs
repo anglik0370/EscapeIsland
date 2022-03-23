@@ -41,7 +41,9 @@ public class SpawnerManager : MonoBehaviour
             if (Vector2.Distance(player.GetTrm().position, spawnerList[i].transform.position) <= player.range)
             {
                 //꺼져있으면 다음걸로 넘어간다
-                if (!spawner.IsItemSpawned) continue;
+                if (!spawnerList[i].IsItemSpawned) continue;
+
+                if (spawner == null) spawner = spawnerList[i];
 
                 //거리비교
                 if (Vector2.Distance(player.GetTrm().position, spawner.transform.position) >
