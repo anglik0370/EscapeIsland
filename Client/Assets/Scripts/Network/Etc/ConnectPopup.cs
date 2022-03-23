@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Connect : Popup
+public class ConnectPopup : Popup
 {
     public InputField ipInput;
     public InputField portInput;

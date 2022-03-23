@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Vote : Popup
+public class VotePopup : Popup
 {
     public Button chatBtn;
     public CanvasGroup chatPanel;
