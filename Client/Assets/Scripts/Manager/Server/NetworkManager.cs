@@ -607,7 +607,7 @@ public class NetworkManager : MonoBehaviour
 
     public void SetItemStorage(int itemSOId)
     {
-        ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
+        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
 
         StoragePanel.Instance.AddItem(so);
     }
@@ -627,7 +627,7 @@ public class NetworkManager : MonoBehaviour
 
     public void SetStartConvert(int converterId, int itemSOId)
     {
-        ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
+        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
 
         Debug.Log($"변환기{converterId}에서 {so}변환 시작");
 
