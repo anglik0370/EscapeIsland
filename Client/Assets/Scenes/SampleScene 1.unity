@@ -5126,6 +5126,7 @@ GameObject:
   - component: {fileID: 351307166}
   - component: {fileID: 351307167}
   - component: {fileID: 351307168}
+  - component: {fileID: 351307169}
   m_Layer: 0
   m_Name: ISetAbleParent
   m_TagString: Untagged
@@ -5177,6 +5178,18 @@ MonoBehaviour:
   - {fileID: 2153593491927762378, guid: d248328dbc2d6d648a13cb5d208a0026, type: 3}
   followCam: {fileID: 39856549}
   isTest: 0
+--- !u!114 &351307169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351307165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0581ff99868e3874d84e41369a4b0ef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &352227548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21852,7 +21865,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popupParent: {fileID: 1715170477}
-  connectPopup: {fileID: 5337051180538076594, guid: 63d2cb7369ed3be409434d83cd2d258f, type: 3}
   loginPopup: {fileID: 7905677003467026139, guid: 7fcaeda5d0dc7ee46aa5ad8faea9596b, type: 3}
   lobbyPopup: {fileID: 5595325862193580477, guid: bbb7c3af5e984844f8381b8fff7d30f1, type: 3}
   alertPopup: {fileID: 8643533440485442339, guid: d288c0696ef54f743a2e28ca49a0747e, type: 3}
