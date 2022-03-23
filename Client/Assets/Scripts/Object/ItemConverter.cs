@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemConverter : MonoBehaviour
+public class ItemConverter : MonoBehaviour, IMapObject
 {
     private SpriteRenderer sr;
 

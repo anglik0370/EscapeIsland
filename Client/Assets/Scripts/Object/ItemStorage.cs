@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ItemStorage : MonoBehaviour
+public class ItemStorage : MonoBehaviour, IMapObject
 {
     [SerializeField]
     private Transform interactionTrm;

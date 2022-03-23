@@ -22,7 +22,7 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private Player player;
     private ItemStorage storage;
-    private EmergencyMeetingTable meetingTable;
+    private LogTable meetingTable;
 
     [Header("상호작용 관련 SO")]
     public List<InteractionHandlerSO> interactionCaseList = new List<InteractionHandlerSO>();
@@ -61,7 +61,7 @@ public class InteractionBtn : MonoBehaviour
         image = GetComponent<Image>();
 
         storage = FindObjectOfType<ItemStorage>();
-        meetingTable = FindObjectOfType<EmergencyMeetingTable>();
+        meetingTable = FindObjectOfType<LogTable>();
 
         //playerTrm = player.transform;
         //inventory = player.inventory;
@@ -195,7 +195,7 @@ public class InteractionBtn : MonoBehaviour
             {
                 //여긴 아이템 줍는곳
                 state = InteractionCase.PickUpItem;
-                accent.Enable(SpawnerManager.Instance.FindProximateSpawner().GetItemSprite(),
+                accent.Enable(SpawnerManager.Instance.FindProximateSpawner().GetSprite(),
                     SpawnerManager.Instance.FindProximateSpawner().GetTrm());
             }
             else if (DeadBodyManager.Instance.FindProximateDeadBody() != null)
