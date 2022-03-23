@@ -144,7 +144,7 @@ public class Player : MonoBehaviour
 
         deadBody.GetTrm().position = transform.position;
 
-        GameManager.Instance.deadBodyList.Add(deadBody);
+        DeadBodyManager.Instance.deadBodyList.Add(deadBody);
     }
 
     public void SetEnable()

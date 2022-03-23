@@ -120,7 +120,7 @@ public class InteractionBtn : MonoBehaviour
                     meetingTable.Meeting();
                     break;
                 case InteractionCase.ReportDeadbody:
-                    ReportNearlestDeadbody();
+                    DeadBodyManager.Instance.ReportProximateDeadbody();
                     break;
                 case InteractionCase.PickUpItem:
                     PickUpNearlestItem();
@@ -197,11 +197,12 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.PickUpItem;
                 accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
             }
-            else if (FindNearlestDeadBody() != null)
+            else if (DeadBodyManager.Instance.FindProximateDeadBody() != null)
             {
                 //여긴 주변 시체 신고하는곳
                 state = InteractionCase.ReportDeadbody;
-                accent.Enable(FindNearlestDeadBody().GetSprite(), FindNearlestDeadBody().GetTrm());
+                accent.Enable(DeadBodyManager.Instance.FindProximateDeadBody().GetSprite(), 
+                    DeadBodyManager.Instance.FindProximateDeadBody().GetTrm());
             }
             else
             {
@@ -273,15 +274,6 @@ public class InteractionBtn : MonoBehaviour
         //있다면 넣어준다
         NetworkManager.instance.GetItem(nearlestSpawner.id);
         inventory.AddItem(nearlestSpawner.PickUpItem());
-    }
-
-    public void ReportNearlestDeadbody()
-    {
-        DeadBody nearlestDeadbody = FindNearlestDeadBody();
-
-        if (nearlestDeadbody == null) return;
-
-        nearlestDeadbody.Report();
     }
 
     public ItemSpawner FindNearlestSpawner()
@@ -387,36 +379,5 @@ public class InteractionBtn : MonoBehaviour
         }
 
         return p;
-    }
-
-    public DeadBody FindNearlestDeadBody()
-    {
-        DeadBody deadBody = null;
-
-        List<DeadBody> deadBodyList = GameManager.Instance.deadBodyList;
-
-        for (int i = 0; i < deadBodyList.Count; i++)
-        {
-            //상호작용범위 안에 있는지 체크
-            if (Vector2.Distance(player.GetTrm().position, deadBodyList[i].transform.position) <= range)
-            {
-                if (deadBody == null)
-                {
-                    //없으면 하나 넣어주고
-                    deadBody = deadBodyList[i];
-                }
-                else
-                {
-                    //있으면 거리비교
-                    if (Vector2.Distance(player.GetTrm().position, deadBody.transform.position) >
-                        Vector2.Distance(player.GetTrm().position, deadBodyList[i].transform.position))
-                    {
-                        deadBody = deadBodyList[i];
-                    }
-                }
-            }
-        }
-
-        return deadBody;
     }
 }

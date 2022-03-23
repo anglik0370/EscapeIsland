@@ -90,7 +90,6 @@ public class NetworkManager : MonoBehaviour
 
         EventManager.SubBackToRoom(() =>
         {
-            GameManager.Instance.ClearDeadBody();
             InitPlayers();
             voteTab.VoteUIDisable();
         });
@@ -507,7 +506,6 @@ public class NetworkManager : MonoBehaviour
 
     public void OnVoteTimeStart()
     {
-        GameManager.Instance.ClearDeadBody();
         isVoteTime = true;
 
         EventManager.OccurStartMeet(meetingType);
