@@ -601,7 +601,7 @@ public class NetworkManager : MonoBehaviour
 
     public void SetItemDisable(int spawnerId)
     {
-        ItemSpawner s = GameManager.Instance.spawnerList.Find(x => x.id == spawnerId);
+        ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == spawnerId);
         s.DeSpawnItem();
     }
 

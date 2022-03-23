@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public List<ItemSpawner> spawnerList = new List<ItemSpawner>();
     public List<ItemConverter> refineryList = new List<ItemConverter>();
 
     private void Awake() 
@@ -17,7 +16,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        spawnerList = GameObject.FindObjectsOfType<ItemSpawner>().ToList();
         refineryList = GameObject.FindObjectsOfType<ItemConverter>().ToList();
     }
 }

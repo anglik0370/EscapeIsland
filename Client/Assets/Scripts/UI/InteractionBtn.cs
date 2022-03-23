@@ -123,7 +123,7 @@ public class InteractionBtn : MonoBehaviour
                     DeadBodyManager.Instance.ReportProximateDeadbody();
                     break;
                 case InteractionCase.PickUpItem:
-                    PickUpNearlestItem();
+                    SpawnerManager.Instance.PickUpProximateSpawnerItem();
                     break;
                 case InteractionCase.GameStart:
                     NetworkManager.instance.GameStart();
@@ -191,11 +191,12 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.EmergencyMeeting;
                 accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
             }
-            else if (FindNearlestSpawner() != null)
+            else if (SpawnerManager.Instance.FindProximateSpawner() != null)
             {
                 //여긴 아이템 줍는곳
                 state = InteractionCase.PickUpItem;
-                accent.Enable(FindNearlestSpawner().GetItemSprite(), FindNearlestSpawner().GetTrm());
+                accent.Enable(SpawnerManager.Instance.FindProximateSpawner().GetItemSprite(),
+                    SpawnerManager.Instance.FindProximateSpawner().GetTrm());
             }
             else if (DeadBodyManager.Instance.FindProximateDeadBody() != null)
             {
@@ -259,65 +260,6 @@ public class InteractionBtn : MonoBehaviour
         TimeHandler.Instance.InitKillCool();
 
         NetworkManager.instance.Kill(targetPlayer);
-    }
-
-    public void PickUpNearlestItem()
-    {
-        //모든 슬롯이 꽉차있으면 리턴
-        if(inventory.IsAllSlotFull) return;
-
-        ItemSpawner nearlestSpawner = FindNearlestSpawner();
-
-        //스포너가 없다면 리턴
-        if(nearlestSpawner == null) return;
-
-        //있다면 넣어준다
-        NetworkManager.instance.GetItem(nearlestSpawner.id);
-        inventory.AddItem(nearlestSpawner.PickUpItem());
-    }
-
-    public ItemSpawner FindNearlestSpawner()
-    {
-        List<ItemSpawner> spawnerList = GameManager.Instance.spawnerList;
-
-        ItemSpawner nearlestSpawner = null;
-
-        //켜져있는 스포너 하나를 찾는다(비교대상이 있어야하니까)
-        for(int i = 0; i < spawnerList.Count; i++)
-        {
-            if(spawnerList[i].IsItemSpawned)
-            {
-                nearlestSpawner = spawnerList[i];
-                break;
-            }
-        }
-
-        //켜져있는게 없으면 null 리턴
-        if(nearlestSpawner == null) return null;
-
-        //이후 나머지 켜져있는 스포너들과 거리비교
-        for(int i = 0; i < spawnerList.Count; i++)
-        {
-            if(!spawnerList[i].IsItemSpawned) continue;
-
-            if(Vector2.Distance(player.GetTrm().position, nearlestSpawner.transform.position) >
-                Vector2.Distance(player.GetTrm().position, spawnerList[i].transform.position))
-            {
-                nearlestSpawner = spawnerList[i];
-            }
-        }
-
-        //상호작용범위 안에 있는지 체크
-        if(Vector2.Distance(player.GetTrm().position, nearlestSpawner.transform.position) <= range)
-        {
-            //안에 있다면 스포너 리턴
-            return nearlestSpawner;
-        }
-        else
-        {
-            //거리 밖이라면 null리턴
-            return null;
-        }
     }
 
     public ItemConverter FindNearlestConverter()
