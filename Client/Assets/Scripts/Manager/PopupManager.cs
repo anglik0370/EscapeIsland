@@ -10,7 +10,7 @@ public class PopupManager : MonoBehaviour
     public static PopupManager instance;
 
     public Transform popupParent;
-    public ConnectPopup connectPopup;
+    //public ConnectPopup connectPopup;
     public LoginPopup loginPopup;
     public LobbyPopup lobbyPopup;
     public AlertPopup alertPopup;
@@ -45,7 +45,7 @@ public class PopupManager : MonoBehaviour
         popupCanvasGroup.blocksRaycasts = false;
 
         //雕寂呈府俊 ui 橇府普 持绢林搁 达
-        popupDic.Add("connect", Instantiate(connectPopup, popupParent));
+        //popupDic.Add("connect", Instantiate(connectPopup, popupParent));
         popupDic.Add("login", Instantiate(loginPopup, popupParent));
         popupDic.Add("lobby", Instantiate(lobbyPopup, popupParent));
         popupDic.Add("vote", Instantiate(votePopup, popupParent));

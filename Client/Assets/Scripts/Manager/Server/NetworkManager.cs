@@ -36,7 +36,6 @@ public class NetworkManager : MonoBehaviour
 
     private bool isLogin = false;
     private bool needMasterRefresh = false;
-    private bool needStartGame = false;
     private bool needDieRefresh = false;
     private bool needVoteRefresh = false;
     private bool needTimeRefresh = false;
@@ -220,14 +219,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void GameStart(List<UserVO> list)
-    {
-        lock(instance.lockObj)
-        {
-            instance.tempDataList = list;
-            instance.needStartGame = true;
-        }
-    }
+    
 
     public static void DisconnectUser(int id)
     {
@@ -269,12 +261,7 @@ public class NetworkManager : MonoBehaviour
             needTimeRefresh = false;
         }
 
-        if(needStartGame)
-        {
-            OnGameStart();
-
-            needStartGame = false;
-        }
+        
 
         if(needDieRefresh)
         {
@@ -397,9 +384,9 @@ public class NetworkManager : MonoBehaviour
         return false;
     }
 
-    public void SocketDisconnect()
+    public void BackLogin()
     {
-        socketId = -1;
+        //socketId = -1;
         socketName = "";
         roomNum = 0;
 
@@ -535,38 +522,7 @@ public class NetworkManager : MonoBehaviour
 
         //EndVoteTime();
     }
-    public void OnGameStart()
-    {
-        PopupManager.instance.ClosePopup();
-
-        //interactionBtn.gameStart = true;
-
-        foreach (UserVO uv in tempDataList)
-        {
-            if(uv.socketId == socketId)
-            {
-                //inGameJoyStick.enabled = true;
-             
-                user.transform.position = uv.position;
-                user.isKidnapper = uv.isImposter;
-
-                EventManager.OccurGameStart(user);
-            }
-            else
-            {
-                Player p = null;
-
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if(p != null)
-                {
-                    //p.SetTransform(uv.position);
-                    p.transform.position = uv.position;
-                    p.isKidnapper = uv.isImposter;
-                }
-            }
-        }
-    }
+    
 
     public void SetCharacterChange()
     {

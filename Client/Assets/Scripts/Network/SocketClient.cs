@@ -96,6 +96,7 @@ public class SocketClient : MonoBehaviour
 
     public void InitWebSocket()
     {
+        if (webSocket == null) return;
         if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
             webSocket.Close();
         webSocket = null;
@@ -127,13 +128,11 @@ public class SocketClient : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
-            webSocket.Close();
+        InitWebSocket();
     }
 
     private void OnApplicationQuit()
     {
-        if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
-            webSocket.Close();
+        InitWebSocket();
     }
 }
