@@ -12,7 +12,7 @@ public class RefreshRooms : MonoBehaviour,ISetAble
 
     public GameObject roomEnterBtnPrefab;
 
-    public Transform roomParent;
+    private Transform roomParent;
 
     private object lockObj = new object();
 
@@ -34,6 +34,8 @@ public class RefreshRooms : MonoBehaviour,ISetAble
     IEnumerator Frame()
     {
         yield return null;
+
+        roomParent = FindObjectOfType<LobbyPopup>().roomParent;
 
         for (int i = 0; i < 10; i++)
         {
