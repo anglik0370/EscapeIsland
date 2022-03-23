@@ -22,7 +22,6 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private Player player;
     private ItemStorage storage;
-    private LogTable meetingTable;
 
     [Header("상호작용 관련 SO")]
     public List<InteractionHandlerSO> interactionCaseList = new List<InteractionHandlerSO>();
@@ -61,7 +60,6 @@ public class InteractionBtn : MonoBehaviour
         image = GetComponent<Image>();
 
         storage = FindObjectOfType<ItemStorage>();
-        meetingTable = FindObjectOfType<LogTable>();
 
         //playerTrm = player.transform;
         //inventory = player.inventory;
@@ -152,11 +150,12 @@ public class InteractionBtn : MonoBehaviour
     {
         if (player != null) //플레이어가 없으면 방에 안들어온거니까 리턴
 
-        if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
+        if (MeetManager.Instance.GetTableInRange() != null)
         {
             //여긴 캐릭터 선택하는 곳
             state = InteractionCase.SelectCharacter;
-            accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
+            accent.Enable(MeetManager.Instance.GetTableInRange().GetSprite(), 
+                MeetManager.Instance.GetTableInRange().GetTrm());
         }
         else
         {
@@ -167,7 +166,7 @@ public class InteractionBtn : MonoBehaviour
 
         if (isGameStart && !player.isDie)
         {
-            if (NetworkManager.instance.IsKidnapper() && FindNearlestPlayer() != null)
+            if (player.isKidnapper && FindNearlestPlayer() != null)
             {
                 //여긴 킬하는곳
                 state = InteractionCase.KillPlayer;
@@ -185,11 +184,12 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.OpenStorage;
                 accent.Enable(storage.GetSprite(), storage.GetTrm());
             }
-            else if (Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
+            else if (MeetManager.Instance.GetTableInRange() != null)
             {
-                //여긴 긴급회의 여는 곳
-                state = InteractionCase.EmergencyMeeting;
-                accent.Enable(meetingTable.GetSprite(), meetingTable.GetTrm());
+                //여긴 캐릭터 선택하는 곳
+                state = InteractionCase.SelectCharacter;
+                accent.Enable(MeetManager.Instance.GetTableInRange().GetSprite(),
+                    MeetManager.Instance.GetTableInRange().GetTrm());
             }
             else if (SpawnerManager.Instance.FindProximateSpawner() != null)
             {

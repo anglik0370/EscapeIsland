@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IMapObject
 
     public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
     public bool master;
-    public bool isImposter; //true : 맢 / false : 시민
+    public bool isKidnapper; //true : 맢 / false : 시민
     public bool isDie = false;
 
     public Inventory inventory;
@@ -169,7 +169,7 @@ public class Player : MonoBehaviour, IMapObject
 
     public void InitPlayer()
     {
-        isImposter = isDie = false;
+        isKidnapper = isDie = false;
 
         anim.SetFloat("isDie", 0f);
 
