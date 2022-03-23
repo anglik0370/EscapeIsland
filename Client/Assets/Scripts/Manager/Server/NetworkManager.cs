@@ -397,7 +397,7 @@ public class NetworkManager : MonoBehaviour
     {
         if(user != null)
         {
-            return user.isImposter;
+            return user.isKidnapper;
         }
 
         return false;
@@ -555,7 +555,7 @@ public class NetworkManager : MonoBehaviour
                 //inGameJoyStick.enabled = true;
              
                 user.transform.position = uv.position;
-                user.isImposter = uv.isImposter;
+                user.isKidnapper = uv.isImposter;
 
                 EventManager.OccurGameStart(user);
             }
@@ -569,7 +569,7 @@ public class NetworkManager : MonoBehaviour
                 {
                     //p.SetTransform(uv.position);
                     p.transform.position = uv.position;
-                    p.isImposter = uv.isImposter;
+                    p.isKidnapper = uv.isImposter;
                 }
             }
         }
@@ -785,7 +785,7 @@ public class NetworkManager : MonoBehaviour
 
                     if (isTest)
                     {
-                        user.isImposter = true;
+                        user.isKidnapper = true;
                         DataVO dataVO = new DataVO("TEST_CLIENT", null);
 
                         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
