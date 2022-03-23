@@ -10,11 +10,11 @@ public class PopupManager : MonoBehaviour
     public static PopupManager instance;
 
     public Transform popupParent;
-    public Connect connectPopup;
-    public Login loginPopup;
-    public Lobby lobbyPopup;
-    public Alert alertPopup;
-    public Vote votePopup;
+    public ConnectPopup connectPopup;
+    public LoginPopup loginPopup;
+    public LobbyPopup lobbyPopup;
+    public AlertPopup alertPopup;
+    public VotePopup votePopup;
     
     private CanvasGroup popupCanvasGroup;
 
@@ -53,7 +53,7 @@ public class PopupManager : MonoBehaviour
 
         //alert는 항상 밑에 있어야함
         popupDic.Add("alert", Instantiate(alertPopup, popupParent));
-        NetworkManager.instance.voteTab = popupDic["vote"] as Vote;
+        NetworkManager.instance.voteTab = popupDic["vote"] as VotePopup;
         OpenPopup("login");
 
         EventManager.SubGameOver(gameOverCase =>

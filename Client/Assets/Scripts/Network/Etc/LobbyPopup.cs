@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Lobby : Popup
+public class LobbyPopup : Popup
 {
     public Button refreshBtn;
     public Button createPopupOpenBtn;

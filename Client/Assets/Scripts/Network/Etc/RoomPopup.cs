@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Room : Popup
+public class RoomPopup : Popup
 {
     public Button startBtn;
     public Button exitBtn;

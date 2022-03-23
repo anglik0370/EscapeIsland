@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Login : Popup
+public class LoginPopup : Popup
 {
     public InputField nameInput;
 

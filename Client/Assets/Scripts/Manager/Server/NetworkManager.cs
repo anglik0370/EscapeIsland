@@ -70,7 +70,7 @@ public class NetworkManager : MonoBehaviour
 
     public GameObject map;
 
-    public Vote voteTab;
+    public VotePopup voteTab;
 
     public List<AreaCover> covers = new List<AreaCover>();
 
@@ -968,14 +968,6 @@ public class NetworkManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
-
-
-    //public void Die()
-    //{
-    //    DataVO dataVO = new DataVO("DIE", "");
-
-    //    SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    //}
 
     public void Kill(Player targetPlayer)
     {
