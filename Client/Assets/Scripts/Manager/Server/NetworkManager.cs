@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
 using System.Linq;
+using System;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -17,15 +18,14 @@ public class NetworkManager : MonoBehaviour
 
     public object lockObj = new object();
 
-    private List<RoomVO> roomList;
-    private List<RoomEnterBtn> roomEnterBtnList = new List<RoomEnterBtn>();
-    public GameObject roomEnterBtnPrefab;
-    public Transform roomParent;
 
     private Dictionary<int, Player> playerList = new Dictionary<int, Player>();
+    private List<ISetAble> setDataScriptList = new List<ISetAble>();
     private Queue<int> removeSocketQueue = new Queue<int>();
 
     private Queue<ChatVO> chatQueue = new Queue<ChatVO>();
+
+    public Transform setDataScriptsParent;
 
     private List<UserVO> userDataList;
     private List<UserVO> tempDataList;
@@ -37,7 +37,6 @@ public class NetworkManager : MonoBehaviour
 
     private bool isLogin = false;
     private bool once = false;
-    private bool needRoomRefresh = false;
     private bool needUserRefresh = false;
     private bool needMasterRefresh = false;
     private bool needStartGame = false;
@@ -88,6 +87,8 @@ public class NetworkManager : MonoBehaviour
     {
         PoolManager.CreatePool<Player>(playerPrefab, transform, 2);
 
+        setDataScriptList = setDataScriptsParent.GetComponents<ISetAble>().ToList();
+
         EventManager.SubBackToRoom(() =>
         {
             GameManager.Instance.ClearDeadBody();
@@ -102,13 +103,12 @@ public class NetworkManager : MonoBehaviour
     {
         yield return null;
         map.SetActive(false);
+    
+    }
 
-        for (int i = 0; i < 10; i++)
-        {
-            RoomEnterBtn room = Instantiate(roomEnterBtnPrefab, roomParent).GetComponent<RoomEnterBtn>();
-            room.gameObject.SetActive(false);
-            roomEnterBtnList.Add(room);
-        }
+    public T FindSetDataScript<T>()
+    {
+        return (T)setDataScriptList.Find(x => x.GetType() == typeof(T));
     }
 
     public static void SetCharChange(CharacterVO vo)
@@ -191,15 +191,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetRoomRefreshData(List<RoomVO> list)
-    {
-        lock(instance.lockObj)
-        {
-            instance.roomList = list;
-            instance.needRoomRefresh = true;
-        }
-    }
-
     public static void SetUserRefreshData(List<UserVO> list)
     {
         lock(instance.lockObj)
@@ -269,11 +260,7 @@ public class NetworkManager : MonoBehaviour
             isLogin = false;
         }
 
-        if(needRoomRefresh)
-        {
-            RefreshRoom();
-            needRoomRefresh = false;
-        }
+        
 
         if(needUserRefresh)
         {
@@ -704,27 +691,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
     
-    public void RefreshRoom()
-    {
-        for (int i = 0; i < roomEnterBtnList.Count; i++)
-        {
-            roomEnterBtnList[i].gameObject.SetActive(false);
-        }
-        
-        foreach (RoomVO roomVO in roomList)
-        {
-            RoomEnterBtn room = roomEnterBtnList.Find(x => !x.gameObject.activeSelf);
-
-            if(room == null)
-            {
-                room = Instantiate(roomEnterBtnPrefab, roomParent).GetComponent<RoomEnterBtn>();
-                roomEnterBtnList.Add(room);
-            }
-
-            room.SetInfo(roomVO.name, roomVO.curUserNum, roomVO.userNum, roomVO.roomNum,roomVO.kidnapperNum);
-            room.gameObject.SetActive(true);
-        }
-    }
+    
     public void RefreshMaster()
     {
         foreach (UserVO uv in tempDataList)

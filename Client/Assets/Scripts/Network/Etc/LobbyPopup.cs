@@ -25,10 +25,10 @@ public class LobbyPopup : Popup
 
     public Toggle testToggle;
 
+    private RefreshRooms refreshRooms;
+
     private void Start()
     {
-        NetworkManager.instance.roomParent = roomParent;
-
         refreshBtn.onClick.AddListener(() =>
         {
             NetworkManager.instance.ReqRoomRefresh();
@@ -63,6 +63,14 @@ public class LobbyPopup : Popup
         {
             kidnapperNumText.text = $"{(int)x}";
         });
+        StartCoroutine(EndFrame());
+    }
+ 
+    IEnumerator EndFrame()
+    {
+        yield return null;
+        refreshRooms = FindObjectOfType<RefreshRooms>();
+        refreshRooms.roomParent = roomParent;
     }
 
     public void OpenCreateRoomPopup(bool on)
