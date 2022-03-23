@@ -20,9 +20,4 @@ public class EmergencyMeetingTable : MonoBehaviour
     {
         return sr.sprite;
     }
-
-    public void Meeting()
-    {
-        MeetManager.Instance.Meet(true);
-    }
 }

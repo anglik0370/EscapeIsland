@@ -111,13 +111,13 @@ public class InteractionBtn : MonoBehaviour
                     KillPlayer();
                     break;
                 case InteractionCase.OpenConverter:
-                    OpenRefineryPanel(FindNearlestConverter());
+                    ConvertPanel.Instance.Open(FindNearlestConverter());
                     break;
                 case InteractionCase.OpenStorage:
-                    OpenStoragePanel();
+                    StoragePanel.Instance.Open();
                     break;
                 case InteractionCase.EmergencyMeeting:
-                    meetingTable.Meeting();
+                    MeetManager.Instance.Meet(true);
                     break;
                 case InteractionCase.ReportDeadbody:
                     DeadBodyManager.Instance.ReportProximateDeadbody();
@@ -129,7 +129,7 @@ public class InteractionBtn : MonoBehaviour
                     NetworkManager.instance.GameStart();
                     break;
                 case InteractionCase.SelectCharacter:
-                    OpenCharacterSelectPanel();
+                    CharacterSelectPanel.Instance.Open();
                     break;
             }
         });
@@ -225,21 +225,6 @@ public class InteractionBtn : MonoBehaviour
 
         coolTimeCvs.alpha = interactionDic[state].useCoolTimeImg ? 1 : 0;
         coolTimeImg.IsFill = interactionDic[state].coolTimeImgFill;
-    }
-
-    public void OpenCharacterSelectPanel()
-    {
-        CharacterSelectPanel.Instance.Open();
-    }
-
-    public void OpenStoragePanel()
-    {
-        StoragePanel.Instance.Open();
-    }
-
-    public void OpenRefineryPanel(ItemConverter refinery)
-    {
-        ConvertPanel.Instance.Open(refinery);
     }
 
     public void KillPlayer()
