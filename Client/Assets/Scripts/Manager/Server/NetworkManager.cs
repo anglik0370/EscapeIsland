@@ -611,7 +611,7 @@ public class NetworkManager : MonoBehaviour
     {
         ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
 
-        GameManager.Instance.AddItemInStorage(so);
+        StoragePanel.Instance.AddItem(so);
     }
 
     public void SetCharacter(CharacterSO so)
@@ -838,8 +838,6 @@ public class NetworkManager : MonoBehaviour
             }
             
         }
-
-        GameManager.Instance.RefreshPlayerList();
     }
 
     public void RefreshTime(int day,bool isLightTime)
