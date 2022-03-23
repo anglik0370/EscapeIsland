@@ -89,7 +89,7 @@ public class RefreshUsers : MonoBehaviour,ISetAble
 
                     if (isTest)
                     {
-                        user.isImposter = true;
+                        user.isKidnapper = true;
                         DataVO dataVO = new DataVO("TEST_CLIENT", null);
 
                         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));

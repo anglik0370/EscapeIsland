@@ -58,6 +58,11 @@ public class NetworkManager : MonoBehaviour
     public bool isVoteTime = false;
 
     private Player user = null;
+    public Player User
+    {
+        get { return user; }
+        set { user = value; }
+    }
 
 
 
@@ -735,61 +740,6 @@ public class NetworkManager : MonoBehaviour
 
         }
         PlayerEnable();
-    }
-    public void RefreshUser()
-    {
-        foreach (UserVO uv in userDataList)
-        {
-            CharacterProfile profile = CharacterSelectPanel.Instance.GetNotSelectedProfile();
-            if (uv.socketId != socketId)
-            {
-                Player p = null;
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if (p == null)
-                {
-                    MakeRemotePlayer(uv,profile.GetSO());
-                }
-                else
-                {
-                    
-                    p.SetTransform(uv.position);
-                }
-            }
-            else
-            {
-                if(!once)
-                {
-                    user = PoolManager.GetItem<Player>();
-                    InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
-                    user.InitPlayer(uv, ui, false,profile.GetSO());
-
-                    for (int i = 0; i < lights.Length; i++)
-                    {
-                        GameObject obj = Instantiate(lights[i], user.transform);
-                        obj.transform.localPosition = Vector3.zero;
-                    }
-
-                    if (isTest)
-                    {
-                        user.isKidnapper = true;
-                        DataVO dataVO = new DataVO("TEST_CLIENT", null);
-
-                        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-                    }
-                    
-
-                    roomNum = uv.roomNum;
-
-                    followCam.Follow = user.gameObject.transform;
-
-                    once = true;
-
-                    EventManager.OccurEnterRoom(user);
-                }
-            }
-            
-        }
     }
 
     public void RefreshTime(int day,bool isLightTime)
