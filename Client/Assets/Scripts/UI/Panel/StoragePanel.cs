@@ -43,6 +43,22 @@ public class StoragePanel : Panel
     public void AddItem(ItemSO item)
     {
         storage.AddItem(item);
+
+        if (IsItemFull(item))
+        {
+            Debug.Log($"{item}²ËÂü");
+        }
+
+        if (IsItemFull())
+        {
+            //²ËÃ¡À¸´Ï ²ËÃ¡´Ù°í ¼­¹ö¿¡ º¸³»Áà¾ß ÇÑ´Ù.
+            DataVO dataVO = new DataVO("STORAGE_FULL", "");
+
+            Debug.Log("²ËÂü");
+
+            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+        }
+
         UpdateUIs(item);
     }
 

@@ -24,6 +24,5 @@ public class EmergencyMeetingTable : MonoBehaviour
     public void Meeting()
     {
         MeetManager.Instance.Meet(true);
-        GameManager.Instance.ClearDeadBody();
     }
 }

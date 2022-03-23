@@ -25,8 +25,6 @@ public class DeadBody : MonoBehaviour
     {
         MeetManager.Instance.Meet(false);
 
-       GameManager.Instance.ClearDeadBody();
+        DeadBodyManager.Instance.ClearDeadBody();
     }
-
-    
 }

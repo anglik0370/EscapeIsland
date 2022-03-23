@@ -91,7 +91,6 @@ public class NetworkManager : MonoBehaviour
 
         EventManager.SubBackToRoom(() =>
         {
-            GameManager.Instance.ClearDeadBody();
             InitPlayers();
             voteTab.VoteUIDisable();
         });
@@ -494,7 +493,6 @@ public class NetworkManager : MonoBehaviour
 
     public void OnVoteTimeStart()
     {
-        GameManager.Instance.ClearDeadBody();
         isVoteTime = true;
 
         EventManager.OccurStartMeet(meetingType);
@@ -590,15 +588,15 @@ public class NetworkManager : MonoBehaviour
 
     public void SetItemDisable(int spawnerId)
     {
-        ItemSpawner s = GameManager.Instance.spawnerList.Find(x => x.id == spawnerId);
+        ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == spawnerId);
         s.DeSpawnItem();
     }
 
     public void SetItemStorage(int itemSOId)
     {
-        ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
+        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
 
-        GameManager.Instance.AddItemInStorage(so);
+        StoragePanel.Instance.AddItem(so);
     }
 
     public void SetCharacter(CharacterSO so)
@@ -616,7 +614,7 @@ public class NetworkManager : MonoBehaviour
 
     public void SetStartConvert(int converterId, int itemSOId)
     {
-        ItemSO so = GameManager.Instance.FindItemFromItemId(itemSOId);
+        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
 
         Debug.Log($"변환기{converterId}에서 {so}변환 시작");
 
@@ -805,8 +803,6 @@ public class NetworkManager : MonoBehaviour
             }
             
         }
-
-        GameManager.Instance.RefreshPlayerList();
     }
 
     public void RefreshTime(int day,bool isLightTime)
