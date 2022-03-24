@@ -279,7 +279,8 @@ class Room {
                 }
     
             }
-            return false;
+            this.voteTimeEnd();
+            return true;
         }
 
         return false;
