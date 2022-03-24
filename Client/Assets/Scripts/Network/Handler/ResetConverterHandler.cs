@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class ResetConverterHandler : MonoBehaviour, IMsgHandler
 {
+    private Converter converter = null;
+    private bool once = false;
     public void HandleMsg(string payload)
     {
-
-        NetworkManager.instance.SetResetConverter(int.Parse(payload));
+        if(!once)
+        {
+            converter = NetworkManager.instance.FindSetDataScript<Converter>();
+            once = true;
+        }
+        converter.SetResetConverter(int.Parse(payload));
     }
 }

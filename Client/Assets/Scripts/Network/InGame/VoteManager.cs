@@ -16,6 +16,8 @@ public class VoteManager : ISetAble
     private bool needTimeRefresh = false;
     private bool endVoteTime = false;
     private bool needVoteComplete = false;
+    private bool needVoteDeadRefresh = false;
+
 
 
     public bool isVoteTime = false;
@@ -26,6 +28,16 @@ public class VoteManager : ISetAble
 
     private MeetingType meetingType = MeetingType.EMERGENCY;
     private int curTime = -1;
+    private int tempId = -1;
+
+    public static void SetVoteDead(int deadId)
+    {
+        lock (Instance.lockObj)
+        {
+            Instance.needVoteDeadRefresh = true;
+            Instance.tempId = deadId;
+        }
+    }
 
     public static void ReceiveChat(ChatVO vo)
     {
@@ -120,6 +132,12 @@ public class VoteManager : ISetAble
             needVoteComplete = false;
         }
 
+        if (needVoteDeadRefresh)
+        {
+            SetDeadRefresh();
+            needVoteDeadRefresh = false;
+        }
+
         while (chatQueue.Count > 0)
         {
             ChatVO vo = chatQueue.Dequeue();
@@ -144,6 +162,26 @@ public class VoteManager : ISetAble
         }
     }
 
+    public void SetDeadRefresh()
+    {
+        if (tempId == socketId)
+        {
+            user.SetDead();
+
+        }
+        else if (playerList.ContainsKey(tempId))
+        {
+            Player p = playerList[tempId];
+
+            p.SetDead();
+
+            if (p.gameObject.activeSelf && p.isDie && !user.isDie)
+            {
+                p.SetDisable();
+            }
+        }
+        NetworkManager.instance.PlayerEnable();
+    }
     public void VoteComplete()
     {
         VoteUI ui = voteTab.FindVoteUI(voteCompleteVO.voterId);

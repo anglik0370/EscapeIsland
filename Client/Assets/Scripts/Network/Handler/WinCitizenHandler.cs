@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class WinCitizenHandler : MonoBehaviour, IMsgHandler
 {
+    private Win win = null;
+    private bool once = false;
     public void HandleMsg(string payload)
     {
+        if(!once)
+        {
+            win = NetworkManager.instance.FindSetDataScript<Win>();
+            once = true;
+        }
         GameOverVO vo = JsonUtility.FromJson<GameOverVO>(payload);
-        NetworkManager.SetWinUserData(vo.dataList, vo.gameOverCase);
+        win.SetWinUserData(vo.dataList, vo.gameOverCase);
     }
 }

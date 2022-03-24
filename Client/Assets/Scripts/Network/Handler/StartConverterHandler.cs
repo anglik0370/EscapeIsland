@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class StartConverterHandler : MonoBehaviour,IMsgHandler
 {
+    private Converter converter = null;
+    private bool once = false;
+
     public void HandleMsg(string payload)
     {
+        if (!once)
+        {
+            converter = NetworkManager.instance.FindSetDataScript<Converter>();
+            once = true;
+        }
+
         RefineryVO vo = JsonUtility.FromJson<RefineryVO>(payload);
-        NetworkManager.instance.SetStartConvert(vo.refineryId, vo.itemSOId);
+        converter.SetStartConvert(vo.refineryId, vo.itemSOId);
     }
 }
