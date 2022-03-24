@@ -11,6 +11,14 @@ public abstract class ISetAble : MonoBehaviour
 
     protected object lockObj = new object();
 
+    protected virtual void Start()
+    {
+        EventManager.SubEnterRoom(p =>
+        {
+            user = p;
+        });
+    }
+
     protected void Init()
     {
         playerList = NetworkManager.instance.GetPlayerDic();

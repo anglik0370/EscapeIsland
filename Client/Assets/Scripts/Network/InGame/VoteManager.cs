@@ -96,8 +96,9 @@ public class VoteManager : ISetAble
     {
         Instance = this;
     }
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         EventManager.SubBackToRoom(() => voteTab.VoteUIDisable());
     }
 
@@ -164,6 +165,8 @@ public class VoteManager : ISetAble
 
     public void SetDeadRefresh()
     {
+        Init();
+
         if (tempId == socketId)
         {
             user.SetDead();
@@ -226,6 +229,7 @@ public class VoteManager : ISetAble
 
     public void OnVoteTimeStart()
     {
+        Init();
         isVoteTime = true;
 
         EventManager.OccurStartMeet(meetingType);

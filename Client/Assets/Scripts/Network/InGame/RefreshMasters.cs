@@ -28,6 +28,8 @@ public class RefreshMasters : ISetAble
     }
     public void RefreshMaster()
     {
+        Init();
+
         foreach (UserVO uv in userDataList)
         {
             if (uv.socketId == socketId)

@@ -15,8 +15,9 @@ public class RefreshUsers : ISetAble
     public bool isTest = false;
 
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         EventManager.SubExitRoom(() =>
         {
             isOnce = false;
