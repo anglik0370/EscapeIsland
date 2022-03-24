@@ -6,7 +6,6 @@ public class StorageDropHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        print("StorageDrop");
         NetworkManager.instance.SetItemStorage(int.Parse(payload));
     }
 }
