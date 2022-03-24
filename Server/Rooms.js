@@ -76,7 +76,6 @@ class Rooms {
             sendError("잘못된 접근입니다.", socket);
             return;
         }
-    
         this.exit(socket,roomNum);
    
         socket.send(JSON.stringify({type:"EXIT_ROOM"}));
@@ -126,6 +125,8 @@ class Rooms {
             delete this.roomList[roomNum];
             return;
         }
+
+        this.roomBroadcast(roomNum);
         
         room.socketList.forEach(soc => {
             if(soc.id === socket.id) return;
@@ -142,7 +143,8 @@ class Rooms {
         socket.state = SocketState.IN_ROOM;
 
         if(user !== undefined){
-            user.roomNum = this.roomIdx;
+            //user.roomNum = this.roomIdx;
+            user.roomNum = socket.room;
             user.master = isMaster;
             user.position = GetRandomPos();
         }
