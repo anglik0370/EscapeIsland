@@ -184,8 +184,8 @@ public class InteractionBtn : MonoBehaviour
             }
             else if (MeetManager.Instance.GetTableInRange() != null)
             {
-                //여긴 캐릭터 선택하는 곳
-                state = InteractionCase.SelectCharacter;
+                //여긴 긴급회의 하는곳
+                state = InteractionCase.EmergencyMeeting;
                 accent.Enable(MeetManager.Instance.GetTableInRange().GetSprite(),
                     MeetManager.Instance.GetTableInRange().GetTrm());
             }
