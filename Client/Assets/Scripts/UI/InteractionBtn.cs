@@ -167,7 +167,7 @@ public class InteractionBtn : MonoBehaviour
             {
                 //여긴 킬하는곳
                 state = InteractionCase.KillPlayer;
-                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm());
+                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
             }
             else if (FindNearlestConverter() != null)
             {
