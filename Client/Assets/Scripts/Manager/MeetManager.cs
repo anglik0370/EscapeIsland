@@ -34,8 +34,10 @@ public class MeetManager : MonoBehaviour
         {
             temp = meetingTable;
         }
-
-        temp = null;
+        else
+        {
+            temp = null;
+        }
 
         return temp != null;
     }

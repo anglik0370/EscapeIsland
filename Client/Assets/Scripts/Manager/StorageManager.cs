@@ -139,11 +139,11 @@ public class StorageManager : MonoBehaviour
         if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
         {
             temp = storage;
-
-            return storage;
         }
-
-        temp = null;
+        else
+        {
+            temp = null;
+        }
 
         return temp != null;
     }

@@ -41,8 +41,10 @@ public class InteractionBtn : MonoBehaviour
     private Button btn;
     private Image image;
 
-    public bool isGameStart;
-    public bool isEnterRoom;
+    [SerializeField]
+    private bool isGameStart;
+    [SerializeField]
+    private bool isEnterRoom;
 
     private void Awake() 
     {
@@ -138,6 +140,8 @@ public class InteractionBtn : MonoBehaviour
         {
             if (MeetManager.Instance.GetTableInRange(out LogTable table))
             {
+                print(table.gameObject.name);
+
                 //여긴 캐릭터 선택하는 곳
                 state = InteractionCase.SelectCharacter;
                 accent.Enable(table.GetSprite(), table.GetTrm());
