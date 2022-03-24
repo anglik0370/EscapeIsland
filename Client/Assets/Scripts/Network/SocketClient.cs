@@ -44,7 +44,7 @@ public class SocketClient : MonoBehaviour
 
         //webSocket = new WebSocket($"{url}:{port}");
         //ConnectSocket("localhost", port.ToString());
-        ConnectSocket("localhost", port.ToString());
+        ConnectSocket("172.31.0.209", port.ToString());
     }
     public string GetTypeString(string s)
     {

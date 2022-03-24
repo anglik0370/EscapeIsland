@@ -31,7 +31,7 @@ public class SpawnerManager : MonoBehaviour
         });
     }
 
-    public ItemSpawner FindProximateSpawner()
+    public bool FindProximateSpawner(out ItemSpawner temp)
     {
         ItemSpawner spawner = null;
 
@@ -54,7 +54,9 @@ public class SpawnerManager : MonoBehaviour
             }
         }
 
-        return spawner;
+        temp = spawner;
+
+        return temp != null;
     }
 
     public void PickUpProximateSpawnerItem()
@@ -62,7 +64,7 @@ public class SpawnerManager : MonoBehaviour
         //모든 슬롯이 꽉차있으면 리턴
         if (player.inventory.IsAllSlotFull) return;
 
-        ItemSpawner nearlestSpawner = FindProximateSpawner();
+        FindProximateSpawner(out ItemSpawner nearlestSpawner);
 
         //스포너가 없다면 리턴
         if (nearlestSpawner == null) return;

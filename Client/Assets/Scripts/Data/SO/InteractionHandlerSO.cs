@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,5 @@ public class InteractionHandlerSO : ScriptableObject
     public Sprite btnSprite;
     public string btnText = string.Empty;
 
-    public bool useCoolTimeImg = false;
-    public bool coolTimeImgFill = false;
+    public Action Callback;
 }
