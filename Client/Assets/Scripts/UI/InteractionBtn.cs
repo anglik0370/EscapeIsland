@@ -153,12 +153,16 @@ public class InteractionBtn : MonoBehaviour
             state = InteractionCase.SelectCharacter;
             accent.Enable(MeetManager.Instance.GetTableInRange().GetSprite(), 
                 MeetManager.Instance.GetTableInRange().GetTrm());
+
+            SetButtonFromState();
         }
         else
         {
             //시작버튼으로 바꿔준다
             state = InteractionCase.GameStart;
             accent.Disable();
+
+            SetButtonFromState();
         }
 
         if (isGameStart) //죽어서도 버튼이 바뀌기는 해야한다
@@ -167,13 +171,18 @@ public class InteractionBtn : MonoBehaviour
             {
                 //여긴 킬하는곳
                 state = InteractionCase.KillPlayer;
-                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), FindNearlestPlayer().GetFlip());
+                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), 
+                    FindNearlestPlayer().GetFlip());
+
+                SetButtonFromState();
             }
             else if (FindNearlestConverter() != null)
             {
                 //여긴 제련소 여는곳
                 state = InteractionCase.OpenConverter;
                 accent.Enable(FindNearlestConverter().GetSprite(), FindNearlestConverter().GetTrm());
+
+                SetButtonFromState();
             }
             else if (StorageManager.Instance.GetStorageInRange() != null)
             {
@@ -181,6 +190,8 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.OpenStorage;
                 accent.Enable(StorageManager.Instance.GetStorageInRange().GetSprite(),
                     StorageManager.Instance.GetStorageInRange().GetTrm());
+
+                SetButtonFromState();
             }
             else if (MeetManager.Instance.GetTableInRange() != null)
             {
@@ -188,6 +199,8 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.EmergencyMeeting;
                 accent.Enable(MeetManager.Instance.GetTableInRange().GetSprite(),
                     MeetManager.Instance.GetTableInRange().GetTrm());
+
+                SetButtonFromState();
             }
             else if (SpawnerManager.Instance.FindProximateSpawner() != null)
             {
@@ -195,6 +208,8 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.PickUpItem;
                 accent.Enable(SpawnerManager.Instance.FindProximateSpawner().GetSprite(),
                     SpawnerManager.Instance.FindProximateSpawner().GetTrm());
+
+                SetButtonFromState();
             }
             else if (DeadBodyManager.Instance.FindProximateDeadBody() != null)
             {
@@ -202,17 +217,18 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.ReportDeadbody;
                 accent.Enable(DeadBodyManager.Instance.FindProximateDeadBody().GetSprite(), 
                     DeadBodyManager.Instance.FindProximateDeadBody().GetTrm());
+
+                SetButtonFromState();
             }
             else
             {
                 //여긴 아무것도 아닌곳
                 state = InteractionCase.Nothing;
                 accent.Disable();
+
+                SetButtonFromState();
             }
         };
-
-        //state에 따라 버튼 처리
-        SetButtonFromState();
     }
 
     private void SetButtonFromState()
