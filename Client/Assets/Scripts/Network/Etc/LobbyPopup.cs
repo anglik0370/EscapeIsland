@@ -7,6 +7,7 @@ public class LobbyPopup : Popup
 {
     public Button refreshBtn;
     public Button createPopupOpenBtn;
+    public Button joinPopupOpenBtn;
     public Button exitBtn;
 
     public Transform roomParent;
@@ -16,6 +17,12 @@ public class LobbyPopup : Popup
     public InputField roomNameInput;
     public Button createRoomBtn;
     public Button cancelBtn;
+
+    [Header("JoinRoom")]
+    public CanvasGroup joinRoomPopup;
+    public InputField joinRoomNameInput;
+    public Button joinBtn;
+    public Button joinCancelBtn;
 
     public Slider userNumslider;
     public Text userNumtext;
@@ -52,6 +59,20 @@ public class LobbyPopup : Popup
         {
             OpenCreateRoomPopup(false);
         });
+
+        joinPopupOpenBtn.onClick.AddListener(() =>
+        {
+            OpenJoinRoomPopup(true);
+        });
+
+        joinCancelBtn.onClick.AddListener(() => OpenJoinRoomPopup(false));
+
+        joinBtn.onClick.AddListener(() =>
+        {
+            //JoinRoom 보내 nameInput text로 
+        });
+
+
         userNumslider.onValueChanged.AddListener(x =>
         {
             userNumtext.text = $"{(int)x}";
@@ -65,9 +86,7 @@ public class LobbyPopup : Popup
 
     public void OpenCreateRoomPopup(bool on)
     {
-        createRoomPopup.alpha = on ? 1f : 0f;
-        createRoomPopup.interactable = on;
-        createRoomPopup.blocksRaycasts = on;
+        CgOpenAndClose(createRoomPopup, on);
 
         if(!on)
         {
@@ -76,5 +95,22 @@ public class LobbyPopup : Popup
             kidnapperNumSlider.value = 1;
             testToggle.isOn = false;
         }
+    }
+
+    public void OpenJoinRoomPopup(bool on)
+    {
+        CgOpenAndClose(joinRoomPopup, on);
+
+        if(!on)
+        {
+            joinRoomNameInput.text = "";
+        }
+    }
+
+    public void CgOpenAndClose(CanvasGroup cg, bool on)
+    {
+        cg.alpha = on ? 1f : 0f;
+        cg.interactable = on;
+        cg.blocksRaycasts = on;
     }
 }
