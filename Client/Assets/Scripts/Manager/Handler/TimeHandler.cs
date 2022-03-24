@@ -58,7 +58,7 @@ public class TimeHandler : MonoBehaviour
 
     public void KillStackTimer()
     {
-        if (NetworkManager.instance.User == null || (!NetworkManager.instance.User.isKidnapper && NetworkManager.instance.isVoteTime)) return;
+        if (NetworkManager.instance.User == null || (!NetworkManager.instance.User.isKidnapper || NetworkManager.instance.isVoteTime)) return;
 
         if (!isKillAble)
         {
