@@ -217,6 +217,22 @@ public class InteractionBtn : MonoBehaviour
 
     private void SetButtonFromState()
     {
+        if(state == InteractionCase.GameStart)
+        {
+            if(player.master)
+            {
+                btn.interactable = true;
+            }
+            else
+            {
+                btn.interactable = false;
+            }
+        }
+        else
+        {
+            btn.interactable = true;
+        }
+
         image.sprite = interactionDic[state].btnSprite;
 
         txt.text = interactionDic[state].btnText;
