@@ -289,6 +289,7 @@ class Room {
     voteTimeEnd() {
         if(this.isEnd) {
             this.changeTime();
+            console.log("changeTime - voteTimeEnd");
         }
         else{
             this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
@@ -454,10 +455,11 @@ class Room {
     }
 
     changeTime() {
+        this.stopTimer();
         this.inVoteTimer.initTime();
         //this.skipCount = 0;
         let p = this.inGameTimer.returnPayload();
-
+        console.log("time refresh - changeTime");
         this.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:p}));
         this.startTimer();
     }
@@ -468,6 +470,7 @@ class Room {
         if(this.inVoteTimer.timeRefresh(this.socketList)) {
             if(!this.voteEnd()) {
                 this.voteTimeEnd();
+                console.log("changeTime - voteTimer");
             }
             return;
         }
