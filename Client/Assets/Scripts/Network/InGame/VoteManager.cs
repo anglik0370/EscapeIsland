@@ -7,7 +7,6 @@ public class VoteManager : ISetAble
     public static VoteManager Instance { get; set; }
 
     private List<UserVO> userDataList;
-    private Queue<ChatVO> chatQueue = new Queue<ChatVO>();
 
     public VotePopup voteTab;
 
@@ -18,8 +17,6 @@ public class VoteManager : ISetAble
     private bool needVoteComplete = false;
     private bool needVoteDeadRefresh = false;
 
-
-
     public bool isVoteTime = false;
     private bool isTextChange = false;
 
@@ -27,6 +24,7 @@ public class VoteManager : ISetAble
     private VoteCompleteVO voteCompleteVO;
 
     private MeetingType meetingType = MeetingType.EMERGENCY;
+    public MeetingType MeetingType => meetingType;
     private int curTime = -1;
     private int tempId = -1;
 
@@ -39,13 +37,7 @@ public class VoteManager : ISetAble
         }
     }
 
-    public static void ReceiveChat(ChatVO vo)
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.chatQueue.Enqueue(vo);
-        }
-    }
+    
 
     public static void SetVoteComplete(VoteCompleteVO vo)
     {
@@ -139,28 +131,6 @@ public class VoteManager : ISetAble
             needVoteDeadRefresh = false;
         }
 
-        while (chatQueue.Count > 0)
-        {
-            ChatVO vo = chatQueue.Dequeue();
-            print("ChatHandler");
-
-            Player p = null;
-
-            if (playerList.TryGetValue(vo.socketId, out p))
-            {
-                if ((!p.isDie && !user.isDie) || user.isDie)
-                {
-                    voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg);
-                }
-            }
-            else
-            {
-                if (user.socketId == vo.socketId)
-                {
-                    voteTab.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg);
-                }
-            }
-        }
     }
 
     public void SetDeadRefresh()
@@ -254,7 +224,6 @@ public class VoteManager : ISetAble
                     voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg);
                 }
             }
-
         }
     }
 }
