@@ -48,7 +48,7 @@ public class RefreshUsers : ISetAble
 
         foreach (UserVO uv in userDataList)
         {
-            CharacterProfile profile = CharacterSelectPanel.Instance.GetNotSelectedProfile();
+            CharacterProfile profile = CharacterSelectPanel.Instance.GetDefaultProfile();
             if (uv.socketId != socketId)
             {
                 Player p = null;
@@ -63,7 +63,6 @@ public class RefreshUsers : ISetAble
                 }
                 else
                 {
-
                     p.SetTransform(uv.position);
                 }
             }
