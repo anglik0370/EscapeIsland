@@ -209,10 +209,10 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.Nothing;
                 accent.Disable();
             }
-
-            //state에 따라 버튼 처리
-            SetButtonFromState();
         };
+
+        //state에 따라 버튼 처리
+        SetButtonFromState();
     }
 
     private void SetButtonFromState()
