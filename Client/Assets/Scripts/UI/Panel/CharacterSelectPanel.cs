@@ -44,6 +44,11 @@ public class CharacterSelectPanel : Panel
         return profileList.Find(profile => !profile.IsSelected());
     }
 
+    public CharacterProfile GetDefaultProfile()
+    {
+        return profileList[0];
+    }
+
     public CharacterProfile GetCharacterProfile(int charId)
     {
         return profileList.Find(profile => profile.GetSO().id == charId);

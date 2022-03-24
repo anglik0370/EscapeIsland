@@ -27,6 +27,12 @@ public class SendManager : MonoBehaviour
         });
     }
 
+    public void Send(string type)
+    {
+        DataVO dataVO = new DataVO(type, null);
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
     public void Login(string name)
     {
         LoginVO vo = new LoginVO();

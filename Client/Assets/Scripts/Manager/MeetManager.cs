@@ -48,17 +48,13 @@ public class MeetManager : MonoBehaviour
         {
             print("긴급 회의 시작");
 
-            DataVO dataVO = new DataVO("EMERGENCY", "");
-
-            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+            SendManager.Instance.Send("EMERGENCY");
         }
         else
         {
             print("시체 발견");
 
-            DataVO dataVO = new DataVO("DEAD_REPORT", "");
-
-            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+            SendManager.Instance.Send("DEAD_REPORT");
         }
     }
 }
