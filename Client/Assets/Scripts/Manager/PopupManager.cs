@@ -53,7 +53,7 @@ public class PopupManager : MonoBehaviour
 
         //alert는 항상 밑에 있어야함
         popupDic.Add("alert", Instantiate(alertPopup, popupParent));
-        NetworkManager.instance.voteTab = popupDic["vote"] as VotePopup;
+        VoteManager.Instance.voteTab = popupDic["vote"] as VotePopup;
         OpenPopup("login");
 
         EventManager.SubGameOver(gameOverCase =>

@@ -17,7 +17,7 @@ public class RoomEnterBtn : MonoBehaviour
         roomEnterBtn = GetComponent<Button>();
         roomEnterBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.JoinRoom(roomNum);
+            SendManager.Instance.JoinRoom(roomNum);
         });
     }
 

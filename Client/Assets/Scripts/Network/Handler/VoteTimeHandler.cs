@@ -8,6 +8,6 @@ public class VoteTimeHandler : MonoBehaviour, IMsgHandler
     {
         MeetingVO vo = JsonUtility.FromJson<MeetingVO>(payload);
 
-        NetworkManager.SetVoteTime(vo.dataList,vo.type);
+        VoteManager.SetVoteTime(vo.dataList,vo.type);
     }
 }

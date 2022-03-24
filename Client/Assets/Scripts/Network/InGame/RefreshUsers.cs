@@ -3,31 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefreshUsers : MonoBehaviour,ISetAble
+public class RefreshUsers : ISetAble
 {
     private bool needUserRefresh = false;
     private List<UserVO> userDataList;
-    private Dictionary<int, Player> playerList;
 
     public GameObject[] lights;
     public CinemachineVirtualCamera followCam;
 
-    private object lockObj = new object();
-
-    private bool once = false;
+    private bool isOnce = false;
     public bool isTest = false;
 
-    private int socketId;
 
     private void Start()
     {
         EventManager.SubExitRoom(() =>
         {
-            once = false;
+            isOnce = false;
             isTest = false;
         });
     }
-
 
     private void Update()
     {
@@ -48,12 +43,7 @@ public class RefreshUsers : MonoBehaviour,ISetAble
 
     public void RefreshUser()
     {
-        playerList = NetworkManager.instance.GetPlayerDic();
-
-        if(!once)
-        {
-            socketId = NetworkManager.instance.socketId;
-        }
+        Init();
 
         foreach (UserVO uv in userDataList)
         {
@@ -75,7 +65,7 @@ public class RefreshUsers : MonoBehaviour,ISetAble
             }
             else
             {
-                if (!once)
+                if (!isOnce)
                 {
                     Player user = PoolManager.GetItem<Player>();
                     InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
@@ -100,7 +90,7 @@ public class RefreshUsers : MonoBehaviour,ISetAble
 
                     followCam.Follow = user.gameObject.transform;
 
-                    once = true;
+                    isOnce = true;
                     EventManager.OccurEnterRoom(user);
                 }
             }

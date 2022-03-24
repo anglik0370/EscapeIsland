@@ -23,37 +23,22 @@ public class NetworkManager : MonoBehaviour
     private List<ISetAble> setDataScriptList = new List<ISetAble>();
     private Queue<int> removeSocketQueue = new Queue<int>();
 
-    private Queue<ChatVO> chatQueue = new Queue<ChatVO>();
-
     public Transform setDataScriptsParent;
 
     private List<UserVO> tempDataList;
     private List<UserVO> gameOverUserList;
 
-    private TimeVO timeVO;
-    private VoteCompleteVO voteCompleteVO;
-    private CharacterVO characterVO;
 
     private bool isLogin = false;
     private bool needMasterRefresh = false;
-    private bool needVoteRefresh = false;
-    private bool needTimeRefresh = false;
-    private bool needVoteComplete = false;
-    private bool endVoteTime = false;
     private bool needVoteDeadRefresh = false;
     private bool needWinRefresh = false;
     private bool needStorageFullRefresh = false;
-    private bool needTimerRefresh = false;
-    private bool needCharacterChangeRefresh = false;
 
     private int tempId = -1;
-    private int curTime = -1;
-    private MeetingType meetingType = MeetingType.EMERGENCY;
     private GameOverCase gameOverCase = GameOverCase.CollectAllItem;
     private string msg = string.Empty;
-    private bool isTextChange = false;
 
-    public bool isVoteTime = false;
 
     private Player user = null;
     public Player User
@@ -62,11 +47,8 @@ public class NetworkManager : MonoBehaviour
         set { user = value; }
     }
 
-
-
     public GameObject map;
 
-    public VotePopup voteTab;
 
     public List<AreaCover> covers = new List<AreaCover>();
 
@@ -91,7 +73,6 @@ public class NetworkManager : MonoBehaviour
         EventManager.SubBackToRoom(() =>
         {
             InitPlayers();
-            voteTab.VoteUIDisable();
         });
 
         StartCoroutine(Frame());
@@ -101,29 +82,11 @@ public class NetworkManager : MonoBehaviour
     {
         yield return null;
         map.SetActive(false);
-    
     }
 
-    public T FindSetDataScript<T>()
+    public T FindSetDataScript<T>() where T : ISetAble
     {
         return (T)setDataScriptList.Find(x => x.GetType() == typeof(T));
-    }
-
-    public static void SetCharChange(CharacterVO vo)
-    {
-        lock(instance.lockObj)
-        {
-            instance.needCharacterChangeRefresh = true;
-            instance.characterVO = vo;
-        }
-    }
-    public static void SetTimerData(int curTime)
-    {
-        lock(instance.lockObj)
-        {
-            instance.needTimerRefresh = true;
-            instance.curTime = curTime;
-        }
     }
     public static void SetWinUserData(List<UserVO> list,int gameOverCase)
     {
@@ -144,25 +107,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetTimeRefresh(TimeVO vo)
-    {
-        lock (instance.lockObj)
-        {
-            instance.timeVO = vo;
-            instance.needTimeRefresh = true;
-        }
-    }
-
-    public static void SetVoteTime(List<UserVO> list,int type)
-    {
-        lock (instance.lockObj)
-        {
-            instance.tempDataList = list;
-            instance.meetingType = (MeetingType)type;
-            instance.needVoteRefresh = true;
-        }
-    }
-
     public static void SetVoteDead(int deadId)
     {
         lock(instance.lockObj)
@@ -171,24 +115,6 @@ public class NetworkManager : MonoBehaviour
             instance.tempId = deadId;
         }
     }
-
-    public static void SetVoteEnd()
-    {
-        lock(instance.lockObj)
-        {
-            instance.endVoteTime = true;
-        }
-    }
-
-    public static void SetVoteComplete(VoteCompleteVO vo)
-    {
-        lock (instance.lockObj)
-        {
-            instance.voteCompleteVO = vo;
-            instance.needVoteComplete = true;
-        }
-    }
-
     
     public static void SetMasterRefreshData(List<UserVO> list)
     {
@@ -221,13 +147,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void ReceiveChat(ChatVO vo)
-    {
-        lock(instance.lockObj)
-        {
-            instance.chatQueue.Enqueue(vo);
-        }
-    }
 
     private void Update()
     {
@@ -235,11 +154,7 @@ public class NetworkManager : MonoBehaviour
         {
             PopupManager.instance.CloseAndOpen("lobby");
             isLogin = false;
-        }
-
-        
-
-        
+        }              
 
         if(needMasterRefresh)
         {
@@ -247,40 +162,13 @@ public class NetworkManager : MonoBehaviour
 
             needMasterRefresh = false;
         }
-        if(needTimeRefresh)
-        {
-            RefreshTime(timeVO.day, timeVO.isLightTime);
-            needTimeRefresh = false;
-        }
-
-        
-
-        
-
-        if(needVoteRefresh)
-        {
-            OnVoteTimeStart();
-            needVoteRefresh = false;
-        }
-
-        if(needVoteComplete)
-        {
-            VoteComplete();
-            needVoteComplete = false;
-        }
-
+              
         if(needVoteDeadRefresh)
         {
             SetDeadRefresh();
             needVoteDeadRefresh = false;
         }
-
-        if(endVoteTime)
-        {
-            EndVoteTime();
-            endVoteTime = false;
-        }
-
+               
         if(needStorageFullRefresh)
         {
             SetStorageFull();
@@ -293,40 +181,7 @@ public class NetworkManager : MonoBehaviour
             needWinRefresh = false;
         }
 
-        if(needTimerRefresh)
-        {
-            TimerText();
-            needTimerRefresh = false;
-        }
-
-        if(needCharacterChangeRefresh)
-        {
-            SetCharacterChange();
-            needCharacterChangeRefresh = false;
-        }
-
-        while(chatQueue.Count > 0)
-        {
-            ChatVO vo = chatQueue.Dequeue();
-            print("ChatHandler");
-
-            Player p = null;
-
-            if(playerList.TryGetValue(vo.socketId, out p))
-            {
-                if((!p.isDie && !user.isDie) || user.isDie)
-                {
-                    voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg);
-                }
-            }
-            else
-            {
-                if(user.socketId == vo.socketId)
-                {
-                    voteTab.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg);
-                }
-            }
-        }
+        
 
         while (removeSocketQueue.Count > 0)
         {
@@ -385,16 +240,13 @@ public class NetworkManager : MonoBehaviour
 
     public void EnterLobby()
     {
-        print("enter lobby");
-        ExitRoomSend();
+        SendManager.Instance.ExitRoomSend();
     }
 
     public void SetStorageFull()
     {
         //msg띄워주기
     }
-
-    //
     public void SetWinTeam()
     {
         //이긴 팀에 따라 해줘야 할 일 해주기
@@ -431,63 +283,7 @@ public class NetworkManager : MonoBehaviour
 
         PlayerEnable(true);
     }
-
-    public void TimerText()
-    {
-        if (isTextChange) return;
-        voteTab.ChangeMiddleText(curTime.ToString());
-    }
-
-    IEnumerator TextChange(string msg)
-    {
-        isTextChange = true;
-        voteTab.ChangeMiddleText(msg);
-
-        yield return new WaitForSeconds(1f);
-
-        isTextChange = false;
-    }
-
-    public void VoteComplete()
-    {
-        VoteUI ui = voteTab.FindVoteUI(voteCompleteVO.voterId);
-        ui.VoteComplete();
-
-        if (voteCompleteVO.voterId == socketId)
-        {
-            voteTab.CompleteVote();
-        }
-    }
-
-    public void OnVoteTimeStart()
-    {
-        isVoteTime = true;
-
-        EventManager.OccurStartMeet(meetingType);
-        StartCoroutine(TextChange("투표시간 시작"));
-
-        foreach (UserVO uv in tempDataList)
-        {
-            if (uv.socketId == socketId)
-            {
-                user.transform.position = uv.position;
-                voteTab.SetVoteUI(uv.socketId, uv.name, user.curSO.profileImg);
-            }
-            else
-            {
-                Player p = null;
-
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if (p != null)
-                {
-                    p.transform.position = uv.position;
-                    voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg);
-                }
-            }
-            
-        }
-    }
+    
     public void SetDeadRefresh()
     {
         if(tempId == socketId)
@@ -507,20 +303,6 @@ public class NetworkManager : MonoBehaviour
             }
         }
         PlayerEnable();
-
-        //EndVoteTime();
-    }
-    
-
-    public void SetCharacterChange()
-    {
-        CharacterProfile beforeProfile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.beforeCharacterId);
-        beforeProfile.BtnEnabled(true);
-
-        CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.characterId);
-        profile.BtnEnabled(false);
-
-        //characterVO.changerId -> 이 사람 캐릭터 바꿔주기
     }
 
     public void SetItemDisable(int spawnerId)
@@ -542,11 +324,7 @@ public class NetworkManager : MonoBehaviour
 
         int beforeId = user.ChangeCharacter(so);
 
-        CharacterVO vo = new CharacterVO(so.id, beforeId, socketId);
-
-        DataVO dataVO = new DataVO("CHARACTER_CHANGE", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+        SendManager.Instance.SendCharacterChange(so.id, beforeId);
     }
 
     public void SetStartConvert(int converterId, int itemSOId)
@@ -649,135 +427,7 @@ public class NetworkManager : MonoBehaviour
             }
         }
     }
-    
 
-    public void RefreshTime(int day,bool isLightTime)
-    {
-        EndVoteTime();
-        TimeHandler.Instance.TimeRefresh(day, isLightTime);
-    }
-    
-    public void EndVoteTime()
-    {
-        isVoteTime = false;
-
-        TimeHandler.Instance.InitKillCool();
-        
-        PopupManager.instance.ClosePopup();
-        voteTab.VoteUIDisable();
-    }
-
-    public void Login(string name)
-    {
-        LoginVO vo = new LoginVO();
-        vo.name = name;
-
-        DataVO dataVO = new DataVO("LOGIN",JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-    public void CreateRoom(string name, int curUserNum, int userNum,int kidnapperNum,bool isTest)
-    {
-        FindSetDataScript<RefreshUsers>().isTest = isTest;
-
-        RoomVO vo = new RoomVO(name, 0,curUserNum, userNum,kidnapperNum);
-
-        DataVO dataVO = new DataVO("CREATE_ROOM", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void JoinRoom(int roomNum)
-    {
-        RoomVO vo = new RoomVO();
-        vo.roomNum = roomNum;
-
-        DataVO dataVO = new DataVO("JOIN_ROOM", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void ExitRoomSend()
-    {
-        RoomVO vo = new RoomVO();
-        vo.roomNum = roomNum;
-
-        //roomNum = 0;
-        //EventManager.OccurExitRoom();
-        //PlayerClear();
-
-        DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void GameStart()
-    {
-        //PopupManager.instance.CloseAndOpen("ingame");
-
-        if (!user.master) return;
-
-        RoomVO vo = new RoomVO();
-        vo.roomNum = roomNum;
-
-        DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void GetItem(int spawnerId)
-    {
-        ItemSpawnerVO vo = new ItemSpawnerVO();
-        vo.spawnerId = spawnerId;
-
-        DataVO dataVO = new DataVO("GET_ITEM", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void StorageDrop(int itemSOId)
-    {
-        ItemStorageVO vo = new ItemStorageVO();
-        vo.itemSOId = itemSOId;
-
-        DataVO dataVO = new DataVO("STORAGE_DROP", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void StorageFull()
-    {
-        DataVO dataVO = new DataVO("STORAGE_FULL", "");
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void StartConverting(int refineryId, int itemSOId)
-    {
-        RefineryVO vo = new RefineryVO(refineryId, itemSOId);
-
-        DataVO dataVO = new DataVO("START_CONVERTER", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void ResetConverter(int refineryId)
-    {
-        RefineryVO vo = new RefineryVO(refineryId, 0);
-
-        DataVO dataVO = new DataVO("RESET_CONVERTER", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void TakeConverterAfterItem(int refineryId)
-    {
-        RefineryVO vo = new RefineryVO(refineryId, 0);
-
-        DataVO dataVO = new DataVO("TAKE_CONVERTER", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
 
     public void Kill(Player targetPlayer)
     {
@@ -791,22 +441,11 @@ public class NetworkManager : MonoBehaviour
                 break;
             }
         }
-        
-        KillVO vo = new KillVO(targetSocketId);
 
-        DataVO dataVO = new DataVO("KILL", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+        SendManager.Instance.SendKill(targetSocketId);
     }
-
-    public void SendChat(string msg)
-    {
-        ChatVO vo = new ChatVO(socketId, msg);
-
-        DataVO dataVO = new DataVO("CHAT", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
+    
+    
 
     public Player MakeRemotePlayer(UserVO data,CharacterSO so)
     {
@@ -820,9 +459,5 @@ public class NetworkManager : MonoBehaviour
         return null;
     }
 
-    public void ReqRoomRefresh()
-    {
-        DataVO dataVO = new DataVO("ROOM_REFRESH_REQ", "");
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
+    
 }

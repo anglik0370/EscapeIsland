@@ -51,7 +51,7 @@ public class StorageSlot : ItemSlot
             //꽉안찼으면 실행
             if(!StorageManager.Instance.IsItemFull(itemGhost.GetItem()))
             {
-                NetworkManager.instance.StorageDrop(itemGhost.GetItem().itemId);
+                SendManager.Instance.StorageDrop(itemGhost.GetItem().itemId);
                 //storagePanel.AddItem(itemGhost.GetItem());
                 itemGhost.SetItem(null);
             }
