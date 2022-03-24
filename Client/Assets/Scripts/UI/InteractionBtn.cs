@@ -233,7 +233,14 @@ public class InteractionBtn : MonoBehaviour
 
     private void SetButtonFromState()
     {
-        if(state == InteractionCase.GameStart)
+        txt.text = interactionDic[state].btnText;
+
+        coolTimeCvs.alpha = interactionDic[state].useCoolTimeImg || player.isDie ? 1 : 0;
+        coolTimeImg.IsFill = interactionDic[state].coolTimeImgFill || player.isDie;
+
+        image.sprite = interactionDic[state].btnSprite;
+
+        if (state == InteractionCase.GameStart)
         {
             if(player.master)
             {
@@ -248,13 +255,6 @@ public class InteractionBtn : MonoBehaviour
         {
             btn.interactable = true;
         }
-
-        image.sprite = interactionDic[state].btnSprite;
-
-        txt.text = interactionDic[state].btnText;
-
-        coolTimeCvs.alpha = interactionDic[state].useCoolTimeImg || player.isDie ? 1 : 0;
-        coolTimeImg.IsFill = interactionDic[state].coolTimeImgFill || player.isDie;
     }
 
     public void KillPlayer()
