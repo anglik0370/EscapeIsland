@@ -17,6 +17,14 @@ public class SendManager : MonoBehaviour
         Instance = this;
     }
 
+    void Start()
+    {
+        EventManager.SubEnterRoom(p =>
+        {
+            user = p;
+        });
+    }
+
     public void Login(string name)
     {
         LoginVO vo = new LoginVO();
