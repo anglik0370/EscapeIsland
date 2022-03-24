@@ -82,10 +82,9 @@ public class RefreshUsers : ISetAble
 
                     if (isTest)
                     {
-                        user.isKidnapper = true;
-                        DataVO dataVO = new DataVO("TEST_CLIENT", null);
+                        //user.isKidnapper = true; <- 아마 작동 안할 것. 서버에서 보내주는 데이터로 바뀜
 
-                        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+                        SendManager.Instance.Send("TEST_CLIENT");
                     }
 
 
