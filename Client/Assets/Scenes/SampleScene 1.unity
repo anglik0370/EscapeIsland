@@ -18219,9 +18219,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1591480863}
-        m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
-        m_MethodName: EnterLobby
+      - m_Target: {fileID: 1591480867}
+        m_TargetAssemblyTypeName: SendManager, Assembly-CSharp
+        m_MethodName: ExitRoomSend
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
