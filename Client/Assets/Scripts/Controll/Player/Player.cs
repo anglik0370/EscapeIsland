@@ -11,6 +11,7 @@ public class Player : MonoBehaviour, IMapObject
 
     public string socketName;
     public int socketId;
+    public int roomNum;
 
     public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
     public bool master;
@@ -63,8 +64,10 @@ public class Player : MonoBehaviour, IMapObject
         transform.position = vo.position;
         this.isRemote = isRemote;
         master = vo.master;
+
         socketName = vo.name;
         socketId = vo.socketId;
+        roomNum = vo.roomNum;
 
         if (!isRemote)
         {

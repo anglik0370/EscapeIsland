@@ -22,6 +22,8 @@ public class SendManager : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             user = p;
+            socketId = p.socketId;
+            roomNum = p.roomNum;
         });
     }
 
