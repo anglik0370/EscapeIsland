@@ -29,7 +29,7 @@ public class LobbyPopup : Popup
     {
         refreshBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.ReqRoomRefresh();
+            SendManager.Instance.ReqRoomRefresh();
         });
         createPopupOpenBtn.onClick.AddListener(() =>
         {
@@ -45,7 +45,7 @@ public class LobbyPopup : Popup
 
         createRoomBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)kidnapperNumSlider.value,testToggle.isOn);
+            SendManager.Instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)kidnapperNumSlider.value,testToggle.isOn);
             OpenCreateRoomPopup(false);
         });
         cancelBtn.onClick.AddListener(() =>

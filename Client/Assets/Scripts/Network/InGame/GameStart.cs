@@ -2,18 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStart : MonoBehaviour,ISetAble
+public class GameStart : ISetAble
 {
-    private Dictionary<int, Player> playerList;
     private List<UserVO> userDataList;
-    private Player user = null;
-
 
     private bool needStartGame = false;
 
-    private object lockObj = new object();
 
-    void Start()
+    private void Start()
     {
         EventManager.SubEnterRoom(p =>
         {
@@ -44,7 +40,7 @@ public class GameStart : MonoBehaviour,ISetAble
     {
         PopupManager.instance.ClosePopup();
 
-        playerList = NetworkManager.instance.GetPlayerDic();
+        Init();
 
         foreach (UserVO uv in userDataList)
         {

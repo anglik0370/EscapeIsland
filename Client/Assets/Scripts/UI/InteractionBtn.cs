@@ -121,7 +121,7 @@ public class InteractionBtn : MonoBehaviour
                     SpawnerManager.Instance.PickUpProximateSpawnerItem();
                     break;
                 case InteractionCase.GameStart:
-                    NetworkManager.instance.GameStart();
+                    SendManager.Instance.GameStart();
                     break;
                 case InteractionCase.SelectCharacter:
                     CharacterSelectPanel.Instance.Open();

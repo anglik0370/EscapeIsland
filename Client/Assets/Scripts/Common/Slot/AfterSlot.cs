@@ -46,6 +46,6 @@ public class AfterSlot : ItemSlot
         convertPanel.TakeIngotItem();
         //제련된 아이템을 가져간 상태
 
-        NetworkManager.instance.TakeConverterAfterItem(convertPanel.CurOpenConverter.id);
+        SendManager.Instance.TakeConverterAfterItem(convertPanel.CurOpenConverter.id);
     }
 }

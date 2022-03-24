@@ -39,7 +39,7 @@ public class MultiPlaformDebugManager : MonoBehaviour
 
     private void Login()
     {
-        NetworkManager.instance.Login($"User{vo.clientId}");
+        SendManager.Instance.Login($"User{vo.clientId}");
     }
 
     private void CreateRoom()
@@ -47,17 +47,17 @@ public class MultiPlaformDebugManager : MonoBehaviour
         DataVO dataVO = new DataVO("REMOVE_ALL_ROOM", "");
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
 
-        NetworkManager.instance.CreateRoom("Room", 0, 10, 1, false);
+        SendManager.Instance.CreateRoom("Room", 0, 10, 1, false);
     }
 
     private void JoinRoom()
     {
-        NetworkManager.instance.JoinRoom(1);
+        SendManager.Instance.JoinRoom(1);
     }
 
     private void StartGame()
     {
-        NetworkManager.instance.GameStart();
+        SendManager.Instance.GameStart();
     }
 
     private void AddKidnapperList()

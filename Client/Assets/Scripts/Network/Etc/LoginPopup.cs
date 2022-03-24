@@ -14,10 +14,10 @@ public class LoginPopup : Popup
         connectBtn.onClick.AddListener(() =>
         {
             //�α��� ���� �� �κ�� �̵��ؾ���
-            NetworkManager.instance.Login(nameInput.text);
+            SendManager.Instance.Login(nameInput.text);
             nameInput.text = "";
 
-            NetworkManager.instance.ReqRoomRefresh();
+            SendManager.Instance.ReqRoomRefresh();
         });
     }
 }

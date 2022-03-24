@@ -68,7 +68,7 @@ public class SpawnerManager : MonoBehaviour
         if (nearlestSpawner == null) return;
 
         //있다면 넣어준다
-        NetworkManager.instance.GetItem(nearlestSpawner.id);
+        SendManager.Instance.GetItem(nearlestSpawner.id);
         player.inventory.AddItem(nearlestSpawner.PickUpItem());
     }
 }

@@ -2,18 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Kill : MonoBehaviour,ISetAble
+public class Kill : ISetAble
 {
-    private Dictionary<int, Player> playerList;
     private List<UserVO> userDataList;
 
-    private Player user = null;
-
     private bool needDieRefresh = false;
-    private bool once = false;
-
-    private object lockObj = new object();
-
 
     void Start()
     {
@@ -43,7 +36,7 @@ public class Kill : MonoBehaviour,ISetAble
 
     public void RefreshDie()
     {
-        playerList = NetworkManager.instance.GetPlayerDic();
+        Init();
 
         foreach (UserVO uv in userDataList)
         {

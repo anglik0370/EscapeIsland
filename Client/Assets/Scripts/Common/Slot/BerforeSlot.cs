@@ -36,14 +36,14 @@ public class BerforeSlot : ItemSlot
 
         if(itemGhost.GetItem().canRefining)
         {
-            NetworkManager.instance.StartConverting(convertPanel.CurOpenConverter.id, itemGhost.GetItem().itemId);
+            SendManager.Instance.StartConverting(convertPanel.CurOpenConverter.id, itemGhost.GetItem().itemId);
             base.OnDrop(eventData);
         }
     }
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        NetworkManager.instance.ResetConverter(convertPanel.CurOpenConverter.id);
+        SendManager.Instance.ResetConverter(convertPanel.CurOpenConverter.id);
         base.OnEndDrag(eventData);
     }
 }

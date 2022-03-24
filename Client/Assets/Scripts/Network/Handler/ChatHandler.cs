@@ -8,6 +8,6 @@ public class ChatHandler : MonoBehaviour, IMsgHandler
     {
         ChatVO data = JsonUtility.FromJson<ChatVO>(payload);
 
-        NetworkManager.ReceiveChat(data);
+        VoteManager.ReceiveChat(data);
     }
 }

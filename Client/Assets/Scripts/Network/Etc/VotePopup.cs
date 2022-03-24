@@ -51,7 +51,7 @@ public class VotePopup : Popup
         {
             if (msgInputField.text == "") return;
 
-            NetworkManager.instance.SendChat(msgInputField.text);
+            SendManager.Instance.SendChat(msgInputField.text);
             msgInputField.text = "";
         });
 
