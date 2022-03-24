@@ -278,24 +278,30 @@ class Room {
                 if(filteredArr.length <= 0) {
                     this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
                     this.initRoom();
-                    return;
+                    return true;
                 }
 
                 if(this.kidnapperWinCheck()) {
-                    return;
+                    this.initRoom();
+                    return true;
                 }
     
             }
-            //아무도 표를 받지 않았거나 동표임
-            
-            if(this.isEnd) {
-                this.changeTime();
-            }
-            else{
-                this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
-    
-                this.startTimer();
-            }
+            this.voteTimeEnd();
+            return true;
+        }
+
+        return false;
+    }
+
+    voteTimeEnd() {
+        if(this.isEnd) {
+            this.changeTime();
+        }
+        else{
+            this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
+
+            this.startTimer();
         }
     }
 
@@ -315,7 +321,7 @@ class Room {
         let posList = SetSpawnPoint(keys.length);
     
         for(let i = 0; i < keys.length; i++) {
-            userList[keys[i]].position = posList[i];
+            this.userList[keys[i]].position = posList[i];
         }
         let dataList = Object.values(this.userList);
     
@@ -392,6 +398,7 @@ class Room {
     }
     
     initRoom() {
+        console.log("initRoom");
         this.playing = false;
         this.stopTimer();
         this.skipCount = 0;
@@ -470,10 +477,11 @@ class Room {
 
     voteTimer(isEnd) {
         let dt = Date.now() - this.expected;
-
+        this.isEnd = isEnd;
         if(this.inVoteTimer.timeRefresh(this.socketList)) {
-            this.voteEnd();
-            this.changeTime();
+            if(!this.voteEnd()) {
+                this.voteTimeEnd();
+            }
             return;
         }
 

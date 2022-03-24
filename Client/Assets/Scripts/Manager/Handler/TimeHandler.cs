@@ -16,9 +16,6 @@ public class TimeHandler : MonoBehaviour
     [SerializeField]
     private int day = 1;
 
-    [Header("킬 관련")]
-    private bool isNightTime = false;
-
     private float curkillCoolTime = 0f;
     public float CurKillCoolTime => curkillCoolTime;
 
@@ -39,7 +36,6 @@ public class TimeHandler : MonoBehaviour
     private void Start()
     {
         Init();
-        dayAndSlotText.text = $"{day}번째 낮";
 
         EventManager.SubGameOver(goc =>
         {
@@ -64,7 +60,7 @@ public class TimeHandler : MonoBehaviour
     {
         if (NetworkManager.instance.User == null || (!NetworkManager.instance.User.isKidnapper && NetworkManager.instance.isVoteTime)) return;
 
-        if (isNightTime && !isKillAble)
+        if (!isKillAble)
         {
             curkillCoolTime -= Time.deltaTime;
 
@@ -72,10 +68,6 @@ public class TimeHandler : MonoBehaviour
             {
                 isKillAble = true;
             }
-        }
-
-        if(!isKillAble)
-        {
             cooltimeImg.UpdateUI(curkillCoolTime, timeToNextStack);
         }
     }
@@ -88,21 +80,17 @@ public class TimeHandler : MonoBehaviour
         if (!isLightTime)
         {
             EventManager.OccurTimeChange(false);
-            isNightTime = true;
-            
             dayAndSlotText.text = $"{day}번째 밤";
         }
         else
         {
             EventManager.OccurTimeChange(true);
-            isNightTime = false;
             dayAndSlotText.text = $"{day}번째 낮";
         }
     }
 
     public void Init()
     {
-        isNightTime = false;
         curkillCoolTime = timeToNextStack;
         isKillAble = false;
         day = 1;
