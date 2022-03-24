@@ -1,13 +1,18 @@
-
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IMapObject
+public class Player : MonoBehaviour, IInteractionObject
 {
     private SpriteRenderer sr;
     private Rigidbody2D rigid;
     private Animator anim;
+
+    public Action<bool> Callback => isLobby =>
+    {
+        PlayerManager.Instance.KillProximatePlayer();
+    };
 
     public string socketName;
     public int socketId;
@@ -122,7 +127,7 @@ public class Player : MonoBehaviour, IMapObject
         return sr.sprite;
     }
 
-    public bool GetFlip()
+    public bool GetFlipX()
     {
         return sr.flipX;
     }
