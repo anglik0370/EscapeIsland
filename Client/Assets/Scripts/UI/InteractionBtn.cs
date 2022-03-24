@@ -140,8 +140,6 @@ public class InteractionBtn : MonoBehaviour
         {
             if (MeetManager.Instance.GetTableInRange(out LogTable table))
             {
-                print(table.gameObject.name);
-
                 //여긴 캐릭터 선택하는 곳
                 state = InteractionCase.SelectCharacter;
                 accent.Enable(table.GetSprite(), table.GetTrm());
