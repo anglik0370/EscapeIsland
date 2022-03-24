@@ -80,9 +80,6 @@ function onMessage(socket,msg) {
     if(handlers[data.type] !== undefined) {
         if(IsJsonString(data.payload)) {
             let p = JSON.parse(data.payload);
-            if(data.type == "CREATE_ROOM") {
-                p.test2 = true;
-            }
             handlers[data.type].act(socket,p);
         }
         else {

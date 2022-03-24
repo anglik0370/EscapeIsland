@@ -38,16 +38,6 @@ class Rooms {
         socket.room = this.roomIdx;
 
         this.roomList[this.roomIdx] = r;
-
-        if(roomInfo.test !== undefined && roomInfo.test) {
-            this.roomList[this.roomIdx].setTimerSecond(180,160)
-        }
-
-        if(roomInfo.test2 !== undefined && roomInfo.test2) {
-            //여기
-            //여기
-            this.roomList[this.roomIdx].setTimerSecond(10,10);
-        }
         this.join(socket,true);
     
         this.roomIdx++;
@@ -340,11 +330,6 @@ class Room {
     
         // broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
         // room.initRoom();
-    }
-
-    setTimerSecond(ingameTime,voteTime) {
-        this.inGameTimer.setTimeToNextSlot(ingameTime);
-        this.inVoteTimer.setTimeToNextSlot(voteTime);
     }
 
     gameStart(socket) {
