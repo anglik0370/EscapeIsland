@@ -161,7 +161,7 @@ public class InteractionBtn : MonoBehaviour
             accent.Disable();
         }
 
-        if (isGameStart && !player.isDie)
+        if (isGameStart) //죽어서도 버튼이 바뀌기는 해야한다
         {
             if (player.isKidnapper && FindNearlestPlayer() != null)
             {
@@ -237,8 +237,8 @@ public class InteractionBtn : MonoBehaviour
 
         txt.text = interactionDic[state].btnText;
 
-        coolTimeCvs.alpha = interactionDic[state].useCoolTimeImg ? 1 : 0;
-        coolTimeImg.IsFill = interactionDic[state].coolTimeImgFill;
+        coolTimeCvs.alpha = interactionDic[state].useCoolTimeImg || player.isDie ? 1 : 0;
+        coolTimeImg.IsFill = interactionDic[state].coolTimeImgFill || player.isDie;
     }
 
     public void KillPlayer()
