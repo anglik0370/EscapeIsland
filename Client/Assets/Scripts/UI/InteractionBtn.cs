@@ -145,7 +145,7 @@ public class InteractionBtn : MonoBehaviour
 
     private void Update() 
     {
-        if (player != null) //플레이어가 없으면 방에 안들어온거니까 리턴
+        if (player == null) return;//플레이어가 없으면 방에 안들어온거니까 리턴
 
         if (MeetManager.Instance.GetTableInRange() != null)
         {
@@ -209,10 +209,10 @@ public class InteractionBtn : MonoBehaviour
                 state = InteractionCase.Nothing;
                 accent.Disable();
             }
-        };
 
-        //state에 따라 버튼 처리
-        SetButtonFromState();
+            //state에 따라 버튼 처리
+            SetButtonFromState();
+        };
     }
 
     private void SetButtonFromState()
