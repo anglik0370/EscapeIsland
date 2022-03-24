@@ -17,6 +17,7 @@ public class Chat : ISetAble
 
     protected override void Start()
     {
+        base.Start();
         StartCoroutine(End());
     }
 
