@@ -14,7 +14,7 @@ fs.readdir("./handlers",(err,files) => {
         handlers[handler.type] = handler;
     });
 });
-
+Users.isTestServer = true;
 const wsService = new WebSocket.Server({port}, ()=>{
     console.log(`웹 소켓이 ${port}에서 구동중`);
     

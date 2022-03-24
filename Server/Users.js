@@ -5,6 +5,8 @@ class Users {
         this.userList = {};
         this.connectedSocket = {};
         this.socketIdx = 1;
+
+        this.isTestServer = false;
     }
 
     connect(socket,wsService) {

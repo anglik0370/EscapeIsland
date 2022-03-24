@@ -33,11 +33,17 @@ class Rooms {
         }
         
         
+        
     
         let r = new Room(roomInfo.name,this.roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
         socket.room = this.roomIdx;
 
         this.roomList[this.roomIdx] = r;
+
+        if(Users.isTestServer) {
+            this.roomList[this.roomIdx].inVoteTimer.setTimeToNextSlot(10);
+        }
+
         this.join(socket,true);
     
         this.roomIdx++;
@@ -92,12 +98,7 @@ class Rooms {
         socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
         room.curUserNum--; //그 방의 인원수--;
         room.removeSocket(socket.id);
-    
-        if(user.master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
-            let keys = Object.keys(room.userList);
-            room.userList[keys[0]].master = true;
-        }
-    
+
         if(user !== undefined){ 
             // 초기화
             
@@ -115,7 +116,12 @@ class Rooms {
             delete this.roomList[roomNum];
             return;
         }
-
+    
+        if(user.master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
+            let keys = Object.keys(room.userList);
+            room.userList[keys[0]].master = true;
+        }
+        
         this.roomBroadcast(roomNum);
         
         room.socketList.forEach(soc => {
@@ -394,6 +400,10 @@ class Room {
         this.skipCount = 0;
         this.inGameTimer = new InGameTimer();
         this.inVoteTimer = new InVoteTimer();
+
+        if(Users.isTestServer) {
+            this.roomList[this.roomIdx].inVoteTimer.setTimeToNextSlot(10);
+        }
 
         let keys = Object.keys(this.userList);
 
