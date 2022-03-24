@@ -6,6 +6,6 @@ public class VoteTimeEndHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        NetworkManager.SetVoteEnd();
+        VoteManager.SetVoteEnd();
     }
 }

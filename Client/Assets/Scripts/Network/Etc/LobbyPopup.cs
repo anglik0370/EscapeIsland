@@ -29,7 +29,7 @@ public class LobbyPopup : Popup
     {
         refreshBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.ReqRoomRefresh();
+            SendManager.Instance.ReqRoomRefresh();
         });
         createPopupOpenBtn.onClick.AddListener(() =>
         {
@@ -37,15 +37,15 @@ public class LobbyPopup : Popup
         });
         exitBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.SocketDisconnect();
-            SocketClient.instance.InitWebSocket();
+            NetworkManager.instance.BackLogin();
+            //SocketClient.instance.InitWebSocket();
             //PopupManager.instance.CloseAndOpen("ingame");
-            PopupManager.instance.CloseAndOpen("connect");
+            PopupManager.instance.CloseAndOpen("login");
         });
 
         createRoomBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)kidnapperNumSlider.value,testToggle.isOn);
+            SendManager.Instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)kidnapperNumSlider.value,testToggle.isOn);
             OpenCreateRoomPopup(false);
         });
         cancelBtn.onClick.AddListener(() =>

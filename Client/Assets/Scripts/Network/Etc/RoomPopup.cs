@@ -14,12 +14,12 @@ public class RoomPopup : Popup
     {
         startBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.GameStart();
+            SendManager.Instance.GameStart();
         });
 
         exitBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.ExitRoomSend();
+            SendManager.Instance.ExitRoomSend();
         });
     }
 }

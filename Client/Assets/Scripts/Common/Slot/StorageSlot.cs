@@ -13,8 +13,6 @@ public class StorageSlot : ItemSlot
 
     public ItemSO OriginItem => originItem;
 
-    private StoragePanel storagePanel;
-
     protected override void Awake()
     {
         base.Awake();
@@ -22,11 +20,6 @@ public class StorageSlot : ItemSlot
         amountText = GetComponentInChildren<Text>();
 
         SetItem(originItem);
-    }
-
-    private void Start()
-    {
-        storagePanel = StoragePanel.Instance;
     }
 
     public void SetAmountText(int max, int cur)
@@ -56,9 +49,9 @@ public class StorageSlot : ItemSlot
         else
         {
             //꽉안찼으면 실행
-            if(!storagePanel.IsItemFull(itemGhost.GetItem()))
+            if(!StorageManager.Instance.IsItemFull(itemGhost.GetItem()))
             {
-                NetworkManager.instance.StorageDrop(itemGhost.GetItem().itemId);
+                SendManager.Instance.StorageDrop(itemGhost.GetItem().itemId);
                 //storagePanel.AddItem(itemGhost.GetItem());
                 itemGhost.SetItem(null);
             }

@@ -7,7 +7,7 @@ public class VoteCompleteHandler : MonoBehaviour,IMsgHandler
     public void HandleMsg(string payload)
     {
         VoteCompleteVO vo = JsonUtility.FromJson<VoteCompleteVO>(payload);
-        NetworkManager.SetVoteComplete(vo);
+        VoteManager.SetVoteComplete(vo);
     }
 
 }

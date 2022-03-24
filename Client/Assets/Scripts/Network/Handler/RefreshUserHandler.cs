@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class RefreshUserHandler : MonoBehaviour, IMsgHandler
 {
+    private bool once = false;
+    private RefreshUsers users;
     public void HandleMsg(string payload)
     {
+        if (!once)
+        {
+            users = NetworkManager.instance.FindSetDataScript<RefreshUsers>();
+            once = true;
+        }
+
         UserListVO userList = JsonUtility.FromJson<UserListVO>(payload);
-        NetworkManager.SetUserRefreshData(userList.dataList);
+        users.SetUserRefreshData(userList.dataList);
     }
 }

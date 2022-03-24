@@ -43,7 +43,8 @@ public class SocketClient : MonoBehaviour
         }
 
         //webSocket = new WebSocket($"{url}:{port}");
-        ConnectSocket("localhost", port.ToString());
+        //ConnectSocket("localhost", port.ToString());
+        ConnectSocket("172.31.0.209", port.ToString());
     }
     public string GetTypeString(string s)
     {
@@ -96,6 +97,7 @@ public class SocketClient : MonoBehaviour
 
     public void InitWebSocket()
     {
+        if (webSocket == null) return;
         if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
             webSocket.Close();
         webSocket = null;
@@ -127,13 +129,11 @@ public class SocketClient : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
-            webSocket.Close();
+        InitWebSocket();
     }
 
     private void OnApplicationQuit()
     {
-        if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
-            webSocket.Close();
+        InitWebSocket();
     }
 }

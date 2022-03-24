@@ -38,16 +38,6 @@ class Rooms {
         socket.room = this.roomIdx;
 
         this.roomList[this.roomIdx] = r;
-
-        if(roomInfo.test !== undefined && roomInfo.test) {
-            this.roomList[this.roomIdx].setTimerSecond(180,160)
-        }
-
-        if(roomInfo.test2 !== undefined && roomInfo.test2) {
-            //여기
-            //여기
-            this.roomList[this.roomIdx].setTimerSecond(10,10);
-        }
         this.join(socket,true);
     
         this.roomIdx++;
@@ -76,7 +66,6 @@ class Rooms {
             sendError("잘못된 접근입니다.", socket);
             return;
         }
-    
         this.exit(socket,roomNum);
    
         socket.send(JSON.stringify({type:"EXIT_ROOM"}));
@@ -126,6 +115,8 @@ class Rooms {
             delete this.roomList[roomNum];
             return;
         }
+
+        this.roomBroadcast(roomNum);
         
         room.socketList.forEach(soc => {
             if(soc.id === socket.id) return;
@@ -142,7 +133,8 @@ class Rooms {
         socket.state = SocketState.IN_ROOM;
 
         if(user !== undefined){
-            user.roomNum = this.roomIdx;
+            //user.roomNum = this.roomIdx;
+            user.roomNum = socket.room;
             user.master = isMaster;
             user.position = GetRandomPos();
         }
@@ -278,24 +270,31 @@ class Room {
                 if(filteredArr.length <= 0) {
                     this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
                     this.initRoom();
-                    return;
+                    return true;
                 }
 
                 if(this.kidnapperWinCheck()) {
-                    return;
+                    this.initRoom();
+                    return true;
                 }
     
             }
-            //아무도 표를 받지 않았거나 동표임
-            
-            if(this.isEnd) {
-                this.changeTime();
-            }
-            else{
-                this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
-    
-                this.startTimer();
-            }
+            this.voteTimeEnd();
+            return true;
+        }
+
+        return false;
+    }
+
+    voteTimeEnd() {
+        if(this.isEnd) {
+            this.changeTime();
+            console.log("changeTime - voteTimeEnd");
+        }
+        else{
+            this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
+
+            this.startTimer();
         }
     }
 
@@ -315,7 +314,7 @@ class Room {
         let posList = SetSpawnPoint(keys.length);
     
         for(let i = 0; i < keys.length; i++) {
-            userList[keys[i]].position = posList[i];
+            this.userList[keys[i]].position = posList[i];
         }
         let dataList = Object.values(this.userList);
     
@@ -332,11 +331,6 @@ class Room {
     
         // broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
         // room.initRoom();
-    }
-
-    setTimerSecond(ingameTime,voteTime) {
-        this.inGameTimer.setTimeToNextSlot(ingameTime);
-        this.inVoteTimer.setTimeToNextSlot(voteTime);
     }
 
     gameStart(socket) {
@@ -392,6 +386,7 @@ class Room {
     }
     
     initRoom() {
+        console.log("initRoom");
         this.playing = false;
         this.stopTimer();
         this.skipCount = 0;
@@ -460,20 +455,23 @@ class Room {
     }
 
     changeTime() {
+        this.stopTimer();
         this.inVoteTimer.initTime();
         //this.skipCount = 0;
         let p = this.inGameTimer.returnPayload();
-
+        console.log("time refresh - changeTime");
         this.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:p}));
         this.startTimer();
     }
 
     voteTimer(isEnd) {
         let dt = Date.now() - this.expected;
-
+        this.isEnd = isEnd;
         if(this.inVoteTimer.timeRefresh(this.socketList)) {
-            this.voteEnd();
-            this.changeTime();
+            if(!this.voteEnd()) {
+                this.voteTimeEnd();
+                console.log("changeTime - voteTimer");
+            }
             return;
         }
 

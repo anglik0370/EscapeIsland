@@ -20,7 +20,7 @@ public class VoteUI : MonoBehaviour
         checkToggle.group = group;
 
         checkToggle.isOn = false;
-        if(NetworkManager.instance.GetPlayerDie() || NetworkManager.instance.GetPlayerDie(socId))
+        if(NetworkManager.instance.User.isDie || NetworkManager.instance.GetPlayerDie(socId))
         {
             ToggleOnOff(false);
 

@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class RefreshRoomHandler : MonoBehaviour, IMsgHandler
 {
+    private bool once = false;
+    private RefreshRooms rooms;
+
     public void HandleMsg(string payload)
     {
+        if(!once)
+        {
+            rooms = NetworkManager.instance.FindSetDataScript<RefreshRooms>();
+            once = true;
+        }
         RoomListVO roomList = JsonUtility.FromJson<RoomListVO>(payload);
-        //NetworkManager.SetRoomRefreshData(roomList.dataList);
-        NetworkManager.instance.FindSetDataScript<RefreshRooms>().SetRoomRefreshData(roomList.dataList);
+        rooms.SetRoomRefreshData(roomList.dataList);
     }
 }

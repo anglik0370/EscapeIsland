@@ -8,6 +8,6 @@ public class TimeRefreshHandler : MonoBehaviour,IMsgHandler
     {
         //print(payload);
         TimeVO vo = JsonUtility.FromJson<TimeVO>(payload);
-        NetworkManager.SetTimeRefresh(vo);
+        VoteManager.SetTimeRefresh(vo);
     }
 }

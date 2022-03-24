@@ -31,7 +31,7 @@ public class SpawnerManager : MonoBehaviour
         });
     }
 
-    public ItemSpawner FindProximateSpawner()
+    public bool FindProximateSpawner(out ItemSpawner temp)
     {
         ItemSpawner spawner = null;
 
@@ -41,7 +41,9 @@ public class SpawnerManager : MonoBehaviour
             if (Vector2.Distance(player.GetTrm().position, spawnerList[i].transform.position) <= player.range)
             {
                 //꺼져있으면 다음걸로 넘어간다
-                if (!spawner.IsItemSpawned) continue;
+                if (!spawnerList[i].IsItemSpawned) continue;
+
+                if (spawner == null) spawner = spawnerList[i];
 
                 //거리비교
                 if (Vector2.Distance(player.GetTrm().position, spawner.transform.position) >
@@ -52,7 +54,9 @@ public class SpawnerManager : MonoBehaviour
             }
         }
 
-        return spawner;
+        temp = spawner;
+
+        return temp != null;
     }
 
     public void PickUpProximateSpawnerItem()
@@ -60,13 +64,13 @@ public class SpawnerManager : MonoBehaviour
         //모든 슬롯이 꽉차있으면 리턴
         if (player.inventory.IsAllSlotFull) return;
 
-        ItemSpawner nearlestSpawner = FindProximateSpawner();
+        FindProximateSpawner(out ItemSpawner nearlestSpawner);
 
         //스포너가 없다면 리턴
         if (nearlestSpawner == null) return;
 
         //있다면 넣어준다
-        NetworkManager.instance.GetItem(nearlestSpawner.id);
+        SendManager.Instance.GetItem(nearlestSpawner.id);
         player.inventory.AddItem(nearlestSpawner.PickUpItem());
     }
 }

@@ -10,7 +10,7 @@ public class PopupManager : MonoBehaviour
     public static PopupManager instance;
 
     public Transform popupParent;
-    public ConnectPopup connectPopup;
+    //public ConnectPopup connectPopup;
     public LoginPopup loginPopup;
     public LobbyPopup lobbyPopup;
     public AlertPopup alertPopup;
@@ -45,7 +45,7 @@ public class PopupManager : MonoBehaviour
         popupCanvasGroup.blocksRaycasts = false;
 
         //µñ¼Å³Ê¸®¿¡ ui ÇÁ¸®ÆÕ ³Ö¾îÁÖ¸é ´ï
-        popupDic.Add("connect", Instantiate(connectPopup, popupParent));
+        //popupDic.Add("connect", Instantiate(connectPopup, popupParent));
         popupDic.Add("login", Instantiate(loginPopup, popupParent));
         popupDic.Add("lobby", Instantiate(lobbyPopup, popupParent));
         popupDic.Add("vote", Instantiate(votePopup, popupParent));
@@ -53,7 +53,7 @@ public class PopupManager : MonoBehaviour
 
         //alert´Â Ç×»ó ¹Ø¿¡ ÀÖ¾î¾ßÇÔ
         popupDic.Add("alert", Instantiate(alertPopup, popupParent));
-        NetworkManager.instance.voteTab = popupDic["vote"] as VotePopup;
+        VoteManager.Instance.voteTab = popupDic["vote"] as VotePopup;
         OpenPopup("login");
 
         EventManager.SubGameOver(gameOverCase =>

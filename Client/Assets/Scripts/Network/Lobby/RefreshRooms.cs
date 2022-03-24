@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefreshRooms : MonoBehaviour,ISetAble
+public class RefreshRooms : ISetAble
 {
     private bool needRoomRefresh = false;
 
@@ -13,9 +13,6 @@ public class RefreshRooms : MonoBehaviour,ISetAble
     public GameObject roomEnterBtnPrefab;
 
     private Transform roomParent;
-
-    private object lockObj = new object();
-
 
     public void SetRoomRefreshData(List<RoomVO> list)
     {

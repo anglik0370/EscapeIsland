@@ -8,8 +8,8 @@ public class StoragePanel : Panel
     public static StoragePanel Instance;
 
     private ProgressUI progressUI;
-    private List<StorageSlot> slotList;
-    private ItemStorage storage;
+    [SerializeField]
+    private List<StorageSlot> slotList = new List<StorageSlot>();
 
     protected override void Awake() 
     {
@@ -21,67 +21,26 @@ public class StoragePanel : Panel
         base.Awake();
 
         slotList = GetComponentsInChildren<StorageSlot>().ToList();
-        storage = FindObjectOfType<ItemStorage>();
         progressUI = FindObjectOfType<ProgressUI>();
     }
 
     private void Start() 
     {
-        for(int i = 0; i < slotList.Count; i++)
-        {
-            ItemAmount maxAmount = storage.FindItemAmount(storage.MaxAmountItemList, slotList[i].OriginItem);
-            ItemAmount curAmount = storage.FindItemAmount(storage.CurAmountItemList, slotList[i].OriginItem);
-
-            slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
-        }
-
         EventManager.SubGameOver(gos => Close(true));
 
         EventManager.SubStartMeet(mt => Close(true));
     }
 
-    public void AddItem(ItemSO item)
+    public void UpdateUIs(ItemSO item, float progress)
     {
-        storage.AddItem(item);
-
-        if (IsItemFull(item))
-        {
-            Debug.Log($"{item}²ËÂü");
-        }
-
-        if (IsItemFull())
-        {
-            //²ËÃ¡À¸´Ï ²ËÃ¡´Ù°í ¼­¹ö¿¡ º¸³»Áà¾ß ÇÑ´Ù.
-            DataVO dataVO = new DataVO("STORAGE_FULL", "");
-
-            Debug.Log("²ËÂü");
-
-            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-        }
-
-        UpdateUIs(item);
-    }
-
-    public void UpdateUIs(ItemSO item)
-    {
-        ItemAmount maxAmount = storage.FindItemAmount(storage.MaxAmountItemList, item);
-        ItemAmount curAmount = storage.FindItemAmount(storage.CurAmountItemList, item);
+        ItemAmount maxAmount = StorageManager.Instance.FindItemAmount(true, item);
+        ItemAmount curAmount = StorageManager.Instance.FindItemAmount(false, item);
 
         StorageSlot slot = slotList.Find(x => x.OriginItem.itemId == item.itemId);
 
         slot.SetAmountText(maxAmount.amount, curAmount.amount);
 
-        progressUI.UpdateProgress(storage.GetProgress());
-    }
-
-    public bool IsItemFull(ItemSO item)
-    {
-        return storage.IsItemFull(item);
-    }
-
-    public bool IsItemFull()
-    {
-        return storage.IsItemFull();
+        progressUI.UpdateProgress(progress);
     }
 
     public override void Open(bool isTweenSkip = false)
@@ -90,8 +49,8 @@ public class StoragePanel : Panel
 
         for(int i = 0; i < slotList.Count; i++)
         {
-            ItemAmount maxAmount = storage.FindItemAmount(storage.MaxAmountItemList, slotList[i].OriginItem);
-            ItemAmount curAmount = storage.FindItemAmount(storage.CurAmountItemList, slotList[i].OriginItem);
+            ItemAmount maxAmount = StorageManager.Instance.FindItemAmount(true, slotList[i].OriginItem);
+            ItemAmount curAmount = StorageManager.Instance.FindItemAmount(false, slotList[i].OriginItem);
 
             slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
         }
