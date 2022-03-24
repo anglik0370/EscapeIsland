@@ -62,9 +62,13 @@ public class SocketClient : MonoBehaviour
 
         while (webSocket.ReadyState != WebSocketState.Open) //websocket의 state가 open이 될때까지 3초 주기로 연결을 재시도
         {
-            ConnectSocket(url, port.ToString());
             yield return threeSec;
+            ConnectSocket(url, port.ToString());
         };
+        //만약 중간에 끊겼을 때를 대비하여 작성을 해두는 코드 
+        NetworkManager.instance.BackLogin();
+        PopupManager.instance.CloseAndOpen("login");
+
     }
 
     public string GetTypeString(string s)
