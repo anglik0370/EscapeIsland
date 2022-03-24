@@ -321,12 +321,14 @@ class Room {
         //살아있는 임포가 시민보다 많을 경우
         if(imposterCount >= citizenCount) {
             //임포승
+            console.log("다주것다");
             this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
             this.initRoom();
             return true;
         }
+        console.log("아직 남았다");
         return false;
-        //테스트용 코드
+        //테스트용 코드 
         // let dataList = Object.values(room.userList);
     
         // broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));

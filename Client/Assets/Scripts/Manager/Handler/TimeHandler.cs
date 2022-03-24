@@ -35,7 +35,7 @@ public class TimeHandler : MonoBehaviour
     {
         Init();
 
-        EventManager.SubGameOver(goc =>
+        EventManager.SubGameOver(goc => 
         {
             Init();
             EventManager.OccurTimeChange(true);
