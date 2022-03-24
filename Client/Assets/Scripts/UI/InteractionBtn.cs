@@ -135,43 +135,37 @@ public class InteractionBtn : MonoBehaviour
             {
                 //여긴 킬하는곳
                 state = InteractionCase.KillPlayer;
-                proxiamteObj = player;
+                CheckAndChangeProximateObject(player);
             }
-            else if (ConverterManager.Instance.FindProximateConverter(out converter))
+            if (ConverterManager.Instance.FindProximateConverter(out converter))
             {
                 //여긴 제련소 여는곳
                 state = InteractionCase.OpenConverter;
-                proxiamteObj = converter;
+                CheckAndChangeProximateObject(converter);
             }
-            else if (StorageManager.Instance.GetStorageInRange(out storage))
+            if (StorageManager.Instance.GetStorageInRange(out storage))
             {
                 //여긴 저장소 여는 곳
                 state = InteractionCase.OpenStorage;
-                proxiamteObj = storage;
+                CheckAndChangeProximateObject(storage);
             }
-            else if (MeetManager.Instance.GetTableInRange(out table))
+            if (MeetManager.Instance.GetTableInRange(out table))
             {
                 //여긴 긴급회의 하는곳
                 state = InteractionCase.EmergencyMeeting;
-                proxiamteObj = table;
+                CheckAndChangeProximateObject(table);
             }
-            else if (SpawnerManager.Instance.FindProximateSpawner(out spawner))
+            if (SpawnerManager.Instance.FindProximateSpawner(out spawner))
             {
                 //여긴 아이템 줍는곳
                 state = InteractionCase.PickUpItem;
-                proxiamteObj = spawner;
+                CheckAndChangeProximateObject(spawner);
             }
-            else if (DeadBodyManager.Instance.FindProximateDeadBody(out deadBody))
+            if (DeadBodyManager.Instance.FindProximateDeadBody(out deadBody))
             {
                 //여긴 주변 시체 신고하는곳
                 state = InteractionCase.ReportDeadbody;
-                proxiamteObj = deadBody;
-            }
-            else
-            {
-                //여긴 아무것도 아닌곳
-                state = InteractionCase.Nothing;
-                proxiamteObj = null;
+                CheckAndChangeProximateObject(deadBody);
             }
         };
 
@@ -211,15 +205,6 @@ public class InteractionBtn : MonoBehaviour
 
         if(proxiamteObj == null)
         {
-            accent.Disable();
-        }
-        else
-        {
-            accent.Enable(proxiamteObj.GetSprite(), proxiamteObj.GetTrm(), proxiamteObj.GetFlipX());
-        }
-
-        if(proxiamteObj == null)
-        {
             if(!isGameStart)
             {
                 btn.onClick.RemoveAllListeners();
@@ -229,11 +214,39 @@ public class InteractionBtn : MonoBehaviour
             {
                 btn.onClick.RemoveAllListeners();
             }
+
+            accent.Disable();
         }
         else
         {
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() => proxiamteObj.Callback?.Invoke(!isGameStart));
+
+            accent.Enable(proxiamteObj.GetSprite(), proxiamteObj.GetTrm(), proxiamteObj.GetFlipX());
         }
+    }
+
+    private void CheckAndChangeProximateObject(IInteractionObject interactionObject)
+    {
+        if(proxiamteObj == null)
+        {
+            proxiamteObj = interactionObject;
+            SetButtonFromState();
+            return;
+        }
+
+        Player player = PlayerManager.Instance.Player;
+
+        if(Vector2.Distance(player.GetTrm().position, proxiamteObj.GetTrm().position) > 
+            Vector2.Distance(player.GetTrm().position, interactionObject.GetTrm().position))
+        {
+            proxiamteObj = interactionObject;
+            SetButtonFromState();
+            return;
+        }
+
+        //가까운거 없으면 주변에 암것도 없는거임
+        state = InteractionCase.Nothing;
+        proxiamteObj = null;
     }
 }

@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
     public List<Player> PlayerList => NetworkManager.instance.GetPlayerList();
 
     private Player player;
+    public Player Player => player;
 
     private void Awake()
     {
