@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StorageDropHandler : MonoBehaviour, IMsgHandler
+public class StorageDropHandler : IMsgHandler<ItemAndStorage>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
-        NetworkManager.instance.SetItemStorage(int.Parse(payload));
+        base.HandleMsg(payload);
+        generic.SetItemStorage(int.Parse(payload));
     }
 }

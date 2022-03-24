@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StorageFull : ISetAble
+public class ItemAndStorage : ISetAble
 {
     private bool needStorageFullRefresh = false;
 
@@ -28,5 +28,18 @@ public class StorageFull : ISetAble
     public void SetStorageFull()
     {
         //msg¶ç¿öÁÖ±â
+    }
+
+    public void SetItemDisable(int spawnerId)
+    {
+        ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == spawnerId);
+        s.DeSpawnItem();
+    }
+
+    public void SetItemStorage(int itemSOId)
+    {
+        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
+
+        StorageManager.Instance.AddItem(so);
     }
 }

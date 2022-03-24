@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GetItemHandler : MonoBehaviour,IMsgHandler
+public class GetItemHandler : IMsgHandler<ItemAndStorage>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
+        base.HandleMsg(payload);
         int idx = int.Parse(payload);
-        NetworkManager.instance.SetItemDisable(idx);
+        NetworkManager.instance.FindSetDataScript<ItemAndStorage>().SetItemDisable(idx);
     }
 }

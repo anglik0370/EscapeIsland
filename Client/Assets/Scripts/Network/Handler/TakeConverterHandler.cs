@@ -2,18 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TakeConverterHandler : MonoBehaviour, IMsgHandler
+public class TakeConverterHandler : IMsgHandler<Converter>
 {
-    private Converter converter = null;
-    private bool once = false;
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
-        if (!once)
-        {
-            converter = NetworkManager.instance.FindSetDataScript<Converter>();
-            once = true;
-        }
+        base.HandleMsg(payload);
 
-        converter.SetTakeConverterAfterItem(int.Parse(payload));
+        generic.SetTakeConverterAfterItem(int.Parse(payload));
     }
 }

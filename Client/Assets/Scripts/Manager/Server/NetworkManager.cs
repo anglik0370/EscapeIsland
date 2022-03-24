@@ -99,6 +99,7 @@ public class NetworkManager : MonoBehaviour
             PopupManager.instance.CloseAndOpen("lobby");
             isLogin = false;
         }           
+
         while (removeSocketQueue.Count > 0)
         {
             int soc = removeSocketQueue.Dequeue();
@@ -147,19 +148,6 @@ public class NetworkManager : MonoBehaviour
         }
 
         PlayerEnable(true);
-    }
-
-    public void SetItemDisable(int spawnerId)
-    {
-        ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == spawnerId);
-        s.DeSpawnItem();
-    }
-
-    public void SetItemStorage(int itemSOId)
-    {
-        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
-
-        StorageManager.Instance.AddItem(so);
     }
 
     public void SetCharacter(CharacterSO so)

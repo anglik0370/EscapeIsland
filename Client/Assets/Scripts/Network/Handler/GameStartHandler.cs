@@ -2,21 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStartHandler : MonoBehaviour, IMsgHandler
+public class GameStartHandler : IMsgHandler<GameStart>
 {
-    private GameStart gs = null;
-    private bool once = false;
-
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
+        base.HandleMsg(payload);
         UserListVO vo = JsonUtility.FromJson<UserListVO>(payload);
-
-        if(!once)
-        {
-            gs = NetworkManager.instance.FindSetDataScript<GameStart>();
-            once = true;
-        }
-
-        gs.SetGameStart(vo.dataList);
+        generic.SetGameStart(vo.dataList);
     }
 }
