@@ -5,13 +5,10 @@ using UnityEngine.UI;
 
 public class TimeHandler : MonoBehaviour
 {
-    public static TimeHandler Instance{get; private set;}
+    public static TimeHandler Instance { get; private set; }
 
     [SerializeField]
     private Text dayAndSlotText;
-
-    [SerializeField]
-    private CircleFillImage cooltimeImg;
 
     [SerializeField]
     private int day = 1;
@@ -19,7 +16,8 @@ public class TimeHandler : MonoBehaviour
     private float curkillCoolTime = 0f;
     public float CurKillCoolTime => curkillCoolTime;
 
-    private float timeToNextStack = 20f;
+    private float killCoolTime = 20f;
+    public float KillCoolTime => killCoolTime;
 
     public bool isKillAble = false;
 
@@ -37,7 +35,7 @@ public class TimeHandler : MonoBehaviour
     {
         Init();
 
-        EventManager.SubGameOver(goc =>
+        EventManager.SubGameOver(goc => 
         {
             Init();
             EventManager.OccurTimeChange(true);
@@ -68,7 +66,6 @@ public class TimeHandler : MonoBehaviour
             {
                 isKillAble = true;
             }
-            cooltimeImg.UpdateUI(curkillCoolTime, timeToNextStack);
         }
     }
 
@@ -91,16 +88,15 @@ public class TimeHandler : MonoBehaviour
 
     public void Init()
     {
-        curkillCoolTime = timeToNextStack;
+        curkillCoolTime = killCoolTime;
         isKillAble = false;
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
-        cooltimeImg.UpdateUI(curkillCoolTime, timeToNextStack);
     }
 
     public void InitKillCool()
     {
         isKillAble = false;
-        curkillCoolTime = timeToNextStack;
+        curkillCoolTime = killCoolTime;
     }
 }

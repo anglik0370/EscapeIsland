@@ -41,7 +41,7 @@ public class DeadBodyManager : MonoBehaviour
         });
     }
 
-    public DeadBody FindProximateDeadBody()
+    public bool FindProximateDeadBody(out DeadBody temp)
     {
         DeadBody deadBody = null;
 
@@ -67,12 +67,14 @@ public class DeadBodyManager : MonoBehaviour
             }
         }
 
-        return deadBody;
+        temp = deadBody;
+
+        return temp != null;
     }
 
     public void ReportProximateDeadbody()
     {
-        DeadBody deadBody = FindProximateDeadBody();
+        FindProximateDeadBody(out DeadBody deadBody);
 
         if (deadBody == null) return;
 

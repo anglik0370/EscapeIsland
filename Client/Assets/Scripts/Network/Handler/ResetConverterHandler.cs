@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResetConverterHandler : MonoBehaviour, IMsgHandler
+public class ResetConverterHandler : IMsgHandler<Converter>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
-
-        NetworkManager.instance.SetResetConverter(int.Parse(payload));
+        base.HandleMsg(payload);
+        generic.SetResetConverter(int.Parse(payload));
     }
 }

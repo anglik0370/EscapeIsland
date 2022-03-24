@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChatHandler : MonoBehaviour, IMsgHandler
+public class ChatHandler : IMsgHandler<Chat>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
+        base.HandleMsg(payload);
         ChatVO data = JsonUtility.FromJson<ChatVO>(payload);
 
-        VoteManager.ReceiveChat(data);
+        generic.ReceiveChat(data);
     }
 }

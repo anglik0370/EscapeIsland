@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolObj : MonoBehaviour, IMapObject
+public class PoolObj : MonoBehaviour, IInteractionObject
 {
     private SpriteRenderer sr;
-    
+
+    public Action<bool> Callback => isLobby => { };
+
     private void Awake() 
     {
         sr = GetComponent<SpriteRenderer>();
@@ -24,6 +27,11 @@ public class PoolObj : MonoBehaviour, IMapObject
     public Sprite GetSprite()
     {
         return sr.sprite;
+    }
+
+    public bool GetFlipX()
+    {
+        return sr.flipX;
     }
 
     public void SetSprite(Sprite sprite)

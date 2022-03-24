@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public List<ItemConverter> refineryList = new List<ItemConverter>();
+    private List<InteractionHandlerSO> interactionHandlerSOList = new List<InteractionHandlerSO>();
 
     private void Awake() 
     {
@@ -16,6 +16,31 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        refineryList = GameObject.FindObjectsOfType<ItemConverter>().ToList();
+        foreach(var handler in interactionHandlerSOList)
+        {
+            switch (handler.interactoinCase)     
+            {
+                case InteractionCase.Nothing:
+                    break;
+                case InteractionCase.KillPlayer:
+                    break;
+                case InteractionCase.OpenConverter:
+                    break;
+                case InteractionCase.OpenStorage:
+                    break;
+                case InteractionCase.EmergencyMeeting:
+                    break;
+                case InteractionCase.ReportDeadbody:
+                    break;
+                case InteractionCase.PickUpItem:
+                    break;
+                case InteractionCase.GameStart:
+                    break;
+                case InteractionCase.SelectCharacter:
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

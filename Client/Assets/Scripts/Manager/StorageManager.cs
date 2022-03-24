@@ -134,13 +134,17 @@ public class StorageManager : MonoBehaviour
         return ((float)totalCollectedItemAmount / (float)totalNeedItemAmount) * 100;
     }
 
-    public ItemStorage GetStorageInRange()
+    public bool GetStorageInRange(out ItemStorage temp)
     {
         if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
         {
-            return storage;
+            temp = storage;
+        }
+        else
+        {
+            temp = null;
         }
 
-        return null;
+        return temp != null;
     }
 }

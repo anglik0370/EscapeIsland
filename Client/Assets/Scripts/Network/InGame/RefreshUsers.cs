@@ -15,8 +15,9 @@ public class RefreshUsers : ISetAble
     public bool isTest = false;
 
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         EventManager.SubExitRoom(() =>
         {
             isOnce = false;
@@ -47,7 +48,7 @@ public class RefreshUsers : ISetAble
 
         foreach (UserVO uv in userDataList)
         {
-            CharacterProfile profile = CharacterSelectPanel.Instance.GetNotSelectedProfile();
+            CharacterProfile profile = CharacterSelectPanel.Instance.GetDefaultProfile();
             if (uv.socketId != socketId)
             {
                 Player p = null;
@@ -55,11 +56,13 @@ public class RefreshUsers : ISetAble
 
                 if (p == null)
                 {
-                    NetworkManager.instance.MakeRemotePlayer(uv, profile.GetSO());
+                    if(profile != null)
+                    {
+                        NetworkManager.instance.MakeRemotePlayer(uv, profile.GetSO());
+                    }
                 }
                 else
                 {
-
                     p.SetTransform(uv.position);
                 }
             }
@@ -79,10 +82,9 @@ public class RefreshUsers : ISetAble
 
                     if (isTest)
                     {
-                        user.isKidnapper = true;
-                        DataVO dataVO = new DataVO("TEST_CLIENT", null);
+                        //user.isKidnapper = true; <- 아마 작동 안할 것. 서버에서 보내주는 데이터로 바뀜
 
-                        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+                        SendManager.Instance.Send("TEST_CLIENT");
                     }
 
 

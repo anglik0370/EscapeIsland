@@ -2,19 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefreshUserHandler : MonoBehaviour, IMsgHandler
+public class RefreshUserHandler : IMsgHandler<RefreshUsers>
 {
-    private bool once = false;
-    private RefreshUsers users;
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
-        if (!once)
-        {
-            users = NetworkManager.instance.FindSetDataScript<RefreshUsers>();
-            once = true;
-        }
+        base.HandleMsg(payload);
 
         UserListVO userList = JsonUtility.FromJson<UserListVO>(payload);
-        users.SetUserRefreshData(userList.dataList);
+        generic.SetUserRefreshData(userList.dataList);
     }
 }

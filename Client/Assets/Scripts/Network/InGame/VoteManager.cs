@@ -7,7 +7,6 @@ public class VoteManager : ISetAble
     public static VoteManager Instance { get; set; }
 
     private List<UserVO> userDataList;
-    private Queue<ChatVO> chatQueue = new Queue<ChatVO>();
 
     public VotePopup voteTab;
 
@@ -16,7 +15,7 @@ public class VoteManager : ISetAble
     private bool needTimeRefresh = false;
     private bool endVoteTime = false;
     private bool needVoteComplete = false;
-
+    private bool needVoteDeadRefresh = false;
 
     public bool isVoteTime = false;
     private bool isTextChange = false;
@@ -25,15 +24,20 @@ public class VoteManager : ISetAble
     private VoteCompleteVO voteCompleteVO;
 
     private MeetingType meetingType = MeetingType.EMERGENCY;
+    public MeetingType MeetingType => meetingType;
     private int curTime = -1;
+    private int tempId = -1;
 
-    public static void ReceiveChat(ChatVO vo)
+    public static void SetVoteDead(int deadId)
     {
         lock (Instance.lockObj)
         {
-            Instance.chatQueue.Enqueue(vo);
+            Instance.needVoteDeadRefresh = true;
+            Instance.tempId = deadId;
         }
     }
+
+    
 
     public static void SetVoteComplete(VoteCompleteVO vo)
     {
@@ -84,8 +88,9 @@ public class VoteManager : ISetAble
     {
         Instance = this;
     }
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         EventManager.SubBackToRoom(() => voteTab.VoteUIDisable());
     }
 
@@ -120,30 +125,36 @@ public class VoteManager : ISetAble
             needVoteComplete = false;
         }
 
-        while (chatQueue.Count > 0)
+        if (needVoteDeadRefresh)
         {
-            ChatVO vo = chatQueue.Dequeue();
-            print("ChatHandler");
-
-            Player p = null;
-
-            if (playerList.TryGetValue(vo.socketId, out p))
-            {
-                if ((!p.isDie && !user.isDie) || user.isDie)
-                {
-                    voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg);
-                }
-            }
-            else
-            {
-                if (user.socketId == vo.socketId)
-                {
-                    voteTab.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg);
-                }
-            }
+            SetDeadRefresh();
+            needVoteDeadRefresh = false;
         }
+
     }
 
+    public void SetDeadRefresh()
+    {
+        Init();
+
+        if (tempId == socketId)
+        {
+            user.SetDead();
+
+        }
+        else if (playerList.ContainsKey(tempId))
+        {
+            Player p = playerList[tempId];
+
+            p.SetDead();
+
+            if (p.gameObject.activeSelf && p.isDie && !user.isDie)
+            {
+                p.SetDisable();
+            }
+        }
+        NetworkManager.instance.PlayerEnable();
+    }
     public void VoteComplete()
     {
         VoteUI ui = voteTab.FindVoteUI(voteCompleteVO.voterId);
@@ -188,6 +199,7 @@ public class VoteManager : ISetAble
 
     public void OnVoteTimeStart()
     {
+        Init();
         isVoteTime = true;
 
         EventManager.OccurStartMeet(meetingType);
@@ -212,7 +224,6 @@ public class VoteManager : ISetAble
                     voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg);
                 }
             }
-
         }
     }
 }

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WinKidnapperHandler : MonoBehaviour, IMsgHandler
+public class WinKidnapperHandler : IMsgHandler<Win>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
+        base.HandleMsg(payload);
         GameOverVO vo = JsonUtility.FromJson<GameOverVO>(payload);
-        NetworkManager.SetWinUserData(vo.dataList, vo.gameOverCase);
+        generic.SetWinUserData(vo.dataList, vo.gameOverCase);
     }
 }

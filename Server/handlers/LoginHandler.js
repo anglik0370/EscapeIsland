@@ -11,6 +11,7 @@ function loginHandler(socket,payload) {
     let userData = login(payload,socket);
     userData.position = Vector2.zero;
     userData.isImposter = false;
+    userData.master = false;
     userData.isDie = false;
     userData.voteNum = 0;
     userData.voteComplete = false;

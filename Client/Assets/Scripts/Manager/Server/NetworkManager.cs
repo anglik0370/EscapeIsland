@@ -18,27 +18,14 @@ public class NetworkManager : MonoBehaviour
 
     public object lockObj = new object();
 
-
     private Dictionary<int, Player> playerList = new Dictionary<int, Player>();
     private List<ISetAble> setDataScriptList = new List<ISetAble>();
     private Queue<int> removeSocketQueue = new Queue<int>();
 
     public Transform setDataScriptsParent;
 
-    private List<UserVO> tempDataList;
-    private List<UserVO> gameOverUserList;
-
-
     private bool isLogin = false;
-    private bool needMasterRefresh = false;
-    private bool needVoteDeadRefresh = false;
-    private bool needWinRefresh = false;
-    private bool needStorageFullRefresh = false;
-
-    private int tempId = -1;
-    private GameOverCase gameOverCase = GameOverCase.CollectAllItem;
-    private string msg = string.Empty;
-
+    
 
     private Player user = null;
     public Player User
@@ -48,9 +35,6 @@ public class NetworkManager : MonoBehaviour
     }
 
     public GameObject map;
-
-
-    public List<AreaCover> covers = new List<AreaCover>();
 
     private void Awake()
     {
@@ -88,45 +72,8 @@ public class NetworkManager : MonoBehaviour
     {
         return (T)setDataScriptList.Find(x => x.GetType() == typeof(T));
     }
-    public static void SetWinUserData(List<UserVO> list,int gameOverCase)
-    {
-        lock (instance.lockObj)
-        {
-            instance.needWinRefresh = true;
-            instance.gameOverUserList = list;
-            instance.gameOverCase = (GameOverCase)gameOverCase;
-        }
-    }
-
-    public static void SetStorageFullData(string msg)
-    {
-        lock(instance.lockObj)
-        {
-            instance.needStorageFullRefresh = true;
-            instance.msg = msg;
-        }
-    }
-
-    public static void SetVoteDead(int deadId)
-    {
-        lock(instance.lockObj)
-        {
-            instance.needVoteDeadRefresh = true;
-            instance.tempId = deadId;
-        }
-    }
     
-    public static void SetMasterRefreshData(List<UserVO> list)
-    {
-        lock (instance.lockObj)
-        {
-            instance.tempDataList = list;
-            instance.needMasterRefresh = true;
-        }
-    }
-
     
-
     public static void SetLoginData(string name, int socketId)
     {
         lock(instance.lockObj)
@@ -137,8 +84,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    
-
     public static void DisconnectUser(int id)
     {
         lock(instance.lockObj)
@@ -147,41 +92,13 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
         if(isLogin)
         {
             PopupManager.instance.CloseAndOpen("lobby");
             isLogin = false;
-        }              
-
-        if(needMasterRefresh)
-        {
-            RefreshMaster();
-
-            needMasterRefresh = false;
-        }
-              
-        if(needVoteDeadRefresh)
-        {
-            SetDeadRefresh();
-            needVoteDeadRefresh = false;
-        }
-               
-        if(needStorageFullRefresh)
-        {
-            SetStorageFull();
-            needStorageFullRefresh = false;
-        }
-        
-        if(needWinRefresh)
-        {
-            SetWinTeam();
-            needWinRefresh = false;
-        }
-
-        
+        }           
 
         while (removeSocketQueue.Count > 0)
         {
@@ -201,30 +118,13 @@ public class NetworkManager : MonoBehaviour
         return playerList.Values.ToList();
     }
 
-    public bool GetPlayerDie()
-    {
-        return user.isDie;
-    }
-
     public bool GetPlayerDie(int socId)
     {
         Player p = null;
 
         playerList.TryGetValue(socId, out p);
 
-        
-
         return p == null ? false : p.isDie;
-    }
-
-    public bool IsKidnapper()
-    {
-        if(user != null)
-        {
-            return user.isKidnapper;
-        }
-
-        return false;
     }
 
     public void BackLogin()
@@ -238,40 +138,6 @@ public class NetworkManager : MonoBehaviour
         EventManager.OccurExitRoom();
     }
 
-    public void EnterLobby()
-    {
-        SendManager.Instance.ExitRoomSend();
-    }
-
-    public void SetStorageFull()
-    {
-        //msg띄워주기
-    }
-    public void SetWinTeam()
-    {
-        //이긴 팀에 따라 해줘야 할 일 해주기
-        print("GameOver실행");
-        EventManager.OccurGameOver(gameOverCase);
-
-        foreach (UserVO uv in gameOverUserList)
-        {
-            if (uv.socketId == socketId)
-            {
-                user.transform.position = uv.position;
-            }
-            else
-            {
-                Player p = null;
-
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if (p != null)
-                {
-                    p.transform.position = uv.position;
-                }
-            }
-        }
-    }
     public void InitPlayers()
     {
         user.InitPlayer();
@@ -283,40 +149,6 @@ public class NetworkManager : MonoBehaviour
 
         PlayerEnable(true);
     }
-    
-    public void SetDeadRefresh()
-    {
-        if(tempId == socketId)
-        {
-            user.SetDead();
-
-        }
-        else if(playerList.ContainsKey(tempId))
-        {
-            Player p = playerList[tempId];
-
-            p.SetDead();
-
-            if (p.gameObject.activeSelf && p.isDie && !user.isDie)
-            {
-                p.SetDisable();
-            }
-        }
-        PlayerEnable();
-    }
-
-    public void SetItemDisable(int spawnerId)
-    {
-        ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == spawnerId);
-        s.DeSpawnItem();
-    }
-
-    public void SetItemStorage(int itemSOId)
-    {
-        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
-
-        StorageManager.Instance.AddItem(so);
-    }
 
     public void SetCharacter(CharacterSO so)
     {
@@ -327,35 +159,8 @@ public class NetworkManager : MonoBehaviour
         SendManager.Instance.SendCharacterChange(so.id, beforeId);
     }
 
-    public void SetStartConvert(int converterId, int itemSOId)
-    {
-        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
-
-        Debug.Log($"변환기{converterId}에서 {so}변환 시작");
-
-        GameManager.Instance.refineryList.Find(x => x.id == converterId).ConvertingStart(so);
-
-        print("start");
-    }
-
-    public void SetResetConverter(int converterId)
-    {
-        ItemConverter converter = GameManager.Instance.refineryList.Find(x => x.id == converterId);
-        converter.ConvertingReset();
-        print("reset");
-    }
-
-    public void SetTakeConverterAfterItem(int converterId)
-    {
-        ItemConverter converter = GameManager.Instance.refineryList.Find(x => x.id == converterId);
-        converter.TakeIAfterItem();
-        //refinery.ingotItem = null;
-        print("take");
-    }
-
     public void EnterRoom()
     {
-        //PopupManager.instance.CloseAndOpen("room");
         PopupManager.instance.ClosePopup();
         map.SetActive(true);
     }
@@ -372,7 +177,6 @@ public class NetworkManager : MonoBehaviour
 
     public void GameEnd()
     {
-        //EventManager.OccurExitRoom();
         EventManager.OccurBackToRoom();
         print("BackToRoom 실행");
     }
@@ -403,32 +207,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
     
-    
-    public void RefreshMaster()
-    {
-        foreach (UserVO uv in tempDataList)
-        {
-            if (uv.socketId == socketId)
-            {
-                user.master = uv.master;
-                //user.isImposter = uv.isImposter;
-            }
-            else
-            {
-                Player p = null;
-
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if(p != null)
-                {
-                    p.master = uv.master;
-                    //p.isImposter = uv.isImposter;
-                }
-            }
-        }
-    }
-
-
     public void Kill(Player targetPlayer)
     {
         int targetSocketId = 0;
@@ -445,8 +223,6 @@ public class NetworkManager : MonoBehaviour
         SendManager.Instance.SendKill(targetSocketId);
     }
     
-    
-
     public Player MakeRemotePlayer(UserVO data,CharacterSO so)
     {
         Player rpc = PoolManager.GetItem<Player>();

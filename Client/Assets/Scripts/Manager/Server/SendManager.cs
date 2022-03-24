@@ -17,6 +17,22 @@ public class SendManager : MonoBehaviour
         Instance = this;
     }
 
+    void Start()
+    {
+        EventManager.SubEnterRoom(p =>
+        {
+            user = p;
+            socketId = p.socketId;
+            roomNum = p.roomNum;
+        });
+    }
+
+    public void Send(string type)
+    {
+        DataVO dataVO = new DataVO(type, null);
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
     public void Login(string name)
     {
         LoginVO vo = new LoginVO();

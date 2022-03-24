@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartConverterHandler : MonoBehaviour,IMsgHandler
+public class StartConverterHandler : IMsgHandler<Converter>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
+        base.HandleMsg(payload);
+
         RefineryVO vo = JsonUtility.FromJson<RefineryVO>(payload);
-        NetworkManager.instance.SetStartConvert(vo.refineryId, vo.itemSOId);
+        generic.SetStartConvert(vo.refineryId, vo.itemSOId);
     }
 }

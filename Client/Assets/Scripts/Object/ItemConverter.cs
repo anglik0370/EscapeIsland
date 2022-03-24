@@ -1,10 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemConverter : MonoBehaviour, IMapObject
+public class ItemConverter : MonoBehaviour, IInteractionObject
 {
     private SpriteRenderer sr;
+
+    public Action<bool> Callback => isLobby =>
+    {
+        ConverterManager.Instance.FindProximateConverter(out ItemConverter converter);
+        ConvertPanel.Instance.Open(converter);
+    };
 
     public int id;
 
@@ -85,6 +92,11 @@ public class ItemConverter : MonoBehaviour, IMapObject
     public Sprite GetSprite()
     {
         return sr.sprite;
+    }
+
+    public bool GetFlipX()
+    {
+        return sr.flipX;
     }
 
     public void SetAfterItem(ItemSO item)

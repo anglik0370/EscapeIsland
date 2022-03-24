@@ -33,11 +33,17 @@ class Rooms {
         }
         
         
+        
     
         let r = new Room(roomInfo.name,this.roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
         socket.room = this.roomIdx;
 
         this.roomList[this.roomIdx] = r;
+
+        if(Users.isTestServer) {
+            this.roomList[this.roomIdx].inVoteTimer.setTimeToNextSlot(10);
+        }
+
         this.join(socket,true);
     
         this.roomIdx++;
@@ -92,12 +98,7 @@ class Rooms {
         socket.state = SocketState.IN_LOBBY; //방에서 나왔으니 state 바꿔주고
         room.curUserNum--; //그 방의 인원수--;
         room.removeSocket(socket.id);
-    
-        if(user.master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
-            let keys = Object.keys(room.userList);
-            room.userList[keys[0]].master = true;
-        }
-    
+
         if(user !== undefined){ 
             // 초기화
             
@@ -111,11 +112,16 @@ class Rooms {
         
         
         if(room.curUserNum <= 0){ //사람이 0명일때 room delete
-            room.stopTimer();
+            room.initRoom();
             delete this.roomList[roomNum];
             return;
         }
-
+    
+        if(user.master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
+            let keys = Object.keys(room.userList);
+            room.userList[keys[0]].master = true;
+        }
+        
         this.roomBroadcast(roomNum);
         
         room.socketList.forEach(soc => {
@@ -223,7 +229,7 @@ class Room {
     
         for(let i = 0; i < keys.length; i++) {
             //안죽었을때 & 투표완료했을때 넘어가야함
-            if((!this.userList[keys[i]].voteComplete && !this.userList[keys[i]].isDie)) {
+            if((!this.userList[keys[i]].isDie && !this.userList[keys[i]].voteComplete)) {
                 allComplete = false;
                 break;
             }
@@ -321,12 +327,14 @@ class Room {
         //살아있는 임포가 시민보다 많을 경우
         if(imposterCount >= citizenCount) {
             //임포승
+            console.log("다주것다");
             this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
             this.initRoom();
             return true;
         }
+        console.log("아직 남았다");
         return false;
-        //테스트용 코드
+        //테스트용 코드 
         // let dataList = Object.values(room.userList);
     
         // broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
@@ -393,6 +401,10 @@ class Room {
         this.inGameTimer = new InGameTimer();
         this.inVoteTimer = new InVoteTimer();
 
+        if(Users.isTestServer) {
+            this.roomList[this.roomIdx].inVoteTimer.setTimeToNextSlot(10);
+        }
+
         let keys = Object.keys(this.userList);
 
         for(let i = 0; i < keys.length; i++) {
@@ -407,6 +419,7 @@ class Room {
 
     startTimer() {
         //this.skipCount = 0;
+        this.stopTimer();
         this.expected = Date.now() + 1000; //현재시간 + 1초
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
     }
@@ -455,7 +468,6 @@ class Room {
     }
 
     changeTime() {
-        this.stopTimer();
         this.inVoteTimer.initTime();
         //this.skipCount = 0;
         let p = this.inGameTimer.returnPayload();
@@ -508,7 +520,6 @@ class Room {
 
 }
 
-//module.exports = Room;
 module.exports = {
-    Rooms: new Rooms(),Room
+    Rooms: new Rooms()//,Room
 }

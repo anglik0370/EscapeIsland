@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefreshMasterHandler : MonoBehaviour, IMsgHandler
+public class RefreshMasterHandler : IMsgHandler<RefreshMasters>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
+        base.HandleMsg(payload);
         UserListVO userList = JsonUtility.FromJson<UserListVO>(payload);
-        NetworkManager.SetMasterRefreshData(userList.dataList);
+        generic.SetMasterRefreshData(userList.dataList);
     }
 }

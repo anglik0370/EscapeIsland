@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TakeConverterHandler : MonoBehaviour, IMsgHandler
+public class TakeConverterHandler : IMsgHandler<Converter>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
-        NetworkManager.instance.SetTakeConverterAfterItem(int.Parse(payload));
+        base.HandleMsg(payload);
+
+        generic.SetTakeConverterAfterItem(int.Parse(payload));
     }
 }

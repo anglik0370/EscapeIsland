@@ -2,20 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillHandler : MonoBehaviour, IMsgHandler
+public class KillHandler : IMsgHandler<Kill>
 {
-    private bool once = false;
-    private Kill kill = null;
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
         UserListVO userList = JsonUtility.FromJson<UserListVO>(payload);
 
-        if (!once)
-        {
-            kill = NetworkManager.instance.FindSetDataScript<Kill>();
-            once = true;
-        }
+        base.HandleMsg(payload);
 
-        kill.SetDieData(userList.dataList);
+        generic.SetDieData(userList.dataList);
     }
 }

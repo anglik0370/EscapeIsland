@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterChangeHandler : MonoBehaviour,IMsgHandler
+public class CharacterChangeHandler : IMsgHandler<SetCharacter>
 {
-    private bool once = false;
-    private SetCharacter sc;
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
-        if(!once)
-        {
-            sc = NetworkManager.instance.FindSetDataScript<SetCharacter>();
-            once = true;
-        }
-        sc.SetCharChange(JsonUtility.FromJson<CharacterVO>(payload));
+        base.HandleMsg(payload);
+        generic.SetCharChange(JsonUtility.FromJson<CharacterVO>(payload));
     }
 }

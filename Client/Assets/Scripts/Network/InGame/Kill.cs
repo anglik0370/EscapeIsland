@@ -8,12 +8,9 @@ public class Kill : ISetAble
 
     private bool needDieRefresh = false;
 
-    void Start()
+    protected override void Start()
     {
-        EventManager.SubEnterRoom(p =>
-        {
-            user = p;
-        });
+        base.Start();
     }
 
     void Update()

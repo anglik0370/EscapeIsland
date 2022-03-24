@@ -7,7 +7,7 @@ using WebSocketSharp;
 
 public class SocketClient : MonoBehaviour
 {
-    public string url = "ws://localhost";
+    private string url = "localhost";
     public int port = 31012;
 
     public GameObject handlerParent;
@@ -20,6 +20,9 @@ public class SocketClient : MonoBehaviour
 
     private Queue<DataVO> packetList = new Queue<DataVO>();
 
+    private WaitForSeconds threeSec;
+    private Coroutine reConnectingCoroutine;
+
     public static void SendDataToSocket(string json)
     {
         instance.SendData(json);
@@ -29,9 +32,9 @@ public class SocketClient : MonoBehaviour
     {
         instance = this;
         handlerDic = new Dictionary<string, IMsgHandler>();
-    }
 
-    
+        threeSec = new WaitForSeconds(3f);
+    }
 
     private void Start()
     {
@@ -44,8 +47,30 @@ public class SocketClient : MonoBehaviour
 
         //webSocket = new WebSocket($"{url}:{port}");
         //ConnectSocket("localhost", port.ToString());
-        ConnectSocket("localhost", port.ToString());
+        ConnectSocket(url, port.ToString());
+
+        reConnectingCoroutine = StartCoroutine(TryReConnecting());
     }
+
+    IEnumerator TryReConnecting()
+    {
+        if (webSocket == null) yield break;
+
+        yield return new WaitForSeconds(5f); //처음 5초 연결할시간 주고
+
+        yield return new WaitUntil(() => webSocket.ReadyState != WebSocketState.Open); //연결이 끊길때까지 대기해줍니다.
+
+        while (webSocket.ReadyState != WebSocketState.Open) //websocket의 state가 open이 될때까지 3초 주기로 연결을 재시도
+        {
+            yield return threeSec;
+            ConnectSocket(url, port.ToString());
+        };
+        //만약 중간에 끊겼을 때를 대비하여 작성을 해두는 코드 
+        NetworkManager.instance.BackLogin();
+        PopupManager.instance.CloseAndOpen("login");
+
+    }
+
     public string GetTypeString(string s)
     {
         List<int> idx = new List<int>();
@@ -98,6 +123,9 @@ public class SocketClient : MonoBehaviour
     public void InitWebSocket()
     {
         if (webSocket == null) return;
+
+        if (reConnectingCoroutine != null) StopCoroutine(reConnectingCoroutine);
+
         if (webSocket.ReadyState == WebSocketState.Connecting || webSocket.ReadyState == WebSocketState.Open)
             webSocket.Close();
         webSocket = null;

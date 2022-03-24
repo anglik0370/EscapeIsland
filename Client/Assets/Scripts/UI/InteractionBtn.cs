@@ -18,10 +18,6 @@ public enum InteractionCase
 
 public class InteractionBtn : MonoBehaviour
 {
-    [Header("하나밖에 없는 오브젝트")]
-    [SerializeField]
-    private Player player;
-
     [Header("상호작용 관련 SO")]
     public List<InteractionHandlerSO> interactionCaseList = new List<InteractionHandlerSO>();
     private Dictionary<InteractionCase, InteractionHandlerSO> interactionDic = new Dictionary<InteractionCase, InteractionHandlerSO>();
@@ -32,9 +28,7 @@ public class InteractionBtn : MonoBehaviour
 
     [Header("쿨타임 이미지")]
     [SerializeField]
-    private CanvasGroup coolTimeCvs;
-    [SerializeField]
-    private CircleFillImage coolTimeImg;
+    private Image coolTimeImg;
 
     [Header("강조 오브젝트")]
     [SerializeField]
@@ -44,14 +38,25 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private InteractionCase state;
 
-    private Inventory inventory;
-    private float range;
-
     private Button btn;
     private Image image;
 
-    public bool isGameStart;
+    [SerializeField]
+    private bool isGameStart;
+    [SerializeField]
+    private bool isEnterRoom;
 
+    [Header("현재 가장 가까운 오브젝트")]
+    [SerializeField]
+    private IInteractionObject proxiamteObj;
+
+    //메모리 절약을 위한 변수들
+    private Player player;
+    private ItemConverter converter;
+    private ItemStorage storage;
+    private LogTable table;
+    private ItemSpawner spawner;
+    private DeadBody deadBody;
 
     private void Awake() 
     {
@@ -65,18 +70,14 @@ public class InteractionBtn : MonoBehaviour
         txt.text = string.Empty;
 
         isGameStart = false;
+        isEnterRoom = false;
     }
 
     private void Start()
     {
         EventManager.SubEnterRoom(p =>
         {
-            player = p;
-
-            p.inventory = FindObjectOfType<Inventory>();
-
-            inventory = p.inventory;
-            range = p.range;
+            isEnterRoom = true;
         });
 
         EventManager.SubGameStart(p =>
@@ -87,46 +88,12 @@ public class InteractionBtn : MonoBehaviour
         EventManager.SubExitRoom(() =>
         {
             isGameStart = false;
+            isEnterRoom = false;
         });
 
         EventManager.SubBackToRoom(() =>
         {
             isGameStart = false;
-        });
-
-        btn.onClick.AddListener(() =>
-        {
-            if (player.isDie) return;
-
-            switch (state)
-            {
-                case InteractionCase.Nothing:
-                    break;
-                case InteractionCase.KillPlayer:
-                    KillPlayer();
-                    break;
-                case InteractionCase.OpenConverter:
-                    ConvertPanel.Instance.Open(FindNearlestConverter());
-                    break;
-                case InteractionCase.OpenStorage:
-                    StoragePanel.Instance.Open();
-                    break;
-                case InteractionCase.EmergencyMeeting:
-                    MeetManager.Instance.Meet(true);
-                    break;
-                case InteractionCase.ReportDeadbody:
-                    DeadBodyManager.Instance.ReportProximateDeadbody();
-                    break;
-                case InteractionCase.PickUpItem:
-                    SpawnerManager.Instance.PickUpProximateSpawnerItem();
-                    break;
-                case InteractionCase.GameStart:
-                    SendManager.Instance.GameStart();
-                    break;
-                case InteractionCase.SelectCharacter:
-                    CharacterSelectPanel.Instance.Open();
-                    break;
-            }
         });
 
         for (int i = 0; i < interactionCaseList.Count; i++)
@@ -145,196 +112,128 @@ public class InteractionBtn : MonoBehaviour
 
     private void Update() 
     {
-        if (player == null) return;//플레이어가 없으면 방에 안들어온거니까 리턴
+        if (!isEnterRoom) return;
 
-        if (MeetManager.Instance.GetTableInRange() != null)
+        if(!isGameStart)
         {
-            //여긴 캐릭터 선택하는 곳
-            state = InteractionCase.SelectCharacter;
-            accent.Enable(MeetManager.Instance.GetTableInRange().GetSprite(), 
-                MeetManager.Instance.GetTableInRange().GetTrm());
-
-            SetButtonFromState();
+            if (MeetManager.Instance.GetTableInRange(out table))
+            {
+                //여긴 캐릭터 선택하는 곳
+                state = InteractionCase.SelectCharacter;
+                proxiamteObj = table;
+            }
+            else
+            {
+                //시작버튼으로 바꿔준다
+                state = InteractionCase.GameStart;
+                proxiamteObj = null;
+            }
         }
-        else
+        else //죽어서도 버튼이 바뀌기는 해야한다
         {
-            //시작버튼으로 바꿔준다
-            state = InteractionCase.GameStart;
-            accent.Disable();
-
-            SetButtonFromState();
-        }
-
-        if (isGameStart) //죽어서도 버튼이 바뀌기는 해야한다
-        {
-            if (player.isKidnapper && FindNearlestPlayer() != null)
+            if (PlayerManager.Instance.AmIKidnapper() && PlayerManager.Instance.FindProximatePlayer(out player))
             {
                 //여긴 킬하는곳
                 state = InteractionCase.KillPlayer;
-                accent.Enable(FindNearlestPlayer().GetSprite(), FindNearlestPlayer().GetTrm(), 
-                    FindNearlestPlayer().GetFlip());
-
-                SetButtonFromState();
+                proxiamteObj = player;
             }
-            else if (FindNearlestConverter() != null)
+            else if (ConverterManager.Instance.FindProximateConverter(out converter))
             {
                 //여긴 제련소 여는곳
                 state = InteractionCase.OpenConverter;
-                accent.Enable(FindNearlestConverter().GetSprite(), FindNearlestConverter().GetTrm());
-
-                SetButtonFromState();
+                proxiamteObj = converter;
             }
-            else if (StorageManager.Instance.GetStorageInRange() != null)
+            else if (StorageManager.Instance.GetStorageInRange(out storage))
             {
                 //여긴 저장소 여는 곳
                 state = InteractionCase.OpenStorage;
-                accent.Enable(StorageManager.Instance.GetStorageInRange().GetSprite(),
-                    StorageManager.Instance.GetStorageInRange().GetTrm());
-
-                SetButtonFromState();
+                proxiamteObj = storage;
             }
-            else if (MeetManager.Instance.GetTableInRange() != null)
+            else if (MeetManager.Instance.GetTableInRange(out table))
             {
                 //여긴 긴급회의 하는곳
                 state = InteractionCase.EmergencyMeeting;
-                accent.Enable(MeetManager.Instance.GetTableInRange().GetSprite(),
-                    MeetManager.Instance.GetTableInRange().GetTrm());
-
-                SetButtonFromState();
+                proxiamteObj = table;
             }
-            else if (SpawnerManager.Instance.FindProximateSpawner() != null)
+            else if (SpawnerManager.Instance.FindProximateSpawner(out spawner))
             {
                 //여긴 아이템 줍는곳
                 state = InteractionCase.PickUpItem;
-                accent.Enable(SpawnerManager.Instance.FindProximateSpawner().GetSprite(),
-                    SpawnerManager.Instance.FindProximateSpawner().GetTrm());
-
-                SetButtonFromState();
+                proxiamteObj = spawner;
             }
-            else if (DeadBodyManager.Instance.FindProximateDeadBody() != null)
+            else if (DeadBodyManager.Instance.FindProximateDeadBody(out deadBody))
             {
                 //여긴 주변 시체 신고하는곳
                 state = InteractionCase.ReportDeadbody;
-                accent.Enable(DeadBodyManager.Instance.FindProximateDeadBody().GetSprite(), 
-                    DeadBodyManager.Instance.FindProximateDeadBody().GetTrm());
-
-                SetButtonFromState();
+                proxiamteObj = deadBody;
             }
             else
             {
                 //여긴 아무것도 아닌곳
                 state = InteractionCase.Nothing;
-                accent.Disable();
-
-                SetButtonFromState();
+                proxiamteObj = null;
             }
         };
+
+        SetButtonFromState();
     }
 
     private void SetButtonFromState()
     {
-        txt.text = interactionDic[state].btnText;
-
-        coolTimeCvs.alpha = interactionDic[state].useCoolTimeImg || player.isDie ? 1 : 0;
-        coolTimeImg.IsFill = interactionDic[state].coolTimeImgFill || player.isDie;
-
-        image.sprite = interactionDic[state].btnSprite;
+        #region CoolTimeImg 처리
 
         if (state == InteractionCase.GameStart)
         {
-            if(player.master)
+            coolTimeImg.fillAmount = PlayerManager.Instance.AmIMaster() ? 0f : 1f;
+            coolTimeImg.raycastTarget = !PlayerManager.Instance.AmIMaster();
+        }
+        else if (state == InteractionCase.KillPlayer)
+        {
+            coolTimeImg.fillAmount = TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime;
+            coolTimeImg.raycastTarget = (TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime) != 0;
+        }
+        else if (state == InteractionCase.Nothing)
+        {
+            coolTimeImg.fillAmount = 1f;
+            coolTimeImg.raycastTarget = true;
+        }
+        else
+        {
+            coolTimeImg.fillAmount = 0f;
+            coolTimeImg.raycastTarget = false;
+        }
+
+        #endregion
+
+        txt.text = interactionDic[state].btnText;
+
+        image.sprite = interactionDic[state].btnSprite;
+
+        if(proxiamteObj == null)
+        {
+            accent.Disable();
+        }
+        else
+        {
+            accent.Enable(proxiamteObj.GetSprite(), proxiamteObj.GetTrm(), proxiamteObj.GetFlipX());
+        }
+
+        if(proxiamteObj == null)
+        {
+            if(!isGameStart)
             {
-                btn.interactable = true;
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() => SendManager.Instance.GameStart());
             }
             else
             {
-                btn.interactable = false;
+                btn.onClick.RemoveAllListeners();
             }
         }
         else
         {
-            btn.interactable = true;
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() => proxiamteObj.Callback?.Invoke(!isGameStart));
         }
-    }
-
-    public void KillPlayer()
-    {
-        if (!TimeHandler.Instance.isKillAble)
-        {
-            //킬 스택이 부족합니다 <- 메시지 표시
-            UIManager.Instance.SetWarningText("아직 킬 할 수 없습니다.");
-            return;
-        }
-
-        Player targetPlayer = FindNearlestPlayer();
-
-        if (targetPlayer == null) return;
-
-        targetPlayer.SetDead();
-
-        TimeHandler.Instance.InitKillCool();
-
-        NetworkManager.instance.Kill(targetPlayer);
-    }
-
-    public ItemConverter FindNearlestConverter()
-    {
-        ItemConverter nearlestRefinery = null;
-
-        List<ItemConverter> refienryList = GameManager.Instance.refineryList;
-
-        for(int i = 0; i < refienryList.Count; i++)
-        {
-            //상호작용범위 안에 있는지 체크
-            if(Vector2.Distance(player.GetTrm().position, refienryList[i].GetInteractionTrm().position) <= range)
-            {
-                if(nearlestRefinery == null)
-                {   
-                    //없으면 하나 넣어주고
-                    nearlestRefinery = refienryList[i];
-                }
-                else
-                {
-                    //있으면 거리비교
-                    if(Vector2.Distance(player.GetTrm().position, nearlestRefinery.GetTrm().position) >
-                        Vector2.Distance(player.GetTrm().position, refienryList[i].GetTrm().position))
-                    {
-                        nearlestRefinery = refienryList[i];
-                    }
-                }
-            }
-        }
-
-        return nearlestRefinery;
-    }
-
-    public Player FindNearlestPlayer()
-    {
-        Player p = null;
-
-        List<Player> playerList = NetworkManager.instance.GetPlayerList();
-
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            if (playerList[i].isDie) continue;
-
-            if (Vector2.Distance(player.GetTrm().position, playerList[i].transform.position) <= range)
-            {
-                if(p == null)
-                {
-                    p = playerList[i];
-                }
-                else
-                {
-                    if (Vector2.Distance(player.GetTrm().position, p.transform.position) >
-                        Vector2.Distance(player.GetTrm().position, playerList[i].transform.position))
-                    {
-                        p = playerList[i];
-                    }
-                }
-            }
-        }
-
-        return p;
     }
 }

@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSpawner : MonoBehaviour, IMapObject
+public class ItemSpawner : MonoBehaviour, IInteractionObject
 {
+    public Action<bool> Callback => isLobby =>
+    {
+        SpawnerManager.Instance.PickUpProximateSpawnerItem();
+    };
+
     public int id;
 
     [SerializeField]
@@ -60,6 +66,11 @@ public class ItemSpawner : MonoBehaviour, IMapObject
     public Sprite GetSprite()
     {
         return poolObj.GetSprite();
+    }
+
+    public bool GetFlipX()
+    {
+        return poolObj.GetFlipX();
     }
 
     public void SpawnItem()

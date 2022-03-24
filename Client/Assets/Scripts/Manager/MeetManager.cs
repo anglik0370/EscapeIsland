@@ -28,14 +28,18 @@ public class MeetManager : MonoBehaviour
         });
     }
 
-    public LogTable GetTableInRange()
+    public bool GetTableInRange(out LogTable temp)
     {
         if(Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
         {
-            return meetingTable;
+            temp = meetingTable;
+        }
+        else
+        {
+            temp = null;
         }
 
-        return null;
+        return temp != null;
     }
 
     public void Meet(bool isEmergency = false)
@@ -44,17 +48,13 @@ public class MeetManager : MonoBehaviour
         {
             print("긴급 회의 시작");
 
-            DataVO dataVO = new DataVO("EMERGENCY", "");
-
-            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+            SendManager.Instance.Send("EMERGENCY");
         }
         else
         {
             print("시체 발견");
 
-            DataVO dataVO = new DataVO("DEAD_REPORT", "");
-
-            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+            SendManager.Instance.Send("DEAD_REPORT");
         }
     }
 }

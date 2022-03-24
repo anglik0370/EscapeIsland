@@ -1,16 +1,22 @@
-
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IMapObject
+public class Player : MonoBehaviour, IInteractionObject
 {
     private SpriteRenderer sr;
     private Rigidbody2D rigid;
     private Animator anim;
 
+    public Action<bool> Callback => isLobby =>
+    {
+        PlayerManager.Instance.KillProximatePlayer();
+    };
+
     public string socketName;
     public int socketId;
+    public int roomNum;
 
     public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
     public bool master;
@@ -63,8 +69,10 @@ public class Player : MonoBehaviour, IMapObject
         transform.position = vo.position;
         this.isRemote = isRemote;
         master = vo.master;
+
         socketName = vo.name;
         socketId = vo.socketId;
+        roomNum = vo.roomNum;
 
         if (!isRemote)
         {
@@ -119,7 +127,7 @@ public class Player : MonoBehaviour, IMapObject
         return sr.sprite;
     }
 
-    public bool GetFlip()
+    public bool GetFlipX()
     {
         return sr.flipX;
     }

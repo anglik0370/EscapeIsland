@@ -49,7 +49,7 @@ public class CharacterProfile : MonoBehaviour
     }
     public CharacterSO GetSO()
     {
-        return charSO != null ? charSO : null;
+        return charSO;
     }
 
     public bool IsSelected()

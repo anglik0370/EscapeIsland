@@ -9,12 +9,9 @@ public class GameStart : ISetAble
     private bool needStartGame = false;
 
 
-    private void Start()
+    protected override void Start()
     {
-        EventManager.SubEnterRoom(p =>
-        {
-            user = p;
-        });
+        base.Start();
     }
 
     void Update()
