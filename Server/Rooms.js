@@ -111,7 +111,7 @@ class Rooms {
         
         
         if(room.curUserNum <= 0){ //사람이 0명일때 room delete
-            room.stopTimer();
+            room.initRoom();
             delete this.roomList[roomNum];
             return;
         }
@@ -223,7 +223,7 @@ class Room {
     
         for(let i = 0; i < keys.length; i++) {
             //안죽었을때 & 투표완료했을때 넘어가야함
-            if((!this.userList[keys[i]].voteComplete && !this.userList[keys[i]].isDie)) {
+            if((!this.userList[keys[i]].isDie && !this.userList[keys[i]].voteComplete)) {
                 allComplete = false;
                 break;
             }
@@ -407,6 +407,7 @@ class Room {
 
     startTimer() {
         //this.skipCount = 0;
+        this.stopTimer();
         this.expected = Date.now() + 1000; //현재시간 + 1초
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
     }
@@ -455,7 +456,6 @@ class Room {
     }
 
     changeTime() {
-        this.stopTimer();
         this.inVoteTimer.initTime();
         //this.skipCount = 0;
         let p = this.inGameTimer.returnPayload();
@@ -508,7 +508,6 @@ class Room {
 
 }
 
-//module.exports = Room;
 module.exports = {
-    Rooms: new Rooms(),Room
+    Rooms: new Rooms()//,Room
 }
