@@ -1,4 +1,5 @@
 const {Users} = require('./Users.js');
+const getRegex = require('./Utils/Regex.js');
 const WebSocket = require('ws');
 const InGameTimer = require('./InGameTimer.js');
 const InVoteTimer = require('./InVoteTimer.js');
@@ -6,6 +7,7 @@ const SetSpawnPoint = require('./GameSpawnHandler.js');
 const SocketState = require('./SocketState.js');
 const GetRandomPos = require('./SpawnPoint.js');
 const sendError = require('./SendError.js');
+
 
 class Rooms {
     constructor() {
@@ -36,8 +38,8 @@ class Rooms {
             return;
         }
     
-        if(roomInfo.name === ""){
-            sendError("방이름을 입력해 주세요.", socket);
+        if(!roomInfo.name.match(getRegex())){
+            sendError("방이름은 한글, 영어, 숫자 15자내로만 구성될 수 있습니다.", socket);
             return;
         }
         
