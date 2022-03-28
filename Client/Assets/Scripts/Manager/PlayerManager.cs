@@ -11,6 +11,8 @@ public class PlayerManager : MonoBehaviour
     private Player player;
     public Player Player => player;
 
+    private Kill kill;
+
     private void Awake()
     {
         if (Instance == null)
@@ -27,6 +29,7 @@ public class PlayerManager : MonoBehaviour
 
             player.inventory = FindObjectOfType<Inventory>();
         });
+        StartCoroutine(CoroutineHandler.Frame(() => kill = NetworkManager.instance.FindSetDataScript<Kill>()));
     }
 
     public bool AmIKidnapper()
@@ -91,6 +94,6 @@ public class PlayerManager : MonoBehaviour
 
         TimeHandler.Instance.InitKillCool();
 
-        NetworkManager.instance.Kill(targetPlayer);
+        kill.KillPlayer(targetPlayer);
     }
 }

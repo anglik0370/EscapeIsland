@@ -27,7 +27,11 @@ public class CharacterProfile : MonoBehaviour
 
     private void Start()
     {
-        selectBtn.onClick.AddListener(() => NetworkManager.instance.SetCharacter(charSO));
+        StartCoroutine(CoroutineHandler.Frame(() => 
+        { 
+            SetCharacter sc = NetworkManager.instance.FindSetDataScript<SetCharacter>(); 
+            selectBtn.onClick.AddListener(() => sc.ChangeCharacter(charSO)); 
+        }));
     }
 
     public void Init(CharacterSO so)

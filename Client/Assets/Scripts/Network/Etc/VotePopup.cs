@@ -157,8 +157,7 @@ public class VotePopup : Popup
 
             ui.SetChatUI(name, chatMsg, charSpr,chatParent);
         }
-        StartCoroutine(EndFrame());
-        
+        StartCoroutine(CoroutineHandler.Frame(() => chatRect.verticalNormalizedPosition = 0f));
     }
 
     private void InitChat()
@@ -167,11 +166,5 @@ public class VotePopup : Popup
         {
             chatParent.GetChild(i).gameObject.SetActive(false);
         }
-    }
-
-    IEnumerator EndFrame()
-    {
-        yield return new WaitForEndOfFrame();
-        chatRect.verticalNormalizedPosition = 0.0f;
     }
 }

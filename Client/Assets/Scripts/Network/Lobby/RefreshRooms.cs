@@ -25,21 +25,17 @@ public class RefreshRooms : ISetAble
 
     protected override void Start()
     {
-        StartCoroutine(Frame());
-    }
-
-    IEnumerator Frame()
-    {
-        yield return null;
-
-        roomParent = FindObjectOfType<LobbyPopup>().roomParent;
-
-        for (int i = 0; i < 10; i++)
+        StartCoroutine(CoroutineHandler.Frame(() =>
         {
-            RoomEnterBtn room = Instantiate(roomEnterBtnPrefab, roomParent).GetComponent<RoomEnterBtn>();
-            room.gameObject.SetActive(false);
-            roomEnterBtnList.Add(room);
-        }
+            roomParent = FindObjectOfType<LobbyPopup>().roomParent;
+
+            for (int i = 0; i < 10; i++)
+            {
+                RoomEnterBtn room = Instantiate(roomEnterBtnPrefab, roomParent).GetComponent<RoomEnterBtn>();
+                room.gameObject.SetActive(false);
+                roomEnterBtnList.Add(room);
+            }
+        }));
     }
 
     private void Update()
