@@ -69,6 +69,16 @@ public class SocketClient : MonoBehaviour
         NetworkManager.instance.ExitRoom();
         PopupManager.instance.CloseAndOpen("login");
 
+        ReConnectingCoroutine();
+    }
+
+    public void ReConnectingCoroutine()
+    {
+        if(reConnectingCoroutine != null)
+        {
+            StopCoroutine(reConnectingCoroutine);
+        }
+        reConnectingCoroutine = StartCoroutine(TryReConnecting());
     }
 
     public string GetTypeString(string s)
