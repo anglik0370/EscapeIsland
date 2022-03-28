@@ -16,11 +16,21 @@ class Rooms {
     }
 
     findRoom(roomName) {
-        for(let key in this.roomList) {
-            if(this.roomList[key].roomName == roomName) {
-                return this.roomList[key];
+        if(isNaN(roomName)) {
+            for(let key in this.roomList) {
+                if(this.roomList[key].roomName === roomName) {
+                    return this.roomList[key];
+                }
             }
         }
+        else {
+            for(let key in this.roomList) {
+                if(this.roomList[key].roomNum === parseInt(roomName)) {
+                    return this.roomList[key];
+                }
+            }
+        }
+        
         return undefined;
     }
 
