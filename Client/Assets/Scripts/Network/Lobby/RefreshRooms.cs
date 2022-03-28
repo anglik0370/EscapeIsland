@@ -23,7 +23,7 @@ public class RefreshRooms : ISetAble
         }
     }
 
-    private void Start()
+    protected override void Start()
     {
         StartCoroutine(Frame());
     }
