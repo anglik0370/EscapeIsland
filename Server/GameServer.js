@@ -3,7 +3,7 @@ const port = 31012;
 
 const {Rooms} = require('./Rooms.js');
 const {Users} = require('./Users.js');
-const SocketState = require('./SocketState.js');
+const SocketState = require('./Utils/SocketState.js');
 const fs = require('fs');
 
 let handlers = {};

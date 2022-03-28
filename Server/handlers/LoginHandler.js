@@ -1,5 +1,5 @@
-const SocketState = require('../SocketState.js');
-const Vector2 = require('../Vector2.js');
+const SocketState = require('../Utils/SocketState.js');
+const Vector2 = require('../Utils/Vector2.js');
 const {Users} = require('../Users.js');
 const getRegex = require('../Utils/Regex.js');
 const sendError = require('../Utils/SendError.js');

@@ -1,4 +1,4 @@
-const SocketState = require('./SocketState.js');
+const SocketState = require('./Utils/SocketState.js');
 
 class Users {
     constructor() {

@@ -3,9 +3,9 @@ const getRegex = require('./Utils/Regex.js');
 const WebSocket = require('ws');
 const InGameTimer = require('./InGameTimer.js');
 const InVoteTimer = require('./InVoteTimer.js');
-const SetSpawnPoint = require('./GameSpawnHandler.js');
-const SocketState = require('./SocketState.js');
-const GetRandomPos = require('./SpawnPoint.js');
+const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
+const SocketState = require('./Utils/SocketState.js');
+const GetRandomPos = require('./Utils/SpawnPoint.js');
 const sendError = require('./Utils/SendError.js');
 
 
