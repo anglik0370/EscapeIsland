@@ -31,6 +31,22 @@ public class Kill : ISetAble
         }
     }
 
+    public void KillPlayer(Player targetPlayer)
+    {
+        int targetSocketId = 0;
+
+        foreach (int socketId in playerList.Keys)
+        {
+            if (playerList[socketId] == targetPlayer)
+            {
+                targetSocketId = socketId;
+                break;
+            }
+        }
+
+        SendManager.Instance.SendKill(targetSocketId);
+    }
+
     public void RefreshDie()
     {
         Init();

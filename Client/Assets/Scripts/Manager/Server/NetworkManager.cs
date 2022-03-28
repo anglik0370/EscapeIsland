@@ -48,7 +48,7 @@ public class NetworkManager : MonoBehaviour
 
     private void Start()
     {
-        PoolManager.CreatePool<Player>(playerPrefab, transform, 2);
+        PoolManager.CreatePool<Player>(playerPrefab, transform, 10);
 
         setDataScriptList = setDataScriptsParent.GetComponents<ISetAble>().ToList();
 
@@ -58,14 +58,11 @@ public class NetworkManager : MonoBehaviour
         {
             InitPlayers();
         });
-
-        StartCoroutine(Frame());
-    }
-
-    IEnumerator Frame()
-    {
-        yield return null;
-        map.SetActive(false);
+        StartCoroutine(CoroutineHandler.Frame(() =>
+        {
+            map.SetActive(false);
+            print("frame");
+        }));
     }
 
     public T FindSetDataScript<T>() where T : ISetAble
@@ -150,14 +147,7 @@ public class NetworkManager : MonoBehaviour
         PlayerEnable(true);
     }
 
-    public void SetCharacter(CharacterSO so)
-    {
-        if (user == null) return;
-
-        int beforeId = user.ChangeCharacter(so);
-
-        SendManager.Instance.SendCharacterChange(so.id, beforeId);
-    }
+    
 
     public void EnterRoom()
     {
@@ -207,21 +197,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
     
-    public void Kill(Player targetPlayer)
-    {
-        int targetSocketId = 0;
-
-        foreach (int socketId in playerList.Keys)
-        {
-            if(playerList[socketId] == targetPlayer)
-            {
-                targetSocketId = socketId;
-                break;
-            }
-        }
-
-        SendManager.Instance.SendKill(targetSocketId);
-    }
+    
     
     public Player MakeRemotePlayer(UserVO data,CharacterSO so)
     {
