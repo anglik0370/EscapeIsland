@@ -13,6 +13,15 @@ class Rooms {
         this.roomIdx = 1;
     }
 
+    findRoom(roomName) {
+        for(let key in this.roomList) {
+            if(this.roomList[key].roomName == roomName) {
+                return this.roomList[key];
+            }
+        }
+        return null;
+    }
+
     removeAllRoom() {
         this.roomIdx = 1;
     }
@@ -32,7 +41,10 @@ class Rooms {
             return;
         }
         
-        
+        if(this.findRoom(roomInfo.name) !== null) {
+            sendError("중복된 방 이름 입니다.",socket);
+            return;
+        }
         
     
         let r = new Room(roomInfo.name,this.roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
