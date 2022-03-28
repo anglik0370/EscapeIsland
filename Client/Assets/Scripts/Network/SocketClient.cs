@@ -66,7 +66,7 @@ public class SocketClient : MonoBehaviour
             ConnectSocket(url, port.ToString());
         };
         //만약 중간에 끊겼을 때를 대비하여 작성을 해두는 코드 
-        NetworkManager.instance.BackLogin();
+        NetworkManager.instance.ExitRoom();
         PopupManager.instance.CloseAndOpen("login");
 
     }
