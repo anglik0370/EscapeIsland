@@ -1,6 +1,6 @@
 const {Rooms} = require('../Rooms.js');
 
-const sendError = require('../SendError.js');
+const sendError = require('../Utils/SendError.js');
 
 module.exports = {
     type:"FIND_ROOM",

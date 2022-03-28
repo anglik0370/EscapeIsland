@@ -2,7 +2,7 @@ const SocketState = require('../SocketState.js');
 const Vector2 = require('../Vector2.js');
 const {Users} = require('../Users.js');
 const getRegex = require('../Utils/Regex.js');
-const sendError = require('../SendError.js');
+const sendError = require('../Utils/SendError.js');
 
 function loginHandler(socket,payload) {
     if(!payload.name.match(getRegex())){

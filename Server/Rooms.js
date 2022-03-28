@@ -6,7 +6,7 @@ const InVoteTimer = require('./InVoteTimer.js');
 const SetSpawnPoint = require('./GameSpawnHandler.js');
 const SocketState = require('./SocketState.js');
 const GetRandomPos = require('./SpawnPoint.js');
-const sendError = require('./SendError.js');
+const sendError = require('./Utils/SendError.js');
 
 
 class Rooms {
