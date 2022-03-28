@@ -1,9 +1,9 @@
 const {Rooms} = require('../Rooms.js');
 const {Users} = require('../Users.js');
 const WebSocket = require('ws');
-const SocketState = require('../SocketState.js');
+const SocketState = require('../Utils/SocketState.js');
 const _ = require('lodash');
-const GetRandomPos = require('../SpawnPoint.js');
+const GetRandomPos = require('../Utils/SpawnPoint.js');
 
 let testIdx = 1000;
 

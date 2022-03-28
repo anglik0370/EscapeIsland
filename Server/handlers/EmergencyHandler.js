@@ -1,5 +1,5 @@
 const {Rooms} = require('../Rooms.js');
-const SetSpawnPoint = require('../GameSpawnHandler.js');
+const SetSpawnPoint = require('../Utils/GameSpawnHandler.js');
 
 module.exports = {
     type:"EMERGENCY",
