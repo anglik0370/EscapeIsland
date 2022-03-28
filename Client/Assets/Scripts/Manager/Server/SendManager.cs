@@ -171,4 +171,14 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendFindRoom(string roomName)
+    {
+        RoomVO vo = new RoomVO();
+        vo.name = roomName;
+
+        DataVO dataVO = new DataVO("FIND_ROOM", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }

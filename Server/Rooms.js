@@ -19,7 +19,7 @@ class Rooms {
                 return this.roomList[key];
             }
         }
-        return null;
+        return undefined;
     }
 
     removeAllRoom() {
@@ -41,7 +41,7 @@ class Rooms {
             return;
         }
         
-        if(this.findRoom(roomInfo.name) !== null) {
+        if(this.findRoom(roomInfo.name) !== undefined) {
             sendError("중복된 방 이름 입니다.",socket);
             return;
         }
@@ -417,14 +417,11 @@ class Room {
             this.roomList[this.roomIdx].inVoteTimer.setTimeToNextSlot(10);
         }
 
-        let keys = Object.keys(this.userList);
-
-        for(let i = 0; i < keys.length; i++) {
-            this.userList[keys[i]]
-            this.userList[keys[i]].isDie = false;
-            this.userList[keys[i]].isImposter = false;
-            this.userList[keys[i]].voteNum = 0;
-            this.userList[keys[i]].voteComplete = false;
+        for(let key in this.userList) {
+            this.userList[key].isDie = false;
+            this.userList[key].isImposter = false;
+            this.userList[key].voteNum = 0;
+            this.userList[key].voteComplete = false;
         }
 
     }
