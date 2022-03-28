@@ -69,11 +69,6 @@ public class LobbyPopup : Popup
 
         joinBtn.onClick.AddListener(() =>
         {
-            if(joinRoomNameInput.text.Equals(""))
-            {
-                UIManager.Instance.SetWarningText("공백입니다.");
-                return;
-            }
             //JoinRoom 보내 nameInput text로 
             SendManager.Instance.SendFindRoom(joinRoomNameInput.text);
             OpenJoinRoomPopup(false);
