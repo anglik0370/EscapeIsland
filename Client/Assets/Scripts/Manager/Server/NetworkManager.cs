@@ -161,9 +161,12 @@ public class NetworkManager : MonoBehaviour
 
     public void PlayerClear()
     {
-        user.StopCo();
-        user.SetDisable(true);
-        user = null;
+        if(user != null)
+        {
+            user.StopCo();
+            user.SetDisable(true);
+            user = null;
+        }
 
         foreach (int key in playerList.Keys)
         {
