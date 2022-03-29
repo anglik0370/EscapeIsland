@@ -217,7 +217,7 @@ class Rooms {
     startServer() {
         setInterval(() => {
             this.allRoomBroadcast(this.roomList);
-        },200);
+        },100);
     }
     
 }
