@@ -11155,6 +11155,7 @@ GameObject:
   - component: {fileID: 880676347}
   - component: {fileID: 880676349}
   - component: {fileID: 880676348}
+  - component: {fileID: 880676350}
   m_Layer: 5
   m_Name: SabotagePanel
   m_TagString: Untagged
@@ -11217,6 +11218,18 @@ MonoBehaviour:
   m_Spacing: {x: 1000, y: 300}
   m_Constraint: 1
   m_ConstraintCount: 2
+--- !u!225 &880676350
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880676346}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &887576710
 GameObject:
   m_ObjectHideFlags: 0
