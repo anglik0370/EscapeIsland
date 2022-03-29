@@ -98,16 +98,15 @@ public class GameOverPanel : Panel
     {
         Image img = null;
         int idx = isKidnapperWin ? 0 : 1;
-
-        print(p.isKidnapper);
+        Transform parent = (p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx];
 
         if (!FindWinImg(out img))
         {
-            img = Instantiate(standImgPrefab, (p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx]);
+            img = Instantiate(standImgPrefab, parent);
         }
         else
         {
-            img.transform.SetParent((p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx]);
+            img.transform.SetParent(parent);
         }
 
         img.sprite = p.curSO.standImg;
