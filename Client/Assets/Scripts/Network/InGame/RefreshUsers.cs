@@ -56,10 +56,7 @@ public class RefreshUsers : ISetAble
 
                 if (p == null)
                 {
-                    if(profile != null)
-                    {
-                        NetworkManager.instance.MakeRemotePlayer(uv, profile.GetSO());
-                    }
+                    NetworkManager.instance.MakeRemotePlayer(uv, profile.GetSO());
                 }
                 else
                 {

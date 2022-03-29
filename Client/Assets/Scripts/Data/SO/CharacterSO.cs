@@ -13,6 +13,7 @@ public class CharacterSO : ScriptableObject
     public int id;
     public Sprite profileImg;
     public Sprite standImg;
+    public Sprite deadImg;
     public string charName;
     public Sex sex;
 }

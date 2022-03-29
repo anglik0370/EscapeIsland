@@ -97,18 +97,21 @@ public class GameOverPanel : Panel
     public void MakeWinImg(Player p, bool isKidnapperWin)
     {
         Image img = null;
-        if(!FindWinImg(out img))
+        int idx = isKidnapperWin ? 0 : 1;
+        Transform parent = (p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx];
+
+        if (!FindWinImg(out img))
         {
-            int idx = isKidnapperWin ? 0 : 1;
-            img = Instantiate(standImgPrefab, (p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx]);
+            img = Instantiate(standImgPrefab, parent);
+        }
+        else
+        {
+            img.transform.SetParent(parent);
         }
 
-        img.sprite = p.curSO.standImg;
-        if (p.isDie)
-        {
-            img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
-        }
+        img.sprite = p.isDie ? p.curSO.deadImg : p.curSO.standImg;
         img.gameObject.SetActive(true);
+
         winImgList.Add(img);
     }
 
