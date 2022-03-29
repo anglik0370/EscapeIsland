@@ -7,7 +7,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "New Sabotage",menuName = "SO/SabotageSO")]
 public class SabotageSO : ScriptableObject
 {
-    public bool canSharing;
+    public string sabotageName;
     public float coolTime;
     public Sprite sabotageSprite;
 
