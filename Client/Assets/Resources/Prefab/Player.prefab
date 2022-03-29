@@ -139,18 +139,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3aba0d78e21d214f9fa22716d66110b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lobbyHandlerSO: {fileID: 11400000, guid: 2c46781745509fb4da20dea432282d2c, type: 2}
+  ingameHandlerSO: {fileID: 11400000, guid: c8c42c8746f849745a1197c0e19789c1, type: 2}
   socketName: 
   socketId: 0
+  roomNum: 0
   isRemote: 0
   master: 0
-  isImposter: 0
+  isKidnapper: 0
   isDie: 0
   inventory: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   targetPos: {x: 0, y: 0}
   speed: 6
   range: 2
-  charSprite: {fileID: 0}
+  curSO: {fileID: 0}
 --- !u!114 &8380765728768605477
 MonoBehaviour:
   m_ObjectHideFlags: 0

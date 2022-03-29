@@ -7,17 +7,18 @@ public class LogTable : MonoBehaviour, IInteractionObject
 {
     private SpriteRenderer sr;
 
-    public Action<bool> Callback => isLobby =>
-    {
-        if (isLobby)
-        {
-            CharacterSelectPanel.Instance.Open();
-        }
-        else
-        {
-            MeetManager.Instance.Meet(true);
-        }
-    };
+    [SerializeField]
+    private InteractionSO lobbyHandlerSO;
+    public InteractionSO LobbyHandlerSO => lobbyHandlerSO;
+
+    [SerializeField]
+    private InteractionSO ingameHandlerSO;
+    public InteractionSO InGameHandlerSO => ingameHandlerSO;
+
+    public Action LobbyCallback => () => CharacterSelectPanel.Instance.Open();
+    public Action IngameCallback => () => MeetManager.Instance.Meet(true);
+
+    public bool CanInteraction => true;
 
     private void Awake()
     {

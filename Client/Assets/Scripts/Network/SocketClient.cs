@@ -144,7 +144,7 @@ public class SocketClient : MonoBehaviour
             DataVO vo = packetList.Dequeue();
             if (handlerDic.TryGetValue(vo.type, out handler))
             {
-                print(vo.type);
+                //print(vo.type);
                 handler.HandleMsg(vo.payload);
             }
             else

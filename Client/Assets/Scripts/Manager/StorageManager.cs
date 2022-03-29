@@ -34,6 +34,11 @@ public class StorageManager : MonoBehaviour
 
     private void Start()
     {
+        EventManager.SubEnterRoom(p =>
+        {
+            GameManager.Instance.AddInteractionObj(storage);
+        });
+
         EventManager.SubGameStart(p =>
         {
             player = p;
@@ -132,19 +137,5 @@ public class StorageManager : MonoBehaviour
     private float GetProgress()
     {
         return ((float)totalCollectedItemAmount / (float)totalNeedItemAmount) * 100;
-    }
-
-    public bool GetStorageInRange(out ItemStorage temp)
-    {
-        if (Vector2.Distance(player.GetTrm().position, storage.GetInteractionTrm().position) <= player.range)
-        {
-            temp = storage;
-        }
-        else
-        {
-            temp = null;
-        }
-
-        return temp != null;
     }
 }

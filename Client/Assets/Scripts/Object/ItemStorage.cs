@@ -6,10 +6,18 @@ using System;
 
 public class ItemStorage : MonoBehaviour, IInteractionObject
 {
-    public Action<bool> Callback => isLobby =>
-    {
-        StoragePanel.Instance.Open();
-    };
+    [SerializeField]
+    private InteractionSO lobbyHandlerSO;
+    public InteractionSO LobbyHandlerSO => lobbyHandlerSO;
+
+    [SerializeField]
+    private InteractionSO ingameHandlerSO;
+    public InteractionSO InGameHandlerSO => ingameHandlerSO;
+
+    public Action LobbyCallback => () => { };
+    public Action IngameCallback => () => StoragePanel.Instance.Open();
+
+    public bool CanInteraction => true;
 
     [SerializeField]
     private Transform interactionTrm;

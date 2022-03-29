@@ -28,20 +28,6 @@ public class MeetManager : MonoBehaviour
         });
     }
 
-    public bool GetTableInRange(out LogTable temp)
-    {
-        if(Vector2.Distance(player.GetTrm().position, meetingTable.GetTrm().position) <= player.range)
-        {
-            temp = meetingTable;
-        }
-        else
-        {
-            temp = null;
-        }
-
-        return temp != null;
-    }
-
     public void Meet(bool isEmergency = false)
     {
         if(isEmergency)
