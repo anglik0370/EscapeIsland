@@ -41,6 +41,11 @@ public class TimeHandler : MonoBehaviour
             EventManager.OccurTimeChange(true);
         });
 
+        EventManager.SubExitRoom(() =>
+        {
+            EventManager.OccurTimeChange(true);
+        });
+
         EventManager.SubGameStart(p =>
         {
             isGameStarted = true;
