@@ -25,6 +25,8 @@ public class MeetManager : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             player = p;
+
+            GameManager.Instance.AddInteractionObj(meetingTable);
         });
     }
 

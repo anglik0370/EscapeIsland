@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4959777619404908028}
   - component: {fileID: 4959777619404908029}
   - component: {fileID: 4959777619404908031}
+  - component: {fileID: -7870291233296193551}
   m_Layer: 0
   m_Name: DeadBody
   m_TagString: Untagged
@@ -97,3 +98,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyHandlerSO: {fileID: 11400000, guid: 2c46781745509fb4da20dea432282d2c, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 50a318a4df3c0f448ae9528d6ba13b6b, type: 2}
+--- !u!114 &-7870291233296193551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4959777619404907778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c0693fbe7a328428e078a51aea23e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bRunOnce: 0
+  posOffsetY: 0

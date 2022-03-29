@@ -28,7 +28,10 @@ public class PlayerManager : MonoBehaviour
             player = p;
 
             player.inventory = FindObjectOfType<Inventory>();
+        });
 
+        EventManager.SubGameStart(p =>
+        {
             for (int i = 0; i < PlayerList.Count; i++)
             {
                 GameManager.Instance.AddInteractionObj(PlayerList[i]);

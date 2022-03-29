@@ -30,7 +30,9 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private Text txt;
 
-    [Header("쿨타임 이미지")]
+    [Header("이미지")]
+    [SerializeField]
+    private Image btnImg;
     [SerializeField]
     private Image coolTimeImg;
 
@@ -56,10 +58,6 @@ public class InteractionBtn : MonoBehaviour
     {
         btn = GetComponent<Button>();
         image = GetComponent<Image>();
-
-        //playerTrm = player.transform;
-        //inventory = player.inventory;
-        //range = player.range;
 
         txt.text = string.Empty;
 
@@ -99,7 +97,9 @@ public class InteractionBtn : MonoBehaviour
         
         if(proximateObj != null)
         {
-            if(!isGameStart)
+            print(proximateObj.GetTrm().gameObject.name);
+
+            if (!isGameStart)
             {
                 UpdateBtnState(proximateObj.LobbyHandlerSO);
                 UpdateBtnCallback(proximateObj.LobbyCallback);
@@ -146,22 +146,22 @@ public class InteractionBtn : MonoBehaviour
         if (state == InteractionCase.GameStart)
         {
             coolTimeImg.fillAmount = PlayerManager.Instance.AmIMaster() ? 0f : 1f;
-            coolTimeImg.raycastTarget = !PlayerManager.Instance.AmIMaster();
+            btnImg.raycastTarget = PlayerManager.Instance.AmIMaster();
         }
         else if (state == InteractionCase.KillPlayer)
         {
             coolTimeImg.fillAmount = TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime;
-            coolTimeImg.raycastTarget = (TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime) != 0;
+            btnImg.raycastTarget = (TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime) <= 0;
         }
         else if (state == InteractionCase.Nothing)
         {
             coolTimeImg.fillAmount = 1f;
-            coolTimeImg.raycastTarget = true;
+            btnImg.raycastTarget = false;
         }
         else
         {
             coolTimeImg.fillAmount = 0f;
-            coolTimeImg.raycastTarget = false;
+            btnImg.raycastTarget = true;
         }
     }
 }
