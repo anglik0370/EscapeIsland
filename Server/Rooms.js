@@ -116,6 +116,7 @@ class Rooms {
         if(room === undefined) return;
         
         let user = room.userList[socket.id];
+        let master = user.master;
     
         socket.room = 0; //나왔으니 룸 초기화
     
@@ -141,7 +142,7 @@ class Rooms {
             return;
         }
     
-        if(user.master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
+        if(master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
             let keys = Object.keys(room.userList);
             room.userList[keys[0]].master = true;
         }
@@ -168,11 +169,11 @@ class Rooms {
             user.master = isMaster;
             user.position = GetRandomPos();
         }
-
+        
         socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
         if(isMaster)
-            setTimeout(() => this.roomBroadcast(socket.room),200);
+            setTimeout(() => this.roomBroadcast(socket.room),100);
 
         socket.server.clients.forEach(soc=>{
             if(soc.state != SocketState.IN_LOBBY) 
