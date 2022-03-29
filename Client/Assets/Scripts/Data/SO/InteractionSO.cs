@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "New InteractionHandler", menuName = "SO/InteractionHandlerSO")]
-public class InteractionHandlerSO : ScriptableObject
+public class InteractionSO : ScriptableObject
 {
     public InteractionCase interactoinCase;
 

@@ -33,11 +33,15 @@ public class KeyBoardControllManager : MonoBehaviour
             v = Input.GetAxisRaw("Vertical");
 
             dir = new Vector3(h, v, 0).normalized;
-
-            player.Move(dir);
+        }
+        else
+        {
+            dir = Vector3.zero;
         }
 
-        if(Input.GetKeyDown(KeyCode.E))
+        player.Move(dir);
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if(interactionBtn.interactable)
             {

@@ -9,6 +9,12 @@ function loginHandler(socket,payload) {
         sendError("이름은 한글, 영어, 숫자 15자내로만 구성될 수 있습니다.", socket);
         return;
     }
+
+    if(Users.findUser(payload.name) !== undefined) {
+        sendError("중복된 이름이 있습니다.",socket);
+        return;
+    }
+    
     let userData = login(payload,socket);
     userData.position = Vector2.zero;
     userData.isImposter = false;

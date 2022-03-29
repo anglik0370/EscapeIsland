@@ -7,7 +7,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private List<InteractionHandlerSO> interactionHandlerSOList = new List<InteractionHandlerSO>();
+    [SerializeField]
+    private List<IInteractionObject> interactionObjList = new List<IInteractionObject>();
+    public List<IInteractionObject> InteractionObjList => interactionObjList;
+
+    [SerializeField]
+    private List<GameObject> objList = new List<GameObject>();
+
+    private Player player;
 
     private void Awake() 
     {
@@ -15,32 +22,63 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
 
-        foreach(var handler in interactionHandlerSOList)
+    private void Start()
+    {
+        EventManager.SubEnterRoom(p =>
         {
-            switch (handler.interactoinCase)     
+            player = p;
+        });
+
+        EventManager.SubExitRoom(() =>
+        {
+            interactionObjList.Clear();
+        });
+    }
+
+    private void Update()
+    {
+        objList.Clear();
+
+        for (int i = 0; i < interactionObjList.Count; i++)
+        {
+            objList.Add(interactionObjList[i].GetTrm().gameObject);
+        }
+    }
+
+    public void AddInteractionObj(IInteractionObject interactionObject)
+    {
+        interactionObjList.Add(interactionObject);
+    }
+
+    public void RemoveInteractionObj(IInteractionObject interactionObject)
+    {
+        interactionObjList.Remove(interactionObject);
+    }
+
+    public IInteractionObject GetProximateObject()
+    {
+        IInteractionObject proximateObj = interactionObjList[0];
+
+        for (int i = 0; i < interactionObjList.Count; i++)
+        {
+            if (!interactionObjList[i].CanInteraction) continue;
+
+            if (Vector2.Distance(player.GetTrm().position, interactionObjList[i].GetTrm().position) <
+                Vector2.Distance(player.GetTrm().position, proximateObj.GetTrm().position))
             {
-                case InteractionCase.Nothing:
-                    break;
-                case InteractionCase.KillPlayer:
-                    break;
-                case InteractionCase.OpenConverter:
-                    break;
-                case InteractionCase.OpenStorage:
-                    break;
-                case InteractionCase.EmergencyMeeting:
-                    break;
-                case InteractionCase.ReportDeadbody:
-                    break;
-                case InteractionCase.PickUpItem:
-                    break;
-                case InteractionCase.GameStart:
-                    break;
-                case InteractionCase.SelectCharacter:
-                    break;
-                default:
-                    break;
+                proximateObj = interactionObjList[i];
             }
+        }
+
+        if(player.CheckInRange(proximateObj))
+        {
+            return proximateObj;
+        }
+        else
+        {
+            return null;
         }
     }
 }

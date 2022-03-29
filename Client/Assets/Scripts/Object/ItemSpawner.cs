@@ -5,10 +5,18 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour, IInteractionObject
 {
-    public Action<bool> Callback => isLobby =>
-    {
-        SpawnerManager.Instance.PickUpProximateSpawnerItem();
-    };
+    [SerializeField]
+    private InteractionSO lobbyHandlerSO;
+    public InteractionSO LobbyHandlerSO => lobbyHandlerSO;
+
+    [SerializeField]
+    private InteractionSO ingameHandlerSO;
+    public InteractionSO InGameHandlerSO => ingameHandlerSO;
+
+    public bool CanInteraction => IsItemSpawned;
+
+    public Action LobbyCallback => () => { };
+    public Action IngameCallback => () => SpawnerManager.Instance.PickUpSpawnerItem(this);
 
     public int id;
 
@@ -87,11 +95,8 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         poolObj.SetActive(false);
     }
 
-    public ItemSO PickUpItem()
+    public ItemSO GetItem()
     {
-        //플레이어에서 검사하니까 여기선 검사할 필요 없다
-        DeSpawnItem();
-
         return item;
     }
 }

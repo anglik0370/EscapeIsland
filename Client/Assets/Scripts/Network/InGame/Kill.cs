@@ -33,6 +33,8 @@ public class Kill : ISetAble
 
     public void KillPlayer(Player targetPlayer)
     {
+        Init();
+
         int targetSocketId = 0;
 
         foreach (int socketId in playerList.Keys)
@@ -77,7 +79,7 @@ public class Kill : ISetAble
                     if (p.gameObject.activeSelf && uv.isDie && !user.isDie)
                     {
                         p.SetDisable();
-                        p.SetDeadBody();
+                        DeadBodyManager.Instance.MakeDeadbody(p.GetTrm().position);
                     }
                 }
             }

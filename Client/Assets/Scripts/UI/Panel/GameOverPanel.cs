@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameOverCase
 {
@@ -11,8 +12,21 @@ public enum GameOverCase
 
 public class GameOverPanel : Panel
 {
+    public static GameOverPanel Instance { get; private set; }
+
     public CanvasGroup citizenCg;
     public CanvasGroup kidnapperCg;
+
+    private List<Image> winImgList;
+    
+    [SerializeField]
+    private Image standImgPrefab;
+
+    //0 - kidnapper, 1 - citizen
+    [SerializeField]
+    private Transform[] kidnapperImgParent;
+    [SerializeField]
+    private Transform[] citizenImgParent;
 
     private CanvasGroup curCg = null;
 
@@ -23,6 +37,10 @@ public class GameOverPanel : Panel
         base.Awake();
 
         closeSec = new WaitForSeconds(1.5f);
+        winImgList = new List<Image>();
+
+        if(Instance == null)
+            Instance = this;
     }
 
     private void Start()
@@ -31,10 +49,9 @@ public class GameOverPanel : Panel
         {
             Open(gameOverCase);
         });
+        EventManager.SubBackToRoom(ClearWinImg);
     }
 
-
-    //일단 임시로 이렇게 해둠 - 나중에 뭐 리소스 나오면 enum으로 하던 뭐로 하던 바꾸면 될듯
     public void Open(GameOverCase gameOverCase)
     {
         switch (gameOverCase)
@@ -68,6 +85,39 @@ public class GameOverPanel : Panel
 
         NetworkManager.instance.GameEnd();
         //StartCoroutine(ClosePanel());
+    }
+
+    public bool FindWinImg(out Image img)
+    {
+        img = winImgList.Find(img => !img.gameObject.activeSelf);
+
+        return img != null;
+    }
+
+    public void MakeWinImg(Player p, bool isKidnapperWin)
+    {
+        Image img = null;
+        if(!FindWinImg(out img))
+        {
+            int idx = isKidnapperWin ? 0 : 1;
+            img = Instantiate(standImgPrefab, (p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx]);
+        }
+
+        img.sprite = p.curSO.standImg;
+        if (p.isDie)
+        {
+            img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
+        }
+        img.gameObject.SetActive(true);
+        winImgList.Add(img);
+    }
+
+    public void ClearWinImg()
+    {
+        for (int i = 0; i < winImgList.Count; i++)
+        {
+            winImgList[i].gameObject.SetActive(false);
+        }
     }
 
     //일단 이렇게 쓰고 나중에 트위닝을 쓰던가 하면 될 듯

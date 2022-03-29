@@ -41,44 +41,13 @@ public class DeadBodyManager : MonoBehaviour
         });
     }
 
-    public bool FindProximateDeadBody(out DeadBody temp)
+    public void MakeDeadbody(Vector3 pos)
     {
-        DeadBody deadBody = null;
+        DeadBody deadBody = PoolManager.GetItem<DeadBody>();
+        deadBody.GetTrm().position = pos;
 
-        for (int i = 0; i < deadBodyList.Count; i++)
-        {
-            //상호작용범위 안에 있는지 체크
-            if (Vector2.Distance(player.GetTrm().position, deadBodyList[i].transform.position) <= player.range)
-            {
-                if (deadBody == null)
-                {
-                    //없으면 하나 넣어주고
-                    deadBody = deadBodyList[i];
-                }
-                else
-                {
-                    //있으면 거리비교
-                    if (Vector2.Distance(player.GetTrm().position, deadBody.transform.position) >
-                        Vector2.Distance(player.GetTrm().position, deadBodyList[i].transform.position))
-                    {
-                        deadBody = deadBodyList[i];
-                    }
-                }
-            }
-        }
-
-        temp = deadBody;
-
-        return temp != null;
-    }
-
-    public void ReportProximateDeadbody()
-    {
-        FindProximateDeadBody(out DeadBody deadBody);
-
-        if (deadBody == null) return;
-
-        deadBody.Report();
+        deadBodyList.Add(deadBody);
+        GameManager.Instance.AddInteractionObj(deadBody);
     }
 
     public void ClearDeadBody()
@@ -87,6 +56,8 @@ public class DeadBodyManager : MonoBehaviour
 
         foreach (DeadBody deadBody in deadBodyList)
         {
+            GameManager.Instance.RemoveInteractionObj(deadBody);
+
             if (!deadBody.gameObject.activeSelf)
             {
                 continue;

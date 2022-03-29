@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,15 +19,20 @@ public enum InteractionCase
 
 public class InteractionBtn : MonoBehaviour
 {
-    [Header("상호작용 관련 SO")]
-    public List<InteractionHandlerSO> interactionCaseList = new List<InteractionHandlerSO>();
-    private Dictionary<InteractionCase, InteractionHandlerSO> interactionDic = new Dictionary<InteractionCase, InteractionHandlerSO>();
+    [Header("아무것도 안할 때 SO")]
+    [SerializeField]
+    private InteractionSO nothingSO;
+    [Header("게임 시작 SO")]
+    [SerializeField]
+    private InteractionSO gameStartSO;
 
     [Header("텍스트")]
     [SerializeField]
     private Text txt;
 
-    [Header("쿨타임 이미지")]
+    [Header("이미지")]
+    [SerializeField]
+    private Image btnImg;
     [SerializeField]
     private Image coolTimeImg;
 
@@ -38,6 +44,8 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private InteractionCase state;
 
+    private IInteractionObject proximateObj;
+
     private Button btn;
     private Image image;
 
@@ -46,26 +54,10 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private bool isEnterRoom;
 
-    [Header("현재 가장 가까운 오브젝트")]
-    [SerializeField]
-    private IInteractionObject proxiamteObj;
-
-    //메모리 절약을 위한 변수들
-    private Player player;
-    private ItemConverter converter;
-    private ItemStorage storage;
-    private LogTable table;
-    private ItemSpawner spawner;
-    private DeadBody deadBody;
-
     private void Awake() 
     {
         btn = GetComponent<Button>();
         image = GetComponent<Image>();
-
-        //playerTrm = player.transform;
-        //inventory = player.inventory;
-        //range = player.range;
 
         txt.text = string.Empty;
 
@@ -95,158 +87,81 @@ public class InteractionBtn : MonoBehaviour
         {
             isGameStart = false;
         });
-
-        for (int i = 0; i < interactionCaseList.Count; i++)
-        {
-            InteractionCase interactionCase = (InteractionCase)i;
-
-            foreach (InteractionHandlerSO handler in interactionCaseList)
-            {
-                if(handler.interactoinCase == interactionCase)
-                {
-                    interactionDic.Add((InteractionCase)i, handler);
-                }
-            }
-        }
     }
 
     private void Update() 
     {
         if (!isEnterRoom) return;
 
-        if(!isGameStart)
+        proximateObj = GameManager.Instance.GetProximateObject();
+        
+        if(proximateObj != null)
         {
-            if (MeetManager.Instance.GetTableInRange(out table))
+            print(proximateObj.GetTrm().gameObject.name);
+
+            if (!isGameStart)
             {
-                //여긴 캐릭터 선택하는 곳
-                state = InteractionCase.SelectCharacter;
-                proxiamteObj = table;
+                UpdateBtnState(proximateObj.LobbyHandlerSO);
+                UpdateBtnCallback(proximateObj.LobbyCallback);
             }
             else
             {
-                //시작버튼으로 바꿔준다
-                state = InteractionCase.GameStart;
-                proxiamteObj = null;
+                UpdateBtnState(proximateObj.InGameHandlerSO);
+                UpdateBtnCallback(proximateObj.IngameCallback);
             }
         }
-        else //죽어서도 버튼이 바뀌기는 해야한다
+        else
         {
-            if (PlayerManager.Instance.AmIKidnapper() && PlayerManager.Instance.FindProximatePlayer(out player))
+            if(!isGameStart)
             {
-                //여긴 킬하는곳
-                state = InteractionCase.KillPlayer;
-                CheckAndChangeProximateObject(player);
+                UpdateBtnState(gameStartSO);
+                UpdateBtnCallback(() => SendManager.Instance.GameStart());
             }
-            if (ConverterManager.Instance.FindProximateConverter(out converter))
+            else
             {
-                //여긴 제련소 여는곳
-                state = InteractionCase.OpenConverter;
-                CheckAndChangeProximateObject(converter);
+                UpdateBtnState(nothingSO);
+                UpdateBtnCallback(() => { });
             }
-            if (StorageManager.Instance.GetStorageInRange(out storage))
-            {
-                //여긴 저장소 여는 곳
-                state = InteractionCase.OpenStorage;
-                CheckAndChangeProximateObject(storage);
-            }
-            if (MeetManager.Instance.GetTableInRange(out table))
-            {
-                //여긴 긴급회의 하는곳
-                state = InteractionCase.EmergencyMeeting;
-                CheckAndChangeProximateObject(table);
-            }
-            if (SpawnerManager.Instance.FindProximateSpawner(out spawner))
-            {
-                //여긴 아이템 줍는곳
-                state = InteractionCase.PickUpItem;
-                CheckAndChangeProximateObject(spawner);
-            }
-            if (DeadBodyManager.Instance.FindProximateDeadBody(out deadBody))
-            {
-                //여긴 주변 시체 신고하는곳
-                state = InteractionCase.ReportDeadbody;
-                CheckAndChangeProximateObject(deadBody);
-            }
-        };
+        }
 
-        SetButtonFromState();
+        UpdateCoolTimeImage();
     }
 
-    private void SetButtonFromState()
+    private void UpdateBtnState(InteractionSO so)
     {
-        #region CoolTimeImg 처리
+        state = so.interactoinCase;
 
+        image.sprite = so.btnSprite;
+        txt.text = so.btnText;
+    }
+
+    private void UpdateBtnCallback(Action Callback)
+    {
+        btn.onClick.RemoveAllListeners();
+        btn.onClick.AddListener(() => Callback?.Invoke());
+    }
+
+    private void UpdateCoolTimeImage()
+    {
         if (state == InteractionCase.GameStart)
         {
             coolTimeImg.fillAmount = PlayerManager.Instance.AmIMaster() ? 0f : 1f;
-            coolTimeImg.raycastTarget = !PlayerManager.Instance.AmIMaster();
+            btnImg.raycastTarget = PlayerManager.Instance.AmIMaster();
         }
         else if (state == InteractionCase.KillPlayer)
         {
             coolTimeImg.fillAmount = TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime;
-            coolTimeImg.raycastTarget = (TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime) != 0;
+            btnImg.raycastTarget = (TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime) <= 0;
         }
         else if (state == InteractionCase.Nothing)
         {
             coolTimeImg.fillAmount = 1f;
-            coolTimeImg.raycastTarget = true;
+            btnImg.raycastTarget = false;
         }
         else
         {
             coolTimeImg.fillAmount = 0f;
-            coolTimeImg.raycastTarget = false;
+            btnImg.raycastTarget = true;
         }
-
-        #endregion
-
-        txt.text = interactionDic[state].btnText;
-
-        image.sprite = interactionDic[state].btnSprite;
-
-        if(proxiamteObj == null)
-        {
-            if(!isGameStart)
-            {
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(() => SendManager.Instance.GameStart());
-            }
-            else
-            {
-                btn.onClick.RemoveAllListeners();
-            }
-
-            accent.Disable();
-        }
-        else
-        {
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => proxiamteObj.Callback?.Invoke(!isGameStart));
-
-            accent.Enable(proxiamteObj.GetSprite(), proxiamteObj.GetTrm(), proxiamteObj.GetFlipX());
-        }
-    }
-
-    private void CheckAndChangeProximateObject(IInteractionObject interactionObject)
-    {
-        if(proxiamteObj == null)
-        {
-            proxiamteObj = interactionObject;
-            SetButtonFromState();
-            return;
-        }
-
-        Player player = PlayerManager.Instance.Player;
-
-        if(Vector2.Distance(player.GetTrm().position, proxiamteObj.GetTrm().position) > 
-            Vector2.Distance(player.GetTrm().position, interactionObject.GetTrm().position))
-        {
-            proxiamteObj = interactionObject;
-            SetButtonFromState();
-            return;
-        }
-
-        //가까운거 없으면 주변에 암것도 없는거임
-        state = InteractionCase.Nothing;
-        proxiamteObj = null;
     }
 }

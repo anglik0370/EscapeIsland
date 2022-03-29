@@ -69,6 +69,16 @@ public class SocketClient : MonoBehaviour
         NetworkManager.instance.ExitRoom();
         PopupManager.instance.CloseAndOpen("login");
 
+        ReConnectingCoroutine();
+    }
+
+    public void ReConnectingCoroutine()
+    {
+        if(reConnectingCoroutine != null)
+        {
+            StopCoroutine(reConnectingCoroutine);
+        }
+        reConnectingCoroutine = StartCoroutine(TryReConnecting());
     }
 
     public string GetTypeString(string s)
@@ -144,7 +154,7 @@ public class SocketClient : MonoBehaviour
             DataVO vo = packetList.Dequeue();
             if (handlerDic.TryGetValue(vo.type, out handler))
             {
-                print(vo.type);
+                //print(vo.type);
                 handler.HandleMsg(vo.payload);
             }
             else

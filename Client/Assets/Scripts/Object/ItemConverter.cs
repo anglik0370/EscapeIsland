@@ -7,11 +7,18 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
 {
     private SpriteRenderer sr;
 
-    public Action<bool> Callback => isLobby =>
-    {
-        ConverterManager.Instance.FindProximateConverter(out ItemConverter converter);
-        ConvertPanel.Instance.Open(converter);
-    };
+    [SerializeField]
+    private InteractionSO lobbyHandlerSO;
+    public InteractionSO LobbyHandlerSO => lobbyHandlerSO;
+
+    [SerializeField]
+    private InteractionSO ingameHandlerSO;
+    public InteractionSO InGameHandlerSO => ingameHandlerSO;
+
+    public Action LobbyCallback => () => { };
+    public Action IngameCallback => () => ConvertPanel.Instance.Open(this);
+
+    public bool CanInteraction => true;
 
     public int id;
 

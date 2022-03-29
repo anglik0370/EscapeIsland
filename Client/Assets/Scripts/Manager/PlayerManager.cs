@@ -29,7 +29,22 @@ public class PlayerManager : MonoBehaviour
 
             player.inventory = FindObjectOfType<Inventory>();
         });
+
+        EventManager.SubGameStart(p =>
+        {
+            for (int i = 0; i < PlayerList.Count; i++)
+            {
+                GameManager.Instance.AddInteractionObj(PlayerList[i]);
+            }
+        });
+
         StartCoroutine(CoroutineHandler.Frame(() => kill = NetworkManager.instance.FindSetDataScript<Kill>()));
+    }
+
+    public void KillPlayer(Player p)
+    {
+        TimeHandler.Instance.InitKillCool();
+        kill.KillPlayer(p);
     }
 
     public bool AmIKidnapper()
@@ -45,55 +60,5 @@ public class PlayerManager : MonoBehaviour
     public bool AmIMaster()
     {
         return player.master;
-    }
-
-    public bool FindProximatePlayer(out Player temp)
-    {
-        Player p = null;
-
-        for (int i = 0; i < PlayerList.Count; i++)
-        {
-            if (PlayerList[i].isDie) continue;
-
-            if (Vector2.Distance(player.GetTrm().position, PlayerList[i].transform.position) <= player.range)
-            {
-                if (p == null)
-                {
-                    p = PlayerList[i];
-                }
-                else
-                {
-                    if (Vector2.Distance(player.GetTrm().position, p.transform.position) >
-                        Vector2.Distance(player.GetTrm().position, PlayerList[i].transform.position))
-                    {
-                        p = PlayerList[i];
-                    }
-                }
-            }
-        }
-
-        temp = p;
-
-        return temp != null;
-    }
-
-    public void KillProximatePlayer()
-    {
-        if (!TimeHandler.Instance.isKillAble)
-        {
-            //킬 스택이 부족합니다 <- 메시지 표시
-            UIManager.Instance.SetWarningText("아직 킬 할 수 없습니다.");
-            return;
-        }
-
-        FindProximatePlayer(out Player targetPlayer);
-
-        if (targetPlayer == null) return;
-
-        targetPlayer.SetDead();
-
-        TimeHandler.Instance.InitKillCool();
-
-        kill.KillPlayer(targetPlayer);
     }
 }

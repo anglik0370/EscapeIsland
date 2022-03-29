@@ -9,10 +9,24 @@ public class Player : MonoBehaviour, IInteractionObject
     private Rigidbody2D rigid;
     private Animator anim;
 
-    public Action<bool> Callback => isLobby =>
+    [SerializeField]
+    private InteractionSO lobbyHandlerSO;
+    public InteractionSO LobbyHandlerSO => lobbyHandlerSO;
+
+    [SerializeField]
+    private InteractionSO ingameHandlerSO;
+    public InteractionSO InGameHandlerSO => GetInteractionSO();
+
+    public Action LobbyCallback => () => { };
+    public Action IngameCallback => () =>
     {
-        PlayerManager.Instance.KillProximatePlayer();
+        if(PlayerManager.Instance.AmIKidnapper())
+        {
+            PlayerManager.Instance.KillPlayer(this);
+        }
     };
+
+    public bool CanInteraction => !isDie && gameObject.activeSelf;
 
     public string socketName;
     public int socketId;
@@ -29,9 +43,10 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public float speed = 5;
 
-    public float range = 5f;
+    [SerializeField]
+    private float range = 5f;
 
-    private WaitForSeconds ws = new WaitForSeconds(1 / 5); //200ms 간격으로 자신의 데이터갱신
+    private WaitForSeconds ws = new WaitForSeconds(1 / 10); //200ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
 
     private InfoUI ui = null;
@@ -146,18 +161,6 @@ public class Player : MonoBehaviour, IInteractionObject
 
         gameObject.SetActive(false);
         ui.gameObject.SetActive(false);
-
-        
-        
-    }
-
-    public void SetDeadBody()
-    {
-        DeadBody deadBody = PoolManager.GetItem<DeadBody>();
-
-        deadBody.GetTrm().position = transform.position;
-
-        DeadBodyManager.Instance.deadBodyList.Add(deadBody);
     }
 
     public void SetEnable()
@@ -171,8 +174,6 @@ public class Player : MonoBehaviour, IInteractionObject
         isDie = true;
 
         anim.SetFloat("isDie", 1f);
-
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.3f);
     }
 
     public void InitPlayer()
@@ -180,8 +181,6 @@ public class Player : MonoBehaviour, IInteractionObject
         isKidnapper = isDie = false;
 
         anim.SetFloat("isDie", 0f);
-
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
     }
 
     public void Move(Vector3 dir)
@@ -260,5 +259,23 @@ public class Player : MonoBehaviour, IInteractionObject
 
             targetPos = pos;
         }
+    }
+
+    public bool CheckInRange(IInteractionObject interactionObject)
+    {
+        if(Vector2.Distance(GetTrm().position, interactionObject.GetInteractionTrm().position) <= range)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private InteractionSO GetInteractionSO()
+    {
+        InteractionSO so = PlayerManager.Instance.AmIKidnapper() ? ingameHandlerSO : lobbyHandlerSO;
+        return so;
     }
 }

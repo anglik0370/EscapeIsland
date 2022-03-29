@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolObj : MonoBehaviour, IInteractionObject
+public class PoolObj : MonoBehaviour
 {
     private SpriteRenderer sr;
-
-    public Action<bool> Callback => isLobby => { };
 
     private void Awake() 
     {
@@ -15,11 +13,6 @@ public class PoolObj : MonoBehaviour, IInteractionObject
     }
 
     public Transform GetTrm()
-    {
-        return transform;
-    }
-
-    public Transform GetInteractionTrm()
     {
         return transform;
     }

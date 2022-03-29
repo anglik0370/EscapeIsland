@@ -7,10 +7,18 @@ public class DeadBody : MonoBehaviour, IInteractionObject
 {
     private SpriteRenderer sr;
 
-    public Action<bool> Callback => isLobby =>
-    {
-        DeadBodyManager.Instance.ReportProximateDeadbody();
-    };
+    [SerializeField]
+    private InteractionSO lobbyHandlerSO;
+    public InteractionSO LobbyHandlerSO => lobbyHandlerSO;
+
+    [SerializeField]
+    private InteractionSO ingameHandlerSO;
+    public InteractionSO InGameHandlerSO => ingameHandlerSO;
+
+    public Action LobbyCallback => () => { };
+    public Action IngameCallback => () => Report();
+
+    public bool CanInteraction => gameObject.activeSelf;
 
     private void Awake()
     {

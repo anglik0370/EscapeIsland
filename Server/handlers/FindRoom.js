@@ -5,7 +5,6 @@ const sendError = require('../Utils/SendError.js');
 module.exports = {
     type:"FIND_ROOM",
     act(socket,data) {
-        console.log(data);
         let room = Rooms.findRoom(data.name);
 
         if(room === undefined) {
