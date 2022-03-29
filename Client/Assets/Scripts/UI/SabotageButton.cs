@@ -68,5 +68,6 @@ public class SabotageButton : MonoBehaviour
         curCoolTime = maxCoolTime;
 
         //해줄것들
+        sabotageSO.callback?.Invoke();
     }
 }
