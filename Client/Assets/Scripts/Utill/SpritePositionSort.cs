@@ -8,6 +8,15 @@ public class SpritePositionSort : MonoBehaviour
     private bool bRunOnce = true;
 
     [SerializeField]
+    private Transform otherTrm;
+
+    [SerializeField]
+    private bool useOtherTrm = false;
+
+    [SerializeField]
+    private bool useReverse = false;
+
+    [SerializeField]
     private float posOffsetY;
 
     private SpriteRenderer spriteRenderer;
@@ -24,7 +33,16 @@ public class SpritePositionSort : MonoBehaviour
         float precisionMultiplier = 10f;
         //spriteRenderer.sortingOrder = (int)(-(transform.position.y + posOffsetY) * precisionMultiplier);
 
-        spriteRenderer.sortingOrder = (int)((0 - transform.position.y) * precisionMultiplier);
+        if (useReverse) precisionMultiplier *= -1;
+
+        if(useOtherTrm)
+        {
+            spriteRenderer.sortingOrder = (int)((0 - otherTrm.position.y) * precisionMultiplier);
+        }
+        else
+        {
+            spriteRenderer.sortingOrder = (int)((0 - transform.position.y) * precisionMultiplier);
+        }
 
         if(bRunOnce)
         {
