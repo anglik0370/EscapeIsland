@@ -24,7 +24,7 @@ public class RoomEnterBtn : MonoBehaviour
 
     public void SetInfo(string roomName, int curUserNum,int userNum, int roomNum,int kidnapperNum)
     {
-        roomNameText.text = roomName;
+        roomNameText.text = $"{roomNum}. {roomName}";
         userNumText.text = $"{curUserNum} / {userNum}";
         kidnapperText.text = kidnapperNum.ToString();
         this.roomNum = roomNum;
