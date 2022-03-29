@@ -97,8 +97,6 @@ public class InteractionBtn : MonoBehaviour
         
         if(proximateObj != null)
         {
-            print(proximateObj.GetTrm().gameObject.name);
-
             if (!isGameStart)
             {
                 UpdateBtnState(proximateObj.LobbyHandlerSO);
