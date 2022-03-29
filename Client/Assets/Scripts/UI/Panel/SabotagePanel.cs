@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SabotagePanel : Panel
 {
-
     private SabotageButton sabotageBtnPrefab;
     private List<SabotageSO> sabotageSOList;
     private List<SabotageButton> sabotageList = new List<SabotageButton>();
@@ -31,5 +30,27 @@ public class SabotagePanel : Panel
         EventManager.SubGameOver(gos => Close(true));
 
         EventManager.SubStartMeet(mt => Close(true));
+
+
+        EventManager.SubGameStart(p =>
+        {
+            if (p.isKidnapper)
+            {
+                Open(true);
+                GameStart();
+            }
+            else
+            {
+                Close(false);
+            }
+        });
+    }
+
+    public void GameStart()
+    {
+        for (int i = 0; i < sabotageList.Count; i++)
+        {
+            sabotageList[i].StartTimer();
+        }
     }
 }
