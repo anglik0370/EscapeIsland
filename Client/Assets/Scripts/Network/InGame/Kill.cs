@@ -77,7 +77,7 @@ public class Kill : ISetAble
                     if (p.gameObject.activeSelf && uv.isDie && !user.isDie)
                     {
                         p.SetDisable();
-                        p.SetDeadBody();
+                        DeadBodyManager.Instance.MakeDeadbody(p.GetTrm().position);
                     }
                 }
             }
