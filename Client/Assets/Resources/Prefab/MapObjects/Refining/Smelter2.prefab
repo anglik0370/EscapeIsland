@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 7186350198068997479}
   - component: {fileID: 7186350198068997472}
   - component: {fileID: 3938881723726419455}
+  - component: {fileID: 4847128377028296999}
   m_Layer: 0
   m_Name: Smelter2
   m_TagString: Untagged
@@ -100,8 +101,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1865585133
-  m_SortingLayer: 4
+  m_SortingLayerID: -60827083
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 40aba7fe4c87db04bab9990b0887270f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -137,3 +138,17 @@ MonoBehaviour:
   isConverting: 0
   convertingTime: 5
   remainTime: 0
+--- !u!114 &4847128377028296999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7186350198068997473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c0693fbe7a328428e078a51aea23e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bRunOnce: 1
+  posOffsetY: 0

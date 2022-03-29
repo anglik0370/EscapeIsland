@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8272671650580409048}
   - component: {fileID: 8272671650580409049}
+  - component: {fileID: -4558351232767015569}
   m_Layer: 0
   m_Name: Box2
   m_TagString: Untagged
@@ -68,10 +69,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1865585133
+  m_SortingLayerID: -60827083
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4e09170e6751bd242bcd3bbdc6d3404c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd4c1f2a22e0ccd4f999c93f550b7621, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -82,3 +83,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-4558351232767015569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272671650580409055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c0693fbe7a328428e078a51aea23e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bRunOnce: 1
+  posOffsetY: 0

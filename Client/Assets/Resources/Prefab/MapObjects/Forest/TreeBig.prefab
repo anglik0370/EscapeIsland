@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 286106275306360834}
   - component: {fileID: 286106275306360835}
+  - component: {fileID: 6645662867929076964}
   m_Layer: 0
   m_Name: TreeBig
   m_TagString: Untagged
@@ -68,10 +69,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1865585133
+  m_SortingLayerID: -60827083
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 29d1c819b556b0f48b22c3cba2e56c0c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 824dd460dc7ad37489505e1cfe184e5f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -82,3 +83,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6645662867929076964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286106275306360836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c0693fbe7a328428e078a51aea23e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bRunOnce: 1
+  posOffsetY: 0

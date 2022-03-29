@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3247982966465902468}
   - component: {fileID: 3247982966465902469}
+  - component: {fileID: -6280806748369558600}
   m_Layer: 0
   m_Name: Pillar2
   m_TagString: Untagged
@@ -68,17 +69,31 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1865585133
+  m_SortingLayerID: -60827083
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 08dd6ef07920fe1449825d184a170b99, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 464cb9dc3f0480547aafa0ff9bf15092, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.5, y: 5.66}
+  m_Size: {x: 1.38, y: 5.09}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6280806748369558600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3247982966465902467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c0693fbe7a328428e078a51aea23e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bRunOnce: 1
+  posOffsetY: 0

@@ -22,7 +22,9 @@ public class SpritePositionSort : MonoBehaviour
     private void LateUpdate()
     {
         float precisionMultiplier = 5f;
-        spriteRenderer.sortingOrder = (int)(-(transform.position.y + posOffsetY) * precisionMultiplier);
+        //spriteRenderer.sortingOrder = (int)(-(transform.position.y + posOffsetY) * precisionMultiplier);
+
+        spriteRenderer.sortingOrder = (int)((0 - transform.position.y) * precisionMultiplier);
 
         if(bRunOnce)
         {
