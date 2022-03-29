@@ -6,6 +6,7 @@ public class TimerHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-       VoteManager.SetTimerData(int.Parse(payload));
+        TimerVO vo = JsonUtility.FromJson<TimerVO>(payload);
+       VoteManager.SetTimerData(vo);
     }
 }

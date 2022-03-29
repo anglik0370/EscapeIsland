@@ -21,11 +21,11 @@ public class VoteManager : ISetAble
     private bool isTextChange = false;
 
     private TimeVO timeVO;
+    private TimerVO timerVO;
     private VoteCompleteVO voteCompleteVO;
 
     private MeetingType meetingType = MeetingType.EMERGENCY;
     public MeetingType MeetingType => meetingType;
-    private int curTime = -1;
     private int tempId = -1;
 
     public static void SetVoteDead(int deadId)
@@ -66,12 +66,12 @@ public class VoteManager : ISetAble
         }
     }
 
-    public static void SetTimerData(int curTime)
+    public static void SetTimerData(TimerVO vo)
     {
         lock (Instance.lockObj)
         {
             Instance.needTimerRefresh = true;
-            Instance.curTime = curTime;
+            Instance.timerVO = vo;
         }
     }
 
@@ -194,7 +194,17 @@ public class VoteManager : ISetAble
     public void TimerText()
     {
         if (isTextChange) return;
-        voteTab.ChangeMiddleText(curTime.ToString());
+
+        string text = timerVO.curTime.ToString();
+
+        if(timerVO.isInGameTimer)
+        {
+            TimeHandler.Instance.ChangeInGameTimeText(text);
+        }
+        else
+        {
+            voteTab.ChangeMiddleText(text);
+        }
     }
 
     public void OnVoteTimeStart()

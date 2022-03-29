@@ -13,6 +13,7 @@ public class MainPanel : MonoBehaviour
     public const int PROGRESS = 4;
     public const int SETTINGBTN = 5;
     public const int MAPBTN = 6;
+    public const int INGAMETIMETEXT = 7;
 
     [SerializeField]
     private List<CanvasGroup> cvsList = new List<CanvasGroup>();

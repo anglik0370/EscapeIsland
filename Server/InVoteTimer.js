@@ -18,7 +18,7 @@ class InVoteTimer {
         this.curTime -= this.sec;
 
         socketList.forEach(soc => {
-            soc.send(JSON.stringify({type:"TIMER",payload:this.curTime}));
+            soc.send(JSON.stringify({type:"TIMER",payload:JSON.stringify({curTime:this.curTime,isInGameTimer:false})}));
         });
 
         if(this.curTime <= 0) {

@@ -7,8 +7,12 @@ public class TimeHandler : MonoBehaviour
 {
     public static TimeHandler Instance { get; private set; }
 
+    private const string IN_GAME_TIMER_TEXT = "남은 시간 : 60";
+
     [SerializeField]
     private Text dayAndSlotText;
+    [SerializeField]
+    private Text inGameTimerText;
 
     [SerializeField]
     private int day = 1;
@@ -78,6 +82,7 @@ public class TimeHandler : MonoBehaviour
     public void TimeRefresh(int day, bool isLightTime)
     {
         this.day = day;
+        inGameTimerText.text = IN_GAME_TIMER_TEXT;
 
         if (!isLightTime)
         {
@@ -91,12 +96,18 @@ public class TimeHandler : MonoBehaviour
         }
     }
 
+    public void ChangeInGameTimeText(string msg)
+    {
+        inGameTimerText.text = $"남은 시간 : {msg}";
+    }
+
     public void Init()
     {
         curkillCoolTime = killCoolTime;
         isKillAble = false;
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
+        inGameTimerText.text = IN_GAME_TIMER_TEXT;
     }
 
     public void InitKillCool()
