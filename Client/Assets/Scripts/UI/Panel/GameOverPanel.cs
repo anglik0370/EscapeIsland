@@ -109,12 +109,9 @@ public class GameOverPanel : Panel
             img.transform.SetParent(parent);
         }
 
-        img.sprite = p.curSO.standImg;
-        if (p.isDie)
-        {
-            img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
-        }
+        img.sprite = p.isDie ? p.curSO.deadImg : p.curSO.standImg;
         img.gameObject.SetActive(true);
+
         winImgList.Add(img);
     }
 
