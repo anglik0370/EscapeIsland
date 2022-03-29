@@ -14,6 +14,12 @@ public class GameOverPanel : Panel
     public CanvasGroup citizenCg;
     public CanvasGroup kidnapperCg;
 
+    //0 - kidnapper, 1 - citizen
+    [SerializeField]
+    private Transform[] kidnapperImgParent;
+    [SerializeField]
+    private Transform[] citizenImgParent;
+
     private CanvasGroup curCg = null;
 
     private WaitForSeconds closeSec;
@@ -33,8 +39,6 @@ public class GameOverPanel : Panel
         });
     }
 
-
-    //일단 임시로 이렇게 해둠 - 나중에 뭐 리소스 나오면 enum으로 하던 뭐로 하던 바꾸면 될듯
     public void Open(GameOverCase gameOverCase)
     {
         switch (gameOverCase)
