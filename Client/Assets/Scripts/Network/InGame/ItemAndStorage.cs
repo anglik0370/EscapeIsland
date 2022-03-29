@@ -28,7 +28,7 @@ public class ItemAndStorage : ISetAble
     public void SetStorageFull()
     {
         //msg¶ç¿öÁÖ±â
-        UIManager.Instance.SetWarningText(msg);
+        UIManager.Instance.SetWarningText(msg,true);
     }
 
     public void SetItemDisable(int spawnerId)

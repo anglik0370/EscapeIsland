@@ -56,13 +56,14 @@ public class UIManager : MonoBehaviour
         warningText.enabled = false;
     }
 
-    public void SetWarningText(string msg)
+    public void SetWarningText(string msg,bool isEnd = false)
     {
         if(warningLog != null)
         {
             StopCoroutine(warningLog);
         }
         warningText.text = msg;
+        warningText.color = isEnd ? Color.blue : Color.red;
         warningLog = StartCoroutine(WarningLog());
     }
 }

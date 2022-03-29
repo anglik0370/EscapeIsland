@@ -211,15 +211,12 @@ public class Player : MonoBehaviour, IInteractionObject
     IEnumerator SendData()
     {
         int socketId = NetworkManager.instance.socketId;
-        string socketName = NetworkManager.instance.socketName;
-        int roomNum = NetworkManager.instance.roomNum;
         while (true)
         {
             yield return ws;
 
             TransformVO vo = new TransformVO(transform.position, socketId);
-            string payload = JsonUtility.ToJson(vo);
-            DataVO dataVO = new DataVO("TRANSFORM", payload);
+            DataVO dataVO = new DataVO("TRANSFORM", JsonUtility.ToJson(vo));
 
             SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
         }
