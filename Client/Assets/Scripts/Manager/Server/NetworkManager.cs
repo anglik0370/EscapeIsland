@@ -61,7 +61,6 @@ public class NetworkManager : MonoBehaviour
         StartCoroutine(CoroutineHandler.Frame(() =>
         {
             map.SetActive(false);
-            print("frame");
         }));
     }
 
@@ -124,17 +123,6 @@ public class NetworkManager : MonoBehaviour
         return p == null ? false : p.isDie;
     }
 
-    public void BackLogin()
-    {
-        //socketId = -1;
-        socketName = "";
-        roomNum = 0;
-
-        map.SetActive(false);
-
-        EventManager.OccurExitRoom();
-    }
-
     public void InitPlayers()
     {
         user.InitPlayer();
@@ -173,9 +161,12 @@ public class NetworkManager : MonoBehaviour
 
     public void PlayerClear()
     {
-        user.StopCo();
-        user.SetDisable(true);
-        user = null;
+        if(user != null)
+        {
+            user.StopCo();
+            user.SetDisable(true);
+            user = null;
+        }
 
         foreach (int key in playerList.Keys)
         {

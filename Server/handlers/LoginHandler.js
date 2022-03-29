@@ -1,13 +1,20 @@
-const SocketState = require('../SocketState.js');
-const Vector2 = require('../Vector2.js');
+const SocketState = require('../Utils/SocketState.js');
+const Vector2 = require('../Utils/Vector2.js');
 const {Users} = require('../Users.js');
-const sendError = require('../SendError.js');
+const getRegex = require('../Utils/Regex.js');
+const sendError = require('../Utils/SendError.js');
 
 function loginHandler(socket,payload) {
-    if(payload.name === ""){
-        sendError("이름을 입력해주세요", socket);
+    if(!payload.name.match(getRegex())){
+        sendError("이름은 한글, 영어, 숫자 15자내로만 구성될 수 있습니다.", socket);
         return;
     }
+
+    if(Users.findUser(payload.name) !== undefined) {
+        sendError("중복된 이름이 있습니다.",socket);
+        return;
+    }
+    
     let userData = login(payload,socket);
     userData.position = Vector2.zero;
     userData.isImposter = false;

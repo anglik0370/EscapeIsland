@@ -65,7 +65,7 @@ public class VotePopup : Popup
         {
             //여기서 서버에 보내줘야 한다
             Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
-            toggle.isOn = false;
+            skipToggle.isOn = true;
 
             if(toggle == null)
             {

@@ -44,7 +44,7 @@ public class LobbyPopup : Popup
         });
         exitBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.BackLogin();
+            NetworkManager.instance.ExitRoom();
             //SocketClient.instance.InitWebSocket();
             //PopupManager.instance.CloseAndOpen("ingame");
             PopupManager.instance.CloseAndOpen("login");
@@ -70,6 +70,8 @@ public class LobbyPopup : Popup
         joinBtn.onClick.AddListener(() =>
         {
             //JoinRoom 보내 nameInput text로 
+            SendManager.Instance.SendFindRoom(joinRoomNameInput.text);
+            OpenJoinRoomPopup(false);
         });
 
 

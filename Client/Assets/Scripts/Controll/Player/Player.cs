@@ -40,7 +40,7 @@ public class Player : MonoBehaviour, IInteractionObject
     [SerializeField]
     private float range = 5f;
 
-    private WaitForSeconds ws = new WaitForSeconds(1 / 5); //200ms 간격으로 자신의 데이터갱신
+    private WaitForSeconds ws = new WaitForSeconds(1 / 10); //200ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
 
     private InfoUI ui = null;

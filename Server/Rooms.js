@@ -1,11 +1,13 @@
 const {Users} = require('./Users.js');
+const getRegex = require('./Utils/Regex.js');
 const WebSocket = require('ws');
 const InGameTimer = require('./InGameTimer.js');
 const InVoteTimer = require('./InVoteTimer.js');
-const SetSpawnPoint = require('./GameSpawnHandler.js');
-const SocketState = require('./SocketState.js');
-const GetRandomPos = require('./SpawnPoint.js');
-const sendError = require('./SendError.js');
+const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
+const SocketState = require('./Utils/SocketState.js');
+const GetRandomPos = require('./Utils/SpawnPoint.js');
+const sendError = require('./Utils/SendError.js');
+
 
 class Rooms {
     constructor() {
@@ -14,12 +16,22 @@ class Rooms {
     }
 
     findRoom(roomName) {
-        for(let key in this.roomList) {
-            if(this.roomList[key].roomName == roomName) {
-                return this.roomList[key];
+        if(isNaN(roomName)) {
+            for(let key in this.roomList) {
+                if(this.roomList[key].roomName === roomName) {
+                    return this.roomList[key];
+                }
             }
         }
-        return null;
+        else {
+            for(let key in this.roomList) {
+                if(this.roomList[key].roomNum === parseInt(roomName)) {
+                    return this.roomList[key];
+                }
+            }
+        }
+        
+        return undefined;
     }
 
     removeAllRoom() {
@@ -36,12 +48,12 @@ class Rooms {
             return;
         }
     
-        if(roomInfo.name === ""){
-            sendError("방이름을 입력해 주세요.", socket);
+        if(!roomInfo.name.match(getRegex())){
+            sendError("방이름은 한글, 영어, 숫자 15자내로만 구성될 수 있습니다.", socket);
             return;
         }
         
-        if(this.findRoom(roomInfo.name) !== null) {
+        if(this.findRoom(roomInfo.name) !== undefined) {
             sendError("중복된 방 이름 입니다.",socket);
             return;
         }
@@ -104,6 +116,7 @@ class Rooms {
         if(room === undefined) return;
         
         let user = room.userList[socket.id];
+        let master = user.master;
     
         socket.room = 0; //나왔으니 룸 초기화
     
@@ -129,7 +142,7 @@ class Rooms {
             return;
         }
     
-        if(user.master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
+        if(master && room.curUserNum > 0) { //마스터가 나갔을때 방장권한을 넘겨주기
             let keys = Object.keys(room.userList);
             room.userList[keys[0]].master = true;
         }
@@ -156,11 +169,11 @@ class Rooms {
             user.master = isMaster;
             user.position = GetRandomPos();
         }
-
+        
         socket.send(JSON.stringify({type:"ENTER_ROOM"}));
 
         if(isMaster)
-            setTimeout(() => this.roomBroadcast(socket.room),200);
+            setTimeout(() => this.roomBroadcast(socket.room),100);
 
         socket.server.clients.forEach(soc=>{
             if(soc.state != SocketState.IN_LOBBY) 
@@ -204,7 +217,7 @@ class Rooms {
     startServer() {
         setInterval(() => {
             this.allRoomBroadcast(this.roomList);
-        },200);
+        },100);
     }
     
 }
@@ -417,14 +430,11 @@ class Room {
             this.roomList[this.roomIdx].inVoteTimer.setTimeToNextSlot(10);
         }
 
-        let keys = Object.keys(this.userList);
-
-        for(let i = 0; i < keys.length; i++) {
-            this.userList[keys[i]]
-            this.userList[keys[i]].isDie = false;
-            this.userList[keys[i]].isImposter = false;
-            this.userList[keys[i]].voteNum = 0;
-            this.userList[keys[i]].voteComplete = false;
+        for(let key in this.userList) {
+            this.userList[key].isDie = false;
+            this.userList[key].isImposter = false;
+            this.userList[key].voteNum = 0;
+            this.userList[key].voteComplete = false;
         }
 
     }

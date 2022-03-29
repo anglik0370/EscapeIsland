@@ -1,4 +1,4 @@
-const SocketState = require('./SocketState.js');
+const SocketState = require('./Utils/SocketState.js');
 
 class Users {
     constructor() {
@@ -16,6 +16,16 @@ class Users {
         this.socketIdx++;
         socket.room = -1;
         socket.server = wsService;
+    }
+
+    findUser(userName) {
+        for(let key in this.userList) {
+            if(this.userList[key].name == userName) {
+                return this.userList[key];
+            }
+        }
+
+        return undefined;
     }
 }
 
