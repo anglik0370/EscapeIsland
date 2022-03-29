@@ -15,12 +15,18 @@ public class Player : MonoBehaviour, IInteractionObject
 
     [SerializeField]
     private InteractionSO ingameHandlerSO;
-    public InteractionSO InGameHandlerSO => ingameHandlerSO;
+    public InteractionSO InGameHandlerSO => GetInteractionSO();
 
     public Action LobbyCallback => () => { };
-    public Action IngameCallback => () => PlayerManager.Instance.KillPlayer(this);
+    public Action IngameCallback => () =>
+    {
+        if(PlayerManager.Instance.AmIKidnapper())
+        {
+            PlayerManager.Instance.KillPlayer(this);
+        }
+    };
 
-    public bool CanInteraction => !isDie;
+    public bool CanInteraction => !isDie && gameObject.activeSelf;
 
     public string socketName;
     public int socketId;
@@ -257,8 +263,6 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool CheckInRange(IInteractionObject interactionObject)
     {
-        print($"이정도 떨어져 있음 {Vector2.Distance(GetTrm().position, interactionObject.GetInteractionTrm().position)}");
-
         if(Vector2.Distance(GetTrm().position, interactionObject.GetInteractionTrm().position) <= range)
         {
             return true;
@@ -267,5 +271,11 @@ public class Player : MonoBehaviour, IInteractionObject
         {
             return false;
         }
+    }
+
+    private InteractionSO GetInteractionSO()
+    {
+        InteractionSO so = PlayerManager.Instance.AmIKidnapper() ? ingameHandlerSO : lobbyHandlerSO;
+        return so;
     }
 }

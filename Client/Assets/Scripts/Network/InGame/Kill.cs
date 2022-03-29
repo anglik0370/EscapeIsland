@@ -33,6 +33,8 @@ public class Kill : ISetAble
 
     public void KillPlayer(Player targetPlayer)
     {
+        Init();
+
         int targetSocketId = 0;
 
         foreach (int socketId in playerList.Keys)

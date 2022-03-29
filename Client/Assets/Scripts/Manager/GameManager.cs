@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     private List<IInteractionObject> interactionObjList = new List<IInteractionObject>();
     public List<IInteractionObject> InteractionObjList => interactionObjList;
 
+    [SerializeField]
+    private List<GameObject> objList = new List<GameObject>();
+
     private Player player;
 
     private void Awake() 
@@ -32,6 +35,16 @@ public class GameManager : MonoBehaviour
         {
             interactionObjList.Clear();
         });
+    }
+
+    private void Update()
+    {
+        objList.Clear();
+
+        for (int i = 0; i < interactionObjList.Count; i++)
+        {
+            objList.Add(interactionObjList[i].GetTrm().gameObject);
+        }
     }
 
     public void AddInteractionObj(IInteractionObject interactionObject)
@@ -61,7 +74,6 @@ public class GameManager : MonoBehaviour
 
         if(player.CheckInRange(proximateObj))
         {
-            Debug.Log("그럼 여기가 문젠가?");
             return proximateObj;
         }
         else
