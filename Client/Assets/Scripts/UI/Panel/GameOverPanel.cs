@@ -49,7 +49,7 @@ public class GameOverPanel : Panel
         {
             Open(gameOverCase);
         });
-        EventManager.SubBackToRoom(ClearWinImg);
+        EventManager.SubGameStart(p => ClearWinImg());
     }
 
     public void Open(GameOverCase gameOverCase)
