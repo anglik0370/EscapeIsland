@@ -97,10 +97,17 @@ public class GameOverPanel : Panel
     public void MakeWinImg(Player p, bool isKidnapperWin)
     {
         Image img = null;
-        if(!FindWinImg(out img))
+        int idx = isKidnapperWin ? 0 : 1;
+
+        print(p.isKidnapper);
+
+        if (!FindWinImg(out img))
         {
-            int idx = isKidnapperWin ? 0 : 1;
             img = Instantiate(standImgPrefab, (p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx]);
+        }
+        else
+        {
+            img.transform.SetParent((p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx]);
         }
 
         img.sprite = p.curSO.standImg;

@@ -18,7 +18,7 @@ public class Chat : ISetAble
     protected override void Start()
     {
         base.Start();
-        StartCoroutine(End());
+        StartCoroutine(CoroutineHandler.Frame(() => voteTab = VoteManager.Instance.voteTab));
     }
 
     void Update()
@@ -27,7 +27,6 @@ public class Chat : ISetAble
         {
             Init();
             ChatVO vo = chatQueue.Dequeue();
-            print("ChatHandler");
 
             Player p = null;
 
@@ -46,11 +45,5 @@ public class Chat : ISetAble
                 }
             }
         }
-    }
-
-    IEnumerator End()
-    {
-        yield return null;
-        voteTab = VoteManager.Instance.voteTab;
     }
 }
