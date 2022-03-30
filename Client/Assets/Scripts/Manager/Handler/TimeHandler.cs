@@ -160,6 +160,8 @@ public class TimeHandler : MonoBehaviour
         isKillAble = false;
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
+        timerSequence.Kill();
+        timerSequence = DOTween.Sequence();
         inGameTimerText.text = IN_GAME_TIMER_TEXT;
     }
 
