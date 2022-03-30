@@ -11,9 +11,16 @@ public class RefreshUsers : ISetAble
     public GameObject[] lights;
     public CinemachineVirtualCamera followCam;
 
+    private Vector3 lightPos;
+
     private bool isOnce = false;
     public bool isTest = false;
 
+
+    private void Awake()
+    {
+        lightPos = new Vector3(0, -0.76f, 0);
+    }
 
     protected override void Start()
     {
@@ -74,7 +81,7 @@ public class RefreshUsers : ISetAble
                     for (int i = 0; i < lights.Length; i++)
                     {
                         GameObject obj = Instantiate(lights[i], user.transform);
-                        obj.transform.localPosition = Vector3.zero;
+                        obj.transform.localPosition = lightPos;
                     }
 
                     if (isTest)
