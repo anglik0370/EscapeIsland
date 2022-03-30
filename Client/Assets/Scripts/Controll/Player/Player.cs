@@ -10,6 +10,9 @@ public class Player : MonoBehaviour, IInteractionObject
     private Animator anim;
 
     [SerializeField]
+    private InteractionSO nothingHandlerSO;
+
+    [SerializeField]
     private InteractionSO lobbyHandlerSO;
     public InteractionSO LobbyHandlerSO => lobbyHandlerSO;
 
@@ -272,7 +275,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private InteractionSO GetInteractionSO()
     {
-        InteractionSO so = PlayerManager.Instance.AmIKidnapper() ? ingameHandlerSO : lobbyHandlerSO;
+        InteractionSO so = PlayerManager.Instance.AmIKidnapper() ? ingameHandlerSO : nothingHandlerSO;
         return so;
     }
 }

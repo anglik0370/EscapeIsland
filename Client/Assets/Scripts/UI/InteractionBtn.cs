@@ -123,6 +123,7 @@ public class InteractionBtn : MonoBehaviour
         }
 
         UpdateCoolTimeImage();
+        UpdateAccent();
     }
 
     private void UpdateBtnState(InteractionSO so)
@@ -160,6 +161,18 @@ public class InteractionBtn : MonoBehaviour
         {
             coolTimeImg.fillAmount = 0f;
             btnImg.raycastTarget = true;
+        }
+    }
+    
+    private void UpdateAccent()
+    {
+        if(state == InteractionCase.GameStart || state == InteractionCase.Nothing)
+        {
+            accent.Disable();
+        }
+        else
+        {
+            accent.Enable(proximateObj.GetSprite(), proximateObj.GetTrm(), proximateObj.GetFlipX());
         }
     }
 }
