@@ -168,6 +168,8 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void SetEnable()
     {
+        anim.SetFloat("isDie", 1f);
+
         gameObject.SetActive(true);
         ui.gameObject.SetActive(true);
     }
