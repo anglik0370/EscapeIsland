@@ -179,11 +179,6 @@ class Room {
             this.userList[keys[idx]].isImposter = true;
         }
     
-        //테스트용 코드
-        // if(this.userList[socket.id] !== undefined) {
-        //     this.userList[socket.id].isImposter = true;
-        // }
-    
         //Rooms.roomBroadcast(this.roomNum);
         //let d = Object.values(this.userList);
         //this.broadcast(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList:d})}));
@@ -212,7 +207,7 @@ class Room {
         this.inVoteTimer = new InVoteTimer();
 
         if(Users.isTestServer) {
-            this.roomList[this.roomIdx].inVoteTimer.setTimeToNextSlot(10);
+            this.roomList[this.roomNum].inVoteTimer.setTimeToNextSlot(10);
         }
 
         for(let key in this.userList) {
