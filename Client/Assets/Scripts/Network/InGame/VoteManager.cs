@@ -199,7 +199,7 @@ public class VoteManager : ISetAble
 
         if(timerVO.isInGameTimer)
         {
-            TimeHandler.Instance.ChangeInGameTimeText(text);
+            TimeHandler.Instance.ChangeInGameTimeText(timerVO.curTime);
         }
         else
         {
