@@ -65,8 +65,8 @@ public class GameManager : MonoBehaviour
         {
             if (!interactionObjList[i].CanInteraction) continue;
 
-            if (Vector2.Distance(player.GetTrm().position, interactionObjList[i].GetTrm().position) <
-                Vector2.Distance(player.GetTrm().position, proximateObj.GetTrm().position))
+            if (Vector2.Distance(player.GetTrm().position, interactionObjList[i].GetInteractionTrm().position) <
+                Vector2.Distance(player.GetTrm().position, proximateObj.GetInteractionTrm().position))
             {
                 proximateObj = interactionObjList[i];
             }
