@@ -151,7 +151,7 @@ public class TimeHandler : MonoBehaviour
             {
                 inGameTimerText.text = min < 10 ? $"{hour} : 0{min}" : $"{hour} : {min}";
             }
-        }, destination > 0 ? destination : 59, 1f));
+        }, destination > 0 ? destination : 59, 1f).SetEase(Ease.Linear));
     }
 
     public void Init()
