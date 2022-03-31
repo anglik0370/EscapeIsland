@@ -136,6 +136,11 @@ public class TimeHandler : MonoBehaviour
             hour = isLightTime ? defaultHour : nightHour;
             hour += count;
 
+            if(hour >= 24)
+            {
+                hour -= 24;
+            }
+
             min = defualtMin;
         }
 
