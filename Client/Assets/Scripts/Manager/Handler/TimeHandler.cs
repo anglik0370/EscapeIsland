@@ -9,6 +9,7 @@ public class TimeHandler : MonoBehaviour
     public static TimeHandler Instance { get; private set; }
 
     private const string IN_GAME_TIMER_TEXT = "06:00";
+    private const string IN_GAME_NIGHT_TEXT = "18:00";
     private const int TIME_CYCLE = 720;
 
     [SerializeField]
@@ -18,12 +19,14 @@ public class TimeHandler : MonoBehaviour
 
     [SerializeField]
     private int day = 1;
+    private bool isLightTime = true;
 
 
     private Sequence timerSequence;
     private int hour = 6;
     private int min = 0;
     private int defaultHour = 6;
+    private int nightHour = 18;
     private int defualtMin = 0;
     private int beforeMin = 0;
 
@@ -111,6 +114,8 @@ public class TimeHandler : MonoBehaviour
             EventManager.OccurTimeChange(true);
             dayAndSlotText.text = $"{day}번째 낮";
         }
+        this.isLightTime = isLightTime;
+        inGameTimerText.text = isLightTime ? IN_GAME_TIMER_TEXT : IN_GAME_NIGHT_TEXT;
     }
 
     public void ChangeInGameTimeText(int time)
@@ -128,7 +133,7 @@ public class TimeHandler : MonoBehaviour
 
         if(destination != 0 && destination <= 20)
         {
-            hour = defaultHour;
+            hour = isLightTime ? defaultHour : nightHour;
             hour += count;
 
             min = defualtMin;
@@ -162,7 +167,7 @@ public class TimeHandler : MonoBehaviour
         dayAndSlotText.text = $"{day}번째 낮";
         timerSequence.Kill();
         timerSequence = DOTween.Sequence();
-        inGameTimerText.text = IN_GAME_TIMER_TEXT;
+        inGameTimerText.text = isLightTime ? IN_GAME_TIMER_TEXT : IN_GAME_NIGHT_TEXT;
     }
 
     public void InitKillCool()
