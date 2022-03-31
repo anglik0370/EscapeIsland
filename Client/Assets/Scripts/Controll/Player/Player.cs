@@ -25,6 +25,11 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         if(PlayerManager.Instance.AmIKidnapper())
         {
+            if(PlayerManager.Instance.AmIDead())
+            {
+                return;
+            }
+
             PlayerManager.Instance.KillPlayer(this);
         }
     };
@@ -277,7 +282,16 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private InteractionSO GetInteractionSO()
     {
-        InteractionSO so = PlayerManager.Instance.AmIKidnapper() ? ingameHandlerSO : nothingHandlerSO;
-        return so;
+        if (PlayerManager.Instance.AmIKidnapper())
+        {
+            if(PlayerManager.Instance.AmIDead())
+            {
+                return nothingHandlerSO;
+            }
+
+             return ingameHandlerSO;
+        }
+
+        return nothingHandlerSO;
     }
 }

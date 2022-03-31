@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683bf3c0fbd0267408f73cfccb2a862c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nothingSO: {fileID: 11400000, guid: 2c46781745509fb4da20dea432282d2c, type: 2}
   lobbyHandlerSO: {fileID: 11400000, guid: 863400af48f22654fb3192b277c60157, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: f847feadda2e9b74082b2c2a7015248a, type: 2}
 --- !u!114 &-8494096581780936428
@@ -111,4 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bRunOnce: 1
+  otherTrm: {fileID: 0}
+  useOtherTrm: 0
+  useReverse: 0
   posOffsetY: 0

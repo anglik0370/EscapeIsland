@@ -93,11 +93,11 @@ public class InteractionBtn : MonoBehaviour
     {
         if (!isEnterRoom) return;
 
-        if(PlayerManager.Instance.AmIDead())
-        {
-            UpdateBtnState(nothingSO);
-            UpdateBtnCallback(() => { });
-        }
+        //if(PlayerManager.Instance.AmIDead())
+        //{
+        //    UpdateBtnState(nothingSO);
+        //    UpdateBtnCallback(() => { });
+        //}
         else
         {
             proximateObj = GameManager.Instance.GetProximateObject();
