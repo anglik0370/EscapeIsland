@@ -25,6 +25,9 @@ public class InteractionBtn : MonoBehaviour
     [Header("게임 시작 SO")]
     [SerializeField]
     private InteractionSO gameStartSO;
+    [Header("킬 SO")]
+    [SerializeField]
+    private InteractionSO killSO;
 
     [Header("텍스트")]
     [SerializeField]
@@ -124,6 +127,12 @@ public class InteractionBtn : MonoBehaviour
                 }
                 else
                 {
+                    if(PlayerManager.Instance.AmIKidnapper())
+                    {
+                        UpdateBtnState(killSO);
+                        UpdateBtnCallback(() => { });
+                    }
+
                     UpdateBtnState(nothingSO);
                     UpdateBtnCallback(() => { });
                 }
