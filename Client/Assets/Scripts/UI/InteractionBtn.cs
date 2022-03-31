@@ -93,32 +93,40 @@ public class InteractionBtn : MonoBehaviour
     {
         if (!isEnterRoom) return;
 
-        proximateObj = GameManager.Instance.GetProximateObject();
-        
-        if(proximateObj != null)
+        if(PlayerManager.Instance.AmIDead())
         {
-            if (!isGameStart)
-            {
-                UpdateBtnState(proximateObj.LobbyHandlerSO);
-                UpdateBtnCallback(proximateObj.LobbyCallback);
-            }
-            else
-            {
-                UpdateBtnState(proximateObj.InGameHandlerSO);
-                UpdateBtnCallback(proximateObj.IngameCallback);
-            }
+            UpdateBtnState(nothingSO);
+            UpdateBtnCallback(() => { });
         }
         else
         {
-            if(!isGameStart)
+            proximateObj = GameManager.Instance.GetProximateObject();
+
+            if (proximateObj != null)
             {
-                UpdateBtnState(gameStartSO);
-                UpdateBtnCallback(() => SendManager.Instance.GameStart());
+                if (!isGameStart)
+                {
+                    UpdateBtnState(proximateObj.LobbyHandlerSO);
+                    UpdateBtnCallback(proximateObj.LobbyCallback);
+                }
+                else
+                {
+                    UpdateBtnState(proximateObj.InGameHandlerSO);
+                    UpdateBtnCallback(proximateObj.IngameCallback);
+                }
             }
             else
             {
-                UpdateBtnState(nothingSO);
-                UpdateBtnCallback(() => { });
+                if (!isGameStart)
+                {
+                    UpdateBtnState(gameStartSO);
+                    UpdateBtnCallback(() => SendManager.Instance.GameStart());
+                }
+                else
+                {
+                    UpdateBtnState(nothingSO);
+                    UpdateBtnCallback(() => { });
+                }
             }
         }
 
