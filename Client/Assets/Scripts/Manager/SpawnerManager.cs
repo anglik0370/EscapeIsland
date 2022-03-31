@@ -38,6 +38,8 @@ public class SpawnerManager : MonoBehaviour
 
     public void PickUpSpawnerItem(ItemSpawner spawner)
     {
+        if (player.inventory.IsAllSlotFull) return;
+
         player.inventory.AddItem(spawner.GetItem());
         spawner.DeSpawnItem();
     }
