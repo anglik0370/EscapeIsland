@@ -46,6 +46,11 @@ public class InfoUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    public void SetTarget(Transform mainPlayerTrm)
+    {
+        this.mainPlayerTrm = mainPlayerTrm;
+    }
+
     private void Update()
     {
         if (mainPlayerTrm == null) return;

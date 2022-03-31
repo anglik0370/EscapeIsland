@@ -6,6 +6,8 @@ public class InfoManager : MonoBehaviour
 {
     public static InfoManager instance;
 
+    private List<InfoUI> infoList = new List<InfoUI>();
+
     public Transform parentTrm;
     public GameObject infoPrefab;
 
@@ -23,6 +25,7 @@ public class InfoManager : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             mainPlayerTrm = p.transform;
+            infoList.ForEach(info => info.SetTarget(mainPlayerTrm));
         });
     }
 
@@ -30,6 +33,7 @@ public class InfoManager : MonoBehaviour
     {
         InfoUI ui = PoolManager.GetItem<InfoUI>();
         ui.SetTarget(player, MainPlayerTrm, name);
+        instance.infoList.Add(ui);
         return ui;
     }
 }
