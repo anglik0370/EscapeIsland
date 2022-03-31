@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class KeyBoardControllManager : MonoBehaviour
 {
+    public static KeyBoardControllManager Instance { get; private set; }
+
     private Player player = null;
 
     [SerializeField]
@@ -14,6 +16,11 @@ public class KeyBoardControllManager : MonoBehaviour
     private float v;
 
     private Vector3 dir;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     private void Start()
     {
@@ -25,7 +32,7 @@ public class KeyBoardControllManager : MonoBehaviour
 
     private void Update()
     {
-        if (player == null) return;
+        if (player == null || GameManager.Instance.IsPanelOpen) return;
 
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {

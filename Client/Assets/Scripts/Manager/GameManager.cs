@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> objList = new List<GameObject>();
 
+    public bool IsPanelOpen { get; set; }
+
     private Player player;
 
     private void Awake() 

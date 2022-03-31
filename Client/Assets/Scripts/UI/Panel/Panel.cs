@@ -44,6 +44,8 @@ public class Panel : MonoBehaviour
                 cvs.interactable = true;
             });
         }
+
+        GameManager.Instance.IsPanelOpen = true;
     }
 
     public virtual void Close(bool isTweenSkip = false)
@@ -70,5 +72,7 @@ public class Panel : MonoBehaviour
                 cvs.interactable = false;
             });
         }
+
+        GameManager.Instance.IsPanelOpen = false;
     }
 }

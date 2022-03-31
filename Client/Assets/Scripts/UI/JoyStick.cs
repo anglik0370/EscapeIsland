@@ -45,6 +45,8 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     void OnTouch(Vector2 touch)
     {
+        if (GameManager.Instance.IsPanelOpen) return;
+
         Vector2 leverPos = new Vector2(touch.x - backgroundRect.position.x, touch.y - backgroundRect.position.y);
 
         //레버의 위치가 반지름을 넘어가지 않게
