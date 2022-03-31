@@ -18,10 +18,17 @@ public class Inventory : MonoBehaviour
     {
         EventManager.SubGameOver(goc =>
         {
-            foreach (ItemSlot slot in slotList)
-            {
-                slot.SetItem(null);
-            }
+            ClearSlots();
+        });
+
+        EventManager.SubExitRoom(() =>
+        {
+            ClearSlots();
+        });
+
+        EventManager.SubEnterRoom(p =>
+        {
+            ClearSlots();
         });
     }
 
@@ -38,6 +45,14 @@ public class Inventory : MonoBehaviour
         else
         {
             Debug.Log("인벤토리가 꽉찼습니다");
+        }
+    }
+
+    private void ClearSlots()
+    {
+        foreach (ItemSlot slot in slotList)
+        {
+            slot.SetItem(null);
         }
     }
 
