@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class VotePopup : Popup
 {
+    public Button closeChatBtn;
     public Button chatBtn;
     public CanvasGroup chatPanel;
 
@@ -57,10 +58,14 @@ public class VotePopup : Popup
 
         chatBtn.onClick.AddListener(() =>
         {
-            CanvasOpenAndClose(chatPanel, !chatPanel.interactable);
+            CanvasOpenAndClose(chatPanel, true);
+        });
+
+        closeChatBtn.onClick.AddListener(() =>
+        {
+            CanvasOpenAndClose(chatPanel, false);
         });
         
-
         voteCompleteBtn.onClick.AddListener(() =>
         {
             //여기서 서버에 보내줘야 한다
