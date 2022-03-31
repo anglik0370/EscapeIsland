@@ -31,6 +31,13 @@ public class GameManager : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             player = p;
+
+            IsPanelOpen = false;
+        });
+
+        EventManager.SubGameStart(p =>
+        {
+            IsPanelOpen = false;
         });
 
         EventManager.SubExitRoom(() =>
