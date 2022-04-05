@@ -81,7 +81,7 @@ public class SlotManager : MonoBehaviour
             {
                 //Inventory To ConverterBefore
 
-                if(beginSlot.GetItem().canRefining)
+                if(beginSlot.GetItem() != null && beginSlot.GetItem().canRefining)
                 {
                     ItemSO temp = null;
 
@@ -100,8 +100,10 @@ public class SlotManager : MonoBehaviour
             {
                 //ConverterBefore To Inventory
 
+                ItemSO temp = beginSlot.GetItem();
+
                 SendManager.Instance.ResetConverter(ConvertPanel.Instance.CurOpenConverter.id);
-                endSlot.SetItem(endSlot.GetItem());
+                endSlot.SetItem(temp);
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.ConverterAfter && endSlot.Kind == ItemSlot.SlotKind.Inventory)
             {
