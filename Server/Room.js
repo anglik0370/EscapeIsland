@@ -32,6 +32,16 @@ class Room {
         this.isInitRoom = false;
     }
 
+    insideRefresh(socket,isInside) {
+        if(this.userList[socket.id] !== undefined) {
+            this.userList[socket.id].isInside = isInside;
+        }
+
+        let dataList = Object.values(this.userList);
+
+        this.broadcast(JSON.stringify({type:"INSIDE_REFRESH",payload:JSON.stringify({dataList})}));
+    }
+
     voteEnd() {
         let keys = Object.keys(this.userList);
         let allComplete = true;

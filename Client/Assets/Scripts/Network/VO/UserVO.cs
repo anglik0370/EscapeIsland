@@ -10,13 +10,14 @@ public class UserVO
     public bool master;
     public bool isImposter;
     public bool isDie;
+    public bool isInside;
 
     public UserVO()
     {
 
     }
 
-    public UserVO(int socketId, string name, int roomNum, Vector2 pos, bool master, bool isImposter,bool isDie)
+    public UserVO(int socketId, string name, int roomNum, Vector2 pos, bool master, bool isImposter,bool isDie,bool isInside)
     {
         this.socketId = socketId;
         this.name = name;
@@ -25,5 +26,6 @@ public class UserVO
         this.master = master;
         this.isImposter = isImposter;
         this.isDie = isDie;
+        this.isInside = isInside;
     }
 }
