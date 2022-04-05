@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class InfoUI : MonoBehaviour
 {
+    private Player player;
+    private Player mainPlayer;
+
     public Transform playerTrm;
     public float followSpeed = 50f;
     public Text txtName;
@@ -42,6 +45,10 @@ public class InfoUI : MonoBehaviour
     {
         this.mainPlayerTrm = mainPlayerTrm;
         this.playerTrm = playerTrm;
+
+        mainPlayer = mainPlayerTrm.GetComponent<Player>();
+        player = playerTrm.GetComponent<Player>();
+
         txtName.text = name;
         gameObject.SetActive(true);
     }
@@ -54,8 +61,9 @@ public class InfoUI : MonoBehaviour
     private void Update()
     {
         if (mainPlayerTrm == null) return;
+        if (mainPlayer == player) return;
 
-        if(Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange)
+        if((Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange) || player.isInside)
         {
             cvs.alpha = 0f;
         }
