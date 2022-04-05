@@ -125,6 +125,8 @@ public class Player : MonoBehaviour, IInteractionObject
         profile.BtnEnabled(false);
         //플레이어 스프라이트 체인지
 
+        anim.runtimeAnimatorController = curSO.animController;
+
         return beforeSoId;
     }
 
