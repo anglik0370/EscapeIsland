@@ -45,6 +45,8 @@ public class Player : MonoBehaviour, IInteractionObject
     public bool isKidnapper; //true : 맢 / false : 시민
     public bool isDie = false;
 
+    public bool isInside = false; //실내인지
+
     public Inventory inventory;
     public Color color;
     public Vector2 targetPos;
