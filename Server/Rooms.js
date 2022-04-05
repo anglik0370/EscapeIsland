@@ -1,3 +1,4 @@
+const WebSocket = require('ws');
 const {Users} = require('./Users.js');
 const getRegex = require('./Utils/Regex.js');
 const SocketState = require('./Utils/SocketState.js');
