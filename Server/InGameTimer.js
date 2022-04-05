@@ -21,9 +21,9 @@ class InGameTimer {
     timeRefresh(socketList) {
         this.curTime -= this.sec;
 
-        socketList.forEach(soc => {
-            soc.send(JSON.stringify({type:"TIMER",payload:JSON.stringify({curTime:this.curTime,isInGameTimer:true})}));
-        });
+        // socketList.forEach(soc => {
+        //     soc.send(JSON.stringify({type:"TIMER",payload:JSON.stringify({curTime:this.curTime,isInGameTimer:true})}));
+        // });
 
         if(this.curTime <= 0) {
             if(!this.isLightTime) {

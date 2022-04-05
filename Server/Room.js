@@ -103,8 +103,8 @@ class Room {
     }
 
     voteTimeEnd() {
-        this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
-
+        //this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
+        this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:false})}));
         this.startTimer();
     }
 
@@ -182,6 +182,7 @@ class Room {
         
         let dataList = Object.values(this.userList);
     
+        this.initRoom = false;
         this.playing = true;
         this.startTimer();
         this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
@@ -214,12 +215,14 @@ class Room {
         this.stopTimer();
         this.expected = Date.now() + 1000; //현재시간 + 1초
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
+        this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_GAME",isStart:true})}));
     }
 
     startVoteTimer() {
         //this.inVoteTimer.initTime();
         this.stopTimer();
         this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval);
+        this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:true})}));
     }
 
     stopTimer() {
@@ -247,7 +250,6 @@ class Room {
         let p = this.inGameTimer.returnPayload();
         console.log("time refresh - changeTime");
         this.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:p}));
-        this.startTimer();
     }
 
     voteTimer() {
@@ -255,6 +257,7 @@ class Room {
         if(this.inVoteTimer.timeRefresh(this.socketList)) {
             if(!this.voteEnd()) {
                 this.voteTimeEnd();
+                this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:false})}));
                 console.log("changeTime - voteTimer");
             }
             return;

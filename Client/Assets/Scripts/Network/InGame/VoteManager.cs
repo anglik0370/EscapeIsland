@@ -193,18 +193,18 @@ public class VoteManager : ISetAble
 
     public void TimerText()
     {
-        if (isTextChange) return;
+        //if (isTextChange) return;
 
-        string text = timerVO.curTime.ToString();
+        //string text = timerVO.curTime.ToString();
 
-        if(timerVO.isInGameTimer)
-        {
-            TimeHandler.Instance.ChangeInGameTimeText(timerVO.curTime);
-        }
-        else
-        {
-            voteTab.ChangeMiddleText(text);
-        }
+        //if(timerVO.isInGameTimer)
+        //{
+        //    TimeHandler.Instance.ChangeInGameTimeText(timerVO.curTime);
+        //}
+        //else
+        //{
+        //    voteTab.ChangeMiddleText(text);
+        //}
     }
 
     public void OnVoteTimeStart()
