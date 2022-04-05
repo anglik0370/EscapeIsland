@@ -104,7 +104,6 @@ class Room {
 
     voteTimeEnd() {
         //this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
-        this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:false})}));
         this.startTimer();
     }
 
@@ -257,7 +256,6 @@ class Room {
         if(this.inVoteTimer.timeRefresh(this.socketList)) {
             if(!this.voteEnd()) {
                 this.voteTimeEnd();
-                this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:false})}));
                 console.log("changeTime - voteTimer");
             }
             return;

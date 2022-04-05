@@ -12,7 +12,6 @@ public class VoteManager : ISetAble
 
     private bool needVoteRefresh = false;
     private bool needTimeRefresh = false;
-    private bool endVoteTime = false;
     private bool needVoteComplete = false;
     private bool needVoteDeadRefresh = false;
 
@@ -35,23 +34,12 @@ public class VoteManager : ISetAble
             Instance.tempId = deadId;
         }
     }
-
-    
-
     public static void SetVoteComplete(VoteCompleteVO vo)
     {
         lock (Instance.lockObj)
         {
             Instance.voteCompleteVO = vo;
             Instance.needVoteComplete = true;
-        }
-    }
-
-    public static void SetVoteEnd()
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.endVoteTime = true;
         }
     }
 
@@ -96,11 +84,6 @@ public class VoteManager : ISetAble
         {
             RefreshTime(timeVO.day, timeVO.isLightTime);
             needTimeRefresh = false;
-        }
-        if (endVoteTime)
-        {
-            EndVoteTime();
-            endVoteTime = false;
         }
 
         if (needVoteComplete)
@@ -173,22 +156,6 @@ public class VoteManager : ISetAble
         yield return new WaitForSeconds(1f);
 
         isTextChange = false;
-    }
-
-    public void TimerText()
-    {
-        //if (isTextChange) return;
-
-        //string text = timerVO.curTime.ToString();
-
-        //if(timerVO.isInGameTimer)
-        //{
-        //    TimeHandler.Instance.ChangeInGameTimeText(timerVO.curTime);
-        //}
-        //else
-        //{
-        //    voteTab.ChangeMiddleText(text);
-        //}
     }
 
     public void OnVoteTimeStart()

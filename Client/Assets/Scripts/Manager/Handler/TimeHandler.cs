@@ -24,7 +24,6 @@ public class TimeHandler : MonoBehaviour
     public float KillCoolTime => killCoolTime;
 
     public bool isKillAble = false;
-    private bool isSingleDigit = true;
 
     private bool isGameStarted = false;
 
