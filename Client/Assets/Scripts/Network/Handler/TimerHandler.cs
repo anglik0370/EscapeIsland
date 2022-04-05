@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TimerHandler : IMsgHandler<Timer>
+public class TimerHandler : MonoBehaviour,IMsgHandler
 {
-    public override void HandleMsg(string payload)
+    public void HandleMsg(string payload)
     {
-        base.HandleMsg(payload);
         TimerVO vo = JsonUtility.FromJson<TimerVO>(payload);
-        generic.SetTimer(vo);
+        Timer.SetTimer(vo);
     }
 }

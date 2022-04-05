@@ -19,7 +19,6 @@ public class VoteManager : ISetAble
     private bool isTextChange = false;
 
     private TimeVO timeVO;
-    private TimerVO timerVO;
     private VoteCompleteVO voteCompleteVO;
 
     private MeetingType meetingType = MeetingType.EMERGENCY;
@@ -70,6 +69,7 @@ public class VoteManager : ISetAble
     {
         base.Start();
         EventManager.SubBackToRoom(() => voteTab.VoteUIDisable());
+
     }
 
     void Update()
@@ -162,6 +162,13 @@ public class VoteManager : ISetAble
     {
         Init();
         isVoteTime = true;
+
+        if(meetingType.Equals(MeetingType.EMERGENCY))
+        {
+            Timer.Instance.isEmergencyAble = false;
+            Timer.Instance.InitEmergencyCoolTime();
+
+        }
 
         EventManager.OccurStartMeet(meetingType);
         StartCoroutine(TextChange("투표시간 시작"));

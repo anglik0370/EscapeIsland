@@ -13,8 +13,9 @@ public enum TimerType
 
 public class Timer : ISetAble
 {
-    private bool needTimerRefresh = false;
+    public static Timer Instance { get; private set; }
 
+    private bool needSetTimer = false;
     private bool isInGameTimer = false;
     private bool isVoteTimer = false;
 
@@ -39,11 +40,23 @@ public class Timer : ISetAble
     private float defaultVoteTimerMin = 180f;
     private float remainVoteTimerMin = 180f;
 
+    [Header("긴급회의 타이머 관련")]
+    public bool isEmergencyAble = true;
+    private float defaultEmergencyCoolTime = 60f;
+    private float remainEmergencyCoolTime = 0f;
 
-    public void SetTimer(TimerVO vo)
+    public static void SetTimer(TimerVO vo)
     {
-        timerVO = vo;
-        needTimerRefresh = true;
+        lock(Instance.lockObj)
+        {
+            Instance.timerVO = vo;
+            Instance.needSetTimer = true;
+        }
+    }
+
+    void Awake()
+    {
+        Instance = this;
     }
 
     protected override void Start()
@@ -59,10 +72,10 @@ public class Timer : ISetAble
 
     void Update()
     {
-        if(needTimerRefresh)
+        if(needSetTimer)
         {
             HandleTimer();
-            needTimerRefresh = false;
+            needSetTimer = false;
         }
 
         if(isInGameTimer)
@@ -119,6 +132,16 @@ public class Timer : ISetAble
 
             voteTab.ChangeMiddleText(((int)remainVoteTimerMin).ToString());
         }
+
+        if(!isEmergencyAble && !VoteManager.Instance.isVoteTime)
+        {
+            remainEmergencyCoolTime -= Time.deltaTime;
+            print(remainEmergencyCoolTime);
+            if(remainEmergencyCoolTime <= 0f)
+            {
+                isEmergencyAble = true;
+            }
+        }
     }
 
     private void InitTime()
@@ -128,9 +151,20 @@ public class Timer : ISetAble
         remainMin = 1f;
 
         remainVoteTimerMin = defaultVoteTimerMin;
+        remainEmergencyCoolTime = defaultEmergencyCoolTime;
     }
 
-    private void HandleTimer()
+    public void InitEmergencyCoolTime()
+    {
+        remainEmergencyCoolTime = defaultEmergencyCoolTime;
+    }
+
+    public float EmergencyFillCoolTime()
+    {
+        return remainEmergencyCoolTime / defaultEmergencyCoolTime;
+    }
+
+    public void HandleTimer()
     {
         TimerType type = (TimerType)Enum.Parse(typeof(TimerType),timerVO.type);
 
