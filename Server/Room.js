@@ -138,11 +138,6 @@ class Room {
         }
         console.log("아직 남았다");
         return false;
-        //테스트용 코드 
-        // let dataList = Object.values(room.userList);
-    
-        // broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
-        // room.initRoom();
     }
 
     gameStart(socket) {
