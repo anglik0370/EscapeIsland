@@ -11,7 +11,6 @@ public class VoteManager : ISetAble
     public VotePopup voteTab;
 
     private bool needVoteRefresh = false;
-    private bool needTimerRefresh = false;
     private bool needTimeRefresh = false;
     private bool endVoteTime = false;
     private bool needVoteComplete = false;
@@ -66,15 +65,6 @@ public class VoteManager : ISetAble
         }
     }
 
-    public static void SetTimerData(TimerVO vo)
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.needTimerRefresh = true;
-            Instance.timerVO = vo;
-        }
-    }
-
     public static void SetTimeRefresh(TimeVO vo)
     {
         lock (Instance.lockObj)
@@ -100,12 +90,6 @@ public class VoteManager : ISetAble
         {
             OnVoteTimeStart();
             needVoteRefresh = false;
-        }
-
-        if (needTimerRefresh)
-        {
-            TimerText();
-            needTimerRefresh = false;
         }
 
         if (needTimeRefresh)
@@ -193,18 +177,18 @@ public class VoteManager : ISetAble
 
     public void TimerText()
     {
-        if (isTextChange) return;
+        //if (isTextChange) return;
 
-        string text = timerVO.curTime.ToString();
+        //string text = timerVO.curTime.ToString();
 
-        if(timerVO.isInGameTimer)
-        {
-            TimeHandler.Instance.ChangeInGameTimeText(timerVO.curTime);
-        }
-        else
-        {
-            voteTab.ChangeMiddleText(text);
-        }
+        //if(timerVO.isInGameTimer)
+        //{
+        //    TimeHandler.Instance.ChangeInGameTimeText(timerVO.curTime);
+        //}
+        //else
+        //{
+        //    voteTab.ChangeMiddleText(text);
+        //}
     }
 
     public void OnVoteTimeStart()

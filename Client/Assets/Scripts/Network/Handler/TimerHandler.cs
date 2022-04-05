@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimerHandler : MonoBehaviour, IMsgHandler
+
+public class TimerHandler : IMsgHandler<Timer>
 {
-    public void HandleMsg(string payload)
+    public override void HandleMsg(string payload)
     {
+        base.HandleMsg(payload);
         TimerVO vo = JsonUtility.FromJson<TimerVO>(payload);
-       VoteManager.SetTimerData(vo);
+        generic.SetTimer(vo);
     }
 }
