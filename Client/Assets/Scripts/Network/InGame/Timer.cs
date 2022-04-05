@@ -32,7 +32,7 @@ public class Timer : ISetAble
     private int destinationMin => min + 6;
     private float remainMin = 1f;
 
-    private bool isSingleDigit = false;
+    private bool isSingleDigit = true;
 
     [Header("투표 시간 타이머 관련")]
     private VotePopup voteTab;
@@ -76,6 +76,7 @@ public class Timer : ISetAble
                 {
                     min -= 60;
                     hour++;
+                    hour = hour > 23 ? 0 : hour;
 
                     isSingleDigit = hour < 10;
                 }
@@ -98,7 +99,14 @@ public class Timer : ISetAble
                     }
                     else
                     {
-                        inGameTimerText.text = hour + 1 < 10 ? $"0{hour + 1}:00" : $"{hour + 1}:00";
+                        if(hour + 1 > 23)
+                        {
+                            inGameTimerText.text = $"00:00";
+                        }
+                        else
+                        {
+                            inGameTimerText.text = hour + 1 < 10 ? $"0{hour + 1}:00" : $"{hour + 1}:00";
+                        }
                     }
                 }, destinationMin, 1f).SetEase(Ease.Linear));
 
