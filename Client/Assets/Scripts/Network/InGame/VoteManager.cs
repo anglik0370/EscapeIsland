@@ -11,7 +11,6 @@ public class VoteManager : ISetAble
     public VotePopup voteTab;
 
     private bool needVoteRefresh = false;
-    private bool needTimerRefresh = false;
     private bool needTimeRefresh = false;
     private bool endVoteTime = false;
     private bool needVoteComplete = false;
@@ -66,15 +65,6 @@ public class VoteManager : ISetAble
         }
     }
 
-    public static void SetTimerData(TimerVO vo)
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.needTimerRefresh = true;
-            Instance.timerVO = vo;
-        }
-    }
-
     public static void SetTimeRefresh(TimeVO vo)
     {
         lock (Instance.lockObj)
@@ -100,12 +90,6 @@ public class VoteManager : ISetAble
         {
             OnVoteTimeStart();
             needVoteRefresh = false;
-        }
-
-        if (needTimerRefresh)
-        {
-            TimerText();
-            needTimerRefresh = false;
         }
 
         if (needTimeRefresh)
