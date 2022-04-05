@@ -36,6 +36,15 @@ class Room {
         let keys = Object.keys(this.userList);
         let allComplete = true;
         let targetSocIdArr = [];
+
+        let isTest = false;
+
+        for(let key in this.userList) {
+            if(key >= 1000) {
+                isTest = true;
+                return;
+            }
+        }
     
         for(let i = 0; i < keys.length; i++) {
             //안죽었을때 & 투표완료했을때 넘어가야함
@@ -45,7 +54,7 @@ class Room {
             }
         }
         
-        if(allComplete) {
+        if(allComplete || isTest) {
             let dummy = -1;
     
             for(let i = 0; i < keys.length; i++) {
