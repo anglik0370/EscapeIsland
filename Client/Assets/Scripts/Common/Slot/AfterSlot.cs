@@ -29,11 +29,6 @@ public class AfterSlot : ItemSlot
         base.OnBeginDrag(eventData);
     }
 
-    public override void OnDrag(PointerEventData eventData)
-    {
-        base.OnDrag(eventData);
-    }
-
     public override void OnDrop(PointerEventData eventData)
     {
         //아이템을 가져갈수만 있는 슬롯이니 리턴
