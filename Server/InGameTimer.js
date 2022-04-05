@@ -31,22 +31,10 @@ class InGameTimer {
             }
             this.curTime = this.timeToNextSlot;
             this.isLightTime = !this.isLightTime;
-            
-            if(!this.isLightTime) {
-                return true;
-            }
-            else {
-                socketList.forEach(soc => {
-                    soc.send(JSON.stringify({type:"TIME_REFRESH",payload:JSON.stringify({day:this.day,isLightTime:this.isLightTime})}))
-                });
 
-                return false;
-            }
-    
-            
-        }
-        else {
-            return false;
+            socketList.forEach(soc => {
+                soc.send(JSON.stringify({type:"TIME_REFRESH",payload:JSON.stringify({day:this.day,isLightTime:this.isLightTime})}))
+            });
         }
         
     }
