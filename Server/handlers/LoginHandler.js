@@ -30,7 +30,7 @@ function login(data,socket,isTest = false) {
 
         //let position = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
         let user = new Player();
-        user.initData(socket.id,name,0);
+        user.initLoginData(socket.id,name,0);
 
         let sendData = {
             socketId:socket.id,

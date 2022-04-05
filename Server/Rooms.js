@@ -125,12 +125,7 @@ class Rooms {
         if(user !== undefined){ 
             // 초기화
             
-            user.roomNum = 0;
-            user.master = false; 
-            user.isImposter = false;
-            user.isDie = false;
-            user.voteNum = 0;
-            user.voteComplete = false;
+            user.initExitData();
         }
         
         

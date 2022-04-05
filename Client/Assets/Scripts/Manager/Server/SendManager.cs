@@ -181,4 +181,11 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendInSide(bool isInside)
+    {
+        DataVO dataVO = new DataVO("INSIDE_REFRESH", JsonUtility.ToJson(isInside));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }
