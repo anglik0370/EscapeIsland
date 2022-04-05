@@ -206,6 +206,7 @@ class Rooms {
             let dataList = Object.values(room.userList);
 
             room.socketList.forEach(soc => {
+                if(soc.readyState != WebSocket.OPEN) return;
                 soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
             });
         }
