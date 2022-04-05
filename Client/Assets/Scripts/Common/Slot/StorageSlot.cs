@@ -32,11 +32,6 @@ public class StorageSlot : ItemSlot
         
     }
 
-    public override void OnDrag(PointerEventData eventData)
-    {
-        
-    }
-
     public override void OnDrop(PointerEventData eventData)
     {
         if(itemGhost.GetItem() == null) return;

@@ -22,11 +22,6 @@ public class BerforeSlot : ItemSlot
         base.OnBeginDrag(eventData);
     }
 
-    public override void OnDrag(PointerEventData eventData)
-    {
-        base.OnDrag(eventData);
-    }
-
     public override void OnDrop(PointerEventData eventData)
     {
         if(itemGhost.GetItem() == null) return;

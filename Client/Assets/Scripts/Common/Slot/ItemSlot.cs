@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class ItemSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHandler
 {
     protected Image image;
     [SerializeField]
@@ -15,6 +15,14 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     protected int itemImgDepth;
 
     public bool IsEmpty => item == null;
+
+    [SerializeField]
+    protected bool canDrop = true;
+    [SerializeField]
+    protected bool canDrag = true;
+
+    public bool CanDrop => canDrop;
+    public bool CanDrag => canDrag;
 
     protected ItemGhost itemGhost;
     protected bool isDraging;
@@ -52,56 +60,26 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
-    public virtual void OnBeginDrag(PointerEventData eventData)
+    public ItemSO GetItem()
     {
-        if(IsEmpty) return;
-
-        //고스트에 이미지 전달
-        itemGhost.SetItem(item);
-        isDraging = true;
+        return item;
     }
 
-    public virtual void OnDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
-        if(isDraging)
-        {
-            itemGhost.SetPosition(eventData.position);
-        }
+        //드래그 오브젝트에서 발생
+        SlotManager.Instance.BeginDrag(this);
     }
 
     public virtual void OnDrop(PointerEventData eventData)
     {
         //드롭 오브젝트에서 발생
-        
-        if(itemGhost.GetItem() != null)
-        {
-            ItemSO temp = item;
-            SetItem(itemGhost.GetItem());
-            itemGhost.SetItem(temp);
-        }
-        else
-        {
-            itemGhost.SetItem(null);
-        }
+        SlotManager.Instance.EndDrag(this);
     }
 
     public virtual void OnEndDrag(PointerEventData eventData)
-    {   
+    {
         //드래그 오브젝트에서 발생
-
-        if(isDraging)
-        {
-            if(itemGhost.GetItem() != null)
-            {
-                SetItem(itemGhost.GetItem());
-            }
-            else
-            {
-                SetItem(null);
-            }
-        }
-
-        isDraging = false;
-        itemGhost.Init();
+        SlotManager.Instance.EndDrag();
     }
 }
