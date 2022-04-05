@@ -46,10 +46,9 @@ class Room {
                 break;
             }
         }
-        
-        for(let i = 0; i < keys.length; i++) {
-            //안죽었을때 & 투표완료했을때 넘어가야함
-            if((!this.userList[keys[i]].isDie && !this.userList[keys[i]].voteComplete)) {
+
+        for(let key in this.userList) {
+            if(!this.userList[key].isDie && !this.userList[key].voteComplete) {
                 allComplete = false;
                 break;
             }
