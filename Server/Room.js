@@ -40,12 +40,13 @@ class Room {
         let isTest = false;
 
         for(let key in this.userList) {
+            console.log(key);
             if(key >= 1000) {
                 isTest = true;
-                return;
+                break;
             }
         }
-    
+        
         for(let i = 0; i < keys.length; i++) {
             //안죽었을때 & 투표완료했을때 넘어가야함
             if((!this.userList[keys[i]].isDie && !this.userList[keys[i]].voteComplete)) {
@@ -220,6 +221,7 @@ class Room {
 
     startTimer() {
         //this.skipCount = 0;
+        console.log("startInGameTImer");
         this.stopTimer();
         this.expected = Date.now() + 1000; //현재시간 + 1초
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
