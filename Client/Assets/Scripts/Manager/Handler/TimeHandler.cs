@@ -8,10 +8,6 @@ public class TimeHandler : MonoBehaviour
 {
     public static TimeHandler Instance { get; private set; }
 
-    private const string IN_GAME_TIMER_TEXT = "06:00";
-    private const string IN_GAME_NIGHT_TEXT = "18:00";
-    private const int TIME_CYCLE = 720;
-
     [SerializeField]
     private Text dayAndSlotText;
     [SerializeField]
@@ -28,7 +24,6 @@ public class TimeHandler : MonoBehaviour
     public float KillCoolTime => killCoolTime;
 
     public bool isKillAble = false;
-    private bool isSingleDigit = true;
 
     private bool isGameStarted = false;
 
@@ -88,7 +83,6 @@ public class TimeHandler : MonoBehaviour
     public void TimeRefresh(int day, bool isLightTime)
     {
         this.day = day;
-        inGameTimerText.text = IN_GAME_TIMER_TEXT;
 
         if (!isLightTime)
         {
@@ -101,7 +95,6 @@ public class TimeHandler : MonoBehaviour
             dayAndSlotText.text = $"{day}번째 낮";
         }
         this.isLightTime = isLightTime;
-        inGameTimerText.text = isLightTime ? IN_GAME_TIMER_TEXT : IN_GAME_NIGHT_TEXT;
     }
 
     public void Init()
@@ -110,7 +103,6 @@ public class TimeHandler : MonoBehaviour
         isKillAble = false;
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
-        inGameTimerText.text = isLightTime ? IN_GAME_TIMER_TEXT : IN_GAME_NIGHT_TEXT;
     }
 
     public void InitKillCool()
