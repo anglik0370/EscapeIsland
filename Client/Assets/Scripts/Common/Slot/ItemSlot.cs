@@ -4,8 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHandler
+public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
+    public enum SlotKind
+    {
+        Inventory,
+        Storage,
+        ConverterBefore,
+        ConverterAfter,
+    }
+
     protected Image image;
     [SerializeField]
     protected ItemSO item;
@@ -17,22 +25,14 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrop
     public bool IsEmpty => item == null;
 
     [SerializeField]
-    protected bool canDrop = true;
-    [SerializeField]
-    protected bool canDrag = true;
-
-    public bool CanDrop => canDrop;
-    public bool CanDrag => canDrag;
-
-    protected ItemGhost itemGhost;
-    protected bool isDraging;
+    private SlotKind kind;
+    public SlotKind Kind => kind;
 
     protected virtual void Awake() 
     {
         Image[] imgs = GetComponentsInChildren<Image>();
 
         image = imgs[itemImgDepth];
-        itemGhost = FindObjectOfType<ItemGhost>();
 
         if(item == null)
         {
@@ -69,6 +69,11 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrop
     {
         //드래그 오브젝트에서 발생
         SlotManager.Instance.BeginDrag(this);
+    }
+
+    public virtual void OnDrag(PointerEventData eventData)
+    {
+
     }
 
     public virtual void OnDrop(PointerEventData eventData)

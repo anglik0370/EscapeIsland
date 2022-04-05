@@ -55,20 +55,66 @@ public class SlotManager : MonoBehaviour
     {
         if(endSlot != null)
         {
-            if(!beginSlot.CanDrag | !endSlot.CanDrag | !beginSlot.CanDrop | !endSlot.CanDrop)
+            if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.Inventory)
             {
-                beginSlot = null;
-                endSlot = null;
+                //Inventory To Inventory
 
-                isDraging = false;
+                ItemSO temp = beginSlot.GetItem();
 
-                return;
+                beginSlot.SetItem(endSlot.GetItem());
+                endSlot.SetItem(temp);
             }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.Storage)
+            {
+                //Inventory To Storage
 
-            ItemSO temp = beginSlot.GetItem();
+                if (beginSlot.GetItem().itemId == (endSlot as StorageSlot).OriginItem.itemId)
+                {
+                    if (!StorageManager.Instance.IsItemFull(beginSlot.GetItem()))
+                    {
+                        SendManager.Instance.StorageDrop(beginSlot.GetItem().itemId);
+                        beginSlot.SetItem(null);
+                    }
+                }
+            }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.ConverterBefore)
+            {
+                //Inventory To ConverterBefore
 
-            beginSlot.SetItem(endSlot.GetItem());
-            endSlot.SetItem(temp);
+                if(beginSlot.GetItem().canRefining)
+                {
+                    ItemSO temp = null;
+
+                    if (ConvertPanel.Instance.CurOpenConverter.IsConverting)
+                    {
+                        //NowConverting
+                        temp = endSlot.GetItem();
+                        SendManager.Instance.ResetConverter(ConvertPanel.Instance.CurOpenConverter.id);
+                    }
+
+                    SendManager.Instance.StartConverting(ConvertPanel.Instance.CurOpenConverter.id, beginSlot.GetItem().itemId);
+                    beginSlot.SetItem(temp);
+                }
+            }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.ConverterBefore && endSlot.Kind == ItemSlot.SlotKind.Inventory)
+            {
+                //ConverterBefore To Inventory
+
+                SendManager.Instance.ResetConverter(ConvertPanel.Instance.CurOpenConverter.id);
+                endSlot.SetItem(endSlot.GetItem());
+            }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.ConverterAfter && endSlot.Kind == ItemSlot.SlotKind.Inventory)
+            {
+                //ConvertAfter To Inventory
+
+                if(endSlot.IsEmpty)
+                {
+                    //endSlot is Empty
+
+                    SendManager.Instance.TakeConverterAfterItem(ConvertPanel.Instance.CurOpenConverter.id);
+                    endSlot.SetItem(beginSlot.GetItem());
+                }
+            }
         }
 
         ghost.Init();
