@@ -181,7 +181,7 @@ class Room {
         
         let dataList = Object.values(this.userList);
     
-        this.initRoom = false;
+        this.isInitRoom = false;
         this.playing = true;
         this.startTimer();
         this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
