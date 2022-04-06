@@ -174,6 +174,11 @@ public class InteractionBtn : MonoBehaviour
             coolTimeImg.fillAmount = 1f;
             btnImg.raycastTarget = false;
         }
+        else if(state == InteractionCase.EmergencyMeeting)
+        {
+            coolTimeImg.fillAmount = Timer.Instance.EmergencyFillCoolTime();
+            btnImg.raycastTarget = Timer.Instance.isEmergencyAble;
+        }
         else
         {
             coolTimeImg.fillAmount = 0f;

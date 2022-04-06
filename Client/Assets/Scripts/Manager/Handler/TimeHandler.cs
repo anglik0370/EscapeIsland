@@ -8,10 +8,6 @@ public class TimeHandler : MonoBehaviour
 {
     public static TimeHandler Instance { get; private set; }
 
-    private const string IN_GAME_TIMER_TEXT = "06:00";
-    private const string IN_GAME_NIGHT_TEXT = "18:00";
-    private const int TIME_CYCLE = 720;
-
     [SerializeField]
     private Text dayAndSlotText;
     [SerializeField]
@@ -21,18 +17,6 @@ public class TimeHandler : MonoBehaviour
     private int day = 1;
     private bool isLightTime = true;
 
-
-    private Sequence timerSequence;
-    private int hour = 6;
-    private int min = 0;
-    private int defaultHour = 6;
-    private int nightHour = 18;
-    private int defualtMin = 0;
-    private int beforeMin = 0;
-
-    private int destination = 0;
-    private int count = 0;
-
     private float curkillCoolTime = 0f;
     public float CurKillCoolTime => curkillCoolTime;
 
@@ -40,7 +24,6 @@ public class TimeHandler : MonoBehaviour
     public float KillCoolTime => killCoolTime;
 
     public bool isKillAble = false;
-    private bool isSingleDigit = true;
 
     private bool isGameStarted = false;
 
@@ -51,8 +34,6 @@ public class TimeHandler : MonoBehaviour
         {
             Instance = this;
         }
-
-        timerSequence = DOTween.Sequence();
     }
 
     private void Start()
@@ -102,7 +83,6 @@ public class TimeHandler : MonoBehaviour
     public void TimeRefresh(int day, bool isLightTime)
     {
         this.day = day;
-        inGameTimerText.text = IN_GAME_TIMER_TEXT;
 
         if (!isLightTime)
         {
@@ -115,53 +95,6 @@ public class TimeHandler : MonoBehaviour
             dayAndSlotText.text = $"{day}번째 낮";
         }
         this.isLightTime = isLightTime;
-        inGameTimerText.text = isLightTime ? IN_GAME_TIMER_TEXT : IN_GAME_NIGHT_TEXT;
-    }
-
-    public void ChangeInGameTimeText(int time)
-    {
-        count = 0;
-        min = beforeMin;
-
-        destination = TIME_CYCLE - (time * 12);
-
-        for (int i = 0; destination >= 60; i++)
-        {
-            count++;
-            destination -= 60;
-        }
-
-        if(destination != 0 && destination <= 20)
-        {
-            hour = isLightTime ? defaultHour : nightHour;
-            hour += count;
-
-            if(hour >= 24)
-            {
-                hour -= 24;
-            }
-
-            min = defualtMin;
-        }
-
-        isSingleDigit = hour < 10;
-
-        timerSequence.Kill();
-        timerSequence = DOTween.Sequence();
-
-
-        timerSequence.Append(DOTween.To(() => min, x =>
-        {
-            beforeMin = min = x;
-            if(isSingleDigit)
-            {
-                inGameTimerText.text = min < 10 ? $"0{hour} : 0{min}" : $"0{hour} : {min}";
-            }
-            else
-            {
-                inGameTimerText.text = min < 10 ? $"{hour} : 0{min}" : $"{hour} : {min}";
-            }
-        }, destination > 0 ? destination : 59, 1f).SetEase(Ease.Linear));
     }
 
     public void Init()
@@ -170,9 +103,6 @@ public class TimeHandler : MonoBehaviour
         isKillAble = false;
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
-        timerSequence.Kill();
-        timerSequence = DOTween.Sequence();
-        inGameTimerText.text = isLightTime ? IN_GAME_TIMER_TEXT : IN_GAME_NIGHT_TEXT;
     }
 
     public void InitKillCool()

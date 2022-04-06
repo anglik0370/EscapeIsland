@@ -26,40 +26,4 @@ public class StorageSlot : ItemSlot
     {
         amountText.text = $"{cur} / {max}";
     }
-
-    public override void OnBeginDrag(PointerEventData eventData)
-    {
-        
-    }
-
-    public override void OnDrag(PointerEventData eventData)
-    {
-        
-    }
-
-    public override void OnDrop(PointerEventData eventData)
-    {
-        if(itemGhost.GetItem() == null) return;
-
-        if(itemGhost.GetItem().itemId != originItem.itemId)
-        {
-            //다른 아이템이라면
-            return;
-        }
-        else
-        {
-            //꽉안찼으면 실행
-            if(!StorageManager.Instance.IsItemFull(itemGhost.GetItem()))
-            {
-                SendManager.Instance.StorageDrop(itemGhost.GetItem().itemId);
-                //storagePanel.AddItem(itemGhost.GetItem());
-                itemGhost.SetItem(null);
-            }
-        }
-    }
-
-    public override void OnEndDrag(PointerEventData eventData)
-    {
-        
-    }
 }

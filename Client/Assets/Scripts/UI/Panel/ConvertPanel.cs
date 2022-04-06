@@ -70,11 +70,6 @@ public class ConvertPanel : Panel
         curOpenConverter.ConvertingReset();
     }
 
-    public void TakeIngotItem()
-    {
-        curOpenConverter.SetAfterItem(null);
-    }
-
     public void UpdateUIs()
     {
         beforeSlot.SetItem(curOpenConverter.BeforeItem);

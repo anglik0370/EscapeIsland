@@ -1,3 +1,4 @@
+const WebSocket = require('ws');
 const {Users} = require('./Users.js');
 const getRegex = require('./Utils/Regex.js');
 const SocketState = require('./Utils/SocketState.js');
@@ -124,12 +125,7 @@ class Rooms {
         if(user !== undefined){ 
             // 초기화
             
-            user.roomNum = 0;
-            user.master = false; 
-            user.isImposter = false;
-            user.isDie = false;
-            user.voteNum = 0;
-            user.voteComplete = false;
+            user.initExitData();
         }
         
         
@@ -206,6 +202,7 @@ class Rooms {
             let dataList = Object.values(room.userList);
 
             room.socketList.forEach(soc => {
+                if(soc.readyState != WebSocket.OPEN) return;
                 soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
             });
         }

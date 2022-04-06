@@ -1,5 +1,5 @@
 const SocketState = require('../Utils/SocketState.js');
-const Vector2 = require('../Utils/Vector2.js');
+const Player = require('../Player.js');
 const {Users} = require('../Users.js');
 const getRegex = require('../Utils/Regex.js');
 const sendError = require('../Utils/SendError.js');
@@ -16,13 +16,6 @@ function loginHandler(socket,payload) {
     }
     
     let userData = login(payload,socket);
-    userData.position = Vector2.zero;
-    userData.isImposter = false;
-    userData.master = false;
-    userData.isDie = false;
-    userData.voteNum = 0;
-    userData.voteComplete = false;
-
 
     Users.userList[socket.id] = userData;
 }
@@ -36,6 +29,8 @@ function login(data,socket,isTest = false) {
         socket.state = SocketState.IN_LOBBY;
 
         //let position = respawnPoint[Math.floor(Math.random() * respawnPoint.length)];
+        let user = new Player();
+        user.initLoginData(socket.id,name,0);
 
         let sendData = {
             socketId:socket.id,
@@ -47,7 +42,7 @@ function login(data,socket,isTest = false) {
         let type = "LOGIN";
         socket.send(JSON.stringify({type,payload}));
 
-        return sendData;
+        return user;
     }
     else {
 

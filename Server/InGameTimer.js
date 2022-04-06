@@ -1,7 +1,7 @@
 class InGameTimer {
     constructor() {
-        this.timeToNextSlot = 60;
-        this.curTime = 60;
+        this.timeToNextSlot = 120;
+        this.curTime = 120;
         this.isLightTime = true;
         this.sec = 1;
         this.day = 1;
@@ -21,9 +21,9 @@ class InGameTimer {
     timeRefresh(socketList) {
         this.curTime -= this.sec;
 
-        socketList.forEach(soc => {
-            soc.send(JSON.stringify({type:"TIMER",payload:JSON.stringify({curTime:this.curTime,isInGameTimer:true})}));
-        });
+        // socketList.forEach(soc => {
+        //     soc.send(JSON.stringify({type:"TIMER",payload:JSON.stringify({curTime:this.curTime,isInGameTimer:true})}));
+        // });
 
         if(this.curTime <= 0) {
             if(!this.isLightTime) {
@@ -31,22 +31,10 @@ class InGameTimer {
             }
             this.curTime = this.timeToNextSlot;
             this.isLightTime = !this.isLightTime;
-            
-            if(!this.isLightTime) {
-                return true;
-            }
-            else {
-                socketList.forEach(soc => {
-                    soc.send(JSON.stringify({type:"TIME_REFRESH",payload:JSON.stringify({day:this.day,isLightTime:this.isLightTime})}))
-                });
 
-                return false;
-            }
-    
-            
-        }
-        else {
-            return false;
+            socketList.forEach(soc => {
+                soc.send(JSON.stringify({type:"TIME_REFRESH",payload:JSON.stringify({day:this.day,isLightTime:this.isLightTime})}))
+            });
         }
         
     }

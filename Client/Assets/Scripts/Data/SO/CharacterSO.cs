@@ -11,6 +11,7 @@ public enum Sex
 public class CharacterSO : ScriptableObject
 {
     public int id;
+    public RuntimeAnimatorController animController;
     public Sprite profileImg;
     public Sprite standImg;
     public Sprite deadImg;

@@ -11,9 +11,7 @@ public class VoteManager : ISetAble
     public VotePopup voteTab;
 
     private bool needVoteRefresh = false;
-    private bool needTimerRefresh = false;
     private bool needTimeRefresh = false;
-    private bool endVoteTime = false;
     private bool needVoteComplete = false;
     private bool needVoteDeadRefresh = false;
 
@@ -21,7 +19,6 @@ public class VoteManager : ISetAble
     private bool isTextChange = false;
 
     private TimeVO timeVO;
-    private TimerVO timerVO;
     private VoteCompleteVO voteCompleteVO;
 
     private MeetingType meetingType = MeetingType.EMERGENCY;
@@ -36,23 +33,12 @@ public class VoteManager : ISetAble
             Instance.tempId = deadId;
         }
     }
-
-    
-
     public static void SetVoteComplete(VoteCompleteVO vo)
     {
         lock (Instance.lockObj)
         {
             Instance.voteCompleteVO = vo;
             Instance.needVoteComplete = true;
-        }
-    }
-
-    public static void SetVoteEnd()
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.endVoteTime = true;
         }
     }
 
@@ -63,15 +49,6 @@ public class VoteManager : ISetAble
             Instance.userDataList = list;
             Instance.meetingType = (MeetingType)type;
             Instance.needVoteRefresh = true;
-        }
-    }
-
-    public static void SetTimerData(TimerVO vo)
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.needTimerRefresh = true;
-            Instance.timerVO = vo;
         }
     }
 
@@ -92,6 +69,7 @@ public class VoteManager : ISetAble
     {
         base.Start();
         EventManager.SubBackToRoom(() => voteTab.VoteUIDisable());
+
     }
 
     void Update()
@@ -102,21 +80,10 @@ public class VoteManager : ISetAble
             needVoteRefresh = false;
         }
 
-        if (needTimerRefresh)
-        {
-            TimerText();
-            needTimerRefresh = false;
-        }
-
         if (needTimeRefresh)
         {
             RefreshTime(timeVO.day, timeVO.isLightTime);
             needTimeRefresh = false;
-        }
-        if (endVoteTime)
-        {
-            EndVoteTime();
-            endVoteTime = false;
         }
 
         if (needVoteComplete)
@@ -191,26 +158,17 @@ public class VoteManager : ISetAble
         isTextChange = false;
     }
 
-    public void TimerText()
-    {
-        if (isTextChange) return;
-
-        string text = timerVO.curTime.ToString();
-
-        if(timerVO.isInGameTimer)
-        {
-            TimeHandler.Instance.ChangeInGameTimeText(timerVO.curTime);
-        }
-        else
-        {
-            voteTab.ChangeMiddleText(text);
-        }
-    }
-
     public void OnVoteTimeStart()
     {
         Init();
         isVoteTime = true;
+
+        if(meetingType.Equals(MeetingType.EMERGENCY))
+        {
+            Timer.Instance.isEmergencyAble = false;
+            Timer.Instance.InitEmergencyCoolTime();
+
+        }
 
         EventManager.OccurStartMeet(meetingType);
         StartCoroutine(TextChange("투표시간 시작"));

@@ -29,23 +29,42 @@ class Room {
         this.socketList = [];
         this.userList = {};
 
-        this.isEnd = true;
+        this.isInitRoom = false;
+    }
+
+    insideRefresh(socket,isInside) {
+        if(this.userList[socket.id] !== undefined) {
+            this.userList[socket.id].isInside = isInside;
+        }
+
+        let dataList = Object.values(this.userList);
+
+        this.broadcast(JSON.stringify({type:"INSIDE_REFRESH",payload:JSON.stringify({dataList})}));
     }
 
     voteEnd() {
         let keys = Object.keys(this.userList);
         let allComplete = true;
         let targetSocIdArr = [];
-    
-        for(let i = 0; i < keys.length; i++) {
-            //안죽었을때 & 투표완료했을때 넘어가야함
-            if((!this.userList[keys[i]].isDie && !this.userList[keys[i]].voteComplete)) {
+
+        let isTest = false;
+
+        for(let key in this.userList) {
+            console.log(key);
+            if(key >= 1000) {
+                isTest = true;
+                break;
+            }
+        }
+
+        for(let key in this.userList) {
+            if(!this.userList[key].isDie && !this.userList[key].voteComplete) {
                 allComplete = false;
                 break;
             }
         }
         
-        if(allComplete) {
+        if(allComplete || isTest) {
             let dummy = -1;
     
             for(let i = 0; i < keys.length; i++) {
@@ -103,15 +122,8 @@ class Room {
     }
 
     voteTimeEnd() {
-        if(this.isEnd) {
-            this.changeTime();
-            console.log("changeTime - voteTimeEnd");
-        }
-        else{
-            this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
-
-            this.startTimer();
-        }
+        //this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
+        this.startTimer();
     }
 
     kidnapperWinCheck() {
@@ -144,11 +156,6 @@ class Room {
         }
         console.log("아직 남았다");
         return false;
-        //테스트용 코드 
-        // let dataList = Object.values(room.userList);
-    
-        // broadcast(socket,JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList})}));
-        // room.initRoom();
     }
 
     gameStart(socket) {
@@ -193,6 +200,7 @@ class Room {
         
         let dataList = Object.values(this.userList);
     
+        this.isInitRoom = false;
         this.playing = true;
         this.startTimer();
         this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
@@ -201,6 +209,7 @@ class Room {
     initRoom() {
         console.log("initRoom");
         this.playing = false;
+        this.isInitRoom = true;
         this.stopTimer();
         this.skipCount = 0;
         this.inGameTimer = new InGameTimer();
@@ -221,15 +230,18 @@ class Room {
 
     startTimer() {
         //this.skipCount = 0;
+        console.log("startInGameTImer");
         this.stopTimer();
         this.expected = Date.now() + 1000; //현재시간 + 1초
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
+        this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_GAME",isStart:true})}));
     }
 
     startVoteTimer() {
         //this.inVoteTimer.initTime();
         this.stopTimer();
-        this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval,false);
+        this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval);
+        this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:true})}));
     }
 
     stopTimer() {
@@ -239,34 +251,16 @@ class Room {
     rTimer() {
         let dt = Date.now() - this.expected; //현재 시간 - 시작시간
 
-        if(this.inGameTimer.timeRefresh(this.socketList)) {
-
-            let keys = Object.keys(this.userList);
-            let posList = SetSpawnPoint(keys.length);
-
-            for(let i = 0; i< keys.length; i++) {
-                this.userList[keys[i]].position = posList[i];
-            }
-
-            let dataList = Object.values(this.userList);
-
-            if(this.inGameTimer.isEndGame) {
-                this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
-                this.initRoom();
-                return;
-            }
-            
-            this.broadcast(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type:2})}));
-
-            this.expected = Date.now() + 1000;
-            this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval,true);
-            return;
-        }
+        this.inGameTimer.timeRefresh(this.socketList)
 
         this.expected += this.interval;
 
         this.nextTime = Math.max(0,this.interval - dt);
-        this.curTimer = setTimeout(this.rTimer.bind(this),this.nextTime);
+        if(!this.isInitRoom) {
+            this.curTimer = setTimeout(this.rTimer.bind(this),this.nextTime);
+        }
+        //console.log("refreshTime");
+        this.isInitRoom = false;
     }
 
     changeTime() {
@@ -275,12 +269,10 @@ class Room {
         let p = this.inGameTimer.returnPayload();
         console.log("time refresh - changeTime");
         this.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:p}));
-        this.startTimer();
     }
 
-    voteTimer(isEnd) {
+    voteTimer() {
         let dt = Date.now() - this.expected;
-        this.isEnd = isEnd;
         if(this.inVoteTimer.timeRefresh(this.socketList)) {
             if(!this.voteEnd()) {
                 this.voteTimeEnd();
@@ -292,7 +284,7 @@ class Room {
         this.expected += this.interval;
 
         this.nextTime = Math.max(0,this.interval - dt);
-        this.curTimer = setTimeout(this.voteTimer.bind(this),this.nextTime,isEnd);
+        this.curTimer = setTimeout(this.voteTimer.bind(this),this.nextTime);
     }
 
     addSocket(socket,user) {
