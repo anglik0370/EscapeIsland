@@ -22,9 +22,13 @@ public class PlayerEditor : EditorWindow
 
     private void OnGUI()
     {
+        GUILayout.BeginVertical();
+
+        GUILayout.Space(20.0f);
+
         GUILayout.Label("Player Editor", EditorStyles.boldLabel);
 
-        GUILayout.BeginVertical();
+        GUILayout.Space(10.0f);
 
         selectedPlayer = EditorGUILayout.ObjectField("Select Player", selectedPlayer, typeof(Player), true) as Player;
 
