@@ -40,6 +40,12 @@ public class SocketClient : MonoBehaviour
     private WaitForSeconds threeSec;
     private Coroutine reConnectingCoroutine;
 
+    private object lockObj = new object();
+    private bool needLoginRefresh = false;
+    private bool needSetRoomRefresh = false;
+    private UserVO loginData;
+    private int roomNum;
+
     public static void SendDataToSocket(string json)
     {
         instance.SendData(json);
@@ -57,6 +63,24 @@ public class SocketClient : MonoBehaviour
 
     }
 
+    public static void SetLoginData(UserVO vo)
+    {
+        lock(instance.lockObj)
+        {
+            instance.needLoginRefresh = true;
+            instance.loginData = vo;
+        }
+    }
+
+    public static void SetRoomNum(int roomNum)
+    {
+        lock(instance.lockObj)
+        {
+            instance.roomNum = roomNum;
+            instance.needSetRoomRefresh = true;
+        }
+    }
+
     public void ConnectSocket(string ip, string port)
     {
         webSocket = new WebSocket($"ws://{ip}:{port}");
@@ -64,6 +88,17 @@ public class SocketClient : MonoBehaviour
 
         webSocket.OnMessage += (s, e) =>
         {
+            DataVO dataVo = JsonUtility.FromJson<DataVO>(e.Data);
+
+            if(dataVo.type.Equals("LOGIN"))
+            {
+                SetLoginData(JsonUtility.FromJson<UserVO>(dataVo.payload));
+            }
+
+            if(dataVo.type.Equals("ENTER_ROOM"))
+            {
+                SetRoomNum(JsonUtility.FromJson<RoomVO>(dataVo.payload).roomNum);
+            }
             print(e.Data);
         };
     }
@@ -86,7 +121,22 @@ public class SocketClient : MonoBehaviour
 
     private void Update()
     {
+        if(needLoginRefresh)
+        {
+            Login();
+            needLoginRefresh = false;
+        }
 
+        if(needSetRoomRefresh)
+        {
+            DebugManager.Instance.ChangeRoom(roomNum);
+            needSetRoomRefresh = false;
+        }
+    }
+
+    private void Login()
+    {
+        DebugManager.Instance.InitData(loginData.socketId, loginData.roomNum, loginData.name);
     }
 
     private void OnDestroy()

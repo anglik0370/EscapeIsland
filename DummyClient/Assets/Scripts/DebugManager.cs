@@ -16,6 +16,10 @@ public class DebugManager : MonoBehaviour
 {
     public static DebugManager Instance { get; private set; }
 
+    private int socketId;
+    private int roomNum;
+    private string socketName;
+
     private SendType curSendType = SendType.LOGIN;
     public SendType CurSendType => curSendType;
 
@@ -47,6 +51,18 @@ public class DebugManager : MonoBehaviour
         Instance = this;
 
         panelDic = new Dictionary<SendType, CanvasGroup>();
+    }
+
+    public void InitData(int socketId, int roomNum, string name)
+    {
+        this.socketId = socketId;
+        this.roomNum = roomNum;
+        this.socketName = name;
+    }
+
+    public void ChangeRoom(int roomNum)
+    {
+        this.roomNum = roomNum;
     }
 
     private void Start()

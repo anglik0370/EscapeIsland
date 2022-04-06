@@ -1,6 +1,26 @@
 using System;
 
 [Serializable]
+public class UserVO
+{
+    public string name;
+    public int socketId;
+    public int roomNum;
+
+    public UserVO()
+    {
+
+    }
+
+    public UserVO(string name, int socketId, int roomNum)
+    {
+        this.name = name;
+        this.socketId = socketId;
+        this.roomNum = roomNum;
+    }
+}
+
+[Serializable]
 public class LoginVO
 {
     public string name;
