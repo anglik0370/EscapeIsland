@@ -3,26 +3,32 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class DebugEditor : EditorWindow
+public class PlayerEditor : EditorWindow
 {
+    private Player mainplayer;
+
     private Player selectedPlayer;
     private Vector2 moveDir;
 
     private bool isOptionOpen;
     private bool isControllerOpen;
 
-    [MenuItem("Debug Editor/Open Editor %#d")]
+    [MenuItem("Debug Editor/Player Editor %#p")]
     public static void OpenEditor()
     {
-        DebugEditor window = EditorWindow.GetWindow(typeof(DebugEditor)) as DebugEditor;
+        PlayerEditor window = EditorWindow.GetWindow(typeof(PlayerEditor)) as PlayerEditor;
         window.Show();
     }
 
     private void OnGUI()
     {
-        GUILayout.Label("Player Controller", EditorStyles.boldLabel);
-
         GUILayout.BeginVertical();
+
+        GUILayout.Space(20.0f);
+
+        GUILayout.Label("Player Editor", EditorStyles.boldLabel);
+
+        GUILayout.Space(10.0f);
 
         selectedPlayer = EditorGUILayout.ObjectField("Select Player", selectedPlayer, typeof(Player), true) as Player;
 
@@ -110,6 +116,14 @@ public class DebugEditor : EditorWindow
                 EditorGUILayout.HelpBox("플레이어가 선택되지 않았습니다", MessageType.Error);
             }
         }
+    }
+
+    private void Awake()
+    {
+        EventManager.SubEnterRoom(p =>
+        {
+            mainplayer = p;
+        });
     }
 
     private void Update()
