@@ -10,6 +10,7 @@ public enum SendType
     CREATE_ROOM,
     JOIN_ROOM,
     KILL,
+    GAME_START
 }
 
 public class DebugManager : MonoBehaviour
@@ -151,5 +152,15 @@ public class DebugManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
 
         targetSocketIdInputField.text = "";
+    }
+
+    private void GAME_START()
+    {
+        RoomVO vo = new RoomVO();
+        vo.roomNum = roomNum;
+
+        DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 }
