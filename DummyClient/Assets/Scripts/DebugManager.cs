@@ -10,11 +10,16 @@ public enum SendType
     CREATE_ROOM,
     JOIN_ROOM,
     KILL,
+    GAME_START
 }
 
 public class DebugManager : MonoBehaviour
 {
     public static DebugManager Instance { get; private set; }
+
+    private int socketId;
+    private int roomNum;
+    private string socketName;
 
     private SendType curSendType = SendType.LOGIN;
     public SendType CurSendType => curSendType;
@@ -47,6 +52,18 @@ public class DebugManager : MonoBehaviour
         Instance = this;
 
         panelDic = new Dictionary<SendType, CanvasGroup>();
+    }
+
+    public void InitData(int socketId, int roomNum, string name)
+    {
+        this.socketId = socketId;
+        this.roomNum = roomNum;
+        this.socketName = name;
+    }
+
+    public void ChangeRoom(int roomNum)
+    {
+        this.roomNum = roomNum;
     }
 
     private void Start()
@@ -135,5 +152,15 @@ public class DebugManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
 
         targetSocketIdInputField.text = "";
+    }
+
+    private void GAME_START()
+    {
+        RoomVO vo = new RoomVO();
+        vo.roomNum = roomNum;
+
+        DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 }
