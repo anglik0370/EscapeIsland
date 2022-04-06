@@ -64,11 +64,9 @@ public class InfoUI : MonoBehaviour
         if((Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange) || (player.isInside != mainPlayer.isInside))
         {
             cvs.alpha = 0f;
-            print("3");
         }
         else
         {
-            print("4");
             cvs.alpha = 1f;
         }
     }
