@@ -1,3 +1,5 @@
+const {Rooms} = require('./Rooms.js');
+
 class InGameTimer {
     constructor() {
         this.timeToNextSlot = 120;
@@ -26,6 +28,29 @@ class InGameTimer {
         // });
 
         if(this.curTime <= 0) {
+            if(this.isEndGame) {
+                let key = Object.keys(socketList);
+                let room = Rooms.getRoom(this.socketList[key[i]].room);
+
+                if(room === undefined) {
+                    console.log("undefined");
+                    return;
+                }
+
+                let keys = Object.keys(room.userList);
+                let posList = SetSpawnPoint(keys.length);
+        
+                for(let i = 0; i < keys.length; i++) {
+                    room.userList[keys[i]].position = posList[i];
+                }
+        
+                let dataList = Object.values(room.userList);
+
+                room.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
+                room.initRoom();
+                return;
+            }
+
             if(!this.isLightTime) {
                 this.day++;
             }
