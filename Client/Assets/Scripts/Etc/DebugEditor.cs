@@ -50,62 +50,65 @@ public class DebugEditor : EditorWindow
 
         if (isControllerOpen)
         {
-            GUILayout.BeginVertical();
-
-            GUILayout.BeginHorizontal();
-
-            GUILayout.FlexibleSpace();
-            bool isUp = (GUILayout.RepeatButton("UP", GUILayout.Width(50), GUILayout.Height(50)));
-            GUILayout.FlexibleSpace();
-
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-
-            GUILayout.FlexibleSpace();
-            bool isLeft = (GUILayout.RepeatButton("LEFT", GUILayout.Width(50), GUILayout.Height(50)));
-            GUILayout.Space(50);
-            bool isRight = (GUILayout.RepeatButton("RIGHT", GUILayout.Width(50), GUILayout.Height(50)));
-            GUILayout.FlexibleSpace();
-
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-
-            GUILayout.FlexibleSpace();
-            bool isDown = (GUILayout.RepeatButton("DOWN", GUILayout.Width(50), GUILayout.Height(50)));
-            GUILayout.FlexibleSpace();
-
-            GUILayout.EndHorizontal();
-
-            EditorGUILayout.HelpBox("컨트롤러를 사용하려면 IsRemote를 꺼줘야 합니다", MessageType.Info);
-
-            GUILayout.EndVertical();
-
-            if(isUp)
+            if(selectedPlayer != null)
             {
-                moveDir = Vector2.up;
-            }
-            else if(isLeft)
-            {
-                moveDir = Vector2.left;
-            }
-            else if(isRight)
-            {
-                moveDir = Vector2.right;
-            }
-            else if(isDown)
-            {
-                moveDir = Vector2.down;
+                GUILayout.BeginVertical();
+
+                GUILayout.BeginHorizontal();
+
+                GUILayout.FlexibleSpace();
+                bool isUp = (GUILayout.RepeatButton("UP", GUILayout.Width(50), GUILayout.Height(50)));
+                GUILayout.FlexibleSpace();
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+
+                GUILayout.FlexibleSpace();
+                bool isLeft = (GUILayout.RepeatButton("LEFT", GUILayout.Width(50), GUILayout.Height(50)));
+                GUILayout.Space(50);
+                bool isRight = (GUILayout.RepeatButton("RIGHT", GUILayout.Width(50), GUILayout.Height(50)));
+                GUILayout.FlexibleSpace();
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+
+                GUILayout.FlexibleSpace();
+                bool isDown = (GUILayout.RepeatButton("DOWN", GUILayout.Width(50), GUILayout.Height(50)));
+                GUILayout.FlexibleSpace();
+
+                GUILayout.EndHorizontal();
+
+                EditorGUILayout.HelpBox("컨트롤러를 사용하려면 IsRemote를 꺼줘야 합니다", MessageType.Info);
+
+                GUILayout.EndVertical();
+
+                if (isUp)
+                {
+                    moveDir = Vector2.up;
+                }
+                else if (isLeft)
+                {
+                    moveDir = Vector2.left;
+                }
+                else if (isRight)
+                {
+                    moveDir = Vector2.right;
+                }
+                else if (isDown)
+                {
+                    moveDir = Vector2.down;
+                }
+                else
+                {
+                    moveDir = Vector2.zero;
+                }
             }
             else
             {
-                moveDir = Vector2.zero;
+                EditorGUILayout.HelpBox("플레이어가 선택되지 않았습니다", MessageType.Error);
             }
-        }
-        else
-        {
-            EditorGUILayout.HelpBox("플레이어가 선택되지 않았습니다", MessageType.Error);
         }
     }
 
