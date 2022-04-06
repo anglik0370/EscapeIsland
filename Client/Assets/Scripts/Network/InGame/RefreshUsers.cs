@@ -53,6 +53,38 @@ public class RefreshUsers : ISetAble
     {
         Init();
 
+        if (!isOnce)
+        {
+            UserVO uv = userDataList.Find(x => x.socketId == socketId);
+            CharacterProfile profile = CharacterSelectPanel.Instance.GetDefaultProfile();
+            Player user = PoolManager.GetItem<Player>();
+
+            InfoManager.instance.MainPlayer = user;
+            InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
+            user.InitPlayer(uv, ui, false, profile.GetSO());
+
+            for (int i = 0; i < lights.Length; i++)
+            {
+                GameObject obj = Instantiate(lights[i], user.transform);
+                obj.transform.localPosition = lightPos;
+            }
+
+            if (isTest)
+            {
+                //user.isKidnapper = true; <- 아마 작동 안할 것. 서버에서 보내주는 데이터로 바뀜
+
+                SendManager.Instance.Send("TEST_CLIENT");
+            }
+
+
+            NetworkManager.instance.roomNum = uv.roomNum;
+
+            followCam.Follow = user.gameObject.transform;
+
+            isOnce = true;
+            EventManager.OccurEnterRoom(user);
+        }
+
         foreach (UserVO uv in userDataList)
         {
             CharacterProfile profile = CharacterSelectPanel.Instance.GetDefaultProfile();
@@ -70,37 +102,6 @@ public class RefreshUsers : ISetAble
                     p.SetTransform(uv.position);
                 }
             }
-            else
-            {
-                if (!isOnce)
-                {
-                    Player user = PoolManager.GetItem<Player>();
-                    InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
-                    user.InitPlayer(uv, ui, false, profile.GetSO());
-
-                    for (int i = 0; i < lights.Length; i++)
-                    {
-                        GameObject obj = Instantiate(lights[i], user.transform);
-                        obj.transform.localPosition = lightPos;
-                    }
-
-                    if (isTest)
-                    {
-                        //user.isKidnapper = true; <- 아마 작동 안할 것. 서버에서 보내주는 데이터로 바뀜
-
-                        SendManager.Instance.Send("TEST_CLIENT");
-                    }
-
-
-                    NetworkManager.instance.roomNum = uv.roomNum;
-
-                    followCam.Follow = user.gameObject.transform;
-
-                    isOnce = true;
-                    EventManager.OccurEnterRoom(user);
-                }
-            }
-
         }
     }
 }

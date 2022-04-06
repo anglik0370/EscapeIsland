@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public class InfoUI : MonoBehaviour
 {
+    [SerializeField]
     private Player player;
+    [SerializeField]
+    private Player mainPlayer = null;
 
     public Transform playerTrm;
     public float followSpeed = 50f;
@@ -40,9 +43,10 @@ public class InfoUI : MonoBehaviour
         });
     }
 
-    public void SetTarget(Transform playerTrm, Transform mainPlayerTrm, string name)
+    public void SetTarget(Transform playerTrm, Player mainPlayer, string name)
     {
-        this.mainPlayerTrm = mainPlayerTrm;
+        this.mainPlayerTrm = mainPlayer.transform;
+        this.mainPlayer = mainPlayer;
         this.playerTrm = playerTrm;
 
         player = playerTrm.GetComponent<Player>();
@@ -51,22 +55,20 @@ public class InfoUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void SetTarget(Transform mainPlayerTrm)
-    {
-        this.mainPlayerTrm = mainPlayerTrm;
-    }
-
     private void Update()
     {
+        if (mainPlayer == null) return;
         if (mainPlayerTrm == null) return;
         if (mainPlayerTrm == playerTrm) return;
 
-        if((Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange) || player.isInside)
+        if((Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange) || (player.isInside != mainPlayer.isInside))
         {
             cvs.alpha = 0f;
+            print("3");
         }
         else
         {
+            print("4");
             cvs.alpha = 1f;
         }
     }

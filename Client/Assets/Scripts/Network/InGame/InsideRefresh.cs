@@ -10,8 +10,11 @@ public class InsideRefresh : ISetAble
 
     public void SetInside(List<UserVO> list)
     {
-        userDataList = list;
-        needInsideRefresh = true;
+        lock(lockObj)
+        {
+            userDataList = list;
+            needInsideRefresh = true;
+        }
     }
 
     void Update()

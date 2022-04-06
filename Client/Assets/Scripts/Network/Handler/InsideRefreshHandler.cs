@@ -9,7 +9,6 @@ public class InsideRefreshHandler : IMsgHandler<InsideRefresh>
         base.HandleMsg(payload);
 
         UserListVO vo = JsonUtility.FromJson<UserListVO>(payload);
-
         generic.SetInside(vo.dataList);
     }
 }

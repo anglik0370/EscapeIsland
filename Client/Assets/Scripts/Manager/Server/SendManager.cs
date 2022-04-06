@@ -184,7 +184,9 @@ public class SendManager : MonoBehaviour
 
     public void SendInSide(bool isInside)
     {
-        DataVO dataVO = new DataVO("INSIDE_REFRESH", JsonUtility.ToJson(isInside));
+        UserVO vo = new UserVO();
+        vo.isInside = isInside;
+        DataVO dataVO = new DataVO("INSIDE_REFRESH", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

@@ -11,8 +11,12 @@ public class InfoManager : MonoBehaviour
     public Transform parentTrm;
     public GameObject infoPrefab;
 
-    private Transform mainPlayerTrm;
-    private static Transform MainPlayerTrm => instance.mainPlayerTrm;
+    private Player mainPlayer;
+    public Player MainPlayer
+    {
+        get => instance.mainPlayer;
+        set => instance.mainPlayer = value;
+    }
 
     private void Awake()
     {
@@ -20,19 +24,10 @@ public class InfoManager : MonoBehaviour
         PoolManager.CreatePool<InfoUI>(infoPrefab, parentTrm, 8);
     }
 
-    private void Start()
-    {
-        EventManager.SubEnterRoom(p =>
-        {
-            mainPlayerTrm = p.transform;
-            infoList.ForEach(info => info.SetTarget(mainPlayerTrm));
-        });
-    }
-
     public static InfoUI SetInfoUI(Transform player, string name)
     {
         InfoUI ui = PoolManager.GetItem<InfoUI>();
-        ui.SetTarget(player, MainPlayerTrm, name);
+        ui.SetTarget(player, instance.MainPlayer, name);
         instance.infoList.Add(ui);
         return ui;
     }
