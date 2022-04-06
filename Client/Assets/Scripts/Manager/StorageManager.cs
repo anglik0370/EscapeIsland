@@ -70,6 +70,25 @@ public class StorageManager : MonoBehaviour
         });
     }
 
+    public void FillAllItem()
+    {
+        for (int i = 0; i < maxAmountItemList.Count; i++)
+        {
+            ItemAmount curAmount = FindItemAmount(false, maxAmountItemList[i].item);
+
+            curAmount.amount = maxAmountItemList[i].amount;
+
+            StoragePanel.Instance.UpdateUIs(maxAmountItemList[i].item, GetProgress());
+        }
+
+        totalNeedItemAmount = totalCollectedItemAmount;
+
+        //꽉찼으니 꽉찼다고 서버에 보내줘야 한다.
+        DataVO dataVO = new DataVO("STORAGE_FULL", "");
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
     public void AddItem(ItemSO item)
     {
         //아이템에 맞는 Amount클래스 찾아주고

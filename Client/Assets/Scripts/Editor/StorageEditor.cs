@@ -49,6 +49,17 @@ public class StorageEditor : EditorWindow
             }
 
             GUILayout.EndHorizontal();
+
+            GUILayout.Space(10.0f);
+
+            GUILayout.BeginHorizontal();
+
+            GUILayout.Label("Add AllItem");
+
+            if (GUILayout.Button("Excute"))
+            {
+                StorageManager.Instance.FillAllItem();
+            }
         }
         else
         {
