@@ -99,7 +99,10 @@ public class SocketClient : MonoBehaviour
             {
                 SetRoomNum(JsonUtility.FromJson<RoomVO>(dataVo.payload).roomNum);
             }
-            print(e.Data);
+            if(!dataVo.type.Equals("REFRESH_USER"))
+            {
+                print(e.Data);
+            }
         };
     }
 
