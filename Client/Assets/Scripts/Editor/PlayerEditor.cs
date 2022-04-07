@@ -42,7 +42,7 @@ public class PlayerEditor : EditorWindow
         {
             if (selectedPlayer != null)
             {
-                selectedPlayer.isRemote = EditorGUILayout.Toggle("IsRemote", selectedPlayer.isRemote);
+                selectedPlayer.IsRemote = EditorGUILayout.Toggle("IsRemote", selectedPlayer.IsRemote);
             }
             else
             {

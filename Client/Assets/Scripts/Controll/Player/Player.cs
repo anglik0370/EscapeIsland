@@ -40,7 +40,25 @@ public class Player : MonoBehaviour, IInteractionObject
     public int socketId;
     public int roomNum;
 
-    public bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
+    private bool isRemote; //true : 다른놈 / false : 조작하는 플레이어
+    public bool IsRemote
+    {
+        get => isRemote;
+        set
+        {
+            isRemote = value;
+
+            if(!isRemote)
+            {
+                RestartSend();
+            }
+            else
+            {
+                StopSend();
+            }
+        }
+    } 
+
     public bool master;
     public bool isKidnapper; //true : 맢 / false : 시민
     public bool isDie = false;
@@ -72,7 +90,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private void Update()
     {
-        if(isRemote)
+        if(IsRemote)
         {
             transform.position = Vector3.Lerp(transform.position, targetPos, speed * Time.deltaTime);
 
@@ -92,7 +110,7 @@ public class Player : MonoBehaviour, IInteractionObject
         this.ui = ui;
         this.curSO = so;
         transform.position = vo.position;
-        this.isRemote = isRemote;
+        this.IsRemote = isRemote;
         master = vo.master;
 
         socketName = vo.name;
@@ -199,7 +217,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void Move(Vector3 dir)
     {
-        if(isRemote) return;
+        if(IsRemote) return;
 
         if(dir != Vector3.zero)
         {
@@ -235,7 +253,13 @@ public class Player : MonoBehaviour, IInteractionObject
         }
     }
 
-    public void StopCo()
+    public void RestartSend()
+    {
+        StopSend();
+        sendData = StartCoroutine(SendData());
+    }
+
+    public void StopSend()
     {
         if(sendData != null)
         {
@@ -245,7 +269,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void SetTransform(Vector2 pos)
     {
-        if(isRemote)
+        if(IsRemote)
         {
             Vector3 dir = (Vector3)pos - transform.position;
 

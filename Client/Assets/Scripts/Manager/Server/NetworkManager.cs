@@ -163,7 +163,7 @@ public class NetworkManager : MonoBehaviour
     {
         if(user != null)
         {
-            user.StopCo();
+            user.StopSend();
             user.SetDisable(true);
             user = null;
         }
