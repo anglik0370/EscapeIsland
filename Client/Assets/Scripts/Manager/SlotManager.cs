@@ -10,7 +10,6 @@ public class SlotManager : MonoBehaviour
 
     [SerializeField]
     private ItemSlot beginSlot; //드래그 시작
-
     [SerializeField]
     private ItemSlot endSlot;   //드래그 끝
 
