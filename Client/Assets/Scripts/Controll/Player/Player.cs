@@ -224,7 +224,6 @@ public class Player : MonoBehaviour, IInteractionObject
 
     IEnumerator SendData()
     {
-        int socketId = NetworkManager.instance.socketId;
         while (true)
         {
             yield return ws;
