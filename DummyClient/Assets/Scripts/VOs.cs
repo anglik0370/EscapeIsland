@@ -6,17 +6,19 @@ public class UserVO
     public string name;
     public int socketId;
     public int roomNum;
+    public bool isInside;
 
     public UserVO()
     {
 
     }
 
-    public UserVO(string name, int socketId, int roomNum)
+    public UserVO(string name, int socketId, int roomNum,bool isInside)
     {
         this.name = name;
         this.socketId = socketId;
         this.roomNum = roomNum;
+        this.isInside = isInside;
     }
 }
 

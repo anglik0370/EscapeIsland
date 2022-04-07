@@ -13,7 +13,8 @@ public enum SendType
     GAME_START,
     STORAGE_FULL,
     EMERGENCY,
-    VOTE
+    VOTE,
+    ISINSIDE,
 }
 
 public class DebugManager : MonoBehaviour
@@ -52,6 +53,9 @@ public class DebugManager : MonoBehaviour
 
     [Header("투표 관련 UI들")]
     public InputField voteTargetSocketIdInputField;
+
+    [Header("커버 관련 UI들")]
+    public Toggle isInsideToggle;
 
     private void Awake()
     {
@@ -194,6 +198,15 @@ public class DebugManager : MonoBehaviour
 
         DataVO dataVO = new DataVO("VOTE_COMPLETE", JsonUtility.ToJson(vo));
 
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    private void ISINSIDE()
+    {
+        UserVO vo = new UserVO();
+        vo.isInside = isInsideToggle.isOn;
+
+        DataVO dataVO = new DataVO("INSIDE_REFRESH", JsonUtility.ToJson(vo));
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 }
