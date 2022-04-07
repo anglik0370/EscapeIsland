@@ -136,11 +136,22 @@ public class Timer : ISetAble
 
     private void InitTime()
     {
+        isInGameTimer = false;
+        isVoteTimer = false;
+
+        timerSequence.Kill();
+        timerSequence = DOTween.Sequence();
+
         min = defaultMin;
         remainMin = 1f;
 
         remainVoteTimerMin = defaultVoteTimerMin;
         remainEmergencyCoolTime = defaultEmergencyCoolTime;
+
+        isEmergencyAble = true;
+        remainEmergencyCoolTime = 0f;
+
+        inGameTimerText.text = defaultTimeSpan.ToString(@"hh\:mm");
     }
 
     public void SetTime()
