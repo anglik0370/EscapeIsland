@@ -1,5 +1,3 @@
-const {Rooms} = require('./Rooms.js');
-
 class InGameTimer {
     constructor() {
         this.timeToNextSlot = 120;
@@ -20,7 +18,7 @@ class InGameTimer {
         return JSON.stringify({day:this.day,isLightTime:this.isLightTime});
     }
 
-    timeRefresh(socketList) {
+    timeRefresh(room) {
         this.curTime -= this.sec;
 
         // socketList.forEach(soc => {
@@ -29,13 +27,6 @@ class InGameTimer {
 
         if(this.curTime <= 0) {
             if(this.isEndGame) {
-                let key = Object.keys(socketList);
-                let room = Rooms.getRoom(this.socketList[key[i]].room);
-
-                if(room === undefined) {
-                    console.log("undefined");
-                    return;
-                }
 
                 let keys = Object.keys(room.userList);
                 let posList = SetSpawnPoint(keys.length);
