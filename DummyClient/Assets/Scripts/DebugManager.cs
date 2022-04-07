@@ -10,7 +10,10 @@ public enum SendType
     CREATE_ROOM,
     JOIN_ROOM,
     KILL,
-    GAME_START
+    GAME_START,
+    STORAGE_FULL,
+    EMERGENCY,
+    VOTE
 }
 
 public class DebugManager : MonoBehaviour
@@ -46,6 +49,9 @@ public class DebugManager : MonoBehaviour
 
     [Header("킬 관련 UI들")]
     public InputField targetSocketIdInputField;
+
+    [Header("투표 관련 UI들")]
+    public InputField voteTargetSocketIdInputField;
 
     private void Awake()
     {
@@ -107,6 +113,17 @@ public class DebugManager : MonoBehaviour
         sendBtn.onClick.AddListener(() => SendMessage(type.ToString()));
     }
 
+    private void Send(string type)
+    {
+        DataVO dataVO = new DataVO(type, null);
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    private void EMERGENCY()
+    {
+        Send("EMERGENCY");
+    }
+
     private void LOGIN()
     {
         LoginVO vo = new LoginVO(nameInputField.text);
@@ -160,6 +177,22 @@ public class DebugManager : MonoBehaviour
         vo.roomNum = roomNum;
 
         DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    private void STORAGE_FULL()
+    {
+        DataVO dataVO = new DataVO("STORAGE_FULL", "");
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    private void VOTE()
+    {
+        VoteCompleteVO vo = new VoteCompleteVO(socketId, voteTargetSocketIdInputField.text == "" ? -1 : int.Parse(voteTargetSocketIdInputField.text));
+
+        DataVO dataVO = new DataVO("VOTE_COMPLETE", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
