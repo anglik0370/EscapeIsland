@@ -153,6 +153,7 @@ class Rooms {
         if(user === undefined) return;
 
         this.roomList[socket.room].addSocket(socket,user);
+        this.roomList[socket.room].setTimersTime(socket);
 
         socket.state = SocketState.IN_ROOM;
 

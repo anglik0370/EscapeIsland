@@ -18,22 +18,26 @@ public class Timer : ISetAble
     private bool needSetTimer = false;
     private bool isInGameTimer = false;
     private bool isVoteTimer = false;
+    private bool needSetTime = false;
 
     private TimerVO timerVO = null;
+    private SetTimeVO setTimeVO = null;
 
     [Header("인게임 타이머관련")]
     private Sequence timerSequence;
     [SerializeField]
     private Text inGameTimerText;
 
-    private int hour = 6;
+    private const int HALF_DAY_MIN = 720;
     private int defaultHour = 6;
     private int min = 0;
     private int defaultMin = 0;
-    private int destinationMin => min + 6;
+    private int destinationMin => min + perSec;
+    private int perSec = 6;
     private float remainMin = 1f;
 
-    private bool isSingleDigit = true;
+    private TimeSpan defaultTimeSpan;
+    private TimeSpan curTimeSpan;
 
     [Header("투표 시간 타이머 관련")]
     private VotePopup voteTab;
@@ -54,9 +58,20 @@ public class Timer : ISetAble
         }
     }
 
+    public static void SetTime(SetTimeVO vo)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.needSetTime = true;
+            Instance.setTimeVO = vo;
+        }
+    }
+
     void Awake()
     {
         Instance = this;
+
+        defaultTimeSpan = curTimeSpan = TimeSpan.FromHours(defaultHour);
     }
 
     protected override void Start()
@@ -77,56 +92,32 @@ public class Timer : ISetAble
             HandleTimer();
             needSetTimer = false;
         }
+        if (needSetTime)
+        {
+            SetTime();
+            needSetTime = false;
+        }
 
-        if(isInGameTimer)
+        if (isInGameTimer)
         {
             remainMin += Time.deltaTime;
 
             if(remainMin >= 1f)
             {
                 remainMin -= 1f;
-                if (destinationMin >= 61f)
-                {
-                    min -= 60;
-                    hour++;
-                    hour = hour > 23 ? 0 : hour;
 
-                    isSingleDigit = hour < 10;
-                }
                 timerSequence.Kill();
                 timerSequence = DOTween.Sequence();
-
                 timerSequence.Append(DOTween.To(() => min, x =>
                 {
                     min = x;
-                    if(min < 60f)
-                    {
-                        if (isSingleDigit)
-                        {
-                            inGameTimerText.text = min < 10 ? $"0{hour}:0{min}" : $"0{hour}:{min}";
-                        }
-                        else
-                        {
-                            inGameTimerText.text = min < 10 ? $"{hour}:0{min}" : $"{hour}:{min}";
-                        }
-                    }
-                    else
-                    {
-                        if(hour + 1 > 23)
-                        {
-                            inGameTimerText.text = $"00:00";
-                        }
-                        else
-                        {
-                            inGameTimerText.text = hour + 1 < 10 ? $"0{hour + 1}:00" : $"{hour + 1}:00";
-                        }
-                    }
+                    curTimeSpan = defaultTimeSpan + TimeSpan.FromMinutes(min);
+                    inGameTimerText.text = curTimeSpan.ToString(@"hh\:mm");
                 }, destinationMin, 1f).SetEase(Ease.Linear));
-
             }
         }
 
-        if(isVoteTimer)
+        if (isVoteTimer)
         {
             remainVoteTimerMin -= Time.deltaTime;
 
@@ -145,19 +136,29 @@ public class Timer : ISetAble
 
     private void InitTime()
     {
-        hour = defaultHour;
+        isInGameTimer = false;
+        isVoteTimer = false;
+
+        timerSequence.Kill();
+        timerSequence = DOTween.Sequence();
+
         min = defaultMin;
         remainMin = 1f;
 
         remainVoteTimerMin = defaultVoteTimerMin;
         remainEmergencyCoolTime = defaultEmergencyCoolTime;
+
+        isEmergencyAble = true;
+        remainEmergencyCoolTime = 0f;
+
+        inGameTimerText.text = defaultTimeSpan.ToString(@"hh\:mm");
     }
 
-    public void SetVoteTime(float time)
+    public void SetTime()
     {
-        defaultVoteTimerMin = remainVoteTimerMin = time;
+        defaultVoteTimerMin = remainVoteTimerMin = setTimeVO.voteTime;
+        perSec = (HALF_DAY_MIN / setTimeVO.inGameTime);
     }
-
     public void InitEmergencyCoolTime()
     {
         remainEmergencyCoolTime = defaultEmergencyCoolTime;

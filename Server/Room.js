@@ -204,7 +204,7 @@ class Room {
         this.startTimer();
         this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
 
-        this.broadcast(JSON.stringify({type:"SET_VOTE_TIME",payload:JSON.stringify({voteTime:this.inVoteTimer.timeToNextSlot})}));
+        
     }
     
     initRoom() {
@@ -227,6 +227,13 @@ class Room {
             this.userList[key].voteComplete = false;
         }
 
+    }
+
+    setTimersTime(socket){
+        if(socket.readyState !== WebSocket.OPEN) return;
+        
+        socket.send(JSON.stringify({type:"SET_TIME",payload:JSON.stringify
+        ({inGameTime:this.inGameTimer.timeToNextSlot, voteTime:this.inVoteTimer.timeToNextSlot})}));
     }
 
     startTimer() {

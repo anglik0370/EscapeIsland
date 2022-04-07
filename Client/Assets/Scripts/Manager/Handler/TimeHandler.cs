@@ -48,6 +48,7 @@ public class TimeHandler : MonoBehaviour
 
         EventManager.SubExitRoom(() =>
         {
+            Init();
             EventManager.OccurTimeChange(true);
         });
 
