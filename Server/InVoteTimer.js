@@ -14,7 +14,7 @@ class InVoteTimer {
         this.curTime = this.timeToNextSlot;
     }
 
-    timeRefresh(socketList) {
+    timeRefresh() {
         this.curTime -= this.sec;
 
         if(this.curTime <= 0) {
