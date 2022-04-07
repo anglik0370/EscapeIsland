@@ -116,6 +116,15 @@ public class SlotManager : MonoBehaviour
                     endSlot.SetItem(beginSlot.GetItem());
                 }
             }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.MissionDropItem && endSlot.Kind == ItemSlot.SlotKind.Inventory)
+            {
+                //MissionItem to Inventory
+
+                endSlot.SetItem(beginSlot.GetItem());
+
+                MissionDropItemSlot slot = beginSlot as MissionDropItemSlot;
+                slot.Disable();
+            }
         }
 
         ghost.Init();

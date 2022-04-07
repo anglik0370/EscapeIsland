@@ -12,6 +12,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         Storage,
         ConverterBefore,
         ConverterAfter,
+        MissionDropItem,
     }
 
     protected Image image;
