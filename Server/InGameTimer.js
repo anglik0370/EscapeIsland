@@ -21,10 +21,6 @@ class InGameTimer {
     timeRefresh(room) {
         this.curTime -= this.sec;
 
-        // socketList.forEach(soc => {
-        //     soc.send(JSON.stringify({type:"TIMER",payload:JSON.stringify({curTime:this.curTime,isInGameTimer:true})}));
-        // });
-
         if(this.curTime <= 0) {
             if(this.isEndGame) {
 
@@ -48,9 +44,7 @@ class InGameTimer {
             this.curTime = this.timeToNextSlot;
             this.isLightTime = !this.isLightTime;
 
-            socketList.forEach(soc => {
-                soc.send(JSON.stringify({type:"TIME_REFRESH",payload:JSON.stringify({day:this.day,isLightTime:this.isLightTime})}))
-            });
+            room.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:JSON.stringify({day:this.day,isLightTime:this.isLightTime})}));
         }
         
     }
