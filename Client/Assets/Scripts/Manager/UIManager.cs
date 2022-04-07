@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -65,5 +67,19 @@ public class UIManager : MonoBehaviour
         warningText.text = msg;
         warningText.color = isEnd ? Color.blue : Color.red;
         warningLog = StartCoroutine(WarningLog());
+    }
+
+    public void OnEndEdit(InputField inputField, Button.ButtonClickedEvent onClickEvent)
+    {
+        inputField.onEndEdit.AddListener(msg =>
+        {
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                onClickEvent?.Invoke();
+
+                inputField.text = "";
+
+            }
+        });
     }
 }

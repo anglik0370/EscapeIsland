@@ -55,6 +55,13 @@ public class VotePopup : Popup
             SendManager.Instance.SendChat(msgInputField.text);
             msgInputField.text = "";
         });
+        msgInputField.onEndEdit.AddListener(msg =>
+        {
+            sendMsgBtn.onClick?.Invoke();
+
+            msgInputField.text = "";
+            msgInputField.ActivateInputField();
+        });
 
         chatBtn.onClick.AddListener(() =>
         {

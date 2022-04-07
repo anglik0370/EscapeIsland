@@ -11,6 +11,8 @@ public class LoginPopup : Popup
 
     private void Start()
     {
+        UIManager.Instance.OnEndEdit(nameInput, connectBtn.onClick);
+
         connectBtn.onClick.AddListener(() =>
         {
             //�α��� ���� �� �κ�� �̵��ؾ���

@@ -34,6 +34,9 @@ public class LobbyPopup : Popup
 
     private void Start()
     {
+        UIManager.Instance.OnEndEdit(roomNameInput, createRoomBtn.onClick);
+        UIManager.Instance.OnEndEdit(joinRoomNameInput, joinBtn.onClick);
+
         refreshBtn.onClick.AddListener(() =>
         {
             SendManager.Instance.ReqRoomRefresh();
@@ -97,6 +100,10 @@ public class LobbyPopup : Popup
             kidnapperNumSlider.value = 1;
             testToggle.isOn = false;
         }
+        else
+        {
+            roomNameInput.ActivateInputField();
+        }
     }
 
     public void OpenJoinRoomPopup(bool on)
@@ -106,6 +113,10 @@ public class LobbyPopup : Popup
         if(!on)
         {
             joinRoomNameInput.text = "";
+        }
+        else
+        {
+            joinRoomNameInput.ActivateInputField();
         }
     }
 
