@@ -122,6 +122,24 @@ public class StorageManager : MonoBehaviour
         StoragePanel.Instance.UpdateUIs(item, GetProgress());
     }
 
+    public void RemoveItem(ItemSO item)
+    {
+        //아이템에 맞는 Amount클래스 찾아주고
+        ItemAmount maxAmount = FindItemAmount(true, item);
+        ItemAmount curAmount = FindItemAmount(false, item);
+
+        //0보다 작으면 안됨
+        if (curAmount.amount > 0)
+        {
+            //갯수만큼 빼준다
+            curAmount.amount--;
+
+            totalCollectedItemAmount--;
+        }
+
+        StoragePanel.Instance.UpdateUIs(item, GetProgress());
+    }
+
     public ItemAmount FindItemAmount(bool isMaxList, ItemSO item)
     {
         ItemAmount amount = isMaxList ? maxAmountItemList.Find(x => x.item.itemId == item.itemId) : curAmountItemList.Find(x => x.item.itemId == item.itemId);
