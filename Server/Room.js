@@ -203,6 +203,8 @@ class Room {
         this.playing = true;
         this.startTimer();
         this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
+
+        this.broadcast(JSON.stringify({type:"SET_VOTE_TIME",payload:JSON.stringify({voteTime:this.inVoteTimer.timeToNextSlot})}));
     }
     
     initRoom() {
@@ -229,7 +231,6 @@ class Room {
 
     startTimer() {
         //this.skipCount = 0;
-        console.log("startInGameTImer");
         this.stopTimer();
         this.expected = Date.now() + 1000; //현재시간 + 1초
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);

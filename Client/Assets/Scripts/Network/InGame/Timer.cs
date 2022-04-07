@@ -153,6 +153,12 @@ public class Timer : ISetAble
         remainEmergencyCoolTime = defaultEmergencyCoolTime;
     }
 
+    public void SetVoteTime(float time)
+    {
+        defaultVoteTimerMin = remainVoteTimerMin = time;
+        print(defaultVoteTimerMin);
+    }
+
     public void InitEmergencyCoolTime()
     {
         remainEmergencyCoolTime = defaultEmergencyCoolTime;
