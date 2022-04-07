@@ -280,7 +280,7 @@ class Room {
 
     voteTimer() {
         let dt = Date.now() - this.expected;
-        if(this.inVoteTimer.timeRefresh(this.socketList)) {
+        if(this.inVoteTimer.timeRefresh()) {
             if(!this.voteEnd()) {
                 this.voteTimeEnd();
                 console.log("changeTime - voteTimer");
