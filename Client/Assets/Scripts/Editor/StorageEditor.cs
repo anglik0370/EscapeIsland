@@ -10,6 +10,8 @@ public class StorageEditor : EditorWindow
     private ItemSO selectedItem;
     private int amount;
 
+    private bool fillAllOnce;
+
     [MenuItem("Debug Editor/Storage Editor")]
     public static void OpenEditor()
     {
@@ -35,11 +37,17 @@ public class StorageEditor : EditorWindow
 
             selectedItem = EditorGUILayout.ObjectField(selectedItem, typeof(ItemSO), false) as ItemSO;
 
-            amount = EditorGUILayout.IntField(amount, GUILayout.Width(30f));
+            amount = EditorGUILayout.IntField(amount, GUILayout.Width(40f));
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(10.0f);
+
+            GUILayout.BeginHorizontal();
 
             if (GUILayout.Button("Add"))
             {
-                if(selectedItem != null && !selectedItem.canRefining)
+                if (selectedItem != null && !selectedItem.canRefining)
                 {
                     for (int i = 0; i < amount; i++)
                     {
@@ -48,17 +56,29 @@ public class StorageEditor : EditorWindow
                 }
             }
 
+            if (GUILayout.Button("Remove"))
+            {
+                if (selectedItem != null && !selectedItem.canRefining)
+                {
+                    for (int i = 0; i < amount; i++)
+                    {
+                        StorageManager.Instance.RemoveItem(selectedItem);
+                    }
+                }
+            }
+
             GUILayout.EndHorizontal();
 
-            GUILayout.Space(10.0f);
+            EditorGUILayout.HelpBox("아이템을 한번에 모두 채우려면 아래의 버튼을 누르세요", MessageType.Info);
 
-            GUILayout.BeginHorizontal();
-
-            GUILayout.Label("Add AllItem");
-
-            if (GUILayout.Button("Excute"))
+            if(GUILayout.Button("Fill All Item"))
             {
-                StorageManager.Instance.FillAllItem();
+                if (!fillAllOnce)
+                {
+                    StorageManager.Instance.FillAllItem();
+
+                    fillAllOnce = true;
+                }
             }
         }
         else
@@ -76,16 +96,19 @@ public class StorageEditor : EditorWindow
         EventManager.SubGameStart(p =>
         {
             isGameStarted = true;
+            fillAllOnce = false;
         });
 
         EventManager.SubGameOver(goc =>
         {
             isGameStarted = false;
+            fillAllOnce = false;
         });
 
         EventManager.SubExitRoom(() =>
         {
             isGameStarted = false;
+            fillAllOnce = false;
         });
     }
 }
