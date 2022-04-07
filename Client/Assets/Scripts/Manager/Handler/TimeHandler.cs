@@ -102,6 +102,7 @@ public class TimeHandler : MonoBehaviour
     {
         curkillCoolTime = killCoolTime;
         isKillAble = false;
+        isGameStarted = false;
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
     }
