@@ -3,7 +3,6 @@ const port = 31012;
 
 const {Rooms} = require('./Rooms.js');
 const {Users} = require('./Users.js');
-const SocketState = require('./Utils/SocketState.js');
 const fs = require('fs');
 
 let handlers = {};
@@ -48,12 +47,7 @@ function onMessage(socket,msg) {
     if(socket.readyState !== WebSocket.OPEN) return;
 
     if(handlers[data.type] !== undefined) {
-        if(isJsonString(data.payload)) {
-            handlers[data.type].act(socket,JSON.parse(data.payload));
-        }
-        else {
-            handlers[data.type].act(socket,data.payload);
-        }
+        handlers[data.type].act(socket,isJsonString(data.payload) ? JSON.parse(data.payload) : data.payload);
     }
 }
 
