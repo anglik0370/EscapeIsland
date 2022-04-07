@@ -16,7 +16,7 @@ public class VoteManager : ISetAble
     private bool needVoteDeadRefresh = false;
 
     public bool isVoteTime = false;
-    private bool isTextChange = false;
+    public bool isTextChange = false;
 
     private TimeVO timeVO;
     private VoteCompleteVO voteCompleteVO;
@@ -150,10 +150,9 @@ public class VoteManager : ISetAble
 
     IEnumerator TextChange(string msg)
     {
-        isTextChange = true;
         voteTab.ChangeMiddleText(msg);
-
-        yield return new WaitForSeconds(1f);
+        isTextChange = true;
+        yield return new WaitForSeconds(1.5f);
 
         isTextChange = false;
     }

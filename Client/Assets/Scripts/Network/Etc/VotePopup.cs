@@ -94,6 +94,7 @@ public class VotePopup : Popup
 
     public void ChangeMiddleText(string msg)
     {
+        if (VoteManager.Instance.isTextChange) return;
         middleText.text = msg;
     }
 

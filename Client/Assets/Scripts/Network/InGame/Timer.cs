@@ -136,7 +136,6 @@ public class Timer : ISetAble
         if(!isEmergencyAble && !VoteManager.Instance.isVoteTime)
         {
             remainEmergencyCoolTime -= Time.deltaTime;
-            print(remainEmergencyCoolTime);
             if(remainEmergencyCoolTime <= 0f)
             {
                 isEmergencyAble = true;
