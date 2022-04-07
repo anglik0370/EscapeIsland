@@ -14,7 +14,6 @@ public class VoteManager : ISetAble
     private bool needTimeRefresh = false;
     private bool needVoteComplete = false;
     private bool needVoteDeadRefresh = false;
-    private bool needSetVoteTime = false;
 
     public bool isVoteTime = false;
     public bool isTextChange = false;
@@ -64,15 +63,6 @@ public class VoteManager : ISetAble
         }
     }
 
-    public static void SetVoteTime(float voteTime)
-    {
-        lock(Instance.lockObj)
-        {
-            Instance.voteTime = voteTime;
-            Instance.needSetVoteTime = true;
-        }
-    }
-
     void Awake()
     {
         Instance = this;
@@ -110,17 +100,6 @@ public class VoteManager : ISetAble
             SetDeadRefresh();
             needVoteDeadRefresh = false;
         }
-
-        if(needSetVoteTime)
-        {
-            SetVoteTime();
-            needSetVoteTime = false;
-        }
-    }
-
-    public void SetVoteTime()
-    {
-        timer.SetVoteTime(voteTime);
     }
 
     public void SetDeadRefresh()
