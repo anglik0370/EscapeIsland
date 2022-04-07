@@ -1,4 +1,3 @@
-//const {Rooms} = require('./Rooms.js');
 const {Users} = require('./Users.js');
 const InGameTimer = require('./InGameTimer.js');
 const InVoteTimer = require('./InVoteTimer.js');
@@ -251,7 +250,7 @@ class Room {
     rTimer() {
         let dt = Date.now() - this.expected; //현재 시간 - 시작시간
 
-        this.inGameTimer.timeRefresh(this.socketList)
+        this.inGameTimer.timeRefresh(this);
 
         this.expected += this.interval;
 
