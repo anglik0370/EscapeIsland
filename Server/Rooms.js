@@ -158,7 +158,6 @@ class Rooms {
         socket.state = SocketState.IN_ROOM;
 
         if(user !== undefined){
-            //user.roomNum = this.roomIdx;
             user.roomNum = socket.room;
             user.master = isMaster;
             user.position = GetRandomPos();

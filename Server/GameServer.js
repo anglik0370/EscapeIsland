@@ -26,21 +26,7 @@ wsService.on("connection", socket => {
 
     socket.on("close", () => {
         console.log(`소켓 연결 해제 id: ${socket.id}`);
-        let roomNum = socket.room; //현재 소켓의 룸 idx를 받아옴
-        //현재 socket이 룸에 들어가 있다면
-        if(socket.room > 0 && socket.state === SocketState.IN_ROOM) {
-            Rooms.exit(socket,roomNum); //방 나가기
-            sendClients(roomNum);
-        }
-        //현재 socket의 state가 IN_PLAYING일때
-        if(socket.state === SocketState.IN_PLAYING) {
-            if(socket.room > 0) {
-                Rooms.exit(socket,roomNum);
-            }
-            sendClients(roomNum);
-        }
-        delete Users.connectedSocket[socket.id];
-        delete Users.userList[socket.id];
+        Users.disconnect(socket,wsService,Rooms);
     });
 
     socket.on("message",  msg => {
@@ -69,17 +55,6 @@ function onMessage(socket,msg) {
             handlers[data.type].act(socket,data.payload);
         }
     }
-}
-
-function sendClients(roomNum) {
-    wsService.clients.forEach(soc=>{
-        if(soc.state === SocketState.IN_LOBBY) {
-            Rooms.refreshRoom(soc);
-        }
-        if(soc.room === roomNum) {
-            Rooms.roomBroadcast(roomNum);
-        }
-    })
 }
 
 function isJsonString(str) {

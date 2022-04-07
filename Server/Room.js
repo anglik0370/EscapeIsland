@@ -42,14 +42,12 @@ class Room {
     }
 
     voteEnd() {
-        let keys = Object.keys(this.userList);
         let allComplete = true;
         let targetSocIdArr = [];
 
         let isTest = false;
 
         for(let key in this.userList) {
-            console.log(key);
             if(key >= 1000) {
                 isTest = true;
                 break;
@@ -66,8 +64,8 @@ class Room {
         if(allComplete || isTest) {
             let dummy = -1;
     
-            for(let i = 0; i < keys.length; i++) {
-                let user = this.userList[keys[i]];
+            for(let key in this.userList) {
+                let user = this.userList[key];
                 let idx = user.voteNum;
     
                 if(dummy != 0 &&  idx == dummy) {
@@ -79,8 +77,8 @@ class Room {
                     targetSocIdArr.push(user.socketId);
                 }
     
-                this.userList[keys[i]].voteNum = 0;
-                this.userList[keys[i]].voteComplete = false;
+                this.userList[key].voteNum = 0;
+                this.userList[key].voteComplete = false;
             }
             this.skipCount = 0;
             this.inVoteTimer.initTime();
@@ -116,12 +114,10 @@ class Room {
             this.voteTimeEnd();
             return true;
         }
-
         return false;
     }
 
     voteTimeEnd() {
-        //this.broadcast(JSON.stringify({type:"VOTE_TIME_END",payload:""}));
         this.startTimer();
     }
 
@@ -129,15 +125,15 @@ class Room {
         let imposterCount = 0;
         let citizenCount = 0;
     
-        let keys = Object.keys(this.userList);
     
-        for(let i = 0; i < keys.length; i++) {
-            if(this.userList[keys[i]].isDie) continue;
+        for(let key in this.userList) {
+            if(this.userList[key].isDie) continue;
     
-            if(this.userList[keys[i]].isImposter) imposterCount++;
+            if(this.userList[key].isImposter) imposterCount++;
             else citizenCount++;
         }
     
+        let keys = Object.keys(this.userList);
         let posList = SetSpawnPoint(keys.length);
     
         for(let i = 0; i < keys.length; i++) {
@@ -148,12 +144,10 @@ class Room {
         //살아있는 임포가 시민보다 많을 경우
         if(imposterCount >= citizenCount) {
             //임포승
-            console.log("다주것다");
             this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
             this.initRoom();
             return true;
         }
-        console.log("아직 남았다");
         return false;
     }
 
@@ -185,12 +179,6 @@ class Room {
             this.userList[keys[idx]].isImposter = true;
         }
     
-        //Rooms.roomBroadcast(this.roomNum);
-        //let d = Object.values(this.userList);
-        //this.broadcast(JSON.stringify({type:"REFRESH_MASTER",payload:JSON.stringify({dataList:d})}));
-    
-        //룸에 있는 플레이어들의 포지션 조정
-    
         let posList = SetSpawnPoint(keys.length);
     
         for(let i = 0; i < keys.length; i++) {
@@ -203,8 +191,6 @@ class Room {
         this.playing = true;
         this.startTimer();
         this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
-
-        
     }
     
     initRoom() {
@@ -225,6 +211,7 @@ class Room {
             this.userList[key].isImposter = false;
             this.userList[key].voteNum = 0;
             this.userList[key].voteComplete = false;
+            this.userList[key].isInside = false;
         }
 
     }
@@ -237,7 +224,6 @@ class Room {
     }
 
     startTimer() {
-        //this.skipCount = 0;
         this.stopTimer();
         this.expected = Date.now() + 1000; //현재시간 + 1초
         this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
@@ -245,7 +231,6 @@ class Room {
     }
 
     startVoteTimer() {
-        //this.inVoteTimer.initTime();
         this.stopTimer();
         this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval);
         this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:true})}));
@@ -266,13 +251,11 @@ class Room {
         if(!this.isInitRoom) {
             this.curTimer = setTimeout(this.rTimer.bind(this),this.nextTime);
         }
-        //console.log("refreshTime");
         this.isInitRoom = false;
     }
 
     changeTime() {
         this.inVoteTimer.initTime();
-        //this.skipCount = 0;
         let p = this.inGameTimer.returnPayload();
         console.log("time refresh - changeTime");
         this.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:p}));
