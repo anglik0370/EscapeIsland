@@ -35,6 +35,9 @@ public class MissionCoconut : MonoBehaviour
     [SerializeField]
     private int touchCount;
 
+    [Header("ÀèÆÌ È®·ü")]
+    private float jackPotPercent = 50;
+
     private void Awake()
     {
         coconutPalmList = new List<CoconutPalm>();
@@ -62,6 +65,17 @@ public class MissionCoconut : MonoBehaviour
         coconutPalmList.ForEach(x => x.Init());
     }
 
+    public void Init()
+    {
+        touchScreen.SubTouchEvent(AddTouchCount);
+        coconutPalmList.ForEach(x => x.Init());
+
+        for (int i = 0; i < palmTrmList.Count; i++)
+        {
+            palmTrmList[i].anchoredPosition = originPalmPosList[i];
+        }
+    }
+
     private void AddTouchCount()
     {
         CoconutPalm coconutPalm = coconutPalmList.Find(x => !x.IsDropped);
@@ -70,7 +84,14 @@ public class MissionCoconut : MonoBehaviour
         {
             if ((touchCount + 1) >= maxTouch)
             {
-                coconutPalm.Drop(dropPointY);
+                if(Random.GetResult(50f))
+                {
+                    coconutPalmList.ForEach(x => x.Drop(dropPointY));
+                }
+                else
+                {
+                    coconutPalm.Drop(dropPointY);
+                }
 
                 touchCount = 0;
                 return;

@@ -6,32 +6,34 @@ using UnityEngine.UI;
 
 public class MissionDropItemSlot : ItemSlot
 {
-    private Sprite originSprite;
-    private Sprite itemSprite;
+    private Color visibleColor = Color.white;
+    private Color invisibleColor = new Color(0, 0, 0, 0);
 
     protected override void Awake()
     {
         image = GetComponent<Image>();
+    }
 
-        originSprite = image.sprite;
-        itemSprite = item.itemSprite;
+    public void Init()
+    {
+        image.color = visibleColor;
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
         base.OnBeginDrag(eventData);
-        image.sprite = null;
+        image.color = invisibleColor;
     }
 
     public override void OnEndDrag(PointerEventData eventData)
     {
         base.OnEndDrag(eventData);
-        image.sprite = image.raycastTarget ? originSprite : null;
+        image.color = image.raycastTarget ? visibleColor : invisibleColor;
     }
 
     public void Disable()
     {
+        image.color = invisibleColor;
         image.raycastTarget = false;
-        image.sprite = null;
     }
 }

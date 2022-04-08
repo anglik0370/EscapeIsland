@@ -8,6 +8,7 @@ public class CoconutPalm : MonoBehaviour
 {
     private RectTransform rect;
     private Image img;
+    private MissionDropItemSlot slot;
 
     [SerializeField]
     private bool isDroped;
@@ -17,12 +18,15 @@ public class CoconutPalm : MonoBehaviour
     {
         rect = GetComponent<RectTransform>();
         img = GetComponent<Image>();
+        slot = GetComponent<MissionDropItemSlot>();
     }
 
     public void Init()
     {
         isDroped = false;
         img.raycastTarget = false;
+
+        slot.Init();
     }
 
     public void Drop(float y)

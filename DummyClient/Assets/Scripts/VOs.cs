@@ -94,3 +94,19 @@ public class VoteCompleteVO
         this.voteTargetId = voteTargetId;
     }
 }
+
+[Serializable]
+public class WinVO
+{
+    public int goc;
+
+    public WinVO()
+    {
+
+    }
+
+    public WinVO(int goc)
+    {
+        this.goc = goc;
+    }
+}
