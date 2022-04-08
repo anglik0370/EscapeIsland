@@ -117,6 +117,21 @@ class Room {
         return false;
     }
 
+    endGameHandle(goc) {
+        let keys = Object.keys(this.userList);
+        let posList = SetSpawnPoint(keys.length);
+
+        for(let i = 0; i < keys.length; i++) {
+            this.userList[keys[i]].position = posList[i];
+        }
+        
+        let dataList = Object.values(this.userList);
+
+        this.broadcast(goc <= 0 ? JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:goc})})
+        : JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:goc})}),true);
+        this.initRoom();
+    }
+
     voteTimeEnd() {
         this.startTimer();
     }

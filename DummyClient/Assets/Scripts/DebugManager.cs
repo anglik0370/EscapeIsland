@@ -15,6 +15,7 @@ public enum SendType
     EMERGENCY,
     VOTE,
     ISINSIDE,
+    WIN,
 }
 
 public class DebugManager : MonoBehaviour
@@ -56,6 +57,9 @@ public class DebugManager : MonoBehaviour
 
     [Header("커버 관련 UI들")]
     public Toggle isInsideToggle;
+
+    [Header("Win 관련 UI들")]
+    public InputField gocInputField;
 
     private void Awake()
     {
@@ -207,6 +211,14 @@ public class DebugManager : MonoBehaviour
         vo.isInside = isInsideToggle.isOn;
 
         DataVO dataVO = new DataVO("INSIDE_REFRESH", JsonUtility.ToJson(vo));
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    private void WIN()
+    {
+        WinVO vo = new WinVO(int.Parse(gocInputField.text));
+
+        DataVO dataVO = new DataVO("WIN", JsonUtility.ToJson(vo));
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 }
