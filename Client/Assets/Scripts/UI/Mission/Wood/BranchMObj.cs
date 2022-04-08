@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class WoodBranch : MonoBehaviour
+public class BranchMObj : MonoBehaviour
 {
     [SerializeField]
     private Transform startPoint;

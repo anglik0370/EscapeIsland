@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class CoconutPalm : MonoBehaviour
+public class CoconutMObj : MonoBehaviour
 {
     private RectTransform rect;
     private Image img;

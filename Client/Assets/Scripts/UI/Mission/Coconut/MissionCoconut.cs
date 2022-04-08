@@ -8,7 +8,7 @@ public class MissionCoconut : MonoBehaviour
 {
     private TouchScreen touchScreen;
 
-    private List<CoconutPalm> coconutPalmList;
+    private List<CoconutMObj> coconutPalmList;
 
     [SerializeField]
     private RectTransform treeTrm;
@@ -40,11 +40,11 @@ public class MissionCoconut : MonoBehaviour
 
     private void Awake()
     {
-        coconutPalmList = new List<CoconutPalm>();
+        coconutPalmList = new List<CoconutMObj>();
         originPalmPosList = new List<Vector2>();
 
         touchScreen = GetComponentInChildren<TouchScreen>();
-        coconutPalmList = GetComponentsInChildren<CoconutPalm>().ToList();
+        coconutPalmList = GetComponentsInChildren<CoconutMObj>().ToList();
 
         for (int i = 0; i < coconutPalmList.Count; i++)
         {
@@ -78,7 +78,7 @@ public class MissionCoconut : MonoBehaviour
 
     private void AddTouchCount()
     {
-        CoconutPalm coconutPalm = coconutPalmList.Find(x => !x.IsDropped);
+        CoconutMObj coconutPalm = coconutPalmList.Find(x => !x.IsDropped);
 
         if (coconutPalm != null)
         {

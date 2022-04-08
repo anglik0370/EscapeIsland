@@ -6,10 +6,10 @@ using System.Linq;
 public class MissionWood : MonoBehaviour
 {
     [SerializeField]
-    private List<WoodBranch> brnachList;
+    private List<BranchMObj> brnachList;
 
     private void Awake()
     {
-        brnachList = GetComponentsInChildren<WoodBranch>().ToList();
+        brnachList = GetComponentsInChildren<BranchMObj>().ToList();
     }
 }
