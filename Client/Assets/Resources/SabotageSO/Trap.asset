@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d2e93c9127ee54388bcf1915455320, type: 3}
   m_Name: Trap
   m_EditorClassIdentifier: 
-  canSharing: 0
-  coolTime: 60
+  sabotageName: 
+  coolTime: 120
+  isShareCoolTime: 0
   sabotageSprite: {fileID: 0}
+  callback:
+    m_PersistentCalls:
+      m_Calls: []
