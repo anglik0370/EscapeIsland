@@ -190,4 +190,13 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendSabotage(bool isShareCoolTime, string sabotageName)
+    {
+        SabotageVO vo = new SabotageVO(isShareCoolTime, sabotageName);
+
+        DataVO dataVO = new DataVO("SABOTAGE", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }

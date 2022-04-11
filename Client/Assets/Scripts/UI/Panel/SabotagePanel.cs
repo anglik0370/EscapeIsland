@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class SabotagePanel : Panel
 {
+    public static SabotagePanel Instance { get; private set; }
+
     private SabotageButton sabotageBtnPrefab;
     private List<SabotageSO> sabotageSOList;
     private List<SabotageButton> sabotageList = new List<SabotageButton>();
 
     protected override void Awake()
     {
+        Instance = this;
+
         sabotageBtnPrefab = Resources.Load<SabotageButton>("UI/SabotageBtn");
 
         sabotageSOList = Resources.LoadAll<SabotageSO>("SabotageSO/").ToList();
@@ -52,5 +56,10 @@ public class SabotagePanel : Panel
         {
             sabotageList[i].StartTimer();
         }
+    }
+
+    public SabotageButton FindSabotageButton(string sabotageName)
+    {
+        return sabotageList.Find(x => x.SabotageSO.sabotageName == sabotageName);
     }
 }
