@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sabotage : ISetAble
 {
-    public SabotageVO sabotageData;
+    private SabotageVO sabotageData;
 
     private bool needSabotageRefresh = false;
 
