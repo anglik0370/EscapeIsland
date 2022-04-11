@@ -52,7 +52,7 @@ public class SlotManager : MonoBehaviour
 
     public void EndDrag()
     {
-        if(endSlot != null)
+        if(endSlot != null && beginSlot != null)
         {
             if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.Inventory)
             {

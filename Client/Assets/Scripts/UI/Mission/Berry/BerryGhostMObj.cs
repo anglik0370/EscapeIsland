@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,9 +26,16 @@ public class BerryGhostMObj : MonoBehaviour
         img.color = UtilClass.opacityColor;
     }
 
-    public void Disable()
+    public void Disable(bool isTweening)
     {
-        img.color = UtilClass.limpidityColor;
+        if(isTweening)
+        {
+            img.DOColor(UtilClass.limpidityColor, 0.5f);
+        }
+        else
+        {
+            img.color = UtilClass.limpidityColor;
+        }
     }
 
     public void Move(Vector2 point)

@@ -8,7 +8,7 @@ public class UtilClass
     public static Color opacityColor = new Color(1, 1, 1, 1);
 
     //최소 확률은 1%임
-    public static bool GetRandomResult(float percent)
+    public static bool GetResult(float percent)
     {
         if (percent < 1)
         {

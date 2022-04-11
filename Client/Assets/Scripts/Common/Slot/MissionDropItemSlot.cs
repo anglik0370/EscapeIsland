@@ -19,6 +19,17 @@ public class MissionDropItemSlot : ItemSlot
         image.color = visibleColor;
     }
 
+    public void SetRaycastTarget(bool value)
+    {
+        image.raycastTarget = value;
+    }
+
+    public void Disable()
+    {
+        image.color = invisibleColor;
+        image.raycastTarget = false;
+    }
+
     public override void OnBeginDrag(PointerEventData eventData)
     {
         base.OnBeginDrag(eventData);
@@ -29,11 +40,5 @@ public class MissionDropItemSlot : ItemSlot
     {
         base.OnEndDrag(eventData);
         image.color = image.raycastTarget ? visibleColor : invisibleColor;
-    }
-
-    public void Disable()
-    {
-        image.color = invisibleColor;
-        image.raycastTarget = false;
     }
 }

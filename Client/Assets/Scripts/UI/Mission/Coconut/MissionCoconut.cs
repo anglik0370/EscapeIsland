@@ -61,8 +61,7 @@ public class MissionCoconut : MonoBehaviour
 
     private void Start()
     {
-        touchScreen.SubTouchEvent(AddTouchCount);
-        coconutPalmList.ForEach(x => x.Init());
+        Init();
     }
 
     public void Init()
@@ -84,7 +83,7 @@ public class MissionCoconut : MonoBehaviour
         {
             if ((touchCount + 1) >= maxTouch)
             {
-                if(UtilClass.GetRandomResult(jackPotPercent))
+                if(UtilClass.GetResult(jackPotPercent))
                 {
                     coconutPalmList.ForEach(x => x.Drop(dropPointY));
                 }
