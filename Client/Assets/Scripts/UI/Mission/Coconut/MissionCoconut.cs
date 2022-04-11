@@ -36,6 +36,7 @@ public class MissionCoconut : MonoBehaviour
     private int touchCount;
 
     [Header("ÀèÆÌ È®·ü")]
+    [SerializeField]
     private float jackPotPercent = 50;
 
     private void Awake()
