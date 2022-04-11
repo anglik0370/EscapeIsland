@@ -11,8 +11,15 @@ public class BerryMObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private MissionBerry missionBerry;
 
+    public RectTransform Rect => rect;
+    public Sprite ItemSprite => img.sprite;
+
     [SerializeField]
     private Vector2 originPos;
+
+    [SerializeField]
+    private int berryId;
+    public int BerryId => berryId;
 
     private void Awake()
     {
@@ -27,18 +34,25 @@ public class BerryMObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         originPos = rect.anchoredPosition;
     }
 
+    public void MoveBasketPoint(Vector3 point)
+    {
+        rect.position = point;
+        img.raycastTarget = false;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        missionBerry.SetCurMovingObj(this);
+        missionBerry.SetCurBerryObj(this);
+        img.color = UtilClass.limpidityColor;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rect.position = eventData.position;
+        missionBerry.MoveBerryGhost(eventData.position);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //rect.anchoredPosition = originPos;
+        img.color = UtilClass.opacityColor;
     }
 }

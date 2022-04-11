@@ -7,6 +7,7 @@ public class SabotageButton : MonoBehaviour
 {
     [SerializeField]
     private SabotageSO sabotageSO;
+    public SabotageSO SabotageSO => sabotageSO;
 
     [SerializeField]
     private Button sabotageBtn;
@@ -29,7 +30,13 @@ public class SabotageButton : MonoBehaviour
 
     private void Start()
     {
-        sabotageBtn.onClick.AddListener(StartSabotage);
+        sabotageBtn.onClick.AddListener(SendSabotage);
+
+        EventManager.SubGameStart(p =>
+        {
+            sabotageBtn.enabled = true;
+            fillImg.fillAmount = curCoolTime = 0f;
+        });
     }
 
     public void StartTimer()
@@ -62,12 +69,16 @@ public class SabotageButton : MonoBehaviour
         }
     }
 
-    private void StartSabotage()
+    public void StartSabotage()
     {
         sabotageBtn.enabled = false;
         curCoolTime = maxCoolTime;
+    }
 
-        //해줄것들
-        sabotageSO.callback?.Invoke();
+    private void SendSabotage()
+    {
+        ////해줄것들
+
+        SendManager.Instance.SendSabotage(sabotageSO.isShareCoolTime, sabotageSO.sabotageName);
     }
 }

@@ -84,7 +84,7 @@ public class MissionCoconut : MonoBehaviour
         {
             if ((touchCount + 1) >= maxTouch)
             {
-                if(Random.GetResult(50f))
+                if(UtilClass.GetRandomResult(jackPotPercent))
                 {
                     coconutPalmList.ForEach(x => x.Drop(dropPointY));
                 }

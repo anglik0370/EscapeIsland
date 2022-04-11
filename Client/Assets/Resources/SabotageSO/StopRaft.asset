@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d2e93c9127ee54388bcf1915455320, type: 3}
   m_Name: StopRaft
   m_EditorClassIdentifier: 
-  canSharing: 1
-  coolTime: 240
+  sabotageName: StopRaft
+  coolTime: 480
+  isShareCoolTime: 1
   sabotageSprite: {fileID: 0}
+  callback:
+    m_PersistentCalls:
+      m_Calls: []

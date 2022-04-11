@@ -16,6 +16,7 @@ public enum SendType
     VOTE,
     ISINSIDE,
     WIN,
+    SABOTAGE,
 }
 
 public class DebugManager : MonoBehaviour
@@ -60,6 +61,10 @@ public class DebugManager : MonoBehaviour
 
     [Header("Win 관련 UI들")]
     public InputField gocInputField;
+
+    [Header("사보타지 관련 UI들")]
+    public InputField sabotageNameInputField;
+    public Toggle isShareCoolTimeToggle;
 
     private void Awake()
     {
@@ -219,6 +224,15 @@ public class DebugManager : MonoBehaviour
         WinVO vo = new WinVO(int.Parse(gocInputField.text));
 
         DataVO dataVO = new DataVO("WIN", JsonUtility.ToJson(vo));
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    private void SABOTAGE()
+    {
+        SabotageVO vo = new SabotageVO(isShareCoolTimeToggle.isOn, sabotageNameInputField.text);
+
+        DataVO dataVO = new DataVO("SABOTAGE", JsonUtility.ToJson(vo));
+
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 }

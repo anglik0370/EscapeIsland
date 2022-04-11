@@ -118,6 +118,8 @@ class Room {
     }
 
     endGameHandle(goc) {
+        if(goc > 2) return;
+
         let keys = Object.keys(this.userList);
         let posList = SetSpawnPoint(keys.length);
 

@@ -16,23 +16,42 @@ public class MissionBerry : MonoBehaviour
     private int dropCount;
 
     [SerializeField]
-    private BerryMObj curMoveingObj;
+    private BerryMObj curBerryMObj;
+
+    [SerializeField]
+    private BerryGhostMObj berryGhost;
 
     private void Awake()
     {
         basketTrmList = basketPosParent.GetComponentsInChildren<Transform>().ToList();
+        basketTrmList.RemoveAt(0);
     }
 
-    public void SetCurMovingObj(BerryMObj berryMObj)
+    public void SetCurBerryObj(BerryMObj berryMObj)
     {
-        curMoveingObj = berryMObj;
+        curBerryMObj = berryMObj;
+
+        berryGhost.Init(curBerryMObj.ItemSprite, curBerryMObj.Rect);
     }
 
-    public void MoveToBasketTrm()
+    public void MoveBerryGhost(Vector3 point)
     {
-        if (curMoveingObj == null) return;
+        berryGhost.Move(point);
+    }
 
-        curMoveingObj.transform.position = basketTrmList[dropCount].position;
-        dropCount++;
+    public void EndDrag(bool isBasket)
+    {
+        if(isBasket)
+        {
+            curBerryMObj.MoveBasketPoint(basketTrmList[curBerryMObj.BerryId].position);
+            dropCount++;
+
+            if(dropCount == basketTrmList.Count)
+            {
+                //다 담긴 경우 이제 가져갈 수 있는 배리로 바꿔주면 된다
+            }
+        }
+
+        berryGhost.Disable();
     }
 }

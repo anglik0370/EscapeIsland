@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BasketMObj : MonoBehaviour, IDragHandler, IDropHandler
+public class DropScreenMObj : MonoBehaviour, IDragHandler, IDropHandler
 {
     private MissionBerry missionBerry;
 
@@ -19,6 +19,6 @@ public class BasketMObj : MonoBehaviour, IDragHandler, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        missionBerry.EndDrag(true);
+        missionBerry.EndDrag(false);
     }
 }
