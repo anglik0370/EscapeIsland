@@ -32,28 +32,66 @@ public class MissionPanel : Panel
         missionList = missionParentTrm.GetComponentsInChildren<IMission>().ToList();
     }
 
-    public void Open(MissionType type)
+    private void Start()
     {
-
+        for (int i = 0; i < missionList.Count; i++)
+        {
+            UtilClass.SetCanvasGroup(missionList[i].Cvs);
+        }
     }
 
-    private void SetMission(IMission mission)
+    public void Open(MissionType type)
     {
-        if(oldMission == null)
+        IMission mission = null;
+
+        for (int i = 0; i < missionList.Count; i++)
+        {
+            if(missionList[i].MissionType == type)
+            {
+                mission = missionList[i];
+                break;
+            }
+        }
+
+        if(mission == null)
+        {
+            print("이게 왜 널?");
+            return;
+        }
+
+        if (oldMission == null)
         {
             oldMission = mission;
         }
 
-        if(oldMission.MissionType != mission.MissionType)
+        if (oldMission.MissionType != mission.MissionType)
         {
-            for (int i = 0; i < missionList.Count; i++)
-            {
-                missionList[i].Cvs.alpha = 0;
-                missionList[i].Cvs.blocksRaycasts = false;
-                missionList[i].Cvs.interactable = false;
-            }
+            UtilClass.SetCanvasGroup(oldMission.Cvs);
         }
 
-        mission.Cvs.alpha = 1f;
+        UtilClass.SetCanvasGroup(mission.Cvs, 1, true, true);
+
+        oldMission = mission;
+
+        base.Open();
+    }
+
+    public override void Close(bool isTweenSkip = false)
+    {
+        oldMission.Init();
+
+        UtilClass.SetCanvasGroup(oldMission.Cvs);
+
+        base.Close(isTweenSkip);
+    }
+
+    public void OpenCoconut()
+    {
+        Open(MissionType.Coconut);
+    }
+
+    public void OpenBerry()
+    {
+        Open(MissionType.Berry);
     }
 }
