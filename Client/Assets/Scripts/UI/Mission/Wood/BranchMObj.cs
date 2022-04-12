@@ -70,7 +70,10 @@ public class BranchMObj : MonoBehaviour
     {
         img.sprite = itemSprite;
 
-        rect.DOAnchorPos(dropPoint, 0.5f).OnComplete(() => img.raycastTarget = true);
+        img.color = UtilClass.limpidityColor;
+        img.DOColor(UtilClass.opacityColor, 0.5f);
+
+        rect.DOAnchorPos(dropPoint, 0.8f).OnComplete(() => img.raycastTarget = true).SetEase(Ease.InCubic);
         rect.sizeDelta = new Vector2(100, 100);
 
         isDropped = true;

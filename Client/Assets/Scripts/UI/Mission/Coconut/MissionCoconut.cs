@@ -73,12 +73,12 @@ public class MissionCoconut : MonoBehaviour, IMission
 
     private void Start()
     {
+        touchScreen.SubTouchEvent(AddTouchCount);
         Init();
     }
 
     public void Init()
     {
-        touchScreen.SubTouchEvent(AddTouchCount);
         coconutPalmList.ForEach(x => x.Init());
 
         for (int i = 0; i < palmTrmList.Count; i++)
@@ -112,6 +112,8 @@ public class MissionCoconut : MonoBehaviour, IMission
 
             ShakeTree();
             touchCount++;
+
+            print(touchCount);
         }
     }
 
