@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class UtilClass
 {
+    /// <summary>
+    /// 투명한 색입니다
+    /// </summary>
     public static Color limpidityColor = new Color(0, 0, 0, 0);
+    /// <summary>
+    /// 흰색입니다
+    /// </summary>
     public static Color opacityColor = new Color(1, 1, 1, 1);
 
-    //최소 확률은 1%임
+    /// <summary>
+    /// Percent를 입력받아 확률을 계산합니다
+    /// </summary>
+    /// <param name="percent">확률</param>
+    /// <returns>확률에 따른 성공, 실패를 반환합니다</returns>
     public static bool GetResult(float percent)
     {
         if (percent < 1)
@@ -28,6 +38,14 @@ public class UtilClass
         return result;
     }
 
+    /// <summary>
+    /// 캔버스 그룹을 컨트롤하기 편하게 해주는 함수입니다
+    /// (기본은 끄는 기능)
+    /// </summary>
+    /// <param name="cvs">컨트롤할 캔버스 그룹</param>
+    /// <param name="alpha">투명도</param>
+    /// <param name="blockRaycasts">BlockRaycast 여부</param>
+    /// <param name="interactable">상호작용 가능 여부</param>
     public static void SetCanvasGroup(CanvasGroup cvs, float alpha = 0, bool blockRaycasts = false, bool interactable = false)
     {
         cvs.alpha = alpha;
