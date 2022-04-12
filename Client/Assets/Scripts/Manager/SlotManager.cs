@@ -119,11 +119,13 @@ public class SlotManager : MonoBehaviour
             else if(beginSlot.Kind == ItemSlot.SlotKind.MissionDropItem && endSlot.Kind == ItemSlot.SlotKind.Inventory)
             {
                 //MissionItem to Inventory
+                if(endSlot.IsEmpty)
+                {
+                    endSlot.SetItem(beginSlot.GetItem());
 
-                endSlot.SetItem(beginSlot.GetItem());
-
-                MissionDropItemSlot slot = beginSlot as MissionDropItemSlot;
-                slot.Disable();
+                    MissionDropItemSlot slot = beginSlot as MissionDropItemSlot;
+                    slot.Disable();
+                }
             }
         }
 
