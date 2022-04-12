@@ -4,18 +4,27 @@ using UnityEngine;
 using System.Linq;
 using DG.Tweening;
 
-public class MissionCoconut : MonoBehaviour
+public class MissionCoconut : MonoBehaviour, IMission
 {
     private TouchScreen touchScreen;
 
     private List<CoconutMObj> coconutPalmList;
 
+    private CanvasGroup cvs;
+    public CanvasGroup Cvs => cvs;
+
     [SerializeField]
     private RectTransform treeTrm;
     private Vector2 originTreePos;
+
     [SerializeField]
     private List<RectTransform> palmTrmList;
     private List<Vector2> originPalmPosList;
+
+    [Header("미션 타입")]
+    [SerializeField]
+    private MissionType missionType;
+    public MissionType MissionType => MissionType;
 
     [Header("흔드는 연출 관련")]
     [SerializeField]
@@ -46,6 +55,8 @@ public class MissionCoconut : MonoBehaviour
 
         touchScreen = GetComponentInChildren<TouchScreen>();
         coconutPalmList = GetComponentsInChildren<CoconutMObj>().ToList();
+
+        cvs = GetComponent<CanvasGroup>();
 
         for (int i = 0; i < coconutPalmList.Count; i++)
         {

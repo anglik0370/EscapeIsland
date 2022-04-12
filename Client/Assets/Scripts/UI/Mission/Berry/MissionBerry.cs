@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MissionBerry : MonoBehaviour
+public class MissionBerry : MonoBehaviour, IMission
 {
+    private CanvasGroup cvs;
+    public CanvasGroup Cvs => cvs;
+
+    [Header("컴포넌트 가져올 때 쓰는 부모 Transform")]
     [SerializeField]
     private Transform basketPosParent;
     [SerializeField]
@@ -12,23 +16,26 @@ public class MissionBerry : MonoBehaviour
     [SerializeField]
     private Transform slotParent;
 
-    [SerializeField]
     private List<Transform> basketTrmList;
-    [SerializeField]
     private List<BerryMObj> berryList;
-    [SerializeField]
     private List<MissionDropItemSlot> berrySlotList;
 
+    [Header("바구니 관련")]
     [SerializeField]
     private BasketMObj basketMObj;
     [SerializeField]
     private int dropCount;
 
+    [Header("베리 이동 관련")]
     [SerializeField]
     private BerryMObj curBerryMObj;
-
     [SerializeField]
     private BerryGhostMObj berryGhost;
+
+    [Header("미션 타입")]
+    [SerializeField]
+    private MissionType missionType;
+    public MissionType MissionType => MissionType;
 
     [Header("잭팟 확률")]
     [SerializeField]
@@ -36,6 +43,8 @@ public class MissionBerry : MonoBehaviour
 
     private void Awake()
     {
+        cvs = GetComponent<CanvasGroup>();
+
         basketTrmList = basketPosParent.GetComponentsInChildren<Transform>().ToList();
         basketTrmList.RemoveAt(0);
 
