@@ -24,7 +24,7 @@ public class MissionCoconut : MonoBehaviour, IMission
     [Header("미션 타입")]
     [SerializeField]
     private MissionType missionType;
-    public MissionType MissionType => MissionType;
+    public MissionType MissionType => missionType;
 
     [Header("흔드는 연출 관련")]
     [SerializeField]
@@ -85,6 +85,8 @@ public class MissionCoconut : MonoBehaviour, IMission
         {
             palmTrmList[i].anchoredPosition = originPalmPosList[i];
         }
+
+        touchCount = 0;
     }
 
     private void AddTouchCount()

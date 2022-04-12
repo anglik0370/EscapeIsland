@@ -35,7 +35,7 @@ public class MissionBerry : MonoBehaviour, IMission
     [Header("¹Ì¼Ç Å¸ÀÔ")]
     [SerializeField]
     private MissionType missionType;
-    public MissionType MissionType => MissionType;
+    public MissionType MissionType => missionType;
 
     [Header("ÀèÆÌ È®·ü")]
     [SerializeField]
