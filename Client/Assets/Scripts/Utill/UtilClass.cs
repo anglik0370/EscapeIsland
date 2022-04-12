@@ -27,4 +27,11 @@ public class UtilClass
         }
         return result;
     }
+
+    public static void SetCanvasGroup(CanvasGroup cvs, float alpha = 0, bool blockRaycasts = false, bool interactable = false)
+    {
+        cvs.alpha = alpha;
+        cvs.blocksRaycasts = blockRaycasts;
+        cvs.interactable = interactable;
+    }
 }
