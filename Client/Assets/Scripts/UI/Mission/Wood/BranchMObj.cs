@@ -4,12 +4,6 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public enum BranchMObjType
-{
-    Horizontal,
-    Vertical,
-}
-
 public class BranchMObj : MonoBehaviour
 {
     private Image img;
@@ -26,6 +20,10 @@ public class BranchMObj : MonoBehaviour
     public int Id => id;
 
     [SerializeField]
+    private bool isDropped = false;
+    public bool IsDropped => isDropped;
+
+    [SerializeField]
     private Sprite itemSprite;
     private Sprite originSprite;
 
@@ -37,18 +35,14 @@ public class BranchMObj : MonoBehaviour
     public Vector2 BeginPoint => beginPoint;
     public Vector2 EndPoint => endPoint;
 
-    [SerializeField]
-    private BranchMObjType type;
-    public BranchMObjType Type => type;
-
     private void Awake()
     {
         img = GetComponent<Image>();
 
         rect = GetComponent<RectTransform>();
 
-        beginPoint = transform.Find("BeginPoint").transform.position;
-        endPoint = transform.Find("EndPoint").transform.position;
+        beginPoint = transform.Find("BeginPoint").GetComponent<RectTransform>().position;
+        endPoint = transform.Find("EndPoint").GetComponent<RectTransform>().position;
     }
 
     private void Start()
@@ -68,6 +62,8 @@ public class BranchMObj : MonoBehaviour
         img.sprite = originSprite;
 
         img.raycastTarget = false;
+
+        isDropped = false;
     }
 
     public void Drop(Vector2 dropPoint)
@@ -76,5 +72,7 @@ public class BranchMObj : MonoBehaviour
 
         rect.DOAnchorPos(dropPoint, 0.5f).OnComplete(() => img.raycastTarget = true);
         rect.sizeDelta = new Vector2(100, 100);
+
+        isDropped = true;
     }
 }
