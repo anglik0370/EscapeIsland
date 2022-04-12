@@ -94,4 +94,9 @@ public class MissionPanel : Panel
     {
         Open(MissionType.Berry);
     }
+
+    public void OpenWood()
+    {
+        Open(MissionType.Wood);
+    }
 }
