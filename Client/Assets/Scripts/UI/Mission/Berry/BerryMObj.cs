@@ -81,5 +81,7 @@ public class BerryMObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             img.color = UtilClass.opacityColor;
         }
+
+        missionBerry.EndDrag(false);
     }
 }
