@@ -120,7 +120,7 @@ public class NetworkManager : MonoBehaviour
 
         playerList.TryGetValue(socId, out p);
 
-        return p == null ? false : p.isDie;
+        return p != null && p.isDie;
     }
 
     public void InitPlayers()

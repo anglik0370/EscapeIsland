@@ -40,7 +40,7 @@ public class MissionWood : MonoBehaviour, IMission
 
     private void Start()
     {
-        dragScreen.SubOnEndDrag(CuttinBranch);
+        dragScreen.SubOnEndDrag(CuttingBranch);
     }
 
     public void Init()
@@ -49,7 +49,7 @@ public class MissionWood : MonoBehaviour, IMission
         slotList.ForEach(x => x.Init());
     }
 
-    private void CuttinBranch(Vector2 beginDragPoint, Vector2 endDragPoint)
+    private void CuttingBranch(Vector2 beginDragPoint, Vector2 endDragPoint)
     {
         BranchMObj proximateMObj = null;
         Vector2 proximatePoint = Vector2.zero;
@@ -58,9 +58,11 @@ public class MissionWood : MonoBehaviour, IMission
 
         for (int i = 0; i < branchList.Count; i++)
         {
+            if (branchList[i].IsDropped) continue;
+
             Vector2 intersectionPoint = GetInterSection(branchList[i].BeginPoint, branchList[i].EndPoint, beginDragPoint, endDragPoint);
 
-            if (CheckIntersectionInRange(intersectionPoint, branchList[i].BeginPoint, branchList[i].EndPoint, branchList[i].Type))
+            if(CheckIntersectionInRange(intersectionPoint, branchList[i].BeginPoint, branchList[i].EndPoint))
             {
                 if (proximateMObj == null)
                 {
@@ -69,7 +71,7 @@ public class MissionWood : MonoBehaviour, IMission
                 }
                 else
                 {
-                    if(Vector2.Distance(proximatePoint, centerPoint) > Vector2.Distance(intersectionPoint, centerPoint))
+                    if (Vector2.Distance(proximatePoint, centerPoint) > Vector2.Distance(intersectionPoint, centerPoint))
                     {
                         proximateMObj = branchList[i];
                         proximatePoint = intersectionPoint;
@@ -78,33 +80,35 @@ public class MissionWood : MonoBehaviour, IMission
             }
         }
 
-        if(proximateMObj != null)
+        if(proximateMObj == null)
         {
-            proximateMObj.Drop(dropTrmList[proximateMObj.Id].anchoredPosition);
+            return;
         }
+
+        proximateMObj.Drop(dropTrmList[proximateMObj.Id].anchoredPosition);
     }
 
-    private bool CheckIntersectionInRange(Vector2 intersection, Vector2 begin, Vector2 end, BranchMObjType type)
+    private bool CheckIntersectionInRange(Vector2 intersection, Vector2 beginPoint, Vector2 endPoint)
     {
-        if(type == BranchMObjType.Horizontal)
+        bool isHorizontal = (endPoint.x - beginPoint.x) > (endPoint.y - endPoint.y);
+
+        if(isHorizontal)
         {
-            if (intersection.x < begin.x || intersection.x > end.x) return false;
+            return !(intersection.x < beginPoint.x || intersection.x > endPoint.x);
         }
         else
         {
-            if (intersection.y < begin.y || intersection.y > end.y) return false;
+            return !(intersection.y < beginPoint.y || intersection.y > endPoint.y);
         }
-
-        return true;
     }
 
-    private Vector2 GetInterSection(Vector2 pos1, Vector2 pos2, Vector3 pos3, Vector3 pos4)
+    private Vector2 GetInterSection(Vector2 beginPoint, Vector2 endPoint, Vector3 beginDragPoint, Vector3 endDragPoint)
     {
-        float m1 = (pos2.y - pos1.y) / (pos2.x - pos1.x);
-        float m2 = (pos4.y - pos3.y) / (pos4.x - pos3.x);
+        float m1 = (endPoint.y - beginPoint.y) / (endPoint.x - beginPoint.x);
+        float m2 = (endDragPoint.y - beginDragPoint.y) / (endDragPoint.x - beginDragPoint.x);
 
-        float x = (pos3.y - pos1.y + (m1 * pos1.x) - (m2 * pos3.x)) / (m1 - m2);
-        float y = ((m1 * x) - (m1 * pos1.x)) + pos1.y;
+        float x = (beginDragPoint.y - beginPoint.y + (m1 * beginPoint.x) - (m2 * beginDragPoint.x)) / (m1 - m2);
+        float y = ((m1 * x) - (m1 * beginPoint.x)) + beginPoint.y;
 
         return new Vector2(x, y);
     }
