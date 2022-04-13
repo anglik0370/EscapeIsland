@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class MissionDropItemSlot : ItemSlot
 {
     private Color visibleColor = Color.white;
     private Color invisibleColor = new Color(0, 0, 0, 0);
+
+    private Action EndDragEvent = () => { };
 
     protected override void Awake()
     {
@@ -30,6 +33,11 @@ public class MissionDropItemSlot : ItemSlot
         image.raycastTarget = false;
     }
 
+    public void SubEndDragEvent(Action Callback)
+    {
+        EndDragEvent += Callback;
+    }
+
     public override void OnBeginDrag(PointerEventData eventData)
     {
         base.OnBeginDrag(eventData);
@@ -38,6 +46,8 @@ public class MissionDropItemSlot : ItemSlot
 
     public override void OnEndDrag(PointerEventData eventData)
     {
+        EndDragEvent?.Invoke();
+
         base.OnEndDrag(eventData);
         image.color = image.raycastTarget ? visibleColor : invisibleColor;
     }

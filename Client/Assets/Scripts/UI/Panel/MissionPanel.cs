@@ -38,6 +38,8 @@ public class MissionPanel : Panel
         {
             UtilClass.SetCanvasGroup(missionList[i].Cvs);
         }
+
+        missionList.ForEach(x => x.Init());
     }
 
     public void Open(MissionType type)
@@ -73,7 +75,7 @@ public class MissionPanel : Panel
 
         oldMission = mission;
 
-        base.Open();
+        base.Open(true);
     }
 
     public override void Close(bool isTweenSkip = false)
@@ -98,5 +100,10 @@ public class MissionPanel : Panel
     public void OpenWood()
     {
         Open(MissionType.Wood);
+    }
+
+    public void OpenOre()
+    {
+        Open(MissionType.Ore);
     }
 }
