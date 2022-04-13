@@ -77,8 +77,6 @@ public class SabotageButton : MonoBehaviour
 
     private void SendSabotage()
     {
-        ////해줄것들
-
         SendManager.Instance.SendSabotage(sabotageSO.isShareCoolTime, sabotageSO.sabotageName);
     }
 }
