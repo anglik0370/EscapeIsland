@@ -43,15 +43,15 @@ public class BranchMObj : MonoBehaviour
 
         beginPoint = transform.Find("BeginPoint").GetComponent<RectTransform>().position;
         endPoint = transform.Find("EndPoint").GetComponent<RectTransform>().position;
+
+        originSprite = img.sprite;
+
+        originPos = rect.anchoredPosition;
+        originSize = rect.sizeDelta;
     }
 
     private void Start()
     {
-        originPos = rect.anchoredPosition;
-        originSize = rect.sizeDelta;
-
-        originSprite = img.sprite;
-
         img.raycastTarget = false;
     }
 

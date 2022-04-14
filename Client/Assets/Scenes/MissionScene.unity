@@ -271,7 +271,6 @@ MonoBehaviour:
   oreMObjList: []
   slotParentTrm: {fileID: 853278797}
   slotList: []
-  spawnCnt: 3
   getItemCnt: 0
   spawnPercentage: 60
 --- !u!225 &53044308
@@ -282,10 +281,10 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53044305}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
+  m_IgnoreParentGroups: 1
 --- !u!1 &73384121
 GameObject:
   m_ObjectHideFlags: 0
