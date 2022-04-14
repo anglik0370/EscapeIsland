@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BranchMObj : MonoBehaviour
 {
     private Image img;
+    private TwinkleImg twinkleImg;
 
     private RectTransform rect;
 
@@ -38,6 +39,7 @@ public class BranchMObj : MonoBehaviour
     private void Awake()
     {
         img = GetComponent<Image>();
+        twinkleImg = GetComponentInChildren<TwinkleImg>();
 
         rect = GetComponent<RectTransform>();
 
@@ -64,6 +66,8 @@ public class BranchMObj : MonoBehaviour
         img.raycastTarget = false;
 
         isDropped = false;
+
+        twinkleImg.StartTwinkle();
     }
 
     public void Drop(Vector2 dropPoint)
@@ -77,5 +81,7 @@ public class BranchMObj : MonoBehaviour
         rect.sizeDelta = new Vector2(100, 100);
 
         isDropped = true;
+
+        twinkleImg.StopTwinkle();
     }
 }
