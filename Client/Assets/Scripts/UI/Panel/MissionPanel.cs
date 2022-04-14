@@ -9,6 +9,7 @@ public enum MissionType
     Coconut,
     Berry,
     Ore,
+    Bottle,
     Water,
     Battery,
     Engine,
@@ -105,5 +106,10 @@ public class MissionPanel : Panel
     public void OpenOre()
     {
         Open(MissionType.Ore);
+    }
+
+    public void OpenBottle()
+    {
+        Open(MissionType.Bottle);
     }
 }
