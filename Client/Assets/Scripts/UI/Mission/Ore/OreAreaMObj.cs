@@ -50,14 +50,14 @@ public class OreAreaMObj : MonoBehaviour
             return;
         }
 
-        if(touchCnt >= spriteList.Count - 2) //-2인 이유는 원래 하나는 빼야되고 처음것도 들어가 있어서임
+        img.sprite = spriteList[++touchCnt];
+
+        if (touchCnt >= spriteList.Count - 2) //-2인 이유는 원래 하나는 빼야되고 처음것도 들어가 있어서임
         {
             //여기까지 왔다는건 6번을 다 눌렀다는 소리임
             img.raycastTarget = false;
             missionOre.CurOreArea = null;
             return;
         }
-
-        img.sprite = spriteList[++touchCnt];
     }
 }

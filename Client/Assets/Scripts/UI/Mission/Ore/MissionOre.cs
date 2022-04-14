@@ -44,14 +44,6 @@ public class MissionOre : MonoBehaviour, IMission
         slotList = slotParentTrm.GetComponentsInChildren<MissionDropItemSlot>().ToList();
     }
 
-    private void Start()
-    {
-        for (int i = 0; i < slotList.Count; i++)
-        {
-            slotList[i].SubEndDragEvent(CheckGetItemCnt);
-        }
-    }
-
     public void Init()
     {
         getItemCnt = 0;
@@ -60,7 +52,7 @@ public class MissionOre : MonoBehaviour, IMission
 
         oreMObjList.ForEach(x => x.Init());
         slotList.ForEach(x => x.Disable());
-        slotList.ForEach(x => x.SetRaycastTarget(true));
+        slotList.ForEach(x => x.SetRaycastTarget(false));
 
         InitSlot();
     }
@@ -72,17 +64,18 @@ public class MissionOre : MonoBehaviour, IMission
             if (UtilClass.GetResult(spawnPercentage))
             {
                 slotList[i].Init();
+                slotList[i].SetRaycastTarget(true);
             }
         }
     }
 
-    private void CheckGetItemCnt()
+    public void OnGetItem()
     {
         getItemCnt++;
 
         if (getItemCnt == 3)
         {
-            missionPanel.Close();
+            missionPanel.Close(true);
 
             return;
         }

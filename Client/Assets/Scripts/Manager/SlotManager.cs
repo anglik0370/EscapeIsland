@@ -121,9 +121,18 @@ public class SlotManager : MonoBehaviour
                 //MissionItem to Inventory
                 if(endSlot.IsEmpty)
                 {
-                    endSlot.SetItem(beginSlot.GetItem());
-
                     MissionDropItemSlot slot = beginSlot as MissionDropItemSlot;
+
+                    if(slot.SlotMissionType == MissionType.Ore)
+                    {
+                        IMission mission = slot.GetComponentInParent<IMission>();
+                        MissionOre oreMission = mission as MissionOre;
+
+                        oreMission.OnGetItem();
+                    }
+
+                    endSlot.SetItem(beginSlot.GetItem());
+                    
                     slot.Disable();
                 }
             }
