@@ -25,6 +25,10 @@ public class MissionOre : MonoBehaviour, IMission
     private List<MissionDropItemSlot> slotList;
 
     [SerializeField]
+    private OreAreaMObj curOreArea;
+    public OreAreaMObj CurOreArea { get; set; }
+
+    [SerializeField]
     private int getItemCnt;
 
     [SerializeField]
@@ -51,6 +55,8 @@ public class MissionOre : MonoBehaviour, IMission
     public void Init()
     {
         getItemCnt = 0;
+
+        curOreArea = null;
 
         oreMObjList.ForEach(x => x.Init());
         slotList.ForEach(x => x.Disable());
