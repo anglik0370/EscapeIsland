@@ -7,7 +7,7 @@ public class UtilClass
     /// <summary>
     /// 투명한 색입니다
     /// </summary>
-    public static Color limpidityColor = new Color(0, 0, 0, 0);
+    public static Color limpidityColor = new Color(1, 1, 1, 0);
     /// <summary>
     /// 흰색입니다
     /// </summary>
