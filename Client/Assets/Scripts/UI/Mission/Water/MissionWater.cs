@@ -36,7 +36,11 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
     public MissionType MissionType => missionType;
 
     [SerializeField]
-    private bool isPointerInPanelAndDragging;
+    private bool isPointerInPanel;
+    public bool IsPointerInPanel => isPointerInPanel;
+
+    [SerializeField]
+    private bool isDragging;
 
     private void Awake()
     {
@@ -54,7 +58,7 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
 
     private void Update()
     {
-        if(isPointerInPanelAndDragging)
+        if(isPointerInPanel && isDragging)
         {
             if (Input.GetMouseButton(0))
             {
@@ -86,16 +90,19 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
 
     public void Init()
     {
-        isPointerInPanelAndDragging = false;
+        isPointerInPanel = false;
+        isDragging = false;
         bottleGhost.Init();
         sea.Init();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(Input.GetMouseButton(0) && itemGhost.GetItem() == emptyBottle)
+        isPointerInPanel = true;
+
+        if (Input.GetMouseButton(0) && itemGhost.GetItem() == emptyBottle)
         {
-            isPointerInPanelAndDragging = true;
+            isDragging = true;
 
             bottleGhost.Enable();
             bottleGhost.SetPosition(eventData.position);
@@ -106,7 +113,7 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(isPointerInPanelAndDragging)
+        if (isPointerInPanel && isDragging)
         {
             if (bottleGhost.isFilled())
             {
@@ -118,8 +125,8 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
                 print("≤À æ»√°¿Ω");
                 itemGhost.SetItem(emptyBottle);
             }
-        }
 
-        Init();
+            Init();
+        }
     }
 }
