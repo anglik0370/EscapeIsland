@@ -58,7 +58,7 @@ public class SlotManager : MonoBehaviour
             {
                 //Inventory To Inventory
 
-                ItemSO temp = beginSlot.GetItem();
+                ItemSO temp = ghost.GetItem();
 
                 beginSlot.SetItem(endSlot.GetItem());
                 endSlot.SetItem(temp);

@@ -112,4 +112,9 @@ public class MissionPanel : Panel
     {
         Open(MissionType.Bottle);
     }
+
+    public void OpenWater()
+    {
+        Open(MissionType.Water);
+    }
 }

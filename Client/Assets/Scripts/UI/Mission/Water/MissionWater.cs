@@ -4,76 +4,122 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MissionWater : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPointerExitHandler
 {
     private RectTransform rect;
-    private Camera mainCam;
 
+    private CanvasGroup cvs;
+    public CanvasGroup Cvs => cvs;
+
+    [Header("아이템 고스트")]
     [SerializeField]
-    private BottleGhostMObj ghost;
+    private ItemGhost itemGhost;
 
+    [Header("아이템 SO")]
     [SerializeField]
-    private bool isPointerInPanel;
+    private ItemSO emptyBottle;
+    [SerializeField]
+    private ItemSO waterBottle;
 
+    //[Header("미션관련 오브젝트")]
+    private BottleGhostMObj bottleGhost;
+    private SeaMObj sea;
+
+    [Header("보정치")]
+    [SerializeField]
     private float correctionY = 70;
+    [SerializeField]
+    private float correctionFrame = 20;
+
+    [SerializeField]
+    private MissionType missionType;
+    public MissionType MissionType => missionType;
+
+    [SerializeField]
+    private bool isPointerInPanelAndDragging;
 
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
+        cvs = GetComponent<CanvasGroup>();
 
-        mainCam = Camera.main;
+        sea = GetComponentInChildren<SeaMObj>();
+        bottleGhost = GetComponentInChildren<BottleGhostMObj>();
     }
 
     public void Start()
     {
         Init();
-
-        print(rect.rect.center.x - rect.rect.width / 2);
-        print(rect.rect.center.x + rect.rect.width / 2);
-
-        print(rect.rect.center.y - rect.rect.height / 2);
-        print(rect.rect.center.y + rect.rect.height / 2);
     }
 
     private void Update()
     {
-        if(isPointerInPanel && Input.GetMouseButton(0))
+        if(isPointerInPanelAndDragging)
         {
-            float mouseX = Input.mousePosition.x;
-            float mouseY = Input.mousePosition.y;
+            if (Input.GetMouseButton(0))
+            {
+                float mouseX = Input.mousePosition.x;
+                float mouseY = Input.mousePosition.y;
 
-            float centerX =  Screen.width / 2;
-            float changeX = mouseX - centerX;
+                float centerX = Screen.width / 2;
+                float changeX = mouseX - centerX;
 
-            float centerY = Screen.height / 2 + correctionY;
-            float changeY = mouseY - centerY;
+                float centerY = Screen.height / 2 + correctionY;
+                float changeY = mouseY - centerY;
 
-            float lastX = Mathf.Clamp(changeX,
-                                    rect.rect.center.x + ghost.BottleRect.rect.width / 2 - rect.rect.width / 2,
-                                    rect.rect.center.x - ghost.BottleRect.rect.width / 2 + rect.rect.width / 2);
+                float lastX = Mathf.Clamp(changeX,
+                                        rect.rect.center.x - correctionFrame + bottleGhost.BottleRect.rect.width / 2 - rect.rect.width / 2,
+                                        rect.rect.center.x + correctionFrame - bottleGhost.BottleRect.rect.width / 2 + rect.rect.width / 2);
 
-            float lastY = Mathf.Clamp(changeY,
-                                    rect.rect.center.y + ghost.BottleRect.rect.height / 2 - rect.rect.height / 2,
-                                    rect.rect.center.y - ghost.BottleRect.rect.height / 2 + rect.rect.height / 2);
+                float lastY = Mathf.Clamp(changeY,
+                                        rect.rect.center.y - correctionFrame + bottleGhost.BottleRect.rect.height / 2 - rect.rect.height / 2,
+                                        rect.rect.center.y + correctionFrame - bottleGhost.BottleRect.rect.height / 2 + rect.rect.height / 2);
 
-            print(new Vector2(changeX, changeY));
-
-            ghost.SetPosition(new Vector2(lastX + Screen.width / 2, lastY + Screen.height / 2 + correctionY));
+                bottleGhost.SetPosition(new Vector2(lastX + Screen.width / 2, lastY + Screen.height / 2 + correctionY));
+            }
+            else
+            {
+                Init();
+            }
         }
     }
 
     public void Init()
     {
-        
+        isPointerInPanelAndDragging = false;
+        bottleGhost.Init();
+        sea.Init();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        isPointerInPanel = true;
+        if(Input.GetMouseButton(0) && itemGhost.GetItem() == emptyBottle)
+        {
+            isPointerInPanelAndDragging = true;
+
+            bottleGhost.Enable();
+            bottleGhost.SetPosition(eventData.position);
+
+            itemGhost.Init();
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        isPointerInPanel = false;
+        if(isPointerInPanelAndDragging)
+        {
+            if (bottleGhost.isFilled())
+            {
+                print("꽉찼음");
+                itemGhost.SetItem(waterBottle);
+            }
+            else
+            {
+                print("꽉 안찼음");
+                itemGhost.SetItem(emptyBottle);
+            }
+        }
+
+        Init();
     }
 }

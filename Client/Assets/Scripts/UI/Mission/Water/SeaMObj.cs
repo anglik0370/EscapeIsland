@@ -16,6 +16,18 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField]
     private BottleGhostMObj ghost;
 
+    public void Init()
+    {
+        print("물 그만받아");
+
+        if (co != null)
+        {
+            StopCoroutine(co);
+        }
+
+        curProgress = 0f;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if(Input.GetMouseButton(0))

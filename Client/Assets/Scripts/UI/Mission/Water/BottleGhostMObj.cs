@@ -32,6 +32,7 @@ public class BottleGhostMObj : MonoBehaviour
     public void Init()
     {
         waterImg.fillAmount = 0f;
+        Disable();
     }
 
     public void SetPosition(Vector2 pos)
@@ -42,6 +43,11 @@ public class BottleGhostMObj : MonoBehaviour
     public void SetWaterProgress(float progress)
     {
         waterImg.fillAmount = progress;
+    }
+
+    public bool isFilled()
+    {
+        return waterImg.fillAmount == 1f;
     }
 
     public void Enable()
