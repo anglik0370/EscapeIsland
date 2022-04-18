@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    private MissionWater missionWater;
+
     private Coroutine co;
 
     [SerializeField]
@@ -16,10 +18,13 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField]
     private BottleGhostMObj ghost;
 
+    private void Awake()
+    {
+        missionWater = GetComponentInParent<MissionWater>();
+    }
+
     public void Init()
     {
-        print("물 그만받아");
-
         if (co != null)
         {
             StopCoroutine(co);
@@ -30,10 +35,10 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(Input.GetMouseButton(0))
-        {
-            print("여기가 물임");
+        if (!missionWater.IsPointerInPanel) return;
 
+        if (Input.GetMouseButton(0))
+        {
             if(co != null)
             {
                 StopCoroutine(co);
@@ -45,14 +50,14 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!missionWater.IsPointerInPanel) return;
+
         //포인터가 화면 밖으로 나갔을 때 해줄 일
 
         if (co != null)
         {
             StopCoroutine(co);
         }
-
-        print("여긴 물이 아닌데?");
     }
 
     private IEnumerator PutWaterRoutine()
