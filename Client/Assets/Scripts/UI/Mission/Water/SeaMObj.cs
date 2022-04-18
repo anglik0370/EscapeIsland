@@ -35,8 +35,6 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!missionWater.IsPointerInPanel) return;
-
         if (Input.GetMouseButton(0))
         {
             if(co != null)
@@ -50,8 +48,6 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!missionWater.IsPointerInPanel) return;
-
         //포인터가 화면 밖으로 나갔을 때 해줄 일
 
         if (co != null)

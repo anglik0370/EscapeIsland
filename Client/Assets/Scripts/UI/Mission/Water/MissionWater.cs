@@ -42,6 +42,9 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
     [SerializeField]
     private bool isDragging;
 
+    [SerializeField]
+    private bool isSave; //¹°Àº ²ËÃ¡´Âµ¥ ¹ÛÀ¸·Î ³ª°¡¹ö·ÈÀ» ‹š
+
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
@@ -83,7 +86,10 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
             }
             else
             {
-                Init();
+                if(!isSave)
+                {
+                    Init();
+                }
             }
         }
     }
@@ -117,6 +123,21 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
         {
             if (bottleGhost.isFilled())
             {
+                float mouseY = Input.mousePosition.y;
+
+                float criteriaY = Screen.height / 2 + correctionY + correctionY;
+
+                if(mouseY < criteriaY)
+                {
+                    print("¹° ¹ÛÀÌ ¾Æ´Õ´Ï´Ù");
+
+                    isPointerInPanel = false;
+                    isSave = true;
+
+                    return;
+
+                }
+
                 print("²ËÃ¡À½");
                 itemGhost.SetItem(waterBottle);
             }
