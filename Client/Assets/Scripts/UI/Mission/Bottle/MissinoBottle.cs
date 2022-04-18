@@ -14,17 +14,18 @@ public class MissinoBottle : MonoBehaviour, IMission
 
     [SerializeField]
     private Transform slotParentTrm;
-    private List<MissionDropItemSlot> slotLost;
+    private List<MissionDropItemSlot> slotList;
 
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
 
-        slotLost = slotParentTrm.GetComponentsInChildren<MissionDropItemSlot>().ToList();
+        slotList = slotParentTrm.GetComponentsInChildren<MissionDropItemSlot>().ToList();
     }
 
     public void Init()
     {
-        slotLost.ForEach(x => x.Init());
+        slotList.ForEach(x => x.Init());
+        slotList.ForEach(x => x.SetRaycastTarget(true));
     }
 }
