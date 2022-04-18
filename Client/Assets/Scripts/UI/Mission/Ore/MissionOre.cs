@@ -26,7 +26,7 @@ public class MissionOre : MonoBehaviour, IMission
 
     [SerializeField]
     private OreAreaMObj curOreArea;
-    public OreAreaMObj CurOreArea { get; set; }
+    public OreAreaMObj CurOreArea => curOreArea;
 
     [SerializeField]
     private int getItemCnt;
@@ -79,5 +79,10 @@ public class MissionOre : MonoBehaviour, IMission
 
             return;
         }
+    }
+
+    public void SetCurOreArea(OreAreaMObj oreAreaMObj)
+    {
+        curOreArea = oreAreaMObj;
     }
 }

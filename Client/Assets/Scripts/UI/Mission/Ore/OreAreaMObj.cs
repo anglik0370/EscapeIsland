@@ -42,7 +42,7 @@ public class OreAreaMObj : MonoBehaviour
     {
         if (missionOre.CurOreArea == null)
         {
-            missionOre.CurOreArea = this;
+            missionOre.SetCurOreArea(this);
         }
 
         if(missionOre.CurOreArea != this)
@@ -56,7 +56,7 @@ public class OreAreaMObj : MonoBehaviour
         {
             //여기까지 왔다는건 6번을 다 눌렀다는 소리임
             img.raycastTarget = false;
-            missionOre.CurOreArea = null;
+            missionOre.SetCurOreArea(null);
             return;
         }
     }
