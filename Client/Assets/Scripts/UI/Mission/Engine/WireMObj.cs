@@ -5,9 +5,16 @@ using UnityEngine.UI;
 
 public class WireMObj : MonoBehaviour
 {
+    private Image img;
     private RectTransform rect;
-    private Image image;
 
+    [SerializeField]
+    private CanvasGroup cvsOrigin;
+    [SerializeField]
+    private CanvasGroup cvsCutted;
+
+    [SerializeField]
+    private Sprite originSprite;
     public Sprite Sprite => originSprite;
 
     [SerializeField]
@@ -17,11 +24,6 @@ public class WireMObj : MonoBehaviour
     [SerializeField]
     private bool isCut;
     public bool IsCut => isCut;
-
-    [SerializeField]
-    private Sprite originSprite;
-    [SerializeField]
-    private Sprite cutSprite;
 
     [SerializeField]
     private Vector2 beginPoint;
@@ -36,8 +38,12 @@ public class WireMObj : MonoBehaviour
 
     private void Awake()
     {
+        img = GetComponent<Image>();
         rect = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
+
+        cvsOrigin = GetComponent<CanvasGroup>();
+
+        originSprite = img.sprite;
 
         float correctionX = Screen.width / 2;
         float correctionY = Screen.height / 2;
@@ -54,10 +60,11 @@ public class WireMObj : MonoBehaviour
 
     public void Init()
     {
+        UtilClass.SetCanvasGroup(cvsCutted);
+        UtilClass.SetCanvasGroup(cvsOrigin, 1, false, true);
+
         cuttingOrder = 0; //이건 1부터 시작하는게 좋을듯 0은 초기화고
         isCut = false;
-
-        image.sprite = originSprite;
     }
 
     public void SetCuttingOrder(int cuttingOrder)
@@ -67,7 +74,9 @@ public class WireMObj : MonoBehaviour
 
     public void Cut()
     {
-        image.sprite = cutSprite;
+        UtilClass.SetCanvasGroup(cvsCutted, 1, false, true);
+        UtilClass.SetCanvasGroup(cvsOrigin);
+
         isCut = true;
     }
 }
