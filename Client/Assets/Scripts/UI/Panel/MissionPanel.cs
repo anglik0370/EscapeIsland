@@ -117,4 +117,9 @@ public class MissionPanel : Panel
     {
         Open(MissionType.Water);
     }
+
+    public void OpenEngine()
+    {
+        Open(MissionType.Engine);
+    }
 }
