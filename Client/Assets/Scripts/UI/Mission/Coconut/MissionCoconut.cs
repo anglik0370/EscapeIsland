@@ -74,7 +74,6 @@ public class MissionCoconut : MonoBehaviour, IMission
     private void Start()
     {
         touchScreen.SubTouchEvent(AddTouchCount);
-        Init();
     }
 
     public void Init()

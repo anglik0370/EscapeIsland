@@ -51,11 +51,6 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
         bottleGhost = GetComponentInChildren<BottleGhostMObj>();
     }
 
-    public void Start()
-    {
-        Init();
-    }
-
     private void Update()
     {
         if(isPointerInPanel && isDragging)
@@ -80,8 +75,6 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
                                         rect.rect.center.y + correctionFrame - bottleGhost.BottleRect.rect.height / 2 + rect.rect.height / 2);
 
                 bottleGhost.SetPosition(new Vector2(lastX + Screen.width / 2, lastY + Screen.height / 2 + correctionY));
-
-                isSave = false;
             }
             else
             {
@@ -127,7 +120,8 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
                 {
                     print("물 밖이 아닙니다");
 
-                    isPointerInPanel = false;
+                    itemGhost.SetItem(emptyBottle);
+                    Init();
 
                     return;
                 }
