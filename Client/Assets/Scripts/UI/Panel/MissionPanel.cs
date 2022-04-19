@@ -122,4 +122,9 @@ public class MissionPanel : Panel
     {
         Open(MissionType.Engine);
     }
+
+    public void OpenBattery()
+    {
+        Open(MissionType.Battery);
+    }
 }
