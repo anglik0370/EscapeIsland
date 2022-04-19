@@ -20,19 +20,16 @@ public class MissionEngine : MonoBehaviour, IMission
     private List<Image> wireOrderImgList;
 
     [SerializeField]
+    private CanvasGroup cvsEngineSlot;
+    [SerializeField]
+    private MissionDropItemSlot slot;
+
+    [SerializeField]
     private MissionType missionType;
     public MissionType MissionType => missionType;
 
-    [SerializeField]
-    private Transform img1;
-    [SerializeField]
-    private Transform img2;
-    [SerializeField]
-    private Transform img3;
-    [SerializeField]
-    private Transform img4;
-    [SerializeField]
-    private Transform img5;
+    [Header("전선을 잘 끊고 있는지")]
+    private int curOrder;
 
     private void Awake()
     {
@@ -51,6 +48,12 @@ public class MissionEngine : MonoBehaviour, IMission
 
     public void Init()
     {
+        curOrder = 1;
+
+        UtilClass.SetCanvasGroup(cvsEngineSlot);
+        slot.Init();
+        slot.SetRaycastTarget(true);
+
         wireList.ForEach(x => x.Init());
 
         List<int> orderList = new List<int>(4) { 1, 2, 3, 4 };
@@ -102,6 +105,15 @@ public class MissionEngine : MonoBehaviour, IMission
             return;
         }
 
-        proximateMObj.Cut();
+        if(proximateMObj.CuttingOrder == curOrder)
+        {
+            proximateMObj.Cut();
+            curOrder++;
+
+            if(curOrder > 4)
+            {
+                UtilClass.SetCanvasGroup(cvsEngineSlot, 1, true, true, false);
+            }
+        }
     }
 }

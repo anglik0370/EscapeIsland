@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class UtilClass
 {
@@ -46,11 +47,22 @@ public class UtilClass
     /// <param name="alpha">투명도</param>
     /// <param name="blockRaycasts">BlockRaycast 여부</param>
     /// <param name="interactable">상호작용 가능 여부</param>
-    public static void SetCanvasGroup(CanvasGroup cvs, float alpha = 0, bool blockRaycasts = false, bool interactable = false)
+    public static void SetCanvasGroup(CanvasGroup cvs, float alpha = 0, bool blockRaycasts = false, bool interactable = false, bool isTweenSkip = true)
     {
-        cvs.alpha = alpha;
-        cvs.blocksRaycasts = blockRaycasts;
-        cvs.interactable = interactable;
+        if(isTweenSkip)
+        {
+            cvs.alpha = alpha;
+            cvs.blocksRaycasts = blockRaycasts;
+            cvs.interactable = interactable;
+        }
+        else
+        {
+            cvs.DOFade(alpha, 0.5f).OnComplete(()=>
+            {
+                cvs.blocksRaycasts = blockRaycasts;
+                cvs.interactable = interactable;
+            });
+        }
     }
 
     /// <summary>
