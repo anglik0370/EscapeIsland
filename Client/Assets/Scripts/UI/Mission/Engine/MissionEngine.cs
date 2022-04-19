@@ -30,6 +30,7 @@ public class MissionEngine : MonoBehaviour, IMission
 
     [Header("전선을 잘 끊고 있는지")]
     private int curOrder;
+    public int CurOder => curOrder;
 
     private void Awake()
     {
@@ -43,7 +44,7 @@ public class MissionEngine : MonoBehaviour, IMission
 
     private void Start()
     {
-        dragScreen.SubOnEndDrag(CutWire);
+        //dragScreen.SubOnEndDrag(CutWire);
     }
 
     public void Init()
@@ -67,6 +68,11 @@ public class MissionEngine : MonoBehaviour, IMission
 
             orderList.RemoveAt(idx);
         }
+    }
+
+    public void AddOder()
+    {
+        curOrder++;
     }
 
     private void CutWire(Vector2 beginDragPoint, Vector2 endDragPoint)

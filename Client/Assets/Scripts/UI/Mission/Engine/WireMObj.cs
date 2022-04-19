@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class WireMObj : MonoBehaviour
+public class WireMObj : MonoBehaviour, IPointerClickHandler
 {
+    private MissionEngine missionEngine;
+
     private Image img;
     private RectTransform rect;
 
@@ -38,6 +41,8 @@ public class WireMObj : MonoBehaviour
 
     private void Awake()
     {
+        missionEngine = GetComponentInParent<MissionEngine>();
+
         img = GetComponent<Image>();
         rect = GetComponent<RectTransform>();
 
@@ -61,7 +66,7 @@ public class WireMObj : MonoBehaviour
     public void Init()
     {
         UtilClass.SetCanvasGroup(cvsCutted);
-        UtilClass.SetCanvasGroup(cvsOrigin, 1, false, true);
+        UtilClass.SetCanvasGroup(cvsOrigin, 1, true, true);
 
         cuttingOrder = 0; //이건 1부터 시작하는게 좋을듯 0은 초기화고
         isCut = false;
@@ -78,5 +83,14 @@ public class WireMObj : MonoBehaviour
         UtilClass.SetCanvasGroup(cvsOrigin);
 
         isCut = true;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(missionEngine.CurOder == cuttingOrder)
+        {
+            Cut();
+            missionEngine.AddOder();
+        }
     }
 }
