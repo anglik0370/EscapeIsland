@@ -43,8 +43,8 @@ public class BranchMObj : MonoBehaviour
 
         rect = GetComponent<RectTransform>();
 
-        beginPoint = transform.Find("BeginPoint").GetComponent<RectTransform>().position;
-        endPoint = transform.Find("EndPoint").GetComponent<RectTransform>().position;
+        beginPoint = transform.Find("BeginPoint").transform.position;
+        endPoint = transform.Find("EndPoint").transform.position;
 
         originSprite = img.sprite;
 

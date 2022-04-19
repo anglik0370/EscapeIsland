@@ -4192,9 +4192,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cuttingOrder: 0
   isCut: 0
+  originSprite: {fileID: 21300000, guid: 44478c4d772472c4695aa73f15360347, type: 3}
+  cutSprite: {fileID: 21300000, guid: f9eb2f9424205cf48b37bb2c3ca8b458, type: 3}
   beginPoint: {x: 0, y: 0}
   endPoint: {x: 0, y: 0}
-  yPos: 223
+  correctionY: 70
 --- !u!1 &793912906
 GameObject:
   m_ObjectHideFlags: 0
@@ -6056,9 +6058,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cuttingOrder: 0
   isCut: 0
+  originSprite: {fileID: 21300000, guid: 459d9242eccf93b4d8469b89ca71031d, type: 3}
+  cutSprite: {fileID: 21300000, guid: 73da5a63b4f13724096f55330b74de1b, type: 3}
   beginPoint: {x: 0, y: 0}
   endPoint: {x: 0, y: 0}
-  yPos: 223
+  correctionY: 70
 --- !u!1 &1061355233
 GameObject:
   m_ObjectHideFlags: 0
@@ -6688,9 +6692,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cuttingOrder: 0
   isCut: 0
+  originSprite: {fileID: 21300000, guid: 81072e25d41a10649b5cb37b4a4fd4f7, type: 3}
+  cutSprite: {fileID: 21300000, guid: 91167a35f00a32540a04f400912431cd, type: 3}
   beginPoint: {x: 0, y: 0}
   endPoint: {x: 0, y: 0}
-  yPos: 223
+  correctionY: 70
 --- !u!1 &1239705380
 GameObject:
   m_ObjectHideFlags: 0
@@ -8204,6 +8210,11 @@ MonoBehaviour:
   wireParentTrm: {fileID: 88690746}
   wireOrderImgParentTrm: {fileID: 1019126262}
   missionType: 7
+  img1: {fileID: 0}
+  img2: {fileID: 0}
+  img3: {fileID: 0}
+  img4: {fileID: 0}
+  img5: {fileID: 0}
 --- !u!225 &1470562455
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -11050,6 +11061,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1470562454}
+        m_TargetAssemblyTypeName: MissionEngine, Assembly-CSharp
+        m_MethodName: Init
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2092094050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11462,9 +11485,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cuttingOrder: 0
   isCut: 0
+  originSprite: {fileID: 21300000, guid: 98e548370493cf24d846e61888389aae, type: 3}
+  cutSprite: {fileID: 21300000, guid: 5981046a115cf8c4e9d58627f4bb6c9c, type: 3}
   beginPoint: {x: 0, y: 0}
   endPoint: {x: 0, y: 0}
-  yPos: 223
+  correctionY: 70
 --- !u!1 &2136902405
 GameObject:
   m_ObjectHideFlags: 0

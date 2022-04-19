@@ -67,7 +67,7 @@ public class UtilClass
         float m2 = (endDragPoint.y - beginDragPoint.y) / (endDragPoint.x - beginDragPoint.x);
 
         float x = (beginDragPoint.y - beginPoint.y + (m1 * beginPoint.x) - (m2 * beginDragPoint.x)) / (m1 - m2);
-        float y = ((m1 * x) - (m1 * beginPoint.x)) + beginPoint.y;
+        float y = (m1 * x) - (m1 * beginPoint.x) + beginPoint.y;
 
         return new Vector2(x, y);
     }
