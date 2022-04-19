@@ -52,4 +52,44 @@ public class UtilClass
         cvs.blocksRaycasts = blockRaycasts;
         cvs.interactable = interactable;
     }
+
+    /// <summary>
+    /// 두 선의 시작점과 끝점이 주어져 있을 때 두 선의 교점을 반환합니다
+    /// </summary>
+    /// <param name="beginPoint">시작점 1</param>
+    /// <param name="endPoint">끝점 1</param>
+    /// <param name="beginDragPoint">시작점 2</param>
+    /// <param name="endDragPoint">끝점 2</param>
+    /// <returns></returns>
+    public static Vector2 GetInterSection(Vector2 beginPoint, Vector2 endPoint, Vector3 beginDragPoint, Vector3 endDragPoint)
+    {
+        float m1 = (endPoint.y - beginPoint.y) / (endPoint.x - beginPoint.x);
+        float m2 = (endDragPoint.y - beginDragPoint.y) / (endDragPoint.x - beginDragPoint.x);
+
+        float x = (beginDragPoint.y - beginPoint.y + (m1 * beginPoint.x) - (m2 * beginDragPoint.x)) / (m1 - m2);
+        float y = ((m1 * x) - (m1 * beginPoint.x)) + beginPoint.y;
+
+        return new Vector2(x, y);
+    }
+
+    /// <summary>
+    /// 교점이 시작점과 끝점 사이에 있는지를 반환합니다
+    /// </summary>
+    /// <param name="intersection">교점</param>
+    /// <param name="beginPoint">시작점</param>
+    /// <param name="endPoint">끝점</param>
+    /// <returns></returns>
+    public static bool CheckIntersectionInRange(Vector2 intersection, Vector2 beginPoint, Vector2 endPoint)
+    {
+        bool isHorizontal = (endPoint.x - beginPoint.x) > (endPoint.y - endPoint.y);
+
+        if (isHorizontal)
+        {
+            return !(intersection.x < beginPoint.x || intersection.x > endPoint.x);
+        }
+        else
+        {
+            return !(intersection.y < beginPoint.y || intersection.y > endPoint.y);
+        }
+    }
 }
