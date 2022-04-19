@@ -73,6 +73,10 @@ public class MissionEngine : MonoBehaviour, IMission
     public void AddOder()
     {
         curOrder++;
+        if (curOrder > 4)
+        {
+            UtilClass.SetCanvasGroup(cvsEngineSlot, 1, true, true, false);
+        }
     }
 
     private void CutWire(Vector2 beginDragPoint, Vector2 endDragPoint)
