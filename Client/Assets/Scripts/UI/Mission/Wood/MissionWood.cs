@@ -60,9 +60,9 @@ public class MissionWood : MonoBehaviour, IMission
         {
             if (branchList[i].IsDropped) continue;
 
-            Vector2 intersectionPoint = GetInterSection(branchList[i].BeginPoint, branchList[i].EndPoint, beginDragPoint, endDragPoint);
+            Vector2 intersectionPoint = UtilClass.GetInterSection(branchList[i].BeginPoint, branchList[i].EndPoint, beginDragPoint, endDragPoint);
 
-            if(CheckIntersectionInRange(intersectionPoint, branchList[i].BeginPoint, branchList[i].EndPoint))
+            if(UtilClass.CheckIntersectionInRange(intersectionPoint, branchList[i].BeginPoint, branchList[i].EndPoint))
             {
                 if (proximateMObj == null)
                 {
@@ -86,30 +86,5 @@ public class MissionWood : MonoBehaviour, IMission
         }
 
         proximateMObj.Drop(dropTrmList[proximateMObj.Id].anchoredPosition);
-    }
-
-    private bool CheckIntersectionInRange(Vector2 intersection, Vector2 beginPoint, Vector2 endPoint)
-    {
-        bool isHorizontal = (endPoint.x - beginPoint.x) > (endPoint.y - endPoint.y);
-
-        if(isHorizontal)
-        {
-            return !(intersection.x < beginPoint.x || intersection.x > endPoint.x);
-        }
-        else
-        {
-            return !(intersection.y < beginPoint.y || intersection.y > endPoint.y);
-        }
-    }
-
-    private Vector2 GetInterSection(Vector2 beginPoint, Vector2 endPoint, Vector3 beginDragPoint, Vector3 endDragPoint)
-    {
-        float m1 = (endPoint.y - beginPoint.y) / (endPoint.x - beginPoint.x);
-        float m2 = (endDragPoint.y - beginDragPoint.y) / (endDragPoint.x - beginDragPoint.x);
-
-        float x = (beginDragPoint.y - beginPoint.y + (m1 * beginPoint.x) - (m2 * beginDragPoint.x)) / (m1 - m2);
-        float y = ((m1 * x) - (m1 * beginPoint.x)) + beginPoint.y;
-
-        return new Vector2(x, y);
     }
 }
