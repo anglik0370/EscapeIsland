@@ -13,6 +13,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         ConverterBefore,
         ConverterAfter,
         MissionDropItem,
+        MissionBatterySlot,
     }
 
     protected Image image;
@@ -38,10 +39,12 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if(item == null)
         {
             image.sprite = null;
+            image.color = UtilClass.limpidityColor;
         }
         else
         {
             image.sprite = item.itemSprite;
+            image.color = UtilClass.opacityColor;
         }
     }
 
@@ -52,12 +55,12 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if(item == null)
         {
             image.sprite = null;
-            image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
+            image.color = UtilClass.limpidityColor;
         }
         else
         {
             image.sprite = item.itemSprite;
-            image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+            image.color = UtilClass.opacityColor;
         }
     }
 

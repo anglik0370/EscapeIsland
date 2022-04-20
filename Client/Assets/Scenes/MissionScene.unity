@@ -2129,7 +2129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6043ffe779a96994d9f6d610a20f1eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: d4693a35ab1f09f46b25d9b8f8bc4bda, type: 2}
   itemImgDepth: 1
   kind: 0
 --- !u!222 &357799056
@@ -3306,6 +3306,101 @@ MonoBehaviour:
   itemImgDepth: 0
   kind: 4
   slotMissionType: 0
+--- !u!1 &547779725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 547779726}
+  - component: {fileID: 547779728}
+  - component: {fileID: 547779727}
+  - component: {fileID: 547779729}
+  m_Layer: 5
+  m_Name: BatterySlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &547779726
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547779725}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 553180928}
+  m_Father: {fileID: 1783034537}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 155, y: -173}
+  m_SizeDelta: {x: 350, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &547779727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547779725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &547779728
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547779725}
+  m_CullTransparentMesh: 1
+--- !u!114 &547779729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547779725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de8a19fa07cf954b9aa9ac2b81922f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  itemImgDepth: 1
+  kind: 5
+  batterySprite: {fileID: 21300000, guid: 0b088fde2fa62214786bd3f9ba291672, type: 3}
+  emptyBatterySO: {fileID: 11400000, guid: d4693a35ab1f09f46b25d9b8f8bc4bda, type: 2}
+  batterySO: {fileID: 11400000, guid: 2e2dbe9c1ef0be145bdc3ee6e04875b1, type: 2}
 --- !u!1 &551616428
 GameObject:
   m_ObjectHideFlags: 0
@@ -3414,16 +3509,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553180927}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1783034537}
+  m_Father: {fileID: 547779726}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 148.2, y: -170.7}
+  m_AnchoredPosition: {x: -6.800003, y: 2.300003}
   m_SizeDelta: {x: 280, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &553180929
@@ -7085,7 +7180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6043ffe779a96994d9f6d610a20f1eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: d4693a35ab1f09f46b25d9b8f8bc4bda, type: 2}
   itemImgDepth: 1
   kind: 0
 --- !u!222 &1153281388
@@ -9804,6 +9899,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missionType: 6
+  maxChargingTime: 7
+  curChargingTime: 0
+  isMaxCharge: 0
 --- !u!1 &1598924044
 GameObject:
   m_ObjectHideFlags: 0
@@ -10728,7 +10826,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 553180928}
+  - {fileID: 547779726}
   m_Father: {fileID: 1598013022}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10913,7 +11011,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e909e06a6d60eb9469d500428ccb8ac2, type: 3}
   - {fileID: 21300000, guid: 3b703bbad24dc6e448b06c99932a5425, type: 3}
   - {fileID: 21300000, guid: 9f7d7012e17be3c4e934d2f3e1433341, type: 3}
-  maxTime: 9
 --- !u!1 &1836555041
 GameObject:
   m_ObjectHideFlags: 0
@@ -11756,7 +11853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6043ffe779a96994d9f6d610a20f1eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: d4693a35ab1f09f46b25d9b8f8bc4bda, type: 2}
   itemImgDepth: 1
   kind: 0
 --- !u!222 &1940120879
@@ -11818,7 +11915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6043ffe779a96994d9f6d610a20f1eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: d4693a35ab1f09f46b25d9b8f8bc4bda, type: 2}
   itemImgDepth: 1
   kind: 0
 --- !u!222 &1941372403

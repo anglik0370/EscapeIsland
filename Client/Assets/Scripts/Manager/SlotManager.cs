@@ -136,6 +136,38 @@ public class SlotManager : MonoBehaviour
                     slot.Disable();
                 }
             }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.MissionBatterySlot)
+            {
+                //Inventory To Charge
+
+                MissionBatterySlot slot = endSlot as MissionBatterySlot;
+
+                if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty)
+                {
+                    slot.Image.sprite = slot.BatterySprite;
+                    slot.Image.color = UtilClass.opacityColor;
+
+                    slot.StartCharging();
+
+                    beginSlot.SetItem(null);
+                }
+            }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.MissionBatterySlot && endSlot.Kind == ItemSlot.SlotKind.Inventory)
+            {
+                //Charge To Inventory
+
+                MissionBatterySlot slot = beginSlot as MissionBatterySlot;
+
+                if(!slot.IsEmpty && slot.IsMaxCharge)
+                {
+                    slot.Image.sprite = null;
+                    slot.Image.color = UtilClass.limpidityColor;
+
+                    endSlot.SetItem(slot.BatterySO);
+
+                    slot.InitCharger();
+                }
+            }
         }
 
         ghost.Init();

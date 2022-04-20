@@ -11,19 +11,11 @@ public class ChargeGaugeMObj : MonoBehaviour
     [SerializeField]
     private List<Sprite> chargeSpriteList;
 
-    [SerializeField]
-    private float maxTime;
-
-    private void Start()
-    {
-        ChangeImage(9);
-    }
-
-    private void ChangeImage(float cur)
+    public void SetProgress(float max, float cur)
     {
         float curTime = cur;
 
-        float branch = maxTime / chargeSpriteList.Count;
+        float branch = max / chargeSpriteList.Count;
 
         int chargeCnt = 0;
 
@@ -32,6 +24,8 @@ public class ChargeGaugeMObj : MonoBehaviour
             curTime -= branch;
             chargeCnt++;
         }
+
+        if (chargeCnt >= chargeSpriteList.Count) return;
 
         Sprite sprite = chargeSpriteList[chargeCnt];
 
