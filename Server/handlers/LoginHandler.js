@@ -10,7 +10,7 @@ function loginHandler(socket,payload) {
         return;
     }
 
-    if(Users.findUser(payload.name) !== undefined) {
+    if(Users.findUser(payload.name,socket) !== undefined) {
         sendError("중복된 이름이 있습니다.",socket);
         return;
     }

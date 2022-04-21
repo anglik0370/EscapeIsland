@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Obsolete("쓰지 않는 클래스")]
 public class ConnectPopup : Popup
 {
     public InputField ipInput;
@@ -21,7 +23,7 @@ public class ConnectPopup : Popup
                 return;
             }
 
-            SocketClient.instance.ConnectSocket(ipInput.text, portInput.text);
+            //SocketClient.instance.ConnectSocket();
             //로그인 창으로 넘어가야함
             PopupManager.instance.CloseAndOpen("login");
         });

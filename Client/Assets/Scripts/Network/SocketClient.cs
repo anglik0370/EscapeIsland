@@ -52,6 +52,11 @@ public class SocketClient : MonoBehaviour
         reConnectingCoroutine = StartCoroutine(TryReConnecting());
     }
 
+    public void ConnectSocket()
+    {
+        ConnectSocket(url, port.ToString());
+    }
+
     IEnumerator TryReConnecting()
     {
         if (webSocket == null) yield break;
@@ -117,7 +122,7 @@ public class SocketClient : MonoBehaviour
         return returnStr.ToUpper();
     }
 
-    public void ConnectSocket(string ip, string port)
+    private void ConnectSocket(string ip, string port)
     {
         webSocket = new WebSocket($"ws://{ip}:{port}");
         webSocket.Connect();

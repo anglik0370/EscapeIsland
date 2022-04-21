@@ -25,7 +25,6 @@ public class NetworkManager : MonoBehaviour
     public Transform setDataScriptsParent;
 
     private bool isLogin = false;
-    
 
     private Player user = null;
     public Player User
