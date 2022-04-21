@@ -17,6 +17,10 @@ function loginHandler(socket,payload) {
     
     let userData = login(payload,socket);
 
+    if(Users.userList[socket.id] !== undefined) {
+        Users.userList[socket.id].name = payload.name;
+        return;
+    }
     Users.userList[socket.id] = userData;
 }
 
