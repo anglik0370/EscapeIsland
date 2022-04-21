@@ -10,13 +10,17 @@ function loginHandler(socket,payload) {
         return;
     }
 
-    if(Users.findUser(payload.name) !== undefined) {
+    if(Users.findUser(payload.name,socket) !== undefined) {
         sendError("중복된 이름이 있습니다.",socket);
         return;
     }
     
     let userData = login(payload,socket);
 
+    if(Users.userList[socket.id] !== undefined) {
+        Users.userList[socket.id].name = payload.name;
+        return;
+    }
     Users.userList[socket.id] = userData;
 }
 

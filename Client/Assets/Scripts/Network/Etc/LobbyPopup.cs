@@ -47,9 +47,7 @@ public class LobbyPopup : Popup
         });
         exitBtn.onClick.AddListener(() =>
         {
-            NetworkManager.instance.ExitRoom();
-            //SocketClient.instance.InitWebSocket();
-            //PopupManager.instance.CloseAndOpen("ingame");
+            //NetworkManager.instance.ExitRoom();
             PopupManager.instance.CloseAndOpen("login");
         });
 

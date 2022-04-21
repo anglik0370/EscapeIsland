@@ -53,9 +53,9 @@ class Users {
         delete this.userList[socket.id];
     }
 
-    findUser(userName) {
+    findUser(userName,socket) {
         for(let key in this.userList) {
-            if(this.userList[key].name == userName) {
+            if(this.userList[key].socketId != socket.id && this.userList[key].name == userName) {
                 return this.userList[key];
             }
         }
