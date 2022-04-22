@@ -100,21 +100,7 @@ public class Timer : ISetAble
 
         if (isInGameTimer)
         {
-            remainMin += Time.deltaTime;
-
-            if(remainMin >= 1f)
-            {
-                remainMin -= 1f;
-
-                timerSequence.Kill();
-                timerSequence = DOTween.Sequence();
-                timerSequence.Append(DOTween.To(() => min, x =>
-                {
-                    min = x;
-                    curTimeSpan = defaultTimeSpan + TimeSpan.FromMinutes(min);
-                    inGameTimerText.text = curTimeSpan.ToString(@"hh\:mm");
-                }, destinationMin, 1f).SetEase(Ease.Linear));
-            }
+            InGameTimer();
         }
 
         if (isVoteTimer)
@@ -131,6 +117,25 @@ public class Timer : ISetAble
             {
                 isEmergencyAble = true;
             }
+        }
+    }
+
+    private void InGameTimer()
+    {
+        remainMin += Time.deltaTime;
+
+        if (remainMin >= 1f)
+        {
+            remainMin -= 1f;
+
+            timerSequence.Kill();
+            timerSequence = DOTween.Sequence();
+            timerSequence.Append(DOTween.To(() => min, x =>
+            {
+                min = x;
+                curTimeSpan = defaultTimeSpan + TimeSpan.FromMinutes(min);
+                inGameTimerText.text = curTimeSpan.ToString(@"hh\:mm");
+            }, destinationMin, 1f).SetEase(Ease.Linear));
         }
     }
 
