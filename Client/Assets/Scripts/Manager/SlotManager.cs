@@ -83,15 +83,17 @@ public class SlotManager : MonoBehaviour
                 if(beginSlot.GetItem() != null && beginSlot.GetItem().canRefining)
                 {
                     ItemSO temp = null;
+                    SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, beginSlot.GetItem().itemId);
 
                     if (ConvertPanel.Instance.CurOpenConverter.IsConverting)
                     {
                         //NowConverting
                         temp = endSlot.GetItem();
-                        SendManager.Instance.ResetConverter(ConvertPanel.Instance.CurOpenConverter.id);
+
+                        SendManager.Instance.SendSyncObj(vo, ObjType.Converter, BehaviourType.Reset);
                     }
 
-                    SendManager.Instance.StartConverting(ConvertPanel.Instance.CurOpenConverter.id, beginSlot.GetItem().itemId);
+                    SendManager.Instance.SendSyncObj(vo, ObjType.Converter, BehaviourType.Start);
                     beginSlot.SetItem(temp);
                 }
             }
@@ -101,7 +103,8 @@ public class SlotManager : MonoBehaviour
 
                 ItemSO temp = beginSlot.GetItem();
 
-                SendManager.Instance.ResetConverter(ConvertPanel.Instance.CurOpenConverter.id);
+                SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
+                SendManager.Instance.SendSyncObj(vo, ObjType.Converter, BehaviourType.Reset);
                 endSlot.SetItem(temp);
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.ConverterAfter && endSlot.Kind == ItemSlot.SlotKind.Inventory)
@@ -111,8 +114,8 @@ public class SlotManager : MonoBehaviour
                 if(endSlot.IsEmpty)
                 {
                     //endSlot is Empty
-
-                    SendManager.Instance.TakeConverterAfterItem(ConvertPanel.Instance.CurOpenConverter.id);
+                    SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
+                    SendManager.Instance.SendSyncObj(vo, ObjType.Converter, BehaviourType.Take);
                     endSlot.SetItem(beginSlot.GetItem());
                 }
             }

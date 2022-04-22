@@ -136,29 +136,11 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void StartConverting(int refineryId, int itemSOId)
+    public void SendSyncObj(SyncObjDataVO data, ObjType objType, BehaviourType behaviourType)
     {
-        RefineryVO vo = new RefineryVO(refineryId, itemSOId);
+        SyncObjVO vo = new SyncObjVO(objType, behaviourType, data);
 
-        DataVO dataVO = new DataVO("START_CONVERTER", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void ResetConverter(int refineryId)
-    {
-        RefineryVO vo = new RefineryVO(refineryId, 0);
-
-        DataVO dataVO = new DataVO("RESET_CONVERTER", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void TakeConverterAfterItem(int refineryId)
-    {
-        RefineryVO vo = new RefineryVO(refineryId, 0);
-
-        DataVO dataVO = new DataVO("TAKE_CONVERTER", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("SYNC_OBJ", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
