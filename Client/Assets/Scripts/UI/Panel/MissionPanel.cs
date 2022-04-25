@@ -14,10 +14,14 @@ public enum MissionType
     Charge,
     Engine,
     Battery,
+    Sand,
+    None,
 }
 
 public class MissionPanel : Panel
 {
+    public static MissionPanel Instance { get; private set; }
+
     [SerializeField]
     private List<IMission> missionList = new List<IMission>();
 
@@ -29,6 +33,11 @@ public class MissionPanel : Panel
 
     protected override void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+
         base.Awake();
 
         missionList = missionParentTrm.GetComponentsInChildren<IMission>().ToList();
