@@ -1,5 +1,4 @@
 const {Rooms} = require('../Rooms.js');
-const {SyncObjVO,SyncObjDataVO} = require('../VO/SyncObjVO.js');
 
 module.exports = {
     type:"SYNC_OBJ",
