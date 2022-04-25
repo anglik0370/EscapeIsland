@@ -112,11 +112,7 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
         {
             if (bottleGhost.isFilled())
             {
-                float mouseY = Input.mousePosition.y;
-
-                float criteriaY = Screen.height / 2 + correctionY + correctionY;
-
-                if(mouseY < criteriaY)
+                if(sea.IsBottleInWater)
                 {
                     print("물 밖이 아닙니다");
 

@@ -18,6 +18,10 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField]
     private BottleGhostMObj ghost;
 
+    [SerializeField]
+    private bool isBottleInWater;
+    public bool IsBottleInWater => isBottleInWater;
+
     private void Awake()
     {
         missionWater = GetComponentInParent<MissionWater>();
@@ -35,6 +39,8 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        isBottleInWater = true;
+
         if (Input.GetMouseButton(0))
         {
             if(co != null)
@@ -49,6 +55,7 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         //포인터가 화면 밖으로 나갔을 때 해줄 일
+        isBottleInWater = false;
 
         if (co != null)
         {
