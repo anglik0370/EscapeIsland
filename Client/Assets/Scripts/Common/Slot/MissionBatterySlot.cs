@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MissionBatterySlot : ItemSlot
 {
-    private MissionBattery missionBattery;
+    private MissionCharge missionBattery;
 
     public Image Image => image;
 
@@ -27,7 +27,7 @@ public class MissionBatterySlot : ItemSlot
 
     protected override void Awake()
     {
-        missionBattery = GetComponentInParent<MissionBattery>();
+        missionBattery = GetComponentInParent<MissionCharge>();
 
         base.Awake();
     }
