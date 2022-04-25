@@ -8,7 +8,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private SpriteRenderer sr;
     private Rigidbody2D rigid;
     private Animator anim;
-    private Transform playerBone;
+    private Transform playerTrm;
 
     [SerializeField]
     private InteractionSO nothingHandlerSO;
@@ -180,7 +180,7 @@ public class Player : MonoBehaviour, IInteractionObject
         isBone = sr == null;
         if(isBone)
         {
-            playerBone = player.transform.Find("bone_1");
+            playerTrm = player.transform;
         }
         anim = player.GetComponent<Animator>();
     }
@@ -258,7 +258,7 @@ public class Player : MonoBehaviour, IInteractionObject
         {
             if(isBone)
             {
-                playerBone.Rotate(dir.x > 0 ? flipRot : defaultRot);
+                playerTrm.rotation = Quaternion.Euler(dir.x > 0 ? flipRot : defaultRot);
             }
             else
             {
@@ -318,13 +318,20 @@ public class Player : MonoBehaviour, IInteractionObject
 
             if(dir != Vector3.zero)
             {
-                if(dir.x > 0)
+                if (isBone)
                 {
-                    sr.flipX = true;
+                    playerTrm.Rotate(dir.x > 0 ? flipRot : defaultRot);
                 }
-                else if (dir.x < 0)
+                else
                 {
-                    sr.flipX = false;
+                    if (dir.x > 0)
+                    {
+                        sr.flipX = true;
+                    }
+                    else if (dir.x < 0)
+                    {
+                        sr.flipX = false;
+                    }
                 }
 
                 //anim.SetBool("isMoving", true);
