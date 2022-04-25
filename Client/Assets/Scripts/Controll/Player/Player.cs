@@ -8,6 +8,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private SpriteRenderer sr;
     private Rigidbody2D rigid;
     private Animator anim;
+    private Transform playerTrm;
 
     [SerializeField]
     private InteractionSO nothingHandlerSO;
@@ -64,10 +65,14 @@ public class Player : MonoBehaviour, IInteractionObject
     public bool isDie = false;
 
     public bool isInside = false; //실내인지
+    private bool isBone = false;
 
     public Inventory inventory;
     public Color color;
     public Vector2 targetPos;
+
+    private Vector3 defaultRot;
+    private Vector3 flipRot;
 
     public float speed = 5;
 
@@ -83,9 +88,12 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
+
+        flipRot = new Vector3(0, 180, 0);
+        defaultRot = Vector3.zero;
     }
 
     private void Update()
@@ -143,11 +151,38 @@ public class Player : MonoBehaviour, IInteractionObject
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
         profile.BtnEnabled(false);
-        //플레이어 스프라이트 체인지
+        //플레이어 오브젝트 체인지
 
-        anim.runtimeAnimatorController = curSO.animController;
+        ChangePlayer();
 
         return beforeSoId;
+    }
+
+    public void DeletePlayer()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Transform child = transform.GetChild(i);
+            if (child.CompareTag("PlayerPrefab"))
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+    public void ChangePlayer()
+    {
+        DeletePlayer();
+
+        GameObject player = Instantiate(curSO.playerPrefab, transform);
+
+        sr = player.GetComponent<SpriteRenderer>();
+        isBone = sr == null;
+        if(isBone)
+        {
+            playerTrm = player.transform;
+        }
+        anim = player.GetComponent<Animator>();
     }
 
     public void RemoveCharacter()
@@ -221,14 +256,22 @@ public class Player : MonoBehaviour, IInteractionObject
 
         if(dir != Vector3.zero)
         {
-            if(dir.x > 0)
+            if(isBone)
             {
-                sr.flipX = true;
+                playerTrm.rotation = Quaternion.Euler(dir.x > 0 ? flipRot : defaultRot);
             }
-            else if (dir.x < 0)
+            else
             {
-                sr.flipX = false;
+                if (dir.x > 0)
+                {
+                    sr.flipX = true;
+                }
+                else if (dir.x < 0)
+                {
+                    sr.flipX = false;
+                }
             }
+            
 
             anim.SetBool("isMoving", true);
         }
@@ -275,13 +318,20 @@ public class Player : MonoBehaviour, IInteractionObject
 
             if(dir != Vector3.zero)
             {
-                if(dir.x > 0)
+                if (isBone)
                 {
-                    sr.flipX = true;
+                    playerTrm.Rotate(dir.x > 0 ? flipRot : defaultRot);
                 }
-                else if (dir.x < 0)
+                else
                 {
-                    sr.flipX = false;
+                    if (dir.x > 0)
+                    {
+                        sr.flipX = true;
+                    }
+                    else if (dir.x < 0)
+                    {
+                        sr.flipX = false;
+                    }
                 }
 
                 //anim.SetBool("isMoving", true);

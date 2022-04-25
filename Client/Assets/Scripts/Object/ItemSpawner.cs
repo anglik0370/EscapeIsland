@@ -13,10 +13,25 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     private InteractionSO ingameHandlerSO;
     public InteractionSO InGameHandlerSO => ingameHandlerSO;
 
+    [SerializeField]
+    private MissionType missionType;
+    public MissionType MissionType => missionType;
+
     public bool CanInteraction => IsItemSpawned;
 
     public Action LobbyCallback => () => { };
-    public Action IngameCallback => () => SpawnerManager.Instance.PickUpSpawnerItem(this);
+    //public Action IngameCallback => () => SpawnerManager.Instance.PickUpSpawnerItem(this);
+    public Action IngameCallback => () =>
+    {
+        if(missionType == MissionType.None)
+        {
+            SpawnerManager.Instance.PickUpSpawnerItem(this);
+        }
+        else
+        {
+            MissionPanel.Instance.Open(missionType);
+        }
+    };
 
     public int id;
 

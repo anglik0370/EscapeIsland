@@ -18,7 +18,6 @@ public class VoteManager : ISetAble
     public bool isVoteTime = false;
     public bool isTextChange = false;
 
-    private Timer timer;
     public float voteTime = 0f;
     private TimeVO timeVO;
     private VoteCompleteVO voteCompleteVO;
@@ -71,8 +70,6 @@ public class VoteManager : ISetAble
     {
         base.Start();
         EventManager.SubBackToRoom(() => voteTab.VoteUIDisable());
-
-        StartCoroutine(CoroutineHandler.Frame(() => timer = NetworkManager.instance.FindSetDataScript<Timer>()));
     }
 
     void Update()
