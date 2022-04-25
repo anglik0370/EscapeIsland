@@ -11,8 +11,9 @@ public enum MissionType
     Ore,
     Bottle,
     Water,
-    Battery,
+    Charge,
     Engine,
+    Battery,
 }
 
 public class MissionPanel : Panel
@@ -121,6 +122,11 @@ public class MissionPanel : Panel
     public void OpenEngine()
     {
         Open(MissionType.Engine);
+    }
+
+    public void OpenCharge()
+    {
+        Open(MissionType.Charge);
     }
 
     public void OpenBattery()
