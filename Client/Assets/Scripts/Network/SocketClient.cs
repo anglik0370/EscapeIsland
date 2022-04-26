@@ -41,7 +41,7 @@ public class SocketClient : MonoBehaviour
         IMsgHandler[] handlerList = handlerParent.GetComponents<IMsgHandler>();
         for (int i = 0; i < handlerList.Length; i++)
         {
-            //print(GetTypeString(handlerList[i].GetType().ToString()));
+            print(GetTypeString(handlerList[i].GetType().ToString()));
             handlerDic.Add(GetTypeString(handlerList[i].GetType().ToString()), handlerList[i]);
         }
 
