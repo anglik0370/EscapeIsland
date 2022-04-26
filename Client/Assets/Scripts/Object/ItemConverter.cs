@@ -171,4 +171,9 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     {
         return convertRecipeDic[beforeItem];
     }
+
+    public bool IsCanConvert(ItemSO so)
+    {
+        return convertRecipeList.Find(x => x == so) != null;
+    }
 }

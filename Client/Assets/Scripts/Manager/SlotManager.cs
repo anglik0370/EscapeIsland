@@ -80,7 +80,9 @@ public class SlotManager : MonoBehaviour
             {
                 //Inventory To ConverterBefore
 
-                if(beginSlot.GetItem() != null && beginSlot.GetItem().canRefining)
+                BeforeSlot beforeSlot = endSlot as BeforeSlot;
+
+                if (beginSlot.GetItem() != null && beforeSlot.ConverterObj.IsCanConvert(beginSlot.GetItem()))
                 {
                     ItemSO temp = null;
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, beginSlot.GetItem().itemId);

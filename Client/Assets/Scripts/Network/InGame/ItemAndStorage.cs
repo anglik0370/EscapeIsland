@@ -34,7 +34,7 @@ public class ItemAndStorage : ISetAble
     public void SetItemDisable(int spawnerId)
     {
         ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == spawnerId);
-        s.DeSpawnItem();
+        //s.DeSpawnItem();
     }
 
     public void SetItemStorage(int itemSOId)
