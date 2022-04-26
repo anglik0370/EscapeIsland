@@ -51,6 +51,8 @@ public class MissionPanel : Panel
         }
 
         missionList.ForEach(x => x.Init());
+
+        Open(MissionType.Sand);
     }
 
     public void Open(MissionType type)
@@ -141,5 +143,10 @@ public class MissionPanel : Panel
     public void OpenBattery()
     {
         Open(MissionType.Battery);
+    }
+
+    public void OpenSand()
+    {
+        Open(MissionType.Sand);
     }
 }
