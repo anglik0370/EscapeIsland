@@ -51,8 +51,6 @@ public class MissionPanel : Panel
         }
 
         missionList.ForEach(x => x.Init());
-
-        Open(MissionType.Sand);
     }
 
     public void Open(MissionType type)
