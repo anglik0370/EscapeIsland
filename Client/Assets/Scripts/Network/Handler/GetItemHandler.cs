@@ -8,6 +8,6 @@ public class GetItemHandler : IMsgHandler<ItemAndStorage>
     {
         base.HandleMsg(payload);
         int idx = int.Parse(payload);
-        NetworkManager.instance.FindSetDataScript<ItemAndStorage>().SetItemDisable(idx);
+        generic.SetItemDisable(idx);
     }
 }

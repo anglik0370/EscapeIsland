@@ -66,6 +66,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool isInside = false; //실내인지
     private bool isBone = false;
+    public bool isTrap = false;
 
     public Inventory inventory;
     public Color color;
@@ -252,7 +253,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void Move(Vector3 dir)
     {
-        if(IsRemote) return;
+        if(IsRemote || isTrap) return;
 
         if(dir != Vector3.zero)
         {
