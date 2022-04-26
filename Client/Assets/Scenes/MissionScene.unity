@@ -1215,7 +1215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c72b5c8dc14d964681d1617b9eb59c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 1b88f1f35ccc54e498f59466aa5bce2c, type: 2}
+  item: {fileID: 11400000, guid: 0ea703e443fb65a499c9fd119e4c9921, type: 2}
   itemImgDepth: 0
   kind: 4
   slotMissionType: 7
@@ -1564,7 +1564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxScale: 2
   minScale: 0
-  perfectScale: 0.8
+  perfectScale: 0.95
   goodCorrectionValue: 0.3
   correctionValue: 0.1
   decrease: 0.005
@@ -1727,6 +1727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionType: 9
   cvsSandSlot: {fileID: 423477158}
+  slot: {fileID: 163570275}
   maxSand: 1
   curSand: 0
   halfSand: 0.5

@@ -16,6 +16,8 @@ public class SandMission : MonoBehaviour, IMission
 
     [SerializeField]
     private CanvasGroup cvsSandSlot;
+    [SerializeField]
+    private MissionDropItemSlot slot;
 
     [Header("양동이에 모은 모래")]
     [SerializeField]
@@ -92,6 +94,8 @@ public class SandMission : MonoBehaviour, IMission
         curSand = 0f;
 
         UtilClass.SetCanvasGroup(cvsSandSlot);
+        slot.Init();
+        slot.SetRaycastTarget(true);
 
         bucket.UpdateFillAmount(curSand, maxSand);
 
