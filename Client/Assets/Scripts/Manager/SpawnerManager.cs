@@ -40,7 +40,7 @@ public class SpawnerManager : MonoBehaviour
     {
         if (player.inventory.IsAllSlotFull) return;
 
-        player.inventory.AddItem(spawner.GetItem());
-        spawner.DeSpawnItem();
+        //player.inventory.AddItem(spawner.GetItem());
+        //spawner.DeSpawnItem();
     }
 }
