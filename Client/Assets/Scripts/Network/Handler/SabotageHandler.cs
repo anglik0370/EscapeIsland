@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SabotageHandler : IMsgHandler<Sabotage>
+public class SabotageHandler : MonoBehaviour,IMsgHandler
 {
-    public override void HandleMsg(string payload)
+    public void HandleMsg(string payload)
     {
-        base.HandleMsg(payload);
-
         SabotageVO vo = JsonUtility.FromJson<SabotageVO>(payload);
 
-        generic.SetSabotageData(vo);
+        Sabotage.SetSabotageData(vo);
     }
 }
