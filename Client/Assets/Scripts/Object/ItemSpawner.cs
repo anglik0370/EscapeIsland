@@ -90,7 +90,7 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
 
     public Transform GetInteractionTrm()
     {
-        return interactionTrm;
+        return interactionTrm == null ? transform : interactionTrm;
     }
 
     public Sprite GetSprite()
