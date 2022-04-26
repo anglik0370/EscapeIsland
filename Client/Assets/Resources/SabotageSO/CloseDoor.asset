@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: CloseDoor
   m_EditorClassIdentifier: 
   sabotageName: CloseDoor
-  coolTime: 90
+  callbackName: 
+  coolTime: 45
+  shareCoolTime: 25
   isShareCoolTime: 1
   sabotageSprite: {fileID: 0}
-  callback:
-    m_PersistentCalls:
-      m_Calls: []

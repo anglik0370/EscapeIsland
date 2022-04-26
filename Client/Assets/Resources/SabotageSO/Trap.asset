@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Trap
   m_EditorClassIdentifier: 
   sabotageName: Trap
-  coolTime: 120
+  callbackName: SpawnTrap
+  coolTime: 60
+  shareCoolTime: 0
   isShareCoolTime: 0
   sabotageSprite: {fileID: 0}
-  callback:
-    m_PersistentCalls:
-      m_Calls: []
