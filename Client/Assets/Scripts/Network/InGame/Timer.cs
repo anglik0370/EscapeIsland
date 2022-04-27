@@ -199,7 +199,6 @@ public class Timer : ISetAble
 
         if (!isVoteTimer)
         {
-            VoteManager.Instance.EndVoteTime();
             remainVoteTimerMin = defaultVoteTimerMin;
         }
     }
