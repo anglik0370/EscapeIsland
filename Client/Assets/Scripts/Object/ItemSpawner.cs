@@ -32,6 +32,10 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         {
             SpawnerManager.Instance.PickUpSpawnerItem(this);
         }
+        else if(missionType == MissionType.Charge)
+        {
+            MissionPanel.Instance.Open(missionType, GetComponent<ItemCharger>());
+        }
         else
         {
             MissionPanel.Instance.Open(missionType);

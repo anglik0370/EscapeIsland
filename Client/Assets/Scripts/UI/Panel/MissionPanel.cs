@@ -53,7 +53,7 @@ public class MissionPanel : Panel
         missionList.ForEach(x => x.Init());
     }
 
-    public void Open(MissionType type)
+    public void Open(MissionType type, ItemCharger charger = null)
     {
         IMission mission = null;
 
@@ -80,6 +80,18 @@ public class MissionPanel : Panel
         if (oldMission.MissionType != mission.MissionType)
         {
             UtilClass.SetCanvasGroup(oldMission.Cvs);
+        }
+
+        if(mission.MissionType == MissionType.Charge)
+        {
+            MissionCharge missionCharge = mission as MissionCharge;
+
+            if(charger == null)
+            {
+                print("차저를 넣어야지 신아");
+            }
+
+            missionCharge.SetCurCharger(charger);
         }
 
         UtilClass.SetCanvasGroup(mission.Cvs, 1, true, true);

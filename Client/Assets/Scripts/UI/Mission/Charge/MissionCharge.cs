@@ -15,13 +15,10 @@ public class MissionCharge : MonoBehaviour, IMission
     public MissionType MissionType => missionType;
 
     [SerializeField]
-    private float maxChargingTime = 7f;
-    [SerializeField]
-    private float curChargingTime = 0f;
+    private ItemCharger curOpenCharger;
+    public ItemCharger CurOpenCharger => curOpenCharger;
 
-    [SerializeField]
-    private bool isMaxCharge = false;
-    public bool IsMaxCharge => isMaxCharge;
+    public bool IsMaxCharge => curOpenCharger.IsMaxCharging;
 
     private void Awake()
     {
@@ -33,36 +30,50 @@ public class MissionCharge : MonoBehaviour, IMission
 
     public void Init()
     {
-        guage.SetProgress(maxChargingTime, curChargingTime);
+        guage.SetProgress(0, 0);
+    }
+
+    public void InitCurCharger()
+    {
+        curOpenCharger.Init();
     }
     
-    public void InitCharger()
+    public void SetCurCharger(ItemCharger charger)
     {
-        isMaxCharge = false;
+        curOpenCharger = charger;
 
-        curChargingTime = 0f;
-        guage.SetProgress(maxChargingTime, curChargingTime);
-    }
-    
-    public void StartCharging()
-    {
-        StartCoroutine(Charge_Routine());
-    }
+        guage.SetProgress(curOpenCharger.MaxChargingTime, curOpenCharger.CurChargingTime);
 
-    private IEnumerator Charge_Routine()
-    {
-        //충전하기 전
-
-        while(curChargingTime < maxChargingTime)
+        if(curOpenCharger.IsMaxCharging)
         {
-            curChargingTime += Time.deltaTime;
-            guage.SetProgress(maxChargingTime, curChargingTime);
-            yield return null;
+            batterySlot.SetBatteryItem();
         }
+        else if(curOpenCharger.IsCharging)
+        {
+            batterySlot.SetEmptyBetteryItem();
+        }
+        else
+        {
+            batterySlot.SetNullItem();
+        }
+    }
 
-        //충전이 끝나면 해줄 일을 적어주면 된다
-        batterySlot.SetBatteryItem();
+    public void SetEmptyBattery()
+    {
+        if (curOpenCharger == null) return;
 
-        isMaxCharge = true;
+        curOpenCharger.StartCharging();
+    }
+  
+    private void Update()
+    {
+        if (curOpenCharger == null) return;
+
+        guage.SetProgress(curOpenCharger.MaxChargingTime, curOpenCharger.CurChargingTime);
+
+        if(curOpenCharger.IsMaxCharging)
+        {
+            batterySlot.SetBatteryItem();
+        }
     }
 }

@@ -149,11 +149,9 @@ public class SlotManager : MonoBehaviour
 
                 if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty)
                 {
-                    slot.Image.sprite = slot.BatterySprite;
-                    slot.Image.color = UtilClass.opacityColor;
+                    slot.SetEmptyBetteryItem();
 
                     slot.StartCharging();
-
                     beginSlot.SetItem(null);
                 }
             }
@@ -163,14 +161,12 @@ public class SlotManager : MonoBehaviour
 
                 MissionBatterySlot slot = beginSlot as MissionBatterySlot;
 
-                if(!slot.IsEmpty && slot.IsMaxCharge)
+                if(endSlot.IsEmpty && slot.IsMaxCharge)
                 {
-                    slot.Image.sprite = null;
-                    slot.Image.color = UtilClass.limpidityColor;
+                    slot.SetNullItem();
 
+                    slot.InitCurCharger();
                     endSlot.SetItem(slot.BatterySO);
-
-                    slot.InitCharger();
                 }
             }
         }
