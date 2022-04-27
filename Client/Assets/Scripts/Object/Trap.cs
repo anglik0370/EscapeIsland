@@ -40,8 +40,11 @@ public class Trap : MonoBehaviour
         isTrap = false;
         gameObject.SetActive(false);
 
-        enterPlayer.isTrap = false;
-        enterPlayer = null;
+        if(enterPlayer != null)
+        {
+            enterPlayer.isTrap = false;
+            enterPlayer = null;
+        }
     }
 
     IEnumerator SetDisable()
@@ -59,7 +62,7 @@ public class Trap : MonoBehaviour
         {
             Player p = col.GetComponentInParent<Player>();
             
-            if(p != null && !p.isKidnapper && !isTrap)
+            if(p != null && !isTrap)
             {
                 enterPlayer = p;
                 SendManager.Instance.SendTrap(id);
@@ -74,7 +77,11 @@ public class Trap : MonoBehaviour
 
     IEnumerator EnterTrapCo()
     {
-        isTrap = sr.enabled = enterPlayer.isTrap = true;
+        if(enterPlayer != null)
+        {
+            enterPlayer.isTrap = true;
+        }
+        isTrap = sr.enabled = true;
 
         yield return trapTime;
 
