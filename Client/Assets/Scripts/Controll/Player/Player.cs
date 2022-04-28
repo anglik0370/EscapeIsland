@@ -122,6 +122,10 @@ public class Player : MonoBehaviour, IInteractionObject
         this.IsRemote = isRemote;
         master = vo.master;
 
+        isTrap = false;
+        isBone = false;
+        isInside = false;
+
         socketName = vo.name;
         socketId = vo.socketId;
         roomNum = vo.roomNum;
@@ -240,6 +244,7 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetDead()
     {
         isDie = true;
+        isTrap = false;
 
         anim.SetFloat("isDie", 1f);
     }

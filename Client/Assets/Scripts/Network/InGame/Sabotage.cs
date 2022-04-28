@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class Sabotage : ISetAble
@@ -9,8 +10,6 @@ public class Sabotage : ISetAble
 
     [SerializeField]
     private GameObject trapPrefab;
-
-    private Dictionary<string, Action> sabotageDic = new Dictionary<string, Action>();
 
     private SabotageVO sabotageData;
 
@@ -35,16 +34,6 @@ public class Sabotage : ISetAble
     protected override void Start()
     {
         base.Start();
-
-        List<SabotageButton> sabotageList = SabotagePanel.Instance.SabotageList;
-        for (int i = 0; i < sabotageList.Count; i++)
-        {
-            int idx = i;
-            sabotageDic.Add(sabotageList[idx].SabotageSO.sabotageName, () =>
-            {
-                Invoke(sabotageList[idx].SabotageSO.callbackName,0f);
-            });
-        }
     }
 
     private void Update()
@@ -84,12 +73,12 @@ public class Sabotage : ISetAble
     {
         SabotageButton curSabotage = SabotagePanel.Instance.FindSabotageButton(sabotageData.sabotageName);
 
-        if((sabotageData.isShareCoolTime && user.isKidnapper) || user.isKidnapper)
+        if((sabotageData.isShareCoolTime && user.isKidnapper) || user.socketId == sabotageData.starterId)
         {
-            curSabotage.StartSabotage();
+            curSabotage.StartSabotage(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
         }
 
-        sabotageDic[curSabotage.SabotageSO.sabotageName]?.Invoke();
+        curSabotage.SabotageSO.callback?.Invoke();
         print("Start SAbotage");
     }
 
@@ -125,4 +114,6 @@ public class Sabotage : ISetAble
     {
         return trapList.Find(x => x.id == trapIdx);
     }
+
+    //public void 
 }

@@ -69,14 +69,19 @@ public class SabotageButton : MonoBehaviour
         }
     }
 
-    public void StartSabotage()
+    public void StartSabotage(float coolTime)
     {
         sabotageBtn.enabled = false;
-        curCoolTime = maxCoolTime;
+        curCoolTime = maxCoolTime = coolTime;
     }
 
     private void SendSabotage()
     {
         SendManager.Instance.SendSabotage(NetworkManager.instance.User.socketId,sabotageSO.isShareCoolTime, sabotageSO.sabotageName);
+    }
+
+    public void SpawnTrap()
+    {
+        Sabotage.Instance.SpawnTrap();
     }
 }
