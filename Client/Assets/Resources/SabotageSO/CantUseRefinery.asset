@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4d2e93c9127ee54388bcf1915455320, type: 3}
-  m_Name: StopRaft
+  m_Name: CantUseRefinery
   m_EditorClassIdentifier: 
-  sabotageName: StopRaft
-  coolTime: 480
+  sabotageName: CantUseRefinery
+  coolTime: 240
+  shareCoolTime: 240
   isShareCoolTime: 1
   sabotageSprite: {fileID: 0}
   callback:
