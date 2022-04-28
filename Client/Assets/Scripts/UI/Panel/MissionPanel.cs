@@ -50,7 +50,7 @@ public class MissionPanel : Panel
             UtilClass.SetCanvasGroup(missionList[i].Cvs);
         }
 
-        missionList.ForEach(x => x.Open());
+        missionList.ForEach(x => x.Close());
     }
 
     public void Open(MissionType type, ItemCharger charger = null)
