@@ -46,7 +46,6 @@ public class GameStart : ISetAble
                 user.transform.position = uv.position;
                 user.isKidnapper = uv.isImposter;
 
-                EventManager.OccurGameStart(user);
             }
             else
             {
@@ -61,5 +60,6 @@ public class GameStart : ISetAble
                 }
             }
         }
+        EventManager.OccurGameStart(user);
     }
 }

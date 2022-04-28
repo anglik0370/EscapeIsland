@@ -17,9 +17,14 @@ public class Sabotage : ISetAble
     private bool needTrapRefresh = false;
 
     private int trapId = -1;
+    private int lastTrapIdx = 1;
 
     private List<Trap> trapList = new List<Trap>();
-    private int lastTrapIdx = 1;
+    private List<GameObject> doorList = new List<GameObject>();
+
+    [SerializeField]
+    private Transform doorParent;
+
 
     private void Awake()
     {
@@ -115,5 +120,23 @@ public class Sabotage : ISetAble
         return trapList.Find(x => x.id == trapIdx);
     }
 
-    //public void 
+    public void CloseDoor()
+    {
+        //StartCoroutine(Close());
+    }
+
+    private IEnumerator Close()
+    {
+        OpenOrClose(true);
+        yield return CoroutineHandler.fifteenSec;
+        OpenOrClose(false);
+    }
+
+    private void OpenOrClose(bool open)
+    {
+        for (int i = 0; i < doorList.Count; i++)
+        {
+            doorList[i].SetActive(open);
+        }
+    }
 }

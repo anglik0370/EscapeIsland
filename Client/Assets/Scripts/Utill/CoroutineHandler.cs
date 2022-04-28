@@ -6,6 +6,7 @@ using UnityEngine;
 public static class CoroutineHandler 
 {
     public static WaitForSeconds oneSec = new WaitForSeconds(1f);
+    public static WaitForSeconds fifteenSec = new WaitForSeconds(15f);
 
     public static IEnumerator Frame(Action act)
     {
