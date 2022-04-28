@@ -134,7 +134,7 @@ public class VoteManager : ISetAble
 
     public void RefreshTime(int day, bool isLightTime)
     {
-        EndVoteTime();
+        //EndVoteTime();
         TimeHandler.Instance.TimeRefresh(day, isLightTime);
     }
     public void EndVoteTime()
