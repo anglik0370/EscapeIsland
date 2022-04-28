@@ -79,6 +79,7 @@ Transform:
   - {fileID: 3556219937218705309}
   - {fileID: 2129512510843662137}
   - {fileID: 6939580031537730306}
+  - {fileID: 2630403210548837610}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -250,7 +251,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1865585133
-  m_SortingLayer: 6
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9bf019755d1e6434b93110da4781e2cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -295,7 +296,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bRunOnce: 0
-  otherTrm: {fileID: 0}
-  useOtherTrm: 0
+  otherTrm: {fileID: 2630403210548837610}
+  useOtherTrm: 1
   useReverse: 0
   posOffsetY: 0
+--- !u!1 &8495363363839167219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2630403210548837610}
+  m_Layer: 6
+  m_Name: FootTrm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2630403210548837610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495363363839167219}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.802, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4941352829889900957}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
