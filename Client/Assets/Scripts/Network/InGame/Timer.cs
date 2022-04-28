@@ -210,7 +210,7 @@ public class Timer : ISetAble
 
         if(!isInGameTimer)
         {
-            
+            VoteManager.Instance.EndVoteTime();
         }
     }
 }
