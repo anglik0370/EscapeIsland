@@ -47,7 +47,12 @@ public class MissionEngine : MonoBehaviour, IMission
         //dragScreen.SubOnEndDrag(CutWire);
     }
 
-    public void Init()
+    public void Open()
+    {
+        
+    }
+
+    public void Close()
     {
         curOrder = 1;
 

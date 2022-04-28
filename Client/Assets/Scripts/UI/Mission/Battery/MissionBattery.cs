@@ -23,7 +23,12 @@ public class MissionBattery : MonoBehaviour, IMission
         slotList = slotParentTrm.GetComponentsInChildren<MissionDropItemSlot>().ToList();
     }
 
-    public void Init()
+    public void Open()
+    {
+        
+    }
+
+    public void Close()
     {
         slotList.ForEach(x => x.Init());
         slotList.ForEach(x => x.SetRaycastTarget(true));

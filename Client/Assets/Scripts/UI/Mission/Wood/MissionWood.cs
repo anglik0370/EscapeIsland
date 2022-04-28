@@ -43,7 +43,12 @@ public class MissionWood : MonoBehaviour, IMission
         dragScreen.SubOnEndDrag(CuttingBranch);
     }
 
-    public void Init()
+    public void Open()
+    {
+        
+    }
+
+    public void Close()
     {
         branchList.ForEach(x => x.Init());
         slotList.ForEach(x => x.Init());

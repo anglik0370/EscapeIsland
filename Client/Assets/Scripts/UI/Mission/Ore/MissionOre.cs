@@ -44,7 +44,12 @@ public class MissionOre : MonoBehaviour, IMission
         slotList = slotParentTrm.GetComponentsInChildren<MissionDropItemSlot>().ToList();
     }
 
-    public void Init()
+    public void Open()
+    {
+
+    }
+
+    public void Close()
     {
         getItemCnt = 0;
 

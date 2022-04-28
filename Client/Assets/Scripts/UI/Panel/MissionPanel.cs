@@ -50,7 +50,7 @@ public class MissionPanel : Panel
             UtilClass.SetCanvasGroup(missionList[i].Cvs);
         }
 
-        missionList.ForEach(x => x.Init());
+        missionList.ForEach(x => x.Close());
     }
 
     public void Open(MissionType type, ItemCharger charger = null)
@@ -96,6 +96,8 @@ public class MissionPanel : Panel
 
         UtilClass.SetCanvasGroup(mission.Cvs, 1, true, true);
 
+        mission.Open();
+
         oldMission = mission;
 
         base.Open(true);
@@ -103,7 +105,7 @@ public class MissionPanel : Panel
 
     public override void Close(bool isTweenSkip = false)
     {
-        oldMission.Init();
+        oldMission.Close();
 
         UtilClass.SetCanvasGroup(oldMission.Cvs);
 
