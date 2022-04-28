@@ -20,6 +20,9 @@ public class RefreshUsers : ISetAble
     private void Awake()
     {
         lightPos = new Vector3(0, -0.76f, 0);
+
+        PoolManager.CreatePool<LightMap>(lights[0], transform, 30);
+        PoolManager.CreatePool<ShadowLight>(lights[1], transform, 30);
     }
 
     protected override void Start()
@@ -63,11 +66,14 @@ public class RefreshUsers : ISetAble
             InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
             user.InitPlayer(uv, ui, false, profile.GetSO());
 
-            for (int i = 0; i < lights.Length; i++)
-            {
-                GameObject obj = Instantiate(lights[i], user.transform);
-                obj.transform.localPosition = lightPos;
-            }
+            Transform lightMap = PoolManager.GetItem<LightMap>().transform;
+            Transform shadowLight = PoolManager.GetItem<ShadowLight>().transform;
+
+            lightMap.SetParent(user.transform);
+            shadowLight.SetParent(user.transform);
+
+            lightMap.localPosition = lightPos;
+            shadowLight.localPosition = lightPos;
 
             if (isTest)
             {

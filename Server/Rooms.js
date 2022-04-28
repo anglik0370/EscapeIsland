@@ -67,6 +67,8 @@ class Rooms {
         }
 
         this.join(socket,true);
+
+        this.roomIdx++;
     }
 
     joinRoom(socket,roomNum) {
@@ -178,6 +180,7 @@ class Rooms {
         for(let i = 0; i < value.length; i++) {
             dataList.push(value[i].returnData());
         }
+
         socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
     }
 

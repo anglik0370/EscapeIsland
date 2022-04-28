@@ -28,7 +28,16 @@ public class InfoManager : MonoBehaviour
     {
         InfoUI ui = PoolManager.GetItem<InfoUI>();
         ui.SetTarget(player, instance.MainPlayer, name);
-        instance.infoList.Add(ui);
+        if(!instance.infoList.Contains(ui))
+        {
+            instance.infoList.Add(ui);
+        }
         return ui;
     }
+
+    public static InfoUI FindInfoUI(int playerId)
+    {
+        return instance.infoList.Find(ui => ui.MainPlayer.socketId == playerId && ui.gameObject.activeSelf);
+    }
+
 }

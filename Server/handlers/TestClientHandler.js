@@ -32,7 +32,7 @@ module.exports =  {
             user.socketId = dummySocket.id;
             user.position = GetRandomPos();
             
-            room.curUserNum++;
+            //Rooms.join(dummySocket,false);
             room.addSocket(dummySocket,Users.userList[dummySocket.id]);
     
         }
