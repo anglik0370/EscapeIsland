@@ -28,7 +28,12 @@ public class MissionCharge : MonoBehaviour, IMission
         batterySlot = GetComponentInChildren<MissionBatterySlot>();
     }
 
-    public void Init()
+    public void Open()
+    {
+        
+    }
+
+    public void Close()
     {
         guage.SetProgress(0, 0);
     }

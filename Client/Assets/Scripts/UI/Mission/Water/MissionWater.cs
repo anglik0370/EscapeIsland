@@ -78,12 +78,17 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
             }
             else
             {
-                Init();
+                Open();
             }
         }
     }
 
-    public void Init()
+    public void Open()
+    {
+        
+    }
+
+    public void Close()
     {
         isPointerInPanel = false;
         isDragging = false;
@@ -135,7 +140,7 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
                 itemGhost.SetItem(emptyBottle);
             }
 
-            Init();
+            Open();
         }
     }
 }
