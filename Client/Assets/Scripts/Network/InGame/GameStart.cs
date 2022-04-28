@@ -63,11 +63,17 @@ public class GameStart : ISetAble
 
         if(user.isKidnapper)
         {
-            InfoUI userUI = InfoManager.FindInfoUI(user.socketId);
-
-            if(userUI != null)
+            if(user.UI != null)
             {
-                userUI.txtName.color = Color.red;
+                user.UI.txtName.color = Color.red;
+            }
+
+            foreach (int key in playerList.Keys)
+            {
+                if(playerList[key].isKidnapper)
+                {
+                    playerList[key].UI.txtName.color = Color.red;
+                }
             }
         }
         EventManager.OccurGameStart(user);

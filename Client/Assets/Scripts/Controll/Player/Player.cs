@@ -88,6 +88,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private Coroutine sendData;
 
     private InfoUI ui = null;
+    public InfoUI UI => ui;
 
     public CharacterSO curSO;
 
@@ -263,6 +264,7 @@ public class Player : MonoBehaviour, IInteractionObject
         }
 
         gameObject.SetActive(false);
+        ui.txtName.color = Color.black;
         ui.gameObject.SetActive(false);
     }
 

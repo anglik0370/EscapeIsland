@@ -35,9 +35,4 @@ public class InfoManager : MonoBehaviour
         return ui;
     }
 
-    public static InfoUI FindInfoUI(int playerId)
-    {
-        return instance.infoList.Find(ui => ui.MainPlayer.socketId == playerId && ui.gameObject.activeSelf);
-    }
-
 }
