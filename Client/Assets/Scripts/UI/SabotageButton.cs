@@ -84,4 +84,19 @@ public class SabotageButton : MonoBehaviour
     {
         Sabotage.Instance.SpawnTrap();
     }
+
+    public void StartArson()
+    {
+
+    }
+
+    public void CloseDoor()
+    {
+        Sabotage.Instance.CloseDoor();
+    }
+
+    public void CantUseRefinery()
+    {
+
+    }
 }

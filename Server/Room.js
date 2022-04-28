@@ -297,6 +297,7 @@ class Room {
     addSocket(socket,user) {
         this.socketList.push(socket);
         this.userList[user.socketId] = user;
+        this.curUserNum++;
     }
 
     removeSocket(rSocketIdx) {

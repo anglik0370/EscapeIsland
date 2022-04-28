@@ -19,4 +19,16 @@ MonoBehaviour:
   sabotageSprite: {fileID: 0}
   callback:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6558261083451532474, guid: c5d48dba4d76c3a418dc3165ff87a5f1, type: 3}
+        m_TargetAssemblyTypeName: SabotageButton, Assembly-CSharp
+        m_MethodName: CantUseRefinery
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

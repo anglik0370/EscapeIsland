@@ -7,8 +7,6 @@ public class Trap : MonoBehaviour
     [SerializeField]
     private SpriteRenderer sr;
 
-    private WaitForSeconds trapTime;
-
     public Player enterPlayer = null;
 
     bool isOnce = false;
@@ -21,7 +19,6 @@ public class Trap : MonoBehaviour
         EventManager.SubGameOver(goc => Init());
         EventManager.SubExitRoom(Init);
 
-        trapTime = new WaitForSeconds(15f);
     }
 
     void OnEnable()
@@ -83,7 +80,7 @@ public class Trap : MonoBehaviour
         }
         isTrap = sr.enabled = true;
 
-        yield return trapTime;
+        yield return CoroutineHandler.fifteenSec;
 
         Init();
     }
