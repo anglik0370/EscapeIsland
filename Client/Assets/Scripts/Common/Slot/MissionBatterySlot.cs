@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MissionBatterySlot : ItemSlot
 {
     private MissionCharge missionBattery;
+    public MissionCharge MissionBattery => missionBattery;
 
     public Image Image => image;
 

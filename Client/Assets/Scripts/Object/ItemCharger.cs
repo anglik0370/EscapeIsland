@@ -7,6 +7,7 @@ public class ItemCharger : MonoBehaviour
 {
     [SerializeField]
     private int id;
+    public int Id => id;
 
     [SerializeField]
     private bool isCharging;

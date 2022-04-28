@@ -68,6 +68,29 @@ public class SyncObjs : ISetAble
         }
     }
 
+    public void SetBattery()
+    {
+        switch (objVO.behaviourType)
+        {
+            case BehaviourType.Start:
+                SetChargingBattery(objVO.data.objId);
+                break;
+            case BehaviourType.Take:
+                SetTakeBattery(objVO.data.objId);
+                break;
+        }
+    }
+
+    public void SetChargingBattery(int batteryId)
+    {
+        
+    }
+
+    public void SetTakeBattery(int batteryId)
+    {
+
+    }
+
     public void SetStartConverter(int converterId, int itemSOId)
     {
         ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);

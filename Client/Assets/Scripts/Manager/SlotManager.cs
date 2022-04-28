@@ -149,6 +149,8 @@ public class SlotManager : MonoBehaviour
 
                 if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty)
                 {
+                    SyncObjDataVO vo = new SyncObjDataVO(slot.MissionBattery.CurOpenCharger.Id, -1);
+                    SendManager.Instance.SendSyncObj(vo, ObjType.Battery, BehaviourType.Start);
                     slot.SetEmptyBetteryItem();
 
                     slot.StartCharging();
@@ -163,6 +165,10 @@ public class SlotManager : MonoBehaviour
 
                 if(endSlot.IsEmpty && slot.IsMaxCharge)
                 {
+
+                    SyncObjDataVO vo = new SyncObjDataVO(slot.MissionBattery.CurOpenCharger.Id, -1);
+                    SendManager.Instance.SendSyncObj(vo, ObjType.Battery, BehaviourType.Take);
+
                     slot.SetNullItem();
 
                     slot.InitCurCharger();
