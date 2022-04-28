@@ -9,6 +9,9 @@ public class Player : MonoBehaviour, IInteractionObject
     private Rigidbody2D rigid;
     private Animator anim;
     private Transform playerTrm;
+    private Collider2D footCollider;
+
+    public Collider2D FootCollider => footCollider;
 
     [SerializeField]
     private InteractionSO nothingHandlerSO;
@@ -92,6 +95,8 @@ public class Player : MonoBehaviour, IInteractionObject
         sr = GetComponentInChildren<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+
+        footCollider = transform.Find("FootCollider").GetComponent<Collider2D>();
 
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;

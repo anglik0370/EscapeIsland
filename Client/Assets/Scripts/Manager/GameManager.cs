@@ -8,6 +8,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField]
+    private Transform seaInteractionColParentTrm;
+    [SerializeField]
+    private List<Collider2D> seaInteractionColList;
+    [SerializeField]
+    private ItemSpawner waterSpawner;
+
+    [SerializeField]
     private List<IInteractionObject> interactionObjList = new List<IInteractionObject>();
     public List<IInteractionObject> InteractionObjList => interactionObjList;
 
@@ -24,6 +31,8 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        seaInteractionColList = seaInteractionColParentTrm.GetComponentsInChildren<Collider2D>().ToList();
     }
 
     private void Start()
@@ -70,6 +79,15 @@ public class GameManager : MonoBehaviour
 
     public IInteractionObject GetProximateObject()
     {
+        for (int i = 0; i < seaInteractionColList.Count; i++)
+        {
+            if(Physics2D.IsTouching(seaInteractionColList[i], player.FootCollider))
+            {
+                print("o");
+                return waterSpawner;
+            }
+        }
+
         IInteractionObject proximateObj = interactionObjList[0];
 
         for (int i = 0; i < interactionObjList.Count; i++)
