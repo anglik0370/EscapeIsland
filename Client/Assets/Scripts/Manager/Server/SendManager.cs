@@ -66,9 +66,8 @@ public class SendManager : MonoBehaviour
     public void ExitRoomSend()
     {
         RoomVO vo = new RoomVO();
-        vo.roomNum = roomNum;
 
-        DataVO dataVO = new DataVO("EXIT_ROOM", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("EXIT_ROOM", null);
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
