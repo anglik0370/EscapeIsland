@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < interactionObjList.Count; i++)
         {
+            if (interactionObjList[i].GetTrm().gameObject == null) continue;
+
             objList.Add(interactionObjList[i].GetTrm().gameObject);
         }
     }
