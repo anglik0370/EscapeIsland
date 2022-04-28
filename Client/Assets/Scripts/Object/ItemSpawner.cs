@@ -100,13 +100,13 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     public Sprite GetSprite()
     {
         //return poolObj.GetSprite();
-        return sr.sprite;
+        return sr != null ? sr.sprite : null;
     }
 
     public bool GetFlipX()
     {
         //return poolObj.GetFlipX();
-        return sr.flipX;
+        return sr != null ? sr.flipX : true;
     }
 
     //public void SpawnItem()
