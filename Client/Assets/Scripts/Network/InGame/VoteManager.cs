@@ -176,7 +176,7 @@ public class VoteManager : ISetAble
             if (uv.socketId == socketId)
             {
                 user.transform.position = uv.position;
-                voteTab.SetVoteUI(uv.socketId, uv.name, user.curSO.profileImg);
+                voteTab.SetVoteUI(uv.socketId, uv.name, user.curSO.profileImg,user.isKidnapper);
             }
             else
             {
@@ -187,7 +187,7 @@ public class VoteManager : ISetAble
                 if (p != null)
                 {
                     p.transform.position = uv.position;
-                    voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg);
+                    voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg,user.isKidnapper);
                 }
             }
         }

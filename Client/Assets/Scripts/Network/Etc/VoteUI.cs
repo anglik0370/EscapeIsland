@@ -12,10 +12,11 @@ public class VoteUI : MonoBehaviour
     public Toggle checkToggle;
     public Image voteCompleteImg;
 
-    public void SetVoteUI(int socId, string name, Sprite charSprite, ToggleGroup group)
+    public void SetVoteUI(int socId, string name, Sprite charSprite, ToggleGroup group,bool isKidnapper)
     {
         this.socId = socId;
         nickNameText.text = name;
+        nickNameText.color = isKidnapper ? Color.red : Color.black;
         charImg.sprite = charSprite;
         checkToggle.group = group;
 

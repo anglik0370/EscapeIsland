@@ -70,7 +70,7 @@ public class GameStart : ISetAble
 
             foreach (int key in playerList.Keys)
             {
-                if(playerList[key].isKidnapper)
+                if(playerList[key].isKidnapper && playerList[key].UI != null)
                 {
                     playerList[key].UI.txtName.color = Color.red;
                 }
