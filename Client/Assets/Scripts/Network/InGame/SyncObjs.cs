@@ -48,6 +48,7 @@ public class SyncObjs : ISetAble
                 SetConverter();
                 break;
             case ObjType.Battery:
+                SetBattery();
                 break;
         }
     }
@@ -81,14 +82,16 @@ public class SyncObjs : ISetAble
         }
     }
 
-    public void SetChargingBattery(int batteryId)
+    public void SetChargingBattery(int batteryChargerId)
     {
-        
+        ItemCharger charger = ChargerManager.Instance.FindChargerById(batteryChargerId);
+        charger.StartCharging();
     }
 
-    public void SetTakeBattery(int batteryId)
+    public void SetTakeBattery(int batteryChargerId)
     {
-
+        ItemCharger charger = ChargerManager.Instance.FindChargerById(batteryChargerId);
+        charger.Init();
     }
 
     public void SetStartConverter(int converterId, int itemSOId)

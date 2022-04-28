@@ -16,6 +16,8 @@ public class ChargerManager : MonoBehaviour
     private void Awake()
     {
         chargerList = chargerParentTrm.GetComponentsInChildren<ItemCharger>().ToList();
+
+        Instance = this;
     }
 
     public ItemCharger FindChargerById(int id)
