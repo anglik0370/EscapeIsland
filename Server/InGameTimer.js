@@ -1,7 +1,7 @@
 class InGameTimer {
     constructor() {
-        this.timeToNextSlot = 20;
-        this.curTime = 20;
+        this.timeToNextSlot = 120;
+        this.curTime = 120;
         this.isLightTime = true;
         this.sec = 1;
         this.day = 1;
