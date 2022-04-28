@@ -110,6 +110,11 @@ public class MissionPanel : Panel
         base.Close(isTweenSkip);
     }
 
+    public IMission FindMissionByType(MissionType type)
+    {
+        return missionList.Find(x => x.MissionType.Equals(type));
+    }
+
     public void OpenCoconut()
     {
         Open(MissionType.Coconut);

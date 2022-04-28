@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class MissionBatterySlot : ItemSlot
 {
-    private MissionCharge missionBattery;
-    public MissionCharge MissionBattery => missionBattery;
+    private MissionCharge missionCharge;
 
     public Image Image => image;
 
@@ -24,11 +23,11 @@ public class MissionBatterySlot : ItemSlot
     public ItemSO BatterySO => batterySO;
 
     public new bool IsEmpty => image.color == UtilClass.limpidityColor;
-    public bool IsMaxCharge => missionBattery.IsMaxCharge;
+    public bool IsMaxCharge => missionCharge.IsMaxCharge;
 
     protected override void Awake()
     {
-        missionBattery = GetComponentInParent<MissionCharge>();
+        missionCharge = GetComponentInParent<MissionCharge>();
 
         Image[] imgs = GetComponentsInChildren<Image>();
 
@@ -62,12 +61,12 @@ public class MissionBatterySlot : ItemSlot
     //충전 시작할 때 콜되는 함수
     public void StartCharging()
     {
-        missionBattery.SetEmptyBattery();
+        missionCharge.SetEmptyBattery();
     }
 
     //충전 끝난 배터리 가져갔을 때 콜되는 함수
     public void InitCurCharger()
     {
-        missionBattery.InitCurCharger();
+        missionCharge.InitCurCharger();
     }
 }
