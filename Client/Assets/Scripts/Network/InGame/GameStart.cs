@@ -60,6 +60,16 @@ public class GameStart : ISetAble
                 }
             }
         }
+
+        if(user.isKidnapper)
+        {
+            InfoUI userUI = InfoManager.FindInfoUI(user.socketId);
+
+            if(userUI != null)
+            {
+                userUI.txtName.color = Color.red;
+            }
+        }
         EventManager.OccurGameStart(user);
     }
 }
