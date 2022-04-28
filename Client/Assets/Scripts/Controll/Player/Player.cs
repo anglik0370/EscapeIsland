@@ -71,6 +71,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private bool isBone = false;
     public bool isTrap = false;
 
+
     public Inventory inventory;
     public Color color;
     public Vector2 targetPos;
@@ -100,6 +101,19 @@ public class Player : MonoBehaviour, IInteractionObject
 
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
+    }
+
+    void OnEnable()
+    {
+        //임시 더미플레이어 생성
+        if (GetChildCount() > 2) return;
+        DummyPlayer dummyPlayer = PoolManager.GetItem<DummyPlayer>();
+
+        dummyPlayer.transform.SetParent(transform);
+
+        sr = dummyPlayer.GetComponent<SpriteRenderer>();
+        anim = dummyPlayer.GetComponent<Animator>();
+        playerTrm = null;
     }
 
     private void Update()
@@ -146,6 +160,20 @@ public class Player : MonoBehaviour, IInteractionObject
             }
         }
     }
+
+    public int GetChildCount()
+    {
+        int count = 0;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if(transform.GetChild(i).gameObject.activeSelf)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
     
     public int ChangeCharacter(CharacterSO so)
     {
@@ -175,7 +203,7 @@ public class Player : MonoBehaviour, IInteractionObject
             Transform child = transform.GetChild(i);
             if (child.CompareTag("PlayerPrefab"))
             {
-                Destroy(child.gameObject);
+                child.gameObject.SetActive(false);
             }
         }
     }
@@ -230,7 +258,7 @@ public class Player : MonoBehaviour, IInteractionObject
         {
             for (int i = 2; i < transform.childCount; i++)
             {
-                Destroy(transform.GetChild(i).gameObject);
+                transform.GetChild(i).gameObject.SetActive(false);
             }
         }
 

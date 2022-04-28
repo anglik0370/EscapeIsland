@@ -11,6 +11,7 @@ public class NetworkManager : MonoBehaviour
     public static NetworkManager instance;
 
     public GameObject playerPrefab;
+    public GameObject dummyPlayerPrefab;
 
     public int socketId = -1;
     public string socketName;
@@ -43,12 +44,13 @@ public class NetworkManager : MonoBehaviour
             return;
         }
         instance = this;
+
+        PoolManager.CreatePool<DummyPlayer>(dummyPlayerPrefab, transform, 30);
+        PoolManager.CreatePool<Player>(playerPrefab, transform, 30);
     }
 
     private void Start()
     {
-        PoolManager.CreatePool<Player>(playerPrefab, transform, 10);
-
         setDataScriptList = setDataScriptsParent.GetComponents<ISetAble>().ToList();
 
         EventManager.SubEnterRoom(p => user = p);
