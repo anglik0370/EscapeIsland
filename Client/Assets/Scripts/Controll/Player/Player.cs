@@ -264,7 +264,7 @@ public class Player : MonoBehaviour, IInteractionObject
         }
 
         gameObject.SetActive(false);
-        ui.txtName.color = Color.black;
+        ui.SetNameTextColor(Color.black);
         ui.gameObject.SetActive(false);
     }
 
