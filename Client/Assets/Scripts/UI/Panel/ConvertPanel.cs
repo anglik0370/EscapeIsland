@@ -22,6 +22,7 @@ public class ConvertPanel : Panel
     [SerializeField]
     private Text afterItemText;
 
+    [SerializeField]
     private ItemConverter curOpenConverter;
     public ItemConverter CurOpenConverter => curOpenConverter;
 

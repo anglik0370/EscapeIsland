@@ -25,6 +25,9 @@ public class InfoUI : MonoBehaviour
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
+
+        EventManager.SubExitRoom(() => SetNameTextColor(Color.black));
+        EventManager.SubGameOver(goc => SetNameTextColor(Color.black));
     }
 
     private void Start()
@@ -77,5 +80,10 @@ public class InfoUI : MonoBehaviour
         Vector3 pos = Camera.main.WorldToScreenPoint(playerTrm.position);
         Vector3 nextPos = Vector3.Lerp(transform.position, pos, Time.deltaTime * followSpeed);
         transform.position = nextPos;
+    }
+
+    public void SetNameTextColor(Color color)
+    {
+        txtName.color = color;
     }
 }

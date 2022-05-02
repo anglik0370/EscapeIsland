@@ -743,6 +743,8 @@ Transform:
   m_Father: {fileID: 1961605855}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
+=======
 --- !u!43 &20370275
 Mesh:
   m_ObjectHideFlags: 0
@@ -907,6 +909,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
+>>>>>>> origin/main
 --- !u!43 &22272936
 Mesh:
   m_ObjectHideFlags: 0
@@ -1462,8 +1465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3842696145218586805, guid: 591db1c9bbcbea74d8c2376b31bb0c22,
-    type: 3}
+  m_Sprite: {fileID: -3842696145218586805, guid: 591db1c9bbcbea74d8c2376b31bb0c22, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4625,8 +4627,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
-    type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4946,8 +4947,13 @@ MonoBehaviour:
   - {x: -31.66756, y: -0.5786936, z: 0}
   - {x: -31.483282, y: -1.0314599, z: 0}
   m_ShapePathHash: -1861477000
+<<<<<<< HEAD
   m_Mesh: {fileID: 722863749}
   m_InstanceId: 30896
+=======
+  m_Mesh: {fileID: 2042426686}
+  m_InstanceId: 20944
+>>>>>>> origin/main
 --- !u!1 &224380428
 GameObject:
   m_ObjectHideFlags: 0
@@ -7389,8 +7395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f52ad93d2026ef45ac7d1c084ec0124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomEnterBtnPrefab: {fileID: 7582510748723231593, guid: dca02974748349d4bafd754d64becba8,
-    type: 3}
+  roomEnterBtnPrefab: {fileID: 7582510748723231593, guid: dca02974748349d4bafd754d64becba8, type: 3}
 --- !u!114 &351307168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7542,8 +7547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc76c6c351699f745bc0bbb2ff775eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapPrefab: {fileID: 3931934963794642561, guid: 1c98ffa81b0392e4ea53d29b0cb55b8a,
-    type: 3}
+  trapPrefab: {fileID: 3931934963794642561, guid: 1c98ffa81b0392e4ea53d29b0cb55b8a, type: 3}
   doorParent: {fileID: 0}
 --- !u!114 &351307180
 MonoBehaviour:
@@ -7768,8 +7772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadBodyList: []
-  deadBodyPrefab: {fileID: 4959777619404908031, guid: 72963325d2c7a83408ceed706795b147,
-    type: 3}
+  deadBodyPrefab: {fileID: 4959777619404908031, guid: 72963325d2c7a83408ceed706795b147, type: 3}
 --- !u!1 &362730189
 GameObject:
   m_ObjectHideFlags: 0
@@ -7890,8 +7893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentTrm: {fileID: 133722971}
-  infoPrefab: {fileID: 3884297677900782657, guid: 5f6348f40aa9dd64b99af31cbbf7fda5,
-    type: 3}
+  infoPrefab: {fileID: 3884297677900782657, guid: 5f6348f40aa9dd64b99af31cbbf7fda5, type: 3}
 --- !u!1 &363382133
 GameObject:
   m_ObjectHideFlags: 0
@@ -9325,8 +9327,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
-    type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15223,8 +15224,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
-    type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16733,8 +16733,13 @@ MonoBehaviour:
   - {x: -45.61488, y: 6.2248173, z: 0}
   - {x: -46.62339, y: 3.0992658, z: 0}
   m_ShapePathHash: 1213490498
+<<<<<<< HEAD
   m_Mesh: {fileID: 1734347424}
   m_InstanceId: 31996
+=======
+  m_Mesh: {fileID: 985640567}
+  m_InstanceId: 22050
+>>>>>>> origin/main
 --- !u!1 &760080758
 GameObject:
   m_ObjectHideFlags: 0
@@ -16914,8 +16919,13 @@ MonoBehaviour:
   - {x: -52.311295, y: 11.698377, z: 0}
   - {x: -60.67498, y: 3.9274237, z: 0}
   m_ShapePathHash: -492760962
+<<<<<<< HEAD
   m_Mesh: {fileID: 1899499489}
   m_InstanceId: 32012
+=======
+  m_Mesh: {fileID: 581955687}
+  m_InstanceId: 22066
+>>>>>>> origin/main
 --- !u!1 &765165985
 GameObject:
   m_ObjectHideFlags: 0
@@ -19951,6 +19961,8 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+<<<<<<< HEAD
+=======
 --- !u!43 &903687134
 Mesh:
   m_ObjectHideFlags: 0
@@ -20115,6 +20127,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
+>>>>>>> origin/main
 --- !u!1 &903757071
 GameObject:
   m_ObjectHideFlags: 0
@@ -23392,8 +23405,13 @@ MonoBehaviour:
   - {x: -48.69776, y: -3.3390253, z: 0}
   - {x: -53.418537, y: -0.36485165, z: 0}
   m_ShapePathHash: 875825918
+<<<<<<< HEAD
   m_Mesh: {fileID: 129371775}
   m_InstanceId: 32612
+=======
+  m_Mesh: {fileID: 1530279983}
+  m_InstanceId: 22662
+>>>>>>> origin/main
 --- !u!1 &1065524638
 GameObject:
   m_ObjectHideFlags: 0
@@ -25870,8 +25888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   citizenCg: {fileID: 1618362017}
   kidnapperCg: {fileID: 1595468443}
-  standImgPrefab: {fileID: 8903668688794037886, guid: d18fa75f5c7fc684b8fa563ff7962027,
-    type: 3}
+  standImgPrefab: {fileID: 8903668688794037886, guid: d18fa75f5c7fc684b8fa563ff7962027, type: 3}
   kidnapperImgParent:
   - {fileID: 1015293825}
   - {fileID: 1496982464}
@@ -26513,8 +26530,13 @@ MonoBehaviour:
   - {x: -36.52244, y: -10.764608, z: 0}
   - {x: -41.15151, y: -12.084963, z: 0}
   m_ShapePathHash: -572314965
+<<<<<<< HEAD
   m_Mesh: {fileID: 732170646}
   m_InstanceId: 32926
+=======
+  m_Mesh: {fileID: 1275103617}
+  m_InstanceId: 22974
+>>>>>>> origin/main
 --- !u!1 &1211915049
 GameObject:
   m_ObjectHideFlags: 0
@@ -27085,8 +27107,13 @@ MonoBehaviour:
   - {x: 2.381887, y: -3.5272365, z: 0}
   - {x: 3.3987563, y: -3.4767537, z: 0}
   m_ShapePathHash: -1697191051
+<<<<<<< HEAD
   m_Mesh: {fileID: 1440936314}
   m_InstanceId: 32986
+=======
+  m_Mesh: {fileID: 20370275}
+  m_InstanceId: 23034
+>>>>>>> origin/main
 --- !u!1 &1224933768
 GameObject:
   m_ObjectHideFlags: 0
@@ -32102,8 +32129,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3842696145218586805, guid: 591db1c9bbcbea74d8c2376b31bb0c22,
-    type: 3}
+  m_Sprite: {fileID: -3842696145218586805, guid: 591db1c9bbcbea74d8c2376b31bb0c22, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -35475,10 +35501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cab07e40dcdda44ca324e43729e8823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4941352829889900955, guid: 5eff15b9ccc927042aa7bcfcbc8f5891,
-    type: 3}
-  dummyPlayerPrefab: {fileID: 4941352829889900955, guid: 391e751cf826c024e9b53a5f42c9b322,
-    type: 3}
+  playerPrefab: {fileID: 4941352829889900955, guid: 5eff15b9ccc927042aa7bcfcbc8f5891, type: 3}
+  dummyPlayerPrefab: {fileID: 4941352829889900955, guid: 391e751cf826c024e9b53a5f42c9b322, type: 3}
   socketId: -1
   socketName: 
   roomNum: 0
@@ -35497,14 +35521,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popupParent: {fileID: 1715170477}
-  loginPopup: {fileID: 7905677003467026139, guid: 7fcaeda5d0dc7ee46aa5ad8faea9596b,
-    type: 3}
-  lobbyPopup: {fileID: 5595325862193580477, guid: bbb7c3af5e984844f8381b8fff7d30f1,
-    type: 3}
-  alertPopup: {fileID: 8643533440485442339, guid: d288c0696ef54f743a2e28ca49a0747e,
-    type: 3}
-  votePopup: {fileID: 2646963529194006722, guid: 17385b07b06b35045b80edfc711daf3f,
-    type: 3}
+  loginPopup: {fileID: 7905677003467026139, guid: 7fcaeda5d0dc7ee46aa5ad8faea9596b, type: 3}
+  lobbyPopup: {fileID: 5595325862193580477, guid: bbb7c3af5e984844f8381b8fff7d30f1, type: 3}
+  alertPopup: {fileID: 8643533440485442339, guid: d288c0696ef54f743a2e28ca49a0747e, type: 3}
+  votePopup: {fileID: 2646963529194006722, guid: 17385b07b06b35045b80edfc711daf3f, type: 3}
 --- !u!4 &1591480865
 Transform:
   m_ObjectHideFlags: 0
@@ -35664,8 +35684,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
-    type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -38983,8 +39002,13 @@ MonoBehaviour:
   - {x: 14.53, y: 6.165503, z: 0}
   - {x: 14.5738535, y: 6.1023254, z: 0}
   m_ShapePathHash: 522872869
+<<<<<<< HEAD
   m_Mesh: {fileID: 444731244}
   m_InstanceId: 34114
+=======
+  m_Mesh: {fileID: 386032363}
+  m_InstanceId: 24162
+>>>>>>> origin/main
 --- !u!1 &1764201917
 GameObject:
   m_ObjectHideFlags: 0
@@ -42020,8 +42044,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
-    type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -42307,8 +42330,13 @@ MonoBehaviour:
   - {x: 27.730043, y: 14.92673, z: 0}
   - {x: 25.985361, y: 12.038628, z: 0}
   m_ShapePathHash: 1734772822
+<<<<<<< HEAD
   m_Mesh: {fileID: 1412998176}
   m_InstanceId: 34420
+=======
+  m_Mesh: {fileID: 903687134}
+  m_InstanceId: 24466
+>>>>>>> origin/main
 --- !u!1 &1908134178
 GameObject:
   m_ObjectHideFlags: 0
@@ -43435,8 +43463,13 @@ MonoBehaviour:
   - {x: -38.71754, y: -22.945845, z: 0}
   - {x: -37.811096, y: -26.89865, z: 0}
   m_ShapePathHash: 948083002
+<<<<<<< HEAD
   m_Mesh: {fileID: 1323336928}
   m_InstanceId: 34524
+=======
+  m_Mesh: {fileID: 691872551}
+  m_InstanceId: 24570
+>>>>>>> origin/main
 --- !u!1 &1955469915
 GameObject:
   m_ObjectHideFlags: 0
@@ -45045,8 +45078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
-    type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -45141,8 +45173,13 @@ MonoBehaviour:
   - {x: 17.938225, y: -0.9180641, z: 0}
   - {x: 16.947292, y: 1.2590121, z: 0}
   m_ShapePathHash: -1256925373
+<<<<<<< HEAD
   m_Mesh: {fileID: 190384588}
   m_InstanceId: 34708
+=======
+  m_Mesh: {fileID: 1498719370}
+  m_InstanceId: 24754
+>>>>>>> origin/main
 --- !u!1 &2033781995
 GameObject:
   m_ObjectHideFlags: 0
@@ -47705,8 +47742,13 @@ MonoBehaviour:
   - {x: -30.344328, y: -13.292486, z: 0}
   - {x: -30.580988, y: -13.347091, z: 0}
   m_ShapePathHash: 2137754741
+<<<<<<< HEAD
   m_Mesh: {fileID: 864981269}
   m_InstanceId: 34944
+=======
+  m_Mesh: {fileID: 487327170}
+  m_InstanceId: 24992
+>>>>>>> origin/main
 --- !u!1 &2132053014
 GameObject:
   m_ObjectHideFlags: 0

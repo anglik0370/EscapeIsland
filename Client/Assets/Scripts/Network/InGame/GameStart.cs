@@ -65,14 +65,14 @@ public class GameStart : ISetAble
         {
             if(user.UI != null)
             {
-                user.UI.txtName.color = Color.red;
+                user.UI.SetNameTextColor(Color.red);
             }
 
             foreach (int key in playerList.Keys)
             {
                 if(playerList[key].isKidnapper && playerList[key].UI != null)
                 {
-                    playerList[key].UI.txtName.color = Color.red;
+                    playerList[key].UI.SetNameTextColor(Color.red);
                 }
             }
         }
