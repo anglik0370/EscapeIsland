@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
         {
             if(Physics2D.IsTouching(seaInteractionColList[i], player.FootCollider))
             {
-                print("o");
                 return waterSpawner;
             }
         }
