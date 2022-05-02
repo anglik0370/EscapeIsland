@@ -107,7 +107,7 @@ public class Player : MonoBehaviour, IInteractionObject
     void OnEnable()
     {
         //임시 더미플레이어 생성
-        if (GetChildCount() > 3) return;
+        if (GetChildCount() > 2) return;
         DummyPlayer dummyPlayer = PoolManager.GetItem<DummyPlayer>();
 
         dummyPlayer.transform.SetParent(transform);
