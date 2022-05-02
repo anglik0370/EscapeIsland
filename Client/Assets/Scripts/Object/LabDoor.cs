@@ -1,25 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
-[System.Obsolete("³ªÁß¿¡ ¾µÁöµµ ¸ô¶ó¼­ ÀÏ´Ü ³ÀµÒ")]
 public class LabDoor : MonoBehaviour
 {
-    //public void CloseDoor()
-    //{
-    //    StartCoroutine(Close());
-    //}
+    [SerializeField]
+    private Vector3 closeScale = Vector3.zero;
 
-    //private IEnumerator Close()
-    //{
+    private Vector3 defaultPos = Vector3.zero;
 
-    //    yield return CoroutineHandler.fifteenSec;
+    private Vector3 defaultVec = new Vector3(1, 1, 1);
 
-    //    Open();
-    //}
+    private float lerpSpeed = 1f;
 
-    //private void Open()
-    //{
+    private void Awake()
+    {
+        defaultPos = transform.localPosition;   
+    }
 
-    //}
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            CloseDoor();
+        }
+    }
+
+    public void CloseDoor()
+    {
+        StartCoroutine(Close());
+    }
+
+    private IEnumerator Close()
+    {
+        transform.DOLocalMove(Vector3.zero, lerpSpeed);
+        transform.DOScale(closeScale, lerpSpeed);
+        yield return CoroutineHandler.fifteenSec;
+
+        Open();
+    }
+
+    private void Open()
+    {
+        transform.DOLocalMove(defaultPos, lerpSpeed);
+        transform.DOScale(defaultVec, lerpSpeed);
+    }
 }
