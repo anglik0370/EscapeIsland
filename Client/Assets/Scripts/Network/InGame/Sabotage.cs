@@ -20,7 +20,7 @@ public class Sabotage : ISetAble
     private int lastTrapIdx = 1;
 
     private List<Trap> trapList = new List<Trap>();
-    private List<GameObject> doorList = new List<GameObject>();
+    private List<LabDoor> doorList = new List<LabDoor>();
 
     [SerializeField]
     private Transform doorParent;
@@ -122,21 +122,9 @@ public class Sabotage : ISetAble
 
     public void CloseDoor()
     {
-        //StartCoroutine(Close());
-    }
-
-    private IEnumerator Close()
-    {
-        OpenOrClose(true);
-        yield return CoroutineHandler.fifteenSec;
-        OpenOrClose(false);
-    }
-
-    private void OpenOrClose(bool open)
-    {
         for (int i = 0; i < doorList.Count; i++)
         {
-            doorList[i].SetActive(open);
+            doorList[i].CloseDoor();
         }
     }
 }
