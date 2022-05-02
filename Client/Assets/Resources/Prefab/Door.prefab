@@ -241,7 +241,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 469545657}
-  - component: {fileID: 469545658}
   m_Layer: 0
   m_Name: LabDoor (9)
   m_TagString: Untagged
@@ -265,19 +264,6 @@ Transform:
   m_Father: {fileID: 8897264278258163923}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -74.525}
---- !u!114 &469545658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 469545656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!1 &508268629
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +423,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 715065153}
-  - component: {fileID: 715065154}
   m_Layer: 0
   m_Name: LabDoor (8)
   m_TagString: Untagged
@@ -461,19 +446,6 @@ Transform:
   m_Father: {fileID: 8897264278258163923}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -16.424}
---- !u!114 &715065154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715065152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!1 &944947663
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,7 +537,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1490068154}
-  - component: {fileID: 1490068155}
   m_Layer: 0
   m_Name: LabDoor (7)
   m_TagString: Untagged
@@ -589,19 +560,6 @@ Transform:
   m_Father: {fileID: 8897264278258163923}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -86.709}
---- !u!114 &1490068155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1490068153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!1 &1768732188
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,7 +1147,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8897264277603837359}
-  - component: {fileID: 8897264277603837356}
   m_Layer: 0
   m_Name: LabDoor (3)
   m_TagString: Untagged
@@ -1213,19 +1170,6 @@ Transform:
   m_Father: {fileID: 8897264278258163923}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -91.255}
---- !u!114 &8897264277603837356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8897264277603837358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!1 &8897264277614085084
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,7 +1839,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8897264278060573853}
-  - component: {fileID: 8897264278060573858}
   m_Layer: 0
   m_Name: LabDoor (4)
   m_TagString: Untagged
@@ -1919,19 +1862,6 @@ Transform:
   m_Father: {fileID: 8897264278258163923}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -86.36}
---- !u!114 &8897264278060573858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8897264278060573852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!1 &8897264278258163922
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,7 +1911,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8897264278535797225}
-  - component: {fileID: 8897264278535797230}
   m_Layer: 0
   m_Name: LabDoor (2)
   m_TagString: Untagged
@@ -2005,19 +1934,6 @@ Transform:
   m_Father: {fileID: 8897264278258163923}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -84.418}
---- !u!114 &8897264278535797230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8897264278535797224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!1 &8897264278625448067
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,7 +2393,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8897264279267564792}
-  - component: {fileID: 8897264279267564793}
   m_Layer: 0
   m_Name: LabDoor (6)
   m_TagString: Untagged
@@ -2501,19 +2416,6 @@ Transform:
   m_Father: {fileID: 8897264278258163923}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -122.672}
---- !u!114 &8897264279267564793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8897264279267564795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!1 &8897264279385012861
 GameObject:
   m_ObjectHideFlags: 0
@@ -2755,7 +2657,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8897264279674575540}
-  - component: {fileID: 8897264279674575541}
   m_Layer: 0
   m_Name: LabDoor (5)
   m_TagString: Untagged
@@ -2779,16 +2680,3 @@ Transform:
   m_Father: {fileID: 8897264278258163923}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -43.592}
---- !u!114 &8897264279674575541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8897264279674575543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
