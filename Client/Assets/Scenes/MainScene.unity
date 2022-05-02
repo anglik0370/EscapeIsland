@@ -1977,7 +1977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6043ffe779a96994d9f6d610a20f1eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: d4693a35ab1f09f46b25d9b8f8bc4bda, type: 2}
+  item: {fileID: 11400000, guid: ac30c321aafdbc149be3a0078d9b95a0, type: 2}
   itemImgDepth: 1
   kind: 0
 --- !u!222 &50471586
@@ -41646,7 +41646,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955469915}
   m_Enabled: 1
-  m_Alpha: 0.97
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -41668,6 +41668,7 @@ MonoBehaviour:
   remainTimeText: {fileID: 930445716}
   beforeItemNameText: {fileID: 1341265078}
   afterItemText: {fileID: 1158709936}
+  curOpenConverter: {fileID: 0}
 --- !u!1 &1957616952
 GameObject:
   m_ObjectHideFlags: 0

@@ -59,20 +59,20 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private IEnumerator PutWaterRoutine()
     {
         bool isTouching = true;
-        bool isFull = false;
 
-        while(isTouching && !isFull)
+        while(true)
         {
             if(Input.GetMouseButtonUp(0))
             {
                 print("그에게 주어지는 탈락 목걸이");
                 isTouching = false;
+                break;
             }
 
             if(curProgress >= maxProgress)
             {
                 print("그에게 주어지는 합격 목걸이");
-                isFull = true;
+                break;
             }
             else
             {
@@ -81,6 +81,11 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             }
 
             yield return null;
+        }
+
+        if(!isTouching)
+        {
+            missionWater.Close();
         }
     }
 }
