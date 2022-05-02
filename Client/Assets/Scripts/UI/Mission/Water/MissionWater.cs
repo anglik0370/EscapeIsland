@@ -140,7 +140,7 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
                 itemGhost.SetItem(emptyBottle);
             }
 
-            bottleGhost.Disable();
+            Close();
         }
     }
 }

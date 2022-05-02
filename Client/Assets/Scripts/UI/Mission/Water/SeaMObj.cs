@@ -86,6 +86,7 @@ public class SeaMObj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if(!isTouching)
         {
             missionWater.Close();
+            ghost.Init();
         }
     }
 }
