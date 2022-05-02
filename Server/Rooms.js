@@ -57,7 +57,7 @@ class Rooms {
         }
         
     
-        let r = new Room(roomInfo.name,this.roomIdx,1,roomInfo.userNum,roomInfo.kidnapperNum,false);
+        let r = new Room(roomInfo.name,this.roomIdx,0,roomInfo.userNum,roomInfo.kidnapperNum,false);
         socket.room = this.roomIdx;
 
         this.roomList[this.roomIdx] = r;
@@ -67,7 +67,7 @@ class Rooms {
         }
 
         this.join(socket,true);
-    
+
         this.roomIdx++;
     }
 
@@ -86,7 +86,6 @@ class Rooms {
         socket.room = roomNum;
 
         this.join(socket,false);
-        room.curUserNum++;
     }
 
     exitRoom(socket,roomNum) {
@@ -169,9 +168,8 @@ class Rooms {
             setTimeout(() => this.roomBroadcast(socket.room),100);
 
         socket.server.clients.forEach(soc=>{
-            if(soc.state != SocketState.IN_LOBBY) 
-                return;
-            this.refreshRoom(soc);
+            if(soc.state === SocketState.IN_LOBBY) 
+                this.refreshRoom(soc);
         });
     }
 
@@ -182,6 +180,7 @@ class Rooms {
         for(let i = 0; i < value.length; i++) {
             dataList.push(value[i].returnData());
         }
+
         socket.send(JSON.stringify({type:"REFRESH_ROOM", payload:JSON.stringify({dataList})})); 
     }
 

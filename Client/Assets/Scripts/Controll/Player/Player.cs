@@ -9,6 +9,9 @@ public class Player : MonoBehaviour, IInteractionObject
     private Rigidbody2D rigid;
     private Animator anim;
     private Transform playerTrm;
+    private Collider2D footCollider;
+
+    public Collider2D FootCollider => footCollider;
 
     [SerializeField]
     private InteractionSO nothingHandlerSO;
@@ -66,6 +69,8 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool isInside = false; //실내인지
     private bool isBone = false;
+    public bool isTrap = false;
+
 
     public Inventory inventory;
     public Color color;
@@ -83,6 +88,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private Coroutine sendData;
 
     private InfoUI ui = null;
+    public InfoUI UI => ui;
 
     public CharacterSO curSO;
 
@@ -92,8 +98,23 @@ public class Player : MonoBehaviour, IInteractionObject
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
 
+        footCollider = transform.Find("FootCollider").GetComponent<Collider2D>();
+
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
+    }
+
+    void OnEnable()
+    {
+        //임시 더미플레이어 생성
+        if (GetChildCount() > 3) return;
+        DummyPlayer dummyPlayer = PoolManager.GetItem<DummyPlayer>();
+
+        dummyPlayer.transform.SetParent(transform);
+
+        sr = dummyPlayer.GetComponent<SpriteRenderer>();
+        anim = dummyPlayer.GetComponent<Animator>();
+        playerTrm = null;
     }
 
     private void Update()
@@ -121,6 +142,10 @@ public class Player : MonoBehaviour, IInteractionObject
         this.IsRemote = isRemote;
         master = vo.master;
 
+        isTrap = false;
+        isBone = false;
+        isInside = false;
+
         socketName = vo.name;
         socketId = vo.socketId;
         roomNum = vo.roomNum;
@@ -135,6 +160,20 @@ public class Player : MonoBehaviour, IInteractionObject
                 pr.BtnEnabled(false);
             }
         }
+    }
+
+    public int GetChildCount()
+    {
+        int count = 0;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if(transform.GetChild(i).gameObject.activeSelf)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
     
     public int ChangeCharacter(CharacterSO so)
@@ -165,7 +204,7 @@ public class Player : MonoBehaviour, IInteractionObject
             Transform child = transform.GetChild(i);
             if (child.CompareTag("PlayerPrefab"))
             {
-                Destroy(child.gameObject);
+                child.gameObject.SetActive(false);
             }
         }
     }
@@ -220,11 +259,12 @@ public class Player : MonoBehaviour, IInteractionObject
         {
             for (int i = 2; i < transform.childCount; i++)
             {
-                Destroy(transform.GetChild(i).gameObject);
+                transform.GetChild(i).gameObject.SetActive(false);
             }
         }
 
         gameObject.SetActive(false);
+        ui.txtName.color = Color.black;
         ui.gameObject.SetActive(false);
     }
 
@@ -239,6 +279,7 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetDead()
     {
         isDie = true;
+        isTrap = false;
 
         anim.SetFloat("isDie", 1f);
     }
@@ -252,7 +293,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void Move(Vector3 dir)
     {
-        if(IsRemote) return;
+        if(IsRemote || isTrap) return;
 
         if(dir != Vector3.zero)
         {

@@ -76,7 +76,12 @@ public class MissionCoconut : MonoBehaviour, IMission
         touchScreen.SubTouchEvent(AddTouchCount);
     }
 
-    public void Init()
+    public void Open()
+    {
+        
+    }
+
+    public void Close()
     {
         coconutPalmList.ForEach(x => x.Init());
 

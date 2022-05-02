@@ -112,7 +112,7 @@ public class VotePopup : Popup
         cg.blocksRaycasts = on;
     }
 
-    public void SetVoteUI(int socId,string name, Sprite charSprite)
+    public void SetVoteUI(int socId,string name, Sprite charSprite,bool isKidnapper = false)
     {
         VoteUI ui = voteUIList.Find(x => !x.gameObject.activeSelf);
 
@@ -122,7 +122,7 @@ public class VotePopup : Popup
             return;
         }
 
-        ui.SetVoteUI(socId,name, charSprite, toggleGroup);
+        ui.SetVoteUI(socId,name, charSprite, toggleGroup,isKidnapper);
     }
 
     public VoteUI FindVoteUI(int socId)

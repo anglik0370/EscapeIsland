@@ -7,11 +7,7 @@ module.exports = {
 
         if(room === undefined) return;
 
-        if(data.isShareCoolTime) {
-            room.broadcast(JSON.stringify({type:"SABOTAGE",payload:JSON.stringify(data)}));
-        }
-        else {
-            socket.send(JSON.stringify({type:"SABOTAGE",payload:JSON.stringify(data)}));
-        }
+        data.userDataList = Object.values(room.userList);
+        room.broadcast(JSON.stringify({type:"SABOTAGE",payload:JSON.stringify(data)}));
     }
 }

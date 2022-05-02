@@ -50,10 +50,10 @@ public class MissionPanel : Panel
             UtilClass.SetCanvasGroup(missionList[i].Cvs);
         }
 
-        missionList.ForEach(x => x.Init());
+        missionList.ForEach(x => x.Close());
     }
 
-    public void Open(MissionType type)
+    public void Open(MissionType type, ItemCharger charger = null)
     {
         IMission mission = null;
 
@@ -82,7 +82,21 @@ public class MissionPanel : Panel
             UtilClass.SetCanvasGroup(oldMission.Cvs);
         }
 
+        if(mission.MissionType == MissionType.Charge)
+        {
+            MissionCharge missionCharge = mission as MissionCharge;
+
+            if(charger == null)
+            {
+                print("차저를 넣어야지 신아");
+            }
+
+            missionCharge.SetCurCharger(charger);
+        }
+
         UtilClass.SetCanvasGroup(mission.Cvs, 1, true, true);
+
+        mission.Open();
 
         oldMission = mission;
 
@@ -91,11 +105,16 @@ public class MissionPanel : Panel
 
     public override void Close(bool isTweenSkip = false)
     {
-        oldMission.Init();
+        oldMission.Close();
 
         UtilClass.SetCanvasGroup(oldMission.Cvs);
 
         base.Close(isTweenSkip);
+    }
+
+    public IMission FindMissionByType(MissionType type)
+    {
+        return missionList.Find(x => x.MissionType.Equals(type));
     }
 
     public void OpenCoconut()

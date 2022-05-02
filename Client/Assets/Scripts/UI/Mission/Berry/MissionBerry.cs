@@ -54,7 +54,12 @@ public class MissionBerry : MonoBehaviour, IMission
         berrySlotList = slotParent.GetComponentsInChildren<MissionDropItemSlot>().ToList();
     }
 
-    public void Init()
+    public void Open()
+    {
+        
+    }
+
+    public void Close()
     {
         berryGhost.Disable(false);
         berryList.ForEach(x => x.Init());

@@ -10,6 +10,7 @@ public class SabotagePanel : Panel
     private SabotageButton sabotageBtnPrefab;
     private List<SabotageSO> sabotageSOList;
     private List<SabotageButton> sabotageList = new List<SabotageButton>();
+    public List<SabotageButton> SabotageList => sabotageList;
 
     protected override void Awake()
     {

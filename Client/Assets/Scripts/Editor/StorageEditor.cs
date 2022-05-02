@@ -47,7 +47,7 @@ public class StorageEditor : EditorWindow
 
             if (GUILayout.Button("Add"))
             {
-                if (selectedItem != null && !selectedItem.canRefining)
+                if (selectedItem != null)
                 {
                     for (int i = 0; i < amount; i++)
                     {
@@ -58,7 +58,7 @@ public class StorageEditor : EditorWindow
 
             if (GUILayout.Button("Remove"))
             {
-                if (selectedItem != null && !selectedItem.canRefining)
+                if (selectedItem != null)
                 {
                     for (int i = 0; i < amount; i++)
                     {

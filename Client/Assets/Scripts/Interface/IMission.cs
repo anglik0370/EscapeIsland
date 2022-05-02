@@ -7,5 +7,6 @@ public interface IMission
     public CanvasGroup Cvs { get; }
     public MissionType MissionType { get; }
 
-    public void Init();
+    public void Open();
+    public void Close();
 }

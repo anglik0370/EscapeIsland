@@ -46,7 +46,6 @@ public class GameStart : ISetAble
                 user.transform.position = uv.position;
                 user.isKidnapper = uv.isImposter;
 
-                EventManager.OccurGameStart(user);
             }
             else
             {
@@ -61,5 +60,22 @@ public class GameStart : ISetAble
                 }
             }
         }
+
+        if(user.isKidnapper)
+        {
+            if(user.UI != null)
+            {
+                user.UI.txtName.color = Color.red;
+            }
+
+            foreach (int key in playerList.Keys)
+            {
+                if(playerList[key].isKidnapper && playerList[key].UI != null)
+                {
+                    playerList[key].UI.txtName.color = Color.red;
+                }
+            }
+        }
+        EventManager.OccurGameStart(user);
     }
 }

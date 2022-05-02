@@ -9,6 +9,7 @@ public class InfoUI : MonoBehaviour
     private Player player;
     [SerializeField]
     private Player mainPlayer = null;
+    public Player MainPlayer => mainPlayer;
 
     public Transform playerTrm;
     public float followSpeed = 50f;

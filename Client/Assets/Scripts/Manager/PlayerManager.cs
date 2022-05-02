@@ -34,7 +34,8 @@ public class PlayerManager : MonoBehaviour
         {
             for (int i = 0; i < PlayerList.Count; i++)
             {
-                GameManager.Instance.AddInteractionObj(PlayerList[i]);
+                if(p.isKidnapper && !PlayerList[i].isKidnapper)
+                    GameManager.Instance.AddInteractionObj(PlayerList[i]);
             }
         });
 

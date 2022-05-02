@@ -80,7 +80,9 @@ public class SlotManager : MonoBehaviour
             {
                 //Inventory To ConverterBefore
 
-                if(beginSlot.GetItem() != null && beginSlot.GetItem().canRefining)
+                BeforeSlot beforeSlot = endSlot as BeforeSlot;
+
+                if (beginSlot.GetItem() != null && beforeSlot.ConverterObj.IsCanConvert(beginSlot.GetItem()))
                 {
                     ItemSO temp = null;
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, beginSlot.GetItem().itemId);
@@ -147,11 +149,10 @@ public class SlotManager : MonoBehaviour
 
                 if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty)
                 {
-                    slot.Image.sprite = slot.BatterySprite;
-                    slot.Image.color = UtilClass.opacityColor;
-
-                    slot.StartCharging();
-
+                    SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
+                    SendManager.Instance.SendSyncObj(vo, ObjType.Battery, BehaviourType.Start);
+                    //slot.SetEmptyBetteryItem();
+                    //slot.StartCharging();
                     beginSlot.SetItem(null);
                 }
             }
@@ -161,14 +162,16 @@ public class SlotManager : MonoBehaviour
 
                 MissionBatterySlot slot = beginSlot as MissionBatterySlot;
 
-                if(!slot.IsEmpty && slot.IsMaxCharge)
+                if(endSlot.IsEmpty && slot.IsMaxCharge)
                 {
-                    slot.Image.sprite = null;
-                    slot.Image.color = UtilClass.limpidityColor;
 
+                    SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
+                    SendManager.Instance.SendSyncObj(vo, ObjType.Battery, BehaviourType.Take);
+
+                    //slot.SetNullItem();
+
+                    //slot.InitCurCharger();
                     endSlot.SetItem(slot.BatterySO);
-
-                    slot.InitCharger();
                 }
             }
         }

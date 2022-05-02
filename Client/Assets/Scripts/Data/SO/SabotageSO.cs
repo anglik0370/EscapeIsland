@@ -9,6 +9,7 @@ public class SabotageSO : ScriptableObject
 {
     public string sabotageName;
     public float coolTime;
+    public float shareCoolTime;
     public bool isShareCoolTime;
     public Sprite sabotageSprite;
 

@@ -89,7 +89,7 @@ public class SandMission : MonoBehaviour, IMission
         });
     }
 
-    public void Init()
+    public void Open()
     {
         curSand = 0f;
 
@@ -100,6 +100,14 @@ public class SandMission : MonoBehaviour, IMission
         bucket.UpdateFillAmount(curSand, maxSand);
 
         StartEnableCircleRoutine();
+    }
+
+    public void Close()
+    {
+        if (co != null)
+        {
+            StopCoroutine(co);
+        }
     }
 
     private void StartEnableCircleRoutine()
