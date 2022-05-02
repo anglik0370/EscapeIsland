@@ -90,7 +90,7 @@ public class ConvertPanel : Panel
         SetArrowProgress();
     }
 
-    public void SetNameText(string before = "(재련할 재료)", string after = "(재련된 재료)")
+    public void SetNameText(string before = "(변환 전 재료)", string after = "(변환 후 재료)")
     {
         beforeItemNameText.text = before;
         afterItemText.text = after;

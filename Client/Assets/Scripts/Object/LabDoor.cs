@@ -14,9 +14,6 @@ public class LabDoor : MonoBehaviour
     [SerializeField]
     private Transform closeTrm;
 
-    [SerializeField]
-    private ShadowCaster2D shadowCaster;
-
     private float lerpSpeed = 1f;
 
     private void Awake()
