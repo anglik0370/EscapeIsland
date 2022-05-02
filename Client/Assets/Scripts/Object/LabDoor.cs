@@ -17,20 +17,12 @@ public class LabDoor : MonoBehaviour
     [SerializeField]
     private ShadowCaster2D shadowCaster;
 
-    [SerializeField]
-    private SpriteRenderer sr;
-
     private float lerpSpeed = 1f;
 
     private void Awake()
     {
         defaultPos = transform.localPosition;
         defaultScale = transform.localScale;
-
-        shadowCaster.enabled = false;
-
-        //sr.size.y
-        
     }
 
     private void Update()
@@ -49,10 +41,7 @@ public class LabDoor : MonoBehaviour
     private IEnumerator Close()
     {
         transform.DOLocalMove(closeTrm.localPosition, lerpSpeed);
-        transform.DOScale(closeTrm.localScale, lerpSpeed).OnComplete(() =>
-        {
-            shadowCaster.enabled = true;
-        });
+        transform.DOScale(closeTrm.localScale, lerpSpeed);
 
         yield return CoroutineHandler.fifteenSec;
 
@@ -62,9 +51,6 @@ public class LabDoor : MonoBehaviour
     private void Open()
     {
         transform.DOLocalMove(defaultPos, lerpSpeed);
-        transform.DOScale(defaultScale, lerpSpeed).OnComplete(() =>
-        {
-            shadowCaster.enabled = false;
-        });
+        transform.DOScale(defaultScale, lerpSpeed);
     }
 }

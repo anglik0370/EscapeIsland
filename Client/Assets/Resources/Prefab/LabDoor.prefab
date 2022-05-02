@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 1928023202117771790}
   - component: {fileID: 8344051712407616748}
   - component: {fileID: 8344051712407616749}
+  - component: {fileID: 1570143549}
   m_Layer: 0
   m_Name: LabDoor
   m_TagString: Untagged
@@ -205,6 +206,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeTrm: {fileID: 2139797645}
+  shadowCaster: {fileID: 1570143549}
+--- !u!114 &1570143549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3426707190553760035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 0000000055b170a28117808135da5ffced91326f47139e5527aa6b34e31b545c
+  m_ShapePath:
+  - {x: -0.43950114, y: -0.5023626, z: 0}
+  - {x: 0.50636834, y: -0.49155763, z: 0}
+  - {x: 0.48648617, y: 0.50316304, z: 0}
+  - {x: -0.4519422, y: 0.48724768, z: 0}
+  m_ShapePathHash: -1614561366
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -180070
 --- !u!1 &8344051712340837302
 GameObject:
   m_ObjectHideFlags: 0
