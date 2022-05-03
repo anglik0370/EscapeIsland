@@ -39,6 +39,8 @@ public class EyesightManager : MonoBehaviour
 
     private void LabObjSetActive(bool active)
     {
+        if (labObjList[0].gameObject.activeSelf == active) return;
+
         labObjList.ForEach(x => x.gameObject.SetActive(active));
         anotherLabObjList.ForEach(x => x.SetActive(active));
     }
