@@ -20,6 +20,13 @@ public class Panel : MonoBehaviour
         cvs.interactable = false;
     }
 
+    protected virtual void Start()
+    {
+        EventManager.SubGameOver(goc => Close(true));
+        EventManager.SubStartMeet(mt => Close(true));
+        EventManager.SubExitRoom(() => Close(true));
+    }
+
     public virtual void Open(bool isTweenSkip = false)
     {
         if(isTweenSkip)

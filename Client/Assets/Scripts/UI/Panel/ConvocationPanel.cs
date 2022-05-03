@@ -29,9 +29,10 @@ public class ConvocationPanel : Panel
         base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
         EventManager.SubGameOver(gos => Close(true));
+        EventManager.SubExitRoom(() => Close(true));
     }
 
     public void Open(MeetingType type)

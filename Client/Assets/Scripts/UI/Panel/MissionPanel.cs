@@ -43,8 +43,10 @@ public class MissionPanel : Panel
         missionList = missionParentTrm.GetComponentsInChildren<IMission>().ToList();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         for (int i = 0; i < missionList.Count; i++)
         {
             UtilClass.SetCanvasGroup(missionList[i].Cvs);

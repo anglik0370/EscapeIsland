@@ -24,13 +24,6 @@ public class StoragePanel : Panel
         progressUI = FindObjectOfType<ProgressUI>();
     }
 
-    private void Start() 
-    {
-        EventManager.SubGameOver(gos => Close(true));
-
-        EventManager.SubStartMeet(mt => Close(true));
-    }
-
     public void UpdateUIs(ItemSO item, float progress)
     {
         ItemAmount maxAmount = StorageManager.Instance.FindItemAmount(true, item);

@@ -4,15 +4,5 @@ using UnityEngine;
 
 public class SettingPanel : Panel
 {
-    void Start()
-    {
-        EventManager.SubExitRoom(() =>
-        {
-            Close();
-        });
-
-        EventManager.SubStartMeet(mt => Close(true));
-
-        EventManager.SubGameOver(gos => Close(true));
-    }
+    
 }
