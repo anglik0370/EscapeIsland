@@ -101,7 +101,7 @@ public class Player : MonoBehaviour, IInteractionObject
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
 
-        footCollider = transform.Find("FootCollider").GetComponent<Collider2D>();
+        //footCollider = transform.Find("FootCollider").GetComponent<Collider2D>();
 
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
@@ -110,13 +110,14 @@ public class Player : MonoBehaviour, IInteractionObject
     void OnEnable()
     {
         //임시 더미플레이어 생성
-        if (GetChildCount() > 2) return;
+        if (GetChildCount() > 0) return;
         DummyPlayer dummyPlayer = PoolManager.GetItem<DummyPlayer>();
 
         dummyPlayer.transform.SetParent(transform);
 
         sr = dummyPlayer.GetComponent<SpriteRenderer>();
         anim = dummyPlayer.GetComponent<Animator>();
+        footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         playerTrm = null;
     }
 
@@ -225,6 +226,7 @@ public class Player : MonoBehaviour, IInteractionObject
             playerTrm = player.transform;
         }
         anim = player.GetComponent<Animator>();
+        footCollider = player.transform.Find("FootCollider").GetComponent<Collider2D>();
     }
 
     public void RemoveCharacter()
