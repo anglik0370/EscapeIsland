@@ -4034,7 +4034,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7125,7 +7126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f52ad93d2026ef45ac7d1c084ec0124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomEnterBtnPrefab: {fileID: 7582510748723231593, guid: dca02974748349d4bafd754d64becba8, type: 3}
+  roomEnterBtnPrefab: {fileID: 7582510748723231593, guid: dca02974748349d4bafd754d64becba8,
+    type: 3}
 --- !u!114 &351307168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7277,7 +7279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc76c6c351699f745bc0bbb2ff775eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapPrefab: {fileID: 3931934963794642561, guid: 1c98ffa81b0392e4ea53d29b0cb55b8a, type: 3}
+  trapPrefab: {fileID: 3931934963794642561, guid: 1c98ffa81b0392e4ea53d29b0cb55b8a,
+    type: 3}
   doorParent: {fileID: 0}
 --- !u!114 &351307180
 MonoBehaviour:
@@ -7502,7 +7505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadBodyList: []
-  deadBodyPrefab: {fileID: 4959777619404908031, guid: 72963325d2c7a83408ceed706795b147, type: 3}
+  deadBodyPrefab: {fileID: 4959777619404908031, guid: 72963325d2c7a83408ceed706795b147,
+    type: 3}
 --- !u!1 &362730189
 GameObject:
   m_ObjectHideFlags: 0
@@ -7623,7 +7627,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentTrm: {fileID: 133722971}
-  infoPrefab: {fileID: 3884297677900782657, guid: 5f6348f40aa9dd64b99af31cbbf7fda5, type: 3}
+  infoPrefab: {fileID: 3884297677900782657, guid: 5f6348f40aa9dd64b99af31cbbf7fda5,
+    type: 3}
 --- !u!1 &363382133
 GameObject:
   m_ObjectHideFlags: 0
@@ -8923,7 +8928,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14821,7 +14827,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24749,7 +24756,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   citizenCg: {fileID: 1618362017}
   kidnapperCg: {fileID: 1595468443}
-  standImgPrefab: {fileID: 8903668688794037886, guid: d18fa75f5c7fc684b8fa563ff7962027, type: 3}
+  standImgPrefab: {fileID: 8903668688794037886, guid: d18fa75f5c7fc684b8fa563ff7962027,
+    type: 3}
   kidnapperImgParent:
   - {fileID: 1015293825}
   - {fileID: 1496982464}
@@ -34785,8 +34793,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cab07e40dcdda44ca324e43729e8823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4941352829889900955, guid: 5eff15b9ccc927042aa7bcfcbc8f5891, type: 3}
-  dummyPlayerPrefab: {fileID: 4941352829889900955, guid: 391e751cf826c024e9b53a5f42c9b322, type: 3}
+  playerPrefab: {fileID: 4941352829889900955, guid: 5eff15b9ccc927042aa7bcfcbc8f5891,
+    type: 3}
+  dummyPlayerPrefab: {fileID: 4941352829889900955, guid: 391e751cf826c024e9b53a5f42c9b322,
+    type: 3}
   socketId: -1
   socketName: 
   roomNum: 0
@@ -34805,10 +34815,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popupParent: {fileID: 1715170477}
-  loginPopup: {fileID: 7905677003467026139, guid: 7fcaeda5d0dc7ee46aa5ad8faea9596b, type: 3}
-  lobbyPopup: {fileID: 5595325862193580477, guid: bbb7c3af5e984844f8381b8fff7d30f1, type: 3}
-  alertPopup: {fileID: 8643533440485442339, guid: d288c0696ef54f743a2e28ca49a0747e, type: 3}
-  votePopup: {fileID: 2646963529194006722, guid: 17385b07b06b35045b80edfc711daf3f, type: 3}
+  loginPopup: {fileID: 7905677003467026139, guid: 7fcaeda5d0dc7ee46aa5ad8faea9596b,
+    type: 3}
+  lobbyPopup: {fileID: 5595325862193580477, guid: bbb7c3af5e984844f8381b8fff7d30f1,
+    type: 3}
+  alertPopup: {fileID: 8643533440485442339, guid: d288c0696ef54f743a2e28ca49a0747e,
+    type: 3}
+  votePopup: {fileID: 2646963529194006722, guid: 17385b07b06b35045b80edfc711daf3f,
+    type: 3}
 --- !u!4 &1591480865
 Transform:
   m_ObjectHideFlags: 0
@@ -34968,7 +34982,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -41743,7 +41758,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -44497,6 +44513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   btn: {fileID: 34412902}
+  btnImg: {fileID: 34412903}
 --- !u!1 &2021385512
 GameObject:
   m_ObjectHideFlags: 0
@@ -44767,7 +44784,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af, type: 3}
+  m_Sprite: {fileID: 8941288758964104467, guid: 9536b05bd62dff94a9a3e32ba39ed6af,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
