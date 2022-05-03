@@ -8,6 +8,7 @@ public class KeyBoardControllManager : MonoBehaviour
     public static KeyBoardControllManager Instance { get; private set; }
 
     private Player player = null;
+    private JoyStick joyStick;
 
     [SerializeField]
     private Button interactionBtn;
@@ -20,6 +21,8 @@ public class KeyBoardControllManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+
+        joyStick = FindObjectOfType<JoyStick>();
     }
 
     private void Start()
@@ -44,7 +47,10 @@ public class KeyBoardControllManager : MonoBehaviour
         }
         else
         {
-            player.Animator.SetBool("isMoving", false);
+            if(!joyStick.isTouch)
+            {
+                player.Animator.SetBool("isMoving", false);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.E))
