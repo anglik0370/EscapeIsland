@@ -42,6 +42,10 @@ public class KeyBoardControllManager : MonoBehaviour
             dir = new Vector3(h, v, 0).normalized;
             player.Move(dir);
         }
+        else
+        {
+            player.Animator.SetBool("isMoving", false);
+        }
 
         if (Input.GetKeyDown(KeyCode.E))
         {

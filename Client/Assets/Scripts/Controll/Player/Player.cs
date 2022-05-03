@@ -12,6 +12,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private Collider2D footCollider;
 
     public Collider2D FootCollider => footCollider;
+    public Animator Animator => anim;
 
     [SerializeField]
     private InteractionSO nothingHandlerSO;
