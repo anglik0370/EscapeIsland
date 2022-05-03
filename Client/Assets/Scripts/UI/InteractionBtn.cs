@@ -57,6 +57,8 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private bool isEnterRoom;
 
+    public bool CanTouch => btnImg.raycastTarget;
+
     private void Awake() 
     {
         btn = GetComponent<Button>();

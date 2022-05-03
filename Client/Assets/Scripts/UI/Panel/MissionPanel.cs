@@ -107,7 +107,9 @@ public class MissionPanel : Panel
 
     public override void Close(bool isTweenSkip = false)
     {
-        oldMission.Close();
+        if (oldMission == null) return;
+
+        oldMission?.Close();
 
         UtilClass.SetCanvasGroup(oldMission.Cvs);
 

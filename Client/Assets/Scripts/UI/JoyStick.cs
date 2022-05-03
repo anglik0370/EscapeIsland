@@ -18,7 +18,7 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public Vector3 moveDir;
     public Vector3 normal;
 
-    bool isTouch = false;
+    public bool isTouch = false;
 
     private void Start() 
     {

@@ -10,8 +10,10 @@ public class Player : MonoBehaviour, IInteractionObject
     private Animator anim;
     private Transform playerTrm;
     private Collider2D footCollider;
+    private Collider2D bodyCollider;
 
     public Collider2D FootCollider => footCollider;
+    public Animator Animator => anim;
 
     [SerializeField]
     private InteractionSO nothingHandlerSO;
@@ -82,6 +84,10 @@ public class Player : MonoBehaviour, IInteractionObject
     private const float DEFAULT_SCALE_Z = 1;
     private const float FLIP_SCALE_Z = -1;
 
+    private int defaultBodyLayer = -1; 
+    private int defaultFootLayer = -1;
+    private int deadLayer = -1;
+
     public float speed = 5;
 
     [SerializeField]
@@ -101,22 +107,28 @@ public class Player : MonoBehaviour, IInteractionObject
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
 
-        footCollider = transform.Find("FootCollider").GetComponent<Collider2D>();
+        //footCollider = transform.Find("FootCollider").GetComponent<Collider2D>();
 
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
+
+        defaultBodyLayer = LayerMask.NameToLayer("PLAYER");
+        defaultFootLayer = LayerMask.NameToLayer("PLAYERFOOT");
+        deadLayer = LayerMask.NameToLayer("PLAYERGHOST");
     }
 
     void OnEnable()
     {
         //임시 더미플레이어 생성
-        if (GetChildCount() > 2) return;
+        if (GetChildCount() > 0) return;
         DummyPlayer dummyPlayer = PoolManager.GetItem<DummyPlayer>();
 
         dummyPlayer.transform.SetParent(transform);
 
         sr = dummyPlayer.GetComponent<SpriteRenderer>();
         anim = dummyPlayer.GetComponent<Animator>();
+        footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
+        bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
         playerTrm = null;
     }
 
@@ -225,6 +237,8 @@ public class Player : MonoBehaviour, IInteractionObject
             playerTrm = player.transform;
         }
         anim = player.GetComponent<Animator>();
+        footCollider = player.transform.Find("FootCollider").GetComponent<Collider2D>();
+        bodyCollider = player.transform.Find("BodyCollider").GetComponent<Collider2D>();
     }
 
     public void RemoveCharacter()
@@ -266,14 +280,17 @@ public class Player : MonoBehaviour, IInteractionObject
             }
         }
 
-        gameObject.SetActive(false);
+        ChangeLayer(false);
+
         ui.SetNameTextColor(Color.black);
         ui.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void SetEnable()
     {
         anim.SetFloat("isDie", 1f);
+        ChangeLayer(true);
 
         gameObject.SetActive(true);
         ui.gameObject.SetActive(true);
@@ -284,7 +301,14 @@ public class Player : MonoBehaviour, IInteractionObject
         isDie = true;
         isTrap = false;
 
+        ChangeLayer(true);
         anim.SetFloat("isDie", 1f);
+    }
+
+    private void ChangeLayer(bool isDie)
+    {
+        footCollider.gameObject.layer = isDie ? deadLayer : defaultBodyLayer;
+        bodyCollider.gameObject.layer = isDie ? deadLayer : defaultFootLayer;
     }
 
     public void InitPlayer()
@@ -292,6 +316,7 @@ public class Player : MonoBehaviour, IInteractionObject
         isKidnapper = isDie = false;
 
         anim.SetFloat("isDie", 0f);
+        ChangeLayer(false);
     }
 
     public void Move(Vector3 dir)
