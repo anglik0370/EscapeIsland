@@ -30,12 +30,9 @@ public class SabotagePanel : Panel
         base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
-        EventManager.SubGameOver(gos => Close(true));
-
-        EventManager.SubStartMeet(mt => Close(true));
-
+        base.Start();
 
         EventManager.SubGameStart(p =>
         {

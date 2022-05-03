@@ -43,7 +43,7 @@ public class GameOverPanel : Panel
             Instance = this;
     }
 
-    private void Start()
+    protected override void Start()
     {
         EventManager.SubGameOver(gameOverCase =>
         {

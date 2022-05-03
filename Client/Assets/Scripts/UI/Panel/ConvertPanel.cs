@@ -38,16 +38,14 @@ public class ConvertPanel : Panel
         ResetUIs();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         EventManager.SubGameOver(goc =>
         {
             ResetUIs();
-
-            Close(true);
         });
-
-        EventManager.SubStartMeet(mt => Close(true));
     }
 
     private void Update() 
