@@ -16,7 +16,7 @@ public class VoteUI : MonoBehaviour
     {
         this.socId = socId;
         nickNameText.text = name;
-        nickNameText.color = isKidnapper ? Color.red : Color.black;
+        nickNameText.color = isKidnapper && PlayerManager.Instance.AmIKidnapper() ? Color.red : Color.black;
         charImg.sprite = charSprite;
         checkToggle.group = group;
 

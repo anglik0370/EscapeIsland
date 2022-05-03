@@ -79,12 +79,15 @@ public class Player : MonoBehaviour, IInteractionObject
     private Vector3 defaultRot;
     private Vector3 flipRot;
 
+    private const float DEFAULT_SCALE_Z = 1;
+    private const float FLIP_SCALE_Z = -1;
+
     public float speed = 5;
 
     [SerializeField]
     private float range = 5f;
 
-    private WaitForSeconds ws = new WaitForSeconds(1 / 10); //200ms 간격으로 자신의 데이터갱신
+    private WaitForSeconds ws = new WaitForSeconds(1 / 10); //100ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
 
     private InfoUI ui = null;
@@ -297,13 +300,15 @@ public class Player : MonoBehaviour, IInteractionObject
 
         if(dir != Vector3.zero)
         {
+            bool isFlip = dir.x > 0;
             if(isBone)
             {
-                playerTrm.rotation = Quaternion.Euler(dir.x > 0 ? flipRot : defaultRot);
+                playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
+                playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
             }
             else
             {
-                if (dir.x > 0)
+                if (isFlip)
                 {
                     sr.flipX = true;
                 }
@@ -359,13 +364,15 @@ public class Player : MonoBehaviour, IInteractionObject
 
             if(dir != Vector3.zero)
             {
+                bool isFlip = dir.x > 0;
                 if (isBone)
                 {
-                    playerTrm.Rotate(dir.x > 0 ? flipRot : defaultRot);
+                    playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
+                    playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
                 }
                 else
                 {
-                    if (dir.x > 0)
+                    if (isFlip)
                     {
                         sr.flipX = true;
                     }
