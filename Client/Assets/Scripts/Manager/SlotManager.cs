@@ -79,7 +79,7 @@ public class SlotManager : MonoBehaviour
             else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.ConverterBefore)
             {
                 //Inventory To ConverterBefore
-                if (beginSlot.GetItem() != null && ConvertPanel.Instance.CurOpenConverter.IsCanConvert(beginSlot.GetItem()))
+                if (beginSlot.IsEmpty && ConvertPanel.Instance.CurOpenConverter.IsCanConvert(beginSlot.GetItem()))
                 {
                     ItemSO temp = null;
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, beginSlot.GetItem().itemId);
@@ -144,7 +144,7 @@ public class SlotManager : MonoBehaviour
 
                 MissionBatterySlot slot = endSlot as MissionBatterySlot;
 
-                if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty)
+                if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty && !slot.MissionCharge.CurOpenCharger.IsCharging)
                 {
                     SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
                     SendManager.Instance.SendSyncObj(vo, ObjType.Battery, BehaviourType.Start);
