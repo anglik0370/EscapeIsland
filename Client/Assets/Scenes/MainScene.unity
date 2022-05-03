@@ -34222,6 +34222,7 @@ MonoBehaviour:
   radius: 0
   moveDir: {x: 0, y: 0, z: 0}
   normal: {x: 0, y: 0, z: 0}
+  isTouch: 0
 --- !u!225 &1576144300
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -44496,6 +44497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionBtn: {fileID: 34412902}
+  btnImg: {fileID: 34412903}
 --- !u!1 &2021385512
 GameObject:
   m_ObjectHideFlags: 0

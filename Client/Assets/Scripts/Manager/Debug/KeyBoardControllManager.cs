@@ -12,6 +12,8 @@ public class KeyBoardControllManager : MonoBehaviour
 
     [SerializeField]
     private Button interactionBtn;
+    [SerializeField]
+    private Image btnImg;
 
     private float h;
     private float v;
@@ -55,7 +57,7 @@ public class KeyBoardControllManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(interactionBtn.interactable)
+            if(interactionBtn.interactable && btnImg.raycastTarget)
             {
                 interactionBtn.onClick?.Invoke();
             }
