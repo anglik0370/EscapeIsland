@@ -47,21 +47,9 @@ public class MissionCharge : MonoBehaviour, IMission
     {
         curOpenCharger = charger;
 
-        guage.SetProgress(curOpenCharger.MaxChargingTime, curOpenCharger.CurChargingTime);
-
-        if(curOpenCharger.IsMaxCharging)
-        {
-            batterySlot.SetBatteryItem();
-        }
-        else if(curOpenCharger.IsCharging)
-        {
-            batterySlot.SetEmptyBetteryItem();
-        }
-        else
-        {
-            batterySlot.SetNullItem();
-        }
+        guage.SetProgress(curOpenCharger.MaxChargingTime, curOpenCharger.CurChargingTime); 
     }
+
 
     public void SetEmptyBattery()
     {
@@ -76,9 +64,17 @@ public class MissionCharge : MonoBehaviour, IMission
 
         guage.SetProgress(curOpenCharger.MaxChargingTime, curOpenCharger.CurChargingTime);
 
-        if(curOpenCharger.IsMaxCharging)
+        if (curOpenCharger.IsMaxCharging)
         {
             batterySlot.SetBatteryItem();
+        }
+        else if (curOpenCharger.IsCharging)
+        {
+            batterySlot.SetEmptyBetteryItem();
+        }
+        else
+        {
+            batterySlot.SetNullItem();
         }
     }
 }
