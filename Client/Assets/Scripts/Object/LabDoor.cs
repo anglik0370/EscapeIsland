@@ -22,13 +22,13 @@ public class LabDoor : MonoBehaviour
         defaultScale = transform.localScale;
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            CloseDoor();
-        }
-    }
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        CloseDoor();
+    //    }
+    //}
 
     public void CloseDoor()
     {
