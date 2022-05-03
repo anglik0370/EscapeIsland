@@ -177,6 +177,11 @@ public class VoteManager : ISetAble
             {
                 user.transform.position = uv.position;
                 voteTab.SetVoteUI(uv.socketId, uv.name, user.curSO.profileImg,user.isKidnapper);
+                
+                if(user.isDie)
+                {
+                    voteTab.skipToggle.gameObject.SetActive(false);
+                }
             }
             else
             {

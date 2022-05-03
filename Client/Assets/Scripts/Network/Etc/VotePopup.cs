@@ -39,7 +39,7 @@ public class VotePopup : Popup
 
         EventManager.SubStartMeet(meetType =>
         {
-            skipToggle.isOn = false;
+            skipToggle.isOn = true;
             skipToggle.gameObject.SetActive(true);
         });
 
@@ -57,10 +57,13 @@ public class VotePopup : Popup
         });
         msgInputField.onEndEdit.AddListener(msg =>
         {
-            sendMsgBtn.onClick?.Invoke();
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                sendMsgBtn.onClick?.Invoke();
 
-            msgInputField.text = "";
-            msgInputField.ActivateInputField();
+                msgInputField.text = "";
+                msgInputField.ActivateInputField();
+            }
         });
 
         chatBtn.onClick.AddListener(() =>
@@ -77,7 +80,6 @@ public class VotePopup : Popup
         {
             //여기서 서버에 보내줘야 한다
             Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
-            skipToggle.isOn = true;
 
             if(toggle == null)
             {
