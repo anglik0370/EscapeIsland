@@ -14,6 +14,8 @@ public class EyesightManager : MonoBehaviour
     private Transform labObjParentTrm;
     [SerializeField]
     private List<Transform> labObjList;
+    [SerializeField]
+    private List<GameObject> anotherLabObjList;
 
     private void Awake()
     {
@@ -39,10 +41,12 @@ public class EyesightManager : MonoBehaviour
         {
             //이러면 연구소 안에 있는거임
             labObjList.ForEach(x => x.gameObject.SetActive(true));
+            anotherLabObjList.ForEach(x => x.SetActive(true));
         }
         else
         {
             labObjList.ForEach(x => x.gameObject.SetActive(false));
+            anotherLabObjList.ForEach(x => x.SetActive(false));
         }
     }
 
