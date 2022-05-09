@@ -248,6 +248,9 @@ public class Player : MonoBehaviour, IInteractionObject
     public void RemoveCharacter()
     {
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
+
+        if (profile == null) return;
+
         profile.BtnEnabled(true);
         curSO = null;
     }

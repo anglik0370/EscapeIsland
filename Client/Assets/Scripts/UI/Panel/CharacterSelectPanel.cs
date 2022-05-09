@@ -29,7 +29,18 @@ public class CharacterSelectPanel : Panel
             profileList.Add(temp);
         }
 
+        EventManager.SubExitRoom(InitEnable);
+        EventManager.SubBackToRoom(InitEnable);
+
         base.Awake();
+    }
+
+    public void InitEnable()
+    {
+        foreach (CharacterProfile profile in profileList)
+        {
+            profile.BtnEnabled(true);
+        }
     }
 
     public CharacterProfile GetNotSelectedProfile()
