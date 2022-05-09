@@ -151,8 +151,10 @@ class Rooms {
         let user = Users.userList[socket.id];
         if(user === undefined) return;
 
-        this.roomList[socket.room].addSocket(socket,user);
-        this.roomList[socket.room].setTimersTime(socket);
+        let room = this.roomList[socket.room];
+
+        room.addSocket(socket,user);
+        room.setTimersTime(socket);
 
         socket.state = SocketState.IN_ROOM;
 
@@ -162,7 +164,7 @@ class Rooms {
             user.position = GetRandomPos();
         }
         
-        socket.send(JSON.stringify({type:"ENTER_ROOM",payload:JSON.stringify({roomNum:socket.room})}));
+        socket.send(JSON.stringify({type:"ENTER_ROOM",payload:JSON.stringify({selectedCharacterList:room.selectedIdList})}));
 
         if(isMaster)
             setTimeout(() => this.roomBroadcast(socket.room),100);

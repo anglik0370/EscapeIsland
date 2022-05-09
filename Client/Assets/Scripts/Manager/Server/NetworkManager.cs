@@ -136,12 +136,12 @@ public class NetworkManager : MonoBehaviour
         PlayerEnable(true);
     }
 
-    
-
-    public void EnterRoom()
+    public void EnterRoom(List<int> selectedCharId)
     {
         PopupManager.instance.ClosePopup();
         map.SetActive(true);
+
+        CharacterSelectPanel.Instance.SetEnterRoomData(selectedCharId);
     }
     public void ExitRoom()
     {
@@ -189,8 +189,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
     
-    
-    
     public Player MakeRemotePlayer(UserVO data,CharacterSO so)
     {
         Player rpc = PoolManager.GetItem<Player>();
@@ -202,6 +200,4 @@ public class NetworkManager : MonoBehaviour
         playerList.Add(data.socketId, rpc);
         return null;
     }
-
-    
 }

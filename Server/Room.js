@@ -27,8 +27,15 @@ class Room {
 
         this.socketList = [];
         this.userList = {};
+        this.selectedIdList = [];
 
         this.isInitRoom = false;
+    }
+
+    changeCharacter(beforeId,characterId) {
+        this.selectedIdList = this.selectedIdList.filter(id => id !== beforeId);
+
+        this.selectedIdList.push(characterId);
     }
 
     insideRefresh(socket,isInside) {

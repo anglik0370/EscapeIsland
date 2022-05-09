@@ -32,11 +32,9 @@ public class SetCharacter : ISetAble
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.characterId);
 
-        print($"{characterVO.changerId} change {characterVO.characterId}");
         if(playerList.ContainsKey(characterVO.changerId))
         {
             playerList[characterVO.changerId].ChangeCharacter(profile.GetSO());
-            print("change");
         }
     }
 
