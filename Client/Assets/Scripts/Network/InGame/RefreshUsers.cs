@@ -93,19 +93,25 @@ public class RefreshUsers : ISetAble
 
         foreach (UserVO uv in userDataList)
         {
-            CharacterProfile profile = CharacterSelectPanel.Instance.GetDefaultProfile();
             if (uv.socketId != socketId)
             {
                 Player p = null;
                 playerList.TryGetValue(uv.socketId, out p);
+                CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(uv.charId);
 
                 if (p == null)
                 {
-                    NetworkManager.instance.MakeRemotePlayer(uv, profile.GetSO());
+                    p = NetworkManager.instance.MakeRemotePlayer(uv, profile?.GetSO());
                 }
                 else
                 {
                     p.SetTransform(uv.position);
+                }
+
+                if(profile != null)
+                {
+                    profile.BtnEnabled(false);
+                    p.ChangeCharacter(profile.GetSO());
                 }
             }
         }

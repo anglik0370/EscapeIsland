@@ -4,6 +4,7 @@ using UnityEngine;
 public class UserVO
 {
     public int socketId;
+    public int charId;
     public string name;
     public int roomNum;
     public Vector2 position;
@@ -17,9 +18,10 @@ public class UserVO
 
     }
 
-    public UserVO(int socketId, string name, int roomNum, Vector2 pos, bool master, bool isImposter,bool isDie,bool isInside)
+    public UserVO(int socketId,int charId, string name, int roomNum, Vector2 pos, bool master, bool isImposter,bool isDie,bool isInside)
     {
         this.socketId = socketId;
+        this.charId = charId;
         this.name = name;
         this.roomNum = roomNum;
         this.position = pos;

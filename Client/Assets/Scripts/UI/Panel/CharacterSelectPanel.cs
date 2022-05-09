@@ -29,24 +29,17 @@ public class CharacterSelectPanel : Panel
             profileList.Add(temp);
         }
 
+        EventManager.SubExitRoom(InitEnable);
+        EventManager.SubBackToRoom(InitEnable);
+
         base.Awake();
     }
 
-    public void SetEnterRoomData(List<int> selectedIdList)
+    public void InitEnable()
     {
-        foreach (CharacterProfile pr in profileList)
+        foreach (CharacterProfile profile in profileList)
         {
-            for (int i = 0; i < selectedIdList.Count; i++)
-            {
-                if(pr.GetSO().id == selectedIdList[i])
-                {
-                    pr.BtnEnabled(false);
-                    selectedIdList.RemoveAt(i);
-                    break;
-                }
-            }
-
-            if (selectedIdList.Count <= 0) break;
+            profile.BtnEnabled(true);
         }
     }
 

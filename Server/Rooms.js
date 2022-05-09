@@ -164,7 +164,7 @@ class Rooms {
             user.position = GetRandomPos();
         }
         
-        socket.send(JSON.stringify({type:"ENTER_ROOM",payload:JSON.stringify({selectedCharacterList:room.selectedIdList})}));
+        socket.send(JSON.stringify({type:"ENTER_ROOM",payload:""}));
 
         if(isMaster)
             setTimeout(() => this.roomBroadcast(socket.room),100);
