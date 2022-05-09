@@ -76,7 +76,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool isInside = false; //실내인지
     private bool isBone = false;
-    public bool isTrap = false;
+    public bool canMove = false;
 
 
     public Inventory inventory;
@@ -134,6 +134,8 @@ public class Player : MonoBehaviour, IInteractionObject
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
         playerTrm = null;
+
+        ChangeCharacter(GameManager.Instance.amberSO);
     }
 
     private void Update()
@@ -161,8 +163,8 @@ public class Player : MonoBehaviour, IInteractionObject
         this.IsRemote = isRemote;
         master = vo.master;
 
-        isTrap = false;
-        isBone = false;
+        canMove = true;
+        isBone = sr == null;
         isInside = false;
 
         socketName = vo.name;
@@ -226,6 +228,7 @@ public class Player : MonoBehaviour, IInteractionObject
                 child.gameObject.SetActive(false);
             }
         }
+        sr = null;
     }
 
     public void ChangePlayer()
@@ -286,7 +289,6 @@ public class Player : MonoBehaviour, IInteractionObject
             }
         }
 
-
         ui.SetNameTextColor(Color.black);
         ui.gameObject.SetActive(false);
         gameObject.SetActive(false);
@@ -304,9 +306,10 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetDead()
     {
         isDie = true;
-        isTrap = false;
+        canMove = true;
 
         ChangeLayer(true);
+        anim.SetTrigger(ANIMT_DIE);
         anim.SetFloat(ANIMB_DIE, 1f);
     }
 
@@ -326,7 +329,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void Move(Vector3 dir)
     {
-        if(IsRemote || isTrap) return;
+        if(IsRemote || !canMove) return;
 
         if(dir != Vector3.zero)
         {
