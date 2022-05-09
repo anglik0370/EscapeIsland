@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [Header("µð¹ö±×")]
+    public CharacterSO amberSO;
+
     [SerializeField]
     private Transform seaInteractionColParentTrm;
     [SerializeField]

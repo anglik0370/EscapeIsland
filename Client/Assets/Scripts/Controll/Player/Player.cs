@@ -313,7 +313,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
         ChangeLayer(true);
         anim.SetTrigger(ANIMT_DIE);
-        anim.SetFloat(ANIMB_DIE, 1f);
+        //anim.SetFloat(ANIMB_DIE, 1f);
     }
 
     private void ChangeLayer(bool isDie)

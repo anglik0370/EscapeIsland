@@ -11,7 +11,6 @@ public class NetworkManager : MonoBehaviour
     public static NetworkManager instance;
 
     public GameObject playerPrefab;
-    public GameObject dummyPlayerPrefab;
 
     public int socketId = -1;
     public string socketName;
@@ -45,7 +44,6 @@ public class NetworkManager : MonoBehaviour
         }
         instance = this;
 
-        PoolManager.CreatePool<DummyPlayer>(dummyPlayerPrefab, transform, 30);
         PoolManager.CreatePool<Player>(playerPrefab, transform, 30);
     }
 
@@ -69,7 +67,6 @@ public class NetworkManager : MonoBehaviour
     {
         return (T)setDataScriptList.Find(x => x.GetType() == typeof(T));
     }
-    
     
     public static void SetLoginData(string name, int socketId)
     {

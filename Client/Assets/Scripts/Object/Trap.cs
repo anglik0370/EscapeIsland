@@ -39,7 +39,7 @@ public class Trap : MonoBehaviour
 
         if(enterPlayer != null)
         {
-            enterPlayer.isTrap = false;
+            enterPlayer.canMove = true;
             enterPlayer = null;
         }
     }
@@ -76,7 +76,7 @@ public class Trap : MonoBehaviour
     {
         if(enterPlayer != null)
         {
-            enterPlayer.isTrap = true;
+            enterPlayer.canMove = false;
         }
         isTrap = sr.enabled = true;
 
