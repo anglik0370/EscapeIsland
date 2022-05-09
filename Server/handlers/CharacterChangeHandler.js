@@ -9,7 +9,7 @@ module.exports = {
         room.socketList.forEach(soc => {
             if(soc.id == socket.id) return;
             soc.send(JSON.stringify({type:"CHARACTER_CHANGE",
-            payload:JSON.stringify({characterId:data.characterId,beforeCharacterId:data.beforeCharacterId,changerId:data.changerId})}));
+            payload:JSON.stringify(data)}));
         });
 
     }

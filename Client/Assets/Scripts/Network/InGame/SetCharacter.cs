@@ -28,13 +28,16 @@ public class SetCharacter : ISetAble
 
     public void SetCharacterChange()
     {
-        CharacterProfile beforeProfile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.beforeCharacterId);
-        beforeProfile.BtnEnabled(true);
+        Init();
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.characterId);
-        profile.BtnEnabled(false);
 
-        //characterVO.changerId -> 이 사람 캐릭터 바꿔주기
+        print($"{characterVO.changerId} change {characterVO.characterId}");
+        if(playerList.ContainsKey(characterVO.changerId))
+        {
+            playerList[characterVO.changerId].ChangeCharacter(profile.GetSO());
+            print("change");
+        }
     }
 
     public void ChangeCharacter(CharacterSO so)
