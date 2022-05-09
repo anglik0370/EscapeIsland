@@ -171,16 +171,18 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void CreateCharacter()
     {
-        GameObject player = CharacterSelectPanel.Instance.GetCharacterObj(curSO.id);
+        GameObject dummyPlayer = CharacterSelectPanel.Instance.GetCharacterObj(curSO.id);
 
-        player.transform.SetParent(transform);
-        player.transform.localPosition = createPos;
+        dummyPlayer.transform.SetParent(transform);
+        dummyPlayer.transform.localPosition = createPos;
 
-        sr = player.GetComponent<SpriteRenderer>();
-        anim = player.GetComponent<Animator>();
-        footCollider = player.transform.Find("FootCollider").GetComponent<Collider2D>();
-        bodyCollider = player.transform.Find("BodyCollider").GetComponent<Collider2D>();
-        playerTrm = player.transform;
+        sr = dummyPlayer.GetComponent<SpriteRenderer>();
+        anim = dummyPlayer.GetComponent<Animator>();
+        footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
+        bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
+        playerTrm = dummyPlayer.transform;
+
+        dummyPlayer.SetActive(true);
     }
 
     public int GetChildCount()
@@ -276,7 +278,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
         if (user)
         {
-            for (int i = 2; i < transform.childCount; i++)
+            for (int i = 0; i < transform.childCount; i++)
             {
                 transform.GetChild(i).gameObject.SetActive(false);
             }

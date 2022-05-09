@@ -51,9 +51,11 @@ public class CharacterSelectPanel : Panel
                 break;
             }
         }
+
         if(obj == null)
         {
             obj = Instantiate(GetCharacterProfile(id).GetSO().playerPrefab);
+            charPool[id].Add(obj);
         }
 
         return obj;
