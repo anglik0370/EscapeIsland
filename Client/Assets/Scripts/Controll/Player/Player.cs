@@ -122,7 +122,6 @@ public class Player : MonoBehaviour, IInteractionObject
         //임시 더미플레이어 생성
         if (GetChildCount() > 0) return;
         DummyPlayer dummyPlayer = PoolManager.GetItem<DummyPlayer>();
-
         dummyPlayer.transform.SetParent(transform);
 
         sr = dummyPlayer.GetComponent<SpriteRenderer>();
@@ -272,6 +271,8 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         if (!gameObject.activeSelf) return;
 
+        ChangeLayer(false);
+
         if (user)
         {
             for (int i = 2; i < transform.childCount; i++)
@@ -280,7 +281,6 @@ public class Player : MonoBehaviour, IInteractionObject
             }
         }
 
-        ChangeLayer(false);
 
         ui.SetNameTextColor(Color.black);
         ui.gameObject.SetActive(false);
