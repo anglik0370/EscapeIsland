@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IInteractionObject
 {
+    private const string ANIMB_MOVE = "isMoving";
+    private const string ANIMB_DIE = "isDie";
+    private const string ANIMT_ATTACK = "attack";
+    private const string ANIMT_DIE = "die";
+
     private SpriteRenderer sr;
     private Rigidbody2D rigid;
     private Animator anim;
@@ -139,11 +144,11 @@ public class Player : MonoBehaviour, IInteractionObject
 
             if (Vector2.Distance(targetPos, transform.position) <= 0.03f)
             {
-                anim.SetBool("isMoving", false);
+                anim.SetBool(ANIMB_MOVE, false);
             }
             else
             {
-                anim.SetBool("isMoving", true);
+                anim.SetBool(ANIMB_MOVE, true);
             }
         }
     }
@@ -289,7 +294,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void SetEnable()
     {
-        anim.SetFloat("isDie", 1f);
+        anim.SetFloat(ANIMB_DIE, 1f);
         ChangeLayer(true);
 
         gameObject.SetActive(true);
@@ -302,7 +307,7 @@ public class Player : MonoBehaviour, IInteractionObject
         isTrap = false;
 
         ChangeLayer(true);
-        anim.SetFloat("isDie", 1f);
+        anim.SetFloat(ANIMB_DIE, 1f);
     }
 
     private void ChangeLayer(bool isDie)
@@ -315,7 +320,7 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         isKidnapper = isDie = false;
 
-        anim.SetFloat("isDie", 0f);
+        anim.SetFloat(ANIMB_DIE, 0f);
         ChangeLayer(false);
     }
 
@@ -344,11 +349,11 @@ public class Player : MonoBehaviour, IInteractionObject
             }
             
 
-            anim.SetBool("isMoving", true);
+            anim.SetBool(ANIMB_MOVE, true);
         }
         else
         {
-            anim.SetBool("isMoving", false);
+            anim.SetBool(ANIMB_MOVE, false);
         }
 
         transform.position += dir * speed * Time.deltaTime;
