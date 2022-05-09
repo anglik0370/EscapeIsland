@@ -79,7 +79,7 @@ public class SlotManager : MonoBehaviour
             else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.ConverterBefore)
             {
                 //Inventory To ConverterBefore
-                if (beginSlot.IsEmpty && ConvertPanel.Instance.CurOpenConverter.IsCanConvert(beginSlot.GetItem()))
+                if (ConvertPanel.Instance.CurOpenConverter.IsCanConvert(beginSlot.GetItem()))
                 {
                     ItemSO temp = null;
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, beginSlot.GetItem().itemId);
