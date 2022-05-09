@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Kill : ISetAble
 {
-    private List<UserVO> userDataList;
+    private KillVO data;
 
     private bool needDieRefresh = false;
 
@@ -22,11 +22,11 @@ public class Kill : ISetAble
         }
     }
 
-    public void SetDieData(List<UserVO> list)
+    public void SetDieData(KillVO data)
     {
         lock (lockObj)
         {
-            userDataList = list;
+            this.data = data;
             needDieRefresh = true;
         }
     }
@@ -53,38 +53,26 @@ public class Kill : ISetAble
     {
         Init();
 
-        foreach (UserVO uv in userDataList)
+        Player p = null;
+
+        if(playerList.TryGetValue(data.targetSocketId,out p))
         {
-            if (uv.socketId == user.socketId)
+            if (p != null)
             {
-                if (uv.isDie)
+                p.SetDead();
+
+                if (p.gameObject.activeSelf && p.isDie && !user.isDie)
                 {
-                    user.SetDead();
-                }
-
-            }
-            else
-            {
-                Player p = null;
-
-                playerList.TryGetValue(uv.socketId, out p);
-
-                if (p != null)
-                {
-                    if (uv.isDie)
-                    {
-                        p.SetDead();
-                    }
-
-                    if (p.gameObject.activeSelf && uv.isDie && !user.isDie)
-                    {
-                        p.SetDisable();
-                        DeadBodyManager.Instance.MakeDeadbody(p.GetTrm().position);
-                    }
+                    p.SetDisable();
+                    DeadBodyManager.Instance.MakeDeadbody(p.GetTrm().position);
                 }
             }
-
         }
+        else if(user.socketId == data.targetSocketId)
+        {
+            user.SetDead();
+        }
+
         NetworkManager.instance.PlayerEnable();
     }
 }

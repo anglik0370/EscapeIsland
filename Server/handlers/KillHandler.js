@@ -13,7 +13,7 @@ module.exports = {
             room.userList[targetSocId].isDie = true;
         }
 
-        Rooms.roomBroadcast(socket.room,"KILL");
+        room.broadcast(JSON.stringify({type:"KILL",payload:JSON.stringify(data)}));
         
         room.kidnapperWinCheck();
     }
