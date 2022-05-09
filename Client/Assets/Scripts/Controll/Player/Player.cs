@@ -75,7 +75,6 @@ public class Player : MonoBehaviour, IInteractionObject
     public bool isDie = false;
 
     public bool isInside = false; //실내인지
-    private bool isBone = false;
     public bool canMove = false;
 
 
@@ -85,6 +84,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private Vector3 defaultRot;
     private Vector3 flipRot;
+    private Vector3 createPos;
 
     private const float DEFAULT_SCALE_Z = 1;
     private const float FLIP_SCALE_Z = -1;
@@ -116,26 +116,11 @@ public class Player : MonoBehaviour, IInteractionObject
 
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
+        createPos = new Vector3(0f, -0.45f, 0f);
 
         defaultBodyLayer = LayerMask.NameToLayer("PLAYER");
         defaultFootLayer = LayerMask.NameToLayer("PLAYERFOOT");
         deadLayer = LayerMask.NameToLayer("PLAYERGHOST");
-    }
-
-    void OnEnable()
-    {
-        //임시 더미플레이어 생성
-        if (GetChildCount() > 0) return;
-        DummyPlayer dummyPlayer = PoolManager.GetItem<DummyPlayer>();
-        dummyPlayer.transform.SetParent(transform);
-
-        sr = dummyPlayer.GetComponent<SpriteRenderer>();
-        anim = dummyPlayer.GetComponent<Animator>();
-        footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
-        bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
-        playerTrm = null;
-
-        ChangeCharacter(GameManager.Instance.amberSO);
     }
 
     private void Update()
@@ -164,7 +149,6 @@ public class Player : MonoBehaviour, IInteractionObject
         master = vo.master;
 
         canMove = true;
-        isBone = sr == null;
         isInside = false;
 
         socketName = vo.name;
@@ -179,8 +163,24 @@ public class Player : MonoBehaviour, IInteractionObject
             {
                 CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
                 pr.BtnEnabled(false);
+
+                CreateCharacter();
             }
         }
+    }
+
+    public void CreateCharacter()
+    {
+        GameObject player = CharacterSelectPanel.Instance.GetCharacterObj(curSO.id);
+
+        player.transform.SetParent(transform);
+        player.transform.localPosition = createPos;
+
+        sr = player.GetComponent<SpriteRenderer>();
+        anim = player.GetComponent<Animator>();
+        footCollider = player.transform.Find("FootCollider").GetComponent<Collider2D>();
+        bodyCollider = player.transform.Find("BodyCollider").GetComponent<Collider2D>();
+        playerTrm = player.transform;
     }
 
     public int GetChildCount()
@@ -235,17 +235,7 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         DeletePlayer();
 
-        GameObject player = Instantiate(curSO.playerPrefab, transform);
-
-        sr = player.GetComponent<SpriteRenderer>();
-        isBone = sr == null;
-        if(isBone)
-        {
-            playerTrm = player.transform;
-        }
-        anim = player.GetComponent<Animator>();
-        footCollider = player.transform.Find("FootCollider").GetComponent<Collider2D>();
-        bodyCollider = player.transform.Find("BodyCollider").GetComponent<Collider2D>();
+        CreateCharacter();
     }
 
     public void RemoveCharacter()
@@ -342,23 +332,9 @@ public class Player : MonoBehaviour, IInteractionObject
         if(dir != Vector3.zero)
         {
             bool isFlip = dir.x > 0;
-            if(isBone)
-            {
-                playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
-                playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
-            }
-            else
-            {
-                if (isFlip)
-                {
-                    sr.flipX = true;
-                }
-                else if (dir.x < 0)
-                {
-                    sr.flipX = false;
-                }
-            }
-            
+
+            playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
+            playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
 
             anim.SetBool(ANIMB_MOVE, true);
         }
@@ -406,22 +382,9 @@ public class Player : MonoBehaviour, IInteractionObject
             if(dir != Vector3.zero)
             {
                 bool isFlip = dir.x > 0;
-                if (isBone)
-                {
-                    playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
-                    playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
-                }
-                else
-                {
-                    if (isFlip)
-                    {
-                        sr.flipX = true;
-                    }
-                    else if (dir.x < 0)
-                    {
-                        sr.flipX = false;
-                    }
-                }
+
+                playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
+                playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
 
                 //anim.SetBool("isMoving", true);
             }

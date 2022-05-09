@@ -44,12 +44,13 @@ public class NetworkManager : MonoBehaviour
         }
         instance = this;
 
-        PoolManager.CreatePool<Player>(playerPrefab, transform, 30);
     }
+
 
     private void Start()
     {
         setDataScriptList = setDataScriptsParent.GetComponents<ISetAble>().ToList();
+        PoolManager.CreatePool<Player>(playerPrefab, transform, 30);
 
         EventManager.SubEnterRoom(p => user = p);
 
