@@ -32,24 +32,6 @@ public class CharacterSelectPanel : Panel
         base.Awake();
     }
 
-    public void SetEnterRoomData(List<int> selectedIdList)
-    {
-        foreach (CharacterProfile pr in profileList)
-        {
-            for (int i = 0; i < selectedIdList.Count; i++)
-            {
-                if(pr.GetSO().id == selectedIdList[i])
-                {
-                    pr.BtnEnabled(false);
-                    selectedIdList.RemoveAt(i);
-                    break;
-                }
-            }
-
-            if (selectedIdList.Count <= 0) break;
-        }
-    }
-
     public CharacterProfile GetNotSelectedProfile()
     {
         return profileList.Find(profile => !profile.IsSelected());

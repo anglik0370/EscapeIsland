@@ -136,12 +136,10 @@ public class NetworkManager : MonoBehaviour
         PlayerEnable(true);
     }
 
-    public void EnterRoom(List<int> selectedCharId)
+    public void EnterRoom()
     {
         PopupManager.instance.ClosePopup();
         map.SetActive(true);
-
-        CharacterSelectPanel.Instance.SetEnterRoomData(selectedCharId);
     }
     public void ExitRoom()
     {
