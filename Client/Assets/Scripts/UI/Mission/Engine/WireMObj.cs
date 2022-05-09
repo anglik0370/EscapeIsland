@@ -35,10 +35,6 @@ public class WireMObj : MonoBehaviour, IPointerClickHandler
     private Vector2 endPoint;
     public Vector2 EndPoint => endPoint;
 
-    [Header("º¸Á¤Ä¡")]
-    [SerializeField]
-    private float correctionY = 70;
-
     private void Awake()
     {
         missionEngine = GetComponentInParent<MissionEngine>();
