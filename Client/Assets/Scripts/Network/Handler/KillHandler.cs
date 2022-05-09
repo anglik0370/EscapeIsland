@@ -6,10 +6,8 @@ public class KillHandler : IMsgHandler<Kill>
 {
     public override void HandleMsg(string payload)
     {
-        UserListVO userList = JsonUtility.FromJson<UserListVO>(payload);
-
         base.HandleMsg(payload);
 
-        generic.SetDieData(userList.dataList);
+        generic.SetDieData(JsonUtility.FromJson<KillVO>(payload));
     }
 }

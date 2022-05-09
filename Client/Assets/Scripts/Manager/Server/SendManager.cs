@@ -92,7 +92,7 @@ public class SendManager : MonoBehaviour
 
     public void SendKill(int targetSocketId)
     {
-        KillVO vo = new KillVO(targetSocketId);
+        KillVO vo = new KillVO(socketId,targetSocketId);
 
         DataVO dataVO = new DataVO("KILL", JsonUtility.ToJson(vo));
 
