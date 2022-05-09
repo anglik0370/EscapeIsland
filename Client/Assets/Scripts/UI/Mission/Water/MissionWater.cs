@@ -121,22 +121,20 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
 
                 float criteriaY = Screen.height / 2 + correctionY + correctionY;
 
-                if (mouseY < criteriaY)
-                {
-                    print("¹° ¹ÛÀÌ ¾Æ´Õ´Ï´Ù");
+                //if (mouseY < criteriaY)
+                //{
+                //    print("¹° ¹ÛÀÌ ¾Æ´Õ´Ï´Ù");
 
-                    itemGhost.SetItem(emptyBottle);
-                    Close();
+                //    itemGhost.SetItem(emptyBottle);
+                //    Close();
 
-                    return;
-                }
+                //    return;
+                //}
 
-                print("²ËÃ¡À½");
                 itemGhost.SetItem(waterBottle);
             }
             else
             {
-                print("²Ë ¾ÈÃ¡À½");
                 itemGhost.SetItem(emptyBottle);
             }
 
