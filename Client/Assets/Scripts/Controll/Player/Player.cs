@@ -316,6 +316,11 @@ public class Player : MonoBehaviour, IInteractionObject
         //anim.SetFloat(ANIMB_DIE, 1f);
     }
 
+    public void SetAttack()
+    {
+        anim.SetTrigger(ANIMT_ATTACK);
+    }
+
     private void ChangeLayer(bool isDie)
     {
         footCollider.gameObject.layer = isDie ? deadLayer : defaultBodyLayer;

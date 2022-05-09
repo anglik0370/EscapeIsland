@@ -55,7 +55,15 @@ public class Kill : ISetAble
 
         Player p = null;
 
-        if(playerList.TryGetValue(data.targetSocketId,out p))
+        if(playerList.TryGetValue(data.killerId, out p))
+        {
+            if(p != null)
+            {
+                p.SetAttack();
+            }
+        }
+
+        if(playerList.TryGetValue(data.targetSocketId, out p))
         {
             if (p != null)
             {
