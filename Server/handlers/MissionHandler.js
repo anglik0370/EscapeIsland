@@ -7,6 +7,6 @@ module.exports = {
 
         if(room === undefined) return;
 
-        room.broadcast(JSON.stringify({type:"MISSION",payload:data.spawnerId}))
+        room.broadcast(JSON.stringify({type:"MISSION",payload:JSON.stringify(data)}))
     }
 }

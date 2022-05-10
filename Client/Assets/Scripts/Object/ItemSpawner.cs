@@ -39,7 +39,9 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         else
         {
             MissionPanel.Instance.Open(missionType);
-            SendManager.Instance.StartMission(id,MissionType);
+
+            if(missionType != MissionType.Water)
+                SendManager.Instance.StartMission(id,MissionType);
         }
     };
 
@@ -109,6 +111,11 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     {
         curCoolTime = maxCoolTime;
         isInteractionAble = false;
+    }
+
+    public void SetMaxCoolTime(float coolTime)
+    {
+        maxCoolTime = coolTime;
     }
 
     public float GetFillCoolTime()

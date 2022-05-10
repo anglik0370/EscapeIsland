@@ -12,6 +12,11 @@ public class ItemAndStorage : ISetAble
     private string msg = string.Empty;
     private ItemSpawnerVO missionData = null;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
 
     void Update()
     {
