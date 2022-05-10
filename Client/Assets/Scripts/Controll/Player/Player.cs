@@ -11,6 +11,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private const string ANIMT_DIE = "die";
 
     private SpriteRenderer[] sprites;
+    [SerializeField]
     private Animator anim;
     private Transform playerTrm;
     private Collider2D footCollider;
@@ -177,6 +178,9 @@ public class Player : MonoBehaviour, IInteractionObject
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
         playerTrm = dummyPlayer.transform;
 
+        anim.ResetTrigger(ANIMT_DIE);
+        anim.ResetTrigger(ANIMT_ATTACK);
+
         dummyPlayer.SetActive(true);
     }
 
@@ -296,6 +300,8 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         if(!isVote)
         {
+            print("킬로 죽음 " + anim.transform.gameObject.name);
+
             anim.SetTrigger(ANIMT_DIE);
             //anim.SetFloat(ANIMB_DIE, 1f);
         }

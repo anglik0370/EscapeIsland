@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 4337636600341821415}
   - component: {fileID: 89491453530893222}
   - component: {fileID: 179949877815135002}
+  - component: {fileID: 6229399215980607789}
   m_Layer: 6
   m_Name: Ian
   m_TagString: PlayerPrefab
@@ -292,6 +293,26 @@ MonoBehaviour:
   - {fileID: 2058532558949206942}
   - {fileID: 3042886761415593035}
   useSrList: 1
+--- !u!114 &6229399215980607789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4158339487086686839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42778b34cf1e3f243ac9f3ba9d188362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 89491453530893222}
+  sprites:
+  - {fileID: 1583331191577976107}
+  - {fileID: 7935163129284292623}
+  - {fileID: 9209400102369503922}
+  - {fileID: 8413515830935563066}
+  - {fileID: 2058532558949206942}
+  - {fileID: 3042886761415593035}
 --- !u!1 &4366836459284334573
 GameObject:
   m_ObjectHideFlags: 0
