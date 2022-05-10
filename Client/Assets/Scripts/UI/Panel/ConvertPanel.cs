@@ -90,6 +90,7 @@ public class ConvertPanel : Panel
         {
             refineryList[i].SetCantUse();
         }
+        UpdateUIs();
     }
 
     public int GetRefinerySlotIdx(ItemSlot slot)
