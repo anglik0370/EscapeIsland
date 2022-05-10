@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StorageFullHandler : IMsgHandler<ItemAndStorage>
+public class StorageFullHandler : MonoBehaviour,IMsgHandler
 {
-    public override void HandleMsg(string payload)
+    public void HandleMsg(string payload)
     {
-        base.HandleMsg(payload);
-        generic.SetStorageFullData(payload);
+        ItemAndStorage.SetStorageFullData(payload);
     }
 }
