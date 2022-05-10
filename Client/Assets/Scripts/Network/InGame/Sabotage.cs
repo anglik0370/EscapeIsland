@@ -15,12 +15,15 @@ public class Sabotage : ISetAble
 
     private bool needSabotageRefresh = false;
     private bool needTrapRefresh = false;
+    private bool needCantUseRefineryRefresh = false;
 
     private int trapId = -1;
     private int lastTrapIdx = 1;
 
     private List<Trap> trapList = new List<Trap>();
     private List<LabDoor> doorList = new List<LabDoor>();
+
+    private CantUseRefineryVO refineryData;
 
     [SerializeField]
     private Transform doorParent;
@@ -54,6 +57,12 @@ public class Sabotage : ISetAble
             EnterTrap();
             needTrapRefresh = false;
         }
+
+        if(needCantUseRefineryRefresh)
+        {
+            SetRefinery();
+            needCantUseRefineryRefresh = false;
+        }
     }
 
     public static void SetSabotageData(SabotageVO vo)
@@ -72,6 +81,25 @@ public class Sabotage : ISetAble
             Instance.trapId = trapId;
             Instance.needTrapRefresh = true;
         }
+    }
+
+    public static void SetRefineryData(CantUseRefineryVO vo)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.refineryData = vo;
+            Instance.needCantUseRefineryRefresh = true;
+        }
+    }
+
+    public void SetRefinery()
+    {
+        ItemConverter converter = ConverterManager.Instance.GetRefinery(refineryData.refineryId);
+
+        converter.CanUse = refineryData.canUseRefinery;
+        converter.isEmpty[refineryData.slotIdx] = false;
+
+        ConvertPanel.Instance.UpdateUIs();
     }
 
     public void StartSabotage()

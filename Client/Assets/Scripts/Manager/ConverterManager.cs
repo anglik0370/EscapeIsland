@@ -34,4 +34,14 @@ public class ConverterManager : MonoBehaviour
             }
         });
     }
+
+    public List<ItemConverter> GetRefineryList()
+    {
+        return converterList.FindAll(converter => converter.IsRefinery);
+    }
+
+    public ItemConverter GetRefinery(int id)
+    {
+        return converterList.Find(converter => converter.IsRefinery && converter.id == id);
+    }
 }
