@@ -156,7 +156,6 @@ public class Player : MonoBehaviour, IInteractionObject
             {
                 CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
                 pr.BtnEnabled(false);
-
             }
         }
 
@@ -170,8 +169,8 @@ public class Player : MonoBehaviour, IInteractionObject
         dummyPlayer.transform.SetParent(transform);
         dummyPlayer.transform.localPosition = createPos;
 
-        anim = dummyPlayer.GetComponentInChildren<CharComponentHolder>().anim;
-        sprites = dummyPlayer.GetComponentInChildren<CharComponentHolder>().sprites;
+        anim = dummyPlayer.GetComponent<CharComponentHolder>().anim;
+        sprites = dummyPlayer.GetComponent<CharComponentHolder>().sprites;
 
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
@@ -299,7 +298,7 @@ public class Player : MonoBehaviour, IInteractionObject
         isDie = true;
         canMove = true;
 
-        anim.SetFloat(ANIMB_DIE, 1f);
+        //anim.SetFloat(ANIMB_DIE, 1f);
 
         ChangeLayer(true);
     }

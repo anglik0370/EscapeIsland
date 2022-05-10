@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DeadBody : MonoBehaviour, IInteractionObject
 {
-    private SpriteRenderer sr;
+    private const string ANIMT_DIE = "die";
 
     [SerializeField]
     private InteractionSO lobbyHandlerSO;
@@ -20,9 +20,16 @@ public class DeadBody : MonoBehaviour, IInteractionObject
 
     public bool CanInteraction => gameObject.activeSelf;
 
-    private void Awake()
+    public void Init(Vector3 pos, CharacterSO characterSO)
     {
-        sr = GetComponent<SpriteRenderer>();
+        GameObject chara = CharacterSelectPanel.Instance.GetCharacterObj(characterSO.id);
+
+        chara.transform.SetParent(transform);
+        chara.transform.position = pos;
+
+        Animator anim = chara.GetComponent<CharComponentHolder>().anim;
+
+        anim.SetTrigger(ANIMT_DIE);
     }
 
     public Transform GetTrm()
@@ -37,12 +44,12 @@ public class DeadBody : MonoBehaviour, IInteractionObject
 
     public Sprite GetSprite()
     {
-        return sr.sprite;
+        return null;
     }
 
     public bool GetFlipX()
     {
-        return sr.flipX;
+        return false;
     }
 
     public void Report()
