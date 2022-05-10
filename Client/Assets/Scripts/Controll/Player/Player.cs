@@ -117,6 +117,19 @@ public class Player : MonoBehaviour, IInteractionObject
         deadLayer = LayerMask.NameToLayer("PLAYERGHOST");
     }
 
+    private void Start()
+    {
+        EventManager.SubGameOver(goc =>
+        {
+            for (int i = 0; i < srList.Length; i++)
+            {
+                srList[i].color = UtilClass.opacityColor;
+            }
+
+            ghostSr.color = UtilClass.limpidityColor;
+        });
+    }
+
     private void Update()
     {
         if(IsRemote)
