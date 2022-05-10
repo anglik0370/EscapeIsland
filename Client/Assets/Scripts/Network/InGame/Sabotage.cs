@@ -96,8 +96,8 @@ public class Sabotage : ISetAble
     {
         ItemConverter converter = ConverterManager.Instance.GetRefinery(refineryData.refineryId);
 
-        converter.CanUse = refineryData.canUseRefinery;
         converter.isEmpty[refineryData.slotIdx] = false;
+        converter.CanUse = converter.CanUseConverter();
 
         ConvertPanel.Instance.UpdateUIs();
     }
