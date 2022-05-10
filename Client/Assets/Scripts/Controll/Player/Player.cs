@@ -164,9 +164,10 @@ public class Player : MonoBehaviour, IInteractionObject
                 CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
                 pr.BtnEnabled(false);
 
-                CreateCharacter();
             }
         }
+
+        CreateCharacter();
     }
 
     public void CreateCharacter()
