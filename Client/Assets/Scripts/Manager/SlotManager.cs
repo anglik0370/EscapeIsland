@@ -179,8 +179,7 @@ public class SlotManager : MonoBehaviour
                     beginSlot.SetItem(null);
                     //endSlot.SetItem(ConvertPanel.Instance.SandItem);
 
-                    CantUseRefineryVO vo = new CantUseRefineryVO(ConvertPanel.Instance.CurOpenConverter.id,
-                        ConvertPanel.Instance.CanUseRefinery(), ConvertPanel.Instance.GetRefinerySlotIdx(beginSlot));
+                    CantUseRefineryVO vo = new CantUseRefineryVO(ConvertPanel.Instance.CurOpenConverter.id, ConvertPanel.Instance.GetRefinerySlotIdx(endSlot));
 
                     SendManager.Instance.SendCantUseRefinery(vo);
                 }

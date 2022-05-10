@@ -102,6 +102,15 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
         }
     }
 
+    public void Init()
+    {
+        canUse = true;
+        for (int i = 0; i < isEmpty.Length; i++)
+        {
+            isEmpty[i] = true;
+        }
+    }
+
     public void SetCantUse()
     {
         for (int i = 0; i < isEmpty.Length; i++)
