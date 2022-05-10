@@ -2,7 +2,6 @@
 public class CantUseRefineryVO
 {
     public int refineryId;
-    public bool canUseRefinery;
     public int slotIdx;
 
     public CantUseRefineryVO()
@@ -10,10 +9,9 @@ public class CantUseRefineryVO
 
     }
 
-    public CantUseRefineryVO(int refineryId, bool canUseRefinery, int slotIdx)
+    public CantUseRefineryVO(int refineryId, int slotIdx)
     {
         this.refineryId = refineryId;
-        this.canUseRefinery = canUseRefinery;
         this.slotIdx = slotIdx;
     }
 }
