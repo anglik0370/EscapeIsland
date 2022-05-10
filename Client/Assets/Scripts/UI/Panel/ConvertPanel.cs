@@ -58,7 +58,10 @@ public class ConvertPanel : Panel
         EventManager.SubGameOver(goc =>
         {
             ResetUIs();
+            Init();
         });
+
+        EventManager.SubExitRoom(Init);
 
         refineryList = ConverterManager.Instance.GetRefineryList();
     }
@@ -77,6 +80,14 @@ public class ConvertPanel : Panel
         //이미지 업데이트
         SetArrowProgress(1 - (curOpenConverter.RemainTime / curOpenConverter.ConvertingTime));
         SetTimerText($"{Mathf.RoundToInt(curOpenConverter.RemainTime)}초");
+    }
+
+    public void Init()
+    {
+        for (int i = 0; i < refineryList.Count; i++)
+        {
+            refineryList[i].Init();
+        }
     }
 
     public bool CanUseRefinery()
