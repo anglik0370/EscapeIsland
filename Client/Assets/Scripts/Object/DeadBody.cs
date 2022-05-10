@@ -20,12 +20,24 @@ public class DeadBody : MonoBehaviour, IInteractionObject
 
     public bool CanInteraction => gameObject.activeSelf;
 
-    public void Init(Vector3 pos, CharacterSO characterSO)
+    private readonly Vector3 FLIP_ROT = new Vector3(0, 180, 0);
+    private readonly Vector3 DEFAULT_ROT = Vector3.zero;
+    private readonly Vector3 CREATE_POS = new Vector3(0f, -0.45f, 0f);
+
+    private const float DEFAULT_SCALE_Z = 1;
+    private const float FLIP_SCALE_Z = -1;
+
+    public void Init(Vector3 pos, bool isFlip, CharacterSO characterSO)
     {
+        transform.position = pos;
+
         GameObject chara = CharacterSelectPanel.Instance.GetCharacterObj(characterSO.id);
 
         chara.transform.SetParent(transform);
-        chara.transform.position = pos;
+        chara.transform.localPosition = CREATE_POS;
+
+        chara.transform.rotation = Quaternion.Euler(isFlip ? FLIP_ROT : DEFAULT_ROT);
+        chara.transform.localScale = new Vector3(chara.transform.localScale.x, chara.transform.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
 
         Animator anim = chara.GetComponent<CharComponentHolder>().anim;
 
