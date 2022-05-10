@@ -190,18 +190,38 @@ class Room {
             sendError("현재 유저의 수가 납치자의 수보다 같거나 적습니다.",socket);
             return;
         }
-    
+
+        let isTest = false;
+
+        for(let key in this.userList) {
+            if(this.userList[key].socketId >= 1000) {
+                isTest = true;
+                break;
+            }
+        }
+
         let keys = Object.keys(this.userList);
         let imposterLength = this.kidnapperNum;
         let idx;
     
-        for(let i = 0; i < imposterLength; i++) {
-            do {
-                idx = Math.floor(Math.random() * keys.length);
-            }while(this.userList[keys[idx]].isImposter)
-    
-            this.userList[keys[idx]].isImposter = true;
+        if(isTest) {
+            for(let key in this.userList) {
+                if(this.userList[key].master) {
+                    this.userList[key].isImposter = true;
+                    break;
+                }
+            }
         }
+        else {
+            for(let i = 0; i < imposterLength; i++) {
+                do {
+                    idx = Math.floor(Math.random() * keys.length);
+                }while(this.userList[keys[idx]].isImposter)
+        
+                this.userList[keys[idx]].isImposter = true;
+            }
+        }
+        
     
         let posList = SetSpawnPoint(keys.length);
     
