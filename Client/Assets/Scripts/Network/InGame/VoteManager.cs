@@ -170,7 +170,6 @@ public class VoteManager : ISetAble
 
         EventManager.OccurStartMeet(meetingType);
         StartCoroutine(TextChange("투표시간 시작"));
-        print(userDataList.Count);
         foreach (UserVO uv in userDataList)
         {
             if (uv.socketId == socketId)
