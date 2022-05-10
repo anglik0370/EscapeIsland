@@ -37,6 +37,7 @@ public class SabotageButton : MonoBehaviour
             sabotageBtn.enabled = true;
             fillImg.fillAmount = curCoolTime = 0f;
         });
+
     }
 
     public void StartTimer()
@@ -97,6 +98,6 @@ public class SabotageButton : MonoBehaviour
 
     public void CantUseRefinery()
     {
-
+        ConvertPanel.Instance.StartCantUseRefinery();
     }
 }

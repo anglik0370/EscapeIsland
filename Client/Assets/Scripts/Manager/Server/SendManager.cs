@@ -189,4 +189,11 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendCantUseRefinery(CantUseRefineryVO vo)
+    {
+        DataVO dataVO = new DataVO("CANT_USE_REFINERY", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }

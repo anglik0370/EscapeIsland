@@ -41,6 +41,18 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     public bool IsConverting => isConverting;
 
     [SerializeField]
+    private bool canUse = true;
+    public bool CanUse
+    {
+        get => canUse;
+        set => canUse = value;
+    }
+
+    [SerializeField]
+    private bool isRefinery = false;
+    public bool IsRefinery => isRefinery;
+
+    [SerializeField]
     private float convertingTime = 5f; //재련하는데 걸리는 시간
     public float ConvertingTime => convertingTime;
 
@@ -48,11 +60,15 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     private float remainTime; //남은 재련시간
     public float RemainTime => remainTime;
 
+    public bool[] isEmpty;
+
     private void Awake() 
     {
         sr = GetComponent<SpriteRenderer>();
 
         convertRecipeDic = new Dictionary<ItemSO, ItemSO>();
+
+        isEmpty = new bool[3] { true, true, true };
     }
 
     private void Start()
@@ -75,7 +91,7 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
 
     private void Update() 
     {
-        if(isConverting)
+        if(isConverting && canUse)
         {
             remainTime -= Time.deltaTime;
 
@@ -84,6 +100,28 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
                 ConvertingEnd();
             }
         }
+    }
+
+    public void SetCantUse()
+    {
+        for (int i = 0; i < isEmpty.Length; i++)
+        {
+            isEmpty[i] = true;
+        }
+        canUse = false;
+    }
+
+    public bool CanUseConverter()
+    {
+        for (int i = 0; i < isEmpty.Length; i++)
+        {
+            if(isEmpty[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public Transform GetTrm()
