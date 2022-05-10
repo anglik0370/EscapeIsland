@@ -105,14 +105,14 @@ public class VoteManager : ISetAble
 
         if (tempId == socketId)
         {
-            user.SetDead();
+            user.SetDead(true);
 
         }
         else if (playerList.ContainsKey(tempId))
         {
             Player p = playerList[tempId];
 
-            p.SetDead();
+            p.SetDead(true);
 
             if (p.gameObject.activeSelf && p.isDie && !user.isDie)
             {

@@ -10,8 +10,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private const string ANIMT_ATTACK = "attack";
     private const string ANIMT_DIE = "die";
 
-    private SpriteRenderer sr;
-    private Rigidbody2D rigid;
+    private SpriteRenderer[] sprites;
     private Animator anim;
     private Transform playerTrm;
     private Collider2D footCollider;
@@ -76,7 +75,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool isInside = false; //실내인지
     public bool canMove = false;
-
+    public bool isFilp = false; //뒤집혔는지
 
     public Inventory inventory;
     public Color color;
@@ -108,12 +107,6 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private void Awake()
     {
-        sr = GetComponentInChildren<SpriteRenderer>();
-        rigid = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
-
-        //footCollider = transform.Find("FootCollider").GetComponent<Collider2D>();
-
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
         createPos = new Vector3(0f, -0.45f, 0f);
@@ -177,8 +170,9 @@ public class Player : MonoBehaviour, IInteractionObject
         dummyPlayer.transform.SetParent(transform);
         dummyPlayer.transform.localPosition = createPos;
 
-        sr = dummyPlayer.GetComponent<SpriteRenderer>();
-        anim = dummyPlayer.GetComponent<Animator>();
+        anim = dummyPlayer.GetComponentInChildren<CharComponentHolder>().anim;
+        sprites = dummyPlayer.GetComponentInChildren<CharComponentHolder>().sprites;
+
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
         playerTrm = dummyPlayer.transform;
@@ -231,7 +225,6 @@ public class Player : MonoBehaviour, IInteractionObject
                 child.gameObject.SetActive(false);
             }
         }
-        sr = null;
     }
 
     public void ChangePlayer()
@@ -263,12 +256,12 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public Sprite GetSprite()
     {
-        return sr.sprite;
+        return null;
     }
 
     public bool GetFlipX()
     {
-        return sr.flipX;
+        return isFilp;
     }
 
     public void SetDisable(bool user = false)
@@ -299,14 +292,18 @@ public class Player : MonoBehaviour, IInteractionObject
         ui.gameObject.SetActive(true);
     }
 
-    public void SetDead()
+    public void SetDead(bool isVote)
     {
+        if(!isVote)
+        {
+            anim.SetTrigger(ANIMT_DIE);
+            //anim.SetFloat(ANIMB_DIE, 1f);
+        }
+
         isDie = true;
         canMove = true;
 
         ChangeLayer(true);
-        anim.SetTrigger(ANIMT_DIE);
-        //anim.SetFloat(ANIMB_DIE, 1f);
     }
 
     public void SetAttack()

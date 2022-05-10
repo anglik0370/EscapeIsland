@@ -67,7 +67,7 @@ public class Kill : ISetAble
         {
             if (p != null)
             {
-                p.SetDead();
+                p.SetDead(false);
 
                 if (p.gameObject.activeSelf && p.isDie && !user.isDie)
                 {
@@ -78,7 +78,7 @@ public class Kill : ISetAble
         }
         else if(user.socketId == data.targetSocketId)
         {
-            user.SetDead();
+            user.SetDead(false);
         }
 
         NetworkManager.instance.PlayerEnable();
