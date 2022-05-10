@@ -29,6 +29,8 @@ public class DeadBody : MonoBehaviour, IInteractionObject
 
         Animator anim = chara.GetComponent<CharComponentHolder>().anim;
 
+        chara.SetActive(true);
+
         anim.SetTrigger(ANIMT_DIE);
     }
 

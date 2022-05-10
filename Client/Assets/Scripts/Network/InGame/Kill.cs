@@ -62,6 +62,10 @@ public class Kill : ISetAble
                 p.SetAttack();
             }
         }
+        else if(user.socketId == data.killerId)
+        {
+            user.SetAttack();
+        }
 
         if(playerList.TryGetValue(data.targetSocketId, out p))
         {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IInteractionObject
@@ -9,8 +8,6 @@ public class Player : MonoBehaviour, IInteractionObject
     private const string ANIMB_DIE = "isDie";
     private const string ANIMT_ATTACK = "attack";
 
-    private SpriteRenderer[] sprites;
-    [SerializeField]
     private Animator anim;
     private Transform playerTrm;
     private Collider2D footCollider;
@@ -92,6 +89,10 @@ public class Player : MonoBehaviour, IInteractionObject
     private int defaultFootLayer = -1;
     private int deadLayer = -1;
 
+    //이건 죽었을 때 고스트 이미지 보이게 하는 용도임
+    private SpriteRenderer[] srList;
+    private SpriteRenderer ghostSr;
+
     public float speed = 5;
 
     [SerializeField]
@@ -170,7 +171,16 @@ public class Player : MonoBehaviour, IInteractionObject
         dummyPlayer.transform.localPosition = createPos;
 
         anim = dummyPlayer.GetComponent<CharComponentHolder>().anim;
-        sprites = dummyPlayer.GetComponent<CharComponentHolder>().sprites;
+
+        srList = dummyPlayer.GetComponent<CharComponentHolder>().sprites;
+        ghostSr = dummyPlayer.transform.Find("Ghost").GetComponent<SpriteRenderer>();
+
+        for (int i = 0; i < srList.Length; i++)
+        {
+            srList[i].color = UtilClass.opacityColor;
+        }
+
+        ghostSr.color = UtilClass.limpidityColor;
 
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
@@ -286,7 +296,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void SetEnable()
     {
-        anim.SetFloat(ANIMB_DIE, 1f);
+        anim.SetFloat(ANIMB_DIE, 0f);
         ChangeLayer(true);
 
         gameObject.SetActive(true);
@@ -298,7 +308,14 @@ public class Player : MonoBehaviour, IInteractionObject
         isDie = true;
         canMove = true;
 
-        //anim.SetFloat(ANIMB_DIE, 1f);
+        for (int i = 0; i < srList.Length; i++)
+        {
+            srList[i].color = UtilClass.limpidityColor;
+        }
+
+        ghostSr.color = UtilClass.opacityColor;
+
+        anim.SetFloat(ANIMB_DIE, 1f);
 
         ChangeLayer(true);
     }
