@@ -108,12 +108,13 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void GetItem(int spawnerId)
+    public void StartMission(int spawnerId,MissionType missionType)
     {
         ItemSpawnerVO vo = new ItemSpawnerVO();
         vo.spawnerId = spawnerId;
+        vo.missionType = missionType;
 
-        DataVO dataVO = new DataVO("GET_ITEM", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("MISSION", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

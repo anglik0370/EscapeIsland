@@ -1,12 +1,12 @@
 const {Rooms} = require('../Rooms.js');
 
 module.exports = {
-    type:"GET_ITEM",
+    type:"MISSION",
     act(socket,data) {
         let room = Rooms.getRoom(socket.room);
 
         if(room === undefined) return;
 
-        room.broadcast(JSON.stringify({type:"GET_ITEM",payload:data.spawnerId}))
+        room.broadcast(JSON.stringify({type:"MISSION",payload:data.spawnerId}))
     }
 }
