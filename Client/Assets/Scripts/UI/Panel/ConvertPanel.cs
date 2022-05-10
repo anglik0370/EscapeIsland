@@ -122,8 +122,7 @@ public class ConvertPanel : Panel
 
         for (int i = 0; i < cantUseRefinery.Length; i++)
         {
-            if (!curOpenConverter.isEmpty[i])
-                cantUseRefinery[i].SetItem(sand);
+            cantUseRefinery[i].SetItem(curOpenConverter.isEmpty[i] ? null : sand);
         }
 
         if (curOpenConverter.IsConverting)
