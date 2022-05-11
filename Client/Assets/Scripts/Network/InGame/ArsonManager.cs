@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ArsonManager : MonoBehaviour
@@ -13,9 +14,17 @@ public class ArsonManager : MonoBehaviour
     private List<ArsonSlot> arsonList;
     public List<ArsonSlot> ArsonList => arsonList;
 
+    [SerializeField]
+    private Transform arsonParent;
+
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        arsonList = arsonParent.GetComponentsInChildren<ArsonSlot>().ToList();
     }
 
     public void SlotActive(bool active)
