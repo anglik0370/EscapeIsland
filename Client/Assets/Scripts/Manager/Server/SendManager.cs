@@ -196,4 +196,11 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendExtinguish(ObjVO vo)
+    {
+        DataVO dataVO = new DataVO("EXTINGUISH", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }

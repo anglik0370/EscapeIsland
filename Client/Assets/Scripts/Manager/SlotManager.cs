@@ -184,6 +184,19 @@ public class SlotManager : MonoBehaviour
                     SendManager.Instance.SendCantUseRefinery(vo);
                 }
             }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.Arson)
+            {
+                if(endSlot.IsEmpty && ArsonManager.Instance.CanExtinguish(beginSlot.GetItem()))
+                {
+                    ArsonSlot slot = endSlot as ArsonSlot;
+
+                    beginSlot.SetItem(null);
+
+                    ObjVO vo = new ObjVO(slot.id);
+
+                    SendManager.Instance.SendExtinguish(vo);
+                }
+            }
         }
 
         ghost.Init();
