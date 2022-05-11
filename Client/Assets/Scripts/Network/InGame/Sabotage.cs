@@ -16,6 +16,7 @@ public class Sabotage : ISetAble
     private bool needSabotageRefresh = false;
     private bool needTrapRefresh = false;
     private bool needCantUseRefineryRefresh = false;
+    private bool needExtinguishRefresh = false;
 
     private int trapId = -1;
     private int lastTrapIdx = 1;
@@ -24,6 +25,7 @@ public class Sabotage : ISetAble
     private List<LabDoor> doorList = new List<LabDoor>();
 
     private CantUseRefineryVO refineryData;
+    private ObjVO extinguishData;
 
     [SerializeField]
     private Transform doorParent;
@@ -63,6 +65,12 @@ public class Sabotage : ISetAble
             SetRefinery();
             needCantUseRefineryRefresh = false;
         }
+
+        if(needExtinguishRefresh)
+        {
+            SetExtinguish();
+            needExtinguishRefresh = false;
+        }
     }
 
     public static void SetSabotageData(SabotageVO vo)
@@ -90,6 +98,23 @@ public class Sabotage : ISetAble
             Instance.refineryData = vo;
             Instance.needCantUseRefineryRefresh = true;
         }
+    }
+
+    public static void SetExtinguishData(ObjVO vo)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.extinguishData = vo;
+            Instance.needExtinguishRefresh = true;
+        }
+    }
+
+    public void SetExtinguish()
+    {
+        ArsonSlot slot = ArsonManager.Instance.GetArsonSlot(extinguishData.objId);
+
+        //¿œ¥‹ ≤Ù±‚∏∏
+        slot.gameObject.SetActive(false);
     }
 
     public void SetRefinery()

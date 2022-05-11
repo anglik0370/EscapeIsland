@@ -88,7 +88,7 @@ public class SabotageButton : MonoBehaviour
 
     public void StartArson()
     {
-
+        ArsonManager.Instance.StartArson();
     }
 
     public void CloseDoor()
