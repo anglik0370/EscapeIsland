@@ -11,7 +11,7 @@ module.exports = {
         room.broadcast(JSON.stringify({type:"SABOTAGE",payload:JSON.stringify(data)}));
 
         if(data.sabotageName === "Arson") {
-            room.arsonTimer.startArsonTimer();
+            room.arsonTimer.startTimer(true);
         }
     }
 }

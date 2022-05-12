@@ -8,7 +8,7 @@ module.exports = {
         if(room === undefined) return;
 
         if(room.inGameTimer.isLightTime) {
-            room.inGameTimer.isEndGame = true;
+            room.isEndGame = true;
             room.broadcast(JSON.stringify({type:"STORAGE_FULL",payload:"저녁까지 쳐 버티도록 하세요"}));
         }
         else {

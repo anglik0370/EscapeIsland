@@ -1,7 +1,6 @@
 const {Users} = require('./Users.js');
+const Timer = require('./Timers/Timer.js');
 const InGameTimer = require('./Timers/InGameTimer.js');
-const InVoteTimer = require('./Timers/InVoteTimer.js');
-const ArsonTimer = require('./Timers/ArsonTimer.js');
 const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
 const SocketState = require('./Utils/SocketState.js');
 const WebSocket = require('ws');
@@ -16,9 +15,10 @@ class Room {
         this.kidnapperNum = kidnapperNum;
         this.playing = playing;
 
-        this.inGameTimer = new InGameTimer();
-        this.inVoteTimer = new InVoteTimer();
-        this.arsonTimer = new ArsonTimer(this);
+        this.inGameTimer = new InGameTimer(this,20,this.inGameTimerCallback);
+        this.arsonTimer = new Timer(this,40, () => this.sendKidnapperWin(0));
+        this.inVoteTimer = new Timer(this,180, this.voteTimerCallBack);
+        this.isEndGame = false;
         this.curTimer = undefined;
 
         this.skipCount = 0;
@@ -30,8 +30,6 @@ class Room {
         this.socketList = [];
         this.userList = {};
         this.selectedIdList = [];
-
-        this.isInitRoom = false;
     }
 
     changeCharacter(beforeId,characterId) {
@@ -90,7 +88,6 @@ class Room {
                 this.userList[key].voteComplete = false;
             }
             this.skipCount = 0;
-            this.inVoteTimer.initTime();
             
             if(targetSocIdArr.length == 1) {
                 this.broadcast(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
@@ -134,7 +131,7 @@ class Room {
     }
 
     voteTimeEnd() {
-        this.startTimer();
+        this.startTimer(false);
     }
 
     kidnapperWinCheck() {
@@ -234,23 +231,18 @@ class Room {
         
         let dataList = this.getUsersData();
     
-        this.isInitRoom = false;
         this.playing = true;
-        this.startTimer();
+        this.startTimer(true);
         this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
     }
     
     initRoom() {
         console.log("initRoom");
         this.playing = false;
-        this.isInitRoom = true;
-        this.stopTimer();
         this.skipCount = 0;
-        this.inGameTimer = new InGameTimer();
-        this.inVoteTimer = new InVoteTimer();
 
         if(Users.isTestServer) {
-            this.roomList[this.roomNum].inVoteTimer.setTimeToNextSlot(10);
+            this.inVoteTimer.setMaxTime(10);
         }
 
         for(let key in this.userList) {
@@ -267,61 +259,38 @@ class Room {
         if(socket.readyState !== WebSocket.OPEN) return;
         
         socket.send(JSON.stringify({type:"SET_TIME",payload:JSON.stringify
-        ({inGameTime:this.inGameTimer.timeToNextSlot, voteTime:this.inVoteTimer.timeToNextSlot})}));
+        ({inGameTime:this.inGameTimer.maxTime, voteTime:this.inVoteTimer.maxTime})}));
     }
 
-    startTimer() {
-        this.stopTimer();
-        this.expected = Date.now() + 1000; //현재시간 + 1초
-        this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
+    startTimer(isInit) {
+        this.inVoteTimer.stopTimer();
+        this.inGameTimer.startTimer(isInit);
         this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_GAME",isStart:true})}));
     }
 
     startVoteTimer() {
-        this.stopTimer();
-        this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval);
+        this.inGameTimer.stopTimer();
         this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:true})}));
+        this.inVoteTimer.startTimer(true);
     }
 
-    stopTimer() {
-        clearTimeout(this.curTimer);
-    }
+    inGameTimerCallback() {
+        if(this.isEndGame) {
 
-    rTimer() {
-        let dt = Date.now() - this.expected; //현재 시간 - 시작시간
+            this.setSpawnPos();
+    
+            let dataList = this.getUsersData();
 
-        this.inGameTimer.timeRefresh(this);
-
-        this.expected += this.interval;
-
-        this.nextTime = Math.max(0,this.interval - dt);
-        if(!this.isInitRoom) {
-            this.curTimer = setTimeout(this.rTimer.bind(this),this.nextTime);
-        }
-        this.isInitRoom = false;
-    }
-
-    changeTime() {
-        this.inVoteTimer.initTime();
-        let p = this.inGameTimer.returnPayload();
-        console.log("time refresh - changeTime");
-        this.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:p}));
-    }
-
-    voteTimer() {
-        let dt = Date.now() - this.expected;
-        if(this.inVoteTimer.timeRefresh()) {
-            if(!this.voteEnd()) {
-                this.voteTimeEnd();
-                console.log("changeTime - voteTimer");
-            }
+            this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
+            this.initRoom();
             return;
         }
+    }
 
-        this.expected += this.interval;
-
-        this.nextTime = Math.max(0,this.interval - dt);
-        this.curTimer = setTimeout(this.voteTimer.bind(this),this.nextTime);
+    voteTimerCallBack() {
+        if(!this.voteEnd()) {
+            this.voteTimeEnd();
+        }
     }
 
     addSocket(socket,user) {
