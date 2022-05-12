@@ -39,10 +39,18 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         else
         {
             MissionPanel.Instance.Open(missionType);
+
+            if(missionType != MissionType.Water)
+                SendManager.Instance.StartMission(id,MissionType);
         }
     };
 
     public int id;
+
+    private float maxCoolTime = 60f;
+    private float curCoolTime = 0f;
+
+    public bool isInteractionAble = true;
 
     //[SerializeField]
     //private ItemSO item;
@@ -59,6 +67,19 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
 
         //poolObj.SetPosition(transform.position);
         //poolObj.SetSprite(item.itemSprite);
+    }
+
+    private void Update()
+    {
+        if(!isInteractionAble)
+        {
+            curCoolTime -= Time.deltaTime;
+
+            if(curCoolTime <= 0f)
+            {
+                isInteractionAble = true;
+            }
+        }
     }
 
     //private void Start()
@@ -86,6 +107,21 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     //        }
     //    });
     //}
+    public void StartTimer()
+    {
+        curCoolTime = maxCoolTime;
+        isInteractionAble = false;
+    }
+
+    public void SetMaxCoolTime(float coolTime)
+    {
+        maxCoolTime = coolTime;
+    }
+
+    public float GetFillCoolTime()
+    {
+        return curCoolTime / maxCoolTime;
+    }
 
     public Transform GetTrm()
     {

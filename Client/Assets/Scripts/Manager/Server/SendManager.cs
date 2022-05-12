@@ -108,12 +108,13 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void GetItem(int spawnerId)
+    public void StartMission(int spawnerId,MissionType missionType)
     {
         ItemSpawnerVO vo = new ItemSpawnerVO();
         vo.spawnerId = spawnerId;
+        vo.missionType = missionType;
 
-        DataVO dataVO = new DataVO("GET_ITEM", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("MISSION", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
@@ -172,9 +173,9 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendSabotage(int starterId, bool isShareCoolTime, string sabotageName)
+    public void SendSabotage(int starterId, bool isShareCoolTime, string sabotageName, SabotageDataVO data)
     {
-        SabotageVO vo = new SabotageVO(starterId,isShareCoolTime, sabotageName);
+        SabotageVO vo = new SabotageVO(starterId,isShareCoolTime, sabotageName,data);
 
         DataVO dataVO = new DataVO("SABOTAGE", JsonUtility.ToJson(vo));
 
@@ -185,6 +186,20 @@ public class SendManager : MonoBehaviour
     {
         ObjVO vo = new ObjVO(trapId);
         DataVO dataVO = new DataVO("ENTER_TRAP", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void SendCantUseRefinery(CantUseRefineryVO vo)
+    {
+        DataVO dataVO = new DataVO("CANT_USE_REFINERY", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
+    public void SendExtinguish(ArsonVO vo)
+    {
+        DataVO dataVO = new DataVO("EXTINGUISH", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

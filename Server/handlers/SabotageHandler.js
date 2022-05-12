@@ -9,5 +9,9 @@ module.exports = {
 
         data.userDataList = Object.values(room.userList);
         room.broadcast(JSON.stringify({type:"SABOTAGE",payload:JSON.stringify(data)}));
+
+        if(data.sabotageName === "Arson") {
+            room.arsonTimer.startTimer(true);
+        }
     }
 }

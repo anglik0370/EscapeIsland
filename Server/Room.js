@@ -1,6 +1,6 @@
 const {Users} = require('./Users.js');
-const InGameTimer = require('./InGameTimer.js');
-const InVoteTimer = require('./InVoteTimer.js');
+const Timer = require('./Timers/Timer.js');
+const InGameTimer = require('./Timers/InGameTimer.js');
 const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
 const SocketState = require('./Utils/SocketState.js');
 const WebSocket = require('ws');
@@ -15,8 +15,10 @@ class Room {
         this.kidnapperNum = kidnapperNum;
         this.playing = playing;
 
-        this.inGameTimer = new InGameTimer();
-        this.inVoteTimer = new InVoteTimer();
+        this.inGameTimer = new InGameTimer(this,20,this.inGameTimerCallback);
+        this.arsonTimer = new Timer(this,40, () => this.sendKidnapperWin(0));
+        this.inVoteTimer = new Timer(this,180, this.voteTimerCallBack);
+        this.isEndGame = false;
         this.curTimer = undefined;
 
         this.skipCount = 0;
@@ -28,8 +30,6 @@ class Room {
         this.socketList = [];
         this.userList = {};
         this.selectedIdList = [];
-
-        this.isInitRoom = false;
     }
 
     changeCharacter(beforeId,characterId) {
@@ -43,7 +43,7 @@ class Room {
             this.userList[socket.id].isInside = isInside;
         }
 
-        let dataList = Object.values(this.userList);
+        let dataList = this.getUsersData();
 
         this.broadcast(JSON.stringify({type:"INSIDE_REFRESH",payload:JSON.stringify({dataList})}));
     }
@@ -88,7 +88,6 @@ class Room {
                 this.userList[key].voteComplete = false;
             }
             this.skipCount = 0;
-            this.inVoteTimer.initTime();
             
             if(targetSocIdArr.length == 1) {
                 this.broadcast(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
@@ -96,14 +95,9 @@ class Room {
     
                 //납치자를 모두 찾았을때
     
-                let keys = Object.keys(this.userList);
-                let posList = SetSpawnPoint(keys.length);
-    
-                for(let i = 0; i < keys.length; i++) {
-                    this.userList[keys[i]].position = posList[i];
-                }
+                this.setSpawnPos();
                 
-                let dataList = Object.values(this.userList);
+                let dataList = this.getUsersData();
                 let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
     
                 if(filteredArr.length <= 0) {
@@ -127,14 +121,9 @@ class Room {
     endGameHandle(goc) {
         if(goc > 2) return;
 
-        let keys = Object.keys(this.userList);
-        let posList = SetSpawnPoint(keys.length);
-
-        for(let i = 0; i < keys.length; i++) {
-            this.userList[keys[i]].position = posList[i];
-        }
+        this.setSpawnPos();
         
-        let dataList = Object.values(this.userList);
+        let dataList = this.getUsersData();
 
         this.broadcast(goc <= 0 ? JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:goc})})
         : JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:goc})}),true);
@@ -142,7 +131,7 @@ class Room {
     }
 
     voteTimeEnd() {
-        this.startTimer();
+        this.startTimer(false);
     }
 
     kidnapperWinCheck() {
@@ -157,22 +146,33 @@ class Room {
             else citizenCount++;
         }
     
+        this.setSpawnPos();
+    
+        //살아있는 임포가 시민보다 많을 경우
+        if(imposterCount >= citizenCount) {
+            //임포승
+            this.sendKidnapperWin(0);
+            this.initRoom();
+            return true;
+        }
+        return false;
+    }
+
+    setSpawnPos() {
         let keys = Object.keys(this.userList);
         let posList = SetSpawnPoint(keys.length);
     
         for(let i = 0; i < keys.length; i++) {
             this.userList[keys[i]].position = posList[i];
         }
-        let dataList = Object.values(this.userList);
-    
-        //살아있는 임포가 시민보다 많을 경우
-        if(imposterCount >= citizenCount) {
-            //임포승
-            this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
-            this.initRoom();
-            return true;
-        }
-        return false;
+    }
+
+    sendKidnapperWin(gameOverCase) {
+        this.setSpawnPos();
+        let dataList = this.getUsersData();
+
+        this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",
+            payload:JSON.stringify({dataList,gameOverCase})}),true);
     }
 
     gameStart(socket) {
@@ -190,18 +190,38 @@ class Room {
             sendError("현재 유저의 수가 납치자의 수보다 같거나 적습니다.",socket);
             return;
         }
-    
+
+        let isTest = false;
+
+        for(let key in this.userList) {
+            if(this.userList[key].socketId >= 1000) {
+                isTest = true;
+                break;
+            }
+        }
+
         let keys = Object.keys(this.userList);
         let imposterLength = this.kidnapperNum;
         let idx;
     
-        for(let i = 0; i < imposterLength; i++) {
-            do {
-                idx = Math.floor(Math.random() * keys.length);
-            }while(this.userList[keys[idx]].isImposter)
-    
-            this.userList[keys[idx]].isImposter = true;
+        if(isTest) {
+            for(let key in this.userList) {
+                if(this.userList[key].master) {
+                    this.userList[key].isImposter = true;
+                    break;
+                }
+            }
         }
+        else {
+            for(let i = 0; i < imposterLength; i++) {
+                do {
+                    idx = Math.floor(Math.random() * keys.length);
+                }while(this.userList[keys[idx]].isImposter)
+        
+                this.userList[keys[idx]].isImposter = true;
+            }
+        }
+        
     
         let posList = SetSpawnPoint(keys.length);
     
@@ -209,25 +229,20 @@ class Room {
             this.userList[keys[i]].position = posList[i];
         }
         
-        let dataList = Object.values(this.userList);
+        let dataList = this.getUsersData();
     
-        this.isInitRoom = false;
         this.playing = true;
-        this.startTimer();
+        this.startTimer(true);
         this.broadcast(JSON.stringify({type:"GAME_START",payload:JSON.stringify({dataList})}));
     }
     
     initRoom() {
         console.log("initRoom");
         this.playing = false;
-        this.isInitRoom = true;
-        this.stopTimer();
         this.skipCount = 0;
-        this.inGameTimer = new InGameTimer();
-        this.inVoteTimer = new InVoteTimer();
 
         if(Users.isTestServer) {
-            this.roomList[this.roomNum].inVoteTimer.setTimeToNextSlot(10);
+            this.inVoteTimer.setMaxTime(10);
         }
 
         for(let key in this.userList) {
@@ -244,61 +259,38 @@ class Room {
         if(socket.readyState !== WebSocket.OPEN) return;
         
         socket.send(JSON.stringify({type:"SET_TIME",payload:JSON.stringify
-        ({inGameTime:this.inGameTimer.timeToNextSlot, voteTime:this.inVoteTimer.timeToNextSlot})}));
+        ({inGameTime:this.inGameTimer.maxTime, voteTime:this.inVoteTimer.maxTime})}));
     }
 
-    startTimer() {
-        this.stopTimer();
-        this.expected = Date.now() + 1000; //현재시간 + 1초
-        this.curTimer = setTimeout(this.rTimer.bind(this),this.interval);
+    startTimer(isInit) {
+        this.inVoteTimer.stopTimer();
+        this.inGameTimer.startTimer(isInit);
         this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_GAME",isStart:true})}));
     }
 
     startVoteTimer() {
-        this.stopTimer();
-        this.curTimer = setTimeout(this.voteTimer.bind(this),this.interval);
+        this.inGameTimer.stopTimer();
         this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:true})}));
+        this.inVoteTimer.startTimer(true);
     }
 
-    stopTimer() {
-        clearTimeout(this.curTimer);
-    }
+    inGameTimerCallback() {
+        if(this.isEndGame) {
 
-    rTimer() {
-        let dt = Date.now() - this.expected; //현재 시간 - 시작시간
+            this.setSpawnPos();
+    
+            let dataList = this.getUsersData();
 
-        this.inGameTimer.timeRefresh(this);
-
-        this.expected += this.interval;
-
-        this.nextTime = Math.max(0,this.interval - dt);
-        if(!this.isInitRoom) {
-            this.curTimer = setTimeout(this.rTimer.bind(this),this.nextTime);
-        }
-        this.isInitRoom = false;
-    }
-
-    changeTime() {
-        this.inVoteTimer.initTime();
-        let p = this.inGameTimer.returnPayload();
-        console.log("time refresh - changeTime");
-        this.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:p}));
-    }
-
-    voteTimer() {
-        let dt = Date.now() - this.expected;
-        if(this.inVoteTimer.timeRefresh()) {
-            if(!this.voteEnd()) {
-                this.voteTimeEnd();
-                console.log("changeTime - voteTimer");
-            }
+            this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
+            this.initRoom();
             return;
         }
+    }
 
-        this.expected += this.interval;
-
-        this.nextTime = Math.max(0,this.interval - dt);
-        this.curTimer = setTimeout(this.voteTimer.bind(this),this.nextTime);
+    voteTimerCallBack() {
+        if(!this.voteEnd()) {
+            this.voteTimeEnd();
+        }
     }
 
     addSocket(socket,user) {
@@ -316,6 +308,10 @@ class Room {
     returnData() {
         let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,kidnapperNum:this.kidnapperNum,playing:this.playing};
         return data;
+    }
+
+    getUsersData() {
+        return Object.values(this.userList);
     }
 
     broadcast(msg,isEnd = false) {

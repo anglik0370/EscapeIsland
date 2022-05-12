@@ -13,6 +13,15 @@ public class ConvertPanel : Panel
     private ItemSlot afterSlot;
 
     [SerializeField]
+    private ItemSlot[] cantUseRefinery;
+    [SerializeField]
+    private GameObject cantUseRefineryParentObj;
+
+    [SerializeField]
+    private ItemSO sand;
+    public ItemSO SandItem => sand;
+
+    [SerializeField]
     private Image progressArrowImg;
     [SerializeField]
     private Text remainTimeText;
@@ -25,6 +34,10 @@ public class ConvertPanel : Panel
     [SerializeField]
     private ItemConverter curOpenConverter;
     public ItemConverter CurOpenConverter => curOpenConverter;
+
+    [SerializeField]
+    private List<ItemConverter> refineryList;
+    public List<ItemConverter> RefineryList => refineryList;
 
     protected override void Awake()
     {
@@ -45,7 +58,12 @@ public class ConvertPanel : Panel
         EventManager.SubGameOver(goc =>
         {
             ResetUIs();
+            Init();
         });
+
+        EventManager.SubExitRoom(Init);
+
+        refineryList = ConverterManager.Instance.GetRefineryList();
     }
 
     private void Update() 
@@ -64,6 +82,41 @@ public class ConvertPanel : Panel
         SetTimerText($"{Mathf.RoundToInt(curOpenConverter.RemainTime)}초");
     }
 
+    public void Init()
+    {
+        for (int i = 0; i < refineryList.Count; i++)
+        {
+            refineryList[i].Init();
+        }
+    }
+
+    public bool CanUseRefinery()
+    {
+        return curOpenConverter.CanUseConverter();
+    }
+
+    public void StartCantUseRefinery()
+    {
+        for (int i = 0; i < refineryList.Count; i++)
+        {
+            refineryList[i].SetCantUse();
+        }
+        UpdateUIs();
+    }
+
+    public int GetRefinerySlotIdx(ItemSlot slot)
+    {
+        for (int i = 0; i < cantUseRefinery.Length; i++)
+        {
+            if(cantUseRefinery[i] == slot)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     public void ResetOreItem()
     {
         curOpenConverter.ConvertingReset();
@@ -71,8 +124,17 @@ public class ConvertPanel : Panel
 
     public void UpdateUIs()
     {
+        if (curOpenConverter == null) return;
+
         beforeSlot.SetItem(curOpenConverter.BeforeItem);
         afterSlot.SetItem(curOpenConverter.AfterItem);
+
+        cantUseRefineryParentObj.SetActive(!curOpenConverter.CanUse);
+
+        for (int i = 0; i < cantUseRefinery.Length; i++)
+        {
+            cantUseRefinery[i].SetItem(curOpenConverter.isEmpty[i] ? null : sand);
+        }
 
         if (curOpenConverter.IsConverting)
         {

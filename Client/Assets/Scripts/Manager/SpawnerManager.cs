@@ -11,6 +11,11 @@ public class SpawnerManager : MonoBehaviour
     private List<ItemSpawner> spawnerList = new List<ItemSpawner>();
     public List<ItemSpawner> SpawnerList => spawnerList;
 
+    [SerializeField]
+    private List<MissionType> missionTypeList;
+    [SerializeField]
+    private List<float> missionCoolTimeList;
+    
     private Player player;
 
     private void Awake()
@@ -20,7 +25,9 @@ public class SpawnerManager : MonoBehaviour
             Instance = this;
         }
 
-        spawnerList = FindObjectsOfType<ItemSpawner>().ToList(); 
+        spawnerList = FindObjectsOfType<ItemSpawner>().ToList();
+
+        InitCoolTime();
     }
 
     private void Start()
@@ -42,5 +49,20 @@ public class SpawnerManager : MonoBehaviour
 
         //player.inventory.AddItem(spawner.GetItem());
         //spawner.DeSpawnItem();
+    }
+
+    public void InitCoolTime()
+    {
+        for (int i = 0; i < spawnerList.Count; i++)
+        {
+            for (int j = 0; j < missionTypeList.Count; j++)
+            {
+                if (spawnerList[i].MissionType == missionTypeList[j])
+                {
+                    spawnerList[i].SetMaxCoolTime(missionCoolTimeList[j]);
+                    break;
+                }
+            }
+        }
     }
 }

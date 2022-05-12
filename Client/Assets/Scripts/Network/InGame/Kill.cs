@@ -62,6 +62,10 @@ public class Kill : ISetAble
                 p.SetAttack();
             }
         }
+        else if(user.socketId == data.killerId)
+        {
+            user.SetAttack();
+        }
 
         if(playerList.TryGetValue(data.targetSocketId, out p))
         {
@@ -72,7 +76,7 @@ public class Kill : ISetAble
                 if (p.gameObject.activeSelf && p.isDie && !user.isDie)
                 {
                     p.SetDisable();
-                    DeadBodyManager.Instance.MakeDeadbody(p.GetTrm().position);
+                    DeadBodyManager.Instance.MakeDeadbody(p.GetTrm().position, p.GetFlipX(), p.curSO);
                 }
             }
         }

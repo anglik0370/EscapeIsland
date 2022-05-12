@@ -15,12 +15,17 @@ public class Sabotage : ISetAble
 
     private bool needSabotageRefresh = false;
     private bool needTrapRefresh = false;
+    private bool needCantUseRefineryRefresh = false;
+    private bool needExtinguishRefresh = false;
 
     private int trapId = -1;
     private int lastTrapIdx = 1;
 
     private List<Trap> trapList = new List<Trap>();
     private List<LabDoor> doorList = new List<LabDoor>();
+
+    private CantUseRefineryVO refineryData;
+    private ArsonVO extinguishData;
 
     [SerializeField]
     private Transform doorParent;
@@ -54,6 +59,18 @@ public class Sabotage : ISetAble
             EnterTrap();
             needTrapRefresh = false;
         }
+
+        if(needCantUseRefineryRefresh)
+        {
+            SetRefinery();
+            needCantUseRefineryRefresh = false;
+        }
+
+        if(needExtinguishRefresh)
+        {
+            SetExtinguish();
+            needExtinguishRefresh = false;
+        }
     }
 
     public static void SetSabotageData(SabotageVO vo)
@@ -74,6 +91,42 @@ public class Sabotage : ISetAble
         }
     }
 
+    public static void SetRefineryData(CantUseRefineryVO vo)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.refineryData = vo;
+            Instance.needCantUseRefineryRefresh = true;
+        }
+    }
+
+    public static void SetExtinguishData(ArsonVO vo)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.extinguishData = vo;
+            Instance.needExtinguishRefresh = true;
+        }
+    }
+
+    public void SetExtinguish()
+    {
+        ArsonSlot slot = ArsonManager.Instance.GetArsonSlot(extinguishData.arsonId);
+
+        //¿œ¥‹ ≤Ù±‚∏∏
+        slot.gameObject.SetActive(false);
+    }
+
+    public void SetRefinery()
+    {
+        ItemConverter converter = ConverterManager.Instance.GetRefinery(refineryData.refineryId);
+
+        converter.isEmpty[refineryData.slotIdx] = false;
+        converter.CanUse = converter.CanUseConverter();
+
+        ConvertPanel.Instance.UpdateUIs();
+    }
+
     public void StartSabotage()
     {
         SabotageButton curSabotage = SabotagePanel.Instance.FindSabotageButton(sabotageData.sabotageName);
@@ -83,8 +136,7 @@ public class Sabotage : ISetAble
             curSabotage.StartSabotage(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
         }
 
-        curSabotage.SabotageSO.callback?.Invoke();
-        print("Start SAbotage");
+        curSabotage.StartSabotage(sabotageData.data);
     }
 
     public void SpawnTrap()

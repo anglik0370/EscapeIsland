@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IInteractionObject
@@ -8,10 +7,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private const string ANIMB_MOVE = "isMoving";
     private const string ANIMB_DIE = "isDie";
     private const string ANIMT_ATTACK = "attack";
-    private const string ANIMT_DIE = "die";
 
-    private SpriteRenderer sr;
-    private Rigidbody2D rigid;
     private Animator anim;
     private Transform playerTrm;
     private Collider2D footCollider;
@@ -76,7 +72,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool isInside = false; //실내인지
     public bool canMove = false;
-
+    public bool isFilp = false; //뒤집혔는지
 
     public Inventory inventory;
     public Color color;
@@ -93,6 +89,10 @@ public class Player : MonoBehaviour, IInteractionObject
     private int defaultFootLayer = -1;
     private int deadLayer = -1;
 
+    //이건 죽었을 때 고스트 이미지 보이게 하는 용도임
+    private SpriteRenderer[] srList;
+    private SpriteRenderer ghostSr;
+
     public float speed = 5;
 
     [SerializeField]
@@ -108,12 +108,6 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private void Awake()
     {
-        sr = GetComponentInChildren<SpriteRenderer>();
-        rigid = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
-
-        //footCollider = transform.Find("FootCollider").GetComponent<Collider2D>();
-
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
         createPos = new Vector3(0f, -0.45f, 0f);
@@ -121,6 +115,19 @@ public class Player : MonoBehaviour, IInteractionObject
         defaultBodyLayer = LayerMask.NameToLayer("PLAYER");
         defaultFootLayer = LayerMask.NameToLayer("PLAYERFOOT");
         deadLayer = LayerMask.NameToLayer("PLAYERGHOST");
+    }
+
+    private void Start()
+    {
+        EventManager.SubGameOver(goc =>
+        {
+            for (int i = 0; i < srList.Length; i++)
+            {
+                srList[i].color = UtilClass.opacityColor;
+            }
+
+            ghostSr.color = UtilClass.limpidityColor;
+        });
     }
 
     private void Update()
@@ -163,7 +170,6 @@ public class Player : MonoBehaviour, IInteractionObject
             {
                 CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
                 pr.BtnEnabled(false);
-
             }
         }
 
@@ -177,11 +183,23 @@ public class Player : MonoBehaviour, IInteractionObject
         dummyPlayer.transform.SetParent(transform);
         dummyPlayer.transform.localPosition = createPos;
 
-        sr = dummyPlayer.GetComponent<SpriteRenderer>();
-        anim = dummyPlayer.GetComponent<Animator>();
+        anim = dummyPlayer.GetComponent<CharComponentHolder>().anim;
+
+        srList = dummyPlayer.GetComponent<CharComponentHolder>().sprites;
+        ghostSr = dummyPlayer.transform.Find("Ghost").GetComponent<SpriteRenderer>();
+
+        for (int i = 0; i < srList.Length; i++)
+        {
+            srList[i].color = UtilClass.opacityColor;
+        }
+
+        ghostSr.color = UtilClass.limpidityColor;
+
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
         playerTrm = dummyPlayer.transform;
+
+        anim.ResetTrigger(ANIMT_ATTACK);
 
         dummyPlayer.SetActive(true);
     }
@@ -231,7 +249,6 @@ public class Player : MonoBehaviour, IInteractionObject
                 child.gameObject.SetActive(false);
             }
         }
-        sr = null;
     }
 
     public void ChangePlayer()
@@ -263,12 +280,12 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public Sprite GetSprite()
     {
-        return sr.sprite;
+        return null;
     }
 
     public bool GetFlipX()
     {
-        return sr.flipX;
+        return isFilp;
     }
 
     public void SetDisable(bool user = false)
@@ -292,7 +309,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void SetEnable()
     {
-        anim.SetFloat(ANIMB_DIE, 1f);
+        anim.SetFloat(ANIMB_DIE, 0f);
         ChangeLayer(true);
 
         gameObject.SetActive(true);
@@ -304,9 +321,16 @@ public class Player : MonoBehaviour, IInteractionObject
         isDie = true;
         canMove = true;
 
+        for (int i = 0; i < srList.Length; i++)
+        {
+            srList[i].color = UtilClass.limpidityColor;
+        }
+
+        ghostSr.color = UtilClass.opacityColor;
+
+        anim.SetFloat(ANIMB_DIE, 1f);
+
         ChangeLayer(true);
-        anim.SetTrigger(ANIMT_DIE);
-        //anim.SetFloat(ANIMB_DIE, 1f);
     }
 
     public void SetAttack()

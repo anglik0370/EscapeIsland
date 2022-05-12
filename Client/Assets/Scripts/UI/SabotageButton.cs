@@ -12,6 +12,8 @@ public class SabotageButton : MonoBehaviour
     [SerializeField]
     private Button sabotageBtn;
     [SerializeField]
+    private Image sabotageImg;
+    [SerializeField]
     private Image fillImg;
 
     private float maxCoolTime;
@@ -24,7 +26,7 @@ public class SabotageButton : MonoBehaviour
     public void Init(SabotageSO so)
     {
         sabotageSO = so;
-
+        sabotageImg.sprite = so.sabotageSprite;
         maxCoolTime = so.coolTime;
     }
 
@@ -37,6 +39,7 @@ public class SabotageButton : MonoBehaviour
             sabotageBtn.enabled = true;
             fillImg.fillAmount = curCoolTime = 0f;
         });
+
     }
 
     public void StartTimer()
@@ -75,9 +78,20 @@ public class SabotageButton : MonoBehaviour
         curCoolTime = maxCoolTime = coolTime;
     }
 
+    public void StartSabotage(SabotageDataVO data)
+    {
+        if (data != null)
+        {
+            ArsonManager.Instance.Data = data;
+        }
+        SabotageSO.callback?.Invoke();
+    }
+
     private void SendSabotage()
     {
-        SendManager.Instance.SendSabotage(NetworkManager.instance.User.socketId,sabotageSO.isShareCoolTime, sabotageSO.sabotageName);
+        SabotageDataVO data = new SabotageDataVO(ArsonManager.Instance.GetRandomSmelter());
+
+        SendManager.Instance.SendSabotage(NetworkManager.instance.User.socketId,sabotageSO.isShareCoolTime, sabotageSO.sabotageName,data);
     }
 
     public void SpawnTrap()
@@ -87,7 +101,7 @@ public class SabotageButton : MonoBehaviour
 
     public void StartArson()
     {
-
+        ArsonManager.Instance.StartArson();
     }
 
     public void CloseDoor()
@@ -97,6 +111,6 @@ public class SabotageButton : MonoBehaviour
 
     public void CantUseRefinery()
     {
-
+        ConvertPanel.Instance.StartCantUseRefinery();
     }
 }

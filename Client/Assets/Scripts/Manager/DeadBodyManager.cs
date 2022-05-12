@@ -41,10 +41,12 @@ public class DeadBodyManager : MonoBehaviour
         });
     }
 
-    public void MakeDeadbody(Vector3 pos)
+    public void MakeDeadbody(Vector3 pos, bool isFlip, CharacterSO characterSO)
     {
         DeadBody deadBody = PoolManager.GetItem<DeadBody>();
         deadBody.GetTrm().position = pos;
+
+        deadBody.Init(pos, isFlip, characterSO);
 
         deadBodyList.Add(deadBody);
         GameManager.Instance.AddInteractionObj(deadBody);

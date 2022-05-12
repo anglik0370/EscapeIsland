@@ -181,6 +181,13 @@ public class InteractionBtn : MonoBehaviour
             coolTimeImg.fillAmount = Timer.Instance.EmergencyFillCoolTime();
             btnImg.raycastTarget = Timer.Instance.isEmergencyAble;
         }
+        else if(state == InteractionCase.PickUpItem)
+        {
+            ItemSpawner spawner =  proximateObj as ItemSpawner;
+
+            coolTimeImg.fillAmount = spawner.GetFillCoolTime();
+            btnImg.raycastTarget = spawner.isInteractionAble;
+        }
         else
         {
             coolTimeImg.fillAmount = 0f;

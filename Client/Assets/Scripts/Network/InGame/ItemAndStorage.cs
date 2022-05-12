@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class ItemAndStorage : ISetAble
 {
+    public static ItemAndStorage Instance { get; private set; }
+
     private bool needStorageFullRefresh = false;
+    private bool needSetMissionCool = false;
 
     private string msg = string.Empty;
+    private ItemSpawnerVO missionData = null;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
 
     void Update()
     {
@@ -15,13 +25,26 @@ public class ItemAndStorage : ISetAble
             SetStorageFull();
             needStorageFullRefresh = false;
         }
-    }
-    public void SetStorageFullData(string msg)
-    {
-        lock (lockObj)
+        if(needSetMissionCool)
         {
-            needStorageFullRefresh = true;
-            this.msg = msg;
+            SetMissionCoolTime();
+            needSetMissionCool = false;
+        }
+    }
+    public static void SetStorageFullData(string msg)
+    {
+        lock (Instance.lockObj)
+        {
+            Instance.needStorageFullRefresh = true;
+            Instance.msg = msg;
+        }
+    }
+    public static void SetMissionCool(ItemSpawnerVO vo)
+    {
+        lock (Instance.lockObj)
+        {
+            Instance.missionData = vo;
+            Instance.needSetMissionCool = true;
         }
     }
 
@@ -31,10 +54,14 @@ public class ItemAndStorage : ISetAble
         UIManager.Instance.SetWarningText(msg,true);
     }
 
-    public void SetItemDisable(int spawnerId)
+    public void SetMissionCoolTime()
     {
-        ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == spawnerId);
+        ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == missionData.spawnerId && x.MissionType == missionData.missionType);
         //s.DeSpawnItem();
+        if(s != null)
+        {
+            s.StartTimer();
+        }
     }
 
     public void SetItemStorage(int itemSOId)

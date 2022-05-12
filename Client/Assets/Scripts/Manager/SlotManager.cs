@@ -171,6 +171,34 @@ public class SlotManager : MonoBehaviour
                     endSlot.SetItem(slot.BatterySO);
                 }
             }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.CantUseRefinery)
+            {
+                if(endSlot.IsEmpty && beginSlot.GetItem() == ConvertPanel.Instance.SandItem)
+                {
+
+                    beginSlot.SetItem(null);
+                    //endSlot.SetItem(ConvertPanel.Instance.SandItem);
+
+                    CantUseRefineryVO vo = new CantUseRefineryVO(ConvertPanel.Instance.CurOpenConverter.id, ConvertPanel.Instance.GetRefinerySlotIdx(endSlot));
+
+                    SendManager.Instance.SendCantUseRefinery(vo);
+                }
+            }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.Arson)
+            {
+                print("1");
+                if(endSlot.IsEmpty && ArsonManager.Instance.CanExtinguish(beginSlot.GetItem()))
+                {
+                    print("2");
+                    ArsonSlot slot = endSlot as ArsonSlot;
+
+                    beginSlot.SetItem(null);
+
+                    ArsonVO vo = new ArsonVO(slot.id, ArsonManager.Instance.AllExtinguish(slot.id));
+
+                    SendManager.Instance.SendExtinguish(vo);
+                }
+            }
         }
 
         ghost.Init();

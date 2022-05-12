@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DeadBody : MonoBehaviour, IInteractionObject
 {
-    private SpriteRenderer sr;
+    private const string ANIMT_DIE = "die";
 
     [SerializeField]
     private InteractionSO lobbyHandlerSO;
@@ -20,9 +20,30 @@ public class DeadBody : MonoBehaviour, IInteractionObject
 
     public bool CanInteraction => gameObject.activeSelf;
 
-    private void Awake()
+    private readonly Vector3 FLIP_ROT = new Vector3(0, 180, 0);
+    private readonly Vector3 DEFAULT_ROT = Vector3.zero;
+    private readonly Vector3 CREATE_POS = new Vector3(0f, -0.45f, 0f);
+
+    private const float DEFAULT_SCALE_Z = 1;
+    private const float FLIP_SCALE_Z = -1;
+
+    public void Init(Vector3 pos, bool isFlip, CharacterSO characterSO)
     {
-        sr = GetComponent<SpriteRenderer>();
+        transform.position = pos;
+
+        GameObject chara = CharacterSelectPanel.Instance.GetCharacterObj(characterSO.id);
+
+        chara.transform.SetParent(transform);
+        chara.transform.localPosition = CREATE_POS;
+
+        chara.transform.rotation = Quaternion.Euler(isFlip ? FLIP_ROT : DEFAULT_ROT);
+        chara.transform.localScale = new Vector3(chara.transform.localScale.x, chara.transform.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
+
+        Animator anim = chara.GetComponent<CharComponentHolder>().anim;
+
+        chara.SetActive(true);
+
+        anim.SetTrigger(ANIMT_DIE);
     }
 
     public Transform GetTrm()
@@ -37,12 +58,12 @@ public class DeadBody : MonoBehaviour, IInteractionObject
 
     public Sprite GetSprite()
     {
-        return sr.sprite;
+        return null;
     }
 
     public bool GetFlipX()
     {
-        return sr.flipX;
+        return false;
     }
 
     public void Report()

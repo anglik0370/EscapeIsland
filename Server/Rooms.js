@@ -13,7 +13,7 @@ class Rooms {
         this.roomIdx = 1;
     }
 
-    findRoom(roomName) {
+    findRoom(roomName,isCreate = false) {
         if(isNaN(roomName)) {
             for(let key in this.roomList) {
                 if(this.roomList[key].roomName === roomName) {
@@ -22,13 +22,14 @@ class Rooms {
             }
         }
         else {
-            for(let key in this.roomList) {
-                if(this.roomList[key].roomNum === parseInt(roomName)) {
-                    return this.roomList[key];
+            if(!isCreate) {
+                for(let key in this.roomList) {
+                    if(this.roomList[key].roomNum === parseInt(roomName)) {
+                        return this.roomList[key];
+                    }
                 }
             }
         }
-        
         return undefined;
     }
 
@@ -51,7 +52,7 @@ class Rooms {
             return;
         }
         
-        if(this.findRoom(roomInfo.name) !== undefined) {
+        if(this.findRoom(roomInfo.name,true) !== undefined) {
             sendError("중복된 방 이름 입니다.",socket);
             return;
         }
