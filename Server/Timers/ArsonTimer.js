@@ -20,7 +20,6 @@ class ArsonTimer {
 
     timeReferesh() {
         this.ramainTime -= this.sec;
-        console.log(this.ramainTime);
         if(this.ramainTime <= 0) {
             return true;
         }

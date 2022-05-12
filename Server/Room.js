@@ -98,12 +98,7 @@ class Room {
     
                 //납치자를 모두 찾았을때
     
-                let keys = Object.keys(this.userList);
-                let posList = SetSpawnPoint(keys.length);
-    
-                for(let i = 0; i < keys.length; i++) {
-                    this.userList[keys[i]].position = posList[i];
-                }
+                this.setSpawnPos();
                 
                 let dataList = this.getUsersData();
                 let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
@@ -129,12 +124,7 @@ class Room {
     endGameHandle(goc) {
         if(goc > 2) return;
 
-        let keys = Object.keys(this.userList);
-        let posList = SetSpawnPoint(keys.length);
-
-        for(let i = 0; i < keys.length; i++) {
-            this.userList[keys[i]].position = posList[i];
-        }
+        this.setSpawnPos();
         
         let dataList = this.getUsersData();
 
@@ -159,13 +149,7 @@ class Room {
             else citizenCount++;
         }
     
-        let keys = Object.keys(this.userList);
-        let posList = SetSpawnPoint(keys.length);
-    
-        for(let i = 0; i < keys.length; i++) {
-            this.userList[keys[i]].position = posList[i];
-        }
-        let dataList = this.getUsersData();
+        this.setSpawnPos();
     
         //살아있는 임포가 시민보다 많을 경우
         if(imposterCount >= citizenCount) {
@@ -177,7 +161,17 @@ class Room {
         return false;
     }
 
+    setSpawnPos() {
+        let keys = Object.keys(this.userList);
+        let posList = SetSpawnPoint(keys.length);
+    
+        for(let i = 0; i < keys.length; i++) {
+            this.userList[keys[i]].position = posList[i];
+        }
+    }
+
     sendKidnapperWin(gameOverCase) {
+        this.setSpawnPos();
         let dataList = this.getUsersData();
 
         this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",
