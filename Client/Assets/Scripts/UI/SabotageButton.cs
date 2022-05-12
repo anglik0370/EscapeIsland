@@ -12,6 +12,8 @@ public class SabotageButton : MonoBehaviour
     [SerializeField]
     private Button sabotageBtn;
     [SerializeField]
+    private Image sabotageImg;
+    [SerializeField]
     private Image fillImg;
 
     private float maxCoolTime;
@@ -24,7 +26,7 @@ public class SabotageButton : MonoBehaviour
     public void Init(SabotageSO so)
     {
         sabotageSO = so;
-
+        sabotageImg.sprite = so.sabotageSprite;
         maxCoolTime = so.coolTime;
     }
 
