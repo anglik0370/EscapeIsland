@@ -1,5 +1,5 @@
 class ArsonTimer {
-    constructor() {
+    constructor(room) {
         this.maxTime = 40;
         this.ramainTime = 40;
 
@@ -10,6 +10,8 @@ class ArsonTimer {
         this.interval = 1000;
         this.nextTime = 0;
         this.expected = Date.now();
+
+        this.room = room;
     }
 
     initTimer() {
@@ -18,7 +20,7 @@ class ArsonTimer {
 
     timeReferesh() {
         this.ramainTime -= this.sec;
-
+        console.log(this.ramainTime);
         if(this.ramainTime <= 0) {
             return true;
         }
@@ -29,7 +31,11 @@ class ArsonTimer {
     startArsonTimer() {
         this.initTimer();
         this.expected = Date.now() + 1000;
-        this.curTimer = setTimeout(thiis.arsonTimer.bind(this),this.interval);
+        this.curTimer = setTimeout(this.arsonTimer.bind(this),this.interval);
+    }
+
+    stopTimer() {
+        clearInterval(this.curTimer);
     }
 
     arsonTimer() {
@@ -37,6 +43,7 @@ class ArsonTimer {
 
         if(this.timeReferesh()) {
             //게임끝
+            this.room.sendKidnapperWin(0);
             return;
         }
 

@@ -17,6 +17,13 @@ public class ArsonManager : MonoBehaviour
     [SerializeField]
     private Transform arsonParent;
 
+    private SabotageDataVO data;
+    public SabotageDataVO Data
+    {
+        get => data;
+        set => data = value;
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -25,6 +32,8 @@ public class ArsonManager : MonoBehaviour
     private void Start()
     {
         arsonList = arsonParent.GetComponentsInChildren<ArsonSlot>().ToList();
+
+        SlotActive(false);
     }
 
     public void SlotActive(bool active)
@@ -38,7 +47,7 @@ public class ArsonManager : MonoBehaviour
     public void StartArson()
     {
         arsonList[0].gameObject.SetActive(true); // น่
-        //arsonList[idx].gameObject.SetActive(true);
+        arsonList[data.arsonId].gameObject.SetActive(true);
     }
 
     public bool CanExtinguish(ItemSO so)
@@ -46,9 +55,22 @@ public class ArsonManager : MonoBehaviour
         return waterList.Find(s => s == so) != null;
     }
 
-    public bool AllExtinguish()
+    public bool AllExtinguish(int slotId)
     {
-        return arsonList.Find(slot => slot.gameObject.activeSelf) == null;
+        int cnt = 0;
+        bool equalSlot = false;
+
+        for (int i = 0; i < arsonList.Count; i++)
+        {
+            if(arsonList[i].gameObject.activeSelf)
+            {
+                cnt++;
+
+                if (arsonList[i].id == slotId) equalSlot = true;
+            }
+        }
+
+        return cnt == 1 && equalSlot;
     }
 
     public ArsonSlot GetArsonSlot(int id)
@@ -56,4 +78,8 @@ public class ArsonManager : MonoBehaviour
         return arsonList.Find(slot => slot.id == id);
     }
 
+    public int GetRandomSmelter()
+    {
+        return UnityEngine.Random.Range(1, ArsonList.Count);
+    }
 }

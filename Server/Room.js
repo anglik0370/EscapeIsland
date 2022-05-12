@@ -1,6 +1,7 @@
 const {Users} = require('./Users.js');
 const InGameTimer = require('./Timers/InGameTimer.js');
 const InVoteTimer = require('./Timers/InVoteTimer.js');
+const ArsonTimer = require('./Timers/ArsonTimer.js');
 const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
 const SocketState = require('./Utils/SocketState.js');
 const WebSocket = require('ws');
@@ -17,6 +18,7 @@ class Room {
 
         this.inGameTimer = new InGameTimer();
         this.inVoteTimer = new InVoteTimer();
+        this.arsonTimer = new ArsonTimer(this);
         this.curTimer = undefined;
 
         this.skipCount = 0;
@@ -43,7 +45,7 @@ class Room {
             this.userList[socket.id].isInside = isInside;
         }
 
-        let dataList = Object.values(this.userList);
+        let dataList = this.getUsersData();
 
         this.broadcast(JSON.stringify({type:"INSIDE_REFRESH",payload:JSON.stringify({dataList})}));
     }
@@ -103,7 +105,7 @@ class Room {
                     this.userList[keys[i]].position = posList[i];
                 }
                 
-                let dataList = Object.values(this.userList);
+                let dataList = this.getUsersData();
                 let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
     
                 if(filteredArr.length <= 0) {
@@ -134,7 +136,7 @@ class Room {
             this.userList[keys[i]].position = posList[i];
         }
         
-        let dataList = Object.values(this.userList);
+        let dataList = this.getUsersData();
 
         this.broadcast(goc <= 0 ? JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:goc})})
         : JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:goc})}),true);
@@ -163,16 +165,23 @@ class Room {
         for(let i = 0; i < keys.length; i++) {
             this.userList[keys[i]].position = posList[i];
         }
-        let dataList = Object.values(this.userList);
+        let dataList = this.getUsersData();
     
         //살아있는 임포가 시민보다 많을 경우
         if(imposterCount >= citizenCount) {
             //임포승
-            this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:0})}),true);
+            this.sendKidnapperWin(0);
             this.initRoom();
             return true;
         }
         return false;
+    }
+
+    sendKidnapperWin(gameOverCase) {
+        let dataList = this.getUsersData();
+
+        this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",
+            payload:JSON.stringify({dataList,gameOverCase})}),true);
     }
 
     gameStart(socket) {
@@ -229,7 +238,7 @@ class Room {
             this.userList[keys[i]].position = posList[i];
         }
         
-        let dataList = Object.values(this.userList);
+        let dataList = this.getUsersData();
     
         this.isInitRoom = false;
         this.playing = true;
@@ -336,6 +345,10 @@ class Room {
     returnData() {
         let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,kidnapperNum:this.kidnapperNum,playing:this.playing};
         return data;
+    }
+
+    getUsersData() {
+        return Object.values(this.userList);
     }
 
     broadcast(msg,isEnd = false) {
