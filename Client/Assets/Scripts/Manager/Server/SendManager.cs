@@ -173,9 +173,9 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendSabotage(int starterId, bool isShareCoolTime, string sabotageName)
+    public void SendSabotage(int starterId, bool isShareCoolTime, string sabotageName, SabotageDataVO data)
     {
-        SabotageVO vo = new SabotageVO(starterId,isShareCoolTime, sabotageName);
+        SabotageVO vo = new SabotageVO(starterId,isShareCoolTime, sabotageName,data);
 
         DataVO dataVO = new DataVO("SABOTAGE", JsonUtility.ToJson(vo));
 
@@ -197,7 +197,7 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendExtinguish(ObjVO vo)
+    public void SendExtinguish(ArsonVO vo)
     {
         DataVO dataVO = new DataVO("EXTINGUISH", JsonUtility.ToJson(vo));
 

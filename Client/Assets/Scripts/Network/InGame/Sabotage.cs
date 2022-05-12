@@ -25,7 +25,7 @@ public class Sabotage : ISetAble
     private List<LabDoor> doorList = new List<LabDoor>();
 
     private CantUseRefineryVO refineryData;
-    private ObjVO extinguishData;
+    private ArsonVO extinguishData;
 
     [SerializeField]
     private Transform doorParent;
@@ -100,7 +100,7 @@ public class Sabotage : ISetAble
         }
     }
 
-    public static void SetExtinguishData(ObjVO vo)
+    public static void SetExtinguishData(ArsonVO vo)
     {
         lock(Instance.lockObj)
         {
@@ -111,7 +111,7 @@ public class Sabotage : ISetAble
 
     public void SetExtinguish()
     {
-        ArsonSlot slot = ArsonManager.Instance.GetArsonSlot(extinguishData.objId);
+        ArsonSlot slot = ArsonManager.Instance.GetArsonSlot(extinguishData.arsonId);
 
         //¿œ¥‹ ≤Ù±‚∏∏
         slot.gameObject.SetActive(false);
@@ -136,8 +136,7 @@ public class Sabotage : ISetAble
             curSabotage.StartSabotage(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
         }
 
-        curSabotage.SabotageSO.callback?.Invoke();
-        print("Start SAbotage");
+        curSabotage.StartSabotage(sabotageData.data);
     }
 
     public void SpawnTrap()

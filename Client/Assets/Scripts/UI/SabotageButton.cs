@@ -76,9 +76,20 @@ public class SabotageButton : MonoBehaviour
         curCoolTime = maxCoolTime = coolTime;
     }
 
+    public void StartSabotage(SabotageDataVO data)
+    {
+        if (data != null)
+        {
+            ArsonManager.Instance.Data = data;
+        }
+        SabotageSO.callback?.Invoke();
+    }
+
     private void SendSabotage()
     {
-        SendManager.Instance.SendSabotage(NetworkManager.instance.User.socketId,sabotageSO.isShareCoolTime, sabotageSO.sabotageName);
+        SabotageDataVO data = new SabotageDataVO(ArsonManager.Instance.GetRandomSmelter());
+
+        SendManager.Instance.SendSabotage(NetworkManager.instance.User.socketId,sabotageSO.isShareCoolTime, sabotageSO.sabotageName,data);
     }
 
     public void SpawnTrap()
