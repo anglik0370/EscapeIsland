@@ -38,8 +38,8 @@ public class Sabotage : ISetAble
 
         PoolManager.CreatePool<Trap>(trapPrefab, transform, 10);
 
-        EventManager.SubGameOver(goc => lastTrapIdx = 1);
-        EventManager.SubExitRoom(() => lastTrapIdx = 1);
+        EventManager.SubGameOver(goc => InitTrap());
+        EventManager.SubExitRoom(() => InitTrap());
     }
 
     protected override void Start()
@@ -171,6 +171,12 @@ public class Sabotage : ISetAble
         {
             trap.EnterTrap();
         }
+    }
+
+    public void InitTrap()
+    {
+        lastTrapIdx = 1;
+        trapList.ForEach(trap => trap.gameObject.SetActive(false));
     }
 
     public Trap FindTrap(int trapIdx)

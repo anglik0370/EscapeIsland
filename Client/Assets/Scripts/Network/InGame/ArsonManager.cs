@@ -27,6 +27,9 @@ public class ArsonManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        EventManager.SubGameOver(goc => SlotActive(false));
+        EventManager.SubExitRoom(() => SlotActive(false));
     }
 
     private void Start()
