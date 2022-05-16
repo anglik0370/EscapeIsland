@@ -7,12 +7,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("µð¹ö±×")]
-    public CharacterSO amberSO;
+    [SerializeField]
+    private Transform sandInteractionParentTrm;
+    private List<Collider2D> sandInteractionColList;
+    [SerializeField]
+    private ItemSpawner sandSpawner;
 
     [SerializeField]
     private Transform seaInteractionColParentTrm;
-    [SerializeField]
     private List<Collider2D> seaInteractionColList;
     [SerializeField]
     private ItemSpawner waterSpawner;
@@ -23,6 +25,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> objList = new List<GameObject>();
+
+    [SerializeField]
+    private Transform indoorColliderParentTrm;
+    private List<Collider2D> indoorColList = new List<Collider2D>();
 
     public bool IsPanelOpen { get; set; }
 
@@ -35,7 +41,9 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+        sandInteractionColList = sandInteractionParentTrm.GetComponentsInChildren<Collider2D>().ToList();
         seaInteractionColList = seaInteractionColParentTrm.GetComponentsInChildren<Collider2D>().ToList();
+        indoorColList = indoorColliderParentTrm.GetComponentsInChildren<Collider2D>().ToList();
     }
 
     private void Start()
@@ -82,6 +90,14 @@ public class GameManager : MonoBehaviour
 
     public IInteractionObject GetProximateObject()
     {
+        for (int i = 0; i < sandInteractionColList.Count; i++)
+        {
+            if (Physics2D.IsTouching(sandInteractionColList[i], player.FootCollider))
+            {
+                return sandSpawner;
+            }
+        }
+
         for (int i = 0; i < seaInteractionColList.Count; i++)
         {
             if(Physics2D.IsTouching(seaInteractionColList[i], player.FootCollider))
