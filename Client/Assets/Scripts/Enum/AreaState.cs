@@ -5,6 +5,7 @@ public enum AreaState
     RightSmelter,
     Refinery,
     RefineryInLab,
+    Cave,
     Lab,
     BottleStorage,
     CommunicationRoom,
