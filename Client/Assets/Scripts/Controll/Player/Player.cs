@@ -72,7 +72,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool isInside = false; //실내인지
     public bool canMove = false;
-    public bool isFilp = false; //뒤집혔는지
+    public bool isFlip = false; //뒤집혔는지
 
     public Inventory inventory;
     public Color color;
@@ -80,7 +80,9 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private Vector3 defaultRot;
     private Vector3 flipRot;
-    private Vector3 createPos;
+
+    private Vector3 defaultPos;
+    private Vector3 flipPos;
 
     private const float DEFAULT_SCALE_Z = 1;
     private const float FLIP_SCALE_Z = -1;
@@ -110,7 +112,6 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
-        createPos = new Vector3(0f, -0.45f, 0f);
 
         defaultBodyLayer = LayerMask.NameToLayer("PLAYER");
         defaultFootLayer = LayerMask.NameToLayer("PLAYERFOOT");
@@ -181,7 +182,7 @@ public class Player : MonoBehaviour, IInteractionObject
         GameObject dummyPlayer = CharacterSelectPanel.Instance.GetCharacterObj(curSO.id);
 
         dummyPlayer.transform.SetParent(transform);
-        dummyPlayer.transform.localPosition = createPos;
+        dummyPlayer.transform.localPosition = curSO.adjsutPos;
 
         anim = dummyPlayer.GetComponent<CharComponentHolder>().anim;
 
@@ -198,6 +199,9 @@ public class Player : MonoBehaviour, IInteractionObject
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
         playerTrm = dummyPlayer.transform;
+
+        defaultPos = dummyPlayer.transform.localPosition;
+        flipPos = new Vector3(-curSO.adjsutPos.x, curSO.adjsutPos.y, curSO.adjsutPos.z);
 
         anim.ResetTrigger(ANIMT_ATTACK);
 
@@ -285,7 +289,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool GetFlipX()
     {
-        return isFilp;
+        return isFlip;
     }
 
     public void SetDisable(bool user = false)
@@ -358,9 +362,10 @@ public class Player : MonoBehaviour, IInteractionObject
 
         if(dir != Vector3.zero)
         {
-            bool isFlip = dir.x > 0;
+            isFlip = dir.x > 0;
 
             playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
+            playerTrm.localPosition = isFlip ? flipPos : defaultPos;
             playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
 
             anim.SetBool(ANIMB_MOVE, true);
@@ -408,7 +413,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
             if(dir != Vector3.zero)
             {
-                bool isFlip = dir.x > 0;
+                isFlip = dir.x > 0;
 
                 playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
                 playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);

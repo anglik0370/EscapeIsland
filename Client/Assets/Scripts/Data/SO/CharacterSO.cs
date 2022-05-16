@@ -11,10 +11,15 @@ public enum Sex
 public class CharacterSO : ScriptableObject
 {
     public int id;
+
     public GameObject playerPrefab;
+
     public Sprite profileImg;
     public Sprite standImg;
     public Sprite deadImg;
+
     public string charName;
     public Sex sex;
+
+    public Vector3 adjsutPos;
 }
