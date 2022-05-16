@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Transform indoorColliderParentTrm;
     private List<Collider2D> indoorColList = new List<Collider2D>();
+    public Dictionary<AreaState, Collider2D> indoorColliderDic = new Dictionary<AreaState, Collider2D>();
 
     public bool IsPanelOpen { get; set; }
 
@@ -44,6 +45,11 @@ public class GameManager : MonoBehaviour
         sandInteractionColList = sandInteractionParentTrm.GetComponentsInChildren<Collider2D>().ToList();
         seaInteractionColList = seaInteractionColParentTrm.GetComponentsInChildren<Collider2D>().ToList();
         indoorColList = indoorColliderParentTrm.GetComponentsInChildren<Collider2D>().ToList();
+
+        for (int i = 0; i < indoorColList.Count; i++)
+        {
+            indoorColliderDic.Add((AreaState)i, indoorColList[i]);
+        }
     }
 
     private void Start()
