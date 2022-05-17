@@ -58,8 +58,6 @@ public class AreaCover : MonoBehaviour
                 isCovered = false;
 
                 print("들어옴");
-                player.isInside = true;
-                SendManager.Instance.SendAreaState(player.AreaState);
             }
         }
         else
@@ -72,10 +70,6 @@ public class AreaCover : MonoBehaviour
                 seq.Append(sr.DOColor(coverColor, DURATION));
 
                 isCovered = true;
-
-                print("나감");
-                player.isInside = false;
-                SendManager.Instance.SendAreaState(player.AreaState);
             }
         }
     }

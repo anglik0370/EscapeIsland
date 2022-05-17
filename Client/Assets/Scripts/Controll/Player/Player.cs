@@ -70,7 +70,6 @@ public class Player : MonoBehaviour, IInteractionObject
     public bool isKidnapper; //true : 맢 / false : 시민
     public bool isDie = false;
 
-    public bool isInside = false; //실내인지
     public bool canMove = false;
     public bool isFlip = false; //뒤집혔는지
 
@@ -165,7 +164,6 @@ public class Player : MonoBehaviour, IInteractionObject
         master = vo.master;
 
         canMove = true;
-        isInside = false;
 
         socketName = vo.name;
         socketId = vo.socketId;

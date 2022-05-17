@@ -116,6 +116,7 @@ public class PlayerManager : MonoBehaviour
                 player.SetAreaState(AreaState.OutSide);
             }
 
+            SendManager.Instance.SendAreaState(player.AreaState);
             yield return delay;
         }
     }
