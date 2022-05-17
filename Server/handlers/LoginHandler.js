@@ -1,11 +1,11 @@
 const SocketState = require('../Utils/SocketState.js');
 const Player = require('../Player.js');
 const {Users} = require('../Users.js');
-const getRegex = require('../Utils/Regex.js');
+const regex = require('../Utils/Regex.js');
 const sendError = require('../Utils/SendError.js');
 
 function loginHandler(socket,payload) {
-    if(!payload.name.match(getRegex())){
+    if(!payload.name.match(regex.nameRegex())){
         sendError("이름은 한글, 영어, 숫자 15자내로만 구성될 수 있습니다.", socket);
         return;
     }

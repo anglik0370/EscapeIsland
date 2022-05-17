@@ -244,6 +244,10 @@ class Room {
         if(Users.isTestServer) {
             this.inVoteTimer.setMaxTime(10);
         }
+        
+        this.inGameTimer.stopTimer();
+        this.arsonTimer.stopTimer();
+        this.inVoteTimer.stopTimer();
 
         for(let key in this.userList) {
             this.userList[key].isDie = false;
