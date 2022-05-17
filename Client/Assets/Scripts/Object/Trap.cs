@@ -57,7 +57,7 @@ public class Trap : MonoBehaviour
     {
         if(col.CompareTag("Player"))
         {
-            Player p = col.GetComponentInParent<Player>();
+            Player p = col.transform.parent.GetComponentInParent<Player>();
             
             if(p != null && !isTrap)
             {
