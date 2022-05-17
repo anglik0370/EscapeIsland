@@ -34,8 +34,8 @@ public class DeadBody : MonoBehaviour, IInteractionObject
         GameObject chara = CharacterSelectPanel.Instance.GetCharacterObj(characterSO.id);
 
         chara.transform.SetParent(transform);
-        chara.transform.localPosition = CREATE_POS;
 
+        chara.transform.localPosition = isFlip ? new Vector3(-characterSO.adjsutPos.x, characterSO.adjsutPos.y, characterSO.adjsutPos.z) : characterSO.adjsutPos;
         chara.transform.rotation = Quaternion.Euler(isFlip ? FLIP_ROT : DEFAULT_ROT);
         chara.transform.localScale = new Vector3(chara.transform.localScale.x, chara.transform.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
 
