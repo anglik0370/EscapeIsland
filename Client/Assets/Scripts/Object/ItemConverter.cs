@@ -69,6 +69,8 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
         convertRecipeDic = new Dictionary<ItemSO, ItemSO>();
 
         isEmpty = new bool[3] { true, true, true };
+
+        Init();
     }
 
     private void Start()
