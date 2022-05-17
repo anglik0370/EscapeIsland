@@ -65,13 +65,20 @@ public class InfoUI : MonoBehaviour
         if (mainPlayerTrm == null) return;
         if (mainPlayerTrm == playerTrm) return;
 
-        if((Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange) || (player.isInside != mainPlayer.isInside))
+        if(player.AreaState == mainPlayer.AreaState)
         {
-            cvs.alpha = 0f;
+            if (Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange)
+            {
+                cvs.alpha = 0f;
+            }
+            else
+            {
+                cvs.alpha = 1f;
+            }
         }
         else
         {
-            cvs.alpha = 1f;
+            cvs.alpha = 0f;
         }
     }
 

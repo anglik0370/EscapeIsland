@@ -32,11 +32,11 @@ public class InsideRefresh : ISetAble
 
         foreach (UserVO vo in userDataList)
         {
-            if(vo.socketId != socketId)
+            if (vo.socketId != socketId)
             {
                 Player p = null;
 
-                if(playerList.TryGetValue(vo.socketId,out p))
+                if (playerList.TryGetValue(vo.socketId, out p))
                 {
                     p.isInside = vo.isInside;
                 }

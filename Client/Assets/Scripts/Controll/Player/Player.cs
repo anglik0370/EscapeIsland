@@ -106,6 +106,10 @@ public class Player : MonoBehaviour, IInteractionObject
     private InfoUI ui = null;
     public InfoUI UI => ui;
 
+    [SerializeField]
+    private AreaState areaState;
+    public AreaState AreaState => areaState;
+
     public CharacterSO curSO;
 
     private void Awake()
@@ -427,6 +431,11 @@ public class Player : MonoBehaviour, IInteractionObject
 
             targetPos = pos;
         }
+    }
+
+    public void SetAreaState(AreaState areaState)
+    {
+        this.areaState = areaState;
     }
 
     public bool CheckInRange(IInteractionObject interactionObject)
