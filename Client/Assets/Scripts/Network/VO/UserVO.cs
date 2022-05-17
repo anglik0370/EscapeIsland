@@ -11,14 +11,14 @@ public class UserVO
     public bool master;
     public bool isImposter;
     public bool isDie;
-    public bool isInside;
+    public AreaState areaState;
 
     public UserVO()
     {
 
     }
 
-    public UserVO(int socketId,int charId, string name, int roomNum, Vector2 pos, bool master, bool isImposter,bool isDie,bool isInside)
+    public UserVO(int socketId,int charId, string name, int roomNum, Vector2 pos, bool master, bool isImposter,bool isDie,AreaState areaState)
     {
         this.socketId = socketId;
         this.charId = charId;
@@ -28,6 +28,6 @@ public class UserVO
         this.master = master;
         this.isImposter = isImposter;
         this.isDie = isDie;
-        this.isInside = isInside;
+        this.areaState = areaState;
     }
 }

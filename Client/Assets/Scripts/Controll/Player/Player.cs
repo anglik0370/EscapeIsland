@@ -108,7 +108,11 @@ public class Player : MonoBehaviour, IInteractionObject
 
     [SerializeField]
     private AreaState areaState;
-    public AreaState AreaState => areaState;
+    public AreaState AreaState
+    {
+        get => areaState;
+        set => areaState = value;
+    }
 
     public CharacterSO curSO;
 

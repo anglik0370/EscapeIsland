@@ -10,11 +10,11 @@ class Player {
         this.socketId = -1;
         this.charId = 1;
         this.roomNum = -1;
+        this.areaState = 0;
 
         this.isImposter = false;
         this.master = false;
         this.isDie = false;
-        this.isInside = false;
         this.voteComplete = false;
     }
 
@@ -32,7 +32,7 @@ class Player {
         this.isImposter = false;
         this.isDie = false;
         this.voteComplete = false;
-        this.isInside = false;
+        this.areaState = 0;
     }
 }
 

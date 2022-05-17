@@ -59,7 +59,7 @@ public class AreaCover : MonoBehaviour
 
                 print("들어옴");
                 player.isInside = true;
-                SendManager.Instance.SendInSide(player.isInside);
+                SendManager.Instance.SendAreaState(player.AreaState);
             }
         }
         else
@@ -75,7 +75,7 @@ public class AreaCover : MonoBehaviour
 
                 print("나감");
                 player.isInside = false;
-                SendManager.Instance.SendInSide(player.isInside);
+                SendManager.Instance.SendAreaState(player.AreaState);
             }
         }
     }

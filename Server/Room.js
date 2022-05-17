@@ -38,9 +38,9 @@ class Room {
         this.selectedIdList.push(characterId);
     }
 
-    insideRefresh(socket,isInside) {
+    areaRefresh(socket,areaState) {
         if(this.userList[socket.id] !== undefined) {
-            this.userList[socket.id].isInside = isInside;
+            this.userList[socket.id].areaState = areaState;
         }
 
         let dataList = this.getUsersData();

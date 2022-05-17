@@ -38,7 +38,7 @@ public class InsideRefresh : ISetAble
 
                 if (playerList.TryGetValue(vo.socketId, out p))
                 {
-                    p.isInside = vo.isInside;
+                    p.AreaState = vo.areaState;
                 }
             }
         }

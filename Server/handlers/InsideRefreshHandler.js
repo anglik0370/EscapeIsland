@@ -6,6 +6,6 @@ module.exports = {
         let room = Rooms.getRoom(socket.room);
         if(room === undefined) return;
 
-        room.insideRefresh(socket,data.isInside);
+        room.areaRefresh(socket,data.areaState);
     }
 }
