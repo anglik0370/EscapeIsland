@@ -430,6 +430,7 @@ public class Player : MonoBehaviour, IInteractionObject
                 }
 
                 playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
+                playerTrm.localPosition = isFlip ? flipPos : defaultPos;
                 playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
 
                 //anim.SetBool("isMoving", true);
