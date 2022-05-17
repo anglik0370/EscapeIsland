@@ -366,7 +366,10 @@ public class Player : MonoBehaviour, IInteractionObject
 
         if(dir != Vector3.zero)
         {
-            isFlip = dir.x > 0;
+            if (dir.x != 0)
+            {
+                isFlip = dir.x > 0;
+            }
 
             playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
             playerTrm.localPosition = isFlip ? flipPos : defaultPos;
@@ -417,7 +420,10 @@ public class Player : MonoBehaviour, IInteractionObject
 
             if(dir != Vector3.zero)
             {
-                isFlip = dir.x > 0;
+                if(dir.x != 0)
+                {
+                    isFlip = dir.x > 0;
+                }
 
                 playerTrm.rotation = Quaternion.Euler(isFlip ? flipRot : defaultRot);
                 playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
