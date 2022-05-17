@@ -191,6 +191,11 @@ class Room {
             return;
         }
 
+        if(this.playing) {
+            sendError("현재 방은 이미 시작되었습니다.",socket);
+            return;
+        }
+
         let isTest = false;
 
         for(let key in this.userList) {
