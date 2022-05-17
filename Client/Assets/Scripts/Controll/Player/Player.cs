@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IInteractionObject
@@ -91,7 +93,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private int deadLayer = -1;
 
     //이건 죽었을 때 고스트 이미지 보이게 하는 용도임
-    private SpriteRenderer[] srList;
+    private List<SpriteRenderer> srList;
     private SpriteRenderer ghostSr;
 
     public float speed = 5;
@@ -129,7 +131,7 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         EventManager.SubGameOver(goc =>
         {
-            for (int i = 0; i < srList.Length; i++)
+            for (int i = 0; i < srList.Count; i++)
             {
                 srList[i].color = UtilClass.opacityColor;
             }
@@ -192,10 +194,10 @@ public class Player : MonoBehaviour, IInteractionObject
 
         anim = dummyPlayer.GetComponent<CharComponentHolder>().anim;
 
-        srList = dummyPlayer.GetComponent<CharComponentHolder>().sprites;
+        srList = dummyPlayer.GetComponent<CharComponentHolder>().sprites.ToList();
         ghostSr = dummyPlayer.transform.Find("Ghost").GetComponent<SpriteRenderer>();
 
-        for (int i = 0; i < srList.Length; i++)
+        for (int i = 0; i < srList.Count; i++)
         {
             srList[i].color = UtilClass.opacityColor;
         }
@@ -293,6 +295,11 @@ public class Player : MonoBehaviour, IInteractionObject
         return null;
     }
 
+    public List<SpriteRenderer> GetSpriteList()
+    {
+        return srList;
+    }
+
     public bool GetFlipX()
     {
         return isFlip;
@@ -331,7 +338,7 @@ public class Player : MonoBehaviour, IInteractionObject
         isDie = true;
         canMove = true;
 
-        for (int i = 0; i < srList.Length; i++)
+        for (int i = 0; i < srList.Count; i++)
         {
             srList[i].color = UtilClass.limpidityColor;
         }

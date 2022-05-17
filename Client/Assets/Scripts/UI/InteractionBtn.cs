@@ -42,6 +42,8 @@ public class InteractionBtn : MonoBehaviour
     [Header("강조 오브젝트")]
     [SerializeField]
     private ObjectAccent accent;
+    [SerializeField]
+    private BoneObjectAccent boneAccent;
 
     [Header("현재 상태")]
     [SerializeField]
@@ -200,6 +202,12 @@ public class InteractionBtn : MonoBehaviour
         if(state == InteractionCase.GameStart || state == InteractionCase.Nothing)
         {
             accent.Disable();
+            boneAccent.Disable();
+        }
+        if(state == InteractionCase.KillPlayer)
+        {
+            accent.Disable();
+            boneAccent.Enable((proximateObj as Player).GetSpriteList(), proximateObj.GetFlipX());
         }
         else
         {
