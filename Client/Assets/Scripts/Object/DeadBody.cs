@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DeadBody : MonoBehaviour, IInteractionObject
@@ -27,9 +28,13 @@ public class DeadBody : MonoBehaviour, IInteractionObject
     private const float DEFAULT_SCALE_Z = 1;
     private const float FLIP_SCALE_Z = -1;
 
+    private CharacterSO curSO;
+
     public void Init(Vector3 pos, bool isFlip, CharacterSO characterSO)
     {
         transform.position = pos;
+
+        curSO = characterSO;
 
         GameObject chara = CharacterSelectPanel.Instance.GetCharacterObj(characterSO.id);
 
@@ -59,6 +64,11 @@ public class DeadBody : MonoBehaviour, IInteractionObject
     public Sprite GetSprite()
     {
         return null;
+    }
+
+    public CharacterSO GetCurCharSO()
+    {
+        return curSO;
     }
 
     public bool GetFlipX()

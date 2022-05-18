@@ -18,18 +18,9 @@ public class BoneObjectAccent : MonoBehaviour
         }
     }
 
-    public void Enable(List<SpriteRenderer> spriteList, bool isFlip)
+    public void Enable(CharacterSO charSO, bool isFlip)
     {
-        for (int i = 0; i < spriteList.Count; i++)
-        {
-            srList[i].sprite = spriteList[i].sprite;
-
-            srList[i].gameObject.transform.position = spriteList[i].gameObject.transform.position;
-            srList[i].gameObject.transform.localScale = spriteList[i].gameObject.transform.localScale;
-            srList[i].gameObject.transform.rotation = spriteList[i].gameObject.transform.rotation;
-
-            srList[i].color = UtilClass.opacityColor;
-        }
+        
     }
 
     public void Disable()

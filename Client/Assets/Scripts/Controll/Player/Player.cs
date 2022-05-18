@@ -295,9 +295,9 @@ public class Player : MonoBehaviour, IInteractionObject
         return null;
     }
 
-    public List<SpriteRenderer> GetSpriteList()
+    public CharacterSO GetCurCharSO()
     {
-        return srList;
+        return curSO;
     }
 
     public bool GetFlipX()

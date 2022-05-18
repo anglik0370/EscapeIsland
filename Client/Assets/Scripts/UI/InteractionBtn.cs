@@ -204,14 +204,20 @@ public class InteractionBtn : MonoBehaviour
             accent.Disable();
             boneAccent.Disable();
         }
-        if(state == InteractionCase.KillPlayer)
+        else if(state == InteractionCase.KillPlayer)
         {
             accent.Disable();
-            boneAccent.Enable((proximateObj as Player).GetSpriteList(), proximateObj.GetFlipX());
+            boneAccent.Enable((proximateObj as Player).GetCurCharSO(), proximateObj.GetFlipX());
+        }
+        else if(state == InteractionCase.ReportDeadbody)
+        {
+            accent.Disable();
+            boneAccent.Enable((proximateObj as DeadBody).GetCurCharSO(), proximateObj.GetFlipX());
         }
         else
         {
             accent.Enable(proximateObj.GetSprite(), proximateObj.GetTrm(), proximateObj.GetFlipX());
+            boneAccent.Disable();
         }
     }
 }
