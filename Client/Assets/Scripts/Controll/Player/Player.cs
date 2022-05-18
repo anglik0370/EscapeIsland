@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IInteractionObject
@@ -194,7 +193,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
         anim = dummyPlayer.GetComponent<CharComponentHolder>().anim;
 
-        srList = dummyPlayer.GetComponent<CharComponentHolder>().sprites.ToList();
+        srList = dummyPlayer.GetComponent<CharComponentHolder>().srList;
         ghostSr = dummyPlayer.transform.Find("Ghost").GetComponent<SpriteRenderer>();
 
         for (int i = 0; i < srList.Count; i++)
@@ -295,9 +294,9 @@ public class Player : MonoBehaviour, IInteractionObject
         return null;
     }
 
-    public CharacterSO GetCurCharSO()
+    public CharComponentHolder GetCCH()
     {
-        return curSO;
+        return GetComponentInChildren<CharComponentHolder>();
     }
 
     public bool GetFlipX()

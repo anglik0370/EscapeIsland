@@ -5,29 +5,74 @@ using UnityEngine;
 
 public class BoneObjectAccent : MonoBehaviour
 {
+    private readonly Vector3 CHAR_SCALE = new Vector3(0.35f, 0.35f);
+
+    private readonly Vector3 ORIGIN_ROT = Vector3.zero;
+    private readonly Vector3 FLIP_ROT = new Vector3(0, 180, 0);
+
+    private const float DEFAULT_SCALE_Z = 1;
+    private const float FLIP_SCALE_Z = -1;
+
     [SerializeField]
-    List<SpriteRenderer> srList;
+    private List<CharacterSO> charSOList;
+
+    [SerializeField]
+    private List<GameObject> prefabList;
+
+    [SerializeField]
+    private GameObject curCharObj;
 
     public void Awake()
     {
-        srList = GetComponentsInChildren<SpriteRenderer>().ToList();
+        charSOList = Resources.LoadAll<CharacterSO>("CharacterSO").ToList();
+        prefabList = new List<GameObject>();
 
-        foreach (var sr in srList)
+        curCharObj = null;
+
+        transform.localScale = CHAR_SCALE;
+
+        for (int i = 0; i < charSOList.Count; i++)
         {
-            sr.color = UtilClass.limpidityColor;
+            GameObject obj = Instantiate(charSOList[i].playerPrefab, transform);
+            obj.SetActive(false);
+
+            prefabList.Add(obj);
         }
     }
 
-    public void Enable(CharacterSO charSO, bool isFlip)
+    public void Enable(CharComponentHolder cch, bool isFlip)
     {
-        
+        for (int i = 0; i < prefabList.Count; i++)
+        {
+            curCharObj = prefabList.Find(x => x.GetComponent<CharComponentHolder>().charSO.id == cch.charSO.id);
+        }
+
+        if(curCharObj ==  null)
+        {
+            print("그런 캐릭터는 여기 없다.");
+            return;
+        }
+
+        curCharObj.SetActive(true);
+
+        CharComponentHolder curCCH = curCharObj.GetComponent<CharComponentHolder>();
+
+        curCharObj.transform.rotation = Quaternion.Euler(isFlip ? FLIP_ROT : ORIGIN_ROT);
+        curCharObj.transform.localPosition = isFlip ? curCharObj.transform.localPosition : new Vector3(-curCCH.charSO.adjsutPos.x, curCCH.charSO.adjsutPos.y, curCCH.charSO.adjsutPos.z);
+        curCharObj.transform.localScale = new Vector3(curCharObj.transform.localScale.x, curCharObj.transform.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
+
+        for (int i = 0; i < curCCH.boneTrmList.Count; i++)
+        {
+            curCCH.boneTrmList[i].position = cch.boneTrmList[i].position;
+            curCCH.boneTrmList[i].rotation = cch.boneTrmList[i].rotation;
+        }
     }
 
     public void Disable()
     {
-        foreach (var sr in srList)
-        {
-            sr.color = UtilClass.limpidityColor;
-        }
+        if (curCharObj == null) return;
+
+        curCharObj.SetActive(false);
+        curCharObj = null;
     }
 }

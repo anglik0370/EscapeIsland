@@ -66,9 +66,9 @@ public class DeadBody : MonoBehaviour, IInteractionObject
         return null;
     }
 
-    public CharacterSO GetCurCharSO()
+    public CharComponentHolder GetCCH()
     {
-        return curSO;
+        return GetComponentInChildren<CharComponentHolder>();
     }
 
     public bool GetFlipX()
