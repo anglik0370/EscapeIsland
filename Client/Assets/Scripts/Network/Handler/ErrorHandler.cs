@@ -7,6 +7,6 @@ public class ErrorHandler : MonoBehaviour, IMsgHandler
     public void HandleMsg(string payload)
     {
         print(payload);
-        UIManager.Instance.SetWarningText(payload);
+        UIManager.Instance.AlertText(payload, AlertType.Warning);
     }
 }

@@ -14,6 +14,17 @@ public class BoneObjectAccent : MonoBehaviour
     private const float FLIP_SCALE_Z = -1;
 
     [SerializeField]
+    private Material outlineMat;
+    
+    [SerializeField]
+    private Color outlineColor = Color.white;
+    [SerializeField]
+    private float outlineThickness = 4f;
+
+    [SerializeField]
+    private string outlineLayerName;
+
+    [SerializeField]
     private List<CharacterSO> charSOList;
 
     [SerializeField]
@@ -29,43 +40,60 @@ public class BoneObjectAccent : MonoBehaviour
 
         curCharObj = null;
 
-        transform.localScale = CHAR_SCALE;
+        //transform.localScale = CHAR_SCALE;
 
         for (int i = 0; i < charSOList.Count; i++)
         {
             GameObject obj = Instantiate(charSOList[i].playerPrefab, transform);
+
+            GameObject.Destroy(obj.GetComponent<SpritePositionSort>());
+            GameObject.Destroy(obj.transform.Find("Ghost").gameObject);
+
+            List<SpriteRenderer> srList = obj.GetComponent<CharComponentHolder>().srList;
+
+            for (int j = 0; j < srList.Count; j++)
+            {
+                srList[j].sortingLayerName = outlineLayerName;
+
+                srList[j].material = outlineMat;
+                srList[j].material.SetColor("_OutlineColor", outlineColor);
+                srList[j].material.SetFloat("_OutlineThickness", outlineThickness);
+            }
+
             obj.SetActive(false);
 
             prefabList.Add(obj);
         }
     }
 
-    public void Enable(CharComponentHolder cch, bool isFlip)
+    public void Enable(Vector3 pos, CharComponentHolder cch, bool isFlip)
     {
-        for (int i = 0; i < prefabList.Count; i++)
-        {
-            curCharObj = prefabList.Find(x => x.GetComponent<CharComponentHolder>().charSO.id == cch.charSO.id);
-        }
+        //transform.position = pos;
 
-        if(curCharObj ==  null)
-        {
-            print("그런 캐릭터는 여기 없다.");
-            return;
-        }
+        //for (int i = 0; i < prefabList.Count; i++)
+        //{
+        //    curCharObj = prefabList.Find(x => x.GetComponent<CharComponentHolder>().charSO.id == cch.charSO.id);
+        //}
 
-        curCharObj.SetActive(true);
+        //if(curCharObj ==  null)
+        //{
+        //    print("그런 캐릭터는 여기 없다.");
+        //    return;
+        //}
 
-        CharComponentHolder curCCH = curCharObj.GetComponent<CharComponentHolder>();
+        //curCharObj.SetActive(true);
 
-        curCharObj.transform.rotation = Quaternion.Euler(isFlip ? FLIP_ROT : ORIGIN_ROT);
-        curCharObj.transform.localPosition = isFlip ? curCharObj.transform.localPosition : new Vector3(-curCCH.charSO.adjsutPos.x, curCCH.charSO.adjsutPos.y, curCCH.charSO.adjsutPos.z);
-        curCharObj.transform.localScale = new Vector3(curCharObj.transform.localScale.x, curCharObj.transform.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
+        //CharComponentHolder curCCH = curCharObj.GetComponent<CharComponentHolder>();
 
-        for (int i = 0; i < curCCH.boneTrmList.Count; i++)
-        {
-            curCCH.boneTrmList[i].position = cch.boneTrmList[i].position;
-            curCCH.boneTrmList[i].rotation = cch.boneTrmList[i].rotation;
-        }
+        //curCharObj.transform.rotation = Quaternion.Euler(isFlip ? FLIP_ROT : ORIGIN_ROT);
+        //curCharObj.transform.localPosition = isFlip ? curCharObj.transform.localPosition : new Vector3(-curCCH.charSO.adjsutPos.x, curCCH.charSO.adjsutPos.y, curCCH.charSO.adjsutPos.z);
+        //curCharObj.transform.localScale = new Vector3(curCharObj.transform.localScale.x, curCharObj.transform.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
+
+        //for (int i = 0; i < curCCH.boneTrmList.Count; i++)
+        //{
+        //    curCCH.boneTrmList[i].position = cch.boneTrmList[i].position;
+        //    curCCH.boneTrmList[i].rotation = cch.boneTrmList[i].rotation;
+        //}
     }
 
     public void Disable()

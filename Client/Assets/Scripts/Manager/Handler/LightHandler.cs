@@ -15,10 +15,10 @@ public class LightHandler : MonoBehaviour
     private Light2D shadowPoint;
     [SerializeField]
     private Light2D lightMapPoint;
-    [SerializeField]
-    private Light2D refineryPoint;
-    [SerializeField]
-    private Light2D labotoryPoint;
+    //[SerializeField]
+    //private Light2D refineryPoint;
+    //[SerializeField]
+    //private Light2D labotoryPoint;
 
     [Header("편집할때 꺼놔야하는것들")]
     [SerializeField]
@@ -40,9 +40,9 @@ public class LightHandler : MonoBehaviour
     public float lightOuterRadius;
     public float darkOuterRadius;
 
-    [Header("실내 조명 밝기")]
-    public float lightInsideLightIntensity;
-    public float darkInsideLightIntensity;
+    //[Header("실내 조명 밝기")]
+    //public float lightInsideLightIntensity;
+    //public float darkInsideLightIntensity;
 
     [Header("밝기 변화 시간")]
     [SerializeField]
@@ -92,11 +92,11 @@ public class LightHandler : MonoBehaviour
 
         seq = DOTween.Sequence();
 
-        seq.Join(DOTween.To(() => global.intensity, x => global.intensity = x, darkGlobalIntensity, duration));
+        seq.Append(DOTween.To(() => global.intensity, x => global.intensity = x, darkGlobalIntensity, duration));
         seq.Join(DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, darkPointIntensity, duration));
 
-        seq.Join(DOTween.To(() => refineryPoint.intensity, x => refineryPoint.intensity = x, darkInsideLightIntensity, duration));
-        seq.Join(DOTween.To(() => labotoryPoint.intensity, x => labotoryPoint.intensity = x, darkInsideLightIntensity, duration));
+        //seq.Join(DOTween.To(() => refineryPoint.intensity, x => refineryPoint.intensity = x, darkInsideLightIntensity, duration));
+        //seq.Join(DOTween.To(() => labotoryPoint.intensity, x => labotoryPoint.intensity = x, darkInsideLightIntensity, duration));
 
         seq.Join(DOTween.To(() => shadowPoint.pointLightInnerRadius, x => shadowPoint.pointLightInnerRadius = x, darkInnerRadius, duration));
         seq.Join(DOTween.To(() => shadowPoint.pointLightOuterRadius, x => shadowPoint.pointLightOuterRadius = x, darkOuterRadius, duration));
@@ -113,11 +113,11 @@ public class LightHandler : MonoBehaviour
 
         seq = DOTween.Sequence();
 
-        seq.Join(DOTween.To(() => global.intensity, x => global.intensity = x, lightGlobalIntensity, duration));
+        seq.Append(DOTween.To(() => global.intensity, x => global.intensity = x, lightGlobalIntensity, duration));
         seq.Join(DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, lightPointIntensity, duration));
 
-        seq.Join(DOTween.To(() => refineryPoint.intensity, x => refineryPoint.intensity = x, lightInsideLightIntensity, duration));
-        seq.Join(DOTween.To(() => labotoryPoint.intensity, x => labotoryPoint.intensity = x, lightInsideLightIntensity, duration));
+        //seq.Join(DOTween.To(() => refineryPoint.intensity, x => refineryPoint.intensity = x, lightInsideLightIntensity, duration));
+        //seq.Join(DOTween.To(() => labotoryPoint.intensity, x => labotoryPoint.intensity = x, lightInsideLightIntensity, duration));
 
         seq.Join(DOTween.To(() => shadowPoint.pointLightInnerRadius, x => shadowPoint.pointLightInnerRadius = x, lightInnerRadius, duration));
         seq.Join(DOTween.To(() => shadowPoint.pointLightOuterRadius, x => shadowPoint.pointLightOuterRadius = x, lightOuterRadius, duration));

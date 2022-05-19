@@ -51,7 +51,7 @@ public class ItemAndStorage : ISetAble
     public void SetStorageFull()
     {
         //msg¶ç¿öÁÖ±â
-        UIManager.Instance.SetWarningText(msg,true);
+        UIManager.Instance.AlertText(msg, AlertType.GameEvent);
     }
 
     public void SetMissionCoolTime()
