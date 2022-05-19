@@ -9,6 +9,7 @@ public class LightHandler : MonoBehaviour
     public static LightHandler Instance { get; private set; }
 
     [Header("쉐도우 캐스터 부모")]
+    [SerializeField]
     private GameObject shadowCasterParent;
 
     [Header("조명들")]
@@ -88,6 +89,12 @@ public class LightHandler : MonoBehaviour
         EventManager.SubPlayerDead(() =>
         {
             shadowCasterParent.SetActive(false);
+
+            shadowPoint.intensity = lightPointIntensity;
+            shadowPoint.pointLightInnerRadius = lightInnerRadius;
+            shadowPoint.pointLightOuterRadius = lightOuterRadius;
+            lightMapPoint.pointLightInnerRadius = lightInnerRadius;
+            lightMapPoint.pointLightOuterRadius = lightOuterRadius;
         });
 
         EventManager.SubGameOver(goc =>
@@ -111,6 +118,9 @@ public class LightHandler : MonoBehaviour
         seq = DOTween.Sequence();
 
         seq.Append(DOTween.To(() => global.intensity, x => global.intensity = x, darkGlobalIntensity, duration));
+
+        if (!shadowCasterParent.activeSelf) return;
+
         seq.Join(DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, darkPointIntensity, duration));
 
         //seq.Join(DOTween.To(() => refineryPoint.intensity, x => refineryPoint.intensity = x, darkInsideLightIntensity, duration));
@@ -132,6 +142,9 @@ public class LightHandler : MonoBehaviour
         seq = DOTween.Sequence();
 
         seq.Append(DOTween.To(() => global.intensity, x => global.intensity = x, lightGlobalIntensity, duration));
+
+        if (!shadowCasterParent.activeSelf) return;
+
         seq.Join(DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, lightPointIntensity, duration));
 
         //seq.Join(DOTween.To(() => refineryPoint.intensity, x => refineryPoint.intensity = x, lightInsideLightIntensity, duration));
