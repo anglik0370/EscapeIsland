@@ -164,6 +164,7 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
+    [System.Obsolete("사용되지 않음")]
     public void SendAreaState(AreaState areaState)
     {
         UserVO vo = new UserVO();

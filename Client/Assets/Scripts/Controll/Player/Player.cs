@@ -172,8 +172,6 @@ public class Player : MonoBehaviour, IInteractionObject
 
         if (!isRemote)
         {
-            sendData = StartCoroutine(SendData());
-
             if (curSO != null)
             {
                 CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
