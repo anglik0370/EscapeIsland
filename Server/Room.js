@@ -19,7 +19,6 @@ class Room {
         this.arsonTimer = new Timer(this,40, () => this.sendKidnapperWin(0));
         this.inVoteTimer = new Timer(this,180,() => this.voteTimerCallBack());
         this.isEndGame = false;
-        this.curTimer = undefined;
 
         this.skipCount = 0;
         
