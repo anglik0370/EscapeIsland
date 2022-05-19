@@ -15,9 +15,9 @@ class Room {
         this.kidnapperNum = kidnapperNum;
         this.playing = playing;
 
-        this.inGameTimer = new InGameTimer(this,20,this.inGameTimerCallback);
+        this.inGameTimer = new InGameTimer(this,20,() => this.inGameTimerCallback());
         this.arsonTimer = new Timer(this,40, () => this.sendKidnapperWin(0));
-        this.inVoteTimer = new Timer(this,180, this.voteTimerCallBack);
+        this.inVoteTimer = new Timer(this,180,() => this.voteTimerCallBack());
         this.isEndGame = false;
         this.curTimer = undefined;
 
