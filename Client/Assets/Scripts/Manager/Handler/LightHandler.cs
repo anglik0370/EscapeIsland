@@ -8,6 +8,9 @@ public class LightHandler : MonoBehaviour
 {
     public static LightHandler Instance { get; private set; }
 
+    [Header("쉐도우 캐스터 부모")]
+    private GameObject shadowCasterParent;
+
     [Header("조명들")]
     [SerializeField]
     private Light2D global;
@@ -80,6 +83,21 @@ public class LightHandler : MonoBehaviour
 
             lightMapPoint = lights[0];
             shadowPoint = lights[1];
+        });
+
+        EventManager.SubPlayerDead(() =>
+        {
+            shadowCasterParent.SetActive(false);
+        });
+
+        EventManager.SubGameOver(goc =>
+        {
+            shadowCasterParent.SetActive(true);
+        });
+
+        EventManager.SubExitRoom(() =>
+        {
+            shadowCasterParent.SetActive(true);
         });
     }
 

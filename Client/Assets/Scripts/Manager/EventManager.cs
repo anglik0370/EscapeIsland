@@ -7,11 +7,22 @@ public class EventManager
 {
     private static Action<Player> EnterRoom = p => { };
     private static Action<Player> GameStart = p => { };
+    private static Action PlayerDead = () => { };
     private static Action<bool> TimeChange = isLight => { };
     private static Action BackToRoom = () => { };
     private static Action ExitRoom = () => { };
     private static Action<MeetingType> StartMeet = type => { };
     private static Action<GameOverCase> GameOver = overCase => { };
+
+    public static void SubPlayerDead(Action Callback)
+    {
+        PlayerDead += Callback;
+    }
+
+    public static void OccurPlayerDead()
+    {
+        PlayerDead?.Invoke();
+    }
 
     public static void SubTimeChange(Action<bool> Callback)
     {

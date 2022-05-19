@@ -84,6 +84,8 @@ public class Kill : ISetAble
         {
             user.SetDead();
             UIManager.Instance.AlertText("죽었습니다... 3년후 리스폰", AlertType.Warning);
+
+            EventManager.OccurPlayerDead();
         }
 
         NetworkManager.instance.PlayerEnable();
