@@ -67,6 +67,16 @@ public class PlayerManager : MonoBehaviour
             }
         });
 
+        EventManager.SubGameOver(goc =>
+        {
+            if (co != null)
+            {
+                StopCoroutine(co);
+            }
+
+            co = StartCoroutine(UpdatePlayerAreaStateRoutine());
+        });
+
         StartCoroutine(CoroutineHandler.Frame(() => kill = NetworkManager.instance.FindSetDataScript<Kill>()));
     }
 
@@ -116,7 +126,7 @@ public class PlayerManager : MonoBehaviour
                 player.SetAreaState(AreaState.OutSide);
             }
 
-            //SendManager.Instance.SendAreaState(player.AreaState);
+            SendManager.Instance.SendAreaState(player.AreaState);
             yield return delay;
         }
     }

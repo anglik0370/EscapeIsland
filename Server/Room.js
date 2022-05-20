@@ -41,10 +41,6 @@ class Room {
         if(this.userList[socket.id] !== undefined) {
             this.userList[socket.id].areaState = areaState;
         }
-
-        let dataList = this.getUsersData();
-
-        this.broadcast(JSON.stringify({type:"INSIDE_REFRESH",payload:JSON.stringify({dataList})}));
     }
 
     voteEnd() {

@@ -28,6 +28,11 @@ public class EyesightManager : MonoBehaviour
         {
             player = p;
         });
+
+        EventManager.SubGameOver(goc =>
+        {
+            LabObjSetActive(false);
+        });
     }
 
     void Update()

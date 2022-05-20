@@ -142,6 +142,8 @@ public class Sabotage : ISetAble
             curSabotage.StartSabotage(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
         }
 
+        UIManager.Instance.AlertText(sabotageData.sabotageName, AlertType.Warning);
+
         curSabotage.StartSabotage(sabotageData.data);
     }
 
