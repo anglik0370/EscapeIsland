@@ -67,6 +67,16 @@ public class PlayerManager : MonoBehaviour
             }
         });
 
+        EventManager.SubGameOver(goc =>
+        {
+            if (co != null)
+            {
+                StopCoroutine(co);
+            }
+
+            co = StartCoroutine(UpdatePlayerAreaStateRoutine());
+        });
+
         StartCoroutine(CoroutineHandler.Frame(() => kill = NetworkManager.instance.FindSetDataScript<Kill>()));
     }
 
