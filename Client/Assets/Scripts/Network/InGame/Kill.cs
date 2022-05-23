@@ -73,6 +73,8 @@ public class Kill : ISetAble
             {
                 p.SetDead();
 
+                ParticleManager.Instance.PlayBloodEffect(p.transform.position);
+
                 if (p.gameObject.activeSelf && p.isDie && !user.isDie)
                 {
                     p.SetDisable();
@@ -83,7 +85,10 @@ public class Kill : ISetAble
         else if(user.socketId == data.targetSocketId)
         {
             user.SetDead();
-            UIManager.Instance.AlertText("Á×¾ú½À´Ï´Ù... 3³âÈÄ ¸®½ºÆù", AlertType.Warning);
+
+            ParticleManager.Instance.PlayBloodEffect(user.transform.position);
+            
+            UIManager.Instance.AlertText("ï¿½×¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½... 3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", AlertType.Warning);
 
             EventManager.OccurPlayerDead();
         }
