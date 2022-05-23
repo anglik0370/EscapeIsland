@@ -20,6 +20,10 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     public bool CanInteraction => true;
 
     [SerializeField]
+    private float interactionRange;
+    public float InteractionRange => interactionRange;
+
+    [SerializeField]
     private Transform interactionTrm;
 
     private SpriteRenderer sr;

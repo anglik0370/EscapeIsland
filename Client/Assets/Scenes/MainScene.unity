@@ -266,6 +266,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 2
+  interactionRange: 4
   id: 16
   isInteractionAble: 1
 --- !u!212 &1360758
@@ -2081,6 +2082,7 @@ MonoBehaviour:
   nothingSO: {fileID: 11400000, guid: 2c46781745509fb4da20dea432282d2c, type: 2}
   lobbyHandlerSO: {fileID: 11400000, guid: 863400af48f22654fb3192b277c60157, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: f847feadda2e9b74082b2c2a7015248a, type: 2}
+  interactionRange: 5
 --- !u!212 &98418185
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2900,6 +2902,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 5
+  interactionRange: 0
   id: 20
   isInteractionAble: 1
 --- !u!212 &139697146
@@ -3329,6 +3332,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 3
+  interactionRange: 7
   id: 9
   isInteractionAble: 1
 --- !u!212 &157569642
@@ -5391,6 +5395,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 4
+  interactionRange: 5
   id: 11
   isInteractionAble: 1
 --- !u!114 &252946217
@@ -8907,6 +8912,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 0
+  interactionRange: 3
   id: 0
   isInteractionAble: 1
 --- !u!1 &395880360
@@ -10116,6 +10122,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 1
+  interactionRange: 3
   id: 8
   isInteractionAble: 1
 --- !u!212 &459278819
@@ -13798,6 +13805,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 0
+  interactionRange: 3
   id: 4
   isInteractionAble: 1
 --- !u!114 &599459752
@@ -15098,6 +15106,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 1
+  interactionRange: 3
   id: 6
   isInteractionAble: 1
 --- !u!212 &640586174
@@ -15365,6 +15374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: d08823b16e3efd14787c2b5acf6cd0ce, type: 2}
+  interactionRange: 5
   id: 2
   interactionTrm: {fileID: 2096580076}
   convertRecipeList:
@@ -17060,6 +17070,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 0
+  interactionRange: 3
   id: 2
   isInteractionAble: 1
 --- !u!114 &742510165
@@ -17549,6 +17560,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 1
+  interactionRange: 3
   id: 7
   isInteractionAble: 1
 --- !u!212 &760080762
@@ -18216,6 +18228,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 2
+  interactionRange: 4
   id: 14
   isInteractionAble: 1
 --- !u!212 &770384072
@@ -19546,6 +19559,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 1
+  interactionRange: 3
   id: 5
   isInteractionAble: 1
 --- !u!114 &827371550
@@ -19933,6 +19947,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: d08823b16e3efd14787c2b5acf6cd0ce, type: 2}
+  interactionRange: 5
   id: 0
   interactionTrm: {fileID: 172201457}
   convertRecipeList:
@@ -21856,6 +21871,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 0
+  interactionRange: 3
   id: 1
   isInteractionAble: 1
 --- !u!114 &912988024
@@ -23770,6 +23786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: d08823b16e3efd14787c2b5acf6cd0ce, type: 2}
+  interactionRange: 5
   id: 1
   interactionTrm: {fileID: 45038523}
   convertRecipeList:
@@ -26598,6 +26615,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 2
+  interactionRange: 4
   id: 17
   isInteractionAble: 1
 --- !u!212 &1091696706
@@ -29041,6 +29059,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 2
+  interactionRange: 4
   id: 19
   isInteractionAble: 1
 --- !u!212 &1187283552
@@ -33035,6 +33054,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 6
+  interactionRange: 5
   id: 14
   isInteractionAble: 1
 --- !u!212 &1346319396
@@ -33404,6 +33424,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 3
+  interactionRange: 7
   id: 10
   isInteractionAble: 1
 --- !u!212 &1376016857
@@ -35755,6 +35776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 91533eaf04bfaf74a84af6b4272d1acd, type: 2}
+  interactionRange: 5
   interactionTrm: {fileID: 3331426443887075605}
 --- !u!114 &1448725216
 MonoBehaviour:
@@ -36828,6 +36850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: d08823b16e3efd14787c2b5acf6cd0ce, type: 2}
+  interactionRange: 5
   id: 3
   interactionTrm: {fileID: 558121439}
   convertRecipeList:
@@ -38384,6 +38407,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 2
+  interactionRange: 4
   id: 15
   isInteractionAble: 1
 --- !u!212 &1568720088
@@ -39498,6 +39522,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 2
+  interactionRange: 4
   id: 12
   isInteractionAble: 1
 --- !u!212 &1603873530
@@ -43020,6 +43045,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 9
+  interactionRange: 0
   id: 21
   isInteractionAble: 1
 --- !u!212 &1751368529
@@ -43740,6 +43766,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 2
+  interactionRange: 4
   id: 18
   isInteractionAble: 1
 --- !u!212 &1776974603
@@ -45007,6 +45034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: d08823b16e3efd14787c2b5acf6cd0ce, type: 2}
+  interactionRange: 5
   id: 4
   interactionTrm: {fileID: 1758704941}
   convertRecipeList:
@@ -47793,6 +47821,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 6
+  interactionRange: 5
   id: 13
   isInteractionAble: 1
 --- !u!212 &1938937163
@@ -48346,6 +48375,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 0
+  interactionRange: 3
   id: 3
   isInteractionAble: 1
 --- !u!114 &1961605857
@@ -51860,6 +51890,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 7
+  interactionRange: 5
   id: 16
   isInteractionAble: 1
 --- !u!212 &2095329032
@@ -52012,6 +52043,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 6
+  interactionRange: 5
   id: 12
   isInteractionAble: 1
 --- !u!212 &2097357205
@@ -53256,6 +53288,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 2
+  interactionRange: 4
   id: 13
   isInteractionAble: 1
 --- !u!212 &2132053018
@@ -53617,6 +53650,7 @@ MonoBehaviour:
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: 5e097c9e073174b42b206d3d0651e319, type: 2}
   missionType: 8
+  interactionRange: 5
   id: 15
   isInteractionAble: 1
 --- !u!212 &2137623370

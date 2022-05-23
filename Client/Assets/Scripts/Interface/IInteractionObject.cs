@@ -11,6 +11,8 @@ public interface IInteractionObject
 
     public bool CanInteraction { get; }
 
+    public float InteractionRange { get; }
+
     public Transform GetTrm();
     public Transform GetInteractionTrm();
 

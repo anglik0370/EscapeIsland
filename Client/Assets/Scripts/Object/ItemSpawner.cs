@@ -24,6 +24,10 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
 
     public bool CanInteraction => true;
 
+    [SerializeField]
+    private float interactionRange;
+    public float InteractionRange => interactionRange;
+
     public Action LobbyCallback => () => { };
     //public Action IngameCallback => () => SpawnerManager.Instance.PickUpSpawnerItem(this);
     public Action IngameCallback => () =>

@@ -47,19 +47,20 @@ MonoBehaviour:
   nothingHandlerSO: {fileID: 11400000, guid: 2c46781745509fb4da20dea432282d2c, type: 2}
   lobbyHandlerSO: {fileID: 11400000, guid: b58f12dd1f84b824e9dff76e871240b4, type: 2}
   ingameHandlerSO: {fileID: 11400000, guid: c8c42c8746f849745a1197c0e19789c1, type: 2}
+  interactionRange: 4
   socketName: 
   socketId: 0
   roomNum: 0
   master: 0
   isKidnapper: 0
   isDie: 0
-  isInside: 0
   canMove: 0
+  isFlip: 0
   inventory: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   targetPos: {x: 0, y: 0}
   speed: 6
-  range: 2
+  areaState: 0
   curSO: {fileID: 0}
 --- !u!50 &3224134851843462810
 Rigidbody2D:

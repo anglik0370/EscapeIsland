@@ -43,6 +43,10 @@ public class Player : MonoBehaviour, IInteractionObject
     };
 
     public bool CanInteraction => !isDie && gameObject.activeSelf;
+    
+    [SerializeField]
+    private float interactionRange;
+    public float InteractionRange => interactionRange;
 
     public string socketName;
     public int socketId;
@@ -96,9 +100,6 @@ public class Player : MonoBehaviour, IInteractionObject
     private SpriteRenderer ghostSr;
 
     public float speed = 5;
-
-    [SerializeField]
-    private float range = 5f;
 
     private WaitForSeconds ws = new WaitForSeconds(1 / 10); //100ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
@@ -453,7 +454,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool CheckInRange(IInteractionObject interactionObject)
     {
-        if(Vector2.Distance(GetTrm().position, interactionObject.GetInteractionTrm().position) <= range)
+        if(Vector2.Distance(GetTrm().position, interactionObject.GetInteractionTrm().position) <= interactionObject.InteractionRange)
         {
             return true;
         }

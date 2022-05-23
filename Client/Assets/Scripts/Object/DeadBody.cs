@@ -20,6 +20,10 @@ public class DeadBody : MonoBehaviour, IInteractionObject
     public Action IngameCallback => () => Report();
 
     public bool CanInteraction => gameObject.activeSelf;
+    
+    [SerializeField]
+    private float interactionRange;
+    public float InteractionRange => interactionRange;
 
     private readonly Vector3 FLIP_ROT = new Vector3(0, 180, 0);
     private readonly Vector3 DEFAULT_ROT = Vector3.zero;

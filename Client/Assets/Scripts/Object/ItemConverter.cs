@@ -20,6 +20,10 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
 
     public bool CanInteraction => true;
 
+    [SerializeField]
+    private float interactionRange;
+    public float InteractionRange => interactionRange;
+
     public int id;
 
     private ItemSO beforeItem;
