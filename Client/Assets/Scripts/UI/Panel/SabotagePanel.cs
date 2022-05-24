@@ -32,8 +32,6 @@ public class SabotagePanel : Panel
 
     protected override void Start()
     {
-        base.Start();
-
         EventManager.SubGameStart(p =>
         {
             if (p.isKidnapper)
@@ -46,6 +44,10 @@ public class SabotagePanel : Panel
                 Close(false);
             }
         });
+
+        EventManager.SubExitRoom(() => Close(false));
+        EventManager.SubBackToRoom(() => Close(false));
+        EventManager.SubGameOver(goc => Close(false));
     }
 
     public void GameStart()
