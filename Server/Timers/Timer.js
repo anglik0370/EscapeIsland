@@ -1,7 +1,7 @@
 class Timer {
     constructor(room,maxCoolTime,callback) {
         this.maxTime = maxCoolTime;
-        this.remainTime = 40;
+        this.remainTime = maxCoolTime;
 
         this.sec = 1;
 

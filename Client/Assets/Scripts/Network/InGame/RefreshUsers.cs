@@ -113,9 +113,9 @@ public class RefreshUsers : ISetAble
                 else
                 {
                     p.SetTransform(uv.position);
-                }
 
-                p.AreaState = uv.areaState;
+                    p.AreaState = uv.areaState;
+                }
             }
         }
     }
