@@ -27,8 +27,6 @@ class Player {
             ...this.voiceData,
             ...newData
         ];
-
-        console.log(this.voiceData.length);
     }
 
     initLoginData(socketId,name,roomNum) {

@@ -95,6 +95,7 @@ public class MicManager : ISetAble
         else
         {
             print("asd");
+            UIManager.Instance.AlertText("x", AlertType.Warning);
         }
 
         isRecording = on;
@@ -141,6 +142,6 @@ public class MicManager : ISetAble
 
     public AudioClip GetClip(float[] floatArr)
     {
-        return AudioClip.Create("", floatArr.Length, 0, FREQUENCY, false);
+        return AudioClip.Create("", floatArr.Length, 1, FREQUENCY, false);
     }
 }

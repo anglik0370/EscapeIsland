@@ -116,7 +116,6 @@ public class RefreshUsers : ISetAble
 
                     p.AreaState = uv.areaState;
 
-                    print($"{uv.voiceData != null}, {uv.voiceData.Length > 0}");
                     if (uv.voiceData != null && uv.voiceData.Length > 0)
                     {
                         p.PlayVoice(MicManager.Instance.GetClip(uv.voiceData));
