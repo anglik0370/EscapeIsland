@@ -31,6 +31,16 @@ class Room {
         this.selectedIdList = [];
     }
 
+    addVoiceData(socketId,voiceData) {
+        this.userList[socketId].setVoiceData(voiceData);
+    }
+
+    initVoiceData() {
+        for(let key in this.userList) {
+            this.userList[key].voiceData = [];
+        }
+    }
+
     changeCharacter(beforeId,characterId) {
         this.selectedIdList = this.selectedIdList.filter(id => id !== beforeId);
 

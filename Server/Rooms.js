@@ -207,6 +207,8 @@ class Rooms {
                 if(soc.readyState != WebSocket.OPEN) return;
                 soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
             });
+
+            room.initVoiceData();
         }
     }
 

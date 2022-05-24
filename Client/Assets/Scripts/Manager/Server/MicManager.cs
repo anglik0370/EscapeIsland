@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MicManager : MonoBehaviour
+public class MicManager : ISetAble
 {
     public static MicManager Instance { get; private set; }
 
@@ -18,6 +18,7 @@ public class MicManager : MonoBehaviour
 
     private int lastSample = 0;
     private float loudness = 0;
+    [SerializeField]
     private float sensitivity = 100;
 
     private void Awake()
@@ -27,8 +28,10 @@ public class MicManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         Application.RequestUserAuthorization(UserAuthorization.Microphone);
 
         MicOnOff(true);
@@ -37,22 +40,25 @@ public class MicManager : MonoBehaviour
     private void FixedUpdate()
     {
         //recording중이더라도 일정 크기이상의 소리가 날때만 보내줘야함
-        if(isRecording)
+        if (isRecording)
         {
-            loudness = GetAveragedVolume() * sensitivity;
+            loudness = GetAveragedVolume(audioSource.clip.channels) * sensitivity;
 
-            int pos = Microphone.GetPosition(null);
+            int pos = Microphone.GetPosition(device);
             int diff = pos - lastSample;
 
-            print(loudness);
-            if(diff > 0 && loudness > 7)
+            if (diff > 0 && loudness > 7)
             {
                 float[] samples = new float[diff * audioSource.clip.channels];
                 audioSource.clip.GetData(samples, lastSample);
-                byte[] ba = ToByteArray(samples);
+                //byte[] ba = ToByteArray(samples);
 
-                //byte array send
-                print("send");
+                print($"send");
+
+                MicVO vo = new MicVO(samples);
+                DataVO dataVO = new DataVO("VOICE", JsonUtility.ToJson(vo));
+
+                SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
             }
             lastSample = pos;
 
@@ -69,9 +75,16 @@ public class MicManager : MonoBehaviour
         if(Microphone.devices.Length > 0)
         {
             device = Microphone.devices[0];
+
             if(on)
             {
                 audioSource.clip = Microphone.Start(device, true, 100, FREQUENCY);
+                audioSource.loop = true;
+                audioSource.mute = false;
+
+                while (!(Microphone.GetPosition(null) > 0)) { }
+                audioSource.Play();
+
             }
             else
             {
@@ -81,17 +94,16 @@ public class MicManager : MonoBehaviour
         }
         else
         {
-            
+            print("asd");
         }
 
         isRecording = on;
     }
 
-    private float GetAveragedVolume()
+    private float GetAveragedVolume(int ch)
     {
         float[] data = new float[256];
         float a = 0;
-
         audioSource.GetOutputData(data, 0);
 
         foreach (float s in data)
@@ -125,5 +137,10 @@ public class MicManager : MonoBehaviour
             floatArray[i / 4] = System.BitConverter.ToSingle(byteArray, i);
         }
         return floatArray;
+    }
+
+    public AudioClip GetClip(float[] floatArr)
+    {
+        return AudioClip.Create("", floatArr.Length, 0, FREQUENCY, false);
     }
 }
