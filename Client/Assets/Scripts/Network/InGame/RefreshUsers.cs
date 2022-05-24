@@ -115,6 +115,13 @@ public class RefreshUsers : ISetAble
                     p.SetTransform(uv.position);
 
                     p.AreaState = uv.areaState;
+
+                    print($"{uv.voiceData != null}, {uv.voiceData.Length > 0}");
+                    if (uv.voiceData != null && uv.voiceData.Length > 0)
+                    {
+                        p.PlayVoice(MicManager.Instance.GetClip(uv.voiceData));
+                        print("play");
+                    }
                 }
             }
         }
