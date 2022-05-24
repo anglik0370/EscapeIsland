@@ -15,6 +15,8 @@ public class Player : MonoBehaviour, IInteractionObject
     private Collider2D bodyCollider;
 
     public Collider2D FootCollider => footCollider;
+    public Collider2D BodyCollider => bodyCollider;
+
     public Animator Animator => anim;
 
     [SerializeField]
@@ -43,10 +45,10 @@ public class Player : MonoBehaviour, IInteractionObject
     };
 
     public bool CanInteraction => !isDie && gameObject.activeSelf;
-    
+
     [SerializeField]
-    private float interactionRange;
-    public float InteractionRange => interactionRange;
+    private Collider2D interactionCol;
+    public Collider2D InteractionCol => interactionCol;
 
     public string socketName;
     public int socketId;
@@ -125,6 +127,8 @@ public class Player : MonoBehaviour, IInteractionObject
         defaultBodyLayer = LayerMask.NameToLayer("PLAYER");
         defaultFootLayer = LayerMask.NameToLayer("PLAYERFOOT");
         deadLayer = LayerMask.NameToLayer("PLAYERGHOST");
+
+        interactionCol = GetComponentInChildren<Collider2D>();
     }
 
     private void Start()
@@ -283,11 +287,6 @@ public class Player : MonoBehaviour, IInteractionObject
         return transform;
     }
 
-    public Transform GetInteractionTrm()
-    {
-        return transform;
-    }
-
     public Sprite GetSprite()
     {
         return null;
@@ -355,7 +354,6 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private void ChangeLayer(bool isDie)
     {
-        footCollider.gameObject.layer = isDie ? deadLayer : defaultFootLayer ;
         bodyCollider.gameObject.layer = isDie ? deadLayer : defaultBodyLayer;
     }
 
@@ -450,18 +448,6 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetAreaState(AreaState areaState)
     {
         this.areaState = areaState;
-    }
-
-    public bool CheckInRange(IInteractionObject interactionObject)
-    {
-        if(Vector2.Distance(GetTrm().position, interactionObject.GetInteractionTrm().position) <= interactionObject.InteractionRange)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     private InteractionSO GetInteractionSO()

@@ -202,22 +202,18 @@ public class InteractionBtn : MonoBehaviour
         if(state == InteractionCase.GameStart || state == InteractionCase.Nothing)
         {
             accent.Disable();
-            //boneAccent.Disable();
         }
         else if(state == InteractionCase.KillPlayer)
         {
             accent.Disable();
-            //boneAccent.Enable(proximateObj.GetTrm().position, (proximateObj as Player).GetCCH(), proximateObj.GetFlipX());
         }
         else if(state == InteractionCase.ReportDeadbody)
         {
             accent.Disable();
-            //boneAccent.Enable(proximateObj.GetTrm().position, (proximateObj as DeadBody).GetCCH(), proximateObj.GetFlipX());
         }
         else
         {
             accent.Enable(proximateObj.GetSprite(), proximateObj.GetTrm(), proximateObj.GetFlipX());
-            //boneAccent.Disable();
         }
     }
 }

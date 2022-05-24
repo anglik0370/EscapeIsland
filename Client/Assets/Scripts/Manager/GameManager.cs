@@ -8,18 +8,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField]
-    private Transform sandInteractionParentTrm;
-    private List<Collider2D> sandInteractionColList;
-    [SerializeField]
-    private ItemSpawner sandSpawner;
-
-    [SerializeField]
-    private Transform seaInteractionColParentTrm;
-    private List<Collider2D> seaInteractionColList;
-    [SerializeField]
-    private ItemSpawner waterSpawner;
-
-    [SerializeField]
     private List<IInteractionObject> interactionObjList = new List<IInteractionObject>();
     public List<IInteractionObject> InteractionObjList => interactionObjList;
 
@@ -36,9 +24,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        sandInteractionColList = sandInteractionParentTrm.GetComponentsInChildren<Collider2D>().ToList();
-        seaInteractionColList = seaInteractionColParentTrm.GetComponentsInChildren<Collider2D>().ToList();
     }
 
     private void Start()
@@ -85,42 +70,14 @@ public class GameManager : MonoBehaviour
 
     public IInteractionObject GetProximateObject()
     {
-        for (int i = 0; i < sandInteractionColList.Count; i++)
-        {
-            if (Physics2D.IsTouching(sandInteractionColList[i], player.FootCollider))
-            {
-                return sandSpawner;
-            }
-        }
-
-        for (int i = 0; i < seaInteractionColList.Count; i++)
-        {
-            if(Physics2D.IsTouching(seaInteractionColList[i], player.FootCollider))
-            {
-                return waterSpawner;
-            }
-        }
-
-        IInteractionObject proximateObj = interactionObjList[0];
-
         for (int i = 0; i < interactionObjList.Count; i++)
         {
-            if (!interactionObjList[i].CanInteraction) continue;
-
-            if (Vector2.Distance(player.GetTrm().position, interactionObjList[i].GetInteractionTrm().position) <
-                Vector2.Distance(player.GetTrm().position, proximateObj.GetInteractionTrm().position))
+            if (Physics2D.IsTouching(interactionObjList[i].InteractionCol, player.BodyCollider))
             {
-                proximateObj = interactionObjList[i];
+                return interactionObjList[i];
             }
         }
 
-        if(player.CheckInRange(proximateObj))
-        {
-            return proximateObj;
-        }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 }

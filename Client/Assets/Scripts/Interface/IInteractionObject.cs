@@ -11,10 +11,9 @@ public interface IInteractionObject
 
     public bool CanInteraction { get; }
 
-    public float InteractionRange { get; }
+    public Collider2D InteractionCol { get; }
 
     public Transform GetTrm();
-    public Transform GetInteractionTrm();
 
     public Sprite GetSprite();
     public bool GetFlipX();

@@ -24,20 +24,16 @@ public class LogTable : MonoBehaviour, IInteractionObject
     public bool CanInteraction => true;
 
     [SerializeField]
-    private float interactionRange;
-    public float InteractionRange => interactionRange;
+    private Collider2D interactionCol;
+    public Collider2D InteractionCol => interactionCol;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        interactionCol = GetComponentInChildren<Collider2D>();
     }
 
     public Transform GetTrm()
-    {
-        return transform;
-    }
-
-    public Transform GetInteractionTrm()
     {
         return transform;
     }

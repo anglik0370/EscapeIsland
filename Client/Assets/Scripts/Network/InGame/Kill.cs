@@ -88,7 +88,7 @@ public class Kill : ISetAble
 
             ParticleManager.Instance.PlayBloodEffect(user.transform.position);
             
-            UIManager.Instance.AlertText("�׾����ϴ�... 3���� ������", AlertType.Warning);
+            UIManager.Instance.AlertText("죽었습니다", AlertType.Warning);
 
             EventManager.OccurPlayerDead();
         }

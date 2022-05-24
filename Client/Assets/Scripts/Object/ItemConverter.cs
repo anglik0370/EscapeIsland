@@ -21,8 +21,8 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     public bool CanInteraction => true;
 
     [SerializeField]
-    private float interactionRange;
-    public float InteractionRange => interactionRange;
+    private Collider2D interactionCol;
+    public Collider2D InteractionCol => interactionCol;
 
     public int id;
 
@@ -31,9 +31,6 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
 
     private ItemSO afterItem;
     public ItemSO AfterItem => afterItem;
-
-    [SerializeField]
-    private Transform interactionTrm;
 
     [SerializeField]
     private List<ConvertRecipeSO> convertRecipeList;
@@ -69,6 +66,7 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     private void Awake() 
     {
         sr = GetComponent<SpriteRenderer>();
+        interactionCol = GetComponentInChildren<Collider2D>();
 
         convertRecipeDic = new Dictionary<ItemSO, ItemSO>();
 
@@ -142,11 +140,6 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     public Transform GetTrm()
     {
         return transform;
-    }
-
-    public Transform GetInteractionTrm()
-    {
-        return interactionTrm;
     }
 
     public Sprite GetSprite()

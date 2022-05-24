@@ -48,8 +48,6 @@ public class StorageManager : MonoBehaviour
 
             maxAmountItemList.Clear();
 
-            needItemSO = FindNeedItemSO(PlayerManager.Instance.PlayerList.Count + 1);
-
             for (int i = 0; i < needItemSO.itemAmountList.Count; i++)
             {
                 maxAmountItemList.Add(needItemSO.itemAmountList[i]);

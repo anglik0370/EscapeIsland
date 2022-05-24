@@ -20,8 +20,8 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     public bool CanInteraction => true;
 
     [SerializeField]
-    private float interactionRange;
-    public float InteractionRange => interactionRange;
+    private Collider2D interactionCol;
+    public Collider2D InteractionCol => interactionCol;
 
     [SerializeField]
     private Transform interactionTrm;
@@ -31,16 +31,12 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        interactionCol = GetComponentInChildren<Collider2D>();
     }
 
     public Transform GetTrm()
     {
         return transform;
-    }
-
-    public Transform GetInteractionTrm()
-    {
-        return interactionTrm;
     }
 
     public Sprite GetSprite()

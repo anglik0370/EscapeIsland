@@ -20,10 +20,10 @@ public class DeadBody : MonoBehaviour, IInteractionObject
     public Action IngameCallback => () => Report();
 
     public bool CanInteraction => gameObject.activeSelf;
-    
+
     [SerializeField]
-    private float interactionRange;
-    public float InteractionRange => interactionRange;
+    private Collider2D interactionCol;
+    public Collider2D InteractionCol => interactionCol;
 
     private readonly Vector3 FLIP_ROT = new Vector3(0, 180, 0);
     private readonly Vector3 DEFAULT_ROT = Vector3.zero;
@@ -39,6 +39,8 @@ public class DeadBody : MonoBehaviour, IInteractionObject
         transform.position = pos;
 
         curSO = characterSO;
+
+        interactionCol = GetComponentInChildren<Collider2D>();
 
         GameObject chara = CharacterSelectPanel.Instance.GetCharacterObj(characterSO.id);
 
@@ -56,11 +58,6 @@ public class DeadBody : MonoBehaviour, IInteractionObject
     }
 
     public Transform GetTrm()
-    {
-        return transform;
-    }
-
-    public Transform GetInteractionTrm()
     {
         return transform;
     }
