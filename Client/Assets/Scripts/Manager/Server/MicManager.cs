@@ -142,6 +142,8 @@ public class MicManager : ISetAble
 
     public AudioClip GetClip(float[] floatArr)
     {
-        return AudioClip.Create("", floatArr.Length, 1, FREQUENCY, false);
+        AudioClip clip = AudioClip.Create("", floatArr.Length, 1, FREQUENCY, false);
+        clip.SetData(floatArr, 0);
+        return clip;
     }
 }
