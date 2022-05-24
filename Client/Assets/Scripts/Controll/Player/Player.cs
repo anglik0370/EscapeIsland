@@ -366,6 +366,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private void ChangeLayer(bool isDie)
     {
         bodyCollider.gameObject.layer = isDie ? deadLayer : defaultBodyLayer;
+        footCollider.gameObject.layer = isDie ? deadLayer : defaultFootLayer;
     }
 
     public void InitPlayer()
