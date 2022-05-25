@@ -16,6 +16,17 @@ class Player {
         this.master = false;
         this.isDie = false;
         this.voteComplete = false;
+
+        this.voiceData = [];
+    }
+
+    setVoiceData(newData) {
+        if(newData === undefined || newData === null || newData.length <= 0) return;
+
+        this.voiceData = [
+            ...this.voiceData,
+            ...newData
+        ];
     }
 
     initLoginData(socketId,name,roomNum) {

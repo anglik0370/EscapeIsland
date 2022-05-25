@@ -19,6 +19,8 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public Animator Animator => anim;
 
+    private AudioSource voiceSource;
+
     [SerializeField]
     private InteractionSO nothingHandlerSO;
 
@@ -129,6 +131,8 @@ public class Player : MonoBehaviour, IInteractionObject
         deadLayer = LayerMask.NameToLayer("PLAYERGHOST");
 
         interactionCol = GetComponentInChildren<Collider2D>();
+
+        voiceSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -216,6 +220,13 @@ public class Player : MonoBehaviour, IInteractionObject
         anim.ResetTrigger(ANIMT_ATTACK);
 
         dummyPlayer.SetActive(true);
+    }
+
+    public void PlayVoice(AudioClip clip)
+    {
+        voiceSource.clip = clip;
+
+        voiceSource.Play();
     }
 
     public int GetChildCount()
@@ -355,6 +366,7 @@ public class Player : MonoBehaviour, IInteractionObject
     private void ChangeLayer(bool isDie)
     {
         bodyCollider.gameObject.layer = isDie ? deadLayer : defaultBodyLayer;
+        footCollider.gameObject.layer = isDie ? deadLayer : defaultFootLayer;
     }
 
     public void InitPlayer()
