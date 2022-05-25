@@ -32,17 +32,17 @@ public class InfoUI : MonoBehaviour
 
     private void Start()
     {
-        hideRange = LightHandler.Instance.lightInnerRadius;
+        hideRange = EyesightManager.Instance.lightInnerRadius;
 
         EventManager.SubTimeChange(isLight =>
         {
             if(isLight)
             {
-                hideRange = LightHandler.Instance.lightInnerRadius;
+                hideRange = EyesightManager.Instance.lightInnerRadius;
             }
             else
             {
-                hideRange = LightHandler.Instance.darkInnerRadius;
+                hideRange = EyesightManager.Instance.darkInnerRadius;
             }
         });
     }
@@ -64,6 +64,7 @@ public class InfoUI : MonoBehaviour
         if (mainPlayer == null) return;
         if (mainPlayerTrm == null) return;
         if (mainPlayerTrm == playerTrm) return;
+        if (mainPlayer.isDie) return;
 
         if(player.AreaState == mainPlayer.AreaState)
         {
