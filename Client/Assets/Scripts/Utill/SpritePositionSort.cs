@@ -30,7 +30,6 @@ public class SpritePositionSort : MonoBehaviour
         {
             if (useSrList)
             {
-                srList = GetComponentsInChildren<SpriteRenderer>().ToList();
                 originOrderList = new List<int>();
 
                 for (int i = 0; i < srList.Count; i++)

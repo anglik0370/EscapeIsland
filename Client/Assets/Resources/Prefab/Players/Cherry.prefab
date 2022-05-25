@@ -267,7 +267,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1865585133
   m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingOrder: 32767
   m_Sprite: {fileID: 21300000, guid: 01c5118fdfa3acf4489107076200763d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
@@ -1307,13 +1307,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charSO: {fileID: 11400000, guid: cffa6bdffadecd240bf3bf8be8c24302, type: 2}
   anim: {fileID: 8865783984432096781}
-  sprites:
-  - {fileID: 5686333700663785104}
-  - {fileID: 5734150139078969426}
-  - {fileID: 608939382712917325}
-  - {fileID: 740310086072317611}
-  - {fileID: 3918444110817227168}
-  - {fileID: 5853755106072099464}
+  srList: []
+  boneTrmList: []
 --- !u!1 &7892010506662045716
 GameObject:
   m_ObjectHideFlags: 0
