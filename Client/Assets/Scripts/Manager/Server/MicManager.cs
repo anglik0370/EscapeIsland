@@ -8,8 +8,6 @@ public class MicManager : ISetAble
 
     private const int FREQUENCY = 44100;
 
-    private AudioClip sendingClip = null;
-
     private AudioSource audioSource;
 
     private string device = "";
@@ -17,7 +15,6 @@ public class MicManager : ISetAble
     private bool isRecording = false;
 
     private int lastSample = 0;
-    private float loudness = 0;
     [SerializeField]
     private float sensitivity = 100;
 
@@ -42,27 +39,34 @@ public class MicManager : ISetAble
         //recording중이더라도 일정 크기이상의 소리가 날때만 보내줘야함
         if (isRecording)
         {
-            loudness = GetAveragedVolume(audioSource.clip.channels) * sensitivity;
-
             int pos = Microphone.GetPosition(device);
             int diff = pos - lastSample;
 
-            if (diff > 0 && loudness > 7)
+            if(diff > 0)
             {
                 float[] samples = new float[diff * audioSource.clip.channels];
                 audioSource.clip.GetData(samples, lastSample);
                 //byte[] ba = ToByteArray(samples);
-
-                print($"send");
 
                 MicVO vo = new MicVO(samples);
                 DataVO dataVO = new DataVO("VOICE", JsonUtility.ToJson(vo));
 
                 SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
             }
+                
             lastSample = pos;
 
         }
+    }
+
+    private void OnDestroy()
+    {
+        MicOnOff(false);
+    }
+
+    private void OnApplicationQuit()
+    {
+        MicOnOff(false);
     }
 
     public void SetMic()
@@ -99,20 +103,6 @@ public class MicManager : ISetAble
         }
 
         isRecording = on;
-    }
-
-    private float GetAveragedVolume(int ch)
-    {
-        float[] data = new float[256];
-        float a = 0;
-        audioSource.GetOutputData(data, 0);
-
-        foreach (float s in data)
-        {
-            a += Mathf.Abs(s);
-        }
-
-        return a / 256;
     }
 
     public byte[] ToByteArray(float[] floatArray)
