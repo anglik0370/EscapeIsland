@@ -1123,6 +1123,7 @@ MonoBehaviour:
   - {fileID: 3970645609780266933}
   - {fileID: 1002241784170084038}
   - {fileID: 5270088871983928696}
+  - {fileID: 1681365238238821361}
   useSrList: 1
 --- !u!114 &1695318203810014950
 MonoBehaviour:
@@ -1138,14 +1139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charSO: {fileID: 11400000, guid: d7da36b7ff487074bab4daafffd9a3f8, type: 2}
   anim: {fileID: 6717338789374371925}
-  sprites:
-  - {fileID: 7008651785180048058}
-  - {fileID: 5194041820046519270}
-  - {fileID: 2614869109102983640}
-  - {fileID: 2800025651608809673}
-  - {fileID: 3970645609780266933}
-  - {fileID: 1002241784170084038}
-  - {fileID: 5270088871983928696}
+  srList: []
+  boneTrmList: []
 --- !u!1 &6848484644775591535
 GameObject:
   m_ObjectHideFlags: 0
