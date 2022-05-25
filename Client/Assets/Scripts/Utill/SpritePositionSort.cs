@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SpritePositionSort : MonoBehaviour
@@ -29,6 +30,7 @@ public class SpritePositionSort : MonoBehaviour
         {
             if (useSrList)
             {
+                srList = GetComponentsInChildren<SpriteRenderer>().ToList();
                 originOrderList = new List<int>();
 
                 for (int i = 0; i < srList.Count; i++)
