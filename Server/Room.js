@@ -263,9 +263,9 @@ class Room {
             this.userList[key].isInside = false;
         }
         
-        this.inGameTimer.stopTimer();
-        this.arsonTimer.stopTimer();
-        this.inVoteTimer.stopTimer();
+        this.inGameTimer.stopTimer(true);
+        this.arsonTimer.stopTimer(true);
+        this.inVoteTimer.stopTimer(true);
     }
 
     setTimersTime(socket){
