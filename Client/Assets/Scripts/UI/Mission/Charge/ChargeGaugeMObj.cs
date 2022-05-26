@@ -25,7 +25,11 @@ public class ChargeGaugeMObj : MonoBehaviour
             chargeCnt++;
         }
 
-        if (chargeCnt >= chargeSpriteList.Count) return;
+        if (chargeCnt >= chargeSpriteList.Count)
+        {
+            chargeImg.sprite = chargeSpriteList[chargeSpriteList.Count - 1];
+            return;
+        }
 
         Sprite sprite = chargeSpriteList[chargeCnt];
 
