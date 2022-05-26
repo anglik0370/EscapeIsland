@@ -32,7 +32,6 @@ public class CharacterSelectPanel : Panel
         }
 
         EventManager.SubExitRoom(InitEnable);
-        EventManager.SubBackToRoom(InitEnable);
 
         base.Awake();
     }
