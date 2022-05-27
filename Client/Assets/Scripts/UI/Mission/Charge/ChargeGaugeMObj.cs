@@ -17,20 +17,15 @@ public class ChargeGaugeMObj : MonoBehaviour
 
         float curTime = cur;
 
-        float branch = max / chargeSpriteList.Count - 1;
+        float branch = max / (chargeSpriteList.Count - 1);
 
         int chargeCnt = 0;
 
-        if(branch > 0)
+        while (curTime > branch)
         {
-            while (curTime > branch)
-            {
-                curTime -= branch;
-                chargeCnt++;
-            }
+            curTime -= branch;
+            chargeCnt++;
         }
-
-        print(chargeCnt);
 
         Sprite sprite = chargeSpriteList[chargeCnt];
 
