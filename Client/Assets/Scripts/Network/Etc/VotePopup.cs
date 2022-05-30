@@ -87,8 +87,6 @@ public class VotePopup : Popup
                 return;
             }
 
-
-
             VoteUI ui = toggle.GetComponentInParent<VoteUI>();
 
             int selectSocket = ui == null ? -1 : ui.socId;
