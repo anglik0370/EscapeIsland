@@ -21,9 +21,17 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
     [SerializeField]
     private ItemSO waterBottle;
 
-    //[Header("미션관련 오브젝트")]
+    [Header("변수들")]
+    [SerializeField]
+    private float maxTime = 2f;
+    private float curTime = 0f;
+
+    [SerializeField]
+    private bool isPointerInPanel;
+    [SerializeField]
+    private bool isFilled;
+
     private BottleGhostMObj bottleGhost;
-    private SeaMObj sea;
 
     [Header("보정치")]
     [SerializeField]
@@ -35,28 +43,21 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
     private MissionType missionType;
     public MissionType MissionType => missionType;
 
-    [SerializeField]
-    private bool isPointerInPanel;
-    public bool IsPointerInPanel => isPointerInPanel;
-
-    [SerializeField]
-    private bool isDragging;
-
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
         cvs = GetComponent<CanvasGroup>();
 
-        sea = GetComponentInChildren<SeaMObj>();
         bottleGhost = GetComponentInChildren<BottleGhostMObj>();
     }
 
     private void Update()
     {
-        if(isPointerInPanel && isDragging)
+        if(isPointerInPanel && itemGhost.GetItem() == emptyBottle)
         {
             if (Input.GetMouseButton(0))
             {
+                #region 물병 위치 조정 부분
                 float mouseX = Input.mousePosition.x;
                 float mouseY = Input.mousePosition.y;
 
@@ -75,10 +76,27 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
                                         rect.rect.center.y + correctionFrame - bottleGhost.BottleRect.rect.height / 2 + rect.rect.height / 2);
 
                 bottleGhost.SetPosition(new Vector2(lastX + Screen.width / 2, lastY + Screen.height / 2 + correctionY));
+                #endregion
+
+                bottleGhost.Enable();
+
+                if (!isFilled)
+                {
+                    curTime += Time.deltaTime;
+                    bottleGhost.SetWaterProgress(curTime / maxTime);
+
+                    itemGhost.SetItem(emptyBottle);
+
+                    if (curTime >= maxTime)
+                    {
+                        isFilled = true;
+                        itemGhost.SetItem(waterBottle);
+                    }
+                }
             }
             else
             {
-                Open();
+                Close();
             }
         }
     }
@@ -90,55 +108,20 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
 
     public void Close()
     {
-        isPointerInPanel = false;
-        isDragging = false;
-        bottleGhost.Init();
-        sea.Init();
+        isFilled = false;
+        curTime = 0f;
+        bottleGhost.SetWaterProgress(curTime / maxTime);
+        bottleGhost.Disable();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         isPointerInPanel = true;
-
-        if (Input.GetMouseButton(0) && itemGhost.GetItem() == emptyBottle)
-        {
-            isDragging = true;
-
-            bottleGhost.Enable();
-            bottleGhost.SetPosition(eventData.position);
-
-            itemGhost.Init();
-        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isPointerInPanel && isDragging)
-        {
-            if (bottleGhost.isFilled())
-            {
-                float mouseY = Input.mousePosition.y;
-
-                float criteriaY = Screen.height / 2 + correctionY + correctionY;
-
-                //if (mouseY < criteriaY)
-                //{
-                //    print("물 밖이 아닙니다");
-
-                //    itemGhost.SetItem(emptyBottle);
-                //    Close();
-
-                //    return;
-                //}
-
-                itemGhost.SetItem(waterBottle);
-            }
-            else
-            {
-                itemGhost.SetItem(emptyBottle);
-            }
-
-            Close();
-        }
+        isPointerInPanel = false;
+        Close();
     }
 }
