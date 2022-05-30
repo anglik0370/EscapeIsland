@@ -12,6 +12,16 @@ class InGameTimer extends Timer{
         return JSON.stringify({day:this.day,isLightTime:this.isLightTime});
     }
 
+    stopTimer(isInit = false) {
+        clearInterval(this.curTimer);
+
+        if(isInit) {
+            this.initTimer();
+            this.isLightTime = true;
+            this.day = 1;
+        }
+    }
+
     timer() {
         let dt = Date.now() - this.expected;
 
