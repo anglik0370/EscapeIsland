@@ -111,6 +111,11 @@ public class VotePopup : Popup
         voteUIList.ForEach(x => x.OnOff(false));
     }
 
+    public void VoteBtnDiable()
+    {
+        voteUIList.ForEach(x => x.BtnEnabled(false));
+    }
+
     public void CreateChat(bool myChat,string name, string chatMsg, Sprite charSpr)
     {
         if(myChat)

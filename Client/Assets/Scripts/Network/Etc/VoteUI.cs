@@ -26,6 +26,8 @@ public class VoteUI : MonoBehaviour
         VoteCompleteVO vo = new VoteCompleteVO(NetworkManager.instance.socketId, socId);
         DataVO dataVO = new DataVO("VOTE_COMPLETE", JsonUtility.ToJson(vo));
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+
+        VoteManager.Instance.voteTab.VoteBtnDiable();
     }
 
     public void SetVoteUI(int socId, string name, Sprite charSprite, bool isKidnapper)
@@ -41,6 +43,7 @@ public class VoteUI : MonoBehaviour
         }
 
         InitTargeted();
+        BtnEnabled(true);
         voteCompleteImg.gameObject.SetActive(false);
 
         OnOff(true);
@@ -85,5 +88,10 @@ public class VoteUI : MonoBehaviour
     {
         //checkToggle.gameObject.SetActive(false);
         voteCompleteImg.gameObject.SetActive(true);
+    }
+
+    public void BtnEnabled(bool enabled)
+    {
+        sendVoteBtn.enabled = enabled;
     }
 }
