@@ -6,7 +6,7 @@ public class MicManager : ISetAble
 {
     public static MicManager Instance { get; private set; }
 
-    private const int FREQUENCY = 44100;
+    private int Frequency => AudioSettings.outputSampleRate;
 
     private AudioSource audioSource;
 
@@ -15,8 +15,6 @@ public class MicManager : ISetAble
     private bool isRecording = false;
 
     private int lastSample = 0;
-    [SerializeField]
-    private float sensitivity = 100;
 
     private void Awake()
     {
@@ -36,7 +34,6 @@ public class MicManager : ISetAble
 
     private void FixedUpdate()
     {
-        //recording중이더라도 일정 크기이상의 소리가 날때만 보내줘야함
         if (isRecording)
         {
             int pos = Microphone.GetPosition(device);
@@ -82,7 +79,7 @@ public class MicManager : ISetAble
 
             if(on)
             {
-                audioSource.clip = Microphone.Start(device, true, 100, FREQUENCY);
+                audioSource.clip = Microphone.Start(device, true, 10, Frequency);
                 audioSource.loop = true;
                 audioSource.mute = false;
 
@@ -132,7 +129,7 @@ public class MicManager : ISetAble
 
     public AudioClip GetClip(float[] floatArr)
     {
-        AudioClip clip = AudioClip.Create("", floatArr.Length, 1, FREQUENCY, false);
+        AudioClip clip = AudioClip.Create("", floatArr.Length, 1, Frequency, false);
         clip.SetData(floatArr, 0);
         return clip;
     }
