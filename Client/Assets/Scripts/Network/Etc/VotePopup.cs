@@ -120,8 +120,13 @@ public class VotePopup : Popup
 
     public void VoteBtnDisable()
     {
-        skipBtn.enabled = false;
-        voteUIList.ForEach(x => x.BtnEnabled(false));
+        VoteEnable(false);
+    }
+
+    public void VoteEnable(bool enabled)
+    {
+        skipBtn.enabled = enabled;
+        voteUIList.ForEach(x => x.BtnEnabled(enabled));
     }
 
     public void AddSkipUser()

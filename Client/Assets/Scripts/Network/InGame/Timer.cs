@@ -43,6 +43,10 @@ public class Timer : ISetAble
     private VotePopup voteTab;
     private float defaultVoteTimerMin = 180f;
     private float remainVoteTimerMin = 180f;
+    private float defaultDiscussTimerMin = 30f;
+    private float discussTimerMin = 30f;
+
+    private bool canVote = false;
 
     [Header("긴급회의 타이머 관련")]
     public bool isEmergencyAble = true;
@@ -105,9 +109,7 @@ public class Timer : ISetAble
 
         if (isVoteTimer)
         {
-            remainVoteTimerMin -= Time.deltaTime;
-
-            voteTab.ChangeMiddleText(((int)remainVoteTimerMin).ToString());
+            VoteTimer();
         }
 
         if(!isEmergencyAble && !VoteManager.Instance.isVoteTime)
@@ -139,6 +141,25 @@ public class Timer : ISetAble
         }
     }
 
+    private void VoteTimer()
+    {
+        if(!canVote)
+        {
+            discussTimerMin -= Time.deltaTime;
+
+            if(discussTimerMin <= 0)
+            {
+                canVote = true;
+                voteTab.VoteEnable(!user.isDie);
+            }
+        }
+        else
+        {
+            remainVoteTimerMin -= Time.deltaTime;
+        }
+        //voteTab.ChangeMiddleText(((int)remainVoteTimerMin).ToString());
+    }
+
     private void InitTime()
     {
         isInGameTimer = false;
@@ -151,8 +172,10 @@ public class Timer : ISetAble
         remainMin = 1f;
 
         remainVoteTimerMin = defaultVoteTimerMin;
+        discussTimerMin = defaultDiscussTimerMin;
         remainEmergencyCoolTime = defaultEmergencyCoolTime;
 
+        canVote = false;
         isEmergencyAble = true;
         remainEmergencyCoolTime = 0f;
 
@@ -162,6 +185,7 @@ public class Timer : ISetAble
     public void SetTime()
     {
         defaultVoteTimerMin = remainVoteTimerMin = setTimeVO.voteTime;
+        defaultDiscussTimerMin = discussTimerMin = setTimeVO.discussionTime;
         perSec = (HALF_DAY_MIN / setTimeVO.inGameTime);
     }
     public void InitEmergencyCoolTime()

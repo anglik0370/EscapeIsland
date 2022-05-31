@@ -1,10 +1,12 @@
 const {Users} = require('./Users.js');
-const Timer = require('./Timers/Timer.js');
-const InGameTimer = require('./Timers/InGameTimer.js');
 const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
 const SocketState = require('./Utils/SocketState.js');
 const WebSocket = require('ws');
 const sendError = require('./Utils/SendError.js');
+
+const Timer = require('./Timers/Timer.js');
+const InGameTimer = require('./Timers/InGameTimer.js');
+const VoteTimer = require('./Timers/VoteTimer.js');
 
 class Room {
     constructor(roomName,roomNum,curUserNum,userNum,kidnapperNum,playing) {
@@ -17,7 +19,7 @@ class Room {
 
         this.inGameTimer = new InGameTimer(this,20,() => this.inGameTimerCallback());
         this.arsonTimer = new Timer(this,40, () => this.sendKidnapperWin(0));
-        this.inVoteTimer = new Timer(this,180,() => this.voteTimerCallBack());
+        this.inVoteTimer = new VoteTimer(this,150,30,() => this.voteTimerCallBack());
         this.isEndGame = false;
 
         this.skipCount = 0;
@@ -272,7 +274,7 @@ class Room {
         if(socket.readyState !== WebSocket.OPEN) return;
         
         socket.send(JSON.stringify({type:"SET_TIME",payload:JSON.stringify
-        ({inGameTime:this.inGameTimer.maxTime, voteTime:this.inVoteTimer.maxTime})}));
+        ({inGameTime:this.inGameTimer.maxTime, voteTime:this.inVoteTimer.maxTime, discussionTime:this.inVoteTimer.discussionTime})}));
     }
 
     startTimer(isInit) {

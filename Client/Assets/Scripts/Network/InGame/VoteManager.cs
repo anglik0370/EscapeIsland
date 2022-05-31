@@ -202,10 +202,6 @@ public class VoteManager : ISetAble
                 }
             }
         }
-
-        if(user.isDie)
-        {
-            voteTab.VoteBtnDisable();
-        }
+        voteTab.VoteBtnDisable();
     }
 }
