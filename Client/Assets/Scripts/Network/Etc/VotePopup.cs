@@ -10,6 +10,9 @@ public class VotePopup : Popup
     public Button chatBtn;
     public CanvasGroup chatPanel;
 
+    public Button skipBtn;
+    public Transform skipUserParent;
+
     [Header("CHAT")]
     public List<ChatUI> myChatList = new List<ChatUI>();
     public List<ChatUI> otherChatList = new List<ChatUI>();
@@ -111,9 +114,30 @@ public class VotePopup : Popup
         voteUIList.ForEach(x => x.OnOff(false));
     }
 
-    public void VoteBtnDiable()
+    public void VoteBtnDisable()
     {
+        skipBtn.enabled = false;
         voteUIList.ForEach(x => x.BtnEnabled(false));
+    }
+
+    public void AddSkipUser()
+    {
+        Transform userImg = PoolManager.GetItem<UserImg>().transform;
+
+        userImg.SetParent(skipUserParent);
+    }
+
+    public void InitSkipUser()
+    {
+        for (int i = 0; i < skipUserParent.childCount; i++)
+        {
+            GameObject userImg = skipUserParent.GetChild(i).gameObject;
+
+            if (userImg.activeSelf)
+            {
+                userImg.SetActive(false);
+            }
+        }
     }
 
     public void CreateChat(bool myChat,string name, string chatMsg, Sprite charSpr)
