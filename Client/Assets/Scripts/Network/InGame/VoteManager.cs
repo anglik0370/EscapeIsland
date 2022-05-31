@@ -6,8 +6,6 @@ public class VoteManager : ISetAble
 {
     public static VoteManager Instance { get; set; }
 
-    private List<UserVO> userDataList;
-
     public VotePopup voteTab;
 
     public GameObject userImgPrefab;
@@ -20,9 +18,9 @@ public class VoteManager : ISetAble
     public bool isVoteTime = false;
     public bool isTextChange = false;
 
-    public float voteTime = 0f;
     private TimeVO timeVO;
     private VoteCompleteVO voteCompleteVO;
+    private MeetingVO meetingVO;
 
     private MeetingType meetingType = MeetingType.EMERGENCY;
     public MeetingType MeetingType => meetingType;
@@ -45,12 +43,12 @@ public class VoteManager : ISetAble
         }
     }
 
-    public static void SetVoteTime(List<UserVO> list, int type)
+    public static void SetVoteTime(MeetingVO vo)
     {
         lock (Instance.lockObj)
         {
-            Instance.userDataList = list;
-            Instance.meetingType = (MeetingType)type;
+            Instance.meetingVO = vo;
+            Instance.meetingType = (MeetingType)vo.type;
             Instance.needVoteRefresh = true;
         }
     }
@@ -171,16 +169,11 @@ public class VoteManager : ISetAble
         Init();
         isVoteTime = true;
 
-        if(meetingType.Equals(MeetingType.EMERGENCY))
-        {
-            Timer.Instance.isEmergencyAble = false;
-            Timer.Instance.InitEmergencyCoolTime();
-
-        }
-
+        Timer.Instance.OnVoteStart(meetingVO.isTest);
         EventManager.OccurStartMeet(meetingType);
         StartCoroutine(TextChange("투표시간 시작"));
-        foreach (UserVO uv in userDataList)
+
+        foreach (UserVO uv in meetingVO.dataList)
         {
             if (uv.socketId == socketId)
             {

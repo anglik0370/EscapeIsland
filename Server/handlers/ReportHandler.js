@@ -20,7 +20,15 @@ module.exports = {
         room.isEnd = false;
     
         let dataList = Object.values(room.userList);
+        let isTest = false;
+
+        for(let i = 0; i < dataList.length; i++) {
+            if(dataList[i].socketId >= 1000) {
+                isTest = true;
+                break;
+            }
+        }
     
-        room.broadcast(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type:1})}));
+        room.broadcast(JSON.stringify({type:"VOTE_TIME",payload:JSON.stringify({dataList,type:1,isTest})}));
     }
 }

@@ -15,6 +15,8 @@ public class Timer : ISetAble
 {
     public static Timer Instance { get; private set; }
 
+    public bool isTest = false;
+
     private bool needSetTimer = false;
     private bool isInGameTimer = false;
     private bool isVoteTimer = false;
@@ -41,8 +43,8 @@ public class Timer : ISetAble
 
     [Header("투표 시간 타이머 관련")]
     private VotePopup voteTab;
-    private float defaultVoteTimerMin = 180f;
-    private float remainVoteTimerMin = 180f;
+    private float defaultVoteTimerMin = 150f;
+    private float remainVoteTimerMin = 150f;
     private float defaultDiscussTimerMin = 30f;
     private float discussTimerMin = 30f;
 
@@ -143,6 +145,13 @@ public class Timer : ISetAble
 
     private void VoteTimer()
     {
+        if (isTest) 
+        {
+            canVote = true;
+            voteTab.VoteEnable(!user.isDie);
+            isTest = false;
+        }
+
         if(!canVote)
         {
             discussTimerMin -= Time.deltaTime;
@@ -158,6 +167,13 @@ public class Timer : ISetAble
             remainVoteTimerMin -= Time.deltaTime;
         }
         //voteTab.ChangeMiddleText(((int)remainVoteTimerMin).ToString());
+    }
+
+    public void OnVoteStart(bool isTest)
+    {
+        isEmergencyAble = false;
+        InitEmergencyCoolTime();
+        this.isTest = isTest;
     }
 
     private void InitTime()

@@ -7,15 +7,17 @@ public class MeetingVO
 {
     public List<UserVO> dataList;
     public int type;
+    public bool isTest;
 
     public MeetingVO()
     {
 
     }
 
-    public MeetingVO(List<UserVO> list,int type)
+    public MeetingVO(List<UserVO> list,int type,bool isTest)
     {
         dataList = list;
         this.type = type;
+        this.isTest = isTest;
     }
 }
