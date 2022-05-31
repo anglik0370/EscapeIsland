@@ -35,6 +35,7 @@ public class Chat : ISetAble
                 if ((!p.isDie && !user.isDie) || user.isDie)
                 {
                     voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg);
+                    voteTab.newChatAlert.SetActive(!voteTab.IsOpenChatPanel);
                 }
             }
             else

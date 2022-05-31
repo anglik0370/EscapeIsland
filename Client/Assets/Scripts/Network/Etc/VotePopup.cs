@@ -18,6 +18,7 @@ public class VotePopup : Popup
     public List<ChatUI> otherChatList = new List<ChatUI>();
     public ScrollRect chatRect;
     public Transform chatParent;
+    public GameObject newChatAlert;
     public ChatUI myChat;
     public ChatUI otherChat;
 
@@ -29,6 +30,8 @@ public class VotePopup : Popup
     public Text middleText;
 
     public List<VoteUI> voteUIList = new List<VoteUI>();
+
+    public bool IsOpenChatPanel => chatPanel.interactable;
 
     private void Start()
     {
@@ -61,6 +64,7 @@ public class VotePopup : Popup
         chatBtn.onClick.AddListener(() =>
         {
             CanvasOpenAndClose(chatPanel, true);
+            newChatAlert.SetActive(false);
         });
 
         closeChatBtn.onClick.AddListener(() =>
