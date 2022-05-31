@@ -10,6 +10,8 @@ public class VoteManager : ISetAble
 
     public VotePopup voteTab;
 
+    public GameObject userImgPrefab;
+
     private bool needVoteRefresh = false;
     private bool needTimeRefresh = false;
     private bool needVoteComplete = false;
@@ -65,6 +67,8 @@ public class VoteManager : ISetAble
     void Awake()
     {
         Instance = this;
+
+        PoolManager.CreatePool<UserImg>(userImgPrefab, transform, 10);
     }
     protected override void Start()
     {
@@ -126,10 +130,9 @@ public class VoteManager : ISetAble
         VoteUI ui = voteTab.FindVoteUI(voteCompleteVO.voterId);
         ui.VoteComplete();
 
-        if (voteCompleteVO.voterId == socketId)
-        {
-            voteTab.CompleteVote();
-        }
+        VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
+
+        targetUI.VoteTargeted();
     }
 
     public void RefreshTime(int day, bool isLightTime)
@@ -176,11 +179,6 @@ public class VoteManager : ISetAble
             {
                 user.transform.position = uv.position;
                 voteTab.SetVoteUI(uv.socketId, uv.name, user.curSO.profileImg,user.isKidnapper);
-                
-                if(user.isDie)
-                {
-                    voteTab.skipToggle.gameObject.SetActive(false);
-                }
             }
             else
             {

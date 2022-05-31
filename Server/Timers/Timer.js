@@ -40,8 +40,11 @@ class Timer {
         this.curTimer = setTimeout(this.timer.bind(this),this.interval);
     }
 
-    stopTimer() {
+    stopTimer(isInit = false) {
         clearInterval(this.curTimer);
+
+        if(isInit)
+            this.initTimer();
     }
 
     timer() {

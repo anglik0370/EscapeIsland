@@ -21,10 +21,7 @@ public class VotePopup : Popup
     public InputField msgInputField;
     public Button sendMsgBtn;
 
-    public ToggleGroup toggleGroup;
     public Transform voteParent;
-    public Button voteCompleteBtn;
-    public Toggle skipToggle;
 
     public Text middleText;
 
@@ -34,14 +31,6 @@ public class VotePopup : Popup
     {
         voteUIList = voteParent.GetComponentsInChildren<VoteUI>().ToList();
         voteUIList.ForEach(x => x.OnOff(false));
-
-        skipToggle.group = toggleGroup;
-
-        EventManager.SubStartMeet(meetType =>
-        {
-            skipToggle.isOn = true;
-            skipToggle.gameObject.SetActive(true);
-        });
 
         EventManager.SubGameOver(p =>
         {
@@ -75,30 +64,6 @@ public class VotePopup : Popup
         {
             CanvasOpenAndClose(chatPanel, false);
         });
-        
-        voteCompleteBtn.onClick.AddListener(() =>
-        {
-            //여기서 서버에 보내줘야 한다
-            Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
-
-            if(toggle == null)
-            {
-                print("투표 x");
-                return;
-            }
-
-
-
-            VoteUI ui = toggle.GetComponentInParent<VoteUI>();
-
-            int selectSocket = ui == null ? -1 : ui.socId;
-            VoteCompleteVO vo = new VoteCompleteVO(NetworkManager.instance.socketId, selectSocket);
-
-            DataVO dataVO = new DataVO("VOTE_COMPLETE", JsonUtility.ToJson(vo));
-
-            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-        });
-
     }
 
     public void ChangeMiddleText(string msg)
@@ -124,7 +89,7 @@ public class VotePopup : Popup
             return;
         }
 
-        ui.SetVoteUI(socId,name, charSprite, toggleGroup,isKidnapper);
+        ui.SetVoteUI(socId,name, charSprite,isKidnapper);
     }
 
     public VoteUI FindVoteUI(int socId)
@@ -134,16 +99,21 @@ public class VotePopup : Popup
 
     public void CompleteVote()
     {
-        voteUIList.ForEach(x =>
-        {
-            x.ToggleOnOff(false);
-        });
-        skipToggle.gameObject.SetActive(false);
+        //voteUIList.ForEach(x =>
+        //{
+        //    x.ToggleOnOff(false);
+        //});
+        //skipToggle.gameObject.SetActive(false);
     }
 
     public void VoteUIDisable()
     {
         voteUIList.ForEach(x => x.OnOff(false));
+    }
+
+    public void VoteBtnDiable()
+    {
+        voteUIList.ForEach(x => x.BtnEnabled(false));
     }
 
     public void CreateChat(bool myChat,string name, string chatMsg, Sprite charSpr)

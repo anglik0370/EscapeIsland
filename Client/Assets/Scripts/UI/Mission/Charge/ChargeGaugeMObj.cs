@@ -13,9 +13,11 @@ public class ChargeGaugeMObj : MonoBehaviour
 
     public void SetProgress(float max, float cur)
     {
+        //TODO : 이거 버그 꼭 고쳐라 선우야
+
         float curTime = cur;
 
-        float branch = max / chargeSpriteList.Count;
+        float branch = max / (chargeSpriteList.Count - 1);
 
         int chargeCnt = 0;
 
@@ -24,8 +26,6 @@ public class ChargeGaugeMObj : MonoBehaviour
             curTime -= branch;
             chargeCnt++;
         }
-
-        if (chargeCnt >= chargeSpriteList.Count) return;
 
         Sprite sprite = chargeSpriteList[chargeCnt];
 

@@ -21,9 +21,9 @@ public class CharacterProfile : MonoBehaviour
     private CanvasGroup maskImg;
 
     [SerializeField]
-    private Color maleColor;
+    private Sprite maleSprite;
     [SerializeField]
-    private Color femaleColor;
+    private Sprite femaleSprite;
 
     private void Start()
     {
@@ -44,10 +44,10 @@ public class CharacterProfile : MonoBehaviour
         switch (so.sex)
         {
             case Sex.Male:
-                sexImg.color = maleColor;
+                sexImg.sprite = maleSprite;
                 break;
             case Sex.Female:
-                sexImg.color = femaleColor;
+                sexImg.sprite = femaleSprite;
                 break;
         }
     }
