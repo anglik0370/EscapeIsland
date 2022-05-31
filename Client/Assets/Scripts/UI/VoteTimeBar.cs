@@ -12,6 +12,9 @@ public class VoteTimeBar : MonoBehaviour
     private RectTransform remainTimeBar;
 
     [SerializeField]
+    private RectTransform baseLineRect;
+
+    [SerializeField]
     private RectTransform voteTimeRect;
     [SerializeField]
     private RectTransform discussTimeRect;
@@ -31,6 +34,16 @@ public class VoteTimeBar : MonoBehaviour
         float discussLength = (discussTime / totlaTime) * parentRect.rect.width;
         float voteLength = (voteTime / totlaTime) * parentRect.rect.width;
 
-        //discussTimeRect.offsetMin = new Vector2()
+        print($"{discussLength}, {voteLength}");
+
+        discussTimeRect.offsetMin = new Vector2(voteLength, discussTimeRect.offsetMin.y);
+        voteTimeRect.offsetMax = new Vector2(-discussLength, voteTimeRect.offsetMax.y);
+
+        baseLineRect.anchoredPosition = new Vector3(voteLength, 0, 0);
+    }
+
+    public void UpdateTimerUI(float totalTime, float currentTime)
+    {
+        remainTimeBar.localScale = new Vector3(currentTime / totalTime, 1, 1);
     }
 }
