@@ -130,9 +130,15 @@ public class VoteManager : ISetAble
         VoteUI ui = voteTab.FindVoteUI(voteCompleteVO.voterId);
         ui.VoteComplete();
 
-        VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
+        if(voteCompleteVO.voteTargetId != -1)
+        {
+            VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
+            targetUI.VoteTargeted();
 
-        targetUI.VoteTargeted();
+            return;
+        }
+
+        voteTab.AddSkipUser();
     }
 
     public void RefreshTime(int day, bool isLightTime)
@@ -145,8 +151,9 @@ public class VoteManager : ISetAble
         isVoteTime = false;
 
         TimeHandler.Instance.InitKillCool();
-
         PopupManager.instance.ClosePopup();
+
+        voteTab.InitSkipUser();
         voteTab.VoteUIDisable();
     }
 
@@ -177,6 +184,8 @@ public class VoteManager : ISetAble
         {
             if (uv.socketId == socketId)
             {
+                voteTab.skipBtn.enabled = !user.isDie;
+
                 user.transform.position = uv.position;
                 voteTab.SetVoteUI(uv.socketId, uv.name, user.curSO.profileImg,user.isKidnapper);
             }
@@ -192,6 +201,11 @@ public class VoteManager : ISetAble
                     voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg,user.isKidnapper == p.isKidnapper);
                 }
             }
+        }
+
+        if(user.isDie)
+        {
+            voteTab.VoteBtnDisable();
         }
     }
 }

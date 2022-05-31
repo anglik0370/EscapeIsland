@@ -27,7 +27,7 @@ public class VoteUI : MonoBehaviour
         DataVO dataVO = new DataVO("VOTE_COMPLETE", JsonUtility.ToJson(vo));
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
 
-        VoteManager.Instance.voteTab.VoteBtnDiable();
+        VoteManager.Instance.voteTab.VoteBtnDisable();
     }
 
     public void SetVoteUI(int socId, string name, Sprite charSprite, bool isKidnapper)
@@ -37,14 +37,12 @@ public class VoteUI : MonoBehaviour
         nickNameText.color = isKidnapper && PlayerManager.Instance.AmIKidnapper() ? Color.red : Color.black;
         charImg.sprite = charSprite;
 
-        if (NetworkManager.instance.GetPlayerDie(socId))
+        InitUI();
+
+        if (NetworkManager.instance.GetPlayerDie(socId) || (socId == NetworkManager.instance.socketId && PlayerManager.Instance.AmIDead()))
         {
             OnDead();
         }
-
-        InitTargeted();
-        BtnEnabled(true);
-        voteCompleteImg.gameObject.SetActive(false);
 
         OnOff(true);
     }
@@ -52,6 +50,15 @@ public class VoteUI : MonoBehaviour
     public void OnDead()
     {
         DeadImgActive(true);
+        BtnEnabled(false);
+    }
+
+    private void InitUI()
+    {
+        InitTargeted();
+        BtnEnabled(true);
+        DeadImgActive(false);
+        voteCompleteImg.gameObject.SetActive(false);
     }
 
     private void DeadImgActive(bool active)
