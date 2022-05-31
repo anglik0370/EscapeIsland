@@ -53,7 +53,7 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
 
     private void Update()
     {
-        if(isPointerInPanel && itemGhost.GetItem() == emptyBottle)
+        if(isPointerInPanel)
         {
             if (Input.GetMouseButton(0))
             {
@@ -78,19 +78,14 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
                 bottleGhost.SetPosition(new Vector2(lastX + Screen.width / 2, lastY + Screen.height / 2 + correctionY));
                 #endregion
 
-                bottleGhost.Enable();
-
                 if (!isFilled)
                 {
                     curTime += Time.deltaTime;
                     bottleGhost.SetWaterProgress(curTime / maxTime);
 
-                    itemGhost.SetItem(emptyBottle);
-
                     if (curTime >= maxTime)
                     {
                         isFilled = true;
-                        itemGhost.SetItem(waterBottle);
                     }
                 }
             }
@@ -108,6 +103,7 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
 
     public void Close()
     {
+        isPointerInPanel = false;
         isFilled = false;
         curTime = 0f;
         bottleGhost.SetWaterProgress(curTime / maxTime);
@@ -116,12 +112,28 @@ public class MissionWater : MonoBehaviour, IMission, IPointerEnterHandler, IPoin
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if(itemGhost.GetItem() != emptyBottle) return;
+
         isPointerInPanel = true;
+        itemGhost.Init();
+        bottleGhost.Enable();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!isPointerInPanel) return;
+
         isPointerInPanel = false;
+
+        if(isFilled)
+        {
+            itemGhost.SetItem(waterBottle);
+        }
+        else
+        {
+            itemGhost.SetItem(emptyBottle);
+        }
+
         Close();
     }
 }
