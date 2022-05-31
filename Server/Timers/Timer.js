@@ -19,9 +19,9 @@ class Timer {
         this.remainTime = this.maxTime;
     }
 
-    setMaxTime(maxTime) {
-        this.maxTime = maxTime;
-    }
+    // setMaxTime(maxTime) {
+    //     this.maxTime = maxTime;
+    // }
 
     timeReferesh() {
         this.remainTime -= this.sec;

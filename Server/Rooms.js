@@ -63,10 +63,6 @@ class Rooms {
 
         this.roomList[this.roomIdx] = r;
 
-        if(Users.isTestServer) {
-            this.roomList[this.roomIdx].inVoteTimer.setTimeToNextSlot(10);
-        }
-
         this.join(socket,true);
 
         this.roomIdx++;

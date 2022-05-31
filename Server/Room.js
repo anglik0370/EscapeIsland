@@ -253,10 +253,6 @@ class Room {
         this.playing = false;
         this.skipCount = 0;
 
-        if(Users.isTestServer) {
-            this.inVoteTimer.setMaxTime(10);
-        }
-
         for(let key in this.userList) {
             this.userList[key].isDie = false;
             this.userList[key].isImposter = false;
