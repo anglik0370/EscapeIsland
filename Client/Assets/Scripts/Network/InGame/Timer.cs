@@ -47,6 +47,8 @@ public class Timer : ISetAble
     private float remainVoteTimerMin = 150f;
     private float defaultDiscussTimerMin = 30f;
     private float discussTimerMin = 30f;
+    private float totalTimerMin = 180f;
+    private float RemainTimerMin => remainVoteTimerMin + discussTimerMin;
 
     private bool canVote = false;
 
@@ -166,7 +168,7 @@ public class Timer : ISetAble
         {
             remainVoteTimerMin -= Time.deltaTime;
         }
-        //voteTab.ChangeMiddleText(((int)remainVoteTimerMin).ToString());
+        voteTab.voteTimeBar.UpdateTimerUI(totalTimerMin, RemainTimerMin);
     }
 
     public void OnVoteStart(bool isTest)
@@ -196,6 +198,8 @@ public class Timer : ISetAble
         remainEmergencyCoolTime = 0f;
 
         inGameTimerText.text = defaultTimeSpan.ToString(@"hh\:mm");
+
+        voteTab.voteTimeBar.Init(defaultDiscussTimerMin,defaultVoteTimerMin);
     }
 
     public void SetTime()
@@ -203,6 +207,8 @@ public class Timer : ISetAble
         defaultVoteTimerMin = remainVoteTimerMin = setTimeVO.voteTime;
         defaultDiscussTimerMin = discussTimerMin = setTimeVO.discussionTime;
         perSec = (HALF_DAY_MIN / setTimeVO.inGameTime);
+
+        totalTimerMin = defaultVoteTimerMin + defaultDiscussTimerMin;
     }
     public void InitEmergencyCoolTime()
     {
@@ -253,5 +259,6 @@ public class Timer : ISetAble
         {
             
         }
+        voteTab.voteTimeBar.Init(defaultDiscussTimerMin, defaultVoteTimerMin);
     }
 }
