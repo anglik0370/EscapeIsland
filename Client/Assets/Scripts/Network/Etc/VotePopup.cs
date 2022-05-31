@@ -13,6 +13,7 @@ public class VotePopup : Popup
     public Button skipBtn;
     public Transform skipUserParent;
 
+
     [Header("CHAT")]
     public List<ChatUI> myChatList = new List<ChatUI>();
     public List<ChatUI> otherChatList = new List<ChatUI>();
@@ -26,8 +27,9 @@ public class VotePopup : Popup
     public Button sendMsgBtn;
 
     public Transform voteParent;
+    public VoteTimeBar voteTimeBar;
 
-    public Text middleText;
+    //public Text middleText;
 
     public List<VoteUI> voteUIList = new List<VoteUI>();
 
@@ -73,11 +75,11 @@ public class VotePopup : Popup
         });
     }
 
-    public void ChangeMiddleText(string msg)
-    {
-        if (VoteManager.Instance.isTextChange) return;
-        middleText.text = msg;
-    }
+    //public void ChangeMiddleText(string msg)
+    //{
+    //    if (VoteManager.Instance.isTextChange) return;
+    //    middleText.text = msg;
+    //}
 
     public void CanvasOpenAndClose(CanvasGroup cg, bool on)
     {

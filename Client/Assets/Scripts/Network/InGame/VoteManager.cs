@@ -157,7 +157,7 @@ public class VoteManager : ISetAble
 
     IEnumerator TextChange(string msg)
     {
-        voteTab.ChangeMiddleText(msg);
+        //voteTab.ChangeMiddleText(msg);
         isTextChange = true;
         yield return new WaitForSeconds(1.5f);
 
@@ -171,7 +171,7 @@ public class VoteManager : ISetAble
 
         Timer.Instance.OnVoteStart(meetingVO.isTest);
         EventManager.OccurStartMeet(meetingType);
-        StartCoroutine(TextChange("투표시간 시작"));
+        //StartCoroutine(TextChange("투표시간 시작"));
 
         foreach (UserVO uv in meetingVO.dataList)
         {
