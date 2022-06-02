@@ -258,6 +258,7 @@ public class Timer : ISetAble
         if (!isVoteTimer)
         {
             remainVoteTimerMin = defaultVoteTimerMin;
+            discussTimerMin = defaultDiscussTimerMin;
             VoteManager.Instance.EndVoteTime();
         }
     }
