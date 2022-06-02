@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 7582510748723231592}
   - component: {fileID: 7582510748723231597}
   - component: {fileID: 2222345094555540222}
+  - component: {fileID: 8449334899969407476}
   m_Layer: 5
   m_Name: MyChat
   m_TagString: Untagged
@@ -256,6 +257,19 @@ MonoBehaviour:
   nameText: {fileID: 7582510748427427855}
   msgText: {fileID: 1682314353052878067}
   charImg: {fileID: 8532451917751757581}
+  cg: {fileID: 8449334899969407476}
+--- !u!225 &8449334899969407476
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7582510748723231593}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &7866891947507090275
 GameObject:
   m_ObjectHideFlags: 0
