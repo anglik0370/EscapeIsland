@@ -18,6 +18,7 @@ public class SabotageButton : MonoBehaviour
 
     private float maxCoolTime;
     private float curCoolTime = 0f;
+    public float CurCoolTime => curCoolTime;
 
     private bool canSabotage => sabotageBtn.enabled;
 
@@ -44,7 +45,6 @@ public class SabotageButton : MonoBehaviour
 
     public void StartTimer()
     {
-
         sabotageBtn.enabled = true;
         fillImg.fillAmount = curCoolTime = 0f;
 

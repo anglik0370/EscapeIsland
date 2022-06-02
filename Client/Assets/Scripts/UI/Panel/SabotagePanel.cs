@@ -12,6 +12,8 @@ public class SabotagePanel : Panel
     private List<SabotageButton> sabotageList = new List<SabotageButton>();
     public List<SabotageButton> SabotageList => sabotageList;
 
+    private const float OTHER_SABOTAGE_USE_COOLTIME = 20f;
+
     protected override void Awake()
     {
         Instance = this;
@@ -61,5 +63,15 @@ public class SabotagePanel : Panel
     public SabotageButton FindSabotageButton(string sabotageName)
     {
         return sabotageList.Find(x => x.SabotageSO.sabotageName == sabotageName);
+    }
+
+    public void SabotageUse(SabotageButton useSabotage)
+    {
+        for (int i = 0; i < sabotageList.Count; i++)
+        {
+            if (sabotageList[i].Equals(useSabotage) || sabotageList[i].CurCoolTime >= OTHER_SABOTAGE_USE_COOLTIME) continue;
+
+            sabotageList[i].StartSabotageCoolTime(OTHER_SABOTAGE_USE_COOLTIME);
+        }
     }
 }
