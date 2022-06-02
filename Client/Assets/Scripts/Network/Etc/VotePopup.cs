@@ -143,6 +143,8 @@ public class VotePopup : Popup
         Transform userImg = PoolManager.GetItem<UserImg>().transform;
 
         userImg.SetParent(skipUserParent);
+
+        userImg.localScale = Vector3.one;
     }
 
     public void InitSkipUser()

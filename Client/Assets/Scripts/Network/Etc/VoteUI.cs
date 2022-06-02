@@ -71,6 +71,8 @@ public class VoteUI : MonoBehaviour
         UserImg userImg = PoolManager.GetItem<UserImg>();
 
         userImg.transform.SetParent(userCountParent);
+
+        userImg.transform.localScale = Vector3.zero;
     }
 
     public void InitTargeted()
