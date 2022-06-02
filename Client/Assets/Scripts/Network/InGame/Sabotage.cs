@@ -121,6 +121,7 @@ public class Sabotage : ISetAble
 
         //¿œ¥‹ ≤Ù±‚∏∏
         slot.gameObject.SetActive(false);
+        ArsonManager.Instance.isArson = !extinguishData.allExtinguish;
     }
 
     public void SetRefinery()

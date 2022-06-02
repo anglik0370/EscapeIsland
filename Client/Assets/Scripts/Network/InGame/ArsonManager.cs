@@ -24,6 +24,8 @@ public class ArsonManager : MonoBehaviour
         set => data = value;
     }
 
+    public bool isArson = false;
+
     private void Awake()
     {
         Instance = this;
@@ -45,10 +47,12 @@ public class ArsonManager : MonoBehaviour
         {
             arsonList[i].gameObject.SetActive(active);
         }
+        isArson = false;
     }
 
     public void StartArson()
     {
+        isArson = true;
         arsonList[0].gameObject.SetActive(true); // น่
         arsonList[data.arsonId].gameObject.SetActive(true);
     }
