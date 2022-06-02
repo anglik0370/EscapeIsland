@@ -181,7 +181,7 @@ public class InteractionBtn : MonoBehaviour
         else if(state == InteractionCase.EmergencyMeeting)
         {
             coolTimeImg.fillAmount = Timer.Instance.EmergencyFillCoolTime();
-            btnImg.raycastTarget = Timer.Instance.isEmergencyAble;
+            btnImg.raycastTarget = Timer.Instance.isEmergencyAble && Sabotage.Instance.CanEmergency;
         }
         else if(state == InteractionCase.PickUpItem)
         {
