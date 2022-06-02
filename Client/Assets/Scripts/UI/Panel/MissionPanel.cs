@@ -15,6 +15,7 @@ public enum MissionType
     Engine,
     Battery,
     Sand,
+    TrashCan,
     None,
 }
 
