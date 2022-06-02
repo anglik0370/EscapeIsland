@@ -9,6 +9,10 @@ class VoteTimer extends Timer{
         this.integrationTime = this.discussionTime + this.remainTime;
     }
 
+    initTimer() {
+        this.IntegrationTime = this.discussionTime + this.remainTime;
+    }
+
     timeReferesh() {
         this.IntegrationTime -= this.sec;
         if(this.IntegrationTime <= 0) {
