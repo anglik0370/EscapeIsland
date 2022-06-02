@@ -197,6 +197,10 @@ public class SlotManager : MonoBehaviour
                     SendManager.Instance.SendExtinguish(vo);
                 }
             }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.TrashCan)
+            {
+                beginSlot.SetItem(null);
+            }
         }
 
         ghost.Init();

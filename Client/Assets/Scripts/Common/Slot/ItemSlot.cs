@@ -15,7 +15,8 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         MissionDropItem,
         MissionBatterySlot,
         CantUseRefinery,
-        Arson
+        Arson,
+        TrashCan,
     }
 
     protected Image image;
