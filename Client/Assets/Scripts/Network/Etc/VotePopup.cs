@@ -160,7 +160,7 @@ public class VotePopup : Popup
         }
     }
 
-    public void CreateChat(bool myChat,string name, string chatMsg, Sprite charSpr)
+    public void CreateChat(bool myChat,string name, string chatMsg, Sprite charSpr,bool isDie)
     {
         if(myChat)
         {
@@ -172,7 +172,7 @@ public class VotePopup : Popup
                 myChatList.Add(ui);
             }
 
-            ui.SetChatUI(name, chatMsg, charSpr,chatParent);
+            ui.SetChatUI(name, chatMsg, charSpr,chatParent,isDie);
         }
         else
         {
@@ -184,7 +184,7 @@ public class VotePopup : Popup
                 otherChatList.Add(ui);
             }
 
-            ui.SetChatUI(name, chatMsg, charSpr,chatParent);
+            ui.SetChatUI(name, chatMsg, charSpr,chatParent,isDie);
         }
         StartCoroutine(CoroutineHandler.Frame(() => chatRect.verticalNormalizedPosition = 0f));
     }

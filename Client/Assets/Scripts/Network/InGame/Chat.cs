@@ -34,7 +34,7 @@ public class Chat : ISetAble
             {
                 if ((!p.isDie && !user.isDie) || user.isDie)
                 {
-                    voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg);
+                    voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg,p.isDie);
                     voteTab.newChatAlert.SetActive(!voteTab.IsOpenChatPanel);
                 }
             }
@@ -42,7 +42,7 @@ public class Chat : ISetAble
             {
                 if (user.socketId == vo.socketId)
                 {
-                    voteTab.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg);
+                    voteTab.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg,user.isDie);
                 }
             }
         }
