@@ -13,6 +13,8 @@ public class VotePopup : Popup
     public Button skipBtn;
     public Transform skipUserParent;
 
+    [SerializeField]
+    private Text timeInfoText;
 
     [Header("CHAT")]
     public List<ChatUI> myChatList = new List<ChatUI>();
@@ -86,6 +88,11 @@ public class VotePopup : Popup
         cg.alpha = on ? 1f : 0f;
         cg.interactable = on;
         cg.blocksRaycasts = on;
+    }
+
+    public void SetTimeInfoText(string msg)
+    {
+        timeInfoText.text = msg;
     }
 
     public void SetVoteUI(int socId,string name, Sprite charSprite,bool isKidnapper = false)
