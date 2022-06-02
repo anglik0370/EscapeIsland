@@ -108,7 +108,7 @@ public class VoteManager : ISetAble
         if (tempId == socketId)
         {
             user.SetDead();
-
+            EventManager.OccurPlayerDead();
         }
         else if (playerList.ContainsKey(tempId))
         {
