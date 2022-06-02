@@ -143,6 +143,8 @@ public class Sabotage : ISetAble
         if((sabotageData.isShareCoolTime && user.isKidnapper) || user.socketId == sabotageData.starterId)
         {
             curSabotage.StartSabotageCoolTime(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
+
+            SabotagePanel.Instance.UseSabotage(curSabotage);
         }
 
         UIManager.Instance.AlertText(sabotageData.sabotageName, AlertType.Warning);

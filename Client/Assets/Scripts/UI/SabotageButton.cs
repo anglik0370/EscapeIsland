@@ -20,7 +20,9 @@ public class SabotageButton : MonoBehaviour
     private float curCoolTime = 0f;
     public float CurCoolTime => curCoolTime;
 
-    private bool canSabotage => sabotageBtn.enabled;
+    private bool CanSabotage => sabotageBtn.enabled;
+    public bool UseOtherSabotage => ArsonManager.Instance.isArson && !ConvertPanel.Instance.EndSabotage() 
+        && SabotagePanel.Instance.SharedSabotage(sabotageSO.sabotageName);
 
     private Coroutine sabotage = null;
 
@@ -34,13 +36,6 @@ public class SabotageButton : MonoBehaviour
     private void Start()
     {
         sabotageBtn.onClick.AddListener(SendSabotage);
-
-        EventManager.SubGameStart(p =>
-        {
-            sabotageBtn.enabled = true;
-            fillImg.fillAmount = curCoolTime = 0f;
-        });
-
     }
 
     public void StartTimer()
@@ -59,7 +54,7 @@ public class SabotageButton : MonoBehaviour
     {
         while (true)
         {
-            if(!canSabotage && !VoteManager.Instance.isVoteTime)
+            if(!CanSabotage && !UseOtherSabotage &&!VoteManager.Instance.isVoteTime)
             {
                 curCoolTime -= Time.deltaTime;
                 fillImg.fillAmount = curCoolTime / maxCoolTime;

@@ -15,6 +15,8 @@ public class SabotagePanel : Panel
     private const float OTHER_SABOTAGE_USE_COOLTIME = 20f;
     private const float EMERGENCY_USE_COOLTIME = 30f;
 
+    private string[] sharedSabotagesName;
+
     protected override void Awake()
     {
         Instance = this;
@@ -29,6 +31,11 @@ public class SabotagePanel : Panel
             btn.Init(sabotageSOList[i]);
             sabotageList.Add(btn);
         }
+
+        sharedSabotagesName = new string[2]
+        {
+            "방화","필터 고장"
+        };
 
         base.Awake();
     }
@@ -88,5 +95,17 @@ public class SabotagePanel : Panel
 
             sabotageList[i].StartSabotageCoolTime(EMERGENCY_USE_COOLTIME);
         }
+    }
+
+    public bool SharedSabotage(string sabotageName)
+    {
+        for (int i = 0; i < sharedSabotagesName.Length; i++)
+        {
+            if(sharedSabotagesName[i].Equals(sabotageName))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
