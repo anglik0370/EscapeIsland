@@ -50,7 +50,18 @@ public class Timer : ISetAble
     private float totalTimerMin = 180f;
     private float RemainTimerMin => remainVoteTimerMin + discussTimerMin;
 
+    private const string DISCUSS_TEXT = "토의";
+    private const string VOTE_TEXT = "투표";
+
     private bool canVote = false;
+    private bool CanVote
+    {
+        get => canVote;
+        set {
+            canVote = value;
+            voteTab.SetTimeInfoText(canVote ? VOTE_TEXT : DISCUSS_TEXT);
+        }
+    }
 
     [Header("긴급회의 타이머 관련")]
     public bool isEmergencyAble = true;
@@ -149,7 +160,7 @@ public class Timer : ISetAble
     {
         if (isTest) 
         {
-            canVote = true;
+            CanVote = true;
             voteTab.VoteEnable(!user.isDie);
             isTest = false;
         }
@@ -160,7 +171,7 @@ public class Timer : ISetAble
 
             if(discussTimerMin <= 0)
             {
-                canVote = true;
+                CanVote = true;
                 voteTab.VoteEnable(!user.isDie);
             }
         }
@@ -176,6 +187,7 @@ public class Timer : ISetAble
         isEmergencyAble = false;
         InitEmergencyCoolTime();
         this.isTest = isTest;
+        CanVote = false;
     }
 
     private void InitTime()
@@ -193,7 +205,7 @@ public class Timer : ISetAble
         discussTimerMin = defaultDiscussTimerMin;
         remainEmergencyCoolTime = defaultEmergencyCoolTime;
 
-        canVote = false;
+        CanVote = false;
         isEmergencyAble = true;
         remainEmergencyCoolTime = 0f;
 
