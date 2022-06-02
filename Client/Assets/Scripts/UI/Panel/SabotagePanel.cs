@@ -13,6 +13,7 @@ public class SabotagePanel : Panel
     public List<SabotageButton> SabotageList => sabotageList;
 
     private const float OTHER_SABOTAGE_USE_COOLTIME = 20f;
+    private const float EMERGENCY_USE_COOLTIME = 30f;
 
     protected override void Awake()
     {
@@ -50,6 +51,10 @@ public class SabotagePanel : Panel
         EventManager.SubExitRoom(() => Close(false));
         EventManager.SubBackToRoom(() => Close(false));
         EventManager.SubGameOver(goc => Close(false));
+        EventManager.SubStartMeet(mt =>
+        {
+            StartVoteTime();
+        });
     }
 
     public void GameStart()
@@ -65,13 +70,23 @@ public class SabotagePanel : Panel
         return sabotageList.Find(x => x.SabotageSO.sabotageName == sabotageName);
     }
 
-    public void SabotageUse(SabotageButton useSabotage)
+    public void UseSabotage(SabotageButton useSabotage)
     {
         for (int i = 0; i < sabotageList.Count; i++)
         {
             if (sabotageList[i].Equals(useSabotage) || sabotageList[i].CurCoolTime >= OTHER_SABOTAGE_USE_COOLTIME) continue;
 
             sabotageList[i].StartSabotageCoolTime(OTHER_SABOTAGE_USE_COOLTIME);
+        }
+    }
+
+    public void StartVoteTime()
+    {
+        for (int i = 0; i < sabotageList.Count; i++)
+        {
+            if (sabotageList[i].CurCoolTime >= EMERGENCY_USE_COOLTIME) continue;
+
+            sabotageList[i].StartSabotageCoolTime(EMERGENCY_USE_COOLTIME);
         }
     }
 }
