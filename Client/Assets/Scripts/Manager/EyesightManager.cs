@@ -160,7 +160,7 @@ public class EyesightManager : MonoBehaviour
         {
             if (!arsonSlotList[i].isArson) continue;
 
-            arsonSlotList[i].SetActive(arsonAreaStateHolderList[i].AreaState == player.AreaState);
+            arsonSlotList[i].SetActive(arsonAreaStateHolderList[i].AreaState == player.AreaState ? UtilClass.opacityColor : UtilClass.limpidityColor);
         }
     }
 
