@@ -21,8 +21,8 @@ public class SabotageButton : MonoBehaviour
     public float CurCoolTime => curCoolTime;
 
     private bool CanSabotage => sabotageBtn.enabled;
-    public bool UseOtherSabotage => ArsonManager.Instance.isArson && !ConvertPanel.Instance.EndSabotage() 
-        && SabotagePanel.Instance.SharedSabotage(sabotageSO.sabotageName);
+    public bool UseOtherSabotage => SabotagePanel.Instance.SharedSabotage(sabotageSO.sabotageName) 
+        && (ArsonManager.Instance.isArson || !ConvertPanel.Instance.EndSabotage());
 
     private Coroutine sabotage = null;
 
@@ -71,6 +71,7 @@ public class SabotageButton : MonoBehaviour
     {
         sabotageBtn.enabled = false;
         curCoolTime = maxCoolTime = coolTime;
+        fillImg.fillAmount = curCoolTime / maxCoolTime;
     }
 
     public void StartSabotage(SabotageDataVO data)
