@@ -59,7 +59,7 @@ public class SabotageButton : MonoBehaviour
     {
         while (true)
         {
-            if(!canSabotage)
+            if(!canSabotage && !VoteManager.Instance.isVoteTime)
             {
                 curCoolTime -= Time.deltaTime;
                 fillImg.fillAmount = curCoolTime / maxCoolTime;
@@ -72,7 +72,7 @@ public class SabotageButton : MonoBehaviour
         }
     }
 
-    public void StartSabotage(float coolTime)
+    public void StartSabotageCoolTime(float coolTime)
     {
         sabotageBtn.enabled = false;
         curCoolTime = maxCoolTime = coolTime;

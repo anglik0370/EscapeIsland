@@ -31,6 +31,8 @@ public class Sabotage : ISetAble
     [SerializeField]
     private Transform doorParent;
 
+    public bool CanEmergency => !ArsonManager.Instance.isArson && ConvertPanel.Instance.EndSabotage();
+
 
     private void Awake()
     {
@@ -120,7 +122,7 @@ public class Sabotage : ISetAble
         ArsonSlot slot = ArsonManager.Instance.GetArsonSlot(extinguishData.arsonId);
 
         //¿œ¥‹ ≤Ù±‚∏∏
-        slot.gameObject.SetActive(false);
+        slot.SetArson(false);
         ArsonManager.Instance.isArson = !extinguishData.allExtinguish;
     }
 
@@ -140,7 +142,7 @@ public class Sabotage : ISetAble
 
         if((sabotageData.isShareCoolTime && user.isKidnapper) || user.socketId == sabotageData.starterId)
         {
-            curSabotage.StartSabotage(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
+            curSabotage.StartSabotageCoolTime(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
         }
 
         UIManager.Instance.AlertText(sabotageData.sabotageName, AlertType.Warning);

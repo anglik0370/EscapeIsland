@@ -104,6 +104,19 @@ public class ConvertPanel : Panel
         UpdateUIs();
     }
 
+    public bool EndSabotage()
+    {
+        for (int i = 0; i < refineryList.Count; i++)
+        {
+            if(!refineryList[i].CanUse)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public int GetRefinerySlotIdx(ItemSlot slot)
     {
         for (int i = 0; i < cantUseRefinery.Length; i++)
