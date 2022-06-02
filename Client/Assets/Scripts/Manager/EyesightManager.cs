@@ -21,7 +21,6 @@ public class EyesightManager : MonoBehaviour
 
     private List<AreaStateHolder> areaStateHolderList;
 
-    private List<AreaStateHolder> arsonAreaStateHolderList;
     private List<ArsonSlot> arsonSlotList;
 
     [Header("쉐도우 캐스터 부모")]
@@ -60,12 +59,14 @@ public class EyesightManager : MonoBehaviour
     [SerializeField]
     private float duration = 1f;
 
-    private Sequence seq;
+    private Sequence lightSeq;
+    private Sequence objSeq;
+
+    private AreaState oldState;
 
     private void Awake()
     {
         areaStateHolderList = objectParentTrm.GetComponentsInChildren<AreaStateHolder>().ToList();
-        arsonAreaStateHolderList = arsonParentTrm.GetComponentsInChildren<AreaStateHolder>().ToList();
         arsonSlotList = arsonParentTrm.GetComponentsInChildren<ArsonSlot>().ToList();
     }
 
@@ -108,9 +109,9 @@ public class EyesightManager : MonoBehaviour
 
         EventManager.SubPlayerDead(() =>
         {
-            if(seq != null)
+            if(lightSeq != null)
             {
-                seq.Kill();
+                lightSeq.Kill();
             }
 
             shadowCasterParent.SetActive(false);
@@ -146,26 +147,21 @@ public class EyesightManager : MonoBehaviour
     {
         if (player == null || player.isDie) return;
 
-        for (int i = 0; i < areaStateHolderList.Count; i++)
+        if(oldState != player.AreaState)
         {
-            areaStateHolderList[i].Sr.color = areaStateHolderList[i].AreaState == player.AreaState ? UtilClass.opacityColor : UtilClass.limpidityColor;
+            ChangeVisibleObjects(player.AreaState);
         }
 
-        otherList[0].SetActive(player.AreaState == AreaState.BottleStorage);
-        otherList[1].SetActive(player.AreaState == AreaState.RefineryInLab);
-
-        if (!ArsonManager.Instance.isArson) return;
-
-        for (int i = 0; i < arsonAreaStateHolderList.Count; i++)
-        {
-            if (!arsonSlotList[i].isArson) continue;
-
-            arsonSlotList[i].SetActive(arsonAreaStateHolderList[i].AreaState == player.AreaState ? UtilClass.opacityColor : UtilClass.limpidityColor);
-        }
+        oldState = player.AreaState;
     }
 
     private void Init()
     {
+        if (objSeq != null)
+        {
+            objSeq.Kill();
+        }
+
         shadowCasterParent.SetActive(true);
 
         lightMapPoint.gameObject.SetActive(true);
@@ -187,45 +183,112 @@ public class EyesightManager : MonoBehaviour
         }
     }
 
+    public void ChangeVisibleObjects(AreaState areaState)
+    {
+        if(objSeq != null)
+        {
+            objSeq.Kill();
+        }
+
+        objSeq = DOTween.Sequence();
+
+        otherList[0].SetActive(areaState == AreaState.BottleStorage);
+        otherList[1].SetActive(areaState == AreaState.RefineryInLab);
+        otherList[2].SetActive(areaState == AreaState.Refinery);
+
+        var areaObjList = areaStateHolderList.Where(x => x.AreaState == areaState).ToList();
+        var nAreaOjList = areaStateHolderList.Where(x => x.AreaState != areaState).ToList();
+
+        for (int i = 0; i < areaObjList.Count; i++)
+        {
+            areaObjList[i].Sr.color = UtilClass.limpidityColor;
+        }
+
+        for (int i = 0; i < nAreaOjList.Count; i++)
+        {
+            nAreaOjList[i].Sr.color = UtilClass.opacityColor;
+        }
+
+        for (int i = 0; i < areaObjList.Count; i++)
+        {
+            int j = i;
+            objSeq.Join(areaObjList[j].Sr.DOColor(UtilClass.opacityColor, duration));
+        }
+
+        for (int i = 0; i < nAreaOjList.Count; i++)
+        {
+            int j = i;
+            objSeq.Join(nAreaOjList[j].Sr.DOColor(UtilClass.limpidityColor, duration));
+        }
+
+        if (ArsonManager.Instance.isArson)
+        {
+            var areaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().AreaState == areaState).ToList();
+            var nAreaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().AreaState != areaState).ToList();
+
+            for (int i = 0; i < areaArsonList.Count; i++)
+            {
+                areaArsonList[i].SetActive(UtilClass.limpidityColor);
+            }
+
+            for (int i = 0; i < nAreaArsonList.Count; i++)
+            {
+                nAreaArsonList[i].SetActive(UtilClass.opacityColor);
+            }
+
+            for (int i = 0; i < areaArsonList.Count; i++)
+            {
+                int j = i;
+                objSeq.Join(areaArsonList[j].backgroundImg.DOColor(UtilClass.opacityColor, duration));
+            }
+
+            for (int i = 0; i < nAreaArsonList.Count; i++)
+            {
+                int j = i;
+                objSeq.Join(nAreaArsonList[j].backgroundImg.DOColor(UtilClass.limpidityColor, duration));
+            }
+        }
+    }
+
     public void Dark()
     {
         if (player == null || player.isDie) return;
 
-        if (seq != null)
+        if (lightSeq != null)
         {
-            seq.Kill();
+            lightSeq.Kill();
         }
 
-        seq = DOTween.Sequence();
+        lightSeq = DOTween.Sequence();
 
-        seq.Append(DOTween.To(() => global.intensity, x => global.intensity = x, darkGlobalIntensity, duration));
+        lightSeq.Append(DOTween.To(() => global.intensity, x => global.intensity = x, darkGlobalIntensity, duration));
 
-        seq.Join(DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, darkPointIntensity, duration));
+        lightSeq.Join(DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, darkPointIntensity, duration));
 
-        seq.Join(DOTween.To(() => shadowPoint.pointLightInnerRadius, x => shadowPoint.pointLightInnerRadius = x, darkInnerRadius, duration));
-        seq.Join(DOTween.To(() => shadowPoint.pointLightOuterRadius, x => shadowPoint.pointLightOuterRadius = x, darkOuterRadius, duration));
-        seq.Join(DOTween.To(() => lightMapPoint.pointLightInnerRadius, x => lightMapPoint.pointLightInnerRadius = x, darkInnerRadius, duration));
-        seq.Join(DOTween.To(() => lightMapPoint.pointLightOuterRadius, x => lightMapPoint.pointLightOuterRadius = x, darkOuterRadius, duration));
+        lightSeq.Join(DOTween.To(() => shadowPoint.pointLightInnerRadius, x => shadowPoint.pointLightInnerRadius = x, darkInnerRadius, duration));
+        lightSeq.Join(DOTween.To(() => shadowPoint.pointLightOuterRadius, x => shadowPoint.pointLightOuterRadius = x, darkOuterRadius, duration));
+        lightSeq.Join(DOTween.To(() => lightMapPoint.pointLightInnerRadius, x => lightMapPoint.pointLightInnerRadius = x, darkInnerRadius, duration));
+        lightSeq.Join(DOTween.To(() => lightMapPoint.pointLightOuterRadius, x => lightMapPoint.pointLightOuterRadius = x, darkOuterRadius, duration));
     }
 
     public void Light()
     {
         if (player.isDie) return;
 
-        if (seq != null)
+        if (lightSeq != null)
         {
-            seq.Kill();
+            lightSeq.Kill();
         }
 
-        seq = DOTween.Sequence();
+        lightSeq = DOTween.Sequence();
 
-        seq.Append(DOTween.To(() => global.intensity, x => global.intensity = x, lightGlobalIntensity, duration));
+        lightSeq.Append(DOTween.To(() => global.intensity, x => global.intensity = x, lightGlobalIntensity, duration));
 
-        seq.Join(DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, lightPointIntensity, duration));
+        lightSeq.Join(DOTween.To(() => shadowPoint.intensity, x => shadowPoint.intensity = x, lightPointIntensity, duration));
 
-        seq.Join(DOTween.To(() => shadowPoint.pointLightInnerRadius, x => shadowPoint.pointLightInnerRadius = x, lightInnerRadius, duration));
-        seq.Join(DOTween.To(() => shadowPoint.pointLightOuterRadius, x => shadowPoint.pointLightOuterRadius = x, lightOuterRadius, duration));
-        seq.Join(DOTween.To(() => lightMapPoint.pointLightInnerRadius, x => lightMapPoint.pointLightInnerRadius = x, lightInnerRadius, duration));
-        seq.Join(DOTween.To(() => lightMapPoint.pointLightOuterRadius, x => lightMapPoint.pointLightOuterRadius = x, lightOuterRadius, duration));
+        lightSeq.Join(DOTween.To(() => shadowPoint.pointLightInnerRadius, x => shadowPoint.pointLightInnerRadius = x, lightInnerRadius, duration));
+        lightSeq.Join(DOTween.To(() => shadowPoint.pointLightOuterRadius, x => shadowPoint.pointLightOuterRadius = x, lightOuterRadius, duration));
+        lightSeq.Join(DOTween.To(() => lightMapPoint.pointLightInnerRadius, x => lightMapPoint.pointLightInnerRadius = x, lightInnerRadius, duration));
+        lightSeq.Join(DOTween.To(() => lightMapPoint.pointLightOuterRadius, x => lightMapPoint.pointLightOuterRadius = x, lightOuterRadius, duration));
     }
 }
