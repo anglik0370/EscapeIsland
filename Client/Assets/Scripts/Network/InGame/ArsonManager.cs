@@ -45,7 +45,7 @@ public class ArsonManager : MonoBehaviour
     {
         for (int i = 0; i < arsonList.Count; i++)
         {
-            arsonList[i].gameObject.SetActive(active);
+            arsonList[i].SetArson(active);
         }
         isArson = false;
     }
@@ -53,8 +53,8 @@ public class ArsonManager : MonoBehaviour
     public void StartArson()
     {
         isArson = true;
-        arsonList[0].gameObject.SetActive(true); // น่
-        arsonList[data.arsonId].gameObject.SetActive(true);
+        arsonList[0].SetArson(true); // น่
+        arsonList[data.arsonId].SetArson(true);
     }
 
     public bool CanExtinguish(ItemSO so)

@@ -13,11 +13,16 @@ public class EyesightManager : MonoBehaviour
 
     [SerializeField]
     private Transform objectParentTrm;
+    [SerializeField]
+    private Transform arsonParentTrm;
 
     [SerializeField]
     private List<GameObject> otherList;
 
     private List<AreaStateHolder> areaStateHolderList;
+
+    private List<AreaStateHolder> arsonAreaStateHolderList;
+    private List<ArsonSlot> arsonSlotList;
 
     [Header("쉐도우 캐스터 부모")]
     [SerializeField]
@@ -60,6 +65,8 @@ public class EyesightManager : MonoBehaviour
     private void Awake()
     {
         areaStateHolderList = objectParentTrm.GetComponentsInChildren<AreaStateHolder>().ToList();
+        arsonAreaStateHolderList = arsonParentTrm.GetComponentsInChildren<AreaStateHolder>().ToList();
+        arsonSlotList = arsonParentTrm.GetComponentsInChildren<ArsonSlot>().ToList();
     }
 
     void Start()
@@ -146,6 +153,15 @@ public class EyesightManager : MonoBehaviour
 
         otherList[0].SetActive(player.AreaState == AreaState.BottleStorage);
         otherList[1].SetActive(player.AreaState == AreaState.RefineryInLab);
+
+        if (!ArsonManager.Instance.isArson) return;
+
+        for (int i = 0; i < arsonAreaStateHolderList.Count; i++)
+        {
+            if (!arsonSlotList[i].isArson) continue;
+
+            arsonSlotList[i].SetActive(arsonAreaStateHolderList[i].AreaState == player.AreaState);
+        }
     }
 
     private void Init()

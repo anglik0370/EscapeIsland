@@ -120,7 +120,7 @@ public class Sabotage : ISetAble
         ArsonSlot slot = ArsonManager.Instance.GetArsonSlot(extinguishData.arsonId);
 
         //¿œ¥‹ ≤Ù±‚∏∏
-        slot.gameObject.SetActive(false);
+        slot.SetArson(false);
         ArsonManager.Instance.isArson = !extinguishData.allExtinguish;
     }
 
