@@ -24,6 +24,12 @@ public class VotePopup : Popup
     [SerializeField]
     private Transform otherChatParent;
 
+    [SerializeField]
+    private ContentSizeFitter chatSizeFitter;
+
+    private const string NEW_LINE = "\n";
+    private ChatUI lastChatUI;
+
     public ScrollRect chatRect;
     public Transform chatParent;
     public GameObject newChatAlert;
@@ -54,6 +60,7 @@ public class VotePopup : Popup
         {
             InitChat();
         });
+        EventManager.SubStartMeet(mt => Init());
 
         sendMsgBtn.onClick.AddListener(() =>
         {
@@ -173,9 +180,27 @@ public class VotePopup : Popup
 
     public void CreateChat(bool myChat,string name, string chatMsg, Sprite charSpr,bool isDie)
     {
+        if(lastChatUI != null)
+        {
+            bool isSameUser = name == lastChatUI.nameText.text;
+
+            if (isSameUser)
+            {
+                chatMsg = NEW_LINE + chatMsg;
+                lastChatUI.SetSameUserText(chatMsg);
+                LayoutRebuilder.MarkLayoutForRebuild(chatParent as RectTransform);
+                StartCoroutine(CoroutineHandler.EndFrame(ImmediateLayout));
+                return;
+            }
+        }
+
+       
+
+        ChatUI ui = null;
+
         if(myChat)
         {
-            ChatUI ui = myChatList.Find(x => !x.gameObject.activeSelf);
+            ui = myChatList.Find(x => !x.gameObject.activeSelf);
 
             if(ui == null)
             {
@@ -187,7 +212,7 @@ public class VotePopup : Popup
         }
         else
         {
-            ChatUI ui = otherChatList.Find(x => !x.gameObject.activeSelf);
+            ui = otherChatList.Find(x => !x.gameObject.activeSelf);
 
             if(ui == null)
             {
@@ -197,7 +222,10 @@ public class VotePopup : Popup
 
             ui.SetChatUI(name, chatMsg, charSpr,chatParent,isDie);
         }
-        StartCoroutine(CoroutineHandler.Frame(() => chatRect.verticalNormalizedPosition = 0f));
+
+        lastChatUI = ui;
+
+        StartCoroutine(CoroutineHandler.EndFrame(ImmediateLayout));
     }
 
     private void InitChat()
@@ -206,5 +234,20 @@ public class VotePopup : Popup
         {
             chatParent.GetChild(i).gameObject.SetActive(false);
         }
+    }
+
+    private void Init()
+    {
+        lastChatUI = null;
+    }
+
+    private void ImmediateLayout()
+    {
+        //LayoutRebuilder.MarkLayoutForRebuild(chatParent as RectTransform);
+
+        chatRect.verticalNormalizedPosition = 0f;
+
+        //chatSizeFitter.enabled = false;
+        //chatSizeFitter.enabled = true;
     }
 }

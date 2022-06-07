@@ -13,4 +13,10 @@ public static class CoroutineHandler
         yield return null;
         act?.Invoke();
     }
+
+    public static IEnumerator EndFrame(Action act)
+    {
+        yield return new WaitForEndOfFrame();
+        act?.Invoke();
+    }
 }
