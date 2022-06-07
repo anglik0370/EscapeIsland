@@ -23,9 +23,6 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     private Collider2D interactionCol;
     public Collider2D InteractionCol => interactionCol;
 
-    [SerializeField]
-    private Transform interactionTrm;
-
     private SpriteRenderer sr;
 
     [SerializeField]
@@ -35,6 +32,14 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     {
         sr = GetComponent<SpriteRenderer>();
         interactionCol = GetComponentInChildren<Collider2D>();
+    }
+
+    private void Start()
+    {
+        EventManager.SubEnterRoom(p =>
+        {
+            GameManager.Instance.AddInteractionObj(this);
+        });
     }
 
     public Transform GetTrm()

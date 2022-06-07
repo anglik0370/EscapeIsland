@@ -43,6 +43,8 @@ public class StoragePanel : Panel
 
     public void Open(ItemSO item)
     {
+        print(item + " 저장소 열기");
+
         base.Open();
 
         for(int i = 0; i < slotList.Count; i++)
