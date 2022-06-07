@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    [SerializeField]
+    private CinemachineVirtualCamera cmVCam;
+    public CinemachineVirtualCamera CmVCam => cmVCam;
 
     [SerializeField]
     private List<IInteractionObject> interactionObjList = new List<IInteractionObject>();

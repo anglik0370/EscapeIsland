@@ -192,9 +192,9 @@ public class EyesightManager : MonoBehaviour
 
         objSeq = DOTween.Sequence();
 
-        otherList[0].SetActive(areaState == AreaState.BottleStorage);
-        otherList[1].SetActive(areaState == AreaState.RefineryInLab);
-        otherList[2].SetActive(areaState == AreaState.Refinery);
+        otherList[0].SetActive(areaState == AreaState.BottleStorage); //물병 미션
+        otherList[1].SetActive(areaState == AreaState.RefineryInLab); //연구소 안 정제소
+        otherList[2].SetActive(areaState == AreaState.Refinery); //정제소
 
         for (int i = 0; i < areaStateHolderList.Count; i++)
         {
@@ -207,6 +207,16 @@ public class EyesightManager : MonoBehaviour
         {
             int j = i;
             objSeq.Join(areaObjList[j].Sr.DOColor(UtilClass.opacityColor, duration));
+        }
+
+        if(areaState == AreaState.ShipInside)
+        {
+            objSeq.Join(otherList[3].GetComponent<SpriteRenderer>().DOColor(UtilClass.limpidityColor, duration)); //바다 끄기
+        }
+
+        if(oldState == AreaState.ShipInside)
+        {
+            objSeq.Join(otherList[3].GetComponent<SpriteRenderer>().DOColor(UtilClass.opacityColor, duration)); //바다 켜기
         }
 
         if (ArsonManager.Instance.isArson)

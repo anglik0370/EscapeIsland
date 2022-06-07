@@ -12,4 +12,5 @@ public enum AreaState
     ComputerRoom,
     ChargeRoom,
     BatteryStorage,
+    ShipInside,
 }
