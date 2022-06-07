@@ -11,9 +11,6 @@ public class GameManager : MonoBehaviour
     private List<IInteractionObject> interactionObjList = new List<IInteractionObject>();
     public List<IInteractionObject> InteractionObjList => interactionObjList;
 
-    [SerializeField]
-    private List<GameObject> objList = new List<GameObject>();
-
     public bool IsPanelOpen { get; set; }
 
     private Player player;
@@ -46,18 +43,6 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    private void Update()
-    {
-        objList.Clear();
-
-        for (int i = 0; i < interactionObjList.Count; i++)
-        {
-            if (interactionObjList[i].GetTrm().gameObject == null) continue;
-
-            objList.Add(interactionObjList[i].GetTrm().gameObject);
-        }
-    }
-
     public void AddInteractionObj(IInteractionObject interactionObject)
     {
         interactionObjList.Add(interactionObject);
@@ -72,6 +57,8 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < interactionObjList.Count; i++)
         {
+            if (interactionObjList[i] == null) continue;
+
             if (Physics2D.IsTouching(interactionObjList[i].InteractionCol, player.BodyCollider))
             {
                 return interactionObjList[i];
