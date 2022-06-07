@@ -55,7 +55,7 @@ class Room {
         }
     }
 
-    voteEnd() {
+    voteEnd(timeEnd = false) {
         let allComplete = true;
         let targetSocIdArr = [];
 
@@ -75,7 +75,7 @@ class Room {
             }
         }
         
-        if(allComplete || isTest) {
+        if(allComplete || isTest || timeEnd) {
             let dummy = -1;
     
             for(let key in this.userList) {
@@ -99,30 +99,36 @@ class Room {
             if(targetSocIdArr.length == 1) {
                 this.broadcast(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
                 this.userList[targetSocIdArr[0]].isDie = true;
-    
-                //납치자를 모두 찾았을때
-    
-                this.setSpawnPos();
-                
-                let dataList = this.getUsersData();
-                let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
-    
-                if(filteredArr.length <= 0) {
-                    this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
-                    this.initRoom();
-                    return true;
-                }
-
-                if(this.kidnapperWinCheck()) {
-                    this.initRoom();
-                    return true;
-                }
-    
             }
-            this.voteTimeEnd();
+            this.sendVoteResult();
             return true;
         }
         return false;
+    }
+
+    voteResult() {
+        this.setSpawnPos();
+                
+        let dataList = this.getUsersData();
+        let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
+
+        if(filteredArr.length <= 0) {
+            this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
+            this.initRoom();
+            return;
+        }
+
+        if(this.kidnapperWinCheck()) {
+            this.initRoom();
+            return;
+        }
+
+        this.voteTimeEnd();
+    }
+
+    sendVoteResult() {
+        this.broadcast(JSON.stringify({type:"VOTE_RESULT",
+        payload:""}));
     }
 
     endGameHandle(goc) {
@@ -299,8 +305,8 @@ class Room {
     }
 
     voteTimerCallBack() {
-        if(!this.voteEnd()) {
-            this.voteTimeEnd();
+        if(!this.voteEnd(true)) {
+            this.sendVoteResult();
         }
     }
 

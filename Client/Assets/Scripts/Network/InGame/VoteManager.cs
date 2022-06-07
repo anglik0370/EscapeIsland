@@ -10,10 +10,13 @@ public class VoteManager : ISetAble
 
     public GameObject userImgPrefab;
 
+    private List<VoteCompleteVO> voteCompleteList = new List<VoteCompleteVO>();
+
     private bool needVoteRefresh = false;
     private bool needTimeRefresh = false;
     private bool needVoteComplete = false;
     private bool needVoteDeadRefresh = false;
+    private bool needResultRefresh = false;
 
     public bool isVoteTime = false;
     public bool isTextChange = false;
@@ -62,6 +65,14 @@ public class VoteManager : ISetAble
         }
     }
 
+    public static void SetVoteResult()
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.needResultRefresh = true;
+        }
+    }
+
     void Awake()
     {
         Instance = this;
@@ -72,6 +83,10 @@ public class VoteManager : ISetAble
     {
         base.Start();
         EventManager.SubBackToRoom(() => voteTab.VoteUIDisable());
+        EventManager.SubStartMeet(mt =>
+        {
+            voteCompleteList.Clear();
+        });
     }
 
     void Update()
@@ -98,6 +113,45 @@ public class VoteManager : ISetAble
         {
             SetDeadRefresh();
             needVoteDeadRefresh = false;
+        }
+
+        if(needResultRefresh)
+        {
+            VoteResult();
+            needResultRefresh = false;
+        }
+    }
+
+    public void VoteResult()
+    {
+        StartCoroutine(VoteResultHandle());
+    }
+
+    IEnumerator VoteResultHandle()
+    {
+        voteCompleteList.Sort((x, y) => x.voteTargetId.CompareTo(y.voteTargetId));
+
+        foreach (VoteCompleteVO vo in voteCompleteList)
+        {
+            if (vo.voteTargetId != -1)
+            {
+                VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
+                targetUI.VoteTargeted();
+
+                continue;
+            }
+            voteTab.AddSkipUser();
+
+            yield return CoroutineHandler.zeroFourSec;
+        }
+
+        //여기서 더 해줄거 하면됨
+
+        yield return null;
+
+        if (user.master)
+        {
+            SendManager.Instance.Send("VOTE_END_REQ");
         }
     }
 
@@ -128,15 +182,16 @@ public class VoteManager : ISetAble
         VoteUI ui = voteTab.FindVoteUI(voteCompleteVO.voterId);
         ui.VoteComplete();
 
-        if(voteCompleteVO.voteTargetId != -1)
-        {
-            VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
-            targetUI.VoteTargeted();
+        voteCompleteList.Add(voteCompleteVO);
+        //if(voteCompleteVO.voteTargetId != -1)
+        //{
+        //    VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
+        //    targetUI.VoteTargeted();
 
-            return;
-        }
+        //    return;
+        //}
 
-        voteTab.AddSkipUser();
+        //voteTab.AddSkipUser();
     }
 
     public void RefreshTime(int day, bool isLightTime)
