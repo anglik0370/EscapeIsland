@@ -17,8 +17,13 @@ public class VotePopup : Popup
     private Text timeInfoText;
 
     [Header("CHAT")]
-    public List<ChatUI> myChatList = new List<ChatUI>();
-    public List<ChatUI> otherChatList = new List<ChatUI>();
+    private List<ChatUI> myChatList = new List<ChatUI>();
+    private List<ChatUI> otherChatList = new List<ChatUI>();
+    [SerializeField]
+    private Transform myChatParent;
+    [SerializeField]
+    private Transform otherChatParent;
+
     public ScrollRect chatRect;
     public Transform chatParent;
     public GameObject newChatAlert;
@@ -40,6 +45,9 @@ public class VotePopup : Popup
     private void Start()
     {
         voteUIList = voteParent.GetComponentsInChildren<VoteUI>().ToList();
+        myChatList = myChatParent.GetComponentsInChildren<ChatUI>().ToList();
+        otherChatList = otherChatParent.GetComponentsInChildren<ChatUI>().ToList();
+
         voteUIList.ForEach(x => x.OnOff(false));
 
         EventManager.SubGameOver(p =>
@@ -68,7 +76,10 @@ public class VotePopup : Popup
         chatBtn.onClick.AddListener(() =>
         {
             CanvasOpenAndClose(chatPanel, true);
+
             newChatAlert.SetActive(false);
+            chatRect.verticalNormalizedPosition = 0f;
+            //StartCoroutine(CoroutineHandler.Frame(() => chatRect.verticalNormalizedPosition = 0f));
         });
 
         closeChatBtn.onClick.AddListener(() =>
