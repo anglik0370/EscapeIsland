@@ -138,6 +138,8 @@ public class VoteManager : ISetAble
                 VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
                 targetUI.VoteTargeted();
 
+                yield return CoroutineHandler.zeroFourSec;
+
                 continue;
             }
             voteTab.AddSkipUser();
