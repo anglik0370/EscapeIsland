@@ -15,6 +15,8 @@ public class CharacterSO : ScriptableObject
     public GameObject playerPrefab;
 
     public Sprite profileImg;
+    public Sprite ghostProfileImg;
+
     public Sprite standImg;
     public Sprite deadImg;
 
