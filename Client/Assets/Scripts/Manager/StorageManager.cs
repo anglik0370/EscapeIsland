@@ -20,7 +20,8 @@ public class StorageManager : MonoBehaviour
     private int totalNeedItemAmount;
     private int totalCollectedItemAmount;
 
-    private Player player;
+    [SerializeField]
+    private ItemStorage curOpenStorage;
 
     private void Awake()
     {
@@ -28,8 +29,6 @@ public class StorageManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        storage = FindObjectOfType<ItemStorage>();
     }
 
     private void Start()
@@ -41,8 +40,6 @@ public class StorageManager : MonoBehaviour
 
         EventManager.SubGameStart(p =>
         {
-            player = p;
-
             totalCollectedItemAmount = 0;
             totalNeedItemAmount = 0;
 

@@ -15,7 +15,7 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     public InteractionSO InGameHandlerSO => ingameHandlerSO;
 
     public Action LobbyCallback => () => { };
-    public Action IngameCallback => () => StoragePanel.Instance.Open();
+    public Action IngameCallback => () => StoragePanel.Instance.Open(item);
 
     public bool CanInteraction => true;
 
@@ -27,6 +27,9 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     private Transform interactionTrm;
 
     private SpriteRenderer sr;
+
+    [SerializeField]
+    private ItemSO item;
 
     private void Awake()
     {

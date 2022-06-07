@@ -50,9 +50,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274b47c573acf784aaec1d4c4f0aa656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  mainPlayer: {fileID: 0}
   playerTrm: {fileID: 0}
   followSpeed: 50
   txtName: {fileID: 9094776239246953734}
+  mainPlayerTrm: {fileID: 0}
+  hideRange: 0
 --- !u!225 &1459458545690082933
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -101,7 +105,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 30}
-  m_SizeDelta: {x: 180.1966, y: 36.675995}
+  m_SizeDelta: {x: 500, y: 36.675995}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &9027722917384872542
 CanvasRenderer:
@@ -144,7 +148,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PlayerName
+  m_Text: "\uC774\uB984\uC740\uC5F4\uB124\uC790\uAE4C\uC9C0\uC785\uB825\uD560\uC218\uC788\uC2B5\uB2C8\uB2E4"
 --- !u!114 &8010775152994314060
 MonoBehaviour:
   m_ObjectHideFlags: 0

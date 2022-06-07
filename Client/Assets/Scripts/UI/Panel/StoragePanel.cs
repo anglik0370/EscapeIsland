@@ -38,6 +38,11 @@ public class StoragePanel : Panel
 
     public override void Open(bool isTweenSkip = false)
     {
+        Debug.LogWarning("Item을 넣어서 사용하세요");
+    }
+
+    public void Open(ItemSO item)
+    {
         base.Open();
 
         for(int i = 0; i < slotList.Count; i++)

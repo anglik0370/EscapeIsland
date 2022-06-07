@@ -196,18 +196,12 @@ public class EyesightManager : MonoBehaviour
         otherList[1].SetActive(areaState == AreaState.RefineryInLab);
         otherList[2].SetActive(areaState == AreaState.Refinery);
 
+        for (int i = 0; i < areaStateHolderList.Count; i++)
+        {
+            areaStateHolderList[i].Sr.color = UtilClass.limpidityColor;
+        }
+
         var areaObjList = areaStateHolderList.Where(x => x.AreaState == areaState).ToList();
-        var nAreaOjList = areaStateHolderList.Where(x => x.AreaState != areaState).ToList();
-
-        for (int i = 0; i < areaObjList.Count; i++)
-        {
-            areaObjList[i].Sr.color = UtilClass.limpidityColor;
-        }
-
-        for (int i = 0; i < nAreaOjList.Count; i++)
-        {
-            nAreaOjList[i].Sr.color = UtilClass.opacityColor;
-        }
 
         for (int i = 0; i < areaObjList.Count; i++)
         {
@@ -215,37 +209,19 @@ public class EyesightManager : MonoBehaviour
             objSeq.Join(areaObjList[j].Sr.DOColor(UtilClass.opacityColor, duration));
         }
 
-        for (int i = 0; i < nAreaOjList.Count; i++)
-        {
-            int j = i;
-            objSeq.Join(nAreaOjList[j].Sr.DOColor(UtilClass.limpidityColor, duration));
-        }
-
         if (ArsonManager.Instance.isArson)
         {
+            for (int i = 0; i < arsonSlotList.Count; i++)
+            {
+                arsonSlotList[i].SetActive(UtilClass.limpidityColor);
+            }
+
             var areaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().AreaState == areaState).ToList();
-            var nAreaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().AreaState != areaState).ToList();
-
-            for (int i = 0; i < areaArsonList.Count; i++)
-            {
-                areaArsonList[i].SetActive(UtilClass.limpidityColor);
-            }
-
-            for (int i = 0; i < nAreaArsonList.Count; i++)
-            {
-                nAreaArsonList[i].SetActive(UtilClass.opacityColor);
-            }
 
             for (int i = 0; i < areaArsonList.Count; i++)
             {
                 int j = i;
                 objSeq.Join(areaArsonList[j].backgroundImg.DOColor(UtilClass.opacityColor, duration));
-            }
-
-            for (int i = 0; i < nAreaArsonList.Count; i++)
-            {
-                int j = i;
-                objSeq.Join(nAreaArsonList[j].backgroundImg.DOColor(UtilClass.limpidityColor, duration));
             }
         }
     }
