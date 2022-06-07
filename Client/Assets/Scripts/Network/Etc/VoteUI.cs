@@ -72,7 +72,7 @@ public class VoteUI : MonoBehaviour
 
         userImg.transform.SetParent(userCountParent);
 
-        userImg.transform.localScale = Vector3.zero;
+        userImg.transform.localScale = Vector3.one;
     }
 
     public void InitTargeted()

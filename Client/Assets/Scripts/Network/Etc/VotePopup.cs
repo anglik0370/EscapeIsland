@@ -59,6 +59,7 @@ public class VotePopup : Popup
         EventManager.SubGameOver(p =>
         {
             InitChat();
+            InitSkipUser();
         });
         EventManager.SubStartMeet(mt => Init());
 
