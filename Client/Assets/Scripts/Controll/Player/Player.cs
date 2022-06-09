@@ -257,7 +257,9 @@ public class Player : MonoBehaviour, IInteractionObject
         curSO = so;
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
-        profile.BtnEnabled(false);
+
+        if(so.id != 1)
+            profile.BtnEnabled(false);
         //플레이어 오브젝트 체인지
 
         ChangePlayer();

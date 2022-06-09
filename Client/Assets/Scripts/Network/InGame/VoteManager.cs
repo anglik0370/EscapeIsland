@@ -247,7 +247,7 @@ public class VoteManager : ISetAble
 
                 if (p != null)
                 {
-                    p.transform.position = uv.position;
+                    p.SetPosition(uv.position);
                     voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg,user.isKidnapper == p.isKidnapper);
                 }
             }

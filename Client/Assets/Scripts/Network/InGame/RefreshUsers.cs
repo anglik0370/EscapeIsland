@@ -145,11 +145,10 @@ public class RefreshUsers : ISetAble
                 {
                     CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(uv.charId);
 
-                    p = NetworkManager.instance.MakeRemotePlayer(uv, profile?.GetSO());
+                    p = NetworkManager.instance.MakeRemotePlayer(uv,profile == null ? null : profile.GetSO());
 
                     if (profile != null && p != null)
                     {
-                        profile.BtnEnabled(false);
                         p.ChangeCharacter(profile.GetSO());
                     }
                 }
