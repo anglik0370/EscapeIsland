@@ -24,7 +24,8 @@ public class MissionPanel : Panel
     public static MissionPanel Instance { get; private set; }
 
     [SerializeField]
-    private List<IMission> missionList = new List<IMission>();
+    private List<IGetMission> getMissionList = new List<IGetMission>();
+    private List<IStorageMission> storageMissionList = new List<IStorageMission>();
 
     [SerializeField]
     private Transform missionParentTrm;
@@ -41,53 +42,49 @@ public class MissionPanel : Panel
 
         base.Awake();
 
-        missionList = missionParentTrm.GetComponentsInChildren<IMission>().ToList();
+        getMissionList = missionParentTrm.GetComponentsInChildren<IGetMission>().ToList();
+        storageMissionList = missionParentTrm.GetComponentsInChildren<IStorageMission>().ToList();
     }
 
     protected override void Start()
     {
         base.Start();
 
-        for (int i = 0; i < missionList.Count; i++)
+        for (int i = 0; i < getMissionList.Count; i++)
         {
-            UtilClass.SetCanvasGroup(missionList[i].Cvs);
+            UtilClass.SetCanvasGroup(getMissionList[i].Cvs);
         }
 
-        missionList.ForEach(x => x.Close());
+        getMissionList.ForEach(x => x.Close());
     }
 
-    public void Open(MissionType type, ItemCharger charger = null)
+    public void OpenGetMission(MissionType type, ItemCharger charger = null)
     {
-        IMission mission = null;
+        IGetMission getMission = null;
 
-        for (int i = 0; i < missionList.Count; i++)
+        for (int i = 0; i < getMissionList.Count; i++)
         {
-            if(missionList[i].MissionType == type)
+            if(getMissionList[i].MissionType == type)
             {
-                mission = missionList[i];
+                getMission = getMissionList[i];
                 break;
             }
         }
 
-        if(mission == null)
+        if(getMission == null)
         {
             print("이게 왜 널?");
             return;
         }
 
-        if (oldMission == null)
-        {
-            oldMission = mission;
-        }
-
-        if (oldMission.MissionType != mission.MissionType)
+        if (oldMission != null)
         {
             UtilClass.SetCanvasGroup(oldMission.Cvs);
         }
 
-        if(mission.MissionType == MissionType.Charge)
+        if (getMission.MissionType == MissionType.Charge)
         {
-            MissionCharge missionCharge = mission as MissionCharge;
+            MissionCharge missionCharge = getMission as MissionCharge;
 
             if(charger == null)
             {
@@ -97,11 +94,44 @@ public class MissionPanel : Panel
             missionCharge.SetCurCharger(charger);
         }
 
-        UtilClass.SetCanvasGroup(mission.Cvs, 1, true, true);
+        UtilClass.SetCanvasGroup(getMission.Cvs, 1, true, true);
 
-        mission.Open();
+        getMission.Open();
 
-        oldMission = mission;
+        oldMission = getMission;
+
+        base.Open(true);
+    }
+
+    public void OpenStorageMission(ItemSO itemSO)
+    {
+        IStorageMission storageMission = null;
+
+        for (int i = 0; i < storageMissionList.Count; i++)
+        {
+            if(storageMissionList[i].StorageItem == itemSO)
+            {
+                storageMission = storageMissionList[i];
+                break;
+            }
+        }
+
+        if(storageMission == null)
+        {
+            print("이게 ㅗ애 널인데");
+            return;
+        }
+
+        if (oldMission != null)
+        {
+            UtilClass.SetCanvasGroup(oldMission.Cvs);
+        }
+
+        UtilClass.SetCanvasGroup(storageMission.Cvs, 1, true, true);
+
+        storageMission.Open();
+
+        oldMission = storageMission;
 
         base.Open(true);
     }
@@ -117,58 +147,58 @@ public class MissionPanel : Panel
         base.Close(isTweenSkip);
     }
 
-    public IMission FindMissionByType(MissionType type)
+    public IGetMission FindMissionByType(MissionType type)
     {
-        return missionList.Find(x => x.MissionType.Equals(type));
+        return getMissionList.Find(x => x.MissionType.Equals(type));
     }
 
     public void OpenCoconut()
     {
-        Open(MissionType.Coconut);
+        OpenGetMission(MissionType.Coconut);
     }
 
     public void OpenBerry()
     {
-        Open(MissionType.Berry);
+        OpenGetMission(MissionType.Berry);
     }
 
     public void OpenWood()
     {
-        Open(MissionType.Wood);
+        OpenGetMission(MissionType.Wood);
     }
 
     public void OpenOre()
     {
-        Open(MissionType.Ore);
+        OpenGetMission(MissionType.Ore);
     }
 
     public void OpenBottle()
     {
-        Open(MissionType.Bottle);
+        OpenGetMission(MissionType.Bottle);
     }
 
     public void OpenWater()
     {
-        Open(MissionType.Water);
+        OpenGetMission(MissionType.Water);
     }
 
     public void OpenEngine()
     {
-        Open(MissionType.Engine);
+        OpenGetMission(MissionType.Engine);
     }
 
     public void OpenCharge()
     {
-        Open(MissionType.Charge);
+        OpenGetMission(MissionType.Charge);
     }
 
     public void OpenBattery()
     {
-        Open(MissionType.Battery);
+        OpenGetMission(MissionType.Battery);
     }
 
     public void OpenSand()
     {
-        Open(MissionType.Sand);
+        OpenGetMission(MissionType.Sand);
     }
 }

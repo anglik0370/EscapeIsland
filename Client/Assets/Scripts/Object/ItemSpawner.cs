@@ -37,11 +37,11 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         }
         else if(missionType == MissionType.Charge)
         {
-            MissionPanel.Instance.Open(missionType, GetComponent<ItemCharger>());
+            MissionPanel.Instance.OpenGetMission(missionType, GetComponent<ItemCharger>());
         }
         else
         {
-            MissionPanel.Instance.Open(missionType);
+            MissionPanel.Instance.OpenGetMission(missionType);
 
             if(missionType != MissionType.Water)
                 SendManager.Instance.StartMission(id,MissionType);

@@ -127,7 +127,7 @@ public class SlotManager : MonoBehaviour
 
                     if(slot.SlotMissionType == MissionType.Ore)
                     {
-                        IMission mission = slot.GetComponentInParent<IMission>();
+                        IGetMission mission = slot.GetComponentInParent<IGetMission>();
                         MissionOre oreMission = mission as MissionOre;
 
                         oreMission.OnGetItem();
@@ -200,6 +200,17 @@ public class SlotManager : MonoBehaviour
             else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.TrashCan)
             {
                 beginSlot.SetItem(null);
+            }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.MissionStorageDropSlot)
+            {
+                if(ghost.GetItem() == endSlot.GetItem()) //아이템이 일치할 경우
+                {
+                    MSGlassSlot glassSlot = endSlot as MSGlassSlot;
+                }
+            }
+            else
+            {
+                print($"Begin = {beginSlot.transform.gameObject.name}, End = {endSlot.transform.gameObject.name}");
             }
         }
 
