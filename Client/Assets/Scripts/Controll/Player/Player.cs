@@ -457,6 +457,11 @@ public class Player : MonoBehaviour, IInteractionObject
         }
     }
 
+    public void SetPosition(Vector2 pos)
+    {
+        transform.position = pos;
+    }
+
     public void SetAreaState(AreaState areaState)
     {
         this.areaState = areaState;

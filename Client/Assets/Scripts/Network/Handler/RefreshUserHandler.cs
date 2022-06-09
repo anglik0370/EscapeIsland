@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefreshUserHandler : IMsgHandler<RefreshUsers>
+public class RefreshUserHandler : MonoBehaviour, IMsgHandler
 {
-    public override void HandleMsg(string payload)
+    public void HandleMsg(string payload)
     {
-        base.HandleMsg(payload);
-
         UserListVO userList = JsonUtility.FromJson<UserListVO>(payload);
-        generic.SetUserRefreshData(userList.dataList);
+        RefreshUsers.SetUserRefreshData(userList.dataList);
     }
 }
