@@ -194,6 +194,6 @@ public class NetworkManager : MonoBehaviour
         rpc.SetTransform(data.position);
 
         playerList.Add(data.socketId, rpc);
-        return null;
+        return rpc;
     }
 }

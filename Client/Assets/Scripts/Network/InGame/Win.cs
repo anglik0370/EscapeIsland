@@ -50,7 +50,7 @@ public class Win : ISetAble
                 if (p != null)
                 {
                     GameOverPanel.Instance.MakeWinImg(p, isKidnapperWin);
-                    p.transform.position = uv.position;
+                    p.SetPosition(uv.position);
                 }
             }
         }

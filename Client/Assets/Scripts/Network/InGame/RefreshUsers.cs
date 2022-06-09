@@ -5,8 +5,13 @@ using UnityEngine;
 
 public class RefreshUsers : ISetAble
 {
+    public static RefreshUsers Instance { get; private set; }
+
     private bool needUserRefresh = false;
+    private bool needPosRefresh = false;
+
     private List<UserVO> userDataList;
+    private NotLerpMoveVO data;
 
     public GameObject[] lights;
     public CinemachineVirtualCamera followCam;
@@ -16,6 +21,7 @@ public class RefreshUsers : ISetAble
     private bool isOnce = false;
     public bool isTest = false;
 
+    private Coroutine co;
 
     private void Awake()
     {
@@ -23,6 +29,8 @@ public class RefreshUsers : ISetAble
 
         PoolManager.CreatePool<LightMap>(lights[0], transform, 30);
         PoolManager.CreatePool<ShadowLight>(lights[1], transform, 30);
+
+        Instance = this;
     }
 
     protected override void Start()
@@ -42,13 +50,48 @@ public class RefreshUsers : ISetAble
             RefreshUser();
             needUserRefresh = false;
         }
-    }
-    public void SetUserRefreshData(List<UserVO> list)
-    {
-        lock (lockObj)
+
+        if(needPosRefresh)
         {
-            userDataList = list;
-            needUserRefresh = true;
+            RefreshPos();
+            needPosRefresh = false;
+        }
+    }
+    public static void SetUserRefreshData(List<UserVO> list)
+    {
+        lock (Instance.lockObj)
+        {
+            Instance.userDataList = list;
+            Instance.needUserRefresh = true;
+        }
+    }
+
+    public static void SetNotLerpMovedata(NotLerpMoveVO data)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.needPosRefresh = true;
+            Instance.data = data;
+        }
+    }
+
+    public void RefreshPos()
+    {
+        Init();
+
+        if(playerList.TryGetValue(data.socketId,out Player p))
+        {
+            p.SetPosition(data.pos);
+        }
+        else if(data.socketId == user.socketId)
+        {
+            if (co != null)
+            {
+                StopCoroutine(co);
+            }
+
+            co = StartCoroutine(EnableDampingEndFrame(GameManager.Instance.CmVCam));
+            user.transform.position = data.pos;
         }
     }
 
@@ -102,11 +145,10 @@ public class RefreshUsers : ISetAble
                 {
                     CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(uv.charId);
 
-                    p = NetworkManager.instance.MakeRemotePlayer(uv, profile?.GetSO());
+                    p = NetworkManager.instance.MakeRemotePlayer(uv,profile == null ? null : profile.GetSO());
 
                     if (profile != null && p != null)
                     {
-                        profile.BtnEnabled(false);
                         p.ChangeCharacter(profile.GetSO());
                     }
                 }
@@ -124,5 +166,22 @@ public class RefreshUsers : ISetAble
                 }
             }
         }
+    }
+
+    private IEnumerator EnableDampingEndFrame(CinemachineVirtualCamera vcam)
+    {
+        float xDamping = vcam.GetCinemachineComponent<CinemachineTransposer>().m_XDamping;
+        float yDamping = vcam.GetCinemachineComponent<CinemachineTransposer>().m_YDamping;
+        float zDamping = vcam.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping;
+
+        vcam.GetCinemachineComponent<CinemachineTransposer>().m_XDamping = 0f;
+        vcam.GetCinemachineComponent<CinemachineTransposer>().m_YDamping = 0f;
+        vcam.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = 0f;
+
+        yield return null;
+
+        vcam.GetCinemachineComponent<CinemachineTransposer>().m_XDamping = xDamping;
+        vcam.GetCinemachineComponent<CinemachineTransposer>().m_YDamping = yDamping;
+        vcam.GetCinemachineComponent<CinemachineTransposer>().m_ZDamping = zDamping;
     }
 }

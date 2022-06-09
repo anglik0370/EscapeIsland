@@ -43,8 +43,8 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         {
             MissionPanel.Instance.OpenGetMission(missionType);
 
-            if(missionType != MissionType.Water)
-                SendManager.Instance.StartMission(id,MissionType);
+            if(MissionPanel.Instance.NeedCoolTimeMission(missionType))
+                SendManager.Instance.StartMission(id, MissionType);
         }
     };
 

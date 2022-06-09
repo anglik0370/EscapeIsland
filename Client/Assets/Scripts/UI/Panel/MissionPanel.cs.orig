@@ -150,6 +150,9 @@ public class MissionPanel : Panel
         base.Close(isTweenSkip);
     }
 
+<<<<<<< HEAD
+    public IGetMission FindMissionByType(MissionType type)
+=======
     public bool NeedCoolTimeMission(MissionType type)
     {
         for (int i = 0; i < notCoolTimeMissionList.Count; i++)
@@ -164,6 +167,7 @@ public class MissionPanel : Panel
     }
 
     public IMission FindMissionByType(MissionType type)
+>>>>>>> 74b3795463e614b1850cb54a8ca3e3bef4d43534
     {
         return getMissionList.Find(x => x.MissionType.Equals(type));
     }

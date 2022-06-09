@@ -81,6 +81,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public bool canMove = false;
     public bool isFlip = false; //뒤집혔는지
+    public bool isNotLerp = false;
 
     public Inventory inventory;
     public Color color;
@@ -150,7 +151,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private void Update()
     {
-        if(IsRemote)
+        if(IsRemote && !isNotLerp)
         {
             transform.position = Vector3.Lerp(transform.position, targetPos, speed * Time.deltaTime);
 
@@ -256,7 +257,9 @@ public class Player : MonoBehaviour, IInteractionObject
         curSO = so;
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
-        profile.BtnEnabled(false);
+
+        if(so.id != 1)
+            profile.BtnEnabled(false);
         //플레이어 오브젝트 체인지
 
         ChangePlayer();
@@ -455,6 +458,14 @@ public class Player : MonoBehaviour, IInteractionObject
 
             targetPos = pos;
         }
+    }
+
+    public void SetPosition(Vector2 pos)
+    {
+        isNotLerp = true;
+        transform.position = pos;
+        targetPos = pos;
+        isNotLerp = false;
     }
 
     public void SetAreaState(AreaState areaState)

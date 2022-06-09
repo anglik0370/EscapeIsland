@@ -55,7 +55,7 @@ public class GameStart : ISetAble
 
                 if (p != null)
                 {
-                    p.transform.position = uv.position;
+                    p.SetPosition(uv.position);
                     p.isKidnapper = uv.isImposter;
                 }
             }

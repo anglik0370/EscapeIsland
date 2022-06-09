@@ -203,4 +203,11 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendNotLerpMove(NotLerpMoveVO vo)
+    {
+        DataVO dataVO = new DataVO("NOT_LERP_MOVE", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }

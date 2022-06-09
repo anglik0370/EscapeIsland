@@ -138,13 +138,13 @@ public class VoteManager : ISetAble
                 VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
                 targetUI.VoteTargeted();
 
-                yield return CoroutineHandler.zeroFourSec;
+                yield return CoroutineHandler.zeroEightSec;
 
                 continue;
             }
             voteTab.AddSkipUser();
 
-            yield return CoroutineHandler.zeroFourSec;
+            yield return CoroutineHandler.zeroEightSec;
         }
 
         //여기서 더 해줄거 하면됨
@@ -247,7 +247,7 @@ public class VoteManager : ISetAble
 
                 if (p != null)
                 {
-                    p.transform.position = uv.position;
+                    p.SetPosition(uv.position);
                     voteTab.SetVoteUI(uv.socketId, uv.name, p.curSO.profileImg,user.isKidnapper == p.isKidnapper);
                 }
             }
