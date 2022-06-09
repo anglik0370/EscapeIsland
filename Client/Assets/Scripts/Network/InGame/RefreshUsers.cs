@@ -81,7 +81,7 @@ public class RefreshUsers : ISetAble
 
         if(playerList.TryGetValue(data.socketId,out Player p))
         {
-            p.SetTransform(data.pos);
+            p.SetPosition(data.pos);
         }
         else if(data.socketId == user.socketId)
         {
@@ -91,8 +91,7 @@ public class RefreshUsers : ISetAble
             }
 
             co = StartCoroutine(EnableDampingEndFrame(GameManager.Instance.CmVCam));
-
-            p.transform.position = data.pos;
+            user.transform.position = data.pos;
         }
     }
 

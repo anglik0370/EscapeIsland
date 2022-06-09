@@ -60,6 +60,16 @@ class Users {
 
         return undefined;
     }
+
+    getUser(socket) {
+        for(let key in this.userList) {
+            if(this.userList[key].socketId == socket.id) {
+                return this.userList[key];
+            }
+        }
+
+        return undefined;
+    }
 }
 
 module.exports = {
