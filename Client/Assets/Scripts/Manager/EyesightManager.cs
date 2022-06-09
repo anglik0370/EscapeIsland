@@ -195,6 +195,7 @@ public class EyesightManager : MonoBehaviour
         otherList[0].SetActive(areaState == AreaState.BottleStorage); //물병 미션
         otherList[1].SetActive(areaState == AreaState.RefineryInLab); //연구소 안 정제소
         otherList[2].SetActive(areaState == AreaState.Refinery); //정제소
+        otherList[4].SetActive(areaState == AreaState.ShipInside); //유리 찬장
 
         for (int i = 0; i < areaStateHolderList.Count; i++)
         {
