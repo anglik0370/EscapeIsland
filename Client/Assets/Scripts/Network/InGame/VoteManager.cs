@@ -138,13 +138,13 @@ public class VoteManager : ISetAble
                 VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
                 targetUI.VoteTargeted();
 
-                yield return CoroutineHandler.zeroFourSec;
+                yield return CoroutineHandler.zeroEightSec;
 
                 continue;
             }
             voteTab.AddSkipUser();
 
-            yield return CoroutineHandler.zeroFourSec;
+            yield return CoroutineHandler.zeroEightSec;
         }
 
         //여기서 더 해줄거 하면됨

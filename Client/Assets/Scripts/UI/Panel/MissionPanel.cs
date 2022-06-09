@@ -27,6 +27,9 @@ public class MissionPanel : Panel
     private List<IMission> missionList = new List<IMission>();
 
     [SerializeField]
+    private List<MissionType> notCoolTimeMissionList = new List<MissionType>();
+
+    [SerializeField]
     private Transform missionParentTrm;
 
     [SerializeField]
@@ -115,6 +118,19 @@ public class MissionPanel : Panel
         UtilClass.SetCanvasGroup(oldMission.Cvs);
 
         base.Close(isTweenSkip);
+    }
+
+    public bool NeedCoolTimeMission(MissionType type)
+    {
+        for (int i = 0; i < notCoolTimeMissionList.Count; i++)
+        {
+            if(notCoolTimeMissionList[i].Equals(type))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public IMission FindMissionByType(MissionType type)

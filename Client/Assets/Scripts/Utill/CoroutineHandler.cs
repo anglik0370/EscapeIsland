@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class CoroutineHandler 
 {
-    public static WaitForSeconds zeroFourSec = new WaitForSeconds(0.4f);
+    public static WaitForSeconds zeroEightSec = new WaitForSeconds(0.8f);
     public static WaitForSeconds oneSec = new WaitForSeconds(1f);
     public static WaitForSeconds fifteenSec = new WaitForSeconds(15f);
 
