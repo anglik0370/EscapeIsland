@@ -16,6 +16,8 @@ public class ChatUI : MonoBehaviour
     public RectTransform topRect;
     //public RectTransform botRect;
 
+    private const float CHAT_PADDING = 15f;
+
     public void SetChatUI(string name, string msg, Sprite charSpr,Transform parent,bool isDie)
     {
         nameText.text = name;
@@ -33,7 +35,7 @@ public class ChatUI : MonoBehaviour
         msgText.text += msg;
 
         //Canvas.ForceUpdateCanvases();
-        fieldRect.sizeDelta = new Vector2(fieldRect.sizeDelta.x, msgTextRect.rect.height);
+        fieldRect.sizeDelta = new Vector2(fieldRect.sizeDelta.x, msgTextRect.rect.height + CHAT_PADDING);
         chatRect.sizeDelta = new Vector2(chatRect.sizeDelta.x, topRect.rect.height + fieldRect.rect.height);
     }
 }
