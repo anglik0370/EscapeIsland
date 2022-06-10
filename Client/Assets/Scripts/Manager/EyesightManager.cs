@@ -207,6 +207,17 @@ public class EyesightManager : MonoBehaviour
         for (int i = 0; i < areaObjList.Count; i++)
         {
             int j = i;
+
+            if(areaObjList[i].GetComponent<MSObject>() != null)
+            {
+                //이러면 미션 오브젝트임
+                if(areaObjList[i].GetComponent<MSObject>().IsEmpty)
+                {
+                    //비었으면 만들면 안됨
+                    continue;
+                }
+            }
+
             objSeq.Join(areaObjList[j].Sr.DOColor(UtilClass.opacityColor, duration));
         }
 
