@@ -14,8 +14,13 @@ public class MSGlassSlot : ItemSlot
         image.color = UtilClass.limpidityColor;
     }
 
-    public void Enable()
+    public void EnableImg()
     {
         image.color = UtilClass.opacityColor;
+    }
+
+    public void DisableImg()
+    {
+        image.color = UtilClass.limpidityColor;
     }
 }

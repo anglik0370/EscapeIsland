@@ -206,6 +206,13 @@ public class SlotManager : MonoBehaviour
                 if(ghost.GetItem() == endSlot.GetItem()) //아이템이 일치할 경우
                 {
                     MSGlassSlot glassSlot = endSlot as MSGlassSlot;
+
+                    if(glassSlot.IsEmpty)
+                    {
+                        glassSlot.EnableImg();
+                        beginSlot.SetItem(null);
+                        //여기서 저장소로 날려주면 됨
+                    }
                 }
             }
             else

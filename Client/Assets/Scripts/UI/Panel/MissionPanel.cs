@@ -58,7 +58,13 @@ public class MissionPanel : Panel
             UtilClass.SetCanvasGroup(getMissionList[i].Cvs);
         }
 
+        for (int i = 0; i < storageMissionList.Count; i++)
+        {
+            UtilClass.SetCanvasGroup(storageMissionList[i].Cvs);
+        }
+
         getMissionList.ForEach(x => x.Close());
+        storageMissionList.ForEach(x => x.Close());
     }
 
     public void OpenGetMission(MissionType type, ItemCharger charger = null)
@@ -121,7 +127,7 @@ public class MissionPanel : Panel
 
         if(storageMission == null)
         {
-            print("이게 ㅗ애 널인데");
+            print("아직 안만든 미션임");
             return;
         }
 

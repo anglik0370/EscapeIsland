@@ -15,7 +15,7 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     public InteractionSO InGameHandlerSO => ingameHandlerSO;
 
     public Action LobbyCallback => () => { };
-    public Action IngameCallback => () => StoragePanel.Instance.Open(item);
+    public Action IngameCallback => () => MissionPanel.Instance.OpenStorageMission(item);
 
     public bool CanInteraction => true;
 
