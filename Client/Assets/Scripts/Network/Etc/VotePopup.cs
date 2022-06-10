@@ -154,7 +154,16 @@ public class VotePopup : Popup
     public void VoteEnable(bool enabled)
     {
         skipBtn.enabled = enabled;
-        voteUIList.ForEach(x => x.BtnEnabled(enabled));
+        voteUIList.ForEach(x =>
+        {
+            if(NetworkManager.instance.GetPlayerDic().TryGetValue(x.socId,out Player p))
+            {
+                if(!p.isDie || !enabled)
+                {
+                    x.BtnEnabled(enabled);
+                }
+            }
+        });
     }
 
     public void AddSkipUser()

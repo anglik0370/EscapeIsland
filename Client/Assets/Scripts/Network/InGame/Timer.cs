@@ -160,8 +160,7 @@ public class Timer : ISetAble
     {
         if (isTest) 
         {
-            CanVote = true;
-            voteTab.VoteEnable(!user.isDie);
+            discussTimerMin = 0;
             isTest = false;
         }
 
