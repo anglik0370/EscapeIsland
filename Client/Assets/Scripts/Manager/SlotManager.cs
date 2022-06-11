@@ -205,12 +205,19 @@ public class SlotManager : MonoBehaviour
             {
                 if(ghost.GetItem() == endSlot.GetItem()) //아이템이 일치할 경우
                 {
-                    MSGlassSlot glassSlot = endSlot as MSGlassSlot;
+                    MSSlot msSlot = endSlot as MSSlot;
+                    IStorageMission mission = msSlot.Mission;
 
-                    if(glassSlot.IsEmpty)
+                    if(mission.CurItemCount == mission.MaxItemCount)
                     {
-                        glassSlot.EnableImg();
-                        beginSlot.SetItem(null);
+                        //꽉찬애니까 리턴
+                        return;
+                    }
+
+                    if (msSlot.IsEmpty)
+                    {
+                        mission.AddCurItem();
+                        mission.UpdateCurItem();
                         //여기서 저장소로 날려주면 됨
                     }
                 }
