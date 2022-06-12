@@ -87,17 +87,19 @@ public class MSGlass : MonoBehaviour, IStorageMission
 
         int barrelCount = 0;
 
-        for (int i = 0; i < curItemCount; i++)
+        for (int i = curItemCount - maxPanelCount; i >= 0; i -= maxPanelCount)
         {
-            if (maxPanelCount % i == 0)
-            {
-                barrelCount++;
-            }
+            barrelCount++;
         }
 
-        for (int i = 0; i < barrelCount; i++)
+        print(barrelCount);
+
+        if(barrelCount > 0)
         {
-            barrelList[i].Enable();
+            for (int i = 0; i < barrelCount; i++)
+            {
+                barrelList[i].Enable();
+            }
         }
 
         int glassCount = curItemCount % maxPanelCount;

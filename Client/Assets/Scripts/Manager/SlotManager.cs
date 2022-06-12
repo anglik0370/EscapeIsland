@@ -44,15 +44,21 @@ public class SlotManager : MonoBehaviour
         isDraging = true;
     }
 
-    public void EndDrag(ItemSlot slot)
-    {
-        endSlot = slot;
-        EndDrag();
-    }
-
     public void EndDrag()
     {
-        if(endSlot != null && beginSlot != null)
+        ghost.Init();
+
+        beginSlot = null;
+        endSlot = null;
+
+        isDraging = false;
+    }
+
+    public void EndDrag(ItemSlot endSlot)
+    {
+        this.endSlot = endSlot;
+
+        if (endSlot != null && beginSlot != null)
         {
             if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.Inventory)
             {
@@ -208,17 +214,16 @@ public class SlotManager : MonoBehaviour
                     MSSlot msSlot = endSlot as MSSlot;
                     IStorageMission mission = msSlot.Mission;
 
-                    if(mission.CurItemCount == mission.MaxItemCount)
+                    if(mission.CurItemCount < mission.MaxItemCount)
                     {
-                        //꽉찬애니까 리턴
-                        return;
-                    }
+                        if (msSlot.IsEmpty)
+                        {
+                            mission.AddCurItem();
+                            mission.UpdateCurItem();
+                            //여기서 저장소로 날려주면 됨
 
-                    if (msSlot.IsEmpty)
-                    {
-                        mission.AddCurItem();
-                        mission.UpdateCurItem();
-                        //여기서 저장소로 날려주면 됨
+                            //beginSlot.SetItem(null); 디버깅용으로 잠깐 비활성화
+                        }
                     }
                 }
             }
@@ -234,7 +239,5 @@ public class SlotManager : MonoBehaviour
         endSlot = null;
 
         isDraging = false;
-
-        return;
     }
 }
