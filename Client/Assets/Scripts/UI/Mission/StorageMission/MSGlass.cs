@@ -46,36 +46,14 @@ public class MSGlass : MonoBehaviour, IStorageMission
 
     public void Open()
     {
-        if (curItemCount == maxItemCount) return;
+        if (curItemCount >= maxItemCount) return;
 
         UpdateCurItem();
     }
 
     public void Close()
     {
-        bool isMax = true;
 
-        for (int i = 0; i < slotList.Count; i++)
-        {
-            if (slotList[i].IsEmpty)
-            {
-                isMax = false;
-            }
-        }
-
-        if(isMax)
-        {
-            slotList.ForEach(x => x.DisableImg());
-
-            for (int i = 0; i < barrelList.Count; i++)
-            {
-                if (barrelList[i].IsEmpty)
-                {
-                    barrelList[i].Enable();
-                    break;
-                }
-            }
-        }
     }
 
     public void AddCurItem()
