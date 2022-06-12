@@ -37,6 +37,11 @@ public class MSGlass : MonoBehaviour, IStorageMission
     private void Start()
     {
         barrelList.ForEach(x => x.Disable());
+
+        EventManager.SubGameStart(p =>
+        {
+            maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
+        });
     }
 
     public void Open()

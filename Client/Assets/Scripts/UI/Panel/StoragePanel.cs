@@ -38,7 +38,8 @@ public class StoragePanel : Panel
 
     public override void Open(bool isTweenSkip = false)
     {
-        Debug.LogWarning("Item을 넣어서 사용하세요");
+        //Debug.LogWarning("Item을 넣어서 사용하세요");
+        Open(null);
     }
 
     public void Open(ItemSO item)

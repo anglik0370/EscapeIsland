@@ -73,14 +73,16 @@ public class SlotManager : MonoBehaviour
             {
                 //Inventory To Storage
 
-                if (beginSlot.GetItem().itemId == (endSlot as StorageSlot).OriginItem.itemId)
-                {
-                    if (!StorageManager.Instance.IsItemFull(beginSlot.GetItem()))
-                    {
-                        SendManager.Instance.StorageDrop(beginSlot.GetItem().itemId);
-                        beginSlot.SetItem(null);
-                    }
-                }
+                //이제 저장소패널은 확인용으로만 사용한다
+
+                //if (beginSlot.GetItem().itemId == (endSlot as StorageSlot).OriginItem.itemId)
+                //{
+                //    if (!StorageManager.Instance.IsItemFull(beginSlot.GetItem()))
+                //    {
+                //        SendManager.Instance.StorageDrop(beginSlot.GetItem().itemId);
+                //        beginSlot.SetItem(null);
+                //    }
+                //}
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.ConverterBefore)
             {
@@ -220,9 +222,10 @@ public class SlotManager : MonoBehaviour
                         {
                             mission.AddCurItem();
                             mission.UpdateCurItem();
-                            //여기서 저장소로 날려주면 됨
 
-                            //beginSlot.SetItem(null); 디버깅용으로 잠깐 비활성화
+                            //여기서 저장소로 날려주면 됨
+                            SendManager.Instance.StorageDrop(beginSlot.GetItem().itemId);
+                            beginSlot.SetItem(null);
                         }
                     }
                 }

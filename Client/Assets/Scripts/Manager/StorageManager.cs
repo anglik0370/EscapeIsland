@@ -135,6 +135,11 @@ public class StorageManager : MonoBehaviour
         StoragePanel.Instance.UpdateUIs(item, GetProgress());
     }
 
+    public int FindNeedItemAmount(ItemSO so)
+    {
+        return needItemSO.itemAmountList.Find(x => x.item == so).amount;
+    }
+
     public ItemAmount FindItemAmount(bool isMaxList, ItemSO item)
     {
         ItemAmount amount = isMaxList ? maxAmountItemList.Find(x => x.item.itemId == item.itemId) : curAmountItemList.Find(x => x.item.itemId == item.itemId);
