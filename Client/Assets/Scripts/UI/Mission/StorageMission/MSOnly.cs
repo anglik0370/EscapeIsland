@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MSMotor : MonoBehaviour, IStorageMission
+public class MSOnly : MonoBehaviour, IStorageMission
 {
     [SerializeField]
     private ItemSO storageItem;

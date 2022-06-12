@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MSGlass : MonoBehaviour, IStorageMission
+public class MSWithObj : MonoBehaviour, IStorageMission
 {
     [SerializeField]
     private ItemSO storageItem;
@@ -13,20 +13,20 @@ public class MSGlass : MonoBehaviour, IStorageMission
     public CanvasGroup Cvs => cvs;
 
     [SerializeField]
-    private int maxItemCount = 12; //최대 12개
+    private int maxItemCount;
     public int MaxItemCount => maxItemCount;
     [SerializeField]
-    private int curItemCount = 0;
+    private int curItemCount;
     public int CurItemCount => curItemCount;
 
     [SerializeField]
-    private int maxPanelCount = 6; //한상자에 6개
+    private int maxPanelCount;
 
     [SerializeField]
     private List<MSSlot> slotList;
 
     [SerializeField]
-    private List<MSObject> barrelList = new List<MSObject>();
+    private List<MSObject> objList = new List<MSObject>();
 
     private void Awake()
     {
@@ -36,11 +36,12 @@ public class MSGlass : MonoBehaviour, IStorageMission
 
     private void Start()
     {
-        barrelList.ForEach(x => x.Disable());
+        objList.ForEach(x => x.Disable());
 
         EventManager.SubGameStart(p =>
         {
             maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
+            maxPanelCount = maxItemCount / objList.Count; //나머지 안남게 세팅 부탁
         });
     }
 
@@ -68,26 +69,26 @@ public class MSGlass : MonoBehaviour, IStorageMission
             slotList[i].DisableImg();
         }
 
-        int barrelCount = 0;
+        int objCount = 0;
 
         for (int i = curItemCount - maxPanelCount; i >= 0; i -= maxPanelCount)
         {
-            barrelCount++;
+            objCount++;
         }
 
-        print(barrelCount);
+        print(objCount);
 
-        if(barrelCount > 0)
+        if(objCount > 0)
         {
-            for (int i = 0; i < barrelCount; i++)
+            for (int i = 0; i < objCount; i++)
             {
-                barrelList[i].Enable();
+                objList[i].Enable();
             }
         }
 
-        int glassCount = curItemCount % maxPanelCount;
+        int itemCount = curItemCount % maxPanelCount;
 
-        for (int i = 0; i < glassCount; i++)
+        for (int i = 0; i < itemCount; i++)
         {
             slotList[i].EnableImg();
         }
