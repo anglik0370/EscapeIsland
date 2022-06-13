@@ -28,7 +28,7 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     private Collider2D interactionCol;
     public Collider2D InteractionCol => interactionCol;
 
-    public Action LobbyCallback => () => { };
+    public Action LobbyCallback => () => SendManager.Instance.GameStart();
     public Action IngameCallback => () =>
     {
         if(missionType == MissionType.None)

@@ -16,7 +16,7 @@ public class DeadBody : MonoBehaviour, IInteractionObject
     private InteractionSO ingameHandlerSO;
     public InteractionSO InGameHandlerSO => ingameHandlerSO;
 
-    public Action LobbyCallback => () => { };
+    public Action LobbyCallback => () => SendManager.Instance.GameStart();
     public Action IngameCallback => () => Report();
 
     public bool CanInteraction => gameObject.activeSelf;

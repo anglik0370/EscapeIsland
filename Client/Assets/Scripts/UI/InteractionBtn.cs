@@ -105,41 +105,43 @@ public class InteractionBtn : MonoBehaviour
         //    UpdateBtnState(nothingSO);
         //    UpdateBtnCallback(() => { });
         //}
-        else
-        {
-            proximateObj = GameManager.Instance.GetProximateObject();
+        //else
+        //{
 
-            if (proximateObj != null)
+        //}
+
+        proximateObj = GameManager.Instance.GetProximateObject();
+
+        if (proximateObj != null)
+        {
+            if (!isGameStart)
             {
-                if (!isGameStart)
-                {
-                    UpdateBtnState(proximateObj.LobbyHandlerSO);
-                    UpdateBtnCallback(proximateObj.LobbyCallback);
-                }
-                else
-                {
-                    UpdateBtnState(proximateObj.InGameHandlerSO);
-                    UpdateBtnCallback(proximateObj.IngameCallback);
-                }
+                UpdateBtnState(proximateObj.LobbyHandlerSO);
+                UpdateBtnCallback(proximateObj.LobbyCallback);
             }
             else
             {
-                if (!isGameStart)
+                UpdateBtnState(proximateObj.InGameHandlerSO);
+                UpdateBtnCallback(proximateObj.IngameCallback);
+            }
+        }
+        else
+        {
+            if (!isGameStart)
+            {
+                UpdateBtnState(gameStartSO);
+                UpdateBtnCallback(() => SendManager.Instance.GameStart());
+            }
+            else
+            {
+                if (PlayerManager.Instance.AmIKidnapper())
                 {
-                    UpdateBtnState(gameStartSO);
-                    UpdateBtnCallback(() => SendManager.Instance.GameStart());
-                }
-                else
-                {
-                    if(PlayerManager.Instance.AmIKidnapper())
-                    {
-                        UpdateBtnState(killSO);
-                        UpdateBtnCallback(() => { });
-                    }
-
-                    UpdateBtnState(nothingSO);
+                    UpdateBtnState(killSO);
                     UpdateBtnCallback(() => { });
                 }
+
+                UpdateBtnState(nothingSO);
+                UpdateBtnCallback(() => { });
             }
         }
 
