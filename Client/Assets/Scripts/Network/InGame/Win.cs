@@ -32,6 +32,7 @@ public class Win : ISetAble
         //이긴 팀에 따라 해줘야 할 일 해주기
         Init();
         user.canMove = false;
+        VoteManager.Instance.EndVoteTime();
         bool isKidnapperWin = gameOverCase == GameOverCase.KillAllCitizen;
 
         foreach (UserVO uv in gameOverUserList)
@@ -55,7 +56,6 @@ public class Win : ISetAble
             }
         }
 
-        user.canMove = true;
         EventManager.OccurGameOver(gameOverCase);
 
         
