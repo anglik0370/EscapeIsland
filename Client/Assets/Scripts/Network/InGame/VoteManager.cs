@@ -85,10 +85,6 @@ public class VoteManager : ISetAble
     {
         base.Start();
         EventManager.SubBackToRoom(() => voteTab.VoteUIDisable());
-        EventManager.SubStartMeet(mt =>
-        {
-            voteCompleteList.Clear();
-        });
     }
 
     void Update()
@@ -137,7 +133,7 @@ public class VoteManager : ISetAble
         {
             if (vo.voteTargetId != -1)
             {
-                VoteUI targetUI = voteTab.FindVoteUI(voteCompleteVO.voteTargetId);
+                VoteUI targetUI = voteTab.FindVoteUI(vo.voteTargetId);
                 targetUI.VoteTargeted();
 
                 yield return CoroutineHandler.zeroEightSec;
@@ -157,6 +153,8 @@ public class VoteManager : ISetAble
         {
             SendManager.Instance.Send("VOTE_END_REQ");
         }
+
+        voteCompleteList.Clear();
     }
 
     public void SetDeadRefresh()
