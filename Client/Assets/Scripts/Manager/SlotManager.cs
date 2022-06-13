@@ -220,8 +220,8 @@ public class SlotManager : MonoBehaviour
                     {
                         if (msSlot.IsEmpty)
                         {
-                            mission.AddCurItem();
-                            mission.UpdateCurItem();
+                            //mission.AddCurItem();
+                            //mission.UpdateCurItem();
 
                             //여기서 저장소로 날려주면 됨
                             SendManager.Instance.StorageDrop(beginSlot.GetItem().itemId);

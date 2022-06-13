@@ -67,7 +67,10 @@ public class ItemAndStorage : ISetAble
     public void SetItemStorage(int itemSOId)
     {
         ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
+        IStorageMission mission = MissionPanel.Instance.FindStorageMissionByItemId(itemSOId);
 
+        mission.AddCurItem();
+        mission.UpdateCurItem();
         StorageManager.Instance.AddItem(so);
     }
 }
