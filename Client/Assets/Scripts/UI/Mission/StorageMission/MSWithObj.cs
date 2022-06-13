@@ -76,8 +76,6 @@ public class MSWithObj : MonoBehaviour, IStorageMission
             objCount++;
         }
 
-        print(objCount);
-
         if(objCount > 0)
         {
             for (int i = 0; i < objCount; i++)
