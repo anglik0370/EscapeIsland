@@ -131,6 +131,8 @@ public class MissionPanel : Panel
             return;
         }
 
+        if (storageMission.CurItemCount >= storageMission.MaxItemCount) return;
+
         if (oldMission != null)
         {
             UtilClass.SetCanvasGroup(oldMission.Cvs);

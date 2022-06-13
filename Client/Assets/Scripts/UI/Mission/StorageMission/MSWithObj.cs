@@ -47,8 +47,6 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
     public void Open()
     {
-        if (curItemCount >= maxItemCount) return;
-
         UpdateCurItem();
     }
 
@@ -96,11 +94,21 @@ public class MSWithObj : MonoBehaviour, IStorageMission
             }
         }
 
-        int itemCount = curItemCount % maxPanelCount;
-
-        for (int i = 0; i < itemCount; i++)
+        if(maxPanelCount > 1)
         {
-            slotList[i].EnableImg();
+            int itemCount = curItemCount % maxPanelCount;
+
+            for (int i = 0; i < itemCount; i++)
+            {
+                slotList[i].EnableImg();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < curItemCount; i++)
+            {
+                slotList[i].EnableImg();
+            }
         }
     }
 }
