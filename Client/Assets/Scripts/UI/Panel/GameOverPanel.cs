@@ -136,6 +136,8 @@ public class GameOverPanel : Panel
 
     public void CloseGameOverPanel()
     {
+        NetworkManager.instance.User.canMove =true;
+
         CanvasGroupOpenAndClose(curCg, false);
         base.Close();
     }
