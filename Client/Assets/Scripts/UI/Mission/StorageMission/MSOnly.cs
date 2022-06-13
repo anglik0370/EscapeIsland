@@ -34,6 +34,15 @@ public class MSOnly : MonoBehaviour, IStorageMission
         EventManager.SubGameStart(p =>
         {
             maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
+
+            curItemCount = 0;
+
+            for (int i = 0; i < slotList.Count; i++)
+            {
+                slotList[i].DisableImg();
+            }
+
+            UpdateCurItem();
         });
     }
 

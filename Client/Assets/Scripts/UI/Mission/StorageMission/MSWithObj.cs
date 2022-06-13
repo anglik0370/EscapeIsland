@@ -42,6 +42,20 @@ public class MSWithObj : MonoBehaviour, IStorageMission
         {
             maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
             maxPanelCount = maxItemCount / objList.Count; //나머지 안남게 세팅 부탁
+
+            curItemCount = 0;
+
+            for (int i = 0; i < slotList.Count; i++)
+            {
+                slotList[i].DisableImg();
+            }
+
+            for (int i = 0; i < objList.Count; i++)
+            {
+                objList[i].Disable();
+            }
+
+            UpdateCurItem();
         });
     }
 
