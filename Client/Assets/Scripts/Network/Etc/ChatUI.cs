@@ -24,6 +24,7 @@ public class ChatUI : MonoBehaviour
         msgText.text = msg;
         charImg.sprite = charSpr;
 
+        transform.SetParent(null);
         transform.SetParent(parent);
 
         cg.alpha = isDie ? 0.5f : 1f;
