@@ -249,6 +249,8 @@ public class VotePopup : Popup
     private void Init()
     {
         lastChatUI = null;
+
+        closeChatBtn.onClick?.Invoke();
     }
 
     private void ImmediateLayout()
