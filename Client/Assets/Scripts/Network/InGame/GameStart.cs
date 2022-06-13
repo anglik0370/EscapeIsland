@@ -8,6 +8,7 @@ public class GameStart : ISetAble
 
     private bool needStartGame = false;
 
+    private Coroutine co;
 
     protected override void Start()
     {
@@ -43,9 +44,15 @@ public class GameStart : ISetAble
         {
             if (uv.socketId == user.socketId)
             {
+                if (co != null)
+                {
+                    StopCoroutine(co);
+                }
+
+                co = StartCoroutine(CoroutineHandler.EnableDampingEndFrame(GameManager.Instance.CmVCam));
+
                 user.transform.position = uv.position;
                 user.isKidnapper = uv.isImposter;
-
             }
             else
             {

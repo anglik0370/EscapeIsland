@@ -29,6 +29,8 @@ public class VoteManager : ISetAble
     public MeetingType MeetingType => meetingType;
     private int tempId = -1;
 
+    private Coroutine co;
+
     public static void SetVoteDead(int deadId)
     {
         lock (Instance.lockObj)
@@ -236,6 +238,12 @@ public class VoteManager : ISetAble
             {
                 voteTab.skipBtn.enabled = !user.isDie;
 
+                if (co != null)
+                {
+                    StopCoroutine(co);
+                }
+
+                co = StartCoroutine(CoroutineHandler.EnableDampingEndFrame(GameManager.Instance.CmVCam));
                 user.transform.position = uv.position;
                 voteTab.SetVoteUI(uv.socketId, uv.name, user.curSO.profileImg,user.isKidnapper);
             }

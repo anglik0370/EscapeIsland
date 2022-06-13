@@ -9,6 +9,8 @@ public class Win : ISetAble
     private List<UserVO> gameOverUserList;
     private GameOverCase gameOverCase = GameOverCase.CollectAllItem;
 
+    private Coroutine co;
+
     void Update()
     {
         if (needWinRefresh)
@@ -40,6 +42,13 @@ public class Win : ISetAble
             if (uv.socketId == socketId)
             {
                 GameOverPanel.Instance.MakeWinImg(user, isKidnapperWin);
+
+                if (co != null)
+                {
+                    StopCoroutine(co);
+                }
+
+                co = StartCoroutine(CoroutineHandler.EnableDampingEndFrame(GameManager.Instance.CmVCam));
                 user.transform.position = uv.position;
             }
             else
