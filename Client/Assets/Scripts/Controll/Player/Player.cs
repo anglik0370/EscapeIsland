@@ -382,7 +382,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void Move(Vector3 dir)
     {
-        if(IsRemote || !canMove) return;
+        if(IsRemote || !canMove || VoteManager.Instance.isVoteTime) return;
 
         if(dir != Vector3.zero)
         {

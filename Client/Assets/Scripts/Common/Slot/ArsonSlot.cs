@@ -15,14 +15,16 @@ public class ArsonSlot : ItemSlot
         SetItem(null);
     }
 
-    public void SetActive(Color c)
+    public void SetActive(Color c,bool enabled = false)
     {
         backgroundImg.color = c;
+        image.raycastTarget = enabled;
+        backgroundImg.raycastTarget = enabled;
     }
 
     public void SetArson(bool on)
     {
         isArson = on;
-        SetActive(on ? UtilClass.opacityColor : UtilClass.limpidityColor);
+        SetActive(on ? UtilClass.opacityColor : UtilClass.limpidityColor,on);
     }
 }
