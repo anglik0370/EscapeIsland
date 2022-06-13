@@ -59,16 +59,26 @@ public class MSWithObj : MonoBehaviour, IStorageMission
     {
         curItemCount++;
 
-        int tmpItemCnt = curItemCount;
-
-        while (tmpItemCnt > 0)
+        if(maxPanelCount > 1)
         {
-            tmpItemCnt -= maxPanelCount;
+            int tmpItemCnt = curItemCount;
+
+            while (tmpItemCnt > 0)
+            {
+                tmpItemCnt -= maxPanelCount;
+            }
+
+            if (tmpItemCnt == 0)
+            {
+                MissionPanel.Instance.Close();
+            }
         }
-
-        if(tmpItemCnt == 0)
+        else
         {
-            MissionPanel.Instance.Close();
+            if(curItemCount >= maxItemCount)
+            {
+                MissionPanel.Instance.Close();
+            }
         }
     }
 
