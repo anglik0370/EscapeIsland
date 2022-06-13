@@ -15,7 +15,7 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     private InteractionSO ingameHandlerSO;
     public InteractionSO InGameHandlerSO => ingameHandlerSO;
 
-    public Action LobbyCallback => () => { };
+    public Action LobbyCallback => () => SendManager.Instance.GameStart();
     public Action IngameCallback => () => ConvertPanel.Instance.Open(this);
 
     public bool CanInteraction => true;
