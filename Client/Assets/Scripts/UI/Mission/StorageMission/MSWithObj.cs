@@ -60,6 +60,18 @@ public class MSWithObj : MonoBehaviour, IStorageMission
     public void AddCurItem()
     {
         curItemCount++;
+
+        int tmpItemCnt = curItemCount;
+
+        while (tmpItemCnt > 0)
+        {
+            tmpItemCnt -= maxPanelCount;
+        }
+
+        if(tmpItemCnt == 0)
+        {
+            MissionPanel.Instance.Close();
+        }
     }
 
     public void UpdateCurItem()

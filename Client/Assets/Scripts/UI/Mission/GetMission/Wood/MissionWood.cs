@@ -45,7 +45,8 @@ public class MissionWood : MonoBehaviour, IGetMission
 
     public void Open()
     {
-        
+        branchList.ForEach(x => x.Init());
+        slotList.ForEach(x => x.Init());
     }
 
     public void Close()
