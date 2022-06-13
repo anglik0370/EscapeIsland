@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using DG.Tweening;
 
 public class StoragePanel : Panel
 {
@@ -43,32 +42,11 @@ public class StoragePanel : Panel
         Open(null);
     }
 
-    public void Open(ItemSO item, bool isTweenSkip = false)
+    public void Open(ItemSO item)
     {
         print(item + " 저장소 열기");
 
-        if(isTweenSkip)
-        {
-            cvs.alpha = 1f;
-            cvs.interactable = true;
-        }
-        else
-        {
-            if (seq != null)
-            {
-                seq.Kill();
-            }
-
-            seq = DOTween.Sequence();
-
-            seq.Append(cvs.DOFade(1f, TWEEN_DURATION));
-            seq.AppendCallback(() =>
-            {
-                cvs.interactable = true;
-            });
-        }
-
-        GameManager.Instance.IsPanelOpen = true;
+        base.Open();
 
         for(int i = 0; i < slotList.Count; i++)
         {

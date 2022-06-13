@@ -39,6 +39,11 @@ public class DeadBodyManager : MonoBehaviour
         {
             ClearDeadBody();
         });
+
+        EventManager.SubExitRoom(() =>
+        {
+            ClearDeadBody();
+        });
     }
 
     public void MakeDeadbody(Vector3 pos, bool isFlip, CharacterSO characterSO)
@@ -48,7 +53,8 @@ public class DeadBodyManager : MonoBehaviour
 
         deadBody.Init(pos, isFlip, characterSO);
 
-        deadBodyList.Add(deadBody);
+        if(!deadBodyList.Contains(deadBody))
+            deadBodyList.Add(deadBody);
         GameManager.Instance.AddInteractionObj(deadBody);
     }
 
