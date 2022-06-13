@@ -36,6 +36,14 @@ public class CharacterSelectPanel : Panel
         base.Awake();
     }
 
+    protected override void Start()
+    {
+        EventManager.SubGameStart(p =>
+        {
+            Close(true);
+        });
+    }
+
     public GameObject GetCharacterObj(int id)
     {
         GameObject obj = null;
