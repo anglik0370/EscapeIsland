@@ -166,7 +166,6 @@ class Room {
         if(imposterCount >= citizenCount) {
             //임포승
             this.sendKidnapperWin(0);
-            this.initRoom();
             return true;
         }
         return false;
@@ -187,6 +186,7 @@ class Room {
 
         this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",
             payload:JSON.stringify({dataList,gameOverCase})}),true);
+        this.initRoom();
     }
 
     gameStart(socket) {
