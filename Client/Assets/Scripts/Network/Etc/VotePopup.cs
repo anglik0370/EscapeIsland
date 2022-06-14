@@ -129,7 +129,7 @@ public class VotePopup : Popup
 
     public VoteUI FindVoteUI(int socId)
     {
-        return voteUIList.Find(x => x.socId == socId);
+        return voteUIList.Find(x => x.socId == socId && x.gameObject.activeSelf);
     }
 
     public void CompleteVote()

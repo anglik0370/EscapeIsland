@@ -134,7 +134,9 @@ public class VoteManager : ISetAble
             if (vo.voteTargetId != -1)
             {
                 VoteUI targetUI = voteTab.FindVoteUI(vo.voteTargetId);
-                targetUI.VoteTargeted();
+
+                if(targetUI != null)
+                    targetUI.VoteTargeted();
 
                 yield return CoroutineHandler.zeroEightSec;
 
