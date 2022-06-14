@@ -69,14 +69,13 @@ public class ArsonManager : MonoBehaviour
 
         for (int i = 0; i < arsonList.Count; i++)
         {
-            if(arsonList[i].gameObject.activeSelf)
+            if(arsonList[i].isArson)
             {
                 cnt++;
 
                 if (arsonList[i].id == slotId) equalSlot = true;
             }
         }
-
         return cnt == 1 && equalSlot;
     }
 
