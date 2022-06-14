@@ -339,6 +339,12 @@ class Room {
         delete this.userList[rSocketIdx];
     }
 
+    refreshUserCount() {
+        if(this.playing) return;
+
+        this.broadcast(JSON.stringify({type:"REFRESH_USER_COUNT",payload:JSON.stringify(this.returnData())}));
+    }
+
     returnData() {
         let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,kidnapperNum:this.kidnapperNum,playing:this.playing};
         return data;

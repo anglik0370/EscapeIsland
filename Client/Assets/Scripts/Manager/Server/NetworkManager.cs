@@ -24,7 +24,10 @@ public class NetworkManager : MonoBehaviour
 
     public Transform setDataScriptsParent;
 
+    private RoomVO roomVO;
+
     private bool isLogin = false;
+    private bool needUserCountRefresh = false;
 
     private Player user = null;
     public Player User
@@ -79,6 +82,15 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void SetUserCount(RoomVO vo)
+    {
+        lock(instance.lockObj)
+        {
+            instance.roomVO = vo;
+            instance.needUserCountRefresh = true;
+        }
+    }
+
     public static void DisconnectUser(int id)
     {
         lock(instance.lockObj)
@@ -94,6 +106,12 @@ public class NetworkManager : MonoBehaviour
             PopupManager.instance.CloseAndOpen("lobby");
             isLogin = false;
         }           
+
+        if(needUserCountRefresh)
+        {
+            RefreshUserCount();
+            needUserCountRefresh = false;
+        }
 
         while (removeSocketQueue.Count > 0)
         {
@@ -132,6 +150,11 @@ public class NetworkManager : MonoBehaviour
         }
 
         PlayerEnable(true);
+    }
+
+    private void RefreshUserCount()
+    {
+        UIManager.Instance.SetUserCountText(roomVO.curUserNum, roomVO.userNum);
     }
 
     public void EnterRoom()

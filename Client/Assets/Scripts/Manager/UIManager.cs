@@ -20,6 +20,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Text alertText;
+    [SerializeField]
+    private Text userCountText;
+
+    private string userCountFormat = "{0}/{1}";
+
     private Sequence alertSeq;
 
     private Dictionary<AlertType, Color> aleartColorDic = new Dictionary<AlertType, Color>();
@@ -63,6 +68,11 @@ public class UIManager : MonoBehaviour
         Instance.panels.blocksRaycasts = isEnable;
 
         Instance.alertText.color = isEnable ? UtilClass.opacityColor : UtilClass.limpidityColor;
+    }
+
+    public void SetUserCountText(int curUser,int maxUser)
+    {
+        userCountText.text = string.Format(userCountFormat, curUser, maxUser);
     }
 
     public void AlertText(string msg, AlertType type)

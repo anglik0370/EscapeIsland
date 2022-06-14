@@ -136,6 +136,7 @@ class Rooms {
             room.userList[keys[0]].master = true;
         }
         
+        room.refreshUserCount();
         this.roomBroadcast(roomNum);
         
         room.socketList.forEach(soc => {
@@ -162,6 +163,7 @@ class Rooms {
         }
         
         socket.send(JSON.stringify({type:"ENTER_ROOM",payload:""}));
+        room.refreshUserCount();
 
         //if(isMaster)
         setTimeout(() => this.roomBroadcast(socket.room),100);
