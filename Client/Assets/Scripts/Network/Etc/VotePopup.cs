@@ -163,6 +163,11 @@ public class VotePopup : Popup
                     x.BtnEnabled(enabled);
                 }
             }
+            else if(x.socId == NetworkManager.instance.socketId)
+            {
+                if(!enabled)
+                    x.BtnEnabled(enabled);
+            }
         });
     }
 
