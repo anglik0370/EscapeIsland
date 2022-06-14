@@ -55,6 +55,8 @@ public class ArsonManager : MonoBehaviour
         isArson = true;
         arsonList[0].SetArson(true); // น่
         arsonList[data.arsonId].SetArson(true);
+
+        EyesightManager.Instance.ChangeVisibleObjects(NetworkManager.instance.User.AreaState);
     }
 
     public bool CanExtinguish(ItemSO so)
