@@ -15,6 +15,7 @@ public enum InteractionCase
     PickUpItem,
     GameStart,
     SelectCharacter,
+    Ready,
 }
 
 public class InteractionBtn : MonoBehaviour
@@ -25,6 +26,9 @@ public class InteractionBtn : MonoBehaviour
     [Header("게임 시작 SO")]
     [SerializeField]
     private InteractionSO gameStartSO;
+    [Header("레디 SO")]
+    [SerializeField]
+    private InteractionSO readySO;
     [Header("킬 SO")]
     [SerializeField]
     private InteractionSO killSO;
@@ -129,8 +133,16 @@ public class InteractionBtn : MonoBehaviour
         {
             if (!isGameStart)
             {
-                UpdateBtnState(gameStartSO);
-                UpdateBtnCallback(() => SendManager.Instance.GameStart());
+                if(PlayerManager.Instance.AmIMaster())
+                {
+                    UpdateBtnState(gameStartSO);
+                    UpdateBtnCallback(() => SendManager.Instance.GameStart());
+                }
+                else
+                {
+                    UpdateBtnState(readySO);
+                    UpdateBtnCallback(() => { });
+                }
             }
             else
             {
@@ -165,12 +177,7 @@ public class InteractionBtn : MonoBehaviour
 
     private void UpdateCoolTimeImage()
     {
-        if (state == InteractionCase.GameStart)
-        {
-            coolTimeImg.fillAmount = PlayerManager.Instance.AmIMaster() ? 0f : 1f;
-            btnImg.raycastTarget = PlayerManager.Instance.AmIMaster();
-        }
-        else if (state == InteractionCase.KillPlayer)
+        if (state == InteractionCase.KillPlayer)
         {
             coolTimeImg.fillAmount = TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime;
             btnImg.raycastTarget = (TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime) <= 0;
