@@ -5,8 +5,29 @@ using UnityEngine;
 public class RefreshMasters : ISetAble
 {
     private bool needMasterRefresh = false;
+    private bool isGameStart = false;
 
     private List<UserVO> userDataList;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        EventManager.SubGameStart(p =>
+        {
+            isGameStart = true;
+        });
+
+        EventManager.SubExitRoom(() =>
+        {
+            isGameStart = false;
+        });
+
+        EventManager.SubBackToRoom(() =>
+        {
+            isGameStart = false;
+        });
+    }
 
     void Update()
     {
@@ -35,6 +56,14 @@ public class RefreshMasters : ISetAble
             if (uv.socketId == socketId)
             {
                 user.master = uv.master;
+
+                if(isGameStart && user.isKidnapper)
+                {
+                    continue;
+                }
+
+                if(user.master)
+                    user.UI.SetNameTextColor(Color.black);
                 //user.isImposter = uv.isImposter;
             }
             else
@@ -46,6 +75,13 @@ public class RefreshMasters : ISetAble
                 if (p != null)
                 {
                     p.master = uv.master;
+
+                    if(isGameStart && p.isKidnapper)
+                    {
+                        continue;
+                    }
+                    if(p.master)
+                        p.UI.SetNameTextColor(Color.black);
                     //p.isImposter = uv.isImposter;
                 }
             }

@@ -26,8 +26,10 @@ public class InfoUI : MonoBehaviour
     {
         cvs = GetComponent<CanvasGroup>();
 
-        EventManager.SubExitRoom(() => SetNameTextColor(Color.black));
-        EventManager.SubGameOver(goc => SetNameTextColor(Color.black));
+        SetNameTextColor(Color.gray);
+
+        EventManager.SubExitRoom(() => SetNameTextColor(Color.gray));
+        EventManager.SubGameOver(goc => SetNameTextColor(Color.gray));
     }
 
     private void Start()

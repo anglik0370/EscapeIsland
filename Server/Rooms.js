@@ -163,8 +163,8 @@ class Rooms {
         
         socket.send(JSON.stringify({type:"ENTER_ROOM",payload:""}));
 
-        if(isMaster)
-            setTimeout(() => this.roomBroadcast(socket.room),100);
+        //if(isMaster)
+        setTimeout(() => this.roomBroadcast(socket.room),100);
 
         socket.server.clients.forEach(soc=>{
             if(soc.state === SocketState.IN_LOBBY) 

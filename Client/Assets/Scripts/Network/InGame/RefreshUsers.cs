@@ -125,7 +125,6 @@ public class RefreshUsers : ISetAble
                 SendManager.Instance.Send("TEST_CLIENT");
             }
 
-
             NetworkManager.instance.roomNum = uv.roomNum;
 
             followCam.Follow = user.gameObject.transform;

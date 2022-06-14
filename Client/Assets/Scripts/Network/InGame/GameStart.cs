@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class GameStart : ISetAble
 {
+    public static GameStart Instance { get; private set; }
+
     private List<UserVO> userDataList;
+    private UserVO userVO;
 
     private bool needStartGame = false;
+    private bool needReadyRefresh = false;
 
     private Coroutine co;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     protected override void Start()
     {
@@ -23,14 +32,47 @@ public class GameStart : ISetAble
 
             needStartGame = false;
         }
+
+        if(needReadyRefresh)
+        {
+            ReadyRefresh();
+            needReadyRefresh = false;
+        }
     }
 
-    public void SetGameStart(List<UserVO> list)
+    public static void SetGameStart(List<UserVO> list)
     {
-        lock (lockObj)
+        lock (Instance.lockObj)
         {
-            userDataList = list;
-            needStartGame = true;
+            Instance.userDataList = list;
+            Instance.needStartGame = true;
+        }
+    }
+
+    public static void SetGameReady(UserVO vo)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.userVO = vo;
+            Instance.needReadyRefresh = true;
+        }
+    }
+
+    private void ReadyRefresh()
+    {
+        Init();
+
+        if(userVO.socketId == user.socketId)
+        {
+            user.UI.SetNameTextColor(Color.black);
+            return;
+        }
+
+        playerList.TryGetValue(userVO.socketId, out Player p);
+        print(p == null);
+        if(p != null)
+        {
+            p.UI.SetNameTextColor(Color.black);
         }
     }
 

@@ -189,6 +189,16 @@ class Room {
         this.initRoom();
     }
 
+    allReady() {
+        for(let key in this.userList) {
+            if(!this.userList[key].ready && !this.userList[key].master) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     gameStart(socket) {
         if(socket.state !== SocketState.IN_ROOM){
             sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
@@ -207,6 +217,11 @@ class Room {
 
         if(this.playing) {
             sendError("현재 방은 이미 시작되었습니다.",socket);
+            return;
+        }
+
+        if(!this.allReady()) {
+            sendError("모든 사람이 준비하지 않았습니다.",socket);
             return;
         }
 
@@ -266,6 +281,7 @@ class Room {
             this.userList[key].voteNum = 0;
             this.userList[key].voteComplete = false;
             this.userList[key].isInside = false;
+            this.userList[key].ready = false;
         }
         
         this.inGameTimer.stopTimer(true);

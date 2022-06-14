@@ -141,7 +141,7 @@ public class InteractionBtn : MonoBehaviour
                 else
                 {
                     UpdateBtnState(readySO);
-                    UpdateBtnCallback(() => { });
+                    UpdateBtnCallback(() => SendManager.Instance.Send("READY"));
                 }
             }
             else
@@ -208,7 +208,8 @@ public class InteractionBtn : MonoBehaviour
     
     private void UpdateAccent()
     {
-        if(state == InteractionCase.GameStart || state == InteractionCase.Nothing)
+
+        if(state == InteractionCase.GameStart || state == InteractionCase.Ready || state == InteractionCase.Nothing)
         {
             accent.Disable();
         }
