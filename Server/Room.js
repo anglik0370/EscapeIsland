@@ -18,7 +18,7 @@ class Room {
         this.playing = playing;
 
         this.inGameTimer = new InGameTimer(this,20,() => this.inGameTimerCallback());
-        this.arsonTimer = new Timer(this,40, () => this.sendKidnapperWin(0));
+        this.arsonTimer = new Timer(this,60, () => this.sendKidnapperWin(0));
         this.inVoteTimer = new VoteTimer(this,150,30,() => this.voteTimerCallBack());
         this.isEndGame = false;
 
@@ -144,6 +144,7 @@ class Room {
     }
 
     voteTimeEnd() {
+        console.log("startTimer");
         this.startTimer(false);
     }
 

@@ -10,7 +10,7 @@ module.exports = {
         data.userDataList = Object.values(room.userList);
         room.broadcast(JSON.stringify({type:"SABOTAGE",payload:JSON.stringify(data)}));
 
-        if(data.sabotageName === "Arson") {
+        if(data.sabotageName === "방화") {
             room.arsonTimer.startTimer(true);
         }
     }
