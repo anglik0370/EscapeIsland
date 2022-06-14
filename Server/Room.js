@@ -101,7 +101,7 @@ class Room {
                 this.userList[targetSocIdArr[0]].isDie = true;
             }
             this.sendVoteResult();
-            return true;
+            return !timeEnd;
         }
         return false;
     }
