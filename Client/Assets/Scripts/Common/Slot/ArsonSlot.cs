@@ -22,6 +22,11 @@ public class ArsonSlot : ItemSlot
         backgroundImg.raycastTarget = enabled;
     }
 
+    public void EyeActive(Color c)
+    {
+        backgroundImg.color = c;
+    }
+
     public void SetArson(bool on)
     {
         isArson = on;

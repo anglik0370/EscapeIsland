@@ -234,7 +234,7 @@ public class EyesightManager : MonoBehaviour
         {
             for (int i = 0; i < arsonSlotList.Count; i++)
             {
-                arsonSlotList[i].SetActive(UtilClass.limpidityColor);
+                arsonSlotList[i].EyeActive(UtilClass.limpidityColor);
             }
 
             var areaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().AreaState == areaState).ToList();
