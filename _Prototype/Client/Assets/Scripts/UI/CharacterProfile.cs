@@ -1,0 +1,79 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CharacterProfile : MonoBehaviour
+{
+    [SerializeField]
+    private CharacterSO charSO;
+
+    [SerializeField]
+    private Button selectBtn;
+    [SerializeField]
+    private Image profileImg;
+    [SerializeField]
+    private Text nameTxt;
+    [SerializeField]
+    private Image sexImg;
+
+    [SerializeField]
+    private CanvasGroup maskImg;
+
+    [SerializeField]
+    private Sprite maleSprite;
+    [SerializeField]
+    private Sprite femaleSprite;
+
+    private void Start()
+    {
+        StartCoroutine(CoroutineHandler.Frame(() => 
+        { 
+            SetCharacter sc = NetworkManager.instance.FindSetDataScript<SetCharacter>(); 
+            selectBtn.onClick.AddListener(() => sc.ChangeCharacter(charSO)); 
+        }));
+    }
+
+    public void Init(CharacterSO so)
+    {
+        charSO = so;
+
+        profileImg.sprite = so.profileImg;
+        nameTxt.text = so.charName;
+
+        switch (so.sex)
+        {
+            case Sex.Male:
+                sexImg.sprite = maleSprite;
+                break;
+            case Sex.Female:
+                sexImg.sprite = femaleSprite;
+                break;
+        }
+    }
+    public CharacterSO GetSO()
+    {
+        return charSO;
+    }
+
+    public bool IsSelected()
+    {
+        return !selectBtn.enabled;
+    }
+
+    public void SelectBtn(bool enabled)
+    {
+        selectBtn.enabled = enabled;
+    }
+
+    public void MaskOnOff(bool on)
+    {
+        maskImg.alpha = on ? 1f : 0f;
+    }
+
+    public void BtnEnabled(bool enable)
+    {
+        SelectBtn(enable);
+        MaskOnOff(!enable);
+    }
+}

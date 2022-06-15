@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d2e93c9127ee54388bcf1915455320, type: 3}
+  m_Name: Trap
+  m_EditorClassIdentifier: 
+  sabotageName: "\uB36B \uC124\uCE58"
+  coolTime: 60
+  shareCoolTime: 0
+  isShareCoolTime: 0
+  sabotageSprite: {fileID: 21300000, guid: 4b10bccd4fc0f0e41bda7a4f404f9a70, type: 3}
+  callback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6558261083451532474, guid: c5d48dba4d76c3a418dc3165ff87a5f1, type: 3}
+        m_TargetAssemblyTypeName: SabotageButton, Assembly-CSharp
+        m_MethodName: SpawnTrap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

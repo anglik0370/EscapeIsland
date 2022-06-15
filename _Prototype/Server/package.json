@@ -1,0 +1,23 @@
+{
+  "name": "seniorserver",
+  "version": "1.0.0",
+  "main": "GameServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon GameServer.js",
+    "backup":"nodemon ServerBackup.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "fs": "0.0.1-security",
+    "lodash": "^4.17.21",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7",
+    "socket.io": "^4.4.1",
+    "ws": "^8.4.2"
+  },
+  "devDependencies": {},
+  "description": ""
+}
