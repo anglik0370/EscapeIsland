@@ -7,9 +7,12 @@ public class StoragePanel : Panel
 {
     public static StoragePanel Instance;
 
+    [SerializeField]
     private ProgressUI progressUI;
     [SerializeField]
     private List<StorageSlot> slotList = new List<StorageSlot>();
+
+    private bool isGameStart = false;
 
     protected override void Awake() 
     {
@@ -21,7 +24,21 @@ public class StoragePanel : Panel
         base.Awake();
 
         slotList = GetComponentsInChildren<StorageSlot>().ToList();
-        progressUI = FindObjectOfType<ProgressUI>();
+    }
+
+    protected override void Start()
+    {
+        EventManager.SubGameStart(p =>
+        {
+            isGameStart = true;
+        });
+
+        EventManager.SubGameOver(goc =>
+        {
+            isGameStart = false;
+        });
+
+        base.Start();
     }
 
     public void UpdateUIs(ItemSO item, float progress)
@@ -44,6 +61,8 @@ public class StoragePanel : Panel
 
     public void Open(ItemSO item)
     {
+        if (!isGameStart) return;
+
         print(item + " 저장소 열기");
 
         base.Open();
