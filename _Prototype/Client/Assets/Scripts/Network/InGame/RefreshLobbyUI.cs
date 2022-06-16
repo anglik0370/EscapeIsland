@@ -10,6 +10,11 @@ public class RefreshLobbyUI : ISetAble
 
     private bool needUIRefresh = false;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Update()
     {
         if(needUIRefresh)

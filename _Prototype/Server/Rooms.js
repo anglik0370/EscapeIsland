@@ -162,9 +162,11 @@ class Rooms {
             user.roomNum = socket.room;
             user.master = isMaster;
 
-            let blueTeamLength = room.userList.filter(user => user.curTeam === team.BLUE);
-            user.curTeam = blueTeamLength < room.socketList.length / 2 ? team.BLUE : team.RED;
-            
+            let userList = Object.values(room.userList);
+
+            let blueTeamLength = userList.filter(user => user.curTeam === team.BLUE);
+            user.curTeam = blueTeamLength < userList.length / 2 ? team.BLUE : team.RED;
+
             user.position = GetRandomPos();
         }
         
