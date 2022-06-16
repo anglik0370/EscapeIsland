@@ -112,6 +112,9 @@ public class Player : MonoBehaviour, IInteractionObject
     private InfoUI ui = null;
     public InfoUI UI => ui;
 
+    private TeamInfoUI teamUI = null;
+    public TeamInfoUI TeamUI => teamUI;
+
     [SerializeField]
     private AreaState areaState;
     public AreaState AreaState
@@ -166,9 +169,10 @@ public class Player : MonoBehaviour, IInteractionObject
         }
     }
 
-    public void InitPlayer(UserVO vo,InfoUI ui, bool isRemote,CharacterSO so)
+    public void InitPlayer(UserVO vo,InfoUI ui,TeamInfoUI teamUI, bool isRemote,CharacterSO so)
     {
         this.ui = ui;
+        this.teamUI = teamUI;
         this.curSO = so;
         transform.position = vo.position;
         this.IsRemote = isRemote;

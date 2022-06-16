@@ -98,6 +98,7 @@ public class NetworkManager : MonoBehaviour
         while (removeSocketQueue.Count > 0)
         {
             int soc = removeSocketQueue.Dequeue();
+            playerList[soc].TeamUI.SetActive(false);
             playerList[soc].SetDisable(true);
             playerList[soc].RemoveCharacter();
             playerList.Remove(soc);
@@ -170,6 +171,7 @@ public class NetworkManager : MonoBehaviour
             playerList[key].SetDisable();
         }
         playerList.Clear();
+        InfoManager.InitTeamInfoUIs();
     }
     
     public void PlayerEnable(bool isEnd = false)
@@ -189,8 +191,9 @@ public class NetworkManager : MonoBehaviour
     {
         Player rpc = PoolManager.GetItem<Player>();
         InfoUI ui = InfoManager.SetInfoUI(rpc.transform, data.name);
+        TeamInfoUI teamUI = InfoManager.SetTeamInfoUI(rpc, data.name);
 
-        rpc.InitPlayer(data,ui, true,so);
+        rpc.InitPlayer(data,ui,teamUI, true,so);
         rpc.SetTransform(data.position);
 
         playerList.Add(data.socketId, rpc);

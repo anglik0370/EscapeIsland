@@ -107,7 +107,9 @@ public class RefreshUsers : ISetAble
 
             InfoManager.instance.MainPlayer = user;
             InfoUI ui = InfoManager.SetInfoUI(user.transform, uv.name);
-            user.InitPlayer(uv, ui, false, profile.GetSO());
+            TeamInfoUI teamUI = InfoManager.SetTeamInfoUI(user, uv.name);
+
+            user.InitPlayer(uv, ui,teamUI, false, profile.GetSO());
 
             Transform lightMap = PoolManager.GetItem<LightMap>().transform;
             Transform shadowLight = PoolManager.GetItem<ShadowLight>().transform;
