@@ -41,17 +41,24 @@ public class RefreshLobbyUI : ISetAble
 
         foreach (UserVO uv in lobbyUIVO.dataList)
         {
-            if(uv.socketId == socketId)
+            bool isBlue = uv.curTeam.Equals(Team.BLUE);
+            if (uv.socketId == socketId)
             {
                 if(!uv.curTeam.Equals(Team.NONE) && user != null)
-                    user.UI.SetTeamImgColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
+                {
+                    user.UI.SetTeamImgColor(isBlue ? Color.blue : Color.red);
+                    user.TeamUI.SetParent(TeamPanel.Instance.GetParent(isBlue));
+                }
             }
             else
             {
                 if(playerList.TryGetValue(uv.socketId, out Player p))
                 {
                     if (!uv.curTeam.Equals(Team.NONE))
-                        p.UI.SetTeamImgColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
+                    {
+                        p.UI.SetTeamImgColor(isBlue ? Color.blue : Color.red);
+                        p.TeamUI.SetParent(TeamPanel.Instance.GetParent(isBlue));
+                    }
                 }
             }
         }
