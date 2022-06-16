@@ -9,7 +9,7 @@ class Player {
 
         this.voteNum = 0;
         this.socketId = -1;
-        this.charId = 1;
+        this.charId = 0;
         this.roomNum = -1;
         this.areaState = 0;
 
@@ -42,7 +42,7 @@ class Player {
     initExitData() {
         this.roomNum = 0;
         this.voteNum = 0;
-        this.charId = 1;
+        this.charId = 0;
         this.master = false; 
         this.isImposter = false;
         this.isDie = false;

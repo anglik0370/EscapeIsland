@@ -31,7 +31,13 @@ public class InfoUI : MonoBehaviour
         SetNameTextColor(Color.gray);
 
         EventManager.SubExitRoom(() => SetNameTextColor(Color.gray));
-        EventManager.SubGameOver(goc => SetNameTextColor(Color.gray));
+        EventManager.SubGameOver(goc =>
+        {
+            if(player != null && !player.master)
+            {
+                SetNameTextColor(Color.gray);
+            }
+        });
     }
 
     private void Start()

@@ -65,6 +65,7 @@ public class GameStart : ISetAble
         if(userVO.socketId == user.socketId)
         {
             user.UI.SetNameTextColor(Color.black);
+            user.TeamUI.SetReadyText(true);
             return;
         }
 
@@ -72,6 +73,7 @@ public class GameStart : ISetAble
         print(p == null);
         if(p != null)
         {
+            p.TeamUI.SetReadyText(true);
             p.UI.SetNameTextColor(Color.black);
         }
     }
