@@ -12,24 +12,11 @@ public class UserVO
     public bool isImposter;
     public bool isDie;
     public AreaState areaState;
+    public Team curTeam;
     public float[] voiceData;
 
     public UserVO()
     {
 
-    }
-
-    public UserVO(int socketId,int charId, string name, int roomNum, Vector2 pos, bool master, bool isImposter,bool isDie,AreaState areaState,float[] voiceData)
-    {
-        this.socketId = socketId;
-        this.charId = charId;
-        this.name = name;
-        this.roomNum = roomNum;
-        this.position = pos;
-        this.master = master;
-        this.isImposter = isImposter;
-        this.isDie = isDie;
-        this.areaState = areaState;
-        this.voiceData = voiceData;
     }
 }

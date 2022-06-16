@@ -192,6 +192,12 @@ class Room {
 
     allReady() {
         for(let key in this.userList) {
+            if(this.userList[key].socketId >= 1000) {
+                return true;
+            }
+        }
+
+        for(let key in this.userList) {
             if(!this.userList[key].ready && !this.userList[key].master) {
                 return false;
             }
@@ -343,7 +349,7 @@ class Room {
     refreshUserCount() {
         if(this.playing) return;
 
-        this.broadcast(JSON.stringify({type:"REFRESH_USER_COUNT",payload:JSON.stringify(this.returnData())}));
+        this.broadcast(JSON.stringify({type:"REFRESH_LOBBY_UI",payload:JSON.stringify({roomVO:this.returnData()})}));
     }
 
     returnData() {
