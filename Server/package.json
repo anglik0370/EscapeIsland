@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon GameServer.js",
-    "backup":"nodemon ServerBackup.js"
+    "backup":"nodemon ServerBackup.js",
+    "prototype":"nodemon ../_Prototype/Server/GameServer.js"
   },
   "author": "",
   "license": "ISC",
