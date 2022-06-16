@@ -11,6 +11,8 @@ public class TeamPanel : Panel
     [SerializeField]
     private Transform blueTeamParent;
 
+    private bool isGameStart = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -18,8 +20,30 @@ public class TeamPanel : Panel
         Instance = this;
     }
 
+    protected override void Start()
+    {
+        base.Start();
+
+        EventManager.SubGameStart(p =>
+        {
+            isGameStart = true;
+        });
+
+        EventManager.SubGameOver(goc =>
+        {
+            isGameStart = false;
+        });
+    }
+
     public Transform GetParent(bool isBlue)
     {
         return isBlue ? blueTeamParent : redTeamParent;
+    }
+
+    public override void Open(bool isTweenSkip = false)
+    {
+        if (isGameStart) return;
+
+        base.Open(isTweenSkip);
     }
 }
