@@ -24,4 +24,6 @@ public class CharacterSO : ScriptableObject
     public Sex sex;
 
     public Vector3 adjsutPos;
+
+    public SkillSO skill;
 }

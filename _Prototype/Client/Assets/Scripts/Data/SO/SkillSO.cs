@@ -12,9 +12,14 @@ public class SkillSO : ScriptableObject
     public float coolTime; //쿨타임
     public float timer; //쿨타임 계산하는 타이머
 
-    public bool IsCoolTime => timer < coolTime; //현재 쿨타임인지
+    public bool IsCoolTime => timer > 0; //현재 쿨타임인지
 
     public UnityEvent Callback; //스킬 함수
+
+    public void InitTimer()
+    {
+        timer = coolTime;
+    }
 
     public void UpdateTimer() //Update에서 실행해주면 됨
     {
@@ -24,7 +29,7 @@ public class SkillSO : ScriptableObject
 
             if(timer <= 0)
             {
-                timer = coolTime;
+                timer = 0;
             }
         }
     }
