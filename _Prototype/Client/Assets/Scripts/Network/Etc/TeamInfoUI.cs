@@ -16,6 +16,12 @@ public class TeamInfoUI : MonoBehaviour
     private Player player;
     public int SocketId => player.socketId;
 
+    private void Start()
+    {
+        EventManager.SubBackToRoom(() => SetReadyText(false));
+        EventManager.SubExitRoom(() => SetReadyText(false));
+    }
+
     public void SetUser(string name, Player p)
     {
         nameText.text = name;
@@ -32,7 +38,7 @@ public class TeamInfoUI : MonoBehaviour
         transform.SetParent(parent);
     }
 
-    private void RefreshProfile()
+    public void RefreshProfile()
     {
         if (player.curSO != null)
             profileImg.sprite = player.curSO.profileImg;
@@ -41,5 +47,10 @@ public class TeamInfoUI : MonoBehaviour
     public void SetActive(bool active)
     {
         gameObject.SetActive(active);
+    }
+
+    public void SetReadyText(bool on)
+    {
+        readyText.enabled = on;
     }
 }
