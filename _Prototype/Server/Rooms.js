@@ -164,9 +164,8 @@ class Rooms {
 
             let userList = Object.values(room.userList);
 
-            let blueTeamLength = userList.filter(user => user.curTeam === team.BLUE);
-            user.curTeam = blueTeamLength < userList.length / 2 ? team.BLUE : team.RED;
-
+            let blueTeamList = userList.filter(user => user.curTeam == team.BLUE);
+            user.curTeam = blueTeamList.length < userList.length / 2 ? team.BLUE : team.RED;
             user.position = GetRandomPos();
         }
         
