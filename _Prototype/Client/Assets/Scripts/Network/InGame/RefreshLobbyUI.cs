@@ -35,9 +35,25 @@ public class RefreshLobbyUI : ISetAble
 
     private void LobbyUIRefresh()
     {
+        Init();
         //room user count
         UIManager.Instance.SetUserCountText(lobbyUIVO.roomVO.curUserNum, lobbyUIVO.roomVO.userNum);
 
-
+        foreach (UserVO uv in lobbyUIVO.dataList)
+        {
+            if(uv.socketId == socketId)
+            {
+                if(!uv.curTeam.Equals(Team.NONE) && user != null)
+                    user.UI.SetTeamImgColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
+            }
+            else
+            {
+                if(playerList.TryGetValue(uv.socketId, out Player p))
+                {
+                    if (!uv.curTeam.Equals(Team.NONE))
+                        p.UI.SetTeamImgColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
+                }
+            }
+        }
     }
 }

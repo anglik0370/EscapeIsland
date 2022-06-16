@@ -170,10 +170,12 @@ class Rooms {
         }
         
         socket.send(JSON.stringify({type:"ENTER_ROOM",payload:""}));
-        room.refreshUserCount();
 
         //if(isMaster)
-        setTimeout(() => this.roomBroadcast(socket.room),100);
+        setTimeout(() => {
+            this.roomBroadcast(socket.room);
+            room.refreshUserCount();
+        },100);
 
         socket.server.clients.forEach(soc=>{
             if(soc.state === SocketState.IN_LOBBY) 

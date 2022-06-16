@@ -349,7 +349,7 @@ class Room {
     refreshUserCount() {
         if(this.playing) return;
 
-        this.broadcast(JSON.stringify({type:"REFRESH_LOBBY_UI",payload:JSON.stringify({roomVO:this.returnData()})}));
+        this.broadcast(JSON.stringify({type:"REFRESH_LOBBY_UI",payload:JSON.stringify({roomVO:this.returnData(),dataList:this.getUsersData()})}));
     }
 
     returnData() {
