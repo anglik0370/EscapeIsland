@@ -14,6 +14,8 @@ public class UtilClass
     /// </summary>
     public static Color opacityColor = new Color(1, 1, 1, 1);
 
+    public static Color guideColor = new Color(1, 1, 1, 0.6f);
+
     /// <summary>
     /// Percent를 입력받아 확률을 계산합니다
     /// </summary>

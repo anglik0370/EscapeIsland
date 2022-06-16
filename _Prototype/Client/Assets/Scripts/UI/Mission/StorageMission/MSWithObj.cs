@@ -43,6 +43,19 @@ public class MSWithObj : MonoBehaviour, IStorageMission
             maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
             maxPanelCount = maxItemCount / objList.Count; //나머지 안남게 세팅 부탁
 
+            if(maxPanelCount > 1)
+            {
+                for (int i = 0; i < slotList.Count; i++)
+                {
+                    slotList[i].DisableSlot();
+                }
+
+                for (int i = 0; i < maxPanelCount; i++)
+                {
+                    slotList[i].EnableSlot();
+                }
+            }
+
             curItemCount = 0;
 
             for (int i = 0; i < slotList.Count; i++)

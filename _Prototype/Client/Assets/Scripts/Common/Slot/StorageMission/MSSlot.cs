@@ -13,7 +13,7 @@ public class MSSlot : ItemSlot
     public IStorageMission Mission => mission;
 
     public new bool IsEmpty => image.color == UtilClass.limpidityColor;
-    
+    public bool IsEnable => guideImage.color == UtilClass.guideColor;
 
     protected override void Awake()
     {
@@ -21,6 +21,13 @@ public class MSSlot : ItemSlot
 
         image = GetComponent<Image>();
         image.color = UtilClass.limpidityColor;
+    }
+
+    public override void OnDrop(PointerEventData eventData)
+    {
+        if (!IsEnable) return;
+        //드롭 오브젝트에서 발생
+        SlotManager.Instance.EndDrag(this);
     }
 
     public void EnableImg()
@@ -35,11 +42,11 @@ public class MSSlot : ItemSlot
     
     public void EnableSlot()
     {
-
+        guideImage.color = UtilClass.guideColor;
     }
 
     public void DisableSlot()
     {
-
+        guideImage.color = UtilClass.limpidityColor;
     }
 }
