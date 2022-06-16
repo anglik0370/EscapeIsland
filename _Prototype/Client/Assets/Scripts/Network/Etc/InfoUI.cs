@@ -14,6 +14,8 @@ public class InfoUI : MonoBehaviour
     public Transform playerTrm;
     public float followSpeed = 50f;
     public Text txtName;
+    public Image teamImg;
+    public RectTransform txtRect;
 
     private CanvasGroup cvs;
 
@@ -58,6 +60,15 @@ public class InfoUI : MonoBehaviour
         player = playerTrm.GetComponent<Player>();
 
         txtName.text = name;
+
+        Vector2 rectSize = txtRect.sizeDelta;
+        rectSize.x = txtName.preferredWidth;
+        txtRect.sizeDelta = rectSize;
+
+        Vector2 anchoredPos = txtRect.anchoredPosition;
+        anchoredPos.x = 0;
+        txtRect.anchoredPosition = anchoredPos;
+
         gameObject.SetActive(true);
     }
 
@@ -101,5 +112,10 @@ public class InfoUI : MonoBehaviour
     public void SetNameTextColor(Color color)
     {
         txtName.color = color;
+    }
+
+    public void SetTeamImgColor(Color color)
+    {
+        teamImg.color = color;
     }
 }
