@@ -1,6 +1,7 @@
 const {Users} = require('./Users.js');
 const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
 const SocketState = require('./Utils/SocketState.js');
+const team = require('./Utils/Team.js');
 const WebSocket = require('ws');
 const sendError = require('./Utils/SendError.js');
 

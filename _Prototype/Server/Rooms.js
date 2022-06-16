@@ -1,10 +1,12 @@
 const WebSocket = require('ws');
 const {Users} = require('./Users.js');
+const Room = require('./Room.js');
+
 const regex = require('./Utils/Regex.js');
 const SocketState = require('./Utils/SocketState.js');
+const team = require('./Utils/Team.js');
 const GetRandomPos = require('./Utils/SpawnPoint.js');
 const sendError = require('./Utils/SendError.js');
-const Room = require('./Room.js');
 
 
 class Rooms {
@@ -159,6 +161,10 @@ class Rooms {
         if(user !== undefined){
             user.roomNum = socket.room;
             user.master = isMaster;
+
+            let blueTeamLength = room.userList.filter(user => user.curTeam === team.BLUE);
+            user.curTeam = blueTeamLength < room.socketList.length / 2 ? team.BLUE : team.RED;
+            
             user.position = GetRandomPos();
         }
         

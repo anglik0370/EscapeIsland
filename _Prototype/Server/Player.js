@@ -1,4 +1,5 @@
 const Vector2 = require("./Utils/Vector2");
+const team = require('./Utils/Team.js');
 
 class Player {
     constructor() {
@@ -17,6 +18,8 @@ class Player {
         this.isDie = false;
         this.voteComplete = false;
         this.ready = false;
+
+        this.curTeam = team.NONE;
 
         this.voiceData = [];
     }
@@ -46,6 +49,8 @@ class Player {
         this.voteComplete = false;
         this.areaState = 0;
         this.ready = false;
+
+        this.curTeam = team.NONE;
     }
 }
 
