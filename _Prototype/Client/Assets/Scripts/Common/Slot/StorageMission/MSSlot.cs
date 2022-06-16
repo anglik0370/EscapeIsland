@@ -6,10 +6,14 @@ using UnityEngine.UI;
 
 public class MSSlot : ItemSlot
 {
+    [SerializeField]
+    private Image guideImage;
+
     private IStorageMission mission;
     public IStorageMission Mission => mission;
 
     public new bool IsEmpty => image.color == UtilClass.limpidityColor;
+    
 
     protected override void Awake()
     {
@@ -27,5 +31,15 @@ public class MSSlot : ItemSlot
     public void DisableImg()
     {
         image.color = UtilClass.limpidityColor;
+    }
+    
+    public void EnableSlot()
+    {
+
+    }
+
+    public void DisableSlot()
+    {
+
     }
 }
