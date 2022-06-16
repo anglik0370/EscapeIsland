@@ -18,8 +18,18 @@ public class TeamInfoUI : MonoBehaviour
 
     private void Start()
     {
-        EventManager.SubBackToRoom(() => SetReadyText(false));
-        EventManager.SubExitRoom(() => SetReadyText(false));
+        EventManager.SubBackToRoom(() =>
+        {
+            if (player != null && player.master) return;
+
+            SetReadyText(false);
+        });
+        EventManager.SubExitRoom(() =>
+        {
+            if (player != null && player.master) return;
+
+            SetReadyText(false);
+        });
     }
 
     public void SetUser(string name, Player p)
@@ -27,6 +37,11 @@ public class TeamInfoUI : MonoBehaviour
         nameText.text = name;
 
         player = p;
+
+        if(player.master)
+        {
+            SetReadyText(true, UtilClass.HOST_TEXT);
+        }
 
         RefreshProfile();
     }
@@ -49,8 +64,12 @@ public class TeamInfoUI : MonoBehaviour
         gameObject.SetActive(active);
     }
 
-    public void SetReadyText(bool on)
+    public void SetReadyText(bool on,string msg = null)
     {
+        if(msg != null)
+        {
+            readyText.text = msg;
+        }
         readyText.enabled = on;
     }
 }

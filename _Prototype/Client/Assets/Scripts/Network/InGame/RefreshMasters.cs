@@ -63,7 +63,10 @@ public class RefreshMasters : ISetAble
                 }
 
                 if(user.master)
+                {
                     user.UI.SetNameTextColor(Color.black);
+                    user.TeamUI.SetReadyText(true, UtilClass.HOST_TEXT);
+                }
                 //user.isImposter = uv.isImposter;
             }
             else
@@ -80,8 +83,12 @@ public class RefreshMasters : ISetAble
                     {
                         continue;
                     }
+
                     if(p.master)
+                    {
                         p.UI.SetNameTextColor(Color.black);
+                        p.TeamUI.SetReadyText(true, UtilClass.HOST_TEXT);
+                    }
                     //p.isImposter = uv.isImposter;
                 }
             }

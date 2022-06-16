@@ -16,6 +16,9 @@ public class UtilClass
 
     public static Color guideColor = new Color(1, 1, 1, 0.6f);
 
+    public static readonly string HOST_TEXT = "HOST";
+    public static readonly string READY_TEXT = "READY!";
+
     /// <summary>
     /// Percent를 입력받아 확률을 계산합니다
     /// </summary>
