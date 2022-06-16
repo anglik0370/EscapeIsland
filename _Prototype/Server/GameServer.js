@@ -15,7 +15,7 @@ fs.readdir("./handlers",(err,files) => {
 });
 
 const wsService = new WebSocket.Server({port}, ()=>{
-    console.log(`웹 소켓이 ${port}에서 구동중`);
+    console.log(`_Prototype : 웹 소켓이 ${port}에서 구동중`);
     
 });
 
