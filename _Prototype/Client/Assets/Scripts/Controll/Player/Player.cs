@@ -224,6 +224,8 @@ public class Player : MonoBehaviour, IInteractionObject
 
         anim.ResetTrigger(ANIMT_ATTACK);
 
+        curSO.skill.InitTimer(); //스킬 쿨 초기화
+
         dummyPlayer.SetActive(true);
     }
 
@@ -262,7 +264,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
 
-        if(so.id != 1)
+        if(so.id != 0)
             profile.BtnEnabled(false);
         //플레이어 오브젝트 체인지
 

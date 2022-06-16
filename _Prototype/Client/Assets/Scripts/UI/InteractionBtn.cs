@@ -103,6 +103,7 @@ public class InteractionBtn : MonoBehaviour
     private void Update() 
     {
         if (!isEnterRoom) return;
+        if (GameManager.Instance.IsPanelOpen) return;
 
         //if(PlayerManager.Instance.AmIDead())
         //{
@@ -208,7 +209,6 @@ public class InteractionBtn : MonoBehaviour
     
     private void UpdateAccent()
     {
-
         if(state == InteractionCase.GameStart || state == InteractionCase.Ready || state == InteractionCase.Nothing)
         {
             accent.Disable();

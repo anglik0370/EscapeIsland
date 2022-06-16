@@ -9,8 +9,10 @@ public class SkillBtn : MonoBehaviour
     private Image btnImage;
     private Image coolTimeImg;
 
-    private Player player;
-    private SkillSO curSkill => player.curSO.skill;
+    private SkillSO curSkill => PlayerManager.Instance.Player.curSO.skill;
+
+    private bool isGameStart;
+    private bool isEnterRoom;
 
     private void Awake()
     {
@@ -25,23 +27,55 @@ public class SkillBtn : MonoBehaviour
     {
         EventManager.SubEnterRoom(p =>
         {
-            player = p;
+            isEnterRoom = true;
+        });
+
+        EventManager.SubGameStart(p =>
+        {
+            isGameStart = true;
+        });
+
+        EventManager.SubExitRoom(() =>
+        {
+            isGameStart = false;
+            isEnterRoom = false;
+        });
+
+        EventManager.SubBackToRoom(() =>
+        {
+            isGameStart = false;
         });
     }
 
     private void Update()
     {
-        if (player == null) return;
+        if (!isEnterRoom) return;
 
-        curSkill.UpdateTimer();
+        if(isGameStart)
+        {
+            curSkill.UpdateTimer();
+        }
 
-        coolTimeImg.fillAmount = curSkill.timer / curSkill.coolTime;
-        btnImage.raycastTarget = (curSkill.timer / curSkill.coolTime) <= 0;
+        UpdateImage();
+    }
+
+    private void UpdateImage()
+    {
+        if(isGameStart)
+        {
+            coolTimeImg.fillAmount = curSkill.timer / curSkill.coolTime;
+            btnImage.raycastTarget = (curSkill.timer / curSkill.coolTime) <= 0;
+        }
+        else
+        {
+            coolTimeImg.fillAmount = 1f;
+            btnImage.raycastTarget = false;
+        }
     }
 
     private void UseSkill()
     {
-        if (player == null) return;
+        if (!isEnterRoom || !isGameStart) return;
 
         curSkill.Callback?.Invoke();
         curSkill.timer = curSkill.coolTime;

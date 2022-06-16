@@ -24,7 +24,10 @@ public class ProgressUI : MonoBehaviour
 
     public void UpdateProgress(float progress)
     {
-        percentText.text = $"{Mathf.RoundToInt(progress)}%";
+        if(percentText != null)
+        {
+            percentText.text = $"{Mathf.RoundToInt(progress)}%";
+        }
         gaugeImg.fillAmount = progress / MAX_AMOUNT;
     }
 }

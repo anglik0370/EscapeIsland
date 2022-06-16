@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using System;
 
 [CreateAssetMenu(menuName = "SO/SkillSO", fileName = "New SkillSO")]
 public class SkillSO : ScriptableObject
@@ -9,16 +9,26 @@ public class SkillSO : ScriptableObject
     public int id; //고유 id
     public string skillName; //스킬 이름
 
-    public float coolTime; //쿨타임
-    public float timer; //쿨타임 계산하는 타이머
+    public float coolTime = 10f; //쿨타임
+    public float timer = 10f; //쿨타임 계산하는 타이머
 
     public bool IsCoolTime => timer > 0; //현재 쿨타임인지
 
-    public UnityEvent Callback; //스킬 함수
+    public Action Callback; //스킬 함수
+
+    private void OnEnable()
+    {
+        InitTimer();
+    }
+
+    private void OnDisable()
+    {
+        InitTimer();
+    }
 
     public void InitTimer()
     {
-        timer = coolTime;
+        timer = 0;
     }
 
     public void UpdateTimer() //Update에서 실행해주면 됨
