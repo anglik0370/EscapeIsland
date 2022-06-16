@@ -96,7 +96,8 @@ public class GameStart : ISetAble
                 user.transform.position = uv.position;
                 user.isKidnapper = uv.isImposter;
 
-                user.UI.SetNameTextColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
+                if (uv.curTeam != Team.NONE)
+                    user.UI.SetNameTextColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
             }
             else
             {
@@ -109,7 +110,8 @@ public class GameStart : ISetAble
                     p.SetPosition(uv.position);
                     p.isKidnapper = uv.isImposter;
 
-                    p.UI.SetNameTextColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
+                    if(uv.curTeam != Team.NONE)
+                        p.UI.SetNameTextColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
                 }
             }
         }
