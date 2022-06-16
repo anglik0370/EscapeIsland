@@ -95,6 +95,8 @@ public class GameStart : ISetAble
 
                 user.transform.position = uv.position;
                 user.isKidnapper = uv.isImposter;
+
+                user.UI.SetNameTextColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
             }
             else
             {
@@ -106,25 +108,27 @@ public class GameStart : ISetAble
                 {
                     p.SetPosition(uv.position);
                     p.isKidnapper = uv.isImposter;
+
+                    p.UI.SetNameTextColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
                 }
             }
         }
 
-        if(user.isKidnapper)
-        {
-            if(user.UI != null)
-            {
-                user.UI.SetNameTextColor(Color.red);
-            }
+        //if(user.isKidnapper)
+        //{
+        //    if(user.UI != null)
+        //    {
+        //        user.UI.SetNameTextColor(Color.red);
+        //    }
 
-            foreach (int key in playerList.Keys)
-            {
-                if(playerList[key].isKidnapper && playerList[key].UI != null)
-                {
-                    playerList[key].UI.SetNameTextColor(Color.red);
-                }
-            }
-        }
+        //    foreach (int key in playerList.Keys)
+        //    {
+        //        if(playerList[key].isKidnapper && playerList[key].UI != null)
+        //        {
+        //            playerList[key].UI.SetNameTextColor(Color.red);
+        //        }
+        //    }
+        //}
         EventManager.OccurGameStart(user);
     }
 }
