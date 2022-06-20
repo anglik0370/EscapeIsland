@@ -6,38 +6,11 @@ using UnityEngine.UI;
 
 public class VotePopup : Popup
 {
-    public Button closeChatBtn;
-    public Button chatBtn;
-    public CanvasGroup chatPanel;
-
     public Button skipBtn;
     public Transform skipUserParent;
 
     [SerializeField]
     private Text timeInfoText;
-
-    [Header("CHAT")]
-    private List<ChatUI> myChatList = new List<ChatUI>();
-    private List<ChatUI> otherChatList = new List<ChatUI>();
-    [SerializeField]
-    private Transform myChatParent;
-    [SerializeField]
-    private Transform otherChatParent;
-
-    [SerializeField]
-    private ContentSizeFitter chatSizeFitter;
-
-    private const string NEW_LINE = "\n";
-    private ChatUI lastChatUI;
-
-    public ScrollRect chatRect;
-    public Transform chatParent;
-    public GameObject newChatAlert;
-    public ChatUI myChat;
-    public ChatUI otherChat;
-
-    public InputField msgInputField;
-    public Button sendMsgBtn;
 
     public Transform voteParent;
     public VoteTimeBar voteTimeBar;
@@ -46,53 +19,15 @@ public class VotePopup : Popup
 
     public List<VoteUI> voteUIList = new List<VoteUI>();
 
-    public bool IsOpenChatPanel => chatPanel.interactable;
-
     private void Start()
     {
         voteUIList = voteParent.GetComponentsInChildren<VoteUI>().ToList();
-        myChatList = myChatParent.GetComponentsInChildren<ChatUI>().ToList();
-        otherChatList = otherChatParent.GetComponentsInChildren<ChatUI>().ToList();
 
         voteUIList.ForEach(x => x.OnOff(false));
 
         EventManager.SubGameOver(p =>
         {
-            InitChat();
             InitSkipUser();
-        });
-        EventManager.SubStartMeet(mt => Init());
-
-        sendMsgBtn.onClick.AddListener(() =>
-        {
-            if (msgInputField.text == "") return;
-
-            SendManager.Instance.SendChat(msgInputField.text);
-            msgInputField.text = "";
-        });
-        msgInputField.onEndEdit.AddListener(msg =>
-        {
-            if(Input.GetKeyDown(KeyCode.Return))
-            {
-                sendMsgBtn.onClick?.Invoke();
-
-                msgInputField.text = "";
-                msgInputField.ActivateInputField();
-            }
-        });
-
-        chatBtn.onClick.AddListener(() =>
-        {
-            CanvasOpenAndClose(chatPanel, true);
-
-            newChatAlert.SetActive(false);
-            chatRect.verticalNormalizedPosition = 0f;
-            //StartCoroutine(CoroutineHandler.Frame(() => chatRect.verticalNormalizedPosition = 0f));
-        });
-
-        closeChatBtn.onClick.AddListener(() =>
-        {
-            CanvasOpenAndClose(chatPanel, false);
         });
     }
 
@@ -190,80 +125,5 @@ public class VotePopup : Popup
                 userImg.SetActive(false);
             }
         }
-    }
-
-    public void CreateChat(bool myChat,string name, string chatMsg, Sprite charSpr,bool isDie)
-    {
-        if(lastChatUI != null)
-        {
-            bool isSameUser = name == lastChatUI.nameText.text;
-
-            if (isSameUser)
-            {
-                chatMsg = NEW_LINE + chatMsg;
-                lastChatUI.SetSameUserText(chatMsg);
-                LayoutRebuilder.MarkLayoutForRebuild(chatParent as RectTransform);
-                StartCoroutine(CoroutineHandler.EndFrame(ImmediateLayout));
-                return;
-            }
-        }
-
-       
-
-        ChatUI ui = null;
-
-        if(myChat)
-        {
-            ui = myChatList.Find(x => !x.gameObject.activeSelf);
-
-            if(ui == null)
-            {
-                ui = Instantiate(this.myChat, transform);
-                myChatList.Add(ui);
-            }
-
-            ui.SetChatUI(name, chatMsg, charSpr,chatParent,isDie);
-        }
-        else
-        {
-            ui = otherChatList.Find(x => !x.gameObject.activeSelf);
-
-            if(ui == null)
-            {
-                ui = Instantiate(otherChat, transform);
-                otherChatList.Add(ui);
-            }
-
-            ui.SetChatUI(name, chatMsg, charSpr,chatParent,isDie);
-        }
-
-        lastChatUI = ui;
-
-        StartCoroutine(CoroutineHandler.EndFrame(ImmediateLayout));
-    }
-
-    private void InitChat()
-    {
-        for (int i = 0; i < chatParent.childCount; i++)
-        {
-            chatParent.GetChild(i).gameObject.SetActive(false);
-        }
-    }
-
-    private void Init()
-    {
-        lastChatUI = null;
-
-        closeChatBtn.onClick?.Invoke();
-    }
-
-    private void ImmediateLayout()
-    {
-        //LayoutRebuilder.MarkLayoutForRebuild(chatParent as RectTransform);
-
-        chatRect.verticalNormalizedPosition = 0f;
-
-        //chatSizeFitter.enabled = false;
-        //chatSizeFitter.enabled = true;
     }
 }
