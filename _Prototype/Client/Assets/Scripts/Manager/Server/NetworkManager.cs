@@ -25,6 +25,9 @@ public class NetworkManager : MonoBehaviour
     public Transform setDataScriptsParent;
 
     private bool isLogin = false;
+    private bool isChangeTeam = false;
+
+    private UserVO teamChanger;
 
     private Player user = null;
     public Player User
@@ -45,7 +48,6 @@ public class NetworkManager : MonoBehaviour
         instance = this;
 
     }
-
 
     private void Start()
     {
@@ -87,6 +89,15 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void SetChangeTeam(UserVO uv)
+    {
+        lock(instance.lockObj)
+        {
+            instance.isChangeTeam = true;
+            instance.teamChanger = uv;
+        }
+    }
+
     private void Update()
     {
         if(isLogin)
@@ -94,6 +105,12 @@ public class NetworkManager : MonoBehaviour
             PopupManager.instance.CloseAndOpen("lobby");
             isLogin = false;
         }           
+
+        if(isChangeTeam)
+        {
+            ChangeTeam();
+            isChangeTeam = false;
+        }
 
         while (removeSocketQueue.Count > 0)
         {
@@ -103,6 +120,19 @@ public class NetworkManager : MonoBehaviour
             playerList[soc].RemoveCharacter();
             playerList.Remove(soc);
         }
+    }
+
+    private void ChangeTeam()
+    {
+        if(teamChanger.socketId.Equals(socketId))
+        {
+            user.ChangeUI(teamChanger);
+        }
+        else if(playerList.TryGetValue(teamChanger.socketId,out Player p))
+        {
+            p.ChangeUI(teamChanger);
+        }
+
     }
 
     public Dictionary<int,Player> GetPlayerDic()
