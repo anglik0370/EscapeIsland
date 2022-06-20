@@ -5,38 +5,42 @@ using UnityEngine.UI;
 
 public enum GameOverCase
 {
-    KillAllCitizen,
-    FindAllKidnapper,
-    CollectAllItem,
+    BlueWin,
+    RedWin,
 }
 
 public class GameOverPanel : Panel
 {
     public static GameOverPanel Instance { get; private set; }
 
-    public CanvasGroup citizenCg;
-    public CanvasGroup kidnapperCg;
+    [SerializeField]
+    private CanvasGroup curCg;
 
     private List<Image> winImgList;
     
     [SerializeField]
     private Image standImgPrefab;
-
-    //0 - kidnapper, 1 - citizen
     [SerializeField]
-    private Transform[] kidnapperImgParent;
+    private Image topBar;
+
     [SerializeField]
-    private Transform[] citizenImgParent;
+    private Text winText;
 
-    private CanvasGroup curCg = null;
+    [SerializeField]
+    private Transform winImgParent;
 
-    private WaitForSeconds closeSec;
+    [SerializeField]
+    private ColorPicker redTeamColor;
+    [SerializeField]
+    private ColorPicker blueTeamColor;
+
+    private readonly string BLUE_WIN = "블루팀 승리";
+    private readonly string RED_WIN = "레드팀 승리";
 
     protected override void Awake()
     {
         base.Awake();
 
-        closeSec = new WaitForSeconds(1.5f);
         winImgList = new List<Image>();
 
         if(Instance == null)
@@ -56,22 +60,16 @@ public class GameOverPanel : Panel
     {
         switch (gameOverCase)
         {
-            case GameOverCase.KillAllCitizen:
+            case GameOverCase.BlueWin:
                 {
-                    CanvasGroupOpenAndClose(kidnapperCg, true);
-                    print("모든 시민 사망");
+                    SetWin(true);
+                    CanvasGroupOpenAndClose(true);
                 }
                 break;
-            case GameOverCase.FindAllKidnapper:
+            case GameOverCase.RedWin:
                 {
-                    CanvasGroupOpenAndClose(citizenCg, true);
-                    print("모든 납치자 검거");
-                }
-                break;
-            case GameOverCase.CollectAllItem:
-                {
-                    print("모든 재료 수집");
-                    CanvasGroupOpenAndClose(citizenCg, true);
+                    SetWin(false);
+                    CanvasGroupOpenAndClose(true);
                 }
                 break;
             default:
@@ -84,7 +82,12 @@ public class GameOverPanel : Panel
         base.Open();
 
         NetworkManager.instance.GameEnd();
-        //StartCoroutine(ClosePanel());
+    }
+
+    private void SetWin(bool isBlueWin)
+    {
+        topBar.color = isBlueWin ? blueTeamColor.pickColor : redTeamColor.pickColor;
+        winText.text = isBlueWin ? BLUE_WIN : RED_WIN;
     }
 
     public bool FindWinImg(out Image img)
@@ -94,22 +97,20 @@ public class GameOverPanel : Panel
         return img != null;
     }
 
-    public void MakeWinImg(Player p, bool isKidnapperWin)
+    public void MakeWinImg(Player p)
     {
         Image img = null;
-        int idx = isKidnapperWin ? 0 : 1;
-        Transform parent = (p.isKidnapper) ? kidnapperImgParent[idx] : citizenImgParent[idx];
 
         if (!FindWinImg(out img))
         {
-            img = Instantiate(standImgPrefab, parent);
+            img = Instantiate(standImgPrefab, winImgParent);
         }
         else
         {
-            img.transform.SetParent(parent);
+            img.transform.SetParent(winImgParent);
         }
 
-        img.sprite = p.isDie ? p.curSO.deadImg : p.curSO.standImg;
+        img.sprite = p.curSO.standImg;
         img.gameObject.SetActive(true);
 
         winImgList.Add(img);
@@ -124,11 +125,8 @@ public class GameOverPanel : Panel
     }
 
     //일단 이렇게 쓰고 나중에 트위닝을 쓰던가 하면 될 듯
-    public void CanvasGroupOpenAndClose(CanvasGroup cg,bool isOpen)
+    public void CanvasGroupOpenAndClose(bool isOpen)
     {
-        if (cg == null) return;
-        curCg = cg;
-
         curCg.alpha = isOpen ? 1f : 0f;
         curCg.interactable = isOpen;
         curCg.blocksRaycasts = isOpen;
@@ -138,18 +136,7 @@ public class GameOverPanel : Panel
     {
         NetworkManager.instance.User.canMove =true;
 
-        CanvasGroupOpenAndClose(curCg, false);
+        CanvasGroupOpenAndClose(false);
         base.Close();
-    }
-
-    IEnumerator ClosePanel()
-    {
-        //yield return new WaitUntil(() => cvs.interactable);
-
-        yield return closeSec;
-
-        CanvasGroupOpenAndClose(curCg, false);
-        base.Close();
-        NetworkManager.instance.GameEnd();
     }
 }

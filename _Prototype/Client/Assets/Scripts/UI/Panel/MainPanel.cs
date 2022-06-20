@@ -15,6 +15,7 @@ public class MainPanel : MonoBehaviour
     public const int MAPBTN = 6;
     public const int INGAMETIMETEXT = 7;
     public const int USERCOUNT = 8;
+    public const int CHATBTN = 9;
 
     [SerializeField]
     private List<CanvasGroup> cvsList = new List<CanvasGroup>();
@@ -39,12 +40,14 @@ public class MainPanel : MonoBehaviour
             SetCvsActive(cvsList[INTERACTIONBTN]);
             SetCvsActive(cvsList[SETTINGBTN]);
             SetCvsActive(cvsList[USERCOUNT]);
+            SetCvsActive(cvsList[CHATBTN]);
         });
 
         EventManager.SubGameStart(p =>
         {
             cvsList.ForEach(x => SetCvsActive(x));
             SetCvsActive(cvsList[USERCOUNT], false);
+            SetCvsActive(cvsList[CHATBTN], false);
         });
 
         EventManager.SubExitRoom(() =>
@@ -60,6 +63,7 @@ public class MainPanel : MonoBehaviour
             SetCvsActive(cvsList[INTERACTIONBTN]);
             SetCvsActive(cvsList[SETTINGBTN]);
             SetCvsActive(cvsList[USERCOUNT]);
+            SetCvsActive(cvsList[CHATBTN]);
         });
     }
 
