@@ -7,7 +7,7 @@ public class Win : ISetAble
     private bool needWinRefresh = false;
 
     private List<UserVO> gameOverUserList;
-    private GameOverCase gameOverCase = GameOverCase.CollectAllItem;
+    private GameOverCase gameOverCase = GameOverCase.BlueWin;
 
     private Coroutine co;
 
@@ -35,13 +35,15 @@ public class Win : ISetAble
         Init();
         user.canMove = false;
         VoteManager.Instance.EndVoteTime();
-        bool isKidnapperWin = gameOverCase == GameOverCase.KillAllCitizen;
+        bool isBlueWin = gameOverCase == GameOverCase.BlueWin;
 
         foreach (UserVO uv in gameOverUserList)
         {
+            bool isWinTeam = (isBlueWin && uv.curTeam.Equals(Team.BLUE)) || (!isBlueWin && uv.curTeam.Equals(Team.RED));
             if (uv.socketId == socketId)
             {
-                GameOverPanel.Instance.MakeWinImg(user, isKidnapperWin);
+                if(isWinTeam)
+                    GameOverPanel.Instance.MakeWinImg(user);
 
                 if (co != null)
                 {
@@ -59,7 +61,8 @@ public class Win : ISetAble
 
                 if (p != null)
                 {
-                    GameOverPanel.Instance.MakeWinImg(p, isKidnapperWin);
+                    if (isWinTeam)
+                        GameOverPanel.Instance.MakeWinImg(p);
                     p.SetPosition(uv.position);
                 }
             }
