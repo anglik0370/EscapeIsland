@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TeamPanel : Panel
 {
@@ -10,6 +11,13 @@ public class TeamPanel : Panel
     private Transform redTeamParent;
     [SerializeField]
     private Transform blueTeamParent;
+
+    [SerializeField]
+    private Button redTeamBtn;
+    [SerializeField]
+    private Button blueTeamBtn;
+
+    private Team team = Team.NONE;
 
     private bool isGameStart = false;
 
@@ -33,6 +41,15 @@ public class TeamPanel : Panel
         {
             isGameStart = false;
         });
+
+        redTeamBtn.onClick.AddListener(() =>
+        {
+            SendChangeTeam(false);
+        });
+        blueTeamBtn.onClick.AddListener(() =>
+        {
+            SendChangeTeam(true);
+        });
     }
 
     public Transform GetParent(bool isBlue)
@@ -45,5 +62,15 @@ public class TeamPanel : Panel
         if (isGameStart) return;
 
         base.Open(isTweenSkip);
+    }
+
+
+    private void SendChangeTeam(bool isBlueTeam)
+    {
+        team = isBlueTeam ? Team.BLUE : Team.RED;
+
+        TeamVO vo = new TeamVO(team);
+        DataVO dataVO = new DataVO("CHANGE_TEAM", JsonUtility.ToJson(vo));
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 }
