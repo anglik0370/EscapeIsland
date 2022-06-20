@@ -16,6 +16,8 @@ public class SkillSO : ScriptableObject
 
     public Action Callback; //스킬 함수
 
+    public bool isPassive; //패시브인지
+
     private void OnEnable()
     {
         InitTimer();
