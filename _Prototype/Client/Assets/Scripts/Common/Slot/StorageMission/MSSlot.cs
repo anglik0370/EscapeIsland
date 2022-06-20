@@ -30,6 +30,11 @@ public class MSSlot : ItemSlot
         SlotManager.Instance.EndDrag(this);
     }
 
+    public void SetGuideImg(Image img)
+    {
+        guideImage = img;
+    }
+
     public void EnableImg()
     {
         image.color = UtilClass.opacityColor;

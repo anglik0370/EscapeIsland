@@ -2,9 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MSOnly : MonoBehaviour, IStorageMission
 {
+    [SerializeField]
+    private Transform slotParentTrm;
+    [SerializeField]
+    private Transform guideParentTrm;
+
+    [SerializeField]
+    private MSSlot slotPrefab;
+    [SerializeField]
+    private Image guideImgPrefab;
+
     [SerializeField]
     private ItemSO storageItem;
     public ItemSO StorageItem => storageItem;
@@ -26,7 +37,7 @@ public class MSOnly : MonoBehaviour, IStorageMission
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
-        slotList = GetComponentsInChildren<MSSlot>().ToList();
+        slotList = new List<MSSlot>();
     }
 
     private void Start()
@@ -35,12 +46,35 @@ public class MSOnly : MonoBehaviour, IStorageMission
         {
             maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
 
-            curItemCount = 0;
-
             for (int i = 0; i < slotList.Count; i++)
             {
-                slotList[i].DisableImg();
+                slotList[i].gameObject.SetActive(true);
             }
+
+            if (maxItemCount > slotList.Count)
+            {
+                int slotCount = slotList.Count;
+
+                //아이템 갯수보다 슬롯이 적으면
+                for (int i = slotCount; i < maxItemCount; i++)
+                {
+                    MSSlot tmpSlot = Instantiate(slotPrefab, slotParentTrm);
+                    Image tmpGuideImg = Instantiate(guideImgPrefab, guideParentTrm);
+
+                    tmpSlot.SetGuideImg(tmpGuideImg);
+
+                    slotList.Add(tmpSlot);
+                }
+            }
+            else if (maxItemCount < slotList.Count)
+            {
+                for (int i = maxItemCount - 1; i < slotList.Count; i++)
+                {
+                    slotList[i].gameObject.SetActive(false);
+                }
+            }
+
+            curItemCount = 0;
 
             UpdateCurItem();
         });
