@@ -29,6 +29,11 @@ public class GameOverPanel : Panel
     [SerializeField]
     private Transform winImgParent;
 
+    [SerializeField]
+    private ColorPicker redTeamColor;
+    [SerializeField]
+    private ColorPicker blueTeamColor;
+
     private readonly string BLUE_WIN = "ºí·çÆÀ ½Â¸®";
     private readonly string RED_WIN = "·¹µåÆÀ ½Â¸®";
 
@@ -81,7 +86,7 @@ public class GameOverPanel : Panel
 
     private void SetWin(bool isBlueWin)
     {
-        topBar.color = isBlueWin ? Color.blue : Color.red;
+        topBar.color = isBlueWin ? blueTeamColor.pickColor : redTeamColor.pickColor;
         winText.text = isBlueWin ? BLUE_WIN : RED_WIN;
     }
 
