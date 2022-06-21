@@ -74,6 +74,11 @@ public class MSOnly : MonoBehaviour, IStorageMission
                 }
             }
 
+            for (int i = 0; i < slotList.Count; i++)
+            {
+                slotList[i].EnableSlot();
+            }
+
             curItemCount = 0;
 
             UpdateCurItem();
