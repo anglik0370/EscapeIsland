@@ -41,6 +41,9 @@ public class SandMission : MonoBehaviour, IGetMission
     [SerializeField]
     private float minY;
 
+    private bool isOpen = false;
+    public bool IsOpen => isOpen;
+
     private Coroutine co;
 
     private void Awake()
@@ -92,6 +95,7 @@ public class SandMission : MonoBehaviour, IGetMission
     public void Open()
     {
         curSand = 0f;
+        isOpen = true;
 
         UtilClass.SetCanvasGroup(cvsSandSlot);
         slot.Init();
@@ -110,6 +114,8 @@ public class SandMission : MonoBehaviour, IGetMission
         {
             StopCoroutine(co);
         }
+
+        isOpen = false;
     }
 
     private void StartEnableCircleRoutine()

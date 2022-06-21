@@ -48,6 +48,9 @@ public class MissionCoconut : MonoBehaviour, IGetMission
     [SerializeField]
     private float jackPotPercent = 50;
 
+    private bool isOpen = false;
+    public bool IsOpen => isOpen;
+
     private void Awake()
     {
         coconutPalmList = new List<CoconutMObj>();
@@ -78,7 +81,7 @@ public class MissionCoconut : MonoBehaviour, IGetMission
 
     public void Open()
     {
-        
+        isOpen = true;
     }
 
     public void Close()
@@ -91,6 +94,7 @@ public class MissionCoconut : MonoBehaviour, IGetMission
         }
 
         touchCount = 0;
+        isOpen = false;
     }
 
     private void AddTouchCount()

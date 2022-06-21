@@ -41,6 +41,9 @@ public class MissionBerry : MonoBehaviour, IGetMission
     [SerializeField]
     private float jackPotPercent = 50;
 
+    private bool isOpen = false;
+    public bool IsOpen => isOpen;
+
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
@@ -56,7 +59,7 @@ public class MissionBerry : MonoBehaviour, IGetMission
 
     public void Open()
     {
-        
+        isOpen = true;
     }
 
     public void Close()
@@ -69,6 +72,7 @@ public class MissionBerry : MonoBehaviour, IGetMission
         basketMObj.Init();
 
         dropCount = 0;
+        isOpen = false;
     }
 
     public void SetCurBerryObj(BerryMObj berryMObj)

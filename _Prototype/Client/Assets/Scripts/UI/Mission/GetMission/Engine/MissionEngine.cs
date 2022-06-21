@@ -32,6 +32,9 @@ public class MissionEngine : MonoBehaviour, IGetMission
     private int curOrder;
     public int CurOder => curOrder;
 
+    private bool isOpen = false;
+    public bool IsOpen => isOpen;
+
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
@@ -49,7 +52,7 @@ public class MissionEngine : MonoBehaviour, IGetMission
 
     public void Open()
     {
-        
+        isOpen = true;
     }
 
     public void Close()
@@ -73,6 +76,8 @@ public class MissionEngine : MonoBehaviour, IGetMission
 
             orderList.RemoveAt(idx);
         }
+
+        isOpen = false;
     }
 
     public void AddOder()

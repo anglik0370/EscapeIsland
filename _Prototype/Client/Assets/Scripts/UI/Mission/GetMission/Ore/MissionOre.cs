@@ -34,6 +34,9 @@ public class MissionOre : MonoBehaviour, IGetMission
     [SerializeField]
     private float spawnPercentage = 60f;
 
+    private bool isOpen = false;
+    public bool IsOpen => isOpen;
+
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
@@ -46,7 +49,7 @@ public class MissionOre : MonoBehaviour, IGetMission
 
     public void Open()
     {
-
+        isOpen = true;
     }
 
     public void Close()
@@ -60,6 +63,7 @@ public class MissionOre : MonoBehaviour, IGetMission
         slotList.ForEach(x => x.SetRaycastTarget(false));
 
         InitSlot();
+        isOpen = false;
     }
 
     private void InitSlot()
