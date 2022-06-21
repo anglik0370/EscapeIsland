@@ -76,11 +76,6 @@ public class PlayerManager : MonoBehaviour
         });
     }
 
-    public bool AmIDead()
-    {
-        return player.isDie;
-    }
-
     public bool AmIMaster()
     {
         return player.master;

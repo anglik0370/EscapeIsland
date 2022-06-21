@@ -58,10 +58,6 @@ public class NetworkManager : MonoBehaviour
 
         EventManager.SubEnterRoom(p => user = p);
 
-        EventManager.SubBackToRoom(() =>
-        {
-            InitPlayers();
-        });
         StartCoroutine(CoroutineHandler.Frame(() =>
         {
             map.SetActive(false);
@@ -161,27 +157,6 @@ public class NetworkManager : MonoBehaviour
         return playerList.Values.ToList();
     }
 
-    public bool GetPlayerDie(int socId)
-    {
-        Player p = null;
-
-        playerList.TryGetValue(socId, out p);
-
-        return p != null && p.isDie;
-    }
-
-    public void InitPlayers()
-    {
-        user.InitPlayer();
-
-        foreach (int idx in playerList.Keys)
-        {
-            playerList[idx].InitPlayer();
-        }
-
-        PlayerEnable(true);
-    }
-
     public void EnterRoom()
     {
         PopupManager.instance.ClosePopup();
@@ -219,19 +194,6 @@ public class NetworkManager : MonoBehaviour
         }
         playerList.Clear();
         InfoManager.InitTeamInfoUIs();
-    }
-    
-    public void PlayerEnable(bool isEnd = false)
-    {
-        if (!user.isDie && !isEnd) return;
-
-        foreach (int key in playerList.Keys)
-        {
-            if(!playerList[key].gameObject.activeSelf)
-            {
-                playerList[key].SetEnable();
-            }
-        }
     }
     
     public Player MakeRemotePlayer(UserVO data,CharacterSO so)

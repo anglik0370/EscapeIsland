@@ -84,11 +84,6 @@ public class InfoUI : MonoBehaviour
         if (mainPlayerTrm == null) return;
         if (mainPlayerTrm == playerTrm) return;
         
-        if(mainPlayer.isDie)
-        {
-            cvs.alpha = 1f;
-        }
-        else
         {
             if (player.AreaState == mainPlayer.AreaState)
             {

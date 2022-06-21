@@ -30,21 +30,13 @@ public class Chat : ISetAble
 
             if (playerList.TryGetValue(vo.socketId, out p))
             {
-                if ((!p.isDie && !user.isDie) || user.isDie)
-                {
-                    //voteTab.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg,p.isDie);
-                    //voteTab.newChatAlert.SetActive(!voteTab.IsOpenChatPanel);
-                    ChatPanel.Instance.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg, p.isDie);
-                    ChatPanel.Instance.SetChatAlert();
-                }
+                ChatPanel.Instance.CreateChat(false, p.socketName, vo.msg, p.curSO.profileImg);
+                ChatPanel.Instance.SetChatAlert();
             }
             else
             {
-                if (user.socketId == vo.socketId)
-                {
-                    //voteTab.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg,user.isDie);
-                    ChatPanel.Instance.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg, user.isDie);
-                }
+                ChatPanel.Instance.CreateChat(true, user.socketName, vo.msg, user.curSO.profileImg);
+
             }
         }
     }

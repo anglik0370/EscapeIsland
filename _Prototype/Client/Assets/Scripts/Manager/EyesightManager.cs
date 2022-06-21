@@ -145,7 +145,7 @@ public class EyesightManager : MonoBehaviour
 
     void Update()
     {
-        if (player == null || player.isDie) return;
+        if (player == null) return;
 
         if(oldState != player.AreaState)
         {
@@ -249,7 +249,7 @@ public class EyesightManager : MonoBehaviour
 
     public void Dark()
     {
-        if (player == null || player.isDie) return;
+        if (player == null) return;
 
         if (lightSeq != null)
         {
@@ -270,8 +270,6 @@ public class EyesightManager : MonoBehaviour
 
     public void Light()
     {
-        if (player.isDie) return;
-
         if (lightSeq != null)
         {
             lightSeq.Kill();

@@ -105,7 +105,7 @@ public class ChatPanel : Panel
         }
     }
 
-    public void CreateChat(bool myChat, string name, string chatMsg, Sprite charSpr, bool isDie)
+    public void CreateChat(bool myChat, string name, string chatMsg, Sprite charSpr)
     {
         if (lastChatUI != null)
         {
@@ -121,8 +121,6 @@ public class ChatPanel : Panel
             }
         }
 
-
-
         ChatUI ui = null;
 
         if (myChat)
@@ -134,7 +132,7 @@ public class ChatPanel : Panel
             ui = otherChatQueue.Count > 0 ? otherChatQueue.Dequeue() : Instantiate(otherChat, otherChatParent);
         }
 
-        ui.SetChatUI(name, chatMsg, charSpr, chatParent, isDie);
+        ui.SetChatUI(name, chatMsg, charSpr, chatParent);
         lastChatUI = ui;
 
         StartCoroutine(CoroutineHandler.EndFrame(ImmediateLayout));

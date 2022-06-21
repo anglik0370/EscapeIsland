@@ -35,7 +35,7 @@ public class Player : MonoBehaviour, IInteractionObject
     public Action LobbyCallback => () => { };
     public Action IngameCallback => () => { };
 
-    public bool CanInteraction => !isDie && gameObject.activeSelf;
+    public bool CanInteraction => gameObject.activeSelf;
 
     [SerializeField]
     private Collider2D interactionCol;
@@ -65,7 +65,6 @@ public class Player : MonoBehaviour, IInteractionObject
     } 
 
     public bool master;
-    public bool isDie = false;
 
     private Team curTeam = Team.NONE;
     public Team CurTeam
@@ -90,14 +89,6 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private const float DEFAULT_SCALE_Z = 1;
     private const float FLIP_SCALE_Z = -1;
-
-    private int defaultBodyLayer = -1; 
-    private int defaultFootLayer = -1;
-    private int deadLayer = -1;
-
-    //이건 죽었을 때 고스트 이미지 보이게 하는 용도임
-    private List<SpriteRenderer> srList;
-    private SpriteRenderer ghostSr;
 
     public float speed = 5;
 
@@ -125,28 +116,10 @@ public class Player : MonoBehaviour, IInteractionObject
         flipRot = new Vector3(0, 180, 0);
         defaultRot = Vector3.zero;
 
-        defaultBodyLayer = LayerMask.NameToLayer("PLAYER");
-        defaultFootLayer = LayerMask.NameToLayer("PLAYERFOOT");
-        deadLayer = LayerMask.NameToLayer("PLAYERGHOST");
-
         interactionCol = GetComponentInChildren<Collider2D>();
 
         voiceSource = GetComponent<AudioSource>();
     }
-
-    private void Start()
-    {
-        EventManager.SubGameOver(goc =>
-        {
-            for (int i = 0; i < srList.Count; i++)
-            {
-                srList[i].color = UtilClass.opacityColor;
-            }
-
-            ghostSr.color = UtilClass.limpidityColor;
-        });
-    }
-
     private void Update()
     {
         if(IsRemote && !isNotLerp)
@@ -206,16 +179,6 @@ public class Player : MonoBehaviour, IInteractionObject
         dummyPlayer.transform.localPosition = curSO.adjsutPos;
 
         anim = dummyPlayer.GetComponent<CharComponentHolder>().anim;
-
-        srList = dummyPlayer.GetComponent<CharComponentHolder>().srList;
-        ghostSr = dummyPlayer.transform.Find("Ghost").GetComponent<SpriteRenderer>();
-
-        for (int i = 0; i < srList.Count; i++)
-        {
-            srList[i].color = UtilClass.opacityColor;
-        }
-
-        ghostSr.color = UtilClass.limpidityColor;
 
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
@@ -328,8 +291,6 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         if (!gameObject.activeSelf) return;
 
-        ChangeLayer(false);
-
         if (user)
         {
             for (int i = 0; i < transform.childCount; i++)
@@ -346,46 +307,14 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetEnable()
     {
         anim.SetFloat(ANIMB_DIE, 0f);
-        ChangeLayer(true);
 
         gameObject.SetActive(true);
         ui.gameObject.SetActive(true);
     }
 
-    public void SetDead()
-    {
-        isDie = true;
-        canMove = true;
-
-        for (int i = 0; i < srList.Count; i++)
-        {
-            srList[i].color = UtilClass.limpidityColor;
-        }
-
-        ghostSr.color = UtilClass.opacityColor;
-
-        anim.SetFloat(ANIMB_DIE, 1f);
-
-        ChangeLayer(true);
-    }
-
     public void SetAttack()
     {
         anim.SetTrigger(ANIMT_ATTACK);
-    }
-
-    private void ChangeLayer(bool isDie)
-    {
-        bodyCollider.gameObject.layer = isDie ? deadLayer : defaultBodyLayer;
-        footCollider.gameObject.layer = isDie ? deadLayer : defaultFootLayer;
-    }
-
-    public void InitPlayer()
-    {
-        isDie = false;
-
-        anim.SetFloat(ANIMB_DIE, 0f);
-        ChangeLayer(false);
     }
 
     public void Move(Vector3 dir)

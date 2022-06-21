@@ -18,7 +18,7 @@ public class ChatUI : MonoBehaviour
 
     private const float CHAT_PADDING = 15f;
 
-    public void SetChatUI(string name, string msg, Sprite charSpr,Transform parent,bool isDie)
+    public void SetChatUI(string name, string msg, Sprite charSpr,Transform parent)
     {
         nameText.text = name;
         msgText.text = msg;
@@ -27,7 +27,6 @@ public class ChatUI : MonoBehaviour
         transform.SetParent(null);
         transform.SetParent(parent);
 
-        cg.alpha = isDie ? 0.5f : 1f;
         gameObject.SetActive(true);
     }
 
