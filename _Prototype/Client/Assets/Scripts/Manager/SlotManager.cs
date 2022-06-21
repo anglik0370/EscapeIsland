@@ -224,7 +224,7 @@ public class SlotManager : MonoBehaviour
                             //mission.UpdateCurItem();
 
                             //여기서 저장소로 날려주면 됨
-                            SendManager.Instance.StorageDrop(beginSlot.GetItem().itemId);
+                            SendManager.Instance.StorageDrop(NetworkManager.instance.User.CurTeam,beginSlot.GetItem().itemId);
                             beginSlot.SetItem(null);
                         }
                     }

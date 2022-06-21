@@ -7,6 +7,6 @@ module.exports = {
         
         if(room === undefined) return;
         
-        room.broadcast(JSON.stringify({type:"STORAGE_DROP",payload:data.itemSOId}));
+        room.broadcast(JSON.stringify({type:"STORAGE_DROP",payload:JSON.stringify(data)}));
     }
 }
