@@ -6,18 +6,15 @@ using UnityEngine;
 public class MSWithObj : MonoBehaviour, IStorageMission
 {
     [SerializeField]
+    private Team team;
+    public Team Team => team;
+
+    [SerializeField]
     private ItemSO storageItem;
     public ItemSO StorageItem => storageItem;
 
     private CanvasGroup cvs;
     public CanvasGroup Cvs => cvs;
-
-    [SerializeField]
-    private int maxItemCount;
-    public int MaxItemCount => maxItemCount;
-    [SerializeField]
-    private int curItemCount;
-    public int CurItemCount => curItemCount;
 
     [SerializeField]
     private int maxPanelCount;
@@ -40,6 +37,11 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
         EventManager.SubGameStart(p =>
         {
+            team = Team.RED;
+
+            int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
+            int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
+
             maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
             maxPanelCount = maxItemCount / objList.Count; //나머지 안남게 세팅 부탁
 
@@ -55,8 +57,6 @@ public class MSWithObj : MonoBehaviour, IStorageMission
                     slotList[i].EnableSlot();
                 }
             }
-
-            curItemCount = 0;
 
             for (int i = 0; i < slotList.Count; i++)
             {
@@ -82,11 +82,19 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
     }
 
+    public void SetTeam(Team team)
+    {
+        this.team = team;
+    }
+
     public void AddCurItem()
     {
-        curItemCount++;
+        StorageManager.Instance.FindItemAmount(false, team, storageItem).amount++;
 
-        if(maxPanelCount > 1)
+        int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
+        int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
+
+        if (maxPanelCount > 1)
         {
             int tmpItemCnt = curItemCount;
 
@@ -111,6 +119,8 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
     public void UpdateCurItem()
     {
+        int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
+
         for (int i = 0; i < slotList.Count; i++)
         {
             slotList[i].DisableImg();

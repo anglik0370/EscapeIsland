@@ -112,7 +112,7 @@ public class MissionPanel : Panel
         base.Open(true);
     }
 
-    public void OpenStorageMission(ItemSO itemSO)
+    public void OpenStorageMission(Team team, ItemSO itemSO)
     {
         IStorageMission storageMission = null;
 
@@ -131,7 +131,10 @@ public class MissionPanel : Panel
             return;
         }
 
-        if (storageMission.CurItemCount >= storageMission.MaxItemCount) return;
+        int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageMission.StorageItem).amount;
+        int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageMission.StorageItem).amount;
+
+        if (curItemCount >= maxItemCount) return;
 
         if (oldMission != null)
         {
@@ -140,6 +143,7 @@ public class MissionPanel : Panel
 
         UtilClass.SetCanvasGroup(storageMission.Cvs, 1, true, true);
 
+        storageMission.SetTeam(team);
         storageMission.Open();
 
         oldMission = storageMission;

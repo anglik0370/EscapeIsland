@@ -6,9 +6,9 @@ public interface IStorageMission : IMission
 {
     public ItemSO StorageItem { get; }
 
-    public int MaxItemCount { get; }
-    public int CurItemCount { get; }
+    public Team Team { get; }
 
+    public void SetTeam(Team team);
     public void AddCurItem();
     public void UpdateCurItem();
 }

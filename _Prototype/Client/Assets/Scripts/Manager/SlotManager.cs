@@ -216,15 +216,15 @@ public class SlotManager : MonoBehaviour
                     MSSlot msSlot = endSlot as MSSlot;
                     IStorageMission mission = msSlot.Mission;
 
-                    if(mission.CurItemCount < mission.MaxItemCount)
+                    int curItemCount = StorageManager.Instance.FindItemAmount(false, mission.Team, mission.StorageItem).amount;
+                    int maxItemCount = StorageManager.Instance.FindItemAmount(true, mission.Team, mission.StorageItem).amount;
+
+                    if (curItemCount < maxItemCount)
                     {
                         if (msSlot.IsEmpty)
                         {
-                            //mission.AddCurItem();
-                            //mission.UpdateCurItem();
-
                             //여기서 저장소로 날려주면 됨
-                            SendManager.Instance.StorageDrop(NetworkManager.instance.User.CurTeam,beginSlot.GetItem().itemId);
+                            SendManager.Instance.StorageDrop(mission.Team, beginSlot.GetItem().itemId);
                             beginSlot.SetItem(null);
                         }
                     }
