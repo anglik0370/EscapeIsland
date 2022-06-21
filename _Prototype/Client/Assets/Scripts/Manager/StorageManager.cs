@@ -12,16 +12,8 @@ public class StorageManager : MonoBehaviour
     [SerializeField]
     private NeedItemSO needItemSO;
 
-    [SerializeField]
-    private List<ItemAmount> maxAmountItemList;
-    [SerializeField]
-    private List<ItemAmount> curAmountItemList;
-
-    private int totalNeedItemAmount;
-    private int totalCollectedItemAmount;
-
-    [SerializeField]
-    private ItemStorage curOpenStorage;
+    private Dictionary<Team, StorageVO> storageDic;
+    public Dictionary<Team, StorageVO> StorageDic => storageDic;
 
     private void Awake()
     {
@@ -40,55 +32,39 @@ public class StorageManager : MonoBehaviour
 
         EventManager.SubGameStart(p =>
         {
-            totalCollectedItemAmount = 0;
-            totalNeedItemAmount = 0;
-
-            maxAmountItemList.Clear();
-
-            for (int i = 0; i < needItemSO.itemAmountList.Count; i++)
+            foreach (var team in storageDic)
             {
-                maxAmountItemList.Add(needItemSO.itemAmountList[i]);
-                curAmountItemList.Add(new ItemAmount(needItemSO.itemAmountList[i].item, 0));
-            }
+                team.Value.totalCollectedItemAmount = 0;
+                team.Value.totalNeedItemAmount = 0;
 
-            for (int i = 0; i < maxAmountItemList.Count; i++)
-            {
-                totalNeedItemAmount += maxAmountItemList[i].amount;
-            }
+                team.Value.maxAmountItemList.Clear();
 
-            foreach (ItemAmount amount in curAmountItemList)
-            {
-                amount.amount = 0;
+                for (int i = 0; i < needItemSO.itemAmountList.Count; i++)
+                {
+                    team.Value.maxAmountItemList.Add(needItemSO.itemAmountList[i]);
+                    team.Value.curAmountItemList.Add(new ItemAmount(needItemSO.itemAmountList[i].item, 0));
+                }
 
-                StoragePanel.Instance.UpdateUIs(amount.item, GetProgress());
+                for (int i = 0; i < team.Value.maxAmountItemList.Count; i++)
+                {
+                    team.Value.totalNeedItemAmount += team.Value.maxAmountItemList[i].amount;
+                }
+
+                foreach (ItemAmount amount in team.Value.curAmountItemList)
+                {
+                    amount.amount = 0;
+
+                    StoragePanel.Instance.UpdateUIs(team.Key, amount.item, GetProgress(team.Key));
+                }
             }
         });
     }
 
-    public void FillAllItem()
-    {
-        for (int i = 0; i < maxAmountItemList.Count; i++)
-        {
-            ItemAmount curAmount = FindItemAmount(false, maxAmountItemList[i].item);
-
-            curAmount.amount = maxAmountItemList[i].amount;
-
-            StoragePanel.Instance.UpdateUIs(maxAmountItemList[i].item, GetProgress());
-        }
-
-        totalNeedItemAmount = totalCollectedItemAmount;
-
-        //꽉찼으니 꽉찼다고 서버에 보내줘야 한다.
-        DataVO dataVO = new DataVO("STORAGE_FULL", "");
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void AddItem(ItemSO item)
+    public void AddItem(Team team, ItemSO item)
     {
         //아이템에 맞는 Amount클래스 찾아주고
-        ItemAmount maxAmount = FindItemAmount(true, item);
-        ItemAmount curAmount = FindItemAmount(false, item);
+        ItemAmount maxAmount = FindItemAmount(true, team, item);
+        ItemAmount curAmount = FindItemAmount(false, team, item);
 
         //생각해보니까 MAX 넘으면 안되네 현재보유량 + 넣는양이 작으면 더해주는걸로
         if (curAmount.amount < maxAmount.amount)
@@ -96,15 +72,18 @@ public class StorageManager : MonoBehaviour
             //갯수만큼 더해준다
             curAmount.amount++;
 
-            totalCollectedItemAmount++;
+            if(storageDic.TryGetValue(team, out StorageVO value))
+            {
+                value.totalCollectedItemAmount++;
+            }
         }
 
-        if (IsItemFull(item))
+        if (IsItemFull(team, item))
         {
             Debug.Log($"{item}꽉참");
         }
 
-        if (IsItemFull())
+        if (IsItemFull(team))
         {
             //꽉찼으니 꽉찼다고 서버에 보내줘야 한다.
             DataVO dataVO = new DataVO("STORAGE_FULL", "");
@@ -114,14 +93,14 @@ public class StorageManager : MonoBehaviour
             SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
         }
 
-        StoragePanel.Instance.UpdateUIs(item, GetProgress());
+        StoragePanel.Instance.UpdateUIs(team, item, GetProgress(team));
     }
 
-    public void RemoveItem(ItemSO item)
+    public void RemoveItem(Team team, ItemSO item)
     {
         //아이템에 맞는 Amount클래스 찾아주고
-        ItemAmount maxAmount = FindItemAmount(true, item);
-        ItemAmount curAmount = FindItemAmount(false, item);
+        ItemAmount maxAmount = FindItemAmount(true, team, item);
+        ItemAmount curAmount = FindItemAmount(false, team, item);
 
         //0보다 작으면 안됨
         if (curAmount.amount > 0)
@@ -129,10 +108,13 @@ public class StorageManager : MonoBehaviour
             //갯수만큼 빼준다
             curAmount.amount--;
 
-            totalCollectedItemAmount--;
+            if (storageDic.TryGetValue(team, out StorageVO value))
+            {
+                value.totalCollectedItemAmount--;
+            }
         }
 
-        StoragePanel.Instance.UpdateUIs(item, GetProgress());
+        StoragePanel.Instance.UpdateUIs(team, item, GetProgress(team));
     }
 
     public int FindNeedItemAmount(ItemSO so)
@@ -140,42 +122,69 @@ public class StorageManager : MonoBehaviour
         return needItemSO.itemAmountList.Find(x => x.item == so).amount;
     }
 
-    public ItemAmount FindItemAmount(bool isMaxList, ItemSO item)
+    public ItemAmount FindItemAmount(bool isMaxList,Team team, ItemSO item)
     {
-        ItemAmount amount = isMaxList ? maxAmountItemList.Find(x => x.item.itemId == item.itemId) : curAmountItemList.Find(x => x.item.itemId == item.itemId);
+        ItemAmount amount = null;
+
+        if(isMaxList)
+        {
+            if(storageDic.TryGetValue(team, out StorageVO value))
+            {
+                amount = value.maxAmountItemList.Find(x => x.item.itemId == item.itemId);
+            }
+        }
+        else
+        {
+            if (storageDic.TryGetValue(team, out StorageVO value))
+            {
+                amount = value.curAmountItemList.Find(x => x.item.itemId == item.itemId);
+            }
+        }
 
         return amount;
     }
 
     //특정 아이템이 꽉 찼는지 검사
-    public bool IsItemFull(ItemSO item)
+    public bool IsItemFull(Team team, ItemSO item)
     {
         //아이템에 맞는 Amount클래스 찾아주고
-        ItemAmount maxAmount = FindItemAmount(true, item);
-        ItemAmount curAmount = FindItemAmount(false, item);
+        ItemAmount maxAmount = FindItemAmount(true, team, item);
+        ItemAmount curAmount = FindItemAmount(false, team, item);
 
         //두개가 같으면 꽉찬거
         return curAmount.amount == maxAmount.amount;
     }
 
     //이건 전체가 꽉찼는지 검사하는거
-    private bool IsItemFull()
+    private bool IsItemFull(Team team)
     {
-        for (int i = 0; i < curAmountItemList.Count; i++)
+        if(storageDic.TryGetValue(team, out StorageVO value))
         {
-            //하나라도 다르면 false
-            if (!IsItemFull(curAmountItemList[i].item))
+            for (int i = 0; i < value.curAmountItemList.Count; i++)
             {
-                return false;
+                //하나라도 다르면 false
+                if (!IsItemFull(team, value.curAmountItemList[i].item))
+                {
+                    return false;
+                }
             }
+
+            return true;
         }
 
-        return true;
+        Debug.Log("그런 팀은 없어요");
+        return false;
     }
 
-    private float GetProgress()
+    private float GetProgress(Team team)
     {
-        return ((float)totalCollectedItemAmount / (float)totalNeedItemAmount) * 100;
+        if (storageDic.TryGetValue(team, out StorageVO value))
+        {
+            return ((float)value.totalCollectedItemAmount / (float)value.totalNeedItemAmount) * 100;
+        }
+
+        Debug.Log("그런 팀은 없어요");
+        return 0;
     }
 
     private NeedItemSO FindNeedItemSO(int playerCnt)
