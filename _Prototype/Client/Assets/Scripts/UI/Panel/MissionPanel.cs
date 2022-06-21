@@ -36,6 +36,8 @@ public class MissionPanel : Panel
     [SerializeField]
     private IMission oldMission;
 
+    private bool isGetMissionPanelOpen = false;
+
     protected override void Awake()
     {
         if(Instance == null)
@@ -109,7 +111,7 @@ public class MissionPanel : Panel
 
         oldMission = getMission;
 
-        base.Open(true);
+        Open(true);
     }
 
     public void OpenStorageMission(Team team, ItemSO itemSO)
@@ -151,15 +153,30 @@ public class MissionPanel : Panel
         base.Open(true);
     }
 
+    public override void Open(bool isTweenSkip = false)
+    {
+        isGetMissionPanelOpen = true;
+
+        base.Open(isTweenSkip);
+    }
+
     public override void Close(bool isTweenSkip = false)
     {
         if (oldMission == null) return;
 
+        isGetMissionPanelOpen = false;
         oldMission?.Close();
 
         UtilClass.SetCanvasGroup(oldMission.Cvs);
 
         base.Close(isTweenSkip);
+    }
+
+    public void CloseGetMissionPanel()
+    {
+        if (!isGetMissionPanelOpen) return;
+
+        Close();
     }
 
     public bool NeedCoolTimeMission(MissionType type)

@@ -59,6 +59,7 @@ public class SkillManager : MonoBehaviour
     private void RandySkill()
     {
         print($"{skillList[RANDY].skillName} »ç¿ë");
+        SendManager.Instance.Send("DISS_RAP");
     }
 
     private void SarsuSkill()
