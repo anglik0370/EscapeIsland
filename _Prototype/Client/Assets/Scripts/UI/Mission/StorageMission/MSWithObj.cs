@@ -92,10 +92,8 @@ public class MSWithObj : MonoBehaviour, IStorageMission
         this.team = team;
     }
 
-    public void AddCurItem()
+    public void UpdateCurItem()
     {
-        StorageManager.Instance.FindItemAmount(false, team, storageItem).amount++;
-
         int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
         int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
 
@@ -115,16 +113,11 @@ public class MSWithObj : MonoBehaviour, IStorageMission
         }
         else
         {
-            if(curItemCount >= maxItemCount)
+            if (curItemCount >= maxItemCount)
             {
                 MissionPanel.Instance.Close();
             }
         }
-    }
-
-    public void UpdateCurItem()
-    {
-        int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
 
         for (int i = 0; i < slotList.Count; i++)
         {

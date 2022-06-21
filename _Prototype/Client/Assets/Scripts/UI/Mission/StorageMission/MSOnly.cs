@@ -106,11 +106,6 @@ public class MSOnly : MonoBehaviour, IStorageMission
         this.team = team;
     }
 
-    public void AddCurItem()
-    {
-        StorageManager.Instance.FindItemAmount(false, team, storageItem).amount++;
-    }
-
     public void UpdateCurItem()
     {
         int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;

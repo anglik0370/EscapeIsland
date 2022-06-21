@@ -9,6 +9,5 @@ public interface IStorageMission : IMission
     public Team Team { get; }
 
     public void SetTeam(Team team);
-    public void AddCurItem();
     public void UpdateCurItem();
 }
