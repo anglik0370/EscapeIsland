@@ -41,6 +41,7 @@ public class TeamPanel : Panel
         {
             isGameStart = false;
         });
+        EventManager.SubExitRoom(() => isGameStart = false);
 
         redTeamBtn.onClick.AddListener(() =>
         {

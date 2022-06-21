@@ -38,6 +38,8 @@ public class StoragePanel : Panel
             isGameStart = false;
         });
 
+        EventManager.SubExitRoom(() => isGameStart = false);
+
         base.Start();
     }
 
