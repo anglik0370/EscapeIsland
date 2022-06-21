@@ -9,4 +9,10 @@ public class StorageVO
 
     public int totalNeedItemAmount;
     public int totalCollectedItemAmount;
+
+    public StorageVO()
+    {
+        maxAmountItemList = new List<ItemAmount>();
+        curAmountItemList = new List<ItemAmount>();
+    }
 }
