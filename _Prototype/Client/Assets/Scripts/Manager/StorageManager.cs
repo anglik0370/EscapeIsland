@@ -16,8 +16,6 @@ public class StorageManager : MonoBehaviour
     private SerializableDictionary<Team, StorageVO> storageDic;
     public SerializableDictionary<Team, StorageVO> StorageDic => storageDic;
 
-    public ItemSO testSO;
-
     private void Awake()
     {
         if (Instance == null)
@@ -62,8 +60,6 @@ public class StorageManager : MonoBehaviour
                     StoragePanel.Instance.UpdateUIs(team.Key, amount.item, GetProgress(team.Key));
                 }
             }
-
-            print(FindItemAmount(true, Team.RED, testSO));
         });
     }
 
