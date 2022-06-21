@@ -20,7 +20,7 @@ public class DeadBodyManager : MonoBehaviour
             Instance = this;
         }
 
-        PoolManager.CreatePool<DeadBody>(deadBodyPrefab.gameObject, transform, 5);
+        //PoolManager.CreatePool<DeadBody>(deadBodyPrefab.gameObject, transform, 5);
     }
 
     private void Start()

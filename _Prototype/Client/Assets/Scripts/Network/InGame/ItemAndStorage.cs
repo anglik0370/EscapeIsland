@@ -64,13 +64,13 @@ public class ItemAndStorage : ISetAble
         }
     }
 
-    public void SetItemStorage(int itemSOId)
+    public void SetItemStorage(ItemStorageVO vo)
     {
-        ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
-        IStorageMission mission = MissionPanel.Instance.FindStorageMissionByItemId(itemSOId);
+        ItemSO so = ItemManager.Instance.FindItemSO(vo.itemSOId);
+        IStorageMission mission = MissionPanel.Instance.FindStorageMissionByItemId(vo.itemSOId);
 
         mission.AddCurItem();
         mission.UpdateCurItem();
-        StorageManager.Instance.AddItem(so);
+        StorageManager.Instance.AddItem(vo.team,so);
     }
 }

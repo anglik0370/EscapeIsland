@@ -8,11 +8,16 @@ public class StoragePanel : Panel
     public static StoragePanel Instance;
 
     [SerializeField]
-    private ProgressUI progressUI;
+    private ProgressUI teamProgressUI;
+    [SerializeField]
+    private ProgressUI enemyProgressUI;
+
     [SerializeField]
     private List<StorageSlot> slotList = new List<StorageSlot>();
 
     private bool isGameStart = false;
+
+    private Player user = null;
 
     protected override void Awake() 
     {
@@ -28,6 +33,8 @@ public class StoragePanel : Panel
 
     protected override void Start()
     {
+        EventManager.SubEnterRoom(p => user = p);
+
         EventManager.SubGameStart(p =>
         {
             isGameStart = true;
@@ -52,7 +59,12 @@ public class StoragePanel : Panel
 
         slot.SetAmountText(maxAmount.amount, curAmount.amount);
 
-        progressUI.UpdateProgress(progress);
+        if(user.CurTeam.Equals(team))
+        {
+            teamProgressUI.UpdateProgress(progress);
+            return;
+        }
+        enemyProgressUI.UpdateProgress(progress);
     }
 
     public void Open(Team team, bool isTweenSkip = false)

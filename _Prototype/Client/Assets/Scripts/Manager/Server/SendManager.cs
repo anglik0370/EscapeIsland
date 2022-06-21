@@ -119,10 +119,11 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void StorageDrop(int itemSOId)
+    public void StorageDrop(Team team,int itemSOId)
     {
         ItemStorageVO vo = new ItemStorageVO();
         vo.itemSOId = itemSOId;
+        vo.team = team;
 
         DataVO dataVO = new DataVO("STORAGE_DROP", JsonUtility.ToJson(vo));
 

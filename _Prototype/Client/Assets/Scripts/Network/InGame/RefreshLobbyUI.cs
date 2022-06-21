@@ -48,6 +48,7 @@ public class RefreshLobbyUI : ISetAble
                 {
                     user.UI.SetTeamImgColor(isBlue ? Color.blue : Color.red);
                     user.TeamUI.SetParent(TeamPanel.Instance.GetParent(isBlue));
+                    user.CurTeam = isBlue ? Team.BLUE : Team.RED;
                 }
             }
             else
@@ -58,6 +59,7 @@ public class RefreshLobbyUI : ISetAble
                     {
                         p.UI.SetTeamImgColor(isBlue ? Color.blue : Color.red);
                         p.TeamUI.SetParent(TeamPanel.Instance.GetParent(isBlue));
+                        p.CurTeam = isBlue ? Team.BLUE : Team.RED;
                     }
                 }
             }

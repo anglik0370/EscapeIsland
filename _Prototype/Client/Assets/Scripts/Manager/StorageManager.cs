@@ -21,6 +21,8 @@ public class StorageManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        storageDic = new Dictionary<Team, StorageVO>() { { Team.RED, new StorageVO() }, { Team.BLUE, new StorageVO() } };
     }
 
     private void Start()

@@ -79,6 +79,13 @@ public class Player : MonoBehaviour, IInteractionObject
     public bool isKidnapper; //true : 맢 / false : 시민
     public bool isDie = false;
 
+    private Team curTeam = Team.NONE;
+    public Team CurTeam
+    {
+        get => curTeam;
+        set => curTeam = value;
+    }
+
     public bool canMove = false;
     public bool isFlip = false; //뒤집혔는지
     public bool isNotLerp = false;
