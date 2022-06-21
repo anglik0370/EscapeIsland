@@ -69,7 +69,7 @@ public class ItemAndStorage : ISetAble
         ItemSO so = ItemManager.Instance.FindItemSO(vo.itemSOId);
         IStorageMission mission = MissionPanel.Instance.FindStorageMissionByItemId(vo.itemSOId);
 
+        StorageManager.Instance.AddItem(vo.team, so);
         mission.UpdateCurItem();
-        StorageManager.Instance.AddItem(vo.team,so);
     }
 }
