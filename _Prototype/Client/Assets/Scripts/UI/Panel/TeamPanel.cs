@@ -70,6 +70,8 @@ public class TeamPanel : Panel
     {
         team = isBlueTeam ? Team.BLUE : Team.RED;
 
+        if (team.Equals(NetworkManager.instance.User.CurTeam)) return;
+
         TeamVO vo = new TeamVO(team);
         DataVO dataVO = new DataVO("CHANGE_TEAM", JsonUtility.ToJson(vo));
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
