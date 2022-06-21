@@ -25,6 +25,9 @@ public class MSWithObj : MonoBehaviour, IStorageMission
     [SerializeField]
     private List<MSObject> objList = new List<MSObject>();
 
+    private List<MSObject> redObjList = new List<MSObject>();
+    private List<MSObject> blueObjList = new List<MSObject>();
+
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
@@ -35,6 +38,9 @@ public class MSWithObj : MonoBehaviour, IStorageMission
     {
         objList.ForEach(x => x.Disable());
 
+        redObjList = objList.FindAll(x => x.Team == Team.RED);
+        blueObjList = objList.FindAll(x => x.Team == Team.BLUE);
+
         EventManager.SubGameStart(p =>
         {
             try
@@ -43,7 +49,7 @@ public class MSWithObj : MonoBehaviour, IStorageMission
                 int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
 
                 maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
-                maxPanelCount = maxItemCount / objList.Count; //나머지 안남게 세팅 부탁
+                maxPanelCount = maxItemCount / redObjList.Count ; //나머지 안남게 세팅 부탁
 
                 if (maxPanelCount > 1)
                 {
@@ -106,6 +112,8 @@ public class MSWithObj : MonoBehaviour, IStorageMission
                 tmpItemCnt -= maxPanelCount;
             }
 
+            print(tmpItemCnt);
+
             if (tmpItemCnt == 0)
             {
                 MissionPanel.Instance.Close();
@@ -133,9 +141,19 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
         if(objCount > 0)
         {
-            for (int i = 0; i < objCount; i++)
+            if(team == Team.RED)
             {
-                objList[i].Enable();
+                for (int i = 0; i < objCount; i++)
+                {
+                    redObjList[i].Enable();
+                }
+            }
+            else if(team == Team.BLUE)
+            {
+                for (int i = 0; i < objCount; i++)
+                {
+                    blueObjList[i].Enable();
+                }
             }
         }
 
