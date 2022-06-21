@@ -7,16 +7,12 @@ class Player {
 
         this.position = Vector2.zero;
 
-        this.voteNum = 0;
         this.socketId = -1;
         this.charId = 0;
         this.roomNum = -1;
         this.areaState = 0;
 
-        this.isImposter = false;
         this.master = false;
-        this.isDie = false;
-        this.voteComplete = false;
         this.ready = false;
 
         this.curTeam = team.NONE;
@@ -43,8 +39,6 @@ class Player {
         this.roomNum = 0;
         this.charId = 0;
         this.master = false; 
-        this.isImposter = false;
-        this.isDie = false;
         this.areaState = 0;
         this.ready = false;
 

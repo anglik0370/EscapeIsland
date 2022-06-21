@@ -7,20 +7,17 @@ const sendError = require('./Utils/SendError.js');
 
 const Timer = require('./Timers/Timer.js');
 const InGameTimer = require('./Timers/InGameTimer.js');
-const VoteTimer = require('./Timers/VoteTimer.js');
 
 class Room {
-    constructor(roomName,roomNum,curUserNum,userNum,kidnapperNum,playing) {
+    constructor(roomName,roomNum,curUserNum,userNum,playing) {
         this.roomName = roomName;
         this.roomNum = roomNum;
         this.curUserNum = curUserNum;
         this.userNum = userNum;
-        this.kidnapperNum = kidnapperNum;
         this.playing = playing;
 
-        this.inGameTimer = new InGameTimer(this,20,() => this.inGameTimerCallback());
+        this.inGameTimer = new InGameTimer(this,20,() => {});
         this.arsonTimer = new Timer(this,60, () => this.sendKidnapperWin(0));
-        this.isEndGame = false;
 
         this.skipCount = 0;
 
@@ -102,43 +99,7 @@ class Room {
             return;
         }
 
-        let isTest = false;
-
-        for(let key in this.userList) {
-            if(this.userList[key].socketId >= 1000) {
-                isTest = true;
-                break;
-            }
-        }
-
-        let keys = Object.keys(this.userList);
-        let imposterLength = this.kidnapperNum;
-        let idx;
-    
-        if(isTest) {
-            for(let key in this.userList) {
-                if(this.userList[key].master) {
-                    this.userList[key].isImposter = true;
-                    break;
-                }
-            }
-        }
-        else {
-            for(let i = 0; i < imposterLength; i++) {
-                do {
-                    idx = Math.floor(Math.random() * keys.length);
-                }while(this.userList[keys[idx]].isImposter)
-        
-                this.userList[keys[idx]].isImposter = true;
-            }
-        }
-        
-    
-        let posList = SetSpawnPoint(keys.length);
-    
-        for(let i = 0; i < keys.length; i++) {
-            this.userList[keys[i]].position = posList[i];
-        }
+        this.setSpawnPos();
         
         let dataList = this.getUsersData();
     
@@ -153,8 +114,6 @@ class Room {
         this.skipCount = 0;
 
         for(let key in this.userList) {
-            this.userList[key].isDie = false;
-            this.userList[key].isImposter = false;
             this.userList[key].isInside = false;
             this.userList[key].ready = false;
         }
@@ -172,19 +131,6 @@ class Room {
     startTimer(isInit) {
         this.inGameTimer.startTimer(isInit);
         this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_GAME",isStart:true})}));
-    }
-
-    inGameTimerCallback() {
-        if(this.isEndGame) {
-
-            this.setSpawnPos();
-    
-            let dataList = this.getUsersData();
-
-            this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
-            this.initRoom();
-            return;
-        }
     }
 
     addSocket(socket,user) {

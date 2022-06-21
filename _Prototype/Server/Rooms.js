@@ -8,7 +8,6 @@ const team = require('./Utils/Team.js');
 const GetRandomPos = require('./Utils/SpawnPoint.js');
 const sendError = require('./Utils/SendError.js');
 
-
 class Rooms {
     constructor() {
         this.roomList = {};
@@ -63,7 +62,7 @@ class Rooms {
         }
         
     
-        let r = new Room(roomInfo.name,this.roomIdx,0,roomInfo.userNum,roomInfo.kidnapperNum,false);
+        let r = new Room(roomInfo.name,this.roomIdx,0,roomInfo.userNum,false);
         socket.room = this.roomIdx;
 
         this.roomList[this.roomIdx] = r;
@@ -125,7 +124,6 @@ class Rooms {
 
         if(user !== undefined){ 
             // 초기화
-            
             user.initExitData();
         }
         
@@ -174,7 +172,6 @@ class Rooms {
         
         socket.send(JSON.stringify({type:"ENTER_ROOM",payload:""}));
 
-        //if(isMaster)
         setTimeout(() => {
             this.roomBroadcast(socket.room);
             room.refreshUserCount();
@@ -208,16 +205,11 @@ class Rooms {
     }
 
     allRoomBroadcast() {
-        let keys = Object.keys(this.roomList);
-        for(let i = 0; i < keys.length; i++) {
-            let room = this.roomList[keys[i]];
+        for(let key in this.roomList) {
+            let room = this.roomList[key];
             let dataList = Object.values(room.userList);
 
-            room.socketList.forEach(soc => {
-                if(soc.readyState != WebSocket.OPEN) return;
-                soc.send(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
-            });
-
+            room.broadcast(JSON.stringify({type:"REFRESH_USER",payload:JSON.stringify({dataList})}));
             room.initVoiceData();
         }
     }
@@ -229,8 +221,6 @@ class Rooms {
     }
     
 }
-
-
 
 module.exports = {
     Rooms: new Rooms()
