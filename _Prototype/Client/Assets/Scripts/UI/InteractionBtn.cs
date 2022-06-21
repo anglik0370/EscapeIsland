@@ -62,7 +62,7 @@ public class InteractionBtn : MonoBehaviour
 
     public bool CanTouch => btnImg.raycastTarget;
 
-    private void Awake() 
+    private void Awake()
     {
         btn = GetComponent<Button>();
         image = GetComponent<Image>();
@@ -97,7 +97,7 @@ public class InteractionBtn : MonoBehaviour
         });
     }
 
-    private void Update() 
+    private void Update()
     {
         if (!isEnterRoom) return;
         if (GameManager.Instance.IsPanelOpen) return;
@@ -131,7 +131,7 @@ public class InteractionBtn : MonoBehaviour
         {
             if (!isGameStart)
             {
-                if(PlayerManager.Instance.AmIMaster())
+                if (PlayerManager.Instance.AmIMaster())
                 {
                     UpdateBtnState(gameStartSO);
                     UpdateBtnCallback(() => SendManager.Instance.GameStart());
@@ -169,14 +169,14 @@ public class InteractionBtn : MonoBehaviour
 
     private void UpdateCoolTimeImage()
     {
-         if (state == InteractionCase.Nothing)
+        if (state == InteractionCase.Nothing)
         {
             coolTimeImg.fillAmount = 1f;
             btnImg.raycastTarget = false;
         }
-        else if(state == InteractionCase.PickUpItem)
+        else if (state == InteractionCase.PickUpItem)
         {
-            ItemSpawner spawner =  proximateObj as ItemSpawner;
+            ItemSpawner spawner = proximateObj as ItemSpawner;
 
             coolTimeImg.fillAmount = spawner.GetFillCoolTime();
             btnImg.raycastTarget = spawner.isInteractionAble;
@@ -187,18 +187,18 @@ public class InteractionBtn : MonoBehaviour
             btnImg.raycastTarget = true;
         }
     }
-    
+
     private void UpdateAccent()
     {
-        if(state == InteractionCase.GameStart || state == InteractionCase.Ready || state == InteractionCase.Nothing)
+        if (state == InteractionCase.GameStart || state == InteractionCase.Ready || state == InteractionCase.Nothing)
         {
             accent.Disable();
         }
-        else if(state == InteractionCase.KillPlayer)
+        else if (state == InteractionCase.KillPlayer)
         {
             accent.Disable();
         }
-        else if(state == InteractionCase.ReportDeadbody)
+        else if (state == InteractionCase.ReportDeadbody)
         {
             accent.Disable();
         }
