@@ -96,7 +96,6 @@ public class GameStart : ISetAble
                 co = StartCoroutine(CoroutineHandler.EnableDampingEndFrame(GameManager.Instance.CmVCam));
 
                 user.transform.position = uv.position;
-                user.isKidnapper = uv.isImposter;
 
                 //if (uv.curTeam != Team.NONE)
                 //    user.UI.SetNameTextColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);
@@ -110,7 +109,6 @@ public class GameStart : ISetAble
                 if (p != null)
                 {
                     p.SetPosition(uv.position);
-                    p.isKidnapper = uv.isImposter;
 
                     //if(uv.curTeam != Team.NONE)
                     //    p.UI.SetNameTextColor(uv.curTeam.Equals(Team.BLUE) ? Color.blue : Color.red);

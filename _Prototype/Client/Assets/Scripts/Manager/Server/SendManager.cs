@@ -90,15 +90,6 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendKill(int targetSocketId)
-    {
-        KillVO vo = new KillVO(socketId,targetSocketId);
-
-        DataVO dataVO = new DataVO("KILL", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
     public void SendChat(string msg)
     {
         ChatVO vo = new ChatVO(socketId, msg);

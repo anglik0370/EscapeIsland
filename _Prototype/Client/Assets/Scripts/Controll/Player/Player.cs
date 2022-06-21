@@ -30,21 +30,10 @@ public class Player : MonoBehaviour, IInteractionObject
 
     [SerializeField]
     private InteractionSO ingameHandlerSO;
-    public InteractionSO InGameHandlerSO => GetInteractionSO();
+    public InteractionSO InGameHandlerSO => ingameHandlerSO;
 
     public Action LobbyCallback => () => { };
-    public Action IngameCallback => () =>
-    {
-        if(PlayerManager.Instance.AmIKidnapper())
-        {
-            if(PlayerManager.Instance.AmIDead())
-            {
-                return;
-            }
-
-            PlayerManager.Instance.KillPlayer(this);
-        }
-    };
+    public Action IngameCallback => () => { };
 
     public bool CanInteraction => !isDie && gameObject.activeSelf;
 
@@ -76,7 +65,6 @@ public class Player : MonoBehaviour, IInteractionObject
     } 
 
     public bool master;
-    public bool isKidnapper; //true : 맢 / false : 시민
     public bool isDie = false;
 
     private Team curTeam = Team.NONE;
@@ -394,7 +382,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void InitPlayer()
     {
-        isKidnapper = isDie = false;
+        isDie = false;
 
         anim.SetFloat(ANIMB_DIE, 0f);
         ChangeLayer(false);
@@ -402,7 +390,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void Move(Vector3 dir)
     {
-        if(IsRemote || !canMove || VoteManager.Instance.isVoteTime) return;
+        if(IsRemote || !canMove) return;
 
         if(dir != Vector3.zero)
         {
@@ -491,20 +479,5 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetAreaState(AreaState areaState)
     {
         this.areaState = areaState;
-    }
-
-    private InteractionSO GetInteractionSO()
-    {
-        if (PlayerManager.Instance.AmIKidnapper())
-        {
-            if(PlayerManager.Instance.AmIDead())
-            {
-                return nothingHandlerSO;
-            }
-
-             return ingameHandlerSO;
-        }
-
-        return nothingHandlerSO;
     }
 }

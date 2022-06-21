@@ -140,7 +140,7 @@ public class Sabotage : ISetAble
     {
         SabotageButton curSabotage = SabotagePanel.Instance.FindSabotageButton(sabotageData.sabotageName);
 
-        if((sabotageData.isShareCoolTime && user.isKidnapper) || user.socketId == sabotageData.starterId)
+        //if((sabotageData.isShareCoolTime && user.isKidnapper) || user.socketId == sabotageData.starterId)
         {
             curSabotage.StartSabotageCoolTime(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
 

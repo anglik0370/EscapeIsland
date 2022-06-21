@@ -5,7 +5,6 @@ using UnityEngine;
 public class Chat : ISetAble
 {
     private Queue<ChatVO> chatQueue = new Queue<ChatVO>();
-    private VotePopup voteTab = null;
 
     public void ReceiveChat(ChatVO vo)
     {
@@ -18,7 +17,6 @@ public class Chat : ISetAble
     protected override void Start()
     {
         base.Start();
-        StartCoroutine(CoroutineHandler.Frame(() => voteTab = VoteManager.Instance.voteTab));
     }
 
     void Update()
