@@ -35,8 +35,11 @@ class Rooms {
         return undefined;
     }
 
-    removeAllRoom() {
+    removeAllRoom(socket) {
         this.roomIdx = 1;
+        this.roomList = {};
+
+        this.refreshRoom(socket);
     }
 
     getRoom(roomNum) {
