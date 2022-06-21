@@ -32,6 +32,8 @@ public class LobbyPopup : Popup
 
     public Toggle testToggle;
 
+    private bool isOpenPanel = false;
+
     private void Start()
     {
         UIManager.Instance.OnEndEdit(roomNameInput, createRoomBtn.onClick);
@@ -85,6 +87,28 @@ public class LobbyPopup : Popup
         {
             kidnapperNumText.text = $"{(int)x}";
         });
+    }
+
+    private void Update()
+    {
+        if (!isOpenPanel) return;
+
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            SendManager.Instance.Send("ROOM_DELETE_REQ");
+        }
+    }
+
+    public override void Open(object data = null, int closeCount = 1)
+    {
+        isOpenPanel = true;
+        base.Open(data, closeCount);
+    }
+
+    public override void Close()
+    {
+        isOpenPanel = false;
+        base.Close();
     }
 
     public void OpenCreateRoomPopup(bool on)
