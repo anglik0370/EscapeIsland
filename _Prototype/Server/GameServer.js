@@ -4,10 +4,11 @@ const port = 31012;
 const {Rooms} = require('./Rooms.js');
 const {Users} = require('./Users.js');
 const fs = require('fs');
+const path = require('path');
 
 let handlers = {};
 
-fs.readdir("./handlers",(err,files) => {
+fs.readdir(path.join(__dirname,"handlers"),(err,files) => {
     files.forEach(file => {
         let handler = require(`./handlers/${file}`);
         handlers[handler.type] = handler;
