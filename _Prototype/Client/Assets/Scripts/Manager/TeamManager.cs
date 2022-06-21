@@ -15,5 +15,10 @@ public class TeamManager : MonoBehaviour
         {
             shipParentTrmList[i].GetComponentsInChildren<ItemStorage>().ToList().ForEach(x => x.SetTeam((Team)(i + 1)));
         }
+        
+        for (int i = 0; i < shipParentTrmList.Count; i++)
+        {
+            shipParentTrmList[i].GetComponentsInChildren<MSObject>().ToList().ForEach(x => x.SetTeam((Team)(i + 1)));
+        }
     }
 }

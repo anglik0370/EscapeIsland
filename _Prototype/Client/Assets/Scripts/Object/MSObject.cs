@@ -5,6 +5,10 @@ using UnityEngine;
 public class MSObject : MonoBehaviour
 {
     [SerializeField]
+    private Team team;
+    public Team Team => team;
+
+    [SerializeField]
     private bool isEmpty;
     public bool IsEmpty => isEmpty;
 
@@ -13,6 +17,11 @@ public class MSObject : MonoBehaviour
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+    }
+
+    public void SetTeam(Team team)
+    {
+        this.team = team;
     }
 
     public void Enable()
