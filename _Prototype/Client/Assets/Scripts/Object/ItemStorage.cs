@@ -7,6 +7,10 @@ using System;
 public class ItemStorage : MonoBehaviour, IInteractionObject
 {
     [SerializeField]
+    private Team team;
+    public Team Team => team;
+
+    [SerializeField]
     private InteractionSO lobbyHandlerSO;
     public InteractionSO LobbyHandlerSO => lobbyHandlerSO;
 
@@ -55,5 +59,10 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     public bool GetFlipX()
     {
         return sr.flipX;
+    }
+
+    public void SetTeam(Team team)
+    {
+        this.team = team;
     }
 }
