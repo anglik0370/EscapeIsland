@@ -85,20 +85,10 @@ public class StorageManager : MonoBehaviour
             }
         }
 
-        if (IsItemFull(team, item))
-        {
-            Debug.Log($"{item}꽉참");
-        }
-
-        if (IsItemFull(team))
-        {
-            //꽉찼으니 꽉찼다고 서버에 보내줘야 한다.
-            DataVO dataVO = new DataVO("STORAGE_FULL", "");
-
-            Debug.Log("꽉참");
-
-            SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-        }
+        //if (IsItemFull(team, item))
+        //{
+        //    Debug.Log($"{item}꽉참");
+        //}
 
         StoragePanel.Instance.UpdateUIs(team, item, GetProgress(team));
     }
@@ -159,15 +149,23 @@ public class StorageManager : MonoBehaviour
         return curAmount.amount == maxAmount.amount;
     }
 
+    public bool IsItemFull(Team team, ItemSO item,object data)
+    {
+        ItemAmount maxAmount = FindItemAmount(true, team, item);
+        ItemAmount curAmount = FindItemAmount(false, team, item);
+
+        return (curAmount.amount + 1) == maxAmount.amount || curAmount.amount == maxAmount.amount;
+    }
+
     //이건 전체가 꽉찼는지 검사하는거
-    private bool IsItemFull(Team team)
+    public bool IsItemFull(Team team)
     {
         if(storageDic.TryGetValue(team, out StorageVO value))
         {
             for (int i = 0; i < value.curAmountItemList.Count; i++)
             {
                 //하나라도 다르면 false
-                if (!IsItemFull(team, value.curAmountItemList[i].item))
+                if (!IsItemFull(team, value.curAmountItemList[i].item,null))
                 {
                     return false;
                 }
