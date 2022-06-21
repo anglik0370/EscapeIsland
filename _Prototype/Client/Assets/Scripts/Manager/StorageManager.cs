@@ -12,8 +12,11 @@ public class StorageManager : MonoBehaviour
     [SerializeField]
     private NeedItemSO needItemSO;
 
-    private Dictionary<Team, StorageVO> storageDic;
-    public Dictionary<Team, StorageVO> StorageDic => storageDic;
+    [SerializeField]
+    private SerializableDictionary<Team, StorageVO> storageDic;
+    public SerializableDictionary<Team, StorageVO> StorageDic => storageDic;
+
+    public ItemSO testSO;
 
     private void Awake()
     {
@@ -22,7 +25,7 @@ public class StorageManager : MonoBehaviour
             Instance = this;
         }
 
-        storageDic = new Dictionary<Team, StorageVO>() { { Team.RED, new StorageVO() }, { Team.BLUE, new StorageVO() } };
+        storageDic = new SerializableDictionary<Team, StorageVO>() { { Team.RED, new StorageVO() }, { Team.BLUE, new StorageVO() } };
     }
 
     private void Start()
@@ -32,7 +35,7 @@ public class StorageManager : MonoBehaviour
             GameManager.Instance.AddInteractionObj(storage);
         });
 
-        EventManager.SubGameStart(p =>
+        EventManager.SubGameInit(() =>
         {
             foreach (var team in storageDic)
             {
@@ -59,6 +62,8 @@ public class StorageManager : MonoBehaviour
                     StoragePanel.Instance.UpdateUIs(team.Key, amount.item, GetProgress(team.Key));
                 }
             }
+
+            print(FindItemAmount(true, Team.RED, testSO));
         });
     }
 
@@ -128,16 +133,13 @@ public class StorageManager : MonoBehaviour
     {
         ItemAmount amount = null;
 
-        if(isMaxList)
+        if(storageDic.TryGetValue(team, out StorageVO value))
         {
-            if(storageDic.TryGetValue(team, out StorageVO value))
+            if (isMaxList)
             {
                 amount = value.maxAmountItemList.Find(x => x.item.itemId == item.itemId);
             }
-        }
-        else
-        {
-            if (storageDic.TryGetValue(team, out StorageVO value))
+            else
             {
                 amount = value.curAmountItemList.Find(x => x.item.itemId == item.itemId);
             }

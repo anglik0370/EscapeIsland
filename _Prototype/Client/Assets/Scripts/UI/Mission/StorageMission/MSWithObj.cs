@@ -37,38 +37,43 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
         EventManager.SubGameStart(p =>
         {
-            team = Team.RED;
-
-            int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
-            int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
-
-            maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
-            maxPanelCount = maxItemCount / objList.Count; //나머지 안남게 세팅 부탁
-
-            if(maxPanelCount > 1)
+            try
             {
+                int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
+                int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
+
+                maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
+                maxPanelCount = maxItemCount / objList.Count; //나머지 안남게 세팅 부탁
+
+                if (maxPanelCount > 1)
+                {
+                    for (int i = 0; i < slotList.Count; i++)
+                    {
+                        slotList[i].DisableSlot();
+                    }
+
+                    for (int i = 0; i < maxPanelCount; i++)
+                    {
+                        slotList[i].EnableSlot();
+                    }
+                }
+
                 for (int i = 0; i < slotList.Count; i++)
                 {
-                    slotList[i].DisableSlot();
+                    slotList[i].DisableImg();
                 }
 
-                for (int i = 0; i < maxPanelCount; i++)
+                for (int i = 0; i < objList.Count; i++)
                 {
-                    slotList[i].EnableSlot();
+                    objList[i].Disable();
                 }
-            }
 
-            for (int i = 0; i < slotList.Count; i++)
+                UpdateCurItem();
+            }
+            catch
             {
-                slotList[i].DisableImg();
+                print(gameObject.name);
             }
-
-            for (int i = 0; i < objList.Count; i++)
-            {
-                objList[i].Disable();
-            }
-
-            UpdateCurItem();
         });
     }
 

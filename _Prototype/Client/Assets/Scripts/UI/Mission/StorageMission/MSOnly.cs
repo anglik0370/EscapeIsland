@@ -40,44 +40,49 @@ public class MSOnly : MonoBehaviour, IStorageMission
     {
         EventManager.SubGameStart(p =>
         {
-            team = Team.RED;
-
-            int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
-
-            for (int i = 0; i < slotList.Count; i++)
+            try
             {
-                slotList[i].gameObject.SetActive(true);
-            }
+                int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
 
-            if (maxItemCount > slotList.Count)
-            {
-                int slotCount = slotList.Count;
-
-                //아이템 갯수보다 슬롯이 적으면
-                for (int i = slotCount; i < maxItemCount; i++)
+                for (int i = 0; i < slotList.Count; i++)
                 {
-                    MSSlot tmpSlot = Instantiate(slotPrefab, slotParentTrm);
-                    Image tmpGuideImg = Instantiate(guideImgPrefab, guideParentTrm);
-
-                    tmpSlot.SetGuideImg(tmpGuideImg);
-
-                    slotList.Add(tmpSlot);
+                    slotList[i].gameObject.SetActive(true);
                 }
-            }
-            else if (maxItemCount < slotList.Count)
-            {
-                for (int i = maxItemCount - 1; i < slotList.Count; i++)
+
+                if (maxItemCount > slotList.Count)
                 {
-                    slotList[i].gameObject.SetActive(false);
+                    int slotCount = slotList.Count;
+
+                    //아이템 갯수보다 슬롯이 적으면
+                    for (int i = slotCount; i < maxItemCount; i++)
+                    {
+                        MSSlot tmpSlot = Instantiate(slotPrefab, slotParentTrm);
+                        Image tmpGuideImg = Instantiate(guideImgPrefab, guideParentTrm);
+
+                        tmpSlot.SetGuideImg(tmpGuideImg);
+
+                        slotList.Add(tmpSlot);
+                    }
                 }
-            }
+                else if (maxItemCount < slotList.Count)
+                {
+                    for (int i = maxItemCount - 1; i < slotList.Count; i++)
+                    {
+                        slotList[i].gameObject.SetActive(false);
+                    }
+                }
 
-            for (int i = 0; i < slotList.Count; i++)
+                for (int i = 0; i < slotList.Count; i++)
+                {
+                    slotList[i].EnableSlot();
+                }
+
+                UpdateCurItem();
+            }
+            catch (System.Exception)
             {
-                slotList[i].EnableSlot();
+                print(gameObject.name);
             }
-
-            UpdateCurItem();
         });
     }
 

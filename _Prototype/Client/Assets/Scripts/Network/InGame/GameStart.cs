@@ -133,6 +133,7 @@ public class GameStart : ISetAble
         //        }
         //    }
         //}
+        EventManager.OccurGameInit();
         EventManager.OccurGameStart(user);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class EventManager
 {
     private static Action<Player> EnterRoom = p => { };
+    private static Action GameInit = () => { };
     private static Action<Player> GameStart = p => { };
     private static Action PlayerDead = () => { };
     private static Action<bool> TimeChange = isLight => { };
@@ -13,6 +14,16 @@ public class EventManager
     private static Action ExitRoom = () => { };
     private static Action<MeetingType> StartMeet = type => { };
     private static Action<GameOverCase> GameOver = overCase => { };
+
+    public static void SubGameInit(Action Callback)
+    {
+        GameInit += Callback;
+    }
+
+    public static void OccurGameInit()
+    {
+        GameInit?.Invoke();
+    }
 
     public static void SubPlayerDead(Action Callback)
     {
