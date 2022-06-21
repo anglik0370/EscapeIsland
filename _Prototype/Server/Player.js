@@ -41,12 +41,10 @@ class Player {
 
     initExitData() {
         this.roomNum = 0;
-        this.voteNum = 0;
         this.charId = 0;
         this.master = false; 
         this.isImposter = false;
         this.isDie = false;
-        this.voteComplete = false;
         this.areaState = 0;
         this.ready = false;
 

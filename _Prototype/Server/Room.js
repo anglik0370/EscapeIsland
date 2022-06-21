@@ -20,14 +20,9 @@ class Room {
 
         this.inGameTimer = new InGameTimer(this,20,() => this.inGameTimerCallback());
         this.arsonTimer = new Timer(this,60, () => this.sendKidnapperWin(0));
-        this.inVoteTimer = new VoteTimer(this,150,30,() => this.voteTimerCallBack());
         this.isEndGame = false;
 
         this.skipCount = 0;
-        
-        this.interval = 1000;
-        this.nextTime = 0;
-        this.expected = Date.now();
 
         this.socketList = [];
         this.userList = {};
@@ -56,122 +51,6 @@ class Room {
         }
     }
 
-    voteEnd(timeEnd = false) {
-        let allComplete = true;
-        let targetSocIdArr = [];
-
-        let isTest = false;
-
-        for(let key in this.userList) {
-            if(key >= 1000) {
-                isTest = true;
-                break;
-            }
-        }
-
-        for(let key in this.userList) {
-            if(!this.userList[key].isDie && !this.userList[key].voteComplete) {
-                allComplete = false;
-                break;
-            }
-        }
-        
-        if(allComplete || isTest || timeEnd) {
-            let dummy = -1;
-    
-            for(let key in this.userList) {
-                let user = this.userList[key];
-                let idx = user.voteNum;
-    
-                if(dummy != 0 &&  idx == dummy) {
-                    targetSocIdArr.push(user.socketId);
-                }
-                else if(idx > dummy && idx > this.skipCount) {
-                    dummy = idx;
-                    targetSocIdArr.length = 0;
-                    targetSocIdArr.push(user.socketId);
-                }
-    
-                this.userList[key].voteNum = 0;
-                this.userList[key].voteComplete = false;
-            }
-            this.skipCount = 0;
-            
-            if(targetSocIdArr.length == 1) {
-                this.broadcast(JSON.stringify({type:"VOTE_DIE",payload:targetSocIdArr[0]}));
-                this.userList[targetSocIdArr[0]].isDie = true;
-            }
-            this.sendVoteResult();
-            return !timeEnd;
-        }
-        return false;
-    }
-
-    voteResult() {
-        this.setSpawnPos();
-                
-        let dataList = this.getUsersData();
-        let filteredArr = dataList.filter(user => user.isImposter && !user.isDie);
-
-        if(filteredArr.length <= 0) {
-            this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:1})}),true);
-            this.initRoom();
-            return;
-        }
-
-        if(this.kidnapperWinCheck()) {
-            this.initRoom();
-            return;
-        }
-
-        this.voteTimeEnd();
-    }
-
-    sendVoteResult() {
-        this.broadcast(JSON.stringify({type:"VOTE_RESULT",
-        payload:""}));
-    }
-
-    endGameHandle(goc) {
-        if(goc > 2) return;
-
-        this.setSpawnPos();
-        
-        let dataList = this.getUsersData();
-
-        this.broadcast(goc <= 0 ? JSON.stringify({type:"WIN_KIDNAPPER",payload:JSON.stringify({dataList,gameOverCase:goc})})
-        : JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:goc})}),true);
-        this.initRoom();
-    }
-
-    voteTimeEnd() {
-        console.log("startTimer");
-        this.startTimer(false);
-    }
-
-    kidnapperWinCheck() {
-        let imposterCount = 0;
-        let citizenCount = 0;
-    
-    
-        for(let key in this.userList) {
-            if(this.userList[key].isDie) continue;
-    
-            if(this.userList[key].isImposter) imposterCount++;
-            else citizenCount++;
-        }
-    
-        this.setSpawnPos();
-    
-        //살아있는 임포가 시민보다 많을 경우
-        if(imposterCount >= citizenCount) {
-            //임포승
-            this.sendKidnapperWin(0);
-            return true;
-        }
-        return false;
-    }
-
     setSpawnPos() {
         let keys = Object.keys(this.userList);
         let posList = SetSpawnPoint(keys.length);
@@ -179,15 +58,6 @@ class Room {
         for(let i = 0; i < keys.length; i++) {
             this.userList[keys[i]].position = posList[i];
         }
-    }
-
-    sendKidnapperWin(gameOverCase) {
-        this.setSpawnPos();
-        let dataList = this.getUsersData();
-
-        this.broadcast(JSON.stringify({type:"WIN_KIDNAPPER",
-            payload:JSON.stringify({dataList,gameOverCase})}),true);
-        this.initRoom();
     }
 
     allReady() {
@@ -285,34 +155,23 @@ class Room {
         for(let key in this.userList) {
             this.userList[key].isDie = false;
             this.userList[key].isImposter = false;
-            this.userList[key].voteNum = 0;
-            this.userList[key].voteComplete = false;
             this.userList[key].isInside = false;
             this.userList[key].ready = false;
         }
         
         this.inGameTimer.stopTimer(true);
         this.arsonTimer.stopTimer(true);
-        this.inVoteTimer.stopTimer(true);
     }
 
     setTimersTime(socket){
         if(socket.readyState !== WebSocket.OPEN) return;
         
-        socket.send(JSON.stringify({type:"SET_TIME",payload:JSON.stringify
-        ({inGameTime:this.inGameTimer.maxTime, voteTime:this.inVoteTimer.maxTime, discussionTime:this.inVoteTimer.discussionTime})}));
+        socket.send(JSON.stringify({type:"SET_TIME",payload:JSON.stringify({inGameTime:this.inGameTimer.maxTime})}));
     }
 
     startTimer(isInit) {
-        this.inVoteTimer.stopTimer();
         this.inGameTimer.startTimer(isInit);
         this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_GAME",isStart:true})}));
-    }
-
-    startVoteTimer() {
-        this.inGameTimer.stopTimer();
-        this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_VOTE",isStart:true})}));
-        this.inVoteTimer.startTimer(true);
     }
 
     inGameTimerCallback() {
@@ -325,12 +184,6 @@ class Room {
             this.broadcast(JSON.stringify({type:"WIN_CITIZEN",payload:JSON.stringify({dataList,gameOverCase:2})}),true);
             this.initRoom();
             return;
-        }
-    }
-
-    voteTimerCallBack() {
-        if(!this.voteEnd(true)) {
-            this.sendVoteResult();
         }
     }
 
