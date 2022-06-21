@@ -26,8 +26,10 @@ public class NetworkManager : MonoBehaviour
 
     private bool isLogin = false;
     private bool isChangeTeam = false;
+    private bool isTimeRefresh = false;
 
     private UserVO teamChanger;
+    private TimeVO timeData;
 
     private Player user = null;
     public Player User
@@ -93,8 +95,17 @@ public class NetworkManager : MonoBehaviour
     {
         lock(instance.lockObj)
         {
-            instance.isChangeTeam = true;
             instance.teamChanger = uv;
+            instance.isChangeTeam = true;
+        }
+    }
+
+    public static void SetTimeData(TimeVO vo)
+    {
+        lock(instance.lockObj)
+        {
+            instance.timeData = vo;
+            instance.isTimeRefresh = true;
         }
     }
 
@@ -110,6 +121,12 @@ public class NetworkManager : MonoBehaviour
         {
             ChangeTeam();
             isChangeTeam = false;
+        }
+
+        if(isTimeRefresh)
+        {
+            TimeHandler.Instance.TimeRefresh(timeData.day, timeData.isLightTime);
+            isTimeRefresh = false;
         }
 
         while (removeSocketQueue.Count > 0)

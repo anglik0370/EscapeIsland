@@ -29,9 +29,6 @@ public class InteractionBtn : MonoBehaviour
     [Header("레디 SO")]
     [SerializeField]
     private InteractionSO readySO;
-    [Header("킬 SO")]
-    [SerializeField]
-    private InteractionSO killSO;
 
     [Header("텍스트")]
     [SerializeField]
@@ -147,12 +144,6 @@ public class InteractionBtn : MonoBehaviour
             }
             else
             {
-                if (PlayerManager.Instance.AmIKidnapper())
-                {
-                    UpdateBtnState(killSO);
-                    UpdateBtnCallback(() => { });
-                }
-
                 UpdateBtnState(nothingSO);
                 UpdateBtnCallback(() => { });
             }
@@ -178,20 +169,10 @@ public class InteractionBtn : MonoBehaviour
 
     private void UpdateCoolTimeImage()
     {
-        if (state == InteractionCase.KillPlayer)
-        {
-            coolTimeImg.fillAmount = TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime;
-            btnImg.raycastTarget = (TimeHandler.Instance.CurKillCoolTime / TimeHandler.Instance.KillCoolTime) <= 0;
-        }
-        else if (state == InteractionCase.Nothing)
+         if (state == InteractionCase.Nothing)
         {
             coolTimeImg.fillAmount = 1f;
             btnImg.raycastTarget = false;
-        }
-        else if(state == InteractionCase.EmergencyMeeting)
-        {
-            coolTimeImg.fillAmount = Timer.Instance.EmergencyFillCoolTime();
-            btnImg.raycastTarget = Timer.Instance.isEmergencyAble && Sabotage.Instance.CanEmergency;
         }
         else if(state == InteractionCase.PickUpItem)
         {

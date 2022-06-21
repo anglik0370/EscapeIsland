@@ -57,11 +57,6 @@ public class RefreshMasters : ISetAble
             {
                 user.master = uv.master;
 
-                if(isGameStart && user.isKidnapper)
-                {
-                    continue;
-                }
-
                 if(user.master)
                 {
                     user.UI.SetNameTextColor(Color.black);
@@ -78,11 +73,6 @@ public class RefreshMasters : ISetAble
                 if (p != null)
                 {
                     p.master = uv.master;
-
-                    if(isGameStart && p.isKidnapper)
-                    {
-                        continue;
-                    }
 
                     if(p.master)
                     {

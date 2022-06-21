@@ -42,19 +42,6 @@ public class SabotagePanel : Panel
 
     protected override void Start()
     {
-        EventManager.SubGameStart(p =>
-        {
-            if (p.isKidnapper)
-            {
-                Open(true);
-                GameStart();
-            }
-            else
-            {
-                Close(false);
-            }
-        });
-
         EventManager.SubExitRoom(() => Close(false));
         EventManager.SubBackToRoom(() => Close(false));
         EventManager.SubGameOver(goc => Close(false));

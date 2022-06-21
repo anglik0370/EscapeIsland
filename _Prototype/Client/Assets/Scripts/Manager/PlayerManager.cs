@@ -23,8 +23,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Inventory inventory;
 
-    private Kill kill;
-
     private void Awake()
     {
         if (Instance == null)
@@ -50,14 +48,14 @@ public class PlayerManager : MonoBehaviour
             co = StartCoroutine(UpdatePlayerAreaStateRoutine());
         });
 
-        EventManager.SubGameStart(p =>
-        {
-            for (int i = 0; i < PlayerList.Count; i++)
-            {
-                if(p.isKidnapper && !PlayerList[i].isKidnapper)
-                    GameManager.Instance.AddInteractionObj(PlayerList[i]);
-            }
-        });
+        //EventManager.SubGameStart(p =>
+        //{
+        //    for (int i = 0; i < PlayerList.Count; i++)
+        //    {
+        //        if(p.isKidnapper && !PlayerList[i].isKidnapper)
+        //            GameManager.Instance.AddInteractionObj(PlayerList[i]);
+        //    }
+        //});
 
         EventManager.SubExitRoom(() =>
         {
@@ -76,19 +74,6 @@ public class PlayerManager : MonoBehaviour
 
             co = StartCoroutine(UpdatePlayerAreaStateRoutine());
         });
-
-        StartCoroutine(CoroutineHandler.Frame(() => kill = NetworkManager.instance.FindSetDataScript<Kill>()));
-    }
-
-    public void KillPlayer(Player p)
-    {
-        TimeHandler.Instance.InitKillCool();
-        kill.KillPlayer(p);
-    }
-
-    public bool AmIKidnapper()
-    {
-        return player.isKidnapper;
     }
 
     public bool AmIDead()

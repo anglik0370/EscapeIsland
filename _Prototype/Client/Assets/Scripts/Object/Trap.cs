@@ -47,7 +47,7 @@ public class Trap : MonoBehaviour
     IEnumerator SetDisable()
     {
         sr.enabled = true;
-        if (NetworkManager.instance.User.isKidnapper) yield break;
+        //if (NetworkManager.instance.User.isKidnapper) yield break;
 
         yield return CoroutineHandler.oneSec;
         sr.enabled = false;

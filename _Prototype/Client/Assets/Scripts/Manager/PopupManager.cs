@@ -14,7 +14,6 @@ public class PopupManager : MonoBehaviour
     public LoginPopup loginPopup;
     public LobbyPopup lobbyPopup;
     public AlertPopup alertPopup;
-    public VotePopup votePopup;
     
     private CanvasGroup popupCanvasGroup;
 
@@ -48,12 +47,10 @@ public class PopupManager : MonoBehaviour
         //popupDic.Add("connect", Instantiate(connectPopup, popupParent));
         popupDic.Add("login", Instantiate(loginPopup, popupParent));
         popupDic.Add("lobby", Instantiate(lobbyPopup, popupParent));
-        popupDic.Add("vote", Instantiate(votePopup, popupParent));
 
 
         //alert는 항상 밑에 있어야함
         popupDic.Add("alert", Instantiate(alertPopup, popupParent));
-        VoteManager.Instance.voteTab = popupDic["vote"] as VotePopup;
         OpenPopup("login");
 
         EventManager.SubGameOver(gameOverCase =>
