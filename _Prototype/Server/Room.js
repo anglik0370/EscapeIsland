@@ -169,6 +169,28 @@ class Room {
         });
     }
 
+    teamBroadcast(msg,team,isSame) {
+        if(isSame) {
+            this.socketList.forEach(soc => {
+                let user = this.userList[soc.id];
+    
+                if(user.curTeam === team) {
+                    soc.send(msg);
+                }
+            });
+        }
+        else {
+            this.socketList.forEach(soc => {
+                let user = this.userList[soc.id];
+
+                if(user.curTeam !== team) {
+                    soc.send(msg);
+                }
+            });
+        }
+        
+    }
+
 }
 
 module.exports = Room;
