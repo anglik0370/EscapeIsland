@@ -28,6 +28,9 @@ public class MSWithObj : MonoBehaviour, IStorageMission
     private List<MSObject> redObjList = new List<MSObject>();
     private List<MSObject> blueObjList = new List<MSObject>();
 
+    [SerializeField]
+    private bool isAutoClosed = false;
+
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
@@ -43,43 +46,38 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
         EventManager.SubGameStart(p =>
         {
-            try
+            isAutoClosed = false;
+
+            int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
+            int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
+
+            maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
+            maxPanelCount = maxItemCount / redObjList.Count; //나머지 안남게 세팅 부탁
+
+            if (maxPanelCount > 1)
             {
-                int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
-                int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
-
-                maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
-                maxPanelCount = maxItemCount / redObjList.Count ; //나머지 안남게 세팅 부탁
-
-                if (maxPanelCount > 1)
-                {
-                    for (int i = 0; i < slotList.Count; i++)
-                    {
-                        slotList[i].DisableSlot();
-                    }
-
-                    for (int i = 0; i < maxPanelCount; i++)
-                    {
-                        slotList[i].EnableSlot();
-                    }
-                }
-
                 for (int i = 0; i < slotList.Count; i++)
                 {
-                    slotList[i].DisableImg();
+                    slotList[i].DisableSlot();
                 }
 
-                for (int i = 0; i < objList.Count; i++)
+                for (int i = 0; i < maxPanelCount; i++)
                 {
-                    objList[i].Disable();
+                    slotList[i].EnableSlot();
                 }
+            }
 
-                UpdateCurItem();
-            }
-            catch
+            for (int i = 0; i < slotList.Count; i++)
             {
-                print(gameObject.name);
+                slotList[i].DisableImg();
             }
+
+            for (int i = 0; i < objList.Count; i++)
+            {
+                objList[i].Disable();
+            }
+
+            UpdateCurItem();
         });
     }
 
@@ -103,6 +101,11 @@ public class MSWithObj : MonoBehaviour, IStorageMission
         int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
         int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
 
+        if (curItemCount >= maxItemCount)
+        {
+            MissionPanel.Instance.Close();
+        }
+
         if (maxPanelCount > 1)
         {
             int tmpItemCnt = curItemCount;
@@ -112,18 +115,17 @@ public class MSWithObj : MonoBehaviour, IStorageMission
                 tmpItemCnt -= maxPanelCount;
             }
 
-            print(tmpItemCnt);
-
             if (tmpItemCnt == 0)
             {
-                MissionPanel.Instance.Close();
-            }
-        }
-        else
-        {
-            if (curItemCount >= maxItemCount)
-            {
-                MissionPanel.Instance.Close();
+                if (isAutoClosed)
+                {
+                    isAutoClosed = false;
+                }
+                else
+                {
+                    isAutoClosed = true;
+                    MissionPanel.Instance.Close();
+                }
             }
         }
 
