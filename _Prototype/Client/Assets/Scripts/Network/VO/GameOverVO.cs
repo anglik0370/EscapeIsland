@@ -6,14 +6,14 @@ using UnityEngine;
 public class GameOverVO
 {
     public List<UserVO> dataList;
-    public int gameOverCase;
+    public GameOverCase gameOverCase;
 
     public GameOverVO()
     {
 
     }
 
-    public GameOverVO(List<UserVO> list,int gameOverCase)
+    public GameOverVO(List<UserVO> list,GameOverCase gameOverCase)
     {
         dataList = list;
         this.gameOverCase = gameOverCase;

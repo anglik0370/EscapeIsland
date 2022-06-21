@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public enum GameOverCase
 {
-    BlueWin,
+    None,
     RedWin,
+    BlueWin,
 }
 
 public class GameOverPanel : Panel

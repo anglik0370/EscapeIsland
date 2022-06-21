@@ -20,13 +20,13 @@ public class Win : ISetAble
         }
     }
 
-    public void SetWinUserData(List<UserVO> list, int gameOverCase)
+    public void SetWinUserData(List<UserVO> list, GameOverCase gameOverCase)
     {
         lock (lockObj)
         {
             needWinRefresh = true;
             gameOverUserList = list;
-            this.gameOverCase = (GameOverCase)gameOverCase;
+            this.gameOverCase = gameOverCase;
         }
     }
     public void SetWinTeam()
