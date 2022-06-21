@@ -17,19 +17,15 @@ public class MSOnly : MonoBehaviour, IStorageMission
     private Image guideImgPrefab;
 
     [SerializeField]
+    private Team team;
+    public Team Team => team;
+
+    [SerializeField]
     private ItemSO storageItem;
     public ItemSO StorageItem => storageItem;
 
     private CanvasGroup cvs;
     public CanvasGroup Cvs => cvs;
-
-    [SerializeField]
-    private int maxItemCount;
-    public int MaxItemCount => maxItemCount;
-
-    [SerializeField]
-    private int curItemCount;
-    public int CurItemCount => curItemCount;
 
     [SerializeField]
     private List<MSSlot> slotList;
@@ -44,7 +40,9 @@ public class MSOnly : MonoBehaviour, IStorageMission
     {
         EventManager.SubGameStart(p =>
         {
-            maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
+            team = Team.RED;
+
+            int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
 
             for (int i = 0; i < slotList.Count; i++)
             {
@@ -79,8 +77,6 @@ public class MSOnly : MonoBehaviour, IStorageMission
                 slotList[i].EnableSlot();
             }
 
-            curItemCount = 0;
-
             UpdateCurItem();
         });
     }
@@ -92,18 +88,28 @@ public class MSOnly : MonoBehaviour, IStorageMission
 
     public void Open()
     {
+        int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
+        int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
+
         if (curItemCount >= maxItemCount) return;
 
         UpdateCurItem();
     }
 
+    public void SetTeam(Team team)
+    {
+        this.team = team;
+    }
+
     public void AddCurItem()
     {
-        curItemCount++;
+        StorageManager.Instance.FindItemAmount(false, team, storageItem).amount++;
     }
 
     public void UpdateCurItem()
     {
+        int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
+
         for (int i = 0; i < slotList.Count; i++)
         {
             slotList[i].DisableImg();

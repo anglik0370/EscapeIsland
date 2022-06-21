@@ -19,7 +19,7 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
     public InteractionSO InGameHandlerSO => ingameHandlerSO;
 
     public Action LobbyCallback => () => SendManager.Instance.GameStart();
-    public Action IngameCallback => () => MissionPanel.Instance.OpenStorageMission(item);
+    public Action IngameCallback => () => MissionPanel.Instance.OpenStorageMission(team, item);
 
     public bool CanInteraction => true;
 
