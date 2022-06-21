@@ -57,10 +57,10 @@ public class StoragePanel : Panel
 
         StorageSlot slot = slotList.Find(x => x.OriginItem.itemId == item.itemId);
 
-        slot.SetAmountText(maxAmount.amount, curAmount.amount);
 
         if(user.CurTeam.Equals(team))
         {
+            slot.SetAmountText(maxAmount.amount, curAmount.amount);
             teamProgressUI.UpdateProgress(progress);
             return;
         }
