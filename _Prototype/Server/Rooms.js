@@ -114,6 +114,9 @@ class Rooms {
         if(room === undefined) return;
         
         let user = room.userList[socket.id];
+
+        if(user === undefined) return;
+
         let master = user.master;
     
         socket.room = 0; //나왔으니 룸 초기화
