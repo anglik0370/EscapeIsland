@@ -144,6 +144,7 @@ public class Player : MonoBehaviour, IInteractionObject
         bool isBlueTeam = vo.curTeam.Equals(Team.BLUE);
         ui.SetTeamImgColor(isBlueTeam ? Color.blue : Color.red);
         teamUI.SetParent(TeamPanel.Instance.GetParent(isBlueTeam));
+        curTeam = isBlueTeam ? Team.BLUE : Team.RED;
     }
 
     public void InitPlayer(UserVO vo,InfoUI ui,TeamInfoUI teamUI, bool isRemote,CharacterSO so)
