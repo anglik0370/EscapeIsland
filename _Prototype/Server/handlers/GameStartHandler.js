@@ -3,6 +3,10 @@ const {Rooms} = require('../Rooms.js');
 module.exports = {
     type:"GameStart",
     act(socket,data) {
-        Rooms.getRoom(data.roomNum).gameStart(socket);
+        let room = Rooms.getRoom(data.roomNum);
+
+        if(room === undefined) return;
+
+        room.gameStart(socket);
     }
 }

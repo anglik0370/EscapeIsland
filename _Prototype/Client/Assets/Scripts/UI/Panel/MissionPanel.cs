@@ -36,6 +36,8 @@ public class MissionPanel : Panel
     [SerializeField]
     private IMission oldMission;
 
+    private int oldSpawnerId = -1;
+
     private bool isGetMissionPanelOpen = false;
 
     protected override void Awake()
@@ -69,7 +71,7 @@ public class MissionPanel : Panel
         storageMissionList.ForEach(x => x.Close());
     }
 
-    public void OpenGetMission(MissionType type, ItemCharger charger = null)
+    public void OpenGetMission(MissionType type, ItemCharger charger = null,int spawnerId = -1)
     {
         IGetMission getMission = null;
 
@@ -110,6 +112,7 @@ public class MissionPanel : Panel
         getMission.Open();
 
         oldMission = getMission;
+        oldSpawnerId = spawnerId;
 
         Open(true);
     }

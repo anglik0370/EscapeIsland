@@ -39,9 +39,6 @@ public class MissionWater : MonoBehaviour, IGetMission, IPointerEnterHandler, IP
     [SerializeField]
     private float correctionFrame = 20;
 
-    private bool isOpen = false;
-    public bool IsOpen => isOpen;
-
     [SerializeField]
     private MissionType missionType;
     public MissionType MissionType => missionType;
