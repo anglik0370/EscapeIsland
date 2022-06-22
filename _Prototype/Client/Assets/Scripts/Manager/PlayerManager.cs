@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField]
     private Inventory inventory;
+    public Inventory Inventory => inventory;
 
     [SerializeField]
     private float originPlayerSpeed;

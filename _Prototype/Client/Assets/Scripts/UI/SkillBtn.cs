@@ -14,6 +14,8 @@ public class SkillBtn : MonoBehaviour
     private bool isGameStart;
     private bool isEnterRoom;
 
+    private bool isPassiveCalled;
+
     private void Awake()
     {
         btn = GetComponent<Button>();
@@ -28,6 +30,7 @@ public class SkillBtn : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             isEnterRoom = true;
+            isPassiveCalled = false;
         });
 
         EventManager.SubGameStart(p =>
@@ -39,11 +42,13 @@ public class SkillBtn : MonoBehaviour
         {
             isGameStart = false;
             isEnterRoom = false;
+            isPassiveCalled = false;
         });
 
         EventManager.SubBackToRoom(() =>
         {
             isGameStart = false;
+            isPassiveCalled = false;
         });
     }
 
@@ -51,9 +56,20 @@ public class SkillBtn : MonoBehaviour
     {
         if (!isEnterRoom) return;
 
-        if(isGameStart && !curSkill.isPassive)
+        if(isGameStart)
         {
-            curSkill.UpdateTimer();
+            if(curSkill.isPassive)
+            {
+                if (!isPassiveCalled)
+                {
+                    curSkill.Callback?.Invoke();
+                    isPassiveCalled = true;
+                }
+            }
+            else
+            {
+                curSkill.UpdateTimer();
+            }
         }
 
         UpdateImage();

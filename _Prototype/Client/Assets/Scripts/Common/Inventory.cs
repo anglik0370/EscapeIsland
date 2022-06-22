@@ -5,17 +5,25 @@ using System.Linq;
 
 public class Inventory : MonoBehaviour
 {
+    [SerializeField]
+    private ItemSlot inventoryPrefab;
+
     public List<ItemSlot> slotList = new List<ItemSlot>();
 
     public bool IsAllSlotFull => CheckAllSlotFull();
 
-    private void Awake() 
-    {
-        slotList = GetComponentsInChildren<ItemSlot>().ToList();
-    }
-
     private void Start()
     {
+        for (int i = 0; i < 9; i++)
+        {
+            slotList.Add(Instantiate(inventoryPrefab, transform));
+        }
+
+        EventManager.SubGameInit(() =>
+        {
+            CreateInventory(7); //7개로 만들어
+        });
+
         EventManager.SubGameOver(goc =>
         {
             ClearSlots();
@@ -30,6 +38,19 @@ public class Inventory : MonoBehaviour
         {
             ClearSlots();
         });
+    }
+
+    public void CreateInventory(int count)
+    {
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            slotList[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            slotList[i].gameObject.SetActive(true);
+        }
     }
 
     //생각해보니까 그냥 넣는함수만 있어도 되지않나 넣는거 뺴고는 나머지 다 드래그앤드랍이니까

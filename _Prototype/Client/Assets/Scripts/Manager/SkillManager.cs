@@ -71,5 +71,6 @@ public class SkillManager : MonoBehaviour
     private void WonsongSkill()
     {
         print($"{skillList[WONSONG].skillName} »ç¿ë");
+        PlayerManager.Instance.Inventory.CreateInventory(9);
     }
 }
