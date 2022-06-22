@@ -211,7 +211,7 @@ public class SlotManager : MonoBehaviour
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.MissionStorageDropSlot)
             {
-                if(ghost.GetItem() == endSlot.GetItem()) //아이템이 일치할 경우
+                if (ghost.GetItem() == endSlot.GetItem()) //아이템이 일치할 경우
                 {
                     MSSlot msSlot = endSlot as MSSlot;
                     IStorageMission mission = msSlot.Mission;
