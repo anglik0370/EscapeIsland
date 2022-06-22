@@ -16,9 +16,6 @@ public class MissinoBottle : MonoBehaviour, IGetMission
     private Transform slotParentTrm;
     private List<MissionDropItemSlot> slotList;
 
-    private bool isOpen = false;
-    public bool IsOpen => isOpen;
-
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();

@@ -22,9 +22,6 @@ public class MissionWood : MonoBehaviour, IGetMission
     [SerializeField]
     private List<RectTransform> dropTrmList;
 
-    private bool isOpen = false;
-    public bool IsOpen => isOpen;
-
     [SerializeField]
     private MissionType missionType;
     public MissionType MissionType => missionType;
@@ -48,7 +45,6 @@ public class MissionWood : MonoBehaviour, IGetMission
 
     public void Open()
     {
-        isOpen = true;
         branchList.ForEach(x => x.Init());
         slotList.ForEach(x => x.Init());
     }
@@ -57,7 +53,6 @@ public class MissionWood : MonoBehaviour, IGetMission
     {
         branchList.ForEach(x => x.Init());
         slotList.ForEach(x => x.Init());
-        isOpen = false;
     }
 
     private void CuttingBranch(Vector2 beginDragPoint, Vector2 endDragPoint)

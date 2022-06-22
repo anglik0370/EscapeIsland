@@ -16,9 +16,6 @@ public class MissionBattery : MonoBehaviour, IGetMission
     private Transform slotParentTrm;
     private List<MissionDropItemSlot> slotList;
 
-    private bool isOpen = false;
-    public bool IsOpen => isOpen;
-
 
     private void Awake()
     {
@@ -29,14 +26,12 @@ public class MissionBattery : MonoBehaviour, IGetMission
 
     public void Open()
     {
-        isOpen = true;
+        
     }
 
     public void Close()
     {
         slotList.ForEach(x => x.Init());
         slotList.ForEach(x => x.SetRaycastTarget(true));
-
-        isOpen = false;
     }
 }

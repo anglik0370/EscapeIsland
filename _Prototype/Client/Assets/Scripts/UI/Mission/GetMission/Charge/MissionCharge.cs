@@ -21,9 +21,6 @@ public class MissionCharge : MonoBehaviour, IGetMission
     public bool IsMaxCharge => curOpenCharger.CurChargingTime >= curOpenCharger.MaxChargingTime;
     public bool IsCharging => !IsMaxCharge && curOpenCharger.CurChargingTime > 0;
 
-    private bool isOpen = false;
-    public bool IsOpen => isOpen;
-
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
@@ -34,14 +31,14 @@ public class MissionCharge : MonoBehaviour, IGetMission
 
     public void Open()
     {
-        isOpen = true;
+
     }
 
     public void Close()
     {
         guage.SetProgress(7, 0);
 
-        isOpen = false;
+        
     }
 
     public void InitCurCharger()

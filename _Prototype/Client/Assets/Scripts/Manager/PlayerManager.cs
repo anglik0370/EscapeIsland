@@ -23,6 +23,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Inventory inventory;
 
+    [SerializeField]
+    private float originPlayerSpeed;
+
+    private Coroutine psRoutine;
+    private WaitForSeconds wsPlayerSpeed;
+
     private void Awake()
     {
         if (Instance == null)
@@ -109,5 +115,27 @@ public class PlayerManager : MonoBehaviour
             SendManager.Instance.SendAreaState(player.AreaState);
             yield return delay;
         }
+    }
+
+    public void AccelerationPlayer(float magnification, float duration)
+    {
+        originPlayerSpeed = player.Speed;
+        player.SetSpeed(player.Speed * magnification);
+
+        if (psRoutine != null)
+        {
+            StopCoroutine(psRoutine);
+        }
+
+        wsPlayerSpeed = new WaitForSeconds(duration);
+
+        psRoutine = StartCoroutine(RollBackSpeedRoutine());
+    }
+
+    private IEnumerator RollBackSpeedRoutine()
+    {
+        yield return wsPlayerSpeed;
+
+        player.SetSpeed(originPlayerSpeed);
     }
 }

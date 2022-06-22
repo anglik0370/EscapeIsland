@@ -11,9 +11,6 @@ public class TrashCanMission : MonoBehaviour, IGetMission
     private MissionType missionType;
     public MissionType MissionType => missionType;
 
-    private bool isOpen = false;
-    public bool IsOpen => isOpen;
-
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
