@@ -90,7 +90,9 @@ public class Player : MonoBehaviour, IInteractionObject
     private const float DEFAULT_SCALE_Z = 1;
     private const float FLIP_SCALE_Z = -1;
 
-    public float speed = 5;
+    [SerializeField]
+    private float speed = 6;
+    public float Speed => speed;
 
     private WaitForSeconds ws = new WaitForSeconds(1 / 10); //100ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
@@ -408,5 +410,10 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetAreaState(AreaState areaState)
     {
         this.areaState = areaState;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
     }
 }
