@@ -20,6 +20,9 @@ public class MSWithObj : MonoBehaviour, IStorageMission
     private int maxPanelCount;
 
     [SerializeField]
+    private int nextCloseCount;
+
+    [SerializeField]
     private List<MSSlot> slotList;
 
     [SerializeField]
@@ -53,6 +56,8 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
             maxItemCount = StorageManager.Instance.FindNeedItemAmount(storageItem);
             maxPanelCount = maxItemCount / redObjList.Count; //나머지 안남게 세팅 부탁
+
+            nextCloseCount = 0;
 
             if (maxPanelCount > 1)
             {
@@ -106,27 +111,35 @@ public class MSWithObj : MonoBehaviour, IStorageMission
             MissionPanel.Instance.Close();
         }
 
-        if (maxPanelCount > 1)
+        nextCloseCount = 0;
+
+        if (team == Team.RED)
         {
-            int tmpItemCnt = curItemCount;
-
-            while (tmpItemCnt > 0)
+            for (int i = 0; i < redObjList.Count; i++)
             {
-                tmpItemCnt -= maxPanelCount;
-            }
-
-            if (tmpItemCnt == 0)
-            {
-                if (isAutoClosed)
+                if(!redObjList[i].IsEmpty)
                 {
-                    isAutoClosed = false;
-                }
-                else
-                {
-                    isAutoClosed = true;
-                    MissionPanel.Instance.Close();
+                    nextCloseCount += maxPanelCount;
                 }
             }
+        }
+        else if (team == Team.BLUE)
+        {
+            for (int i = 0; i < blueObjList.Count; i++)
+            {
+                if (!blueObjList[i].IsEmpty)
+                {
+                    nextCloseCount += maxPanelCount;
+                }
+            }
+        }
+
+        nextCloseCount += maxPanelCount;
+
+        if (curItemCount >= nextCloseCount)
+        {
+            MissionPanel.Instance.Close();
+            nextCloseCount += maxPanelCount;
         }
 
         for (int i = 0; i < slotList.Count; i++)
