@@ -15,6 +15,7 @@ public class StoragePanel : Panel
     [SerializeField]
     private List<StorageSlot> slotList = new List<StorageSlot>();
 
+    [SerializeField]
     private bool isGameStart = false;
 
     private Player user = null;
@@ -33,7 +34,11 @@ public class StoragePanel : Panel
 
     protected override void Start()
     {
-        EventManager.SubEnterRoom(p => user = p);
+        EventManager.SubEnterRoom(p =>
+        {
+            user = p;
+            isGameStart = false;
+        });
 
         EventManager.SubGameStart(p =>
         {
@@ -65,6 +70,11 @@ public class StoragePanel : Panel
             return;
         }
         enemyProgressUI.UpdateProgress(progress);
+    }
+
+    public override void Open(bool isTweenSkip = false)
+    {
+        
     }
 
     public void Open(Team team, bool isTweenSkip = false)
