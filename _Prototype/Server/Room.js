@@ -1,9 +1,13 @@
+const WebSocket = require('ws');
+
 const {Users} = require('./Users.js');
 const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
 const SocketState = require('./Utils/SocketState.js');
 const team = require('./Utils/Team.js');
-const WebSocket = require('ws');
+const MissionType = require('./Utils/MissionType.js');
 const sendError = require('./Utils/SendError.js');
+
+const keys = Object.keys(MissionType);
 
 const Timer = require('./Timers/Timer.js');
 const InGameTimer = require('./Timers/InGameTimer.js');
@@ -21,9 +25,49 @@ class Room {
 
         this.skipCount = 0;
 
-        this.socketList = [];
-        this.userList = {};
         this.selectedIdList = [];
+        this.socketList = [];
+        
+        this.userList = {};
+        this.spawnerList = {};
+
+        this.initSpawnerList();
+    }
+
+    initSpawnerList() {
+        for(let i = 0; i < keys.length; i++) {
+            this.spawnerList[keys[i]] = { };
+        }
+    }
+
+    setSpawnerData(socket,data) {
+        let values = Object.values(MissionType);
+        let missionTypeString = "";
+
+        for(let i = 0; i < values.length; i++) {
+            if(data.missionType === values[i]) {
+                missionTypeString = keys[i]
+                break;
+            }
+        
+        }
+        
+        let value = this.spawnerList[missionTypeString];
+
+        if(data.isOpen && value[data.spawnerId] !== undefined) {
+            if(value[data.spawnerId]) {
+                sendError("누군가 이 미션을 하는 중입니다",socket);
+                return;
+            }
+        }
+
+        value[data.spawnerId] = data.isOpen;
+
+        //send
+        if(!data.isOpen) return;
+
+        socket.send(JSON.stringify({type:"OPEN_MISSION",
+        payload:null}));
     }
 
     addVoiceData(socketId,voiceData) {

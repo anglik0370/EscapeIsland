@@ -51,6 +51,11 @@ public class SpawnerManager : MonoBehaviour
         //spawner.DeSpawnItem();
     }
 
+    public ItemSpawner FindSpawner(int spawnerId, MissionType type)
+    {
+        return spawnerList.Find(spawner => spawner.id.Equals(spawnerId) && spawner.MissionType.Equals(type));
+    }
+
     public void InitCoolTime()
     {
         for (int i = 0; i < spawnerList.Count; i++)

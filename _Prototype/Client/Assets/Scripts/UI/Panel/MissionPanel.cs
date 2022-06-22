@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum MissionType
 {
-    Wood,
+    Wood = 0,
     Coconut,
     Berry,
     Ore,
@@ -36,7 +36,7 @@ public class MissionPanel : Panel
     [SerializeField]
     private IMission oldMission;
 
-    private int oldSpawnerId = -1;
+    private ItemSpawner oldSpawner = null;
 
     private bool isGetMissionPanelOpen = false;
 
@@ -71,7 +71,7 @@ public class MissionPanel : Panel
         storageMissionList.ForEach(x => x.Close());
     }
 
-    public void OpenGetMission(MissionType type, ItemCharger charger = null,int spawnerId = -1)
+    public void OpenGetMission(MissionType type, ItemCharger charger = null,ItemSpawner spawner = null)
     {
         IGetMission getMission = null;
 
@@ -107,12 +107,28 @@ public class MissionPanel : Panel
             missionCharge.SetCurCharger(charger);
         }
 
-        UtilClass.SetCanvasGroup(getMission.Cvs, 1, true, true);
-
-        getMission.Open();
+        if(spawner != null && NeedCoolTimeMission(type))
+        {
+            spawner.SetOpen(true);
+        }
 
         oldMission = getMission;
-        oldSpawnerId = spawnerId;
+        oldSpawner = spawner;
+
+        //UtilClass.SetCanvasGroup(getMission.Cvs, 1, true, true);
+
+        //getMission.Open();
+
+        //Open(true);
+    }
+
+    public void OpenMissionPanel()
+    {
+        if (oldMission == null) return;
+
+        UtilClass.SetCanvasGroup(oldMission.Cvs, 1, true, true);
+
+        oldMission.Open();
 
         Open(true);
     }
@@ -166,6 +182,11 @@ public class MissionPanel : Panel
     public override void Close(bool isTweenSkip = false)
     {
         if (oldMission == null) return;
+
+        if(oldSpawner != null && NeedCoolTimeMission(oldSpawner.MissionType))
+        {
+            oldSpawner.SetOpen(false);
+        }
 
         isGetMissionPanelOpen = false;
         oldMission?.Close();

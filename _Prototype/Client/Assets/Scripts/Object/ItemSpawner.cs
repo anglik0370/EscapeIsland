@@ -24,6 +24,9 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
 
     public bool CanInteraction => true;
 
+    private bool isOpen = false;
+    public bool IsOpen => isOpen;
+
     [SerializeField]
     private Collider2D interactionCol;
     public Collider2D InteractionCol => interactionCol;
@@ -41,9 +44,12 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         }
         else
         {
-            MissionPanel.Instance.OpenGetMission(missionType);
+            MissionPanel.Instance.OpenGetMission(missionType,null,this);
 
             //if(MissionPanel.Instance.NeedCoolTimeMission(missionType))
+            //{
+            //    isOpen = true;
+            //}
             //    SendManager.Instance.StartMission(id, MissionType);
         }
     };
@@ -83,6 +89,18 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     public void SetMaxCoolTime(float coolTime)
     {
         maxCoolTime = coolTime;
+    }
+
+    public void SetOpen(bool isOpen)
+    {
+        this.isOpen = isOpen;
+
+        SendManager.Instance.SendSpawnerOpen(missionType, id, isOpen);
+
+        if(!isOpen)
+        {
+            SendManager.Instance.StartMission(id, MissionType);
+        }
     }
 
     public float GetFillCoolTime()

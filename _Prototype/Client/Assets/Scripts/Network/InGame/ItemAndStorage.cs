@@ -56,7 +56,7 @@ public class ItemAndStorage : ISetAble
 
     public void SetMissionCoolTime()
     {
-        ItemSpawner s = SpawnerManager.Instance.SpawnerList.Find(x => x.id == missionData.spawnerId && x.MissionType == missionData.missionType);
+        ItemSpawner s = SpawnerManager.Instance.FindSpawner(missionData.spawnerId, missionData.missionType);
         //s.DeSpawnItem();
         if(s != null)
         {
