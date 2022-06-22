@@ -111,6 +111,10 @@ public class MissionPanel : Panel
         {
             spawner.SetOpen(true);
         }
+        else if(spawner != null)
+        {
+            OpenMissionPanel();
+        }
 
         oldMission = getMission;
         oldSpawner = spawner;
