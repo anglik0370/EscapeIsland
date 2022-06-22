@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class StoragePanel : Panel
 {
     public static StoragePanel Instance;
+
+    [SerializeField]
+    private Button storageBtn;
 
     [SerializeField]
     private ProgressUI teamProgressUI;
@@ -43,6 +47,12 @@ public class StoragePanel : Panel
         EventManager.SubGameStart(p =>
         {
             isGameStart = true;
+
+            storageBtn.onClick.RemoveAllListeners();
+            storageBtn.onClick.AddListener(() =>
+            {
+                Open(PlayerManager.Instance.Player.CurTeam);
+            });
         });
 
         EventManager.SubGameOver(goc =>
@@ -72,22 +82,11 @@ public class StoragePanel : Panel
         enemyProgressUI.UpdateProgress(progress);
     }
 
-    public override void Open(bool isTweenSkip = false)
-    {
-        
-    }
-
-    public void Open(Team team, bool isTweenSkip = false)
-    {
-        //Debug.LogWarning("Item을 넣어서 사용하세요");
-        Open(team, null);
-    }
-
-    public void Open(Team team, ItemSO item)
+    public void Open(Team team)
     {
         if (!isGameStart) return;
 
-        print(item + " 저장소 열기");
+        print(team + " 저장소 열기");
 
         base.Open();
 

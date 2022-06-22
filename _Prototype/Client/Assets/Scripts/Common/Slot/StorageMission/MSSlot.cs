@@ -13,7 +13,11 @@ public class MSSlot : ItemSlot
     public IStorageMission Mission => mission;
 
     public new bool IsEmpty => image.color == UtilClass.limpidityColor;
-    public bool IsEnable => guideImage.color == UtilClass.guideColor;
+    public bool IsEnable => GetEnable();
+
+    [SerializeField]
+    private bool isObjectSlot = false;
+    public bool IsObjectSlot => isObjectSlot;
 
     protected override void Awake()
     {
@@ -47,11 +51,37 @@ public class MSSlot : ItemSlot
     
     public void EnableSlot()
     {
-        guideImage.color = UtilClass.guideColor;
+        if(isObjectSlot)
+        {
+            guideImage.color = UtilClass.opacityColor;
+        }
+        else
+        {
+            guideImage.color = UtilClass.guideColor;
+        }
     }
 
     public void DisableSlot()
     {
-        guideImage.color = UtilClass.limpidityColor;
+        if(isObjectSlot)
+        {
+            guideImage.color = UtilClass.limpidityColor;
+        }
+        else
+        {
+            guideImage.color = UtilClass.limpidityColor;
+        }
+    }
+
+    private bool GetEnable()
+    {
+        if(isObjectSlot)
+        {
+            return guideImage.color == UtilClass.opacityColor;
+        }
+        else
+        {
+            return guideImage.color == UtilClass.guideColor;
+        }
     }
 }
