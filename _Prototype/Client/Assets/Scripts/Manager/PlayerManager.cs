@@ -24,12 +24,6 @@ public class PlayerManager : MonoBehaviour
     private Inventory inventory;
     public Inventory Inventory => inventory;
 
-    [SerializeField]
-    private float originPlayerSpeed;
-
-    private Coroutine psRoutine;
-    private WaitForSeconds wsPlayerSpeed;
-
     private void Awake()
     {
         if (Instance == null)
@@ -118,25 +112,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void AccelerationPlayer(float magnification, float duration)
+    public void AccelerationPlayer(int id)
     {
-        originPlayerSpeed = player.Speed;
-        player.SetSpeed(player.Speed * magnification);
+        TimedBuff buff = BuffManager.Instance.GetBuffSO(id)?.InitializeBuff(player.gameObject);
 
-        if (psRoutine != null)
-        {
-            StopCoroutine(psRoutine);
-        }
-
-        wsPlayerSpeed = new WaitForSeconds(duration);
-
-        psRoutine = StartCoroutine(RollBackSpeedRoutine());
-    }
-
-    private IEnumerator RollBackSpeedRoutine()
-    {
-        yield return wsPlayerSpeed;
-
-        player.SetSpeed(originPlayerSpeed);
+        if(buff != null)
+            player.BuffHandler.AddBuff(buff);
     }
 }

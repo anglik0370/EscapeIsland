@@ -16,6 +16,8 @@ public class SkillBtn : MonoBehaviour
 
     private bool isPassiveCalled;
 
+    public bool CanTouch => btnImage.raycastTarget;
+
     private void Awake()
     {
         btn = GetComponent<Button>();

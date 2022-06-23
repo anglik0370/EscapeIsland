@@ -34,7 +34,7 @@ public class SkillManager : MonoBehaviour
     private void AmberSkill()
     {
         print($"{skillList[AMBER].skillName} »ç¿ë");
-        PlayerManager.Instance.AccelerationPlayer(1.3f, 5f);
+        PlayerManager.Instance.AccelerationPlayer(AMBER);
     }
 
     private void CherrySkill()

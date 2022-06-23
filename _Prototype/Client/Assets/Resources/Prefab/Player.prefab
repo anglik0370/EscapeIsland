@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941352829889900957}
   - component: {fileID: 4941352829889900944}
+  - component: {fileID: 8668951428442010674}
   - component: {fileID: 3224134851843462810}
   - component: {fileID: 292040792844623939}
   m_Layer: 6
@@ -54,16 +55,27 @@ MonoBehaviour:
   socketId: 0
   roomNum: 0
   master: 0
-  isKidnapper: 0
-  isDie: 0
   canMove: 0
   isFlip: 0
+  isNotLerp: 0
   inventory: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   targetPos: {x: 0, y: 0}
   speed: 6
   areaState: 0
   curSO: {fileID: 0}
+--- !u!114 &8668951428442010674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4941352829889900955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd178121bcfc4504a9bf652c41df8f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &3224134851843462810
 Rigidbody2D:
   serializedVersion: 4

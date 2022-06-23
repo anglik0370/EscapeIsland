@@ -9,6 +9,9 @@ public class Player : MonoBehaviour, IInteractionObject
     private const string ANIMB_DIE = "isDie";
     private const string ANIMT_ATTACK = "attack";
 
+    private BuffHandler buffHandler;
+    public BuffHandler BuffHandler => buffHandler;
+
     private Animator anim;
     private Transform playerTrm;
     private Collider2D footCollider;
@@ -94,6 +97,8 @@ public class Player : MonoBehaviour, IInteractionObject
     private float speed = 6;
     public float Speed => speed;
 
+    private float originSpeed = 0f;
+
     private WaitForSeconds ws = new WaitForSeconds(1 / 10); //100ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
 
@@ -121,6 +126,9 @@ public class Player : MonoBehaviour, IInteractionObject
         interactionCol = GetComponentInChildren<Collider2D>();
 
         voiceSource = GetComponent<AudioSource>();
+        buffHandler = GetComponent<BuffHandler>();
+
+        originSpeed = speed;
     }
     private void Update()
     {
@@ -422,5 +430,10 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetSpeed(float speed)
     {
         this.speed = speed;
+    }
+
+    public void SetOriginSpeed()
+    {
+        this.speed = originSpeed;
     }
 }
