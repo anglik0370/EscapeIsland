@@ -56,6 +56,12 @@ public class SandCircleMObj : MonoBehaviour, IPointerClickHandler
     public void Disable()
     {
         UtilClass.SetCanvasGroup(cvs);
+
+        if (co != null)
+        {
+            StopCoroutine(co);
+        }
+
     }
 
     public void OccurRoutineComplete(Action<bool> SuccessCallback, Action FailCallback)
