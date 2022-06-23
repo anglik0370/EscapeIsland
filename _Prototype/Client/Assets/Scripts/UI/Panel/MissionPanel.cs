@@ -107,7 +107,10 @@ public class MissionPanel : Panel
             missionCharge.SetCurCharger(charger);
         }
 
-        if(spawner != null && NeedCoolTimeMission(type))
+        oldMission = getMission;
+        oldSpawner = spawner;
+
+        if (spawner != null && NeedCoolTimeMission(type))
         {
             spawner.SetOpen(true);
         }
@@ -115,9 +118,6 @@ public class MissionPanel : Panel
         {
             OpenMissionPanel();
         }
-
-        oldMission = getMission;
-        oldSpawner = spawner;
 
         //UtilClass.SetCanvasGroup(getMission.Cvs, 1, true, true);
 
@@ -129,6 +129,8 @@ public class MissionPanel : Panel
     public void OpenMissionPanel()
     {
         if (oldMission == null) return;
+
+        print(oldMission + "¿­±â");
 
         UtilClass.SetCanvasGroup(oldMission.Cvs, 1, true, true);
 

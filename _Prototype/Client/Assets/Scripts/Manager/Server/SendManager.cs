@@ -139,7 +139,7 @@ public class SendManager : MonoBehaviour
 
     public void SendCharacterChange(int charId, int beforeId)
     {
-        CharacterVO vo = new CharacterVO(charId, beforeId, socketId);
+        CharacterVO vo = new CharacterVO(user.CurTeam,charId, beforeId, socketId);
 
         DataVO dataVO = new DataVO("CHARACTER_CHANGE", JsonUtility.ToJson(vo));
 

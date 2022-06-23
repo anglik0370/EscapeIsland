@@ -99,8 +99,6 @@ public class SandMission : MonoBehaviour, IGetMission
 
         bucket.UpdateFillAmount(curSand, maxSand);
 
-        circle.Disable();
-
         StartEnableCircleRoutine();
     }
 
@@ -111,6 +109,7 @@ public class SandMission : MonoBehaviour, IGetMission
             StopCoroutine(co);
         }
 
+        circle.Disable();
     }
 
     private void StartEnableCircleRoutine()

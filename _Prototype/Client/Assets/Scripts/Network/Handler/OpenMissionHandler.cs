@@ -6,7 +6,8 @@ public class OpenMissionHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        MissionPanel.Instance.OpenMissionPanel();
+        //MissionPanel.Instance.OpenMissionPanel();
+        NetworkManager.SetMissionPanel();
     }
 
 }

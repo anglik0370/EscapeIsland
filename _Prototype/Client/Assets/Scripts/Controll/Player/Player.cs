@@ -145,6 +145,7 @@ public class Player : MonoBehaviour, IInteractionObject
         ui.SetTeamImgColor(isBlueTeam ? Color.blue : Color.red);
         teamUI.SetParent(TeamPanel.Instance.GetParent(isBlueTeam));
         curTeam = isBlueTeam ? Team.BLUE : Team.RED;
+        ChangeCharacter(CharacterSelectPanel.Instance.GetDefaultProfile().GetSO());
     }
 
     public void InitPlayer(UserVO vo,InfoUI ui,TeamInfoUI teamUI, bool isRemote,CharacterSO so)
@@ -221,20 +222,25 @@ public class Player : MonoBehaviour, IInteractionObject
     public int ChangeCharacter(CharacterSO so)
     {
         int beforeSoId = 0;
+        bool isSameTeam = this.curTeam.Equals(NetworkManager.instance.User.CurTeam);
         //선택되어있던 캐릭터 select button 다시 활성화
-        if(curSO != null)
+        if (curSO != null)
         {
             beforeSoId = curSO.id;
             CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
-            pr.BtnEnabled(true);
+
+            if(isSameTeam)
+                pr.BtnEnabled(true);
         }
         curSO = so;
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
 
-        if(so.id != 0)
+        if(so.id != 0 && isSameTeam)
             profile.BtnEnabled(false);
         //플레이어 오브젝트 체인지
+
+        teamUI.RefreshProfile();
 
         ChangePlayer();
 

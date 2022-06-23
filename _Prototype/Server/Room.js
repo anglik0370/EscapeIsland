@@ -7,7 +7,7 @@ const team = require('./Utils/Team.js');
 const MissionType = require('./Utils/MissionType.js');
 const sendError = require('./Utils/SendError.js');
 
-const keys = Object.keys(MissionType);
+const values = Object.values(MissionType);
 
 const Timer = require('./Timers/Timer.js');
 const InGameTimer = require('./Timers/InGameTimer.js');
@@ -25,34 +25,35 @@ class Room {
 
         this.skipCount = 0;
 
-        this.selectedIdList = [];
+        this.selectedIdList = {};
         this.socketList = [];
         
         this.userList = {};
         this.spawnerList = {};
 
         this.initSpawnerList();
+        this.initSelectedIdList();
     }
 
     initSpawnerList() {
-        for(let i = 0; i < keys.length; i++) {
-            this.spawnerList[keys[i]] = { };
+        for(let i = 0; i < values.length; i++) {
+            this.spawnerList[values[i]] = { };
         }
     }
 
-    setSpawnerData(socket,data) {
-        let values = Object.values(MissionType);
-        let missionTypeString = "";
-
+    initSelectedIdList() {
+        let values = Object.values(team);
         for(let i = 0; i < values.length; i++) {
-            if(data.missionType === values[i]) {
-                missionTypeString = keys[i]
-                break;
-            }
-        
+            this.selectedIdList[values[i]] = [];
         }
-        
-        let value = this.spawnerList[missionTypeString];
+    }
+
+    getSelectedIdList(team) {
+        return this.selectedIdList[team];
+    }
+
+    setSpawnerData(socket,data) {
+        let value = this.spawnerList[data.missionType];
 
         if(data.isOpen && value[data.spawnerId] !== undefined) {
             if(value[data.spawnerId]) {
@@ -80,10 +81,12 @@ class Room {
         }
     }
 
-    changeCharacter(beforeId,characterId) {
-        this.selectedIdList = this.selectedIdList.filter(id => id !== beforeId);
+    changeCharacter(team,beforeId,characterId) {
+        this.selectedIdList[team] = this.selectedIdList[team].filter(id => id !== beforeId);
 
-        this.selectedIdList.push(characterId);
+        if(characterId <= 0) return;
+
+        this.selectedIdList[team].push(characterId);
     }
 
     areaRefresh(socket,areaState) {
@@ -185,7 +188,14 @@ class Room {
 
     removeSocket(rSocketIdx) {
         let idx = this.socketList.findIndex(soc => soc.id == rSocketIdx);
-        this.socketList.splice(idx,1);
+        if(idx > -1)
+            this.socketList.splice(idx,1);
+
+        let user = this.userList[rSocketIdx];
+        let index = this.selectedIdList[user.curTeam].findIndex(id => id == user.charId);
+        if(index > -1)
+            this.selectedIdList[user.curTeam].splice(index,1);
+
         delete this.userList[rSocketIdx];
     }
 
