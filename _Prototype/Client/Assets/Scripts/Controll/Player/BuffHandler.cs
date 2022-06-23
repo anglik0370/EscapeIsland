@@ -30,4 +30,14 @@ public class BuffHandler : MonoBehaviour
 
         _buffs[buff.Buff].Activate();
     }
+
+    public void RemoveAllDebuff()
+    {
+        foreach (TimedBuff buff in _buffs.Values.ToList())
+        {
+            if (buff.Buff.isBuffed) continue;
+
+            _buffs.Remove(buff.Buff);
+        }
+    }
 }
