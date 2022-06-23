@@ -40,7 +40,7 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         }
         else if(missionType == MissionType.Charge)
         {
-            MissionPanel.Instance.OpenGetMission(missionType, GetComponent<ItemCharger>());
+            MissionPanel.Instance.OpenGetMission(missionType, GetComponent<ItemCharger>(), this);
         }
         else
         {

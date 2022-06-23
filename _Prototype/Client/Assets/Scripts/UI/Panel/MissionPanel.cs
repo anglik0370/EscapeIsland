@@ -71,7 +71,7 @@ public class MissionPanel : Panel
         storageMissionList.ForEach(x => x.Close());
     }
 
-    public void OpenGetMission(MissionType type, ItemCharger charger = null,ItemSpawner spawner = null)
+    public void OpenGetMission(MissionType type, ItemCharger charger = null, ItemSpawner spawner = null)
     {
         IGetMission getMission = null;
 
