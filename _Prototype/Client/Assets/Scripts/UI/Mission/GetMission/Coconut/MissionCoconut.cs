@@ -116,8 +116,6 @@ public class MissionCoconut : MonoBehaviour, IGetMission
 
             ShakeTree();
             touchCount++;
-
-            print(touchCount);
         }
     }
 
