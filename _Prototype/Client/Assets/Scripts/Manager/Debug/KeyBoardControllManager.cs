@@ -76,5 +76,13 @@ public class KeyBoardControllManager : MonoBehaviour
                 skillBtnUI.onClick?.Invoke();
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (PlayerManager.Instance.Player != null)
+            {
+                StoragePanel.Instance.Open(PlayerManager.Instance.Player.CurTeam);
+            }
+        }
     }
 }
