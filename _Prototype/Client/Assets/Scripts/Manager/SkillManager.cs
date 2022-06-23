@@ -13,8 +13,12 @@ public class SkillManager : MonoBehaviour
     private const int RANDY = 5;
     private const int SARSU = 6;
     private const int WONSONG = 7;
+    private const int ANDER = 8;
 
     private List<SkillSO> skillList;
+
+    [SerializeField]
+    private const string TRAP_NAME = "덫 설치";
 
     private void Awake()
     {
@@ -29,6 +33,7 @@ public class SkillManager : MonoBehaviour
         skillList[RANDY].Callback = RandySkill;
         skillList[SARSU].Callback = SarsuSkill;
         skillList[WONSONG].Callback = WonsongSkill;
+        skillList[ANDER].Callback = AnderSkill;
     }
 
     private void AmberSkill()
@@ -72,5 +77,11 @@ public class SkillManager : MonoBehaviour
     {
         print($"{skillList[WONSONG].skillName} 사용");
         PlayerManager.Instance.Inventory.CreateInventory(9);
+    }
+
+    private void AnderSkill()
+    {
+        print($"{skillList[ANDER].skillName} 사용");
+        SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId, false, TRAP_NAME, null);
     }
 }
