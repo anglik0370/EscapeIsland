@@ -27,6 +27,7 @@ public class NetworkManager : MonoBehaviour
     private bool isLogin = false;
     private bool isChangeTeam = false;
     private bool isTimeRefresh = false;
+    private bool isMissionRefresh = false;
 
     private ChangeTeamVO changeTeamVO;
     private TimeVO timeData;
@@ -105,6 +106,14 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public static void SetMissionPanel()
+    {
+        lock(instance.lockObj)
+        {
+            instance.isMissionRefresh = true;
+        }
+    }
+
     private void Update()
     {
         if(isLogin)
@@ -123,6 +132,12 @@ public class NetworkManager : MonoBehaviour
         {
             TimeHandler.Instance.TimeRefresh(timeData.day, timeData.isLightTime);
             isTimeRefresh = false;
+        }
+
+        if(isMissionRefresh)
+        {
+            MissionPanel.Instance.OpenMissionPanel();
+            isMissionRefresh = false;
         }
 
         while (removeSocketQueue.Count > 0)
