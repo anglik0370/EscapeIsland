@@ -6,7 +6,7 @@ public class ChangeTeamHandler : MonoBehaviour,IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        UserVO uv = JsonUtility.FromJson<UserVO>(payload);
-        NetworkManager.SetChangeTeam(uv);
+        ChangeTeamVO changeTeamVO = JsonUtility.FromJson<ChangeTeamVO>(payload);
+        NetworkManager.SetChangeTeam(changeTeamVO);
     }
 }

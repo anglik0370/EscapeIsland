@@ -28,7 +28,7 @@ public class NetworkManager : MonoBehaviour
     private bool isChangeTeam = false;
     private bool isTimeRefresh = false;
 
-    private UserVO teamChanger;
+    private ChangeTeamVO changeTeamVO;
     private TimeVO timeData;
 
     private Player user = null;
@@ -87,11 +87,11 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public static void SetChangeTeam(UserVO uv)
+    public static void SetChangeTeam(ChangeTeamVO changeTeamVO)
     {
         lock(instance.lockObj)
         {
-            instance.teamChanger = uv;
+            instance.changeTeamVO = changeTeamVO;
             instance.isChangeTeam = true;
         }
     }
@@ -137,13 +137,23 @@ public class NetworkManager : MonoBehaviour
 
     private void ChangeTeam()
     {
-        if(teamChanger.socketId.Equals(socketId))
+        if(changeTeamVO.user.socketId.Equals(socketId))
         {
-            user.ChangeUI(teamChanger);
+            user.ChangeUI(changeTeamVO.user);
         }
-        else if(playerList.TryGetValue(teamChanger.socketId,out Player p))
+        else if(playerList.TryGetValue(changeTeamVO.user.socketId,out Player p))
         {
-            p.ChangeUI(teamChanger);
+            p.ChangeUI(changeTeamVO.user);
+        }
+
+        CharacterSelectPanel.Instance.InitEnable();
+
+        List<int> selectedIdList = user.CurTeam.Equals(Team.BLUE) ? changeTeamVO.blueSelectedCharId : changeTeamVO.redSelectedCharId;
+
+        foreach (int id in selectedIdList)
+        {
+            CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(id);
+            profile.BtnEnabled(false);
         }
 
     }

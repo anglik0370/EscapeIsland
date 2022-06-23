@@ -8,7 +8,7 @@ module.exports = {
         let user = Users.userList[socket.id];
         if(room === undefined || user === undefined) return;
 
-        room.changeCharacter(data.beforeCharacterId,data.characterId);
+        room.changeCharacter(data.team, data.beforeCharacterId,data.characterId);
         user.charId = data.characterId;
         room.socketList.forEach(soc => {
             if(soc.id == socket.id) return;

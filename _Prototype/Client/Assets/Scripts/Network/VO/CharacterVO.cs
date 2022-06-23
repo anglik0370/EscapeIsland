@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class CharacterVO
 {
+    public Team team;
     public int characterId;
     public int beforeCharacterId;
     public int changerId;
@@ -14,8 +15,9 @@ public class CharacterVO
 
     }
 
-    public CharacterVO(int characterId, int beforeCharacterId, int changerId)
+    public CharacterVO(Team team,int characterId, int beforeCharacterId, int changerId)
     {
+        this.team = team;
         this.characterId = characterId;
         this.beforeCharacterId = beforeCharacterId;
         this.changerId = changerId;
