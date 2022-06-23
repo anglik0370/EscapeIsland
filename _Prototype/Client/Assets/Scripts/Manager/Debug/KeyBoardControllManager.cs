@@ -8,11 +8,17 @@ public class KeyBoardControllManager : MonoBehaviour
     public static KeyBoardControllManager Instance { get; private set; }
 
     private Player player = null;
+
+    [SerializeField]
     private JoyStick joyStick;
 
     [SerializeField]
-    private Button btn;
+    private Button interactionBtnUI;
+    [SerializeField]
+    private Button skillBtnUI;
+
     private InteractionBtn interactionBtn;
+    private SkillBtn skillBtn;
 
     private float h;
     private float v;
@@ -23,8 +29,8 @@ public class KeyBoardControllManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
 
-        joyStick = FindObjectOfType<JoyStick>();
-        interactionBtn = btn.transform.GetComponent<InteractionBtn>();
+        interactionBtn = interactionBtnUI.transform.GetComponent<InteractionBtn>();
+        skillBtn = skillBtnUI.transform.GetComponent<SkillBtn>();
     }
 
     private void Start()
@@ -57,9 +63,17 @@ public class KeyBoardControllManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(btn.interactable && interactionBtn.CanTouch)
+            if(interactionBtnUI.interactable && interactionBtn.CanTouch)
             {
-                btn.onClick?.Invoke();
+                interactionBtnUI.onClick?.Invoke();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if(skillBtnUI.interactable && skillBtn.CanTouch)
+            {
+                skillBtnUI.onClick?.Invoke();
             }
         }
     }
