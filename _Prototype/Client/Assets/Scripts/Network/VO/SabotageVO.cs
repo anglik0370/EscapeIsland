@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class SabotageVO
 {
     public int starterId;
-    public bool isShareCoolTime;
     public string sabotageName;
 
     public SabotageDataVO data;
@@ -18,10 +17,9 @@ public class SabotageVO
 
     }
 
-    public SabotageVO(int starterId, bool isShareCoolTime,string sabotageName, SabotageDataVO data)
+    public SabotageVO(int starterId,string sabotageName, SabotageDataVO data)
     {
         this.starterId = starterId;
-        this.isShareCoolTime = isShareCoolTime;
         this.sabotageName = sabotageName;
         this.data = data;
         userDataList = null;

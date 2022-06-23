@@ -83,6 +83,6 @@ public class SkillManager : MonoBehaviour
     private void AnderSkill()
     {
         print($"{skillList[ANDER].skillName} »ç¿ë");
-        SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId, false, TRAP_NAME, null);
+        SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId,TRAP_NAME, null);
     }
 }

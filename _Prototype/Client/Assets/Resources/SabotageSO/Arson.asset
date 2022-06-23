@@ -13,16 +13,13 @@ MonoBehaviour:
   m_Name: Arson
   m_EditorClassIdentifier: 
   sabotageName: "\uBC29\uD654"
-  coolTime: 240
-  shareCoolTime: 240
-  isShareCoolTime: 1
   sabotageSprite: {fileID: 21300000, guid: 933aad1d8cc28734d9fa1638302b4e90, type: 3}
   callback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6558261083451532474, guid: c5d48dba4d76c3a418dc3165ff87a5f1, type: 3}
-        m_TargetAssemblyTypeName: SabotageButton, Assembly-CSharp
-        m_MethodName: StartArson
+      - m_Target: {fileID: 6637298180455386253, guid: b69f4e1d9e2bfe34b8d9892f8bbdc186, type: 3}
+        m_TargetAssemblyTypeName: SabotageCallbackObj, Assembly-CSharp
+        m_MethodName: ArsonCallback
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
