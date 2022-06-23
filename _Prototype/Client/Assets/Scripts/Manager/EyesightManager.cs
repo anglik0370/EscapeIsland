@@ -82,11 +82,6 @@ public class EyesightManager : MonoBehaviour
             lightMapObjs[i].SetActive(true);
         }
 
-        EventManager.SubEnterRoom(p =>
-        {
-            player = p;
-        });
-
         EventManager.SubTimeChange(isLight =>
         {
             if (isLight)
@@ -101,6 +96,9 @@ public class EyesightManager : MonoBehaviour
 
         EventManager.SubEnterRoom(p =>
         {
+            player = p;
+            ChangeVisibleObjects(AreaState.OutSide);
+
             Light2D[] lights = p.GetComponentsInChildren<Light2D>();
 
             lightMapPoint = lights[0];
