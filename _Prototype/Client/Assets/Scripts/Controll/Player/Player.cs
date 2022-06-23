@@ -240,6 +240,8 @@ public class Player : MonoBehaviour, IInteractionObject
             profile.BtnEnabled(false);
         //플레이어 오브젝트 체인지
 
+        teamUI.RefreshProfile();
+
         ChangePlayer();
 
         return beforeSoId;
