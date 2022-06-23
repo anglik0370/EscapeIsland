@@ -45,6 +45,7 @@ public class SkillManager : MonoBehaviour
     private void IanSkill()
     {
         print($"{skillList[IAN].skillName} »ç¿ë");
+        SendManager.Instance.Send("SKILL_IAN");
     }
 
     private void JosuhaSkill()

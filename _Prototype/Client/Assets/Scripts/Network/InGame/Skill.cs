@@ -7,6 +7,7 @@ public class Skill : ISetAble
     public static Skill Instance { get; private set; }
 
     private bool isDissRapRefresh = false;
+    private bool isRemoveAllDebuff = false;
 
     private void Awake()
     {
@@ -20,6 +21,12 @@ public class Skill : ISetAble
             DissRap();
             isDissRapRefresh = false;
         }
+
+        if(isDissRapRefresh)
+        {
+            RemoveAllDebuff();
+            isDissRapRefresh = false;
+        }
     }
 
     public static void SetDissRap()
@@ -30,10 +37,22 @@ public class Skill : ISetAble
         }
     }
 
+    public static void SetRemoveAllDebuff()
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.isRemoveAllDebuff = true;
+        }
+    }
 
     private void DissRap()
     {
         MissionPanel.Instance.CloseGetMissionPanel();
         UIManager.Instance.AlertText("µð½º·¦ ½ÃÀü", AlertType.GameEvent);
+    }
+
+    private void RemoveAllDebuff()
+    {
+        user.BuffHandler.RemoveAllDebuff();
     }
 }
