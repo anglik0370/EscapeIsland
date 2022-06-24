@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class TimedBuff
 {
     protected float duration;
+    public float Duration => duration;
     protected int effectStacks;
     public BuffSO Buff { get; }
     protected readonly GameObject obj;
@@ -38,6 +39,10 @@ public abstract class TimedBuff
         if (Buff.isDurationStacked)
         {
             duration = duration <= 0 ? Buff.duration : duration + Buff.duration;
+        }
+        else
+        {
+            duration = Buff.duration;
         }
     }
 
