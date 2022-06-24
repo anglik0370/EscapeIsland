@@ -174,9 +174,9 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendTrap(int trapId)
+    public void SendTrap(int socketId,int trapId)
     {
-        ObjVO vo = new ObjVO(trapId);
+        TrapVO vo = new TrapVO(socketId, trapId);
         DataVO dataVO = new DataVO("ENTER_TRAP", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));

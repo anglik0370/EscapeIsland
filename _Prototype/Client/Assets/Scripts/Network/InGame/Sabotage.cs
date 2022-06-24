@@ -18,12 +18,13 @@ public class Sabotage : ISetAble
 
     private SabotageVO sabotageData;
 
+    private const int ANDER_ID = 8; //¿£´õ 
+
     private bool needSabotageRefresh = false;
     private bool needTrapRefresh = false;
     private bool needCantUseRefineryRefresh = false;
     private bool needExtinguishRefresh = false;
 
-    private int trapId = -1;
     private int lastTrapIdx = 1;
 
     private List<Trap> trapList = new List<Trap>();
@@ -31,6 +32,7 @@ public class Sabotage : ISetAble
 
     private CantUseRefineryVO refineryData;
     private ArsonVO extinguishData;
+    private TrapVO trapData;
 
     [SerializeField]
     private Transform doorParent;
@@ -98,11 +100,11 @@ public class Sabotage : ISetAble
         }
     }
 
-    public static void SetTrapData(int trapId)
+    public static void SetTrapData(TrapVO vo)
     {
         lock (Instance.lockObj)
         {
-            Instance.trapId = trapId;
+            Instance.trapData = vo;
             Instance.needTrapRefresh = true;
         }
     }
@@ -172,7 +174,12 @@ public class Sabotage : ISetAble
 
     public void EnterTrap()
     {
-        Trap trap = FindTrap(trapId);
+        if(user.socketId.Equals(trapData.socketId))
+        {
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(ANDER_ID).InitializeBuff(user.gameObject));
+        }
+
+        Trap trap = FindTrap(trapData.trapId);
 
         if (trap != null)
         {

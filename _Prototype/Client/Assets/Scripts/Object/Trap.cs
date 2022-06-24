@@ -7,12 +7,12 @@ public class Trap : MonoBehaviour
     [SerializeField]
     private SpriteRenderer sr;
 
-    public Player enterPlayer = null;
-
     bool isOnce = false;
     bool isTrap = false;
 
     public int id;
+
+    private Coroutine co;
 
     private void Start()
     {
@@ -29,19 +29,13 @@ public class Trap : MonoBehaviour
             return;
         }
 
-        StartCoroutine(SetDisable());
+        co = StartCoroutine(SetDisable());
     }
 
     private void Init()
     {
         isTrap = false;
         gameObject.SetActive(false);
-
-        if(enterPlayer != null)
-        {
-            enterPlayer.canMove = true;
-            enterPlayer = null;
-        }
     }
 
     IEnumerator SetDisable()
@@ -59,10 +53,9 @@ public class Trap : MonoBehaviour
         {
             Player p = col.transform.parent.GetComponentInParent<Player>();
             
-            if(p != null && !isTrap)
+            if(p != null && !p.IsRemote && !isTrap)
             {
-                enterPlayer = p;
-                SendManager.Instance.SendTrap(id);
+                SendManager.Instance.SendTrap(p.socketId, id);
             }
         }
     }
@@ -74,11 +67,12 @@ public class Trap : MonoBehaviour
 
     IEnumerator EnterTrapCo()
     {
-        if(enterPlayer != null)
+        if(co != null)
         {
-            enterPlayer.canMove = false;
+            StopCoroutine(co);
         }
-        isTrap = sr.enabled = true;
+
+        sr.enabled = true;
 
         yield return CoroutineHandler.fifteenSec;
 
