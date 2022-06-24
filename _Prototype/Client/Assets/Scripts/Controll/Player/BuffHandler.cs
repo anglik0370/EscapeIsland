@@ -30,7 +30,7 @@ public class BuffHandler : MonoBehaviour
         {
             if (_buff is CrowdControl)
             {
-                if(maxDuration < _buff.Duration)
+                if (maxDuration < _buff.Duration)
                 {
                     maxDuration = _buff.Duration;
                     highDurationBuff = _buff;
@@ -54,13 +54,16 @@ public class BuffHandler : MonoBehaviour
         _buffs[buff.Buff].Activate();
     }
 
-        public void RemoveAllDebuff()
+    public void RemoveAllDebuff()
+    {
+        print("remove all debuff");
+        foreach (TimedBuff buff in _buffs.Values.ToList())
         {
-            foreach (TimedBuff buff in _buffs.Values.ToList())
-            {
-                if (buff.Buff.isBuffed) continue;
-
-                _buffs.Remove(buff.Buff);
-            }
+            print("Ads");
+            if (buff.Buff.isBuffed) continue;
+            print("remove");
+            buff.End();
+            _buffs.Remove(buff.Buff);
         }
     }
+}

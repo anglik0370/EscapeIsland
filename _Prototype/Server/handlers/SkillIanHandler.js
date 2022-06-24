@@ -9,6 +9,6 @@ module.exports = {
         if(room === undefined || user === undefined) return;
 
         room.teamBroadcast(JSON.stringify({type:"SKILL_IAN",
-        payload:null}),user.curTeam,isSame);
+        payload:null}),user.curTeam,data.isSame);
     }
 }
