@@ -13,16 +13,13 @@ MonoBehaviour:
   m_Name: Trap
   m_EditorClassIdentifier: 
   sabotageName: "\uB36B \uC124\uCE58"
-  coolTime: 60
-  shareCoolTime: 0
-  isShareCoolTime: 0
   sabotageSprite: {fileID: 21300000, guid: 4b10bccd4fc0f0e41bda7a4f404f9a70, type: 3}
   callback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6558261083451532474, guid: c5d48dba4d76c3a418dc3165ff87a5f1, type: 3}
-        m_TargetAssemblyTypeName: SabotageButton, Assembly-CSharp
-        m_MethodName: SpawnTrap
+      - m_Target: {fileID: 6637298180455386253, guid: b69f4e1d9e2bfe34b8d9892f8bbdc186, type: 3}
+        m_TargetAssemblyTypeName: SabotageCallbackObj, Assembly-CSharp
+        m_MethodName: TrapCallback
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

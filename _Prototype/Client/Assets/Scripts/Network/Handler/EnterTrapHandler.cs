@@ -6,7 +6,7 @@ public class EnterTrapHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        ObjVO vo = JsonUtility.FromJson<ObjVO>(payload);
-        Sabotage.SetTrapData(vo.objId);
+        TrapVO vo = JsonUtility.FromJson<TrapVO>(payload);
+        Sabotage.SetTrapData(vo);
     }
 }

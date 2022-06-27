@@ -9,17 +9,22 @@ public class Sabotage : ISetAble
 {
     public static Sabotage Instance { get; private set; }
 
+    private List<SabotageSO> sabotageSOList;
+
     [SerializeField]
     private GameObject trapPrefab;
+    [SerializeField]
+    private SabotageCallbackObj callbackObj;
 
     private SabotageVO sabotageData;
+
+    private const int ANDER_ID = 8; //¿£´õ 
 
     private bool needSabotageRefresh = false;
     private bool needTrapRefresh = false;
     private bool needCantUseRefineryRefresh = false;
     private bool needExtinguishRefresh = false;
 
-    private int trapId = -1;
     private int lastTrapIdx = 1;
 
     private List<Trap> trapList = new List<Trap>();
@@ -27,6 +32,7 @@ public class Sabotage : ISetAble
 
     private CantUseRefineryVO refineryData;
     private ArsonVO extinguishData;
+    private TrapVO trapData;
 
     [SerializeField]
     private Transform doorParent;
@@ -42,6 +48,8 @@ public class Sabotage : ISetAble
 
         EventManager.SubGameOver(goc => InitTrap());
         EventManager.SubExitRoom(() => InitTrap());
+
+        sabotageSOList = Resources.LoadAll<SabotageSO>("SabotageSO/").ToList();
     }
 
     protected override void Start()
@@ -52,6 +60,8 @@ public class Sabotage : ISetAble
         {
             doorList.Add(doorParent.GetChild(i).GetComponentInChildren<LabDoor>());
         }
+
+        Instantiate(callbackObj, transform);
     }
 
     private void Update()
@@ -62,19 +72,19 @@ public class Sabotage : ISetAble
             needSabotageRefresh = false;
         }
 
-        if(needTrapRefresh)
+        if (needTrapRefresh)
         {
             EnterTrap();
             needTrapRefresh = false;
         }
 
-        if(needCantUseRefineryRefresh)
+        if (needCantUseRefineryRefresh)
         {
             SetRefinery();
             needCantUseRefineryRefresh = false;
         }
 
-        if(needExtinguishRefresh)
+        if (needExtinguishRefresh)
         {
             SetExtinguish();
             needExtinguishRefresh = false;
@@ -83,25 +93,25 @@ public class Sabotage : ISetAble
 
     public static void SetSabotageData(SabotageVO vo)
     {
-        lock(Instance.lockObj)
+        lock (Instance.lockObj)
         {
             Instance.sabotageData = vo;
             Instance.needSabotageRefresh = true;
         }
     }
-    
-    public static void SetTrapData(int trapId)
+
+    public static void SetTrapData(TrapVO vo)
     {
-        lock(Instance.lockObj)
+        lock (Instance.lockObj)
         {
-            Instance.trapId = trapId;
+            Instance.trapData = vo;
             Instance.needTrapRefresh = true;
         }
     }
 
     public static void SetRefineryData(CantUseRefineryVO vo)
     {
-        lock(Instance.lockObj)
+        lock (Instance.lockObj)
         {
             Instance.refineryData = vo;
             Instance.needCantUseRefineryRefresh = true;
@@ -110,7 +120,7 @@ public class Sabotage : ISetAble
 
     public static void SetExtinguishData(ArsonVO vo)
     {
-        lock(Instance.lockObj)
+        lock (Instance.lockObj)
         {
             Instance.extinguishData = vo;
             Instance.needExtinguishRefresh = true;
@@ -138,30 +148,22 @@ public class Sabotage : ISetAble
 
     public void StartSabotage()
     {
-        SabotageButton curSabotage = SabotagePanel.Instance.FindSabotageButton(sabotageData.sabotageName);
-
-        //if((sabotageData.isShareCoolTime && user.isKidnapper) || user.socketId == sabotageData.starterId)
-        {
-            curSabotage.StartSabotageCoolTime(sabotageData.isShareCoolTime ? curSabotage.SabotageSO.shareCoolTime : curSabotage.SabotageSO.coolTime);
-
-            SabotagePanel.Instance.UseSabotage(curSabotage);
-        }
+        SabotageSO so = GetSabotageSO(sabotageData.sabotageName);
+        so.callback?.Invoke();
 
         UIManager.Instance.AlertText(sabotageData.sabotageName, AlertType.Warning);
-
-        curSabotage.StartSabotage(sabotageData.data);
     }
 
     public void SpawnTrap()
     {
         Trap trap = PoolManager.GetItem<Trap>();
 
-        if(!trapList.Contains(trap))
+        if (!trapList.Contains(trap))
             trapList.Add(trap);
 
         foreach (UserVO uv in sabotageData.userDataList)
         {
-            if(uv.socketId == sabotageData.starterId)
+            if (uv.socketId == sabotageData.starterId)
             {
                 trap.transform.position = uv.position;
                 trap.id = lastTrapIdx++;
@@ -172,9 +174,14 @@ public class Sabotage : ISetAble
 
     public void EnterTrap()
     {
-        Trap trap = FindTrap(trapId);
+        if(user.socketId.Equals(trapData.socketId))
+        {
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(ANDER_ID).InitializeBuff(user.gameObject));
+        }
 
-        if(trap != null)
+        Trap trap = FindTrap(trapData.trapId);
+
+        if (trap != null)
         {
             trap.EnterTrap();
         }
@@ -197,5 +204,10 @@ public class Sabotage : ISetAble
         {
             doorList[i].CloseDoor();
         }
+    }
+
+    public SabotageSO GetSabotageSO(string sabotageName)
+    {
+        return sabotageSOList.Find(x => x.sabotageName.Equals(sabotageName));
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BuffHandler : MonoBehaviour
 {
-    private readonly Dictionary<BuffSO,TimedBuff> _buffs = new Dictionary<BuffSO, TimedBuff>();
+    private readonly Dictionary<BuffSO, TimedBuff> _buffs = new Dictionary<BuffSO, TimedBuff>();
 
     private void Update()
     {
@@ -14,7 +14,7 @@ public class BuffHandler : MonoBehaviour
         foreach (TimedBuff buff in _buffs.Values.ToList())
         {
             buff.Tick(Time.deltaTime);
-            if(buff.isFinished)
+            if (buff.isFinished)
             {
                 _buffs.Remove(buff.Buff);
             }
@@ -23,7 +23,30 @@ public class BuffHandler : MonoBehaviour
 
     public void AddBuff(TimedBuff buff)
     {
-        if(!_buffs.ContainsKey(buff.Buff))
+        TimedBuff highDurationBuff = null;
+        float maxDuration = float.MinValue;
+
+        foreach (TimedBuff _buff in _buffs.Values.ToList())
+        {
+            if (_buff is CrowdControl)
+            {
+                if (maxDuration < _buff.Duration)
+                {
+                    maxDuration = _buff.Duration;
+                    highDurationBuff = _buff;
+                }
+            }
+        }
+
+        if (buff.Duration <= maxDuration && highDurationBuff != null)
+        {
+            print($"maxDuration : {maxDuration} buffId : {buff.Buff.id}");
+
+            _buffs.Remove(highDurationBuff.Buff);
+            return;
+        }
+
+        if (!_buffs.ContainsKey(buff.Buff))
         {
             _buffs.Add(buff.Buff, buff);
         }
@@ -33,10 +56,13 @@ public class BuffHandler : MonoBehaviour
 
     public void RemoveAllDebuff()
     {
+        print("remove all debuff");
         foreach (TimedBuff buff in _buffs.Values.ToList())
         {
+            print("Ads");
             if (buff.Buff.isBuffed) continue;
-
+            print("remove");
+            buff.End();
             _buffs.Remove(buff.Buff);
         }
     }

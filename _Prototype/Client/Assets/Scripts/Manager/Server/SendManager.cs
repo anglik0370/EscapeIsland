@@ -165,18 +165,18 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendSabotage(int starterId, bool isShareCoolTime, string sabotageName, SabotageDataVO data)
+    public void SendSabotage(int starterId, string sabotageName, SabotageDataVO data)
     {
-        SabotageVO vo = new SabotageVO(starterId,isShareCoolTime, sabotageName,data);
+        SabotageVO vo = new SabotageVO(starterId, sabotageName,data);
 
         DataVO dataVO = new DataVO("SABOTAGE", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendTrap(int trapId)
+    public void SendTrap(int socketId,int trapId)
     {
-        ObjVO vo = new ObjVO(trapId);
+        TrapVO vo = new TrapVO(socketId, trapId);
         DataVO dataVO = new DataVO("ENTER_TRAP", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));

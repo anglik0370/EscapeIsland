@@ -22,10 +22,10 @@ public class Skill : ISetAble
             isDissRapRefresh = false;
         }
 
-        if(isDissRapRefresh)
+        if(isRemoveAllDebuff)
         {
             RemoveAllDebuff();
-            isDissRapRefresh = false;
+            isRemoveAllDebuff = false;
         }
     }
 
