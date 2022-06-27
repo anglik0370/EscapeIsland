@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        //UtilClass.ResolutionFix(16, 9);
     }
 
     private void Start()
