@@ -59,9 +59,8 @@ public class BuffHandler : MonoBehaviour
         print("remove all debuff");
         foreach (TimedBuff buff in _buffs.Values.ToList())
         {
-            print("Ads");
             if (buff.Buff.isBuffed) continue;
-            print("remove");
+
             buff.End();
             _buffs.Remove(buff.Buff);
         }
