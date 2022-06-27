@@ -27,9 +27,6 @@ public class LobbyPopup : Popup
     public Slider userNumslider;
     public Text userNumtext;
 
-    public Slider kidnapperNumSlider;
-    public Text kidnapperNumText;
-
     public Toggle testToggle;
 
     private bool isOpenPanel = false;
@@ -55,7 +52,7 @@ public class LobbyPopup : Popup
 
         createRoomBtn.onClick.AddListener(() =>
         {
-            SendManager.Instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)kidnapperNumSlider.value,testToggle.isOn);
+            SendManager.Instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)0,testToggle.isOn);
             OpenCreateRoomPopup(false);
         });
         cancelBtn.onClick.AddListener(() =>
@@ -81,11 +78,6 @@ public class LobbyPopup : Popup
         userNumslider.onValueChanged.AddListener(x =>
         {
             userNumtext.text = $"{(int)x}";
-        });
-
-        kidnapperNumSlider.onValueChanged.AddListener(x =>
-        {
-            kidnapperNumText.text = $"{(int)x}";
         });
     }
 
@@ -119,7 +111,6 @@ public class LobbyPopup : Popup
         {
             roomNameInput.text = "";
             userNumslider.value = 5;
-            kidnapperNumSlider.value = 1;
             testToggle.isOn = false;
         }
         else
