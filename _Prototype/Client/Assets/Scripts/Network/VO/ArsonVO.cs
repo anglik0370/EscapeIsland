@@ -1,17 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 [System.Serializable]
 public class ArsonVO
 {
-    public int arsonId;
-    public bool allExtinguish;
-
-    public ArsonVO()
-    {
-
-    }
-
-    public ArsonVO(int arsonId, bool allExtinguish)
-    {
-        this.arsonId = arsonId;
-        this.allExtinguish = allExtinguish;
-    }
+    public Team team;
+    public int itemSOId;
 }

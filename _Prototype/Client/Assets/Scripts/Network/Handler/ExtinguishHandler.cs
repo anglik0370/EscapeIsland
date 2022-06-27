@@ -6,8 +6,6 @@ public class ExtinguishHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
-        ArsonVO vo = JsonUtility.FromJson<ArsonVO>(payload);
-
-        Sabotage.SetExtinguishData(vo);
+        Sabotage.SetExtinguishData();
     }
 }

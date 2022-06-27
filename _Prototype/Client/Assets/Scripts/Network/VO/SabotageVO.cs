@@ -7,8 +7,7 @@ public class SabotageVO
 {
     public int starterId;
     public string sabotageName;
-
-    public SabotageDataVO data;
+    public Team team;
 
     public List<UserVO> userDataList;
 
@@ -17,27 +16,27 @@ public class SabotageVO
 
     }
 
-    public SabotageVO(int starterId,string sabotageName, SabotageDataVO data)
+    public SabotageVO(int starterId,string sabotageName, Team team)
     {
         this.starterId = starterId;
         this.sabotageName = sabotageName;
-        this.data = data;
+        this.team = team;
         userDataList = null;
     }
 }
 
-[System.Serializable]
-public class SabotageDataVO
-{
-    public int arsonId;
+//[System.Serializable]
+//public class SabotageDataVO
+//{
+//    public int arsonId;
 
-    public SabotageDataVO()
-    {
+//    public SabotageDataVO()
+//    {
 
-    }
+//    }
 
-    public SabotageDataVO(int arsonId)
-    {
-        this.arsonId = arsonId;
-    }
-}
+//    public SabotageDataVO(int arsonId)
+//    {
+//        this.arsonId = arsonId;
+//    }
+//}

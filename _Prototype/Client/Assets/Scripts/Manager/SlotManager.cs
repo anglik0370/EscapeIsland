@@ -200,9 +200,7 @@ public class SlotManager : MonoBehaviour
 
                     beginSlot.SetItem(null);
 
-                    ArsonVO vo = new ArsonVO(slot.id, ArsonManager.Instance.AllExtinguish(slot.id));
-
-                    SendManager.Instance.SendExtinguish(vo);
+                    SendManager.Instance.Send("EXTINGUISH");
                 }
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.TrashCan)

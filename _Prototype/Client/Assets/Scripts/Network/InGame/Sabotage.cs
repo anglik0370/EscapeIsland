@@ -24,6 +24,7 @@ public class Sabotage : ISetAble
     private bool needTrapRefresh = false;
     private bool needCantUseRefineryRefresh = false;
     private bool needExtinguishRefresh = false;
+    private bool needArsonRefresh = false;
 
     private int lastTrapIdx = 1;
 
@@ -31,8 +32,8 @@ public class Sabotage : ISetAble
     private List<LabDoor> doorList = new List<LabDoor>();
 
     private CantUseRefineryVO refineryData;
-    private ArsonVO extinguishData;
     private TrapVO trapData;
+    private ArsonVO arsonData;
 
     [SerializeField]
     private Transform doorParent;
@@ -89,6 +90,12 @@ public class Sabotage : ISetAble
             SetExtinguish();
             needExtinguishRefresh = false;
         }
+
+        if(needArsonRefresh)
+        {
+            SetArson();
+            needArsonRefresh = false;
+        }
     }
 
     public static void SetSabotageData(SabotageVO vo)
@@ -118,22 +125,31 @@ public class Sabotage : ISetAble
         }
     }
 
-    public static void SetExtinguishData(ArsonVO vo)
+    public static void SetExtinguishData()
     {
         lock (Instance.lockObj)
         {
-            Instance.extinguishData = vo;
             Instance.needExtinguishRefresh = true;
+        }
+    }
+
+    public static void SetArsonData(ArsonVO vo)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.arsonData = vo;
+            Instance.needArsonRefresh = true;
         }
     }
 
     public void SetExtinguish()
     {
-        ArsonSlot slot = ArsonManager.Instance.GetArsonSlot(extinguishData.arsonId);
+        ArsonManager.Instance.SlotActive(false);
+    }
 
-        //¿œ¥‹ ≤Ù±‚∏∏
-        slot.SetArson(false);
-        ArsonManager.Instance.isArson = !extinguishData.allExtinguish;
+    private void SetArson()
+    {
+        StorageManager.Instance.RemoveItem(arsonData.team, ItemManager.Instance.FindItemSO(arsonData.itemSOId));
     }
 
     public void SetRefinery()
@@ -148,6 +164,8 @@ public class Sabotage : ISetAble
 
     public void StartSabotage()
     {
+        ArsonManager.Instance.isBlue = sabotageData.team.Equals(Team.BLUE);
+
         SabotageSO so = GetSabotageSO(sabotageData.sabotageName);
         so.callback?.Invoke();
 
@@ -167,6 +185,7 @@ public class Sabotage : ISetAble
             {
                 trap.transform.position = uv.position;
                 trap.id = lastTrapIdx++;
+                trap.team = sabotageData.team;
                 break;
             }
         }

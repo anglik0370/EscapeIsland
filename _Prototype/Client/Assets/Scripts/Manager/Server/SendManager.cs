@@ -165,9 +165,9 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendSabotage(int starterId, string sabotageName, SabotageDataVO data)
+    public void SendSabotage(int starterId, string sabotageName,Team team)
     {
-        SabotageVO vo = new SabotageVO(starterId, sabotageName,data);
+        SabotageVO vo = new SabotageVO(starterId, sabotageName, team);
 
         DataVO dataVO = new DataVO("SABOTAGE", JsonUtility.ToJson(vo));
 
@@ -185,13 +185,6 @@ public class SendManager : MonoBehaviour
     public void SendCantUseRefinery(CantUseRefineryVO vo)
     {
         DataVO dataVO = new DataVO("CANT_USE_REFINERY", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void SendExtinguish(ArsonVO vo)
-    {
-        DataVO dataVO = new DataVO("EXTINGUISH", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

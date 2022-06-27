@@ -11,6 +11,7 @@ const values = Object.values(MissionType);
 
 const Timer = require('./Timers/Timer.js');
 const InGameTimer = require('./Timers/InGameTimer.js');
+const ArsonTimer = require('./Timers/ArsonTimer.js');
 
 class Room {
     constructor(roomName,roomNum,curUserNum,userNum,playing) {
@@ -21,13 +22,14 @@ class Room {
         this.playing = playing;
 
         this.inGameTimer = new InGameTimer(this,20,() => {});
-        this.arsonTimer = new Timer(this,60, () => this.sendKidnapperWin(0));
+        this.arsonTimer = new ArsonTimer(this,20, () => this.arsonCallback());
 
         this.skipCount = 0;
 
-        this.selectedIdList = {};
         this.socketList = [];
+        this.storageItemList = [];
         
+        this.selectedIdList = {};
         this.userList = {};
         this.spawnerList = {};
 
@@ -69,6 +71,20 @@ class Room {
 
         socket.send(JSON.stringify({type:"OPEN_MISSION",
         payload:null}));
+    }
+
+    arsonCallback() {
+        if(this.storageItemList.length <= 0)  {
+            return;
+        }
+
+        let idx = Math.floor(Math.random() * this.storageItemList.length);
+        let itemSOId = this.storageItemList[idx];
+
+        this.storageItemList.splice(idx,1);
+
+        this.broadcast(JSON.stringify({type:"ARSON",
+        payload:JSON.stringify({team:this.arsonTimer.team,itemSOId})}));
     }
 
     addVoiceData(socketId,voiceData) {
@@ -157,6 +173,7 @@ class Room {
     
     initRoom() {
         console.log("initRoom");
+
         this.playing = false;
         this.skipCount = 0;
 
@@ -167,6 +184,10 @@ class Room {
         
         this.inGameTimer.stopTimer(true);
         this.arsonTimer.stopTimer(true);
+
+        this.storageItemList = [];
+        this.initSelectedIdList();
+        this.initSpawnerList();
     }
 
     setTimersTime(socket){
