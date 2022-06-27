@@ -11,20 +11,15 @@ public class ArsonManager : MonoBehaviour
     private List<ItemSO> waterList;
 
     [SerializeField]
-    private List<ArsonSlot> arsonList;
-    public List<ArsonSlot> ArsonList => arsonList;
+    private ArsonSlot redSlot;
+    [SerializeField]
+    private ArsonSlot blueSlot;
 
     [SerializeField]
     private Transform arsonParent;
 
-    private SabotageDataVO data;
-    public SabotageDataVO Data
-    {
-        get => data;
-        set => data = value;
-    }
-
     public bool isArson = false;
+    public bool isBlue = false;
 
     private void Awake()
     {
@@ -36,25 +31,27 @@ public class ArsonManager : MonoBehaviour
 
     private void Start()
     {
-        arsonList = arsonParent.GetComponentsInChildren<ArsonSlot>().ToList();
-
         SlotActive(false);
     }
 
     public void SlotActive(bool active)
     {
-        for (int i = 0; i < arsonList.Count; i++)
-        {
-            arsonList[i].SetArson(active);
-        }
+        redSlot.SetArson(active);
+        blueSlot.SetArson(active);
         isArson = false;
     }
 
     public void StartArson()
     {
         isArson = true;
-        arsonList[0].SetArson(true); // น่
-        arsonList[data.arsonId].SetArson(true);
+        if (isBlue)
+        {
+            redSlot.SetArson(true);
+        }
+        else
+        {
+            blueSlot.SetArson(true);
+        }
 
         EyesightManager.Instance.ChangeVisibleObjects(NetworkManager.instance.User.AreaState);
     }
@@ -62,32 +59,5 @@ public class ArsonManager : MonoBehaviour
     public bool CanExtinguish(ItemSO so)
     {
         return waterList.Find(s => s == so) != null;
-    }
-
-    public bool AllExtinguish(int slotId)
-    {
-        int cnt = 0;
-        bool equalSlot = false;
-
-        for (int i = 0; i < arsonList.Count; i++)
-        {
-            if(arsonList[i].isArson)
-            {
-                cnt++;
-
-                if (arsonList[i].id == slotId) equalSlot = true;
-            }
-        }
-        return cnt == 1 && equalSlot;
-    }
-
-    public ArsonSlot GetArsonSlot(int id)
-    {
-        return arsonList.Find(slot => slot.id == id);
-    }
-
-    public int GetRandomSmelter()
-    {
-        return UnityEngine.Random.Range(1, ArsonList.Count);
     }
 }

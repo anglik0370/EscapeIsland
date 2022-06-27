@@ -12,6 +12,8 @@ public class Trap : MonoBehaviour
 
     public int id;
 
+    public Team team;
+
     private Coroutine co;
 
     private void Start()
@@ -41,7 +43,7 @@ public class Trap : MonoBehaviour
     IEnumerator SetDisable()
     {
         sr.enabled = true;
-        //if (NetworkManager.instance.User.isKidnapper) yield break;
+        if (NetworkManager.instance.User.CurTeam.Equals(team)) yield break;
 
         yield return CoroutineHandler.oneSec;
         sr.enabled = false;
@@ -53,7 +55,7 @@ public class Trap : MonoBehaviour
         {
             Player p = col.transform.parent.GetComponentInParent<Player>();
             
-            if(p != null && !p.IsRemote && !isTrap)
+            if(p != null && !p.IsRemote && !p.CurTeam.Equals(team) &&!isTrap)
             {
                 SendManager.Instance.SendTrap(p.socketId, id);
             }
@@ -73,6 +75,7 @@ public class Trap : MonoBehaviour
         }
 
         sr.enabled = true;
+        isTrap = true;
 
         yield return CoroutineHandler.fifteenSec;
 

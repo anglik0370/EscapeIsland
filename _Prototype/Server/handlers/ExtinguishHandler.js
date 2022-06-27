@@ -7,10 +7,7 @@ module.exports = {
 
         if(room === undefined) return;
 
-        room.broadcast(JSON.stringify({type:"EXTINGUISH",payload:JSON.stringify(data)}));
-
-        if(data.allExtinguish) {
-            room.arsonTimer.stopTimer();
-        }
+        room.broadcast(JSON.stringify({type:"EXTINGUISH",payload:null}));
+        room.arsonTimer.stopTimer();
     }
 }
