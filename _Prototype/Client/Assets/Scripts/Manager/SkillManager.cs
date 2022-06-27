@@ -19,6 +19,10 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField]
     private const string TRAP_NAME = "덫 설치";
+    [SerializeField]
+    private const string ARSON_NAME = "방화";
+
+    private int trapCount = 0;
 
     private void Awake()
     {
@@ -34,6 +38,11 @@ public class SkillManager : MonoBehaviour
         skillList[SARSU].Callback = SarsuSkill;
         skillList[WONSONG].Callback = WonsongSkill;
         skillList[ANDER].Callback = AnderSkill;
+    }
+
+    private void Start()
+    {
+        EventManager.SubGameInit(() => trapCount = 0);
     }
 
     private void AmberSkill()
@@ -83,6 +92,15 @@ public class SkillManager : MonoBehaviour
     private void AnderSkill()
     {
         print($"{skillList[ANDER].skillName} 사용");
+
+        if(trapCount >= 10)
+        {
+            SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId, ARSON_NAME, PlayerManager.Instance.Player.CurTeam);
+            trapCount = 0;
+            return;
+        }
+
         SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId,TRAP_NAME,PlayerManager.Instance.Player.CurTeam);
+        trapCount++;
     }
 }
