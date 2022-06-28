@@ -97,6 +97,10 @@ public class Player : MonoBehaviour, IInteractionObject
     private float speed = 6;
     public float Speed => speed;
 
+    [SerializeField]
+    private float coolTimeMagnification = 1f;
+    public float CoolTimeMagnification => coolTimeMagnification;
+
     private float originSpeed = 0f;
 
     private WaitForSeconds ws = new WaitForSeconds(1 / 10); //100ms 간격으로 자신의 데이터갱신
@@ -430,6 +434,11 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetSpeed(float speed)
     {
         this.speed = speed;
+    }
+
+    public void SetMagnification(float magnification)
+    {
+        this.coolTimeMagnification = magnification;
     }
 
     public void SetOriginSpeed()
