@@ -42,6 +42,12 @@ public class SetCharacter : ISetAble
     {
         if (user == null) return;
 
+        if (user.isReady)
+        {
+            UIManager.Instance.AlertText("준비중엔 바꿀 수 없습니다", AlertType.Warning);
+            return;
+        }
+
         int beforeId = user.ChangeCharacter(so);
 
         SendManager.Instance.SendCharacterChange(so.id, beforeId);

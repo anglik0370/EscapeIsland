@@ -10,9 +10,7 @@ module.exports = {
         if(room === undefined) return;
         if(user === undefined) return;
 
-        if(user.ready) return;
-        
-        user.ready = true;
-        room.broadcast(JSON.stringify({type:"READY",payload:JSON.stringify({socketId:socket.id})}));
+        user.ready = !user.ready;
+        room.broadcast(JSON.stringify({type:"READY",payload:JSON.stringify({socketId:socket.id,ready:user.ready})}));
     }
 }

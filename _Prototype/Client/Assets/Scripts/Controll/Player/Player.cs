@@ -68,6 +68,7 @@ public class Player : MonoBehaviour, IInteractionObject
     } 
 
     public bool master;
+    public bool isReady = false;
 
     private Team curTeam = Team.NONE;
     public Team CurTeam
