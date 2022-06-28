@@ -111,6 +111,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private WaitForSeconds ws = new WaitForSeconds(1 / 10); //100ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
+    private Coroutine co;
 
     private InfoUI ui = null;
     public InfoUI UI => ui;
@@ -454,12 +455,17 @@ public class Player : MonoBehaviour, IInteractionObject
     
     public void SetRestrict(bool on)
     {
+        if(co != null && on)
+        {
+            StopCoroutine(co);
+        }
+
         isRestrict = on;
     }
 
     public void StartOffRestrict(float time)
     {
-        StartCoroutine(RestrictOff(time));
+        co = StartCoroutine(RestrictOff(time));
     }
 
     IEnumerator RestrictOff(float time)
