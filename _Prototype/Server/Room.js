@@ -31,7 +31,8 @@ class Room {
         
         this.selectedIdList = {};
         this.userList = {};
-        this.spawnerList = {};
+        this.redSpawnerList = {};
+        this.blueSpawnerList = {};
 
         this.initSpawnerList();
         this.initSelectedIdList();
@@ -39,7 +40,8 @@ class Room {
 
     initSpawnerList() {
         for(let i = 0; i < values.length; i++) {
-            this.spawnerList[values[i]] = { };
+            this.redSpawnerList[values[i]] = { };
+            this.blueSpawnerList[values[i]] = { };
         }
     }
 
@@ -55,7 +57,7 @@ class Room {
     }
 
     setSpawnerData(socket,data) {
-        let value = this.spawnerList[data.missionType];
+        let value = data.team == team.RED ? this.redSpawnerList[data.missionType] : this.blueSpawnerList[data.missionType];
 
         if(data.isOpen && value[data.spawnerId] !== undefined) {
             if(value[data.spawnerId]) {

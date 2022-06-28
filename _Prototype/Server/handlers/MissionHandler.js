@@ -7,6 +7,7 @@ module.exports = {
 
         if(room === undefined) return;
 
-        room.broadcast(JSON.stringify({type:"MISSION",payload:JSON.stringify(data)}))
+        room.teamBroadcast(JSON.stringify({type:"MISSION",payload:JSON.stringify(data)})
+        ,data.team, true);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CrowdControl : TimedBuff
 {
-    private Player player;
+    private readonly Player player;
 
     public CrowdControl(BuffSO buff, GameObject obj) : base(buff, obj)
     {
@@ -13,11 +13,34 @@ public class CrowdControl : TimedBuff
 
     public override void End()
     {
+        CrowdControlSO so = (CrowdControlSO)Buff;
         player.canMove = true;
+
+        if (!so.isRestrict) return;
+
+        if (player.IsRestrict)
+        {
+            if (duration > 0f)
+            {
+                //duration ¿Ã»ƒø° ≤®¡‹   
+                player.StartOffRestrict(duration);
+                return;
+            }
+
+            player.SetRestrict(false);
+        }
     }
+
 
     protected override void ApplyEffect()
     {
+        CrowdControlSO so = (CrowdControlSO)Buff;
+
         player.canMove = false;
+
+        if(so.isRestrict)
+        {
+            player.SetRestrict(true);
+        }
     }
 }

@@ -60,7 +60,14 @@ public class ItemAndStorage : ISetAble
         //s.DeSpawnItem();
         if(s != null)
         {
-            s.StartTimer();
+            if (NetworkManager.instance.socketId.Equals(missionData.senderId))
+            {
+                s.StartTimer(user.CoolTimeMagnification);
+            }
+            else if (NetworkManager.instance.GetPlayerDic().TryGetValue(missionData.senderId, out Player p))
+            {
+                s.StartTimer(p.CoolTimeMagnification);
+            }
         }
     }
 

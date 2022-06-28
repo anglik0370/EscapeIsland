@@ -7,6 +7,8 @@ public class TeamPanel : Panel
 {
     public static TeamPanel Instance { get; private set; }
 
+    private Player user;
+
     [SerializeField]
     private Transform redTeamParent;
     [SerializeField]
@@ -31,6 +33,11 @@ public class TeamPanel : Panel
     protected override void Start()
     {
         base.Start();
+
+        EventManager.SubEnterRoom(p =>
+        {
+            user = p;
+        });
 
         EventManager.SubGameStart(p =>
         {
@@ -68,6 +75,12 @@ public class TeamPanel : Panel
 
     private void SendChangeTeam(bool isBlueTeam)
     {
+        if (user.isReady)
+        {
+            UIManager.Instance.AlertText("준비중엔 바꿀 수 없습니다", AlertType.Warning);
+            return;
+        }
+
         team = isBlueTeam ? Team.BLUE : Team.RED;
 
         if (team.Equals(NetworkManager.instance.User.CurTeam)) return;

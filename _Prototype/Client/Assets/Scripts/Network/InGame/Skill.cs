@@ -8,7 +8,17 @@ public class Skill : ISetAble
 
     private bool isDissRapRefresh = false;
     private bool isRemoveAllDebuff = false;
+    private bool isCherrySkill = false;
 
+    private Team skillUseTeam = Team.NONE;
+
+    [SerializeField]
+    private const int CHERRY_ENEMY_TEAM_DEBUFF_ID = 111;
+    [SerializeField]
+    private const int CHERRY_ENEMY_TEAM_DEBUFF_ID2 = 112;
+    [SerializeField]
+    private const int CHERRY_SAME_TEAM_BUFF_ID = 113;
+   
     private void Awake()
     {
         Instance = this;
@@ -26,6 +36,12 @@ public class Skill : ISetAble
         {
             RemoveAllDebuff();
             isRemoveAllDebuff = false;
+        }
+
+        if(isCherrySkill)
+        {
+            CherrySkill();
+            isCherrySkill = false;
         }
     }
 
@@ -45,6 +61,15 @@ public class Skill : ISetAble
         }
     }
 
+    public static void SetCherrySkill(Team team)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.isCherrySkill = true;
+            Instance.skillUseTeam = team;
+        }
+    }
+
     private void DissRap()
     {
         MissionPanel.Instance.CloseGetMissionPanel();
@@ -54,5 +79,18 @@ public class Skill : ISetAble
     private void RemoveAllDebuff()
     {
         user.BuffHandler.RemoveAllDebuff();
+    }
+
+    private void CherrySkill()
+    {
+        if(user.CurTeam.Equals(skillUseTeam))
+        {
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(user.gameObject));
+        }
+        else
+        {
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
+        }
     }
 }
