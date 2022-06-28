@@ -123,8 +123,16 @@ public class InteractionBtn : MonoBehaviour
             }
             else
             {
-                UpdateBtnState(proximateObj.InGameHandlerSO);
-                UpdateBtnCallback(proximateObj.IngameCallback);
+                if (PlayerManager.Instance.Player.IsSturned)
+                {
+                    UpdateBtnState(nothingSO);
+                    UpdateBtnCallback(() => { });
+                }
+                else
+                {
+                    UpdateBtnState(proximateObj.InGameHandlerSO);
+                    UpdateBtnCallback(proximateObj.IngameCallback);
+                }
             }
         }
         else
