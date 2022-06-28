@@ -78,6 +78,11 @@ public class Player : MonoBehaviour, IInteractionObject
     }
 
     public bool canMove = false;
+    private bool isRestrict = false;
+
+    public bool IsSturned => !isRestrict && !canMove;
+    public bool IsRestrict => isRestrict && !canMove;
+
     public bool isFlip = false; //뒤집혔는지
     public bool isNotLerp = false;
 
@@ -445,5 +450,22 @@ public class Player : MonoBehaviour, IInteractionObject
     public void SetOriginSpeed()
     {
         this.speed = originSpeed;
+    }
+    
+    public void SetRestrict(bool on)
+    {
+        isRestrict = on;
+    }
+
+    public void StartOffRestrict(float time)
+    {
+        StartCoroutine(RestrictOff(time));
+    }
+
+    IEnumerator RestrictOff(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        SetRestrict(false);
     }
 }
