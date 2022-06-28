@@ -8,6 +8,9 @@ public class Skill : ISetAble
 
     private bool isDissRapRefresh = false;
     private bool isRemoveAllDebuff = false;
+    private bool isCherrySkill = false;
+
+    private Team skillUseTeam = Team.NONE;
 
     private void Awake()
     {
@@ -27,6 +30,12 @@ public class Skill : ISetAble
             RemoveAllDebuff();
             isRemoveAllDebuff = false;
         }
+
+        if(isCherrySkill)
+        {
+            CherrySkill();
+            isCherrySkill = false;
+        }
     }
 
     public static void SetDissRap()
@@ -45,6 +54,15 @@ public class Skill : ISetAble
         }
     }
 
+    public static void SetCherrySkill(Team team)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.isCherrySkill = true;
+            Instance.skillUseTeam = team;
+        }
+    }
+
     private void DissRap()
     {
         MissionPanel.Instance.CloseGetMissionPanel();
@@ -54,5 +72,17 @@ public class Skill : ISetAble
     private void RemoveAllDebuff()
     {
         user.BuffHandler.RemoveAllDebuff();
+    }
+
+    private void CherrySkill()
+    {
+        if(user.CurTeam.Equals(skillUseTeam))
+        {
+
+        }
+        else
+        {
+
+        }
     }
 }

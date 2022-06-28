@@ -203,4 +203,11 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendCherrySkill(CherryVO vo)
+    {
+        DataVO dataVO = new DataVO("SKILL_CHERRY", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }
