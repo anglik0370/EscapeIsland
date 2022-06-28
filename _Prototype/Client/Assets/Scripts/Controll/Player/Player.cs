@@ -68,6 +68,7 @@ public class Player : MonoBehaviour, IInteractionObject
     } 
 
     public bool master;
+    public bool isReady = false;
 
     private Team curTeam = Team.NONE;
     public Team CurTeam
@@ -77,6 +78,11 @@ public class Player : MonoBehaviour, IInteractionObject
     }
 
     public bool canMove = false;
+    private bool isRestrict = false;
+
+    public bool IsSturned => !isRestrict && !canMove;
+    public bool IsRestrict => isRestrict && !canMove;
+
     public bool isFlip = false; //뒤집혔는지
     public bool isNotLerp = false;
 
@@ -97,10 +103,15 @@ public class Player : MonoBehaviour, IInteractionObject
     private float speed = 6;
     public float Speed => speed;
 
+    [SerializeField]
+    private float coolTimeMagnification = 1f;
+    public float CoolTimeMagnification => coolTimeMagnification;
+
     private float originSpeed = 0f;
 
     private WaitForSeconds ws = new WaitForSeconds(1 / 10); //100ms 간격으로 자신의 데이터갱신
     private Coroutine sendData;
+    private Coroutine co;
 
     private InfoUI ui = null;
     public InfoUI UI => ui;
@@ -432,8 +443,35 @@ public class Player : MonoBehaviour, IInteractionObject
         this.speed = speed;
     }
 
+    public void SetMagnification(float magnification)
+    {
+        this.coolTimeMagnification = magnification;
+    }
+
     public void SetOriginSpeed()
     {
         this.speed = originSpeed;
+    }
+    
+    public void SetRestrict(bool on)
+    {
+        if(co != null && on)
+        {
+            StopCoroutine(co);
+        }
+
+        isRestrict = on;
+    }
+
+    public void StartOffRestrict(float time)
+    {
+        co = StartCoroutine(RestrictOff(time));
+    }
+
+    IEnumerator RestrictOff(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        SetRestrict(false);
     }
 }

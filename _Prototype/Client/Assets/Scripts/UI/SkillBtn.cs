@@ -79,7 +79,7 @@ public class SkillBtn : MonoBehaviour
 
     private void UpdateImage()
     {
-        if(isGameStart && !curSkill.isPassive)
+        if(isGameStart && !curSkill.isPassive && !PlayerManager.Instance.Player.IsSturned)
         {
             coolTimeImg.fillAmount = curSkill.timer / curSkill.coolTime;
             btnImage.raycastTarget = (curSkill.timer / curSkill.coolTime) <= 0;
@@ -93,7 +93,7 @@ public class SkillBtn : MonoBehaviour
 
     private void UseSkill()
     {
-        if (!isEnterRoom || !isGameStart || curSkill.isPassive) return;
+        if (!isEnterRoom || !isGameStart || curSkill.isPassive || PlayerManager.Instance.Player.IsSturned) return;
 
         curSkill.Callback?.Invoke();
         curSkill.timer = curSkill.coolTime;
