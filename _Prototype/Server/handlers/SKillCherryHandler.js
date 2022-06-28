@@ -6,9 +6,9 @@ module.exports = {
         let room = Rooms.getRoom(socket.room);
 
         if(room === undefined) return;
-
+        
         room.socketList.forEach(soc => {
-            if(soc.id in data.targetIdList) {
+            if(data.targetIdList.includes(soc.id)) {
                 soc.send(JSON.stringify({type:"SKILL_CHERRY",payload:JSON.stringify(data)}));
             }
         });

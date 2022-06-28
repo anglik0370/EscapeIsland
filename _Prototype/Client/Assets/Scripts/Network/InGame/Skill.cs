@@ -80,6 +80,7 @@ public class Skill : ISetAble
 
     private void CherrySkill()
     {
+        print("cherrySKill");
         if(user.CurTeam.Equals(skillUseTeam))
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(user.gameObject));

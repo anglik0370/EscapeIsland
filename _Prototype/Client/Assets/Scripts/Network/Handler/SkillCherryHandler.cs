@@ -9,5 +9,6 @@ public class SkillCherryHandler : MonoBehaviour,IMsgHandler
         CherryVO vo = JsonUtility.FromJson<CherryVO>(payload);
 
         Skill.SetCherrySkill(vo.team);
+
     }
 }
