@@ -58,9 +58,16 @@ public class ItemAndStorage : ISetAble
     {
         ItemSpawner s = SpawnerManager.Instance.FindSpawner(missionData.spawnerId, missionData.missionType);
         //s.DeSpawnItem();
-        if(s != null)
+        if (s != null)
         {
-            s.StartTimer();
+            if (NetworkManager.instance.socketId.Equals(missionData.senderId))
+            {
+                s.StartTimer(user.CoolTimeMagnification);
+            }
+            else if (NetworkManager.instance.GetPlayerDic().TryGetValue(missionData.senderId, out Player p))
+            {
+                s.StartTimer(p.CoolTimeMagnification);
+            }
         }
     }
 

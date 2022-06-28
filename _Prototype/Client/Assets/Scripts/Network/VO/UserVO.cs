@@ -11,6 +11,7 @@ public class UserVO
     public bool master;
     public bool isImposter;
     public bool isDie;
+    public bool ready;
     public AreaState areaState;
     public Team curTeam;
     public float[] voiceData;

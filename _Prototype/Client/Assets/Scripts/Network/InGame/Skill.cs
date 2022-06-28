@@ -12,6 +12,10 @@ public class Skill : ISetAble
 
     private Team skillUseTeam = Team.NONE;
 
+    [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID = 111;
+    [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID2 = 112;
+    [SerializeField] private const int CHERRY_SAME_TEAM_BUFF_ID = 113;
+
     private void Awake()
     {
         Instance = this;
@@ -78,11 +82,12 @@ public class Skill : ISetAble
     {
         if(user.CurTeam.Equals(skillUseTeam))
         {
-
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(user.gameObject));
         }
         else
         {
-
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
         }
     }
 }

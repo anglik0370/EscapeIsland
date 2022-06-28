@@ -64,17 +64,19 @@ public class GameStart : ISetAble
 
         if(userVO.socketId == user.socketId)
         {
-            user.UI.SetNameTextColor(Color.black);
-            user.TeamUI.SetReadyText(true,UtilClass.READY_TEXT);
+            user.UI.SetNameTextColor(userVO.ready ? Color.black : Color.gray);
+            user.TeamUI.SetReadyText(userVO.ready, UtilClass.READY_TEXT);
+            user.isReady = userVO.ready;
             return;
         }
 
         playerList.TryGetValue(userVO.socketId, out Player p);
-        print(p == null);
+
         if(p != null)
         {
-            p.TeamUI.SetReadyText(true, UtilClass.READY_TEXT);
-            p.UI.SetNameTextColor(Color.black);
+            p.TeamUI.SetReadyText(userVO.ready, UtilClass.READY_TEXT);
+            p.UI.SetNameTextColor(userVO.ready ? Color.black : Color.gray);
+            p.isReady = userVO.ready;
         }
     }
 

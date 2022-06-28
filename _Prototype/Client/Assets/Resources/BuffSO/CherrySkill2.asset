@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9088fa7d9e3edf649a94bffc777421f8, type: 3}
-  m_Name: CherrySkill
+  m_Script: {fileID: 11500000, guid: 51687658622410140a585927ceb40966, type: 3}
+  m_Name: CherrySkill2
   m_EditorClassIdentifier: 
-  id: 1
-  skillName: "\uCCB4\uB9AC \uC2A4\uD0AC \uC774\uB984"
-  coolTime: 120
-  timer: 0
-  isPassive: 0
-  skillRange: 5.5
+  id: 112
+  duration: 60
+  isDurationStacked: 0
+  isEffectStacked: 0
+  isBuffed: 0
+  magnification: 1.3

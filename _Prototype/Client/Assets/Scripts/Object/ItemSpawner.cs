@@ -80,9 +80,13 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         }
     }
 
-    public void StartTimer()
+    public void StartTimer(float coolTimeMag = 0f)
     {
         curCoolTime = maxCoolTime;
+
+        if (coolTimeMag != 0f)
+            curCoolTime *= coolTimeMag;
+
         isInteractionAble = false;
     }
 
@@ -99,7 +103,7 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
 
         if(!isOpen)
         {
-            SendManager.Instance.StartMission(id, MissionType,NetworkManager.instance.User.CurTeam);
+            SendManager.Instance.StartMission(id,NetworkManager.instance.socketId, MissionType,NetworkManager.instance.User.CurTeam);
         }
     }
 

@@ -32,7 +32,7 @@ public class SetCharacter : ISetAble
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(characterVO.characterId);
 
-        if(playerList.ContainsKey(characterVO.changerId))
+        if (playerList.ContainsKey(characterVO.changerId))
         {
             playerList[characterVO.changerId].ChangeCharacter(profile.GetSO());
         }
@@ -41,6 +41,12 @@ public class SetCharacter : ISetAble
     public void ChangeCharacter(CharacterSO so)
     {
         if (user == null) return;
+
+        if (user.isReady)
+        {
+            UIManager.Instance.AlertText("준비 중엔 바꿀 수 없습니다.", AlertType.Warning);
+            return;
+        }
 
         int beforeId = user.ChangeCharacter(so);
 

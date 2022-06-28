@@ -23,27 +23,34 @@ public class BuffHandler : MonoBehaviour
 
     public void AddBuff(TimedBuff buff)
     {
-        TimedBuff highDurationBuff = null;
-        float maxDuration = float.MinValue;
-
-        foreach (TimedBuff _buff in _buffs.Values.ToList())
+        if (buff is CrowdControl)
         {
-            if (_buff is CrowdControl)
+            TimedBuff highDurationBuff = null;
+            float maxDuration = float.MinValue;
+
+            foreach (TimedBuff _buff in _buffs.Values.ToList())
             {
-                if (maxDuration < _buff.Duration)
+                if (_buff is CrowdControl)
                 {
-                    maxDuration = _buff.Duration;
-                    highDurationBuff = _buff;
+                    if (maxDuration < _buff.Duration)
+                    {
+                        maxDuration = _buff.Duration;
+                        highDurationBuff = _buff;
+                    }
                 }
             }
-        }
 
-        if (buff.Duration <= maxDuration && highDurationBuff != null)
-        {
-            print($"maxDuration : {maxDuration} buffId : {buff.Buff.id}");
+            if (buff.Duration > maxDuration && highDurationBuff != null)
+            {
+                print($"maxDuration : {maxDuration} buffId : {buff.Buff.id}");
 
-            _buffs.Remove(highDurationBuff.Buff);
-            return;
+                highDurationBuff.End();
+                _buffs.Remove(highDurationBuff.Buff);
+            }
+            else if (buff.Duration < maxDuration)
+            {
+                return;
+            }
         }
 
         if (!_buffs.ContainsKey(buff.Buff))

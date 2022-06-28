@@ -9,8 +9,7 @@ module.exports = {
 
         room.socketList.forEach(soc => {
             if(soc.id in data.targetIdList) {
-                soc.send(JSON.stringify({type:"SKILL_CHERRY",
-                payload:JSON.stringify(data)}));
+                soc.send(JSON.stringify({type:"SKILL_CHERRY",payload:JSON.stringify(data)}));
             }
         });
     }
