@@ -95,11 +95,11 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     {
         this.isOpen = isOpen;
 
-        SendManager.Instance.SendSpawnerOpen(missionType, id, isOpen);
+        SendManager.Instance.SendSpawnerOpen(missionType, NetworkManager.instance.User.CurTeam, id, isOpen);
 
         if(!isOpen)
         {
-            SendManager.Instance.StartMission(id, MissionType);
+            SendManager.Instance.StartMission(id, MissionType,NetworkManager.instance.User.CurTeam);
         }
     }
 

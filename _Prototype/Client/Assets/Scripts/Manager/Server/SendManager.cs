@@ -99,11 +99,12 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void StartMission(int spawnerId,MissionType missionType)
+    public void StartMission(int spawnerId,MissionType missionType, Team team)
     {
         ItemSpawnerVO vo = new ItemSpawnerVO();
         vo.spawnerId = spawnerId;
         vo.missionType = missionType;
+        vo.team = team;
 
         DataVO dataVO = new DataVO("MISSION", JsonUtility.ToJson(vo));
 
@@ -196,9 +197,9 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendSpawnerOpen(MissionType type, int spawnerId, bool isOpen)
+    public void SendSpawnerOpen(MissionType type,Team team, int spawnerId, bool isOpen)
     {
-        OpenPanelVO vo = new OpenPanelVO(type, spawnerId, isOpen);
+        OpenPanelVO vo = new OpenPanelVO(type, team, spawnerId, isOpen);
         DataVO dataVO = new DataVO("SPAWNER_OPEN", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
