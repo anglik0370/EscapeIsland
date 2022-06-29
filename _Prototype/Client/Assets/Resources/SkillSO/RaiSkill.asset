@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89992e60460d7fb408aeb0f2b9b875cf, type: 3}
+  m_Script: {fileID: 11500000, guid: fbec63b73c7a3064ca5fc9721566805a, type: 3}
   m_Name: RaiSkill
   m_EditorClassIdentifier: 
   id: 4
   skillName: "\uB808\uC774 \uC2A4\uD0AC \uC774\uB984"
-  coolTime: 10
-  timer: 10
+  coolTime: 30
+  timer: 0
+  isPassive: 0
+  skillRange: 2
