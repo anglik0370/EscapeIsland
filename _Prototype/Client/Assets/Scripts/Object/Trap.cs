@@ -23,14 +23,22 @@ public class Trap : MonoBehaviour
 
     }
 
-    void OnEnable()
-    {
-        if(!isOnce)
-        {
-            isOnce = true;
-            return;
-        }
+    //void OnEnable()
+    //{
+    //    if(!isOnce)
+    //    {
+    //        isOnce = true;
+    //        return;
+    //    }
 
+    //    co = StartCoroutine(SetDisable());
+    //}
+    public void SetEnable()
+    {
+        if(co != null)
+        {
+            StopCoroutine(co);
+        }
         co = StartCoroutine(SetDisable());
     }
 
