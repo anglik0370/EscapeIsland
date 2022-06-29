@@ -189,6 +189,8 @@ public class Sabotage : ISetAble
                 break;
             }
         }
+
+        trap.SetEnable();
     }
 
     public void EnterTrap()
