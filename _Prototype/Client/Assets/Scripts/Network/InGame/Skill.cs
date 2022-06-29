@@ -9,8 +9,11 @@ public class Skill : ISetAble
     private bool isDissRapRefresh = false;
     private bool isRemoveAllDebuff = false;
     private bool isCherrySkill = false;
+    private bool isJoshuaSkill = false;
 
     private Team skillUseTeam = Team.NONE;
+
+    [SerializeField] private const int JOSHUA_BUFF_ID = 3;
 
     [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID = 111;
     [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID2 = 112;
@@ -40,6 +43,12 @@ public class Skill : ISetAble
             CherrySkill();
             isCherrySkill = false;
         }
+
+        if(isJoshuaSkill)
+        {
+            JoshuaSkill();
+            isJoshuaSkill = false;
+        }
     }
 
     public static void SetDissRap()
@@ -67,6 +76,14 @@ public class Skill : ISetAble
         }
     }
 
+    public static void SetJoshuaSkill()
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.isJoshuaSkill = true;
+        }
+    }
+
     private void DissRap()
     {
         MissionPanel.Instance.CloseGetMissionPanel();
@@ -90,5 +107,11 @@ public class Skill : ISetAble
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
         }
+    }
+
+    private void JoshuaSkill()
+    {
+        print("joshuaSkill");
+        user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(JOSHUA_BUFF_ID).InitializeBuff(user.gameObject));
     }
 }

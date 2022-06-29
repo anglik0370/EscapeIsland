@@ -83,6 +83,22 @@ public class SkillManager : MonoBehaviour
     private void JosuhaSkill()
     {
         print($"{skillList[JOSUHA].skillName} »ç¿ë");
+
+        List<Player> playerList = NetworkManager.instance.GetPlayerList();
+        List<int> socketIdList = new List<int>();
+
+        WideAreaSkillSO joshuaSO = (WideAreaSkillSO)skillList[JOSUHA];
+        Player user = NetworkManager.instance.User;
+
+        foreach (Player p in playerList)
+        {
+            if (!p.CurTeam.Equals(user.CurTeam) && Vector2.Distance(user.transform.position, p.transform.position) <= joshuaSO.skillRange)
+            {
+                socketIdList.Add(p.socketId);
+            }
+        }
+
+        SendManager.Instance.SendJoshuaSkill(new CherryVO(user.CurTeam, socketIdList));
     }
 
     private void RaiSkill()
