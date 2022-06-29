@@ -135,5 +135,6 @@ public class Skill : ISetAble
     {
         print("raiSkill");
         user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(RAI_BUFF_ID).InitializeBuff(user.gameObject));
+        MissionPanel.Instance.Close();
     }
 }
