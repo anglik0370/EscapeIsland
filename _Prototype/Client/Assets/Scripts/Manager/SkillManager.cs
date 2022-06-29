@@ -104,6 +104,15 @@ public class SkillManager : MonoBehaviour
     private void RaiSkill()
     {
         print($"{skillList[RAI].skillName} »ç¿ë");
+
+        TargetingSkillSO raiSO = (TargetingSkillSO)skillList[RAI];
+
+        int targetSocketId = PlayerManager.Instance.GetRangeInPlayerId(raiSO.skillRange);
+
+        if(targetSocketId != 0)
+        {
+            SendManager.Instance.SendRaiSkill(targetSocketId);
+        }
     }
 
     private void RandySkill()

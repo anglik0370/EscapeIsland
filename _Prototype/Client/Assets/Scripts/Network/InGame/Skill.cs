@@ -10,10 +10,12 @@ public class Skill : ISetAble
     private bool isRemoveAllDebuff = false;
     private bool isCherrySkill = false;
     private bool isJoshuaSkill = false;
+    private bool isRaiSkill = false;
 
     private Team skillUseTeam = Team.NONE;
 
     [SerializeField] private const int JOSHUA_BUFF_ID = 3;
+    [SerializeField] private const int RAI_BUFF_ID = 4;
 
     [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID = 111;
     [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID2 = 112;
@@ -48,6 +50,12 @@ public class Skill : ISetAble
         {
             JoshuaSkill();
             isJoshuaSkill = false;
+        }
+
+        if(isRaiSkill)
+        {
+            RaiSkill();
+            isRaiSkill = false;
         }
     }
 
@@ -84,6 +92,14 @@ public class Skill : ISetAble
         }
     }
 
+    public static void SetRaiSkill()
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.isRaiSkill = true;
+        }
+    }
+
     private void DissRap()
     {
         MissionPanel.Instance.CloseGetMissionPanel();
@@ -113,5 +129,11 @@ public class Skill : ISetAble
     {
         print("joshuaSkill");
         user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(JOSHUA_BUFF_ID).InitializeBuff(user.gameObject));
+    }
+
+    private void RaiSkill()
+    {
+        print("raiSkill");
+        user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(RAI_BUFF_ID).InitializeBuff(user.gameObject));
     }
 }

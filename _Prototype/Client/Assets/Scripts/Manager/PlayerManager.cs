@@ -82,6 +82,27 @@ public class PlayerManager : MonoBehaviour
         return player.master;
     }
 
+    public int GetRangeInPlayerId(float range)
+    {
+        float minRange = float.MaxValue;
+        float curRange = float.MaxValue;
+
+        int targetSocId = 0;
+
+        foreach (Player p in PlayerList)
+        {
+            curRange = Vector2.Distance(player.transform.position, p.transform.position);
+
+            if (curRange <= range && curRange < minRange)
+            {
+                minRange = curRange;
+                targetSocId = p.socketId;
+            }
+        }
+
+        return targetSocId;
+    }
+
     private IEnumerator UpdatePlayerAreaStateRoutine()
     {
         //딜레이 간격으로 자신의 위치 상태를 갱신

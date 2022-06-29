@@ -17,6 +17,7 @@ public class SkillBtn : MonoBehaviour
     private bool isPassiveCalled;
 
     public bool CanTouch => btnImage.raycastTarget;
+    private bool IsTargetingSkill => PlayerManager.Instance.Player.curSO.skill is TargetingSkillSO;
 
     private void Awake()
     {
@@ -79,7 +80,21 @@ public class SkillBtn : MonoBehaviour
 
     private void UpdateImage()
     {
-        if(isGameStart && !curSkill.isPassive && !PlayerManager.Instance.Player.IsSturned)
+        if (isGameStart && IsTargetingSkill)
+        {
+            TargetingSkillSO so = (TargetingSkillSO)curSkill;
+            int targetSocId = PlayerManager.Instance.GetRangeInPlayerId(so.skillRange);
+
+            if (targetSocId == 0)
+            {
+                coolTimeImg.fillAmount = so.IsCoolTime ? curSkill.timer / curSkill.coolTime : 1f;
+                btnImage.raycastTarget = false;
+
+                return;
+            }
+        }
+
+        if (isGameStart && !curSkill.isPassive && !PlayerManager.Instance.Player.IsSturned)
         {
             coolTimeImg.fillAmount = curSkill.timer / curSkill.coolTime;
             btnImage.raycastTarget = (curSkill.timer / curSkill.coolTime) <= 0;

@@ -219,4 +219,13 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendRaiSkill(int targetId)
+    {
+        SkillVO vo = new SkillVO(targetId);
+
+        DataVO dataVO = new DataVO("SKILL_RAI", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }
