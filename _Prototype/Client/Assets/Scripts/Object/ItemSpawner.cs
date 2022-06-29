@@ -59,6 +59,8 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     private float maxCoolTime = 60f;
     private float curCoolTime = 0f;
 
+    private float coolTimeMag = 1f;
+
     public bool isInteractionAble = true;
 
     private void Awake()
@@ -71,7 +73,7 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     {
         if(!isInteractionAble)
         {
-            curCoolTime -= Time.deltaTime;
+            curCoolTime -= (Time.deltaTime / coolTimeMag);
 
             if(curCoolTime <= 0f)
             {
@@ -85,7 +87,9 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         curCoolTime = maxCoolTime;
 
         if (coolTimeMag != 0f)
-            curCoolTime *= coolTimeMag;
+        {
+            this.coolTimeMag = coolTimeMag;
+        }
 
         isInteractionAble = false;
     }
