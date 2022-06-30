@@ -183,7 +183,7 @@ public class ChatPanel : Panel
     private void Init()
     {
         lastChatUI = null;
-
+        newChatAlertObj.SetActive(false);
         Close();
     }
 
