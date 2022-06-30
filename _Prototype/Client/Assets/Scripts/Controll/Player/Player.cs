@@ -194,7 +194,7 @@ public class Player : MonoBehaviour, IInteractionObject
         socketId = vo.socketId;
         roomNum = vo.roomNum;
 
-        ChangeUI(vo);
+        ChangeUI(vo,true);
 
         if (!isRemote)
         {
