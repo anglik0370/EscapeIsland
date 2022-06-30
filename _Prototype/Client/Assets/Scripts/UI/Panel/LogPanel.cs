@@ -23,11 +23,12 @@ public class LogPanel : MonoBehaviour
         }
 
         scrollRect = GetComponent<ScrollRect>();
-        scrollRect.verticalNormalizedPosition = 0f;
     }
     public void CreateLogText(string str)
     {
         LogText logText = Instantiate(logTextPrefab, contentTrm);
         logText.SetText(str);
+
+        scrollRect.verticalNormalizedPosition = 0f;
     }
 }
