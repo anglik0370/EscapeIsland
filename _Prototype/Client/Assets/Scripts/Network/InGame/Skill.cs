@@ -6,14 +6,8 @@ public class Skill : ISetAble
 {
     public static Skill Instance { get; private set; }
 
-    private bool isDissRapRefresh = false;
-    private bool isRemoveAllDebuff = false;
-    private bool isCherrySkill = false;
-    private bool isJoshuaSkill = false;
-    private bool isRaiSkill = false;
     private bool needSkillRefresh = false;
 
-    private Team skillUseTeam = Team.NONE;
     private SkillVO skillData;
 
     [SerializeField] private const int JOSHUA_BUFF_ID = 3;
@@ -30,84 +24,12 @@ public class Skill : ISetAble
 
     private void Update()
     {
-        if(isDissRapRefresh)
-        {
-            DissRap();
-            isDissRapRefresh = false;
-        }
-
-        if(isRemoveAllDebuff)
-        {
-            RemoveAllDebuff();
-            isRemoveAllDebuff = false;
-        }
-
-        if(isCherrySkill)
-        {
-            CherrySkill();
-            isCherrySkill = false;
-        }
-
-        if(isJoshuaSkill)
-        {
-            JoshuaSkill();
-            isJoshuaSkill = false;
-        }
-
-        if(isRaiSkill)
-        {
-            RaiSkill();
-            isRaiSkill = false;
-        }
-
         if(needSkillRefresh)
         {
             SkillRefresh();
             needSkillRefresh = false;
         }
     }
-
-    public static void SetDissRap()
-    {
-        lock(Instance.lockObj)
-        {
-            Instance.isDissRapRefresh = true;
-        }
-    }
-
-    public static void SetRemoveAllDebuff()
-    {
-        lock(Instance.lockObj)
-        {
-            Instance.isRemoveAllDebuff = true;
-        }
-    }
-
-    public static void SetCherrySkill(Team team)
-    {
-        lock(Instance.lockObj)
-        {
-            Instance.isCherrySkill = true;
-            Instance.skillUseTeam = team;
-        }
-    }
-
-    public static void SetJoshuaSkill()
-    {
-        lock(Instance.lockObj)
-        {
-            Instance.isJoshuaSkill = true;
-        }
-    }
-
-    public static void SetRaiSkill()
-    {
-        lock(Instance.lockObj)
-        {
-            Instance.isRaiSkill = true;
-        }
-    }
-
     public static void SetSkill(SkillVO vo)
     {
         lock(Instance.lockObj)
@@ -154,8 +76,9 @@ public class Skill : ISetAble
         if(!user.CurTeam.Equals(skillData.team))
         {
             MissionPanel.Instance.CloseGetMissionPanel();
-            UIManager.Instance.AlertText("디스랩 시전", AlertType.GameEvent);
         }
+
+        CreateSkillLog();
     }
 
     private void RemoveAllDebuff()
@@ -178,6 +101,8 @@ public class Skill : ISetAble
         {
             user.BuffHandler.RemoveAllDebuff();
         }
+
+        CreateSkillLog();
     }
 
     private void CherrySkill()
@@ -186,7 +111,7 @@ public class Skill : ISetAble
 
         if (skillData.targetIdList.Count <= 0) return;
 
-        if(skillData.targetIdList.Contains(user.socketId))
+        if (skillData.targetIdList.Contains(user.socketId))
         {
             if (user.CurTeam.Equals(skillData.team))
             {
@@ -197,8 +122,6 @@ public class Skill : ISetAble
                 user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
                 user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
             }
-
-            if (skillData.targetIdList.Count <= 1) return;
         }
 
         foreach (Player p in NetworkManager.instance.GetPlayerList())
@@ -214,6 +137,8 @@ public class Skill : ISetAble
                 p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(p.gameObject));
             }
         }
+
+        CreateSkillLog();
     }
 
     private void JoshuaSkill()
@@ -234,6 +159,8 @@ public class Skill : ISetAble
 
         //    //이펙트 재생시 여기서
         //}
+
+        CreateSkillLog();
     }
 
     private void RaiSkill()
@@ -251,6 +178,21 @@ public class Skill : ISetAble
         //{
         //    //이펙트 재생시 여기에서
         //}
+        CreateSkillLog();
+    }
+
+    private void CreateSkillLog()
+    {
+        if (user.socketId.Equals(skillData.useSkillPlayerId))
+        {
+            //플레이어가 스킬 사용했을 시
+            LogPanel.Instance.CreateLogText($"{user.socketName} -> {skillData.skillName} 사용");
+        }
+        else if (playerList.TryGetValue(skillData.useSkillPlayerId, out Player p))
+        {
+            //다른유저가 스킬 사용했을 시
+            LogPanel.Instance.CreateLogText($"{p.socketName} -> {skillData.skillName} 사용");
+        }
     }
         
 }

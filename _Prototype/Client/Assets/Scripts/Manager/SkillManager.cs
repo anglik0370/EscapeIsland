@@ -35,6 +35,8 @@ public class SkillManager : MonoBehaviour
     [SerializeField]
     private const string ARSON_NAME = "방화";
 
+    private Player user;
+
     private int trapCount = 0;
 
     private void Awake()
@@ -56,6 +58,8 @@ public class SkillManager : MonoBehaviour
     private void Start()
     {
         EventManager.SubGameInit(() => trapCount = 0);
+
+        EventManager.SubEnterRoom(p => user = p);
     }
 
     private void AmberSkill()
@@ -72,7 +76,6 @@ public class SkillManager : MonoBehaviour
         List<int> socketIdList = new List<int>();
 
         WideAreaSkillSO cherrySO = (WideAreaSkillSO)skillList[CHERRY];
-        Player user = NetworkManager.instance.User;
 
         foreach (Player p in playerList)
         {
@@ -84,14 +87,14 @@ public class SkillManager : MonoBehaviour
 
         socketIdList.Add(user.socketId);
 
-        SendManager.Instance.SendSKill(new SkillVO(SkillType.Cherry, user.CurTeam, socketIdList));
+        SendManager.Instance.SendSKill(new SkillVO(SkillType.Cherry,user.socketId, user.CurTeam, socketIdList, skillList[CHERRY].skillName));
     }
 
     private void IanSkill()
     {
         print($"{skillList[IAN].skillName} 사용");
-        //SendManager.Instance.Send("SKILL_IAN");
-        SendManager.Instance.SendSKill(new SkillVO(SkillType.IAN, NetworkManager.instance.User.CurTeam));
+
+        SendManager.Instance.SendSKill(new SkillVO(SkillType.IAN,user.socketId, user.CurTeam, skillList[IAN].skillName));
     }
 
     private void JosuhaSkill()
@@ -102,7 +105,6 @@ public class SkillManager : MonoBehaviour
         List<int> socketIdList = new List<int>();
 
         WideAreaSkillSO joshuaSO = (WideAreaSkillSO)skillList[JOSUHA];
-        Player user = NetworkManager.instance.User;
 
         foreach (Player p in playerList)
         {
@@ -112,7 +114,7 @@ public class SkillManager : MonoBehaviour
             }
         }
 
-        SendManager.Instance.SendSKill(new SkillVO(SkillType.Joshua, user.CurTeam, socketIdList));
+        SendManager.Instance.SendSKill(new SkillVO(SkillType.Joshua,user.socketId, user.CurTeam, socketIdList, skillList[JOSUHA].skillName));
     }
 
     private void RaiSkill()
@@ -125,7 +127,7 @@ public class SkillManager : MonoBehaviour
 
         if(targetSocketId != 0)
         {
-            SendManager.Instance.SendSKill(new SkillVO(SkillType.Rai, targetSocketId));
+            SendManager.Instance.SendSKill(new SkillVO(SkillType.Rai, user.socketId, targetSocketId, skillList[RAI].skillName));
         }
     }
 
@@ -133,7 +135,7 @@ public class SkillManager : MonoBehaviour
     {
         print($"{skillList[RANDY].skillName} 사용");
         //SendManager.Instance.Send("DISS_RAP");
-        SendManager.Instance.SendSKill(new SkillVO(SkillType.Randy,PlayerManager.Instance.Player.CurTeam));
+        SendManager.Instance.SendSKill(new SkillVO(SkillType.Randy,user.socketId,PlayerManager.Instance.Player.CurTeam, skillList[RANDY].skillName));
     }
 
     private void SarsuSkill()
