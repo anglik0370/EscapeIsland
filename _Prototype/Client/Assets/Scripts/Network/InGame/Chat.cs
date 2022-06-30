@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ChatType
+{
+    None,
+    Team,
+    All,
+}
+
 public class Chat : ISetAble
 {
     private Queue<ChatVO> chatQueue = new Queue<ChatVO>();

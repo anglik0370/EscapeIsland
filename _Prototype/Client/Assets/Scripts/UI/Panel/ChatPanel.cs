@@ -41,6 +41,8 @@ public class ChatPanel : Panel
 
     private const string NEW_LINE = "\n";
 
+    private ChatType chatType = ChatType.None;
+
     protected override void Awake()
     {
         base.Awake();
@@ -52,16 +54,29 @@ public class ChatPanel : Panel
     {
         base.Start();
 
+        EventManager.SubEnterRoom(p => 
+        {
+            InitChat();
+            chatType = ChatType.All;
+        });
+
+        EventManager.SubBackToRoom(() =>
+        {
+            InitChat();
+            chatType = ChatType.All;
+        });
+
         EventManager.SubGameStart(p =>
         {
             InitChat();
+            chatType = ChatType.Team;
         });
 
         sendChatBtn.onClick.AddListener(() =>
         {
             if (chatInput.text == "") return;
 
-            SendManager.Instance.SendChat(chatInput.text);
+            SendManager.Instance.SendChat(chatInput.text,chatType);
             chatInput.text = "";
         });
 
