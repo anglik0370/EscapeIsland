@@ -7,13 +7,27 @@ public class LogPanel : MonoBehaviour
 {
     private ScrollRect scrollRect;
 
-    
+    [SerializeField]
+    private Transform contentTrm;
 
-    private const int MAX_CHAR_CNT = 16; //한줄에 최대 몇글자인지
+    [SerializeField]
+    private LogText logTextPrefab;
 
     private void Awake()
     {
         scrollRect = GetComponent<ScrollRect>();
         scrollRect.verticalNormalizedPosition = 0f;
+    }
+
+    private void Start()
+    {
+        CreateLogText("안녕하세요");
+        CreateLogText("안녕하세요안녕하세요안녕하세요안녕하세요");
+    }
+
+    public void CreateLogText(string str)
+    {
+        LogText logText = Instantiate(logTextPrefab, contentTrm);
+        logText.SetText(str);
     }
 }
