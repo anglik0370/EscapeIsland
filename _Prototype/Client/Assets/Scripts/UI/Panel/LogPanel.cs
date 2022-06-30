@@ -29,6 +29,6 @@ public class LogPanel : MonoBehaviour
         LogText logText = Instantiate(logTextPrefab, contentTrm);
         logText.SetText(str);
 
-        scrollRect.verticalNormalizedPosition = 0f;
+        StartCoroutine(CoroutineHandler.EndFrame(() => scrollRect.verticalNormalizedPosition = 0f));
     }
 }
