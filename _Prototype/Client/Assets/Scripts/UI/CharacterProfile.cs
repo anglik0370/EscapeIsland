@@ -73,6 +73,11 @@ public class CharacterProfile : MonoBehaviour
 
     public void BtnEnabled(bool enable)
     {
+        if(!enable && charSO.id <= 0)
+        {
+            return;
+        }
+
         SelectBtn(enable);
         MaskOnOff(!enable);
     }

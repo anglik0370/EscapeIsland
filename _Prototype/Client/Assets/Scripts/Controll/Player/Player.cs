@@ -176,6 +176,8 @@ public class Player : MonoBehaviour, IInteractionObject
         this.IsRemote = isRemote;
         master = vo.master;
 
+        this.curTeam = vo.curTeam;
+
         canMove = true;
 
         socketName = vo.name;
@@ -242,6 +244,7 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         int beforeSoId = 0;
         bool isSameTeam = this.curTeam.Equals(NetworkManager.instance.User.CurTeam);
+
         //선택되어있던 캐릭터 select button 다시 활성화
         if (curSO != null)
         {
@@ -255,7 +258,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
         CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
 
-        if(so.id != 0 && isSameTeam)
+        if(isSameTeam)
             profile.BtnEnabled(false);
         //플레이어 오브젝트 체인지
 
