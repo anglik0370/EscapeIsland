@@ -73,7 +73,7 @@ public class Trap : MonoBehaviour
         {
             Player p = col.transform.parent.GetComponentInParent<Player>();
             
-            if(p != null && !p.IsRemote /*&& !p.CurTeam.Equals(team)*/ &&!isTrap)
+            if(p != null && !p.IsRemote && !p.CurTeam.Equals(team) &&!isTrap)
             {
                 SendManager.Instance.SendTrap(p.socketId, id);
             }
