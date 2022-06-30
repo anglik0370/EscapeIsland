@@ -136,12 +136,12 @@ public class SkillManager : MonoBehaviour
     {
         print($"{skillList[ANDER].skillName} »ç¿ë");
 
-        if(trapCount >= 10)
-        {
-            SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId, ARSON_NAME, PlayerManager.Instance.Player.CurTeam);
-            trapCount = 0;
-            return;
-        }
+        //if(trapCount >= 10)
+        //{
+        //    SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId, ARSON_NAME, PlayerManager.Instance.Player.CurTeam);
+        //    trapCount = 0;
+        //    return;
+        //}
 
         SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId,TRAP_NAME,PlayerManager.Instance.Player.CurTeam);
         trapCount++;
