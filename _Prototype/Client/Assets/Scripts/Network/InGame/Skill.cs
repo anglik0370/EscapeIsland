@@ -109,32 +109,33 @@ public class Skill : ISetAble
     {
         print("cherrySKill");
 
-        if (skillData.targetIdList.Count <= 0) return;
-
-        if (skillData.targetIdList.Contains(user.socketId))
+        if (skillData.targetIdList.Count > 0)
         {
-            if (user.CurTeam.Equals(skillData.team))
+            if (skillData.targetIdList.Contains(user.socketId))
             {
-                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(user.gameObject));
+                if (user.CurTeam.Equals(skillData.team))
+                {
+                    user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(user.gameObject));
+                }
+                else
+                {
+                    user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
+                    user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
+                }
             }
-            else
-            {
-                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
-                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
-            }
-        }
 
-        foreach (Player p in NetworkManager.instance.GetPlayerList())
-        {
-            if (!skillData.targetIdList.Contains(p.socketId)) continue;
-            if (p.CurTeam.Equals(skillData.team))
+            foreach (Player p in NetworkManager.instance.GetPlayerList())
             {
-                p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(p.gameObject));
-            }
-            else
-            {
-                p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(p.gameObject));
-                p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(p.gameObject));
+                if (!skillData.targetIdList.Contains(p.socketId)) continue;
+                if (p.CurTeam.Equals(skillData.team))
+                {
+                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(p.gameObject));
+                }
+                else
+                {
+                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(p.gameObject));
+                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(p.gameObject));
+                }
             }
         }
 
@@ -144,21 +145,21 @@ public class Skill : ISetAble
     private void JoshuaSkill()
     {
         print("joshuaSkill");
-        if (skillData.targetIdList.Count <= 0) return;
-
-        if (skillData.targetIdList.Contains(user.socketId))
+        if (skillData.targetIdList.Count > 0)
         {
-            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(JOSHUA_BUFF_ID).InitializeBuff(user.gameObject));
+            if (skillData.targetIdList.Contains(user.socketId))
+            {
+                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(JOSHUA_BUFF_ID).InitializeBuff(user.gameObject));
+            }
 
-            if (skillData.targetIdList.Count <= 1) return;
+            //foreach (Player p in NetworkManager.instance.GetPlayerList())
+            //{
+            //    if (!skillData.targetIdList.Contains(p.socketId)) continue;
+
+            //    //이펙트 재생시 여기서
+            //}
         }
 
-        //foreach (Player p in NetworkManager.instance.GetPlayerList())
-        //{
-        //    if (!skillData.targetIdList.Contains(p.socketId)) continue;
-
-        //    //이펙트 재생시 여기서
-        //}
 
         CreateSkillLog();
     }
