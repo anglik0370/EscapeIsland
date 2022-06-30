@@ -31,9 +31,6 @@ public class MSWithObj : MonoBehaviour, IStorageMission
     private List<MSObject> redObjList = new List<MSObject>();
     private List<MSObject> blueObjList = new List<MSObject>();
 
-    [SerializeField]
-    private bool isAutoClosed = false;
-
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
@@ -49,8 +46,6 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
         EventManager.SubGameStart(p =>
         {
-            isAutoClosed = false;
-
             int curItemCount = StorageManager.Instance.FindItemAmount(false, team, storageItem).amount;
             int maxItemCount = StorageManager.Instance.FindItemAmount(true, team, storageItem).amount;
 
@@ -138,7 +133,10 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
         if (curItemCount >= nextCloseCount)
         {
-            MissionPanel.Instance.Close();
+            if(maxPanelCount > 1)
+            {
+                MissionPanel.Instance.Close();
+            }
             nextCloseCount += maxPanelCount;
         }
 
