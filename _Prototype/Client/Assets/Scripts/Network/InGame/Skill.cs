@@ -167,8 +167,6 @@ public class Skill : ISetAble
     {
         print("raiSkill");
 
-        Init();
-
         if(skillData.targetId.Equals(user.socketId))
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(RAI_BUFF_ID).InitializeBuff(user.gameObject));
@@ -183,6 +181,8 @@ public class Skill : ISetAble
 
     private void CreateSkillLog()
     {
+        Init();
+
         if (user.socketId.Equals(skillData.useSkillPlayerId))
         {
             //플레이어가 스킬 사용했을 시
