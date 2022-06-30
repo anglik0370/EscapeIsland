@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LogPanel : MonoBehaviour
 {
+    public static LogPanel Instance { get; private set; }
+
     private ScrollRect scrollRect;
 
     [SerializeField]
@@ -15,16 +17,14 @@ public class LogPanel : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+
         scrollRect = GetComponent<ScrollRect>();
         scrollRect.verticalNormalizedPosition = 0f;
     }
-
-    private void Start()
-    {
-        CreateLogText("æ»≥Á«œººø‰");
-        CreateLogText("æ»≥Á«œººø‰æ»≥Á«œººø‰æ»≥Á«œººø‰æ»≥Á«œººø‰");
-    }
-
     public void CreateLogText(string str)
     {
         LogText logText = Instantiate(logTextPrefab, contentTrm);
