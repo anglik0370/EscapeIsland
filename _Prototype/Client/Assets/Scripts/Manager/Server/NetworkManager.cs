@@ -57,7 +57,7 @@ public class NetworkManager : MonoBehaviour
         setDataScriptList = setDataScriptsParent.GetComponents<ISetAble>().ToList();
         PoolManager.CreatePool<Player>(playerPrefab, transform, 30);
 
-        EventManager.SubEnterRoom(p => user = p);
+        //EventManager.SubEnterRoom(p => user = p);
 
         StartCoroutine(CoroutineHandler.Frame(() =>
         {

@@ -158,12 +158,22 @@ public class Player : MonoBehaviour, IInteractionObject
         }
     }
 
-    public void ChangeUI(UserVO vo)
+    public void ChangeUI(UserVO vo,bool lobbyUIRefresh = false)
     {
         bool isBlueTeam = vo.curTeam.Equals(Team.BLUE);
+        isReady = vo.ready;
         ui.SetTeamImgColor(isBlueTeam ? Color.blue : Color.red);
         teamUI.SetParent(TeamPanel.Instance.GetParent(isBlueTeam));
         curTeam = isBlueTeam ? Team.BLUE : Team.RED;
+
+        if(!master)
+        {
+            teamUI.SetReadyText(vo.ready, UtilClass.READY_TEXT);
+            ui.SetNameTextColor(vo.ready ? Color.black : Color.grey);
+        }
+
+        if (lobbyUIRefresh) return;
+
         ChangeCharacter(CharacterSelectPanel.Instance.GetDefaultProfile().GetSO());
     }
 
@@ -183,6 +193,8 @@ public class Player : MonoBehaviour, IInteractionObject
         socketName = vo.name;
         socketId = vo.socketId;
         roomNum = vo.roomNum;
+
+        ChangeUI(vo);
 
         if (!isRemote)
         {
@@ -242,6 +254,8 @@ public class Player : MonoBehaviour, IInteractionObject
     
     public int ChangeCharacter(CharacterSO so)
     {
+        if (so == null) return 0;
+
         int beforeSoId = 0;
         bool isSameTeam = this.curTeam.Equals(NetworkManager.instance.User.CurTeam);
 
