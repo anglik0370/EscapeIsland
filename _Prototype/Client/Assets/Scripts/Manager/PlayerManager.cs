@@ -91,6 +91,8 @@ public class PlayerManager : MonoBehaviour
 
         foreach (Player p in PlayerList)
         {
+            if (p.CurTeam.Equals(player.CurTeam)) continue;
+
             curRange = Vector2.Distance(player.transform.position, p.transform.position);
 
             if (curRange <= range && curRange < minRange)
