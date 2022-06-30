@@ -7,10 +7,11 @@ public class Trap : MonoBehaviour
     [SerializeField]
     private SpriteRenderer sr;
 
-    bool isOnce = false;
-    bool isTrap = false;
+    [SerializeField]
+    private bool isTrap = false;
 
     public int id;
+    public int enterPlayerId;
 
     public Team team;
 
@@ -42,9 +43,18 @@ public class Trap : MonoBehaviour
         co = StartCoroutine(SetDisable());
     }
 
-    private void Init()
+    public void Init()
     {
+        if (co != null)
+        {
+            StopCoroutine(co);
+        }
+
         isTrap = false;
+        sr.enabled = true;
+        team = Team.NONE;
+        enterPlayerId = -1;
+        id = -1;
         gameObject.SetActive(false);
     }
 
@@ -63,25 +73,27 @@ public class Trap : MonoBehaviour
         {
             Player p = col.transform.parent.GetComponentInParent<Player>();
             
-            if(p != null && !p.IsRemote && !p.CurTeam.Equals(team) &&!isTrap)
+            if(p != null && !p.IsRemote /*&& !p.CurTeam.Equals(team)*/ &&!isTrap)
             {
                 SendManager.Instance.SendTrap(p.socketId, id);
             }
         }
     }
 
-    public void EnterTrap()
+    public void EnterTrap(int enterPlayerId)
     {
-        StartCoroutine(EnterTrapCo());
-    }
+        this.enterPlayerId = enterPlayerId;
 
-    IEnumerator EnterTrapCo()
-    {
         if(co != null)
         {
             StopCoroutine(co);
         }
 
+        co = StartCoroutine(EnterTrapCo());
+    }
+
+    IEnumerator EnterTrapCo()
+    {
         sr.enabled = true;
         isTrap = true;
 

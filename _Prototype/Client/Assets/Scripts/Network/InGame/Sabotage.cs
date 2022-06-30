@@ -204,19 +204,24 @@ public class Sabotage : ISetAble
 
         if (trap != null)
         {
-            trap.EnterTrap();
+            trap.EnterTrap(trapData.socketId);
         }
     }
 
     public void InitTrap()
     {
         lastTrapIdx = 1;
-        trapList.ForEach(trap => trap.gameObject.SetActive(false));
+        trapList.ForEach(trap => trap.Init());
     }
 
     public Trap FindTrap(int trapIdx)
     {
         return trapList.Find(x => x.id == trapIdx);
+    }
+
+    public List<Trap> GetTrapList()
+    {
+        return trapList;
     }
 
     public void CloseDoor()
