@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum SkillType
+{
+    Amber = 0,
+    Cherry,
+    IAN,
+    Joshua,
+    Rai,
+    Randy,
+    Sarsu,
+    Wonsong,
+    Ander
+}
+
 public class SkillManager : MonoBehaviour
 {
     private const int AMBER = 0;
@@ -71,13 +84,14 @@ public class SkillManager : MonoBehaviour
 
         socketIdList.Add(user.socketId);
 
-        SendManager.Instance.SendCherrySkill(new CherryVO(user.CurTeam, socketIdList));
+        SendManager.Instance.SendSKill(new SkillVO(SkillType.Cherry, user.CurTeam, socketIdList));
     }
 
     private void IanSkill()
     {
         print($"{skillList[IAN].skillName} 사용");
-        SendManager.Instance.Send("SKILL_IAN");
+        //SendManager.Instance.Send("SKILL_IAN");
+        SendManager.Instance.SendSKill(new SkillVO(SkillType.IAN, NetworkManager.instance.User.CurTeam));
     }
 
     private void JosuhaSkill()
@@ -98,7 +112,7 @@ public class SkillManager : MonoBehaviour
             }
         }
 
-        SendManager.Instance.SendJoshuaSkill(new CherryVO(user.CurTeam, socketIdList));
+        SendManager.Instance.SendSKill(new SkillVO(SkillType.Joshua, user.CurTeam, socketIdList));
     }
 
     private void RaiSkill()
@@ -111,14 +125,15 @@ public class SkillManager : MonoBehaviour
 
         if(targetSocketId != 0)
         {
-            SendManager.Instance.SendRaiSkill(targetSocketId);
+            SendManager.Instance.SendSKill(new SkillVO(SkillType.Rai, targetSocketId));
         }
     }
 
     private void RandySkill()
     {
         print($"{skillList[RANDY].skillName} 사용");
-        SendManager.Instance.Send("DISS_RAP");
+        //SendManager.Instance.Send("DISS_RAP");
+        SendManager.Instance.SendSKill(new SkillVO(SkillType.Randy,PlayerManager.Instance.Player.CurTeam));
     }
 
     private void SarsuSkill()

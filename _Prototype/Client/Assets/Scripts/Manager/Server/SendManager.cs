@@ -206,25 +206,9 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendCherrySkill(CherryVO vo)
+    public void SendSKill(SkillVO vo)
     {
-        DataVO dataVO = new DataVO("SKILL_CHERRY", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void SendJoshuaSkill(CherryVO vo)
-    {
-        DataVO dataVO = new DataVO("SKILL_JOSHUA", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void SendRaiSkill(int targetId)
-    {
-        SkillVO vo = new SkillVO(targetId);
-
-        DataVO dataVO = new DataVO("SKILL_RAI", JsonUtility.ToJson(vo));
+        DataVO dataVO = new DataVO("SKILL", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

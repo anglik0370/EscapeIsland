@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ChatType
 {
-    None,
+    None = 0,
     Team,
     All,
 }

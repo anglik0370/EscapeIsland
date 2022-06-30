@@ -63,7 +63,6 @@ public class BuffHandler : MonoBehaviour
 
     public void RemoveAllDebuff()
     {
-        print("remove all debuff");
         foreach (TimedBuff buff in _buffs.Values.ToList())
         {
             if (buff.Buff.isBuffed) continue;
