@@ -108,6 +108,16 @@ public class Skill : ISetAble
 
     private void RemoveAllDebuff()
     {
+        List<Trap> trapList = Sabotage.Instance.GetTrapList();
+
+        foreach (Trap trap in trapList)
+        {
+            if(trap.enterPlayerId.Equals(user.socketId)) {
+                trap.Init();
+                break;
+            }
+        }
+
         user.BuffHandler.RemoveAllDebuff();
     }
 
