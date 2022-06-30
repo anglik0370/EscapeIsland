@@ -90,9 +90,9 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendChat(string msg)
+    public void SendChat(string msg,ChatType chatType)
     {
-        ChatVO vo = new ChatVO(socketId, msg);
+        ChatVO vo = new ChatVO(socketId, msg, chatType);
 
         DataVO dataVO = new DataVO("CHAT", JsonUtility.ToJson(vo));
 
