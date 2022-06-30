@@ -47,7 +47,6 @@ public class MainPanel : MonoBehaviour
         {
             cvsList.ForEach(x => SetCvsActive(x));
             SetCvsActive(cvsList[USERCOUNT], false);
-            SetCvsActive(cvsList[CHATBTN], false);
         });
 
         EventManager.SubExitRoom(() =>
@@ -63,7 +62,6 @@ public class MainPanel : MonoBehaviour
             SetCvsActive(cvsList[INTERACTIONBTN]);
             SetCvsActive(cvsList[SETTINGBTN]);
             SetCvsActive(cvsList[USERCOUNT]);
-            SetCvsActive(cvsList[CHATBTN]);
         });
     }
 
