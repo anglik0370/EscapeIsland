@@ -24,5 +24,12 @@ public class CameraManager : MonoBehaviour
             texture.height = Screen.height;
         }
 #endif
+#if UNITY_EDITOR
+        foreach (var texture in texture2DList)
+        {
+            texture.width = Screen.width;
+            texture.height = Screen.height;
+        }
+#endif
     }
 }
