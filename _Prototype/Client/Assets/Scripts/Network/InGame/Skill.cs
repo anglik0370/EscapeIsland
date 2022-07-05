@@ -73,12 +73,12 @@ public class Skill : ISetAble
 
     private void DissRap()
     {
-        if(!user.CurTeam.Equals(skillData.team))
+        CreateSkillLog(false);
+
+        if (!user.CurTeam.Equals(skillData.team))
         {
             MissionPanel.Instance.CloseGetMissionPanel();
         }
-
-        CreateSkillLog();
     }
 
     private void RemoveAllDebuff()
@@ -97,54 +97,60 @@ public class Skill : ISetAble
             }
         }
 
-        if(user.CurTeam.Equals(skillData.team))
+        CreateSkillLog(false);
+
+        if (user.CurTeam.Equals(skillData.team))
         {
             user.BuffHandler.RemoveAllDebuff();
         }
 
-        CreateSkillLog();
     }
 
     private void CherrySkill()
     {
         print("cherrySKill");
 
-        if (skillData.targetIdList.Count > 0)
+        CreateSkillLog(false);
+
+        if (skillData.targetIdList.Count <= 0) return;
+
+        if (skillData.targetIdList.Contains(user.socketId))
         {
-            if (skillData.targetIdList.Contains(user.socketId))
+            if (user.CurTeam.Equals(skillData.team))
             {
-                if (user.CurTeam.Equals(skillData.team))
-                {
-                    user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(user.gameObject));
-                }
-                else
-                {
-                    user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
-                    user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
-                }
+                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(user.gameObject));
+            }
+            else
+            {
+                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
+                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
             }
 
-            foreach (Player p in NetworkManager.instance.GetPlayerList())
+            if (skillData.targetIdList.Count <= 1) return;
+        }
+
+        foreach (Player p in playerList.Values)
+        {
+            if (!skillData.targetIdList.Contains(p.socketId)) continue;
+
+            if (p.CurTeam.Equals(skillData.team))
             {
-                if (!skillData.targetIdList.Contains(p.socketId)) continue;
-                if (p.CurTeam.Equals(skillData.team))
-                {
-                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(p.gameObject));
-                }
-                else
-                {
-                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(p.gameObject));
-                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(p.gameObject));
-                }
+                p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(p.gameObject));
+            }
+            else
+            {
+                p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(p.gameObject));
+                p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(p.gameObject));
             }
         }
 
-        CreateSkillLog();
     }
 
     private void JoshuaSkill()
     {
         print("joshuaSkill");
+        CreateSkillLog(false);
+
         if (skillData.targetIdList.Count > 0)
         {
             if (skillData.targetIdList.Contains(user.socketId))
@@ -161,14 +167,14 @@ public class Skill : ISetAble
         }
 
 
-        CreateSkillLog();
     }
 
     private void RaiSkill()
     {
         print("raiSkill");
+        CreateSkillLog(true);
 
-        if(skillData.targetId.Equals(user.socketId))
+        if (skillData.targetId.Equals(user.socketId))
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(RAI_BUFF_ID).InitializeBuff(user.gameObject));
             MissionPanel.Instance.Close();
@@ -177,23 +183,49 @@ public class Skill : ISetAble
         //{
         //    //이펙트 재생시 여기에서
         //}
-        CreateSkillLog();
     }
 
-    private void CreateSkillLog()
+    private void CreateSkillLog(bool single)
     {
         Init();
 
-        if (user.socketId.Equals(skillData.useSkillPlayerId))
+        if(single)
         {
-            //플레이어가 스킬 사용했을 시
-            LogPanel.Instance.CreateLogText($"{user.socketName} -> {skillData.skillName} 사용");
+            if (user.socketId.Equals(skillData.useSkillPlayerId))
+            {
+                //플레이어가 스킬 사용했을 시
+                LogPanel.Instance.SingleSkillLog(user, GetTargetPlayer(), skillData.skillName);
+            }
+            else if (playerList.TryGetValue(skillData.useSkillPlayerId, out Player p))
+            {
+                //다른유저가 스킬 사용했을 시
+                LogPanel.Instance.SingleSkillLog(p, GetTargetPlayer(), skillData.skillName);
+            }
+
         }
-        else if (playerList.TryGetValue(skillData.useSkillPlayerId, out Player p))
+        else
         {
-            //다른유저가 스킬 사용했을 시
-            LogPanel.Instance.CreateLogText($"{p.socketName} -> {skillData.skillName} 사용");
+            if (user.socketId.Equals(skillData.useSkillPlayerId))
+            {
+                //플레이어가 스킬 사용했을 시
+                LogPanel.Instance.GlobalSkillLog(user,skillData.skillName);
+            }
+            else if (playerList.TryGetValue(skillData.useSkillPlayerId, out Player p))
+            {
+                //다른유저가 스킬 사용했을 시
+                LogPanel.Instance.GlobalSkillLog(p, skillData.skillName);
+            }
         }
+       
     }
         
+    private Player GetTargetPlayer()
+    {
+        if(user.socketId.Equals(skillData.targetId))
+        {
+            return user;
+        }
+
+        return playerList.TryGetValue(skillData.targetId, out Player p) ? p : null;
+    }
 }
