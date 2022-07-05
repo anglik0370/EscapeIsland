@@ -7,7 +7,7 @@ public class ParticleManager : MonoBehaviour
     public static ParticleManager Instance { get; private set; }
 
     [SerializeField]
-    private BloodEffect bloodEffectPrefab;
+    private Effect bloodEffectPrefab;
 
     private void Awake()
     {
@@ -16,13 +16,13 @@ public class ParticleManager : MonoBehaviour
             Instance = this;
         }
 
-        PoolManager.CreatePool<BloodEffect>(bloodEffectPrefab.gameObject, transform, 5);
+        PoolManager.CreatePool<Effect>(bloodEffectPrefab.gameObject, transform, 5);
     }
 
     public void PlayBloodEffect(Vector3 position)
     {
-        BloodEffect effect = PoolManager.GetItem<BloodEffect>();
-        effect.transform.position = position;
+        Effect effect = PoolManager.GetItem<Effect>();
+        effect.SetPosition(position)
         effect.Play();
     }
 }
