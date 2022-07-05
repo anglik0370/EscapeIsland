@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3599427726562046301}
   - component: {fileID: 3599427726562046302}
   - component: {fileID: 3599427726562046303}
-  - component: {fileID: -9118263524101916835}
+  - component: {fileID: 2223868838669852839}
   m_Layer: 0
   m_Name: blood_01
   m_TagString: Untagged
@@ -4830,7 +4830,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 18a5d7788e315214386532a3f98bbc65, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4876,7 +4875,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &-9118263524101916835
+--- !u!114 &2223868838669852839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4885,6 +4884,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3599427726562046272}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be8653905185c65469a6af78b6f2e9f7, type: 3}
+  m_Script: {fileID: 11500000, guid: c80bb24b0f61673488e2526d8bb9c708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0}
