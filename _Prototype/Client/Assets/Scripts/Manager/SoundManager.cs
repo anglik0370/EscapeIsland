@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance;
+    public static SoundManager Instance;
 
     //[SerializeField]
     //private AudioSource bgmSource;
 
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(this.gameObject);
             return;
         }
         DontDestroyOnLoad(this.gameObject);
-        instance = this;
+        Instance = this;
     }
     private void Start()
     {
