@@ -22,7 +22,7 @@ public class ParticleManager : MonoBehaviour
     public void PlayBloodEffect(Vector3 position)
     {
         Effect effect = PoolManager.GetItem<Effect>();
-        effect.SetPosition(position)
+        effect.SetPosition(position);
         effect.Play();
     }
 }
