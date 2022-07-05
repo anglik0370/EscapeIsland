@@ -55,6 +55,7 @@ MonoBehaviour:
   socketId: 0
   roomNum: 0
   master: 0
+  isReady: 0
   canMove: 0
   isFlip: 0
   isNotLerp: 0
@@ -62,6 +63,7 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   targetPos: {x: 0, y: 0}
   speed: 6
+  coolTimeMagnification: 1
   areaState: 0
   curSO: {fileID: 0}
 --- !u!114 &8668951428442010674
@@ -118,7 +120,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 19.688831
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -153,7 +155,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
