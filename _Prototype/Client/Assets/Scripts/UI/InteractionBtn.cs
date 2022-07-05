@@ -118,8 +118,24 @@ public class InteractionBtn : MonoBehaviour
         {
             if (!isGameStart)
             {
-                UpdateBtnState(proximateObj.LobbyHandlerSO);
-                UpdateBtnCallback(proximateObj.LobbyCallback);
+                if(proximateObj.LobbyHandlerSO == gameStartSO)
+                {
+                    if (PlayerManager.Instance.AmIMaster())
+                    {
+                        UpdateBtnState(gameStartSO);
+                        UpdateBtnCallback(() => SendManager.Instance.GameStart());
+                    }
+                    else
+                    {
+                        UpdateBtnState(readySO);
+                        UpdateBtnCallback(() => SendManager.Instance.Send("READY"));
+                    }
+                }
+                else
+                {
+                    UpdateBtnState(proximateObj.LobbyHandlerSO);
+                    UpdateBtnCallback(proximateObj.LobbyCallback);
+                }
             }
             else
             {
