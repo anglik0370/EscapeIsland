@@ -22,7 +22,8 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public Animator Animator => anim;
 
-    private AudioSource voiceSource;
+    private AudioSource audioSource;
+    public AudioSource AudioSource => audioSource;
 
     [SerializeField]
     private InteractionSO nothingHandlerSO;
@@ -136,7 +137,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
         interactionCol = GetComponentInChildren<Collider2D>();
 
-        voiceSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         buffHandler = GetComponent<BuffHandler>();
 
         originSpeed = speed;
@@ -233,9 +234,9 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void PlayVoice(AudioClip clip)
     {
-        voiceSource.clip = clip;
+        audioSource.clip = clip;
 
-        voiceSource.Play();
+        audioSource.Play();
     }
 
     public int GetChildCount()
