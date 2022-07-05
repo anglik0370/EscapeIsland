@@ -7,6 +7,9 @@ public class LogPanel : MonoBehaviour
 {
     public static LogPanel Instance { get; private set; }
 
+    [SerializeField]
+    private Queue<LogText> logTexts = new Queue<LogText>();
+
     private ScrollRect scrollRect;
 
     [SerializeField]
@@ -30,6 +33,8 @@ public class LogPanel : MonoBehaviour
         LogText logText = Instantiate(logTextPrefab, contentTrm);
         logText.SetText(str);
 
+        logTexts.Enqueue(logText);
+
         StartCoroutine(CoroutineHandler.EndFrame(() => scrollRect.verticalNormalizedPosition = 0f));
     }
 
@@ -43,5 +48,15 @@ public class LogPanel : MonoBehaviour
     {
         string str = $"[<color={caster.CurTeam.ToString().ToLower()}>{caster.socketName}</color>] <color={victim.CurTeam.ToString().ToLower()}>{victim.socketName}</color> 에게 {skillName} 사용";
         CreateLogText(str);
+    }
+
+    public void ClearLog()
+    {
+        foreach (var log in logTexts)
+        {
+            Destroy(log.gameObject);
+        }
+
+        logTexts.Clear();
     }
 }
