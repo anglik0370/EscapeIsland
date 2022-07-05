@@ -24,11 +24,22 @@ public class LogPanel : MonoBehaviour
 
         scrollRect = GetComponent<ScrollRect>();
     }
+
     public void CreateLogText(string str)
     {
         LogText logText = Instantiate(logTextPrefab, contentTrm);
         logText.SetText(str);
 
         StartCoroutine(CoroutineHandler.EndFrame(() => scrollRect.verticalNormalizedPosition = 0f));
+    }
+
+    public void GlobalSkillLog(Player caster, string skillName)
+    {
+
+    }
+
+    public void SingleSkillLog(Player caster, Player victim, string skillName)
+    {
+
     }
 }
