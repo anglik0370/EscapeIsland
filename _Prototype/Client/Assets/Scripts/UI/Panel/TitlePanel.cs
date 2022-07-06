@@ -13,6 +13,9 @@ public class TitlePanel : MonoBehaviour
     private RectTransform textRect;
 
     [SerializeField]
+    private List<CanvasGroup> cvsList = new List<CanvasGroup>();
+
+    [SerializeField]
     private float imageMinWidth;
     [SerializeField]
     private float imageMinHeight;
@@ -41,6 +44,23 @@ public class TitlePanel : MonoBehaviour
         originYPos = textRect.anchoredPosition.y;
 
         btn.onClick.AddListener(Close);
+
+        cvsList.ForEach(x => UtilClass.SetCanvasGroup(x));
+    }
+
+    public void Init()
+    {
+        if (seq != null)
+        {
+            seq.Kill();
+        }
+
+        imageRect.offsetMax = new Vector2(originMinWidth, originMinHeight);
+        textRect.anchoredPosition = new Vector2(textRect.anchoredPosition.x, originYPos);
+
+        img.raycastTarget = true;
+
+        cvsList.ForEach(x => UtilClass.SetCanvasGroup(x));
     }
 
     public void Close()
@@ -56,5 +76,7 @@ public class TitlePanel : MonoBehaviour
         seq.Join(textRect.DOAnchorPosY(textDownYPos, 1f));
 
         img.raycastTarget = false;
+
+        cvsList.ForEach(x => UtilClass.SetCanvasGroup(x, 1, true, true, false));
     }
 }

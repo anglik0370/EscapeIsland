@@ -43,11 +43,15 @@ public class PopupManager : MonoBehaviour
         popupCanvasGroup.interactable = false;
         popupCanvasGroup.blocksRaycasts = false;
 
+        LoginPopup loginPopup = Instantiate(this.loginPopup, popupParent);
+        LobbyPopup lobbyPopup = Instantiate(this.lobbyPopup, popupParent);
+
+        lobbyPopup.titlePanel = loginPopup.GetComponentInChildren<TitlePanel>();
+
         //µñ¼Å³Ê¸®¿¡ ui ÇÁ¸®ÆÕ ³Ö¾îÁÖ¸é ´ï
         //popupDic.Add("connect", Instantiate(connectPopup, popupParent));
-        popupDic.Add("login", Instantiate(loginPopup, popupParent));
-        popupDic.Add("lobby", Instantiate(lobbyPopup, popupParent));
-
+        popupDic.Add("login", loginPopup);
+        popupDic.Add("lobby", lobbyPopup);
 
         //alert´Â Ç×»ó ¹Ø¿¡ ÀÖ¾î¾ßÇÔ
         popupDic.Add("alert", Instantiate(alertPopup, popupParent));

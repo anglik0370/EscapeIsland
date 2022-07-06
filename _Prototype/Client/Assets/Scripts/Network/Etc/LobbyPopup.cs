@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LobbyPopup : Popup
 {
+    public TitlePanel titlePanel;
+
     public Button refreshBtn;
     public Button createPopupOpenBtn;
     public Button joinPopupOpenBtn;
@@ -12,7 +14,7 @@ public class LobbyPopup : Popup
 
     public Transform roomParent;
 
-    [Header("CreateRoomPopup����")]
+    [Header("CreateRoomPopup")]
     public CanvasGroup createRoomPopup;
     public InputField roomNameInput;
     public Button createRoomBtn;
@@ -48,6 +50,7 @@ public class LobbyPopup : Popup
         {
             //NetworkManager.instance.ExitRoom();
             PopupManager.instance.CloseAndOpen("login");
+            titlePanel.Init();
         });
 
         createRoomBtn.onClick.AddListener(() =>
