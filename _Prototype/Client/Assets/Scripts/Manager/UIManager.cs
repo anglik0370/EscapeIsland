@@ -77,16 +77,6 @@ public class UIManager : MonoBehaviour
 
     public void AlertText(string msg, AlertType type)
     {
-        switch (type)
-        {
-            case AlertType.Warning:
-                alertText.color = Color.red;
-                break;
-            case AlertType.GameEvent:
-                alertText.color = Color.white;
-                break;
-        }
-
         alertText.text = msg;
 
         if (alertSeq != null)
@@ -94,12 +84,14 @@ public class UIManager : MonoBehaviour
             alertSeq.Kill();
         }
 
-        alertText.color = UtilClass.limpidityColor;
+        Color limpidityColor = new Color(alertText.color.r, alertText.color.g, alertText.color.b, 0);
+
+        alertText.color = limpidityColor;
 
         alertSeq = DOTween.Sequence();
 
         alertSeq.Append(alertText.DOColor(aleartColorDic[type], 1f));
-        alertSeq.Append(alertText.DOColor(UtilClass.limpidityColor, 1f));
+        alertSeq.Append(alertText.DOColor(limpidityColor, 1f));
     }
 
     public void OnEndEdit(InputField inputField, Button.ButtonClickedEvent onClickEvent)
