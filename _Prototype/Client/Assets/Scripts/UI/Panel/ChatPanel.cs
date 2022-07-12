@@ -39,6 +39,17 @@ public class ChatPanel : Panel
     private Queue<ChatUI> myChatQueue = new Queue<ChatUI>();
     private Queue<ChatUI> otherChatQueue = new Queue<ChatUI>();
 
+    [SerializeField]
+    private Button switchingBtn;
+    [SerializeField]
+    private CanvasGroup cvsChat;
+    [SerializeField]
+    private CanvasGroup cvsLog;
+
+    private Text chatStateTxt;
+    private const string LOG_STRING = "로그";
+    private const string CHAT_STRING = "채팅";
+
     private const string NEW_LINE = "\n";
 
     private ChatType chatType = ChatType.None;
@@ -48,6 +59,8 @@ public class ChatPanel : Panel
         base.Awake();
 
         Instance = this;
+
+        chatStateTxt = switchingBtn.GetComponentInChildren<Text>();
     }
 
     protected override void Start()
@@ -104,6 +117,26 @@ public class ChatPanel : Panel
             newChatAlertObj.SetActive(false);
             chatRect.verticalNormalizedPosition = 0f;
             //StartCoroutine(CoroutineHandler.Frame(() => chatRect.verticalNormalizedPosition = 0f));
+        });
+
+        chatStateTxt.text = CHAT_STRING;
+
+        switchingBtn.onClick.AddListener(() =>
+        {
+            if(chatStateTxt.text == CHAT_STRING)
+            {
+                chatStateTxt.text = LOG_STRING;
+
+                UtilClass.SetCanvasGroup(cvsChat);
+                UtilClass.SetCanvasGroup(cvsLog, 1f, true, true);
+            }
+            else
+            {
+                chatStateTxt.text = CHAT_STRING;
+
+                UtilClass.SetCanvasGroup(cvsLog);
+                UtilClass.SetCanvasGroup(cvsChat, 1f, true, true);
+            }
         });
 
         // chat ui 

@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     public CanvasGroup panels;
 
     [SerializeField]
+    private CanvasGroup cvsAlert;
+    [SerializeField]
     private Text alertText;
     [SerializeField]
     private Text userCountText;
@@ -67,7 +69,7 @@ public class UIManager : MonoBehaviour
         Instance.panels.interactable = isEnable;
         Instance.panels.blocksRaycasts = isEnable;
 
-        Instance.alertText.color = isEnable ? UtilClass.opacityColor : UtilClass.limpidityColor;
+        Instance.cvsAlert.alpha = isEnable ? 1f : 0f;
     }
 
     public void SetUserCountText(int curUser,int maxUser)
@@ -77,29 +79,20 @@ public class UIManager : MonoBehaviour
 
     public void AlertText(string msg, AlertType type)
     {
-        switch (type)
-        {
-            case AlertType.Warning:
-                alertText.color = Color.red;
-                break;
-            case AlertType.GameEvent:
-                alertText.color = Color.white;
-                break;
-        }
-
         alertText.text = msg;
+        alertText.color = aleartColorDic[type];
 
         if (alertSeq != null)
         {
             alertSeq.Kill();
         }
 
-        alertText.color = UtilClass.limpidityColor;
+        cvsAlert.alpha = 0;
 
         alertSeq = DOTween.Sequence();
 
-        alertSeq.Append(alertText.DOColor(aleartColorDic[type], 1f));
-        alertSeq.Append(alertText.DOColor(UtilClass.limpidityColor, 1f));
+        alertSeq.Append(DOTween.To(() => cvsAlert.alpha, x => cvsAlert.alpha = x, 1f, 1.5f));
+        alertSeq.Append(DOTween.To(() => cvsAlert.alpha, x => cvsAlert.alpha = x, 0f, 1.5f));
     }
 
     public void OnEndEdit(InputField inputField, Button.ButtonClickedEvent onClickEvent)
