@@ -10,6 +10,8 @@ public class ItemSO : ScriptableObject
     public string itemName;
     public Sprite itemSprite;
 
+    public int tier = 0;
+
     public override string ToString()
     {
         return itemName;
