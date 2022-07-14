@@ -84,6 +84,9 @@ public class Player : MonoBehaviour, IInteractionObject
     public bool IsSturned => !isRestrict && !canMove;
     public bool IsRestrict => isRestrict && !canMove;
 
+    private bool canGathering; //채집 가능한지
+    public bool CanGathering => canGathering;
+
     public bool isFlip = false; //뒤집혔는지
     public bool isNotLerp = false;
 
@@ -491,5 +494,10 @@ public class Player : MonoBehaviour, IInteractionObject
         yield return new WaitForSeconds(time);
 
         SetRestrict(false);
+    }
+
+    public void SetGathering(bool canGathering)
+    {
+        this.canGathering = canGathering;
     }
 }
