@@ -1,7 +1,7 @@
 const Vector2 = require("./Vector2.js");
 
 let radius = 3;
-let spawnTrm = new Vector2(0.76,14.4);
+let spawnTrm = new Vector2(-12.93,-5.07);
 
 function GetRandomPos() {
     let angle = Math.random() * 360;
