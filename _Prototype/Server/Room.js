@@ -5,6 +5,7 @@ const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
 const SocketState = require('./Utils/SocketState.js');
 const team = require('./Utils/Team.js');
 const MissionType = require('./Utils/MissionType.js');
+const AreaState = require('./Utils/AreaState.js');
 const sendError = require('./Utils/SendError.js');
 
 const values = Object.values(MissionType);
@@ -12,6 +13,8 @@ const values = Object.values(MissionType);
 const Timer = require('./Timers/Timer.js');
 const InGameTimer = require('./Timers/InGameTimer.js');
 const ArsonTimer = require('./Timers/ArsonTimer.js');
+
+const Area = require('./Area.js');
 
 class Room {
     constructor(roomName,roomNum,curUserNum,userNum,playing) {
@@ -28,7 +31,8 @@ class Room {
 
         this.socketList = [];
         this.storageItemList = [];
-        
+
+        this.areaList = {};
         this.selectedIdList = {};
         this.userList = {};
         this.redSpawnerList = {};
@@ -36,6 +40,13 @@ class Room {
 
         this.initSpawnerList();
         this.initSelectedIdList();
+        this.initAreaList();
+    }
+
+    initAreaList() {
+        this.areaList[AreaState.Beach] = new Area(AreaState.Beach);
+        this.areaList[AreaState.Field] = new Area(AreaState.Field);
+        this.areaList[AreaState.Forest] = new Area(AreaState.Forest);
     }
 
     initSpawnerList() {
@@ -108,8 +119,19 @@ class Room {
     }
 
     areaRefresh(socket,areaState) {
-        if(this.userList[socket.id] !== undefined) {
+        let user = this.userList[socket.id];
+
+        if(user !== undefined) {
+
+            if(this.areaList[user.areaState] !== undefined) {
+                this.areaList[user.areaState].removeUserList(user,user.curTeam == team.BLUE);
+            }
+
             this.userList[socket.id].areaState = areaState;
+
+            if(this.areaList[areaState] !== undefined) {
+                this.areaList[areaState].removeUserList(user,user.curTeam == team.BLUE);
+            }
         }
     }
 
@@ -187,6 +209,12 @@ class Room {
         this.inGameTimer.stopTimer(true);
         this.arsonTimer.stopTimer(true);
 
+        let key = Object.keys(this.areaList);
+
+        for(let i = 0; i < key.length; i++) {
+            this.areaList[key[i]].initTimer();
+        }
+
         this.storageItemList = [];
         this.initSelectedIdList();
         this.initSpawnerList();
@@ -201,6 +229,12 @@ class Room {
     startTimer(isInit) {
         this.inGameTimer.startTimer(isInit);
         this.broadcast(JSON.stringify({type:"TIMER",payload:JSON.stringify({type:"IN_GAME",isStart:true})}));
+
+        let key = Object.keys(this.areaList);
+
+        for(let i = 0; i < key.length; i++) {
+            this.areaList[key[i]].startTimer();
+        }
     }
 
     addSocket(socket,user) {
