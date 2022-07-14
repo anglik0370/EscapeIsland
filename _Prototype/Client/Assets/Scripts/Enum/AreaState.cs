@@ -14,3 +14,11 @@ public enum AreaState
     BatteryStorage,
     ShipInside,
 }
+
+public enum Area
+{
+    Cave,
+    Forest,
+    Beach,
+    Field,
+}
