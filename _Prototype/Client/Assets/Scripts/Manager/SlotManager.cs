@@ -97,10 +97,10 @@ public class SlotManager : MonoBehaviour
                         //NowConverting
                         temp = endSlot.GetItem();
 
-                        SendManager.Instance.SendSyncObj(vo, ObjType.Converter, BehaviourType.Reset);
+                        SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Converter, BehaviourType.Reset);
                     }
 
-                    SendManager.Instance.SendSyncObj(vo, ObjType.Converter, BehaviourType.Start);
+                    SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Converter, BehaviourType.Start);
                     beginSlot.SetItem(temp);
                 }
             }
@@ -111,7 +111,7 @@ public class SlotManager : MonoBehaviour
                 ItemSO temp = beginSlot.GetItem();
 
                 SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
-                SendManager.Instance.SendSyncObj(vo, ObjType.Converter, BehaviourType.Reset);
+                SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Converter, BehaviourType.Reset);
                 endSlot.SetItem(temp);
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.ConverterAfter && endSlot.Kind == ItemSlot.SlotKind.Inventory)
@@ -122,7 +122,7 @@ public class SlotManager : MonoBehaviour
                 {
                     //endSlot is Empty
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
-                    SendManager.Instance.SendSyncObj(vo, ObjType.Converter, BehaviourType.Take);
+                    SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Converter, BehaviourType.Take);
                     endSlot.SetItem(beginSlot.GetItem());
                 }
             }
@@ -155,7 +155,7 @@ public class SlotManager : MonoBehaviour
                 if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty && !slot.MissionCharge.IsCharging)
                 {
                     SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
-                    SendManager.Instance.SendSyncObj(vo, ObjType.Battery, BehaviourType.Start);
+                    SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Battery, BehaviourType.Start);
                     //slot.SetEmptyBetteryItem();
                     //slot.StartCharging();
                     beginSlot.SetItem(null);
@@ -171,7 +171,7 @@ public class SlotManager : MonoBehaviour
                 {
 
                     SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
-                    SendManager.Instance.SendSyncObj(vo, ObjType.Battery, BehaviourType.Take);
+                    SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Battery, BehaviourType.Take);
 
                     //slot.SetNullItem();
 

@@ -130,9 +130,9 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendSyncObj(SyncObjDataVO data, ObjType objType, BehaviourType behaviourType)
+    public void SendSyncObj(bool isImmediate, SyncObjDataVO data, ObjType objType, BehaviourType behaviourType)
     {
-        SyncObjVO vo = new SyncObjVO(objType, behaviourType, data);
+        SyncObjVO vo = new SyncObjVO(isImmediate,objType, behaviourType, data);
 
         DataVO dataVO = new DataVO("SYNC_OBJ", JsonUtility.ToJson(vo));
 
