@@ -87,6 +87,9 @@ public class Player : MonoBehaviour, IInteractionObject
     private bool canEnemyGathering; //채집 가능한지
     public bool CanEnemyGathering => canEnemyGathering;
 
+    private bool isImmediate;
+    public bool IsImmediate => isImmediate;
+
     public bool isFlip = false; //뒤집혔는지
     public bool isNotLerp = false;
 

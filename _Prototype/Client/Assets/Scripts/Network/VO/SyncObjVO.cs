@@ -1,6 +1,7 @@
 [System.Serializable]
 public class SyncObjVO
 {
+    public bool isImmediate;
     public ObjType objType;
     public BehaviourType behaviourType;
     public SyncObjDataVO data;
@@ -10,8 +11,9 @@ public class SyncObjVO
 
     }
 
-    public SyncObjVO(ObjType objType, BehaviourType behaviourType, SyncObjDataVO data)
+    public SyncObjVO(bool isImmediate, ObjType objType, BehaviourType behaviourType, SyncObjDataVO data)
     {
+        this.isImmediate = isImmediate;
         this.objType = objType;
         this.behaviourType = behaviourType;
         this.data = data;
