@@ -38,7 +38,7 @@ public class InsideRefresh : ISetAble
 
                 if (playerList.TryGetValue(vo.socketId, out p))
                 {
-                    p.AreaState = vo.areaState;
+                    p.Area = vo.area;
                 }
             }
         }

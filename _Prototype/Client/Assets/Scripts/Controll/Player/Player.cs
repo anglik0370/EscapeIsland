@@ -124,11 +124,11 @@ public class Player : MonoBehaviour, IInteractionObject
     public TeamInfoUI TeamUI => teamUI;
 
     [SerializeField]
-    private AreaState areaState;
-    public AreaState AreaState
+    private Area area;
+    public Area Area
     {
-        get => areaState;
-        set => areaState = value;
+        get => area;
+        set => area = value;
     }
 
     public CharacterSO curSO;
@@ -454,9 +454,9 @@ public class Player : MonoBehaviour, IInteractionObject
         isNotLerp = false;
     }
 
-    public void SetAreaState(AreaState areaState)
+    public void SetAreaState(Area areaState)
     {
-        this.areaState = areaState;
+        this.area = areaState;
     }
 
     public void SetSpeed(float speed)

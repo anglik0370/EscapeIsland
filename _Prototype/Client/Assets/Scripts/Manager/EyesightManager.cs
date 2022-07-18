@@ -62,7 +62,7 @@ public class EyesightManager : MonoBehaviour
     private Sequence lightSeq;
     private Sequence objSeq;
 
-    private AreaState oldState;
+    private Area oldArea;
 
     private void Awake()
     {
@@ -97,7 +97,7 @@ public class EyesightManager : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             player = p;
-            ChangeVisibleObjects(AreaState.OutSide);
+            //ChangeVisibleObjects(Area.OutSide);
 
             Light2D[] lights = p.GetComponentsInChildren<Light2D>();
 
@@ -145,12 +145,12 @@ public class EyesightManager : MonoBehaviour
     {
         if (player == null) return;
 
-        if(oldState != player.AreaState)
+        if(oldArea != player.Area)
         {
-            ChangeVisibleObjects(player.AreaState);
+            ChangeVisibleObjects(player.Area);
         }
 
-        oldState = player.AreaState;
+        oldArea = player.Area;
     }
 
     private void Init()
@@ -181,7 +181,7 @@ public class EyesightManager : MonoBehaviour
         }
     }
 
-    public void ChangeVisibleObjects(AreaState areaState)
+    public void ChangeVisibleObjects(Area area)
     {
         if(objSeq != null)
         {
@@ -190,16 +190,12 @@ public class EyesightManager : MonoBehaviour
 
         objSeq = DOTween.Sequence();
 
-        otherList[0].SetActive(areaState == AreaState.BottleStorage); //물병 미션
-        otherList[1].SetActive(areaState == AreaState.RefineryInLab); //연구소 안 정제소
-        otherList[2].SetActive(areaState == AreaState.Refinery); //정제소
-
         for (int i = 0; i < areaStateHolderList.Count; i++)
         {
             areaStateHolderList[i].Sr.color = UtilClass.limpidityColor;
         }
 
-        var areaObjList = areaStateHolderList.Where(x => x.AreaState == areaState).ToList();
+        var areaObjList = areaStateHolderList.Where(x => x.Area == area).ToList();
 
         for (int i = 0; i < areaObjList.Count; i++)
         {
@@ -218,12 +214,12 @@ public class EyesightManager : MonoBehaviour
             objSeq.Join(areaObjList[j].Sr.DOColor(UtilClass.opacityColor, duration));
         }
 
-        if(areaState == AreaState.ShipInside)
+        if(area == Area.ShipInside)
         {
             objSeq.Join(otherList[3].GetComponent<SpriteRenderer>().DOColor(UtilClass.limpidityColor, duration)); //바다 끄기
         }
 
-        if(oldState == AreaState.ShipInside)
+        if(oldArea == Area.ShipInside)
         {
             objSeq.Join(otherList[3].GetComponent<SpriteRenderer>().DOColor(UtilClass.opacityColor, duration)); //바다 켜기
         }
@@ -235,7 +231,7 @@ public class EyesightManager : MonoBehaviour
                 arsonSlotList[i].EyeActive(UtilClass.limpidityColor);
             }
 
-            var areaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().AreaState == areaState).ToList();
+            var areaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().Area == area).ToList();
 
             for (int i = 0; i < areaArsonList.Count; i++)
             {

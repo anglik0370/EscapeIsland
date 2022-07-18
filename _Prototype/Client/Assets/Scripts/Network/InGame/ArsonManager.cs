@@ -53,7 +53,7 @@ public class ArsonManager : MonoBehaviour
             blueSlot.SetArson(true);
         }
 
-        EyesightManager.Instance.ChangeVisibleObjects(NetworkManager.instance.User.AreaState);
+        EyesightManager.Instance.ChangeVisibleObjects(NetworkManager.instance.User.Area);
     }
 
     public bool CanExtinguish(ItemSO so)

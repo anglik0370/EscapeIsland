@@ -5,8 +5,8 @@ using UnityEngine;
 public class AreaStateHolder : MonoBehaviour
 {
     [SerializeField]
-    private AreaState areaState;
-    public AreaState AreaState => areaState;
+    private Area area;
+    public Area Area => area;
 
     private SpriteRenderer sr;
     public SpriteRenderer Sr => sr;

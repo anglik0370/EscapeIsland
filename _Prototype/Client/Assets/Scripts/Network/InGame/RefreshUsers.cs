@@ -158,7 +158,7 @@ public class RefreshUsers : ISetAble
                 {
                     p.SetTransform(uv.position);
 
-                    p.AreaState = uv.areaState;
+                    p.Area = uv.area;
 
                     if (uv.voiceData != null && uv.voiceData.Length > 0)
                     {

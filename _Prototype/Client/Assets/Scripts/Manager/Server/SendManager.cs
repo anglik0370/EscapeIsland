@@ -158,10 +158,10 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendAreaState(AreaState areaState)
+    public void SendAreaState(Area area)
     {
         UserVO vo = new UserVO();
-        vo.areaState = areaState;
+        vo.area = area;
         DataVO dataVO = new DataVO("INSIDE_REFRESH", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));

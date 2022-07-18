@@ -12,7 +12,7 @@ public class UserVO
     public bool isImposter;
     public bool isDie;
     public bool ready;
-    public AreaState areaState;
+    public Area area;
     public Team curTeam;
     public float[] voiceData;
 

@@ -85,7 +85,7 @@ public class InfoUI : MonoBehaviour
         if (mainPlayerTrm == playerTrm) return;
         
         {
-            if (player.AreaState == mainPlayer.AreaState)
+            if (player.Area == mainPlayer.Area)
             {
                 if (Vector2.Distance(playerTrm.position, mainPlayerTrm.position) >= hideRange)
                 {

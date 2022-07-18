@@ -119,7 +119,7 @@ public class PlayerManager : MonoBehaviour
             {
                 if (Physics2D.IsTouching(indoorColList[j], player.FootCollider))
                 {
-                    player.SetAreaState((AreaState)j + 1);
+                    player.SetAreaState((Area)j + 1);
                     isTouching = true;
                     break;
                 }
@@ -127,10 +127,10 @@ public class PlayerManager : MonoBehaviour
 
             if (!isTouching)
             {
-                player.SetAreaState(AreaState.OutSide);
+                //player.SetAreaState(Area.OutSide);
             }
 
-            SendManager.Instance.SendAreaState(player.AreaState);
+            SendManager.Instance.SendAreaState(player.Area);
             yield return delay;
         }
     }
