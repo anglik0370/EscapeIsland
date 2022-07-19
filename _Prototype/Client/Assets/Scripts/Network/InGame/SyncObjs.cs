@@ -100,7 +100,7 @@ public class SyncObjs : ISetAble
 
         Debug.Log($"변환기{converterId}에서 {so}변환 시작");
 
-        ConverterManager.Instance.ConverterList.Find(x => x.id == converterId).ConvertingStart(so);
+        ConverterManager.Instance.ConverterList.Find(x => x.id == converterId).ConvertingStart(so,objVO.isImmediate);
 
         print("start");
     }
