@@ -8,8 +8,9 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; private set; }
 
     [SerializeField]
-    private Transform indoorColliderParentTrm;
-    private Dictionary<Area, Collider2D> indoorColDic = new Dictionary<Area, Collider2D>();
+    private Transform areaColParent;
+    [SerializeField]
+    private List<AreaCollider> areaColList;
 
     private const float STATE_UPDATE_DELAY = 0.1f;
 
@@ -29,12 +30,6 @@ public class PlayerManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-        }
-
-        for (int i = 0; i < indoorColliderParentTrm.childCount; i++)
-        {
-            indoorColDic.Add(indoorColliderParentTrm.GetChild(i).GetComponent<AreaStateHolder>().Area, 
-                indoorColliderParentTrm.GetChild(i).GetComponent<Collider2D>());
         }
     }
 
@@ -79,6 +74,16 @@ public class PlayerManager : MonoBehaviour
 
             co = StartCoroutine(UpdatePlayerAreaStateRoutine());
         });
+
+        for (int i = 0; i < areaColParent.childCount; i++)
+        {
+            AreaCollider ac = new AreaCollider();
+
+            ac.area = areaColParent.GetChild(i).GetComponent<AreaStateHolder>().Area;
+            ac.collider = areaColParent.GetChild(i).GetComponent<Collider2D>();
+
+            areaColList.Add(ac);
+        }
     }
 
     public bool AmIMaster()
@@ -119,11 +124,11 @@ public class PlayerManager : MonoBehaviour
         {
             isTouching = false;
 
-            foreach (var pair in indoorColDic)
+            foreach (var ac in areaColList)
             {
-                if(Physics2D.IsTouching(pair.Value, player.FootCollider))
+                if(Physics2D.IsTouching(ac.collider, player.FootCollider))
                 {
-                    player.SetAreaState(pair.Key);
+                    player.SetAreaState(ac.area);
                     isTouching = true;
                     break;
                 }

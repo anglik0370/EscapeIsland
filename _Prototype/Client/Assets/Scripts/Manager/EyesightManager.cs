@@ -190,19 +190,31 @@ public class EyesightManager : MonoBehaviour
 
         objSeq = DOTween.Sequence();
 
-        List<AreaStateHolder> areaObjList = null;
+        Area flag = Area.OutSide;
 
-        if(oldArea == Area.OutSide && area == Area.InSide)
+        if(Area.OutSide.HasFlag(area))
         {
-            //밖에서 안으로 들어왔을 때
-            areaObjList = areaStateHolderList.Where(x => x.Area == Area.InSide).ToList();
+            flag = Area.OutSide;
+        }
+        else if(Area.InSide.HasFlag(area))
+        {
+            flag = Area.InSide;
         }
 
-        if(oldArea == Area.InSide && area == Area.OutSide)
+        Area oldFlag = Area.OutSide;
+
+        if (Area.OutSide.HasFlag(oldArea))
         {
-            //안에서 밖으로 나갔을 때
-            areaObjList = areaStateHolderList.Where(x => x.Area == Area.OutSide).ToList();
+            oldFlag = Area.OutSide;
         }
+        else if (Area.InSide.HasFlag(oldArea))
+        {
+            oldFlag = Area.InSide;
+        }
+
+        if (flag == oldFlag) return;
+
+        var areaObjList = areaStateHolderList.Where(x => flag.HasFlag(x.Area)).ToList();
 
         for (int i = 0; i < areaStateHolderList.Count; i++)
         {

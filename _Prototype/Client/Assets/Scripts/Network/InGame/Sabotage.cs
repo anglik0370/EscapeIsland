@@ -57,10 +57,10 @@ public class Sabotage : ISetAble
     {
         base.Start();
 
-        for (int i = 0; i < doorParent.childCount; i++)
-        {
-            doorList.Add(doorParent.GetChild(i).GetComponentInChildren<LabDoor>());
-        }
+        //for (int i = 0; i < doorParent.childCount; i++)
+        //{
+        //    doorList.Add(doorParent.GetChild(i).GetComponentInChildren<LabDoor>());
+        //}
 
         Instantiate(callbackObj, transform);
     }
