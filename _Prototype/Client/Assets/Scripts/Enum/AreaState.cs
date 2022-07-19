@@ -1,5 +1,6 @@
 public enum Area
 {
+    None,
     Cave,
     Forest,
     Beach,
