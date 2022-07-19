@@ -223,10 +223,13 @@ public class EyesightManager : MonoBehaviour
         if (flag == oldFlag) return;
 
         var areaObjList = areaStateHolderList.Where(x => flag.HasFlag(x.Area)).ToList();
+        var otherObjList = areaStateHolderList.Where(x => oldFlag.HasFlag(x.Area)).ToList();
 
-        for (int i = 0; i < areaStateHolderList.Count; i++)
+        for (int i = 0; i < otherObjList.Count; i++)
         {
-            areaStateHolderList[i].Sr.color = UtilClass.limpidityColor;
+            int j = i;
+
+            objSeq.Join(otherObjList[j].Sr.DOColor(UtilClass.limpidityColor, duration));
         }
 
         for (int i = 0; i < areaObjList.Count; i++)
