@@ -100,7 +100,9 @@ public class EyesightManager : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             player = p;
+
             ChangeVisibleObjects(Area.OutSide);
+            shadowList.ForEach(x => x.SetActive(false));
 
             Light2D[] lights = p.GetComponentsInChildren<Light2D>();
 
@@ -136,6 +138,9 @@ public class EyesightManager : MonoBehaviour
         EventManager.SubGameOver(goc =>
         {
             Init();
+
+            ChangeVisibleObjects(Area.OutSide);
+            shadowList.ForEach(x => x.SetActive(false));
         });
 
         EventManager.SubExitRoom(() =>
