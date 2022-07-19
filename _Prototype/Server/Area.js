@@ -24,7 +24,7 @@ class Area {
 
 
     getPayload() {
-        return {areaState:this.areaState, blueGauge:this.blueGauge, redGauge:this.redGauge};
+        return {area:this.areaState, blueGauge:this.blueGauge, redGauge:this.redGauge};
     }
 
     canMission(user) {

@@ -22,15 +22,15 @@ public class OccupyUI : MonoBehaviour
 
     private void Start()
     {
-        UpdateUI(Team.RED);
-        UpdateUI(Team.BLUE);
+        SetUI();
+        SetUI();
 
         DisableUI();
 
         EventManager.SubGameOver(goc =>
         {
-            UpdateUI(Team.RED);
-            UpdateUI(Team.BLUE);
+            SetUI();
+            SetUI();
 
             DisableUI();
         });
@@ -41,18 +41,10 @@ public class OccupyUI : MonoBehaviour
         UtilClass.SetCanvasGroup(cvs, 1f, false, false);
     }
 
-    public void UpdateUI(Team team, string areaName = "", float progress = 0f)
+    public void SetUI(float redProgress = 0f, float blueProgress = 0f, string areaName = "")
     {
-        switch (team)
-        {
-            case Team.RED:
-                redGauge.fillAmount = progress;
-                break;
-            case Team.BLUE:
-                blueGauge.fillAmount = progress;
-                break;
-        }
-
+        redGauge.fillAmount = redProgress;
+        blueGauge.fillAmount = blueProgress;
         areaNameTxt.text = areaName;
     }
 
