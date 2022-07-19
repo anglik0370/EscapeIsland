@@ -25,6 +25,11 @@ public class PlayerManager : MonoBehaviour
     private Inventory inventory;
     public Inventory Inventory => inventory;
 
+    [SerializeField]
+    private List<Area> areaList = new List<Area>();
+    [SerializeField]
+    private OccupyUI occupyUI;
+
     private void Awake()
     {
         if (Instance == null)
@@ -137,6 +142,15 @@ public class PlayerManager : MonoBehaviour
             if (!isTouching)
             {
                 player.SetAreaState(Area.None);
+            }
+
+            if(areaList.Contains(player.Area))
+            {
+                occupyUI.EnableUI();
+            }
+            else
+            {
+                occupyUI.DisableUI();
             }
 
             SendManager.Instance.SendAreaState(player.Area);
