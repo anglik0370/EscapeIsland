@@ -97,7 +97,7 @@ public class EyesightManager : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             player = p;
-            //ChangeVisibleObjects(Area.OutSide);
+            ChangeVisibleObjects(Area.OutSide);
 
             Light2D[] lights = p.GetComponentsInChildren<Light2D>();
 
@@ -190,12 +190,24 @@ public class EyesightManager : MonoBehaviour
 
         objSeq = DOTween.Sequence();
 
+        List<AreaStateHolder> areaObjList = null;
+
+        if(oldArea == Area.OutSide && area == Area.InSide)
+        {
+            //밖에서 안으로 들어왔을 때
+            areaObjList = areaStateHolderList.Where(x => x.Area == Area.InSide).ToList();
+        }
+
+        if(oldArea == Area.InSide && area == Area.OutSide)
+        {
+            //안에서 밖으로 나갔을 때
+            areaObjList = areaStateHolderList.Where(x => x.Area == Area.OutSide).ToList();
+        }
+
         for (int i = 0; i < areaStateHolderList.Count; i++)
         {
             areaStateHolderList[i].Sr.color = UtilClass.limpidityColor;
         }
-
-        var areaObjList = areaStateHolderList.Where(x => x.Area == area).ToList();
 
         for (int i = 0; i < areaObjList.Count; i++)
         {
