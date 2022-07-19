@@ -157,7 +157,7 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
         this.afterItem = item;
     }
 
-    public void ConvertingStart(ItemSO beforeItem)
+    public void ConvertingStart(ItemSO beforeItem, bool isImmediate = false)
     {
         //제련 시작 시 (제련 전 아이템을 넣었을 때)
         //필요한것 - 제련소 id, 넣은 아이템SO
@@ -165,6 +165,12 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
         remainTime = convertingTime;
 
         this.beforeItem = beforeItem;
+
+        if(isImmediate)
+        {
+            ConvertingEnd();
+            return;
+        }
 
         if(ConvertPanel.Instance.IsOpenRefinery(this))
         {
