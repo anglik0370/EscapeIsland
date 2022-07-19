@@ -7,6 +7,7 @@ using DG.Tweening;
 public class AreaCover : MonoBehaviour
 {
     private SpriteRenderer sr;
+    [SerializeField]
     private Collider2D col;
 
     private Color coverColor;
@@ -22,7 +23,6 @@ public class AreaCover : MonoBehaviour
     private void Awake() 
     {
         sr = GetComponent<SpriteRenderer>();
-        col = GetComponent<Collider2D>();
 
         seq = DOTween.Sequence();
 
@@ -48,7 +48,7 @@ public class AreaCover : MonoBehaviour
 
         if(isCovered)
         {
-            if (col.bounds.Contains(player.GetTrm().position))
+            if (Physics2D.IsTouching(col, player.FootCollider))
             {
                 //덮여있는데 안에있는 상태
                 seq.Kill();
@@ -56,13 +56,11 @@ public class AreaCover : MonoBehaviour
                 seq.Append(sr.DOColor(disCoverColor, DURATION));
 
                 isCovered = false;
-
-                print("들어옴");
             }
         }
         else
         {
-            if (!col.bounds.Contains(player.GetTrm().position))
+            if (!Physics2D.IsTouching(col, player.FootCollider))
             {
                 //안덮여있는데 안에없는 상태
                 seq.Kill();
