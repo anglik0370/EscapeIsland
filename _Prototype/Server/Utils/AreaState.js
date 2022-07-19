@@ -1,9 +1,10 @@
 const AreaState =
 {
-    Cave : 0,
-    Forest : 1,
-    Beach : 2,
-    Field : 3,
+    None : 0,
+    Cave : 1,
+    Forest : 2,
+    Beach : 3,
+    Field : 4,
 }
 
 module.exports = AreaState;

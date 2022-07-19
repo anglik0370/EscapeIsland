@@ -17,12 +17,15 @@ class Area {
         this.curTimer = undefined;
 
         this.occupyTime = 30000;
-        this.interval = 1000;
+        this.interval = 200;
         this.nextTime = 0;
-        this.sec = 1;
         this.expected = Date.now();
     }
 
+
+    getPayload() {
+        return {areaState:this.areaState, blueGauge:this.blueGauge, redGauge:this.redGauge};
+    }
 
     canMission(user) {
         return (this.occupyTeam != team.NONE&& 
@@ -50,8 +53,8 @@ class Area {
     timer() {
         let dt = Date.now() - this.expected;
 
-        this.blueGauge += (this.blueTeamUserList.length * 0.05);
-        this.redGauge += (this.redTeamUserList.length * 0.05);
+        this.blueGauge += (this.blueTeamUserList.length * 0.02);
+        this.redGauge += (this.redTeamUserList.length * 0.02);
 
         if(this.blueGauge >= 1 || this.redGauge >= 1) {
             this.occupy();
