@@ -15,6 +15,8 @@ public class OccupyUI : MonoBehaviour
     [SerializeField]
     private Text areaNameTxt;
 
+    private bool IsOpen => cvs.interactable;
+
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
