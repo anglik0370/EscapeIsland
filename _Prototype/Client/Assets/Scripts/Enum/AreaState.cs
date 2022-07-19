@@ -1,3 +1,6 @@
+using System;
+
+[Flags]
 public enum Area
 {
     None = 0,
