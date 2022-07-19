@@ -503,4 +503,9 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         this.canEnemyGathering = canGathering;
     }
+
+    public void SetImmediate(bool isImmediate)
+    {
+        this.isImmediate = isImmediate;
+    }
 }

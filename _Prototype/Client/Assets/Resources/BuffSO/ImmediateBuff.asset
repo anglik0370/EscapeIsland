@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cfbef6605359e3418447e9b136f4ab2, type: 3}
-  m_Name: EnemyGatheringBuff
+  m_Script: {fileID: 11500000, guid: 2a689cd10e5b1774fbeb157fea1bf070, type: 3}
+  m_Name: ImmediateBuff
   m_EditorClassIdentifier: 
-  id: 200
+  id: 201
   duration: 80
-  isDurationStacked: 1
+  isDurationStacked: 0
   isEffectStacked: 0
-  isBuffed: 0
+  isBuffed: 1
