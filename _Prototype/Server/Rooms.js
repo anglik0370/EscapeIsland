@@ -217,10 +217,26 @@ class Rooms {
         }
     }
 
+    roomAreaListBroadCast() {
+        for(let key in this.roomList) {
+            let room = this.roomList[key];
+
+            if(room === undefined || !room.playing) continue;
+
+            let areaDataList = room.getAreaListData();
+
+            room.broadcast(JSON.stringify({type:"REFRESH_AREA",payload:JSON.stringify({areaDataList})}));
+        }
+    }
+
     startServer() {
         setInterval(() => {
-            this.allRoomBroadcast(this.roomList);
+            this.allRoomBroadcast();
         },100);
+
+        // setInterval(() => {
+        //     this.roomAreaListBroadCast();
+        // },1000);
     }
     
 }
