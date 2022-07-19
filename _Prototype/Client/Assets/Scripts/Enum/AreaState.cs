@@ -17,6 +17,6 @@ public enum Area
     ShipInside = 1024,
     Ship = 2048,
 
-    OutSide = Forest | Field | Altar | Lobby | Ship,
+    OutSide = Forest | Field | Altar | Lobby | Ship | Beach,
     InSide = Cave | EngineRoom | ChargeRoom | BatteryRoom | BottleRoom | ShipInside,
 }
