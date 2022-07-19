@@ -44,6 +44,7 @@ class Room {
     }
 
     initAreaList() {
+        this.areaList[AreaState.Cave] = new Area(AreaState.Cave);
         this.areaList[AreaState.Beach] = new Area(AreaState.Beach);
         this.areaList[AreaState.Field] = new Area(AreaState.Field);
         this.areaList[AreaState.Forest] = new Area(AreaState.Forest);
