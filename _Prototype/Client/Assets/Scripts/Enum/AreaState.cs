@@ -9,8 +9,7 @@ public enum Area
     ChargeRoom,
     BatteryRoom,
     BottleRoom,
-    BlueLobby,
-    RedLobby,
+    Lobby,
     ShipInside,
     Ship,
 }
