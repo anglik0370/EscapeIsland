@@ -28,7 +28,7 @@ class Area {
     }
 
     canMission(user) {
-        return (this.occupyTeam != team.NONE&& 
+        return (this.occupyTeam == team.NONE&& 
             (user.curTeam == team.RED ? this.blueTeamUserList.length <= this.redTeamUserList.length 
             : this.blueTeamUserList.length >= this.redTeamUserList.length))
                  || this.occupyTeam === user.curTeam;
