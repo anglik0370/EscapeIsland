@@ -17,7 +17,10 @@ public class EyesightManager : MonoBehaviour
     private Transform arsonParentTrm;
 
     [SerializeField]
-    private List<GameObject> otherList;
+    private List<GameObject> shadowList;
+
+    [SerializeField]
+    private GameObject seaObject;
 
     private List<AreaStateHolder> areaStateHolderList;
 
@@ -238,14 +241,32 @@ public class EyesightManager : MonoBehaviour
             objSeq.Join(areaObjList[j].Sr.DOColor(UtilClass.opacityColor, duration));
         }
 
-        if(area == Area.ShipInside)
+        shadowList.ForEach(x => x.SetActive(false));
+
+        if(area == Area.EngineRoom)
         {
-            objSeq.Join(otherList[3].GetComponent<SpriteRenderer>().DOColor(UtilClass.limpidityColor, duration)); //바다 끄기
+            shadowList[0].SetActive(true);
+        }
+        else if(area == Area.ChargeRoom)
+        {
+            shadowList[1].SetActive(true);
+        }
+        else if(area == Area.BottleRoom)
+        {
+            shadowList[2].SetActive(true);
+        }
+        else if(area == Area.BatteryRoom)
+        {
+            shadowList[3].SetActive(true);
         }
 
-        if(oldArea == Area.ShipInside)
+        if(area == Area.ShipInside)
         {
-            objSeq.Join(otherList[3].GetComponent<SpriteRenderer>().DOColor(UtilClass.opacityColor, duration)); //바다 켜기
+            objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.limpidityColor, duration)); //바다 끄기
+        }
+        else if(oldArea == Area.ShipInside)
+        {
+            objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.opacityColor, duration)); //바다 켜기
         }
 
         if (ArsonManager.Instance.isArson)
