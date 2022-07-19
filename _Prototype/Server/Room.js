@@ -123,14 +123,16 @@ class Room {
 
         if(user !== undefined) {
 
+            let isBlue = user.curTeam == team.BLUE;
+
             if(this.areaList[user.areaState] !== undefined) {
-                this.areaList[user.areaState].removeUserList(user,user.curTeam == team.BLUE);
+                this.areaList[user.areaState].removeUserList(user,isBlue);
             }
 
             this.userList[socket.id].areaState = areaState;
 
             if(this.areaList[areaState] !== undefined) {
-                this.areaList[areaState].removeUserList(user,user.curTeam == team.BLUE);
+                this.areaList[areaState].addUserList(user,isBlue);
             }
         }
     }
@@ -265,6 +267,16 @@ class Room {
     returnData() {
         let data = {name:this.roomName,roomNum:this.roomNum,curUserNum:this.curUserNum,userNum:this.userNum,kidnapperNum:this.kidnapperNum,playing:this.playing};
         return data;
+    }
+
+    getAreaListData() {
+        let areaDataList = [];
+
+        for(let key in this.areaList) {
+            areaDataList.push(this.areaList[key].getPayload());
+        }
+
+        return areaDataList;
     }
 
     getUsersData() {
