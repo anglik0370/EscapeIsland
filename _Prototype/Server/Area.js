@@ -46,7 +46,7 @@ class Area {
         this.occupyTeam = team.NONE;
         this.blueGauge = this.redGauge = 0.0;
 
-        clearInterval(this.curTimer);
+        clearTimeout(this.curTimer);
         this.curTimer = null;
     }
 
@@ -68,10 +68,10 @@ class Area {
     }
 
     occupy() {
-        this.curTimer = null;
         this.occupyTeam = this.blueGauge >= 1 ? team.BLUE : team.RED;
-
-        setTimeout(this.startTimer.bind(this),this.occupyTime);
+        
+        this.clearTimeout(this.curTimer);
+        this.curTimer = setTimeout(this.startTimer.bind(this),this.occupyTime);
     }
 
     addUserList(isBlue) {

@@ -41,7 +41,7 @@ class Timer {
     }
 
     stopTimer(isInit = false) {
-        clearInterval(this.curTimer);
+        clearTimeout(this.curTimer);
 
         if(isInit)
             this.initTimer();
