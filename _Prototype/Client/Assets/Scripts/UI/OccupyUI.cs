@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class OccupyUI : MonoBehaviour
 {
@@ -15,11 +16,16 @@ public class OccupyUI : MonoBehaviour
     [SerializeField]
     private Text areaNameTxt;
 
-    private bool IsOpen => cvs.interactable;
+    private Sequence seq;
+    private float duration = 0.2f;
+
+    public bool IsOpen => cvs.interactable;
 
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
+
+        seq = DOTween.Sequence();
     }
 
     private void Start()
@@ -48,6 +54,19 @@ public class OccupyUI : MonoBehaviour
         redGauge.fillAmount = redProgress;
         blueGauge.fillAmount = blueProgress;
         areaNameTxt.text = areaName;
+    }
+
+    public void UpdateUI(float redProgress = 0f, float blueProgress = 0f)
+    {
+        if(seq != null)
+        {
+            seq.Kill();
+        }
+
+        seq = DOTween.Sequence();
+
+        seq.Append(DOTween.To(() => redGauge.fillAmount, x => redGauge.fillAmount = x, redProgress, duration));
+        seq.Join(DOTween.To(() => blueGauge.fillAmount, x => blueGauge.fillAmount = x, blueProgress, duration));
     }
 
     public void DisableUI()
