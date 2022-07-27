@@ -44,10 +44,10 @@ class Room {
     }
 
     initAreaList() {
-        this.areaList[AreaState.Cave] = new Area(AreaState.Cave);
-        this.areaList[AreaState.Beach] = new Area(AreaState.Beach);
-        this.areaList[AreaState.Field] = new Area(AreaState.Field);
-        this.areaList[AreaState.Forest] = new Area(AreaState.Forest);
+        this.areaList[AreaState.Cave] = new Area(AreaState.Cave, "동굴");
+        this.areaList[AreaState.Beach] = new Area(AreaState.Beach,"모래사장");
+        this.areaList[AreaState.Field] = new Area(AreaState.Field,"밭");
+        this.areaList[AreaState.Forest] = new Area(AreaState.Forest,"숲");
     }
 
     initSpawnerList() {

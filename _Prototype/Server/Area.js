@@ -1,9 +1,10 @@
 const team = require("./Utils/Team.js");
 
 class Area {
-    constructor(areaState) {
+    constructor(areaState,areaName) {
 
         this.areaState = areaState;
+        this.areaName = areaName;
 
         this.redTeamUserLength = 0;
         this.blueTeamUserLength = 0;
@@ -24,7 +25,7 @@ class Area {
 
 
     getPayload() {
-        return {area:this.areaState, blueGauge:this.blueGauge, redGauge:this.redGauge};
+        return {area:this.areaState,areaName:this.areaName, blueGauge:this.blueGauge, redGauge:this.redGauge};
     }
 
     canMission(user) {
@@ -69,7 +70,7 @@ class Area {
 
     occupy() {
         this.occupyTeam = this.blueGauge >= 1 ? team.BLUE : team.RED;
-        
+
         this.clearTimeout(this.curTimer);
         this.curTimer = setTimeout(this.startTimer.bind(this),this.occupyTime);
     }

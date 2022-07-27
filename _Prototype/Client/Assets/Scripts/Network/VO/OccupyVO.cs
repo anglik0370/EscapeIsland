@@ -6,6 +6,7 @@ using UnityEngine;
 public class OccupyVO
 {
     public Area area;
+    public string areaName;
     public float blueGauge;
     public float redGauge;
 }
