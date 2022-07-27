@@ -126,14 +126,19 @@ class Room {
 
             let isBlue = user.curTeam == team.BLUE;
 
+            if(user.areaState == areaState) {
+                //구역이 같음
+                return;
+            }
+
             if(this.areaList[user.areaState] !== undefined) {
-                this.areaList[user.areaState].removeUserList(user,isBlue);
+                this.areaList[user.areaState].removeUserList(isBlue);
             }
 
             this.userList[socket.id].areaState = areaState;
 
             if(this.areaList[areaState] !== undefined) {
-                this.areaList[areaState].addUserList(user,isBlue);
+                this.areaList[areaState].addUserList(isBlue);
             }
         }
     }

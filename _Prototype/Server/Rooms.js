@@ -234,9 +234,9 @@ class Rooms {
             this.allRoomBroadcast();
         },100);
 
-        // setInterval(() => {
-        //     this.roomAreaListBroadCast();
-        // },1000);
+        setInterval(() => {
+            this.roomAreaListBroadCast();
+        },200);
     }
     
 }

@@ -5,8 +5,8 @@ class Area {
 
         this.areaState = areaState;
 
-        this.redTeamUserList = [];
-        this.blueTeamUserList = [];
+        this.redTeamUserLength = 0;
+        this.blueTeamUserLength = 0;
 
         this.blueGauge = 0.0;
         this.redGauge = 0.0;
@@ -29,8 +29,8 @@ class Area {
 
     canMission(user) {
         return (this.occupyTeam == team.NONE&& 
-            (user.curTeam == team.RED ? this.blueTeamUserList.length <= this.redTeamUserList.length 
-            : this.blueTeamUserList.length >= this.redTeamUserList.length))
+            (user.curTeam == team.RED ? this.blueTeamUserLength <= this.redTeamUserLength
+            : this.blueTeamUserLength >= this.redTeamUserLength))
                  || this.occupyTeam === user.curTeam;
     }
 
@@ -53,8 +53,8 @@ class Area {
     timer() {
         let dt = Date.now() - this.expected;
 
-        this.blueGauge += (this.blueTeamUserList.length * 0.02);
-        this.redGauge += (this.redTeamUserList.length * 0.02);
+        this.blueGauge += (this.blueTeamUserLength * 0.02);
+        this.redGauge += (this.redTeamUserLength * 0.02);
 
         if(this.blueGauge >= 1 || this.redGauge >= 1) {
             this.occupy();
@@ -74,21 +74,21 @@ class Area {
         setTimeout(this.startTimer.bind(this),this.occupyTime);
     }
 
-    addUserList(user, isBlue) {
-        if(isBlue && !this.blueTeamUserList.includes(user)) {
-            this.blueTeamUserList.push(user);
+    addUserList(isBlue) {
+        if(isBlue) {
+            this.blueTeamUserLength++;
         }
-        else if(!isBlue && !this.redTeamUserList.includes(user)) {
-            this.redTeamUserList.push(user);
+        else if(!isBlue) {
+            this.redTeamUserLength++;
         }
     }
 
-    removeUserList(user,isBlue) {
+    removeUserList(isBlue) {
         if(isBlue) {
-            this.blueTeamUserList = this.blueTeamUserList.filter(x => x !== user)
+            this.blueTeamUserLength--;
         }
         else {
-            this.redTeamUserList = this.redTeamUserList.filter(x => x !== user);
+            this.redTeamUserLength--;
         }
     }
 }   

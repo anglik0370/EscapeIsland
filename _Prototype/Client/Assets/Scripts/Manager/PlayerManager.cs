@@ -144,14 +144,14 @@ public class PlayerManager : MonoBehaviour
                 player.SetAreaState(Area.None);
             }
 
-            if(areaList.Contains(player.Area))
-            {
-                occupyUI.EnableUI();
-            }
-            else
-            {
-                occupyUI.DisableUI();
-            }
+            //if(areaList.Contains(player.Area))
+            //{
+            //    occupyUI.EnableUI();
+            //}
+            //else
+            //{
+            //    occupyUI.DisableUI();
+            //}
 
             SendManager.Instance.SendAreaState(player.Area);
             yield return delay;
