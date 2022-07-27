@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefreshLobbyUI : ISetAble
+public class RefreshUI : ISetAble
 {
-    public static RefreshLobbyUI Instance { get; private set; }
+    public static RefreshUI Instance { get; private set; }
+
+    [SerializeField]
+    private OccupyUI occupyUI;
 
     private LobbyUIVO lobbyUIVO;
 
-    private bool needUIRefresh = false;
+    private List<OccupyVO> occupyList;
+
+    private bool needLobbyUIRefresh = false;
+    private bool needOccupyUIRefresh = false;
 
     private void Awake()
     {
@@ -17,10 +23,16 @@ public class RefreshLobbyUI : ISetAble
 
     private void Update()
     {
-        if(needUIRefresh)
+        if(needLobbyUIRefresh)
         {
             LobbyUIRefresh();
-            needUIRefresh = false;
+            needLobbyUIRefresh = false;
+        }
+
+        if(needOccupyUIRefresh)
+        {
+            OccupyUIRefresh();
+            needOccupyUIRefresh = false;
         }
     }
 
@@ -29,7 +41,33 @@ public class RefreshLobbyUI : ISetAble
         lock(Instance.lockObj)
         {
             Instance.lobbyUIVO = vo;
-            Instance.needUIRefresh = true;
+            Instance.needLobbyUIRefresh = true;
+        }
+    }
+
+    public static void SetOccupyRefresh(List<OccupyVO> list)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.occupyList = list;
+            Instance.needOccupyUIRefresh = true;
+        }
+    }
+
+    private void OccupyUIRefresh()
+    {
+        foreach (OccupyVO ov in occupyList)
+        {
+            if (ov.area != user.Area) continue;
+
+            //if(occupyUI.IsOpen)
+            //{
+            //    occupyUI.UpdateUI(ov.redGauge, ov.blueGauge);
+            //}
+            //else
+            //{
+            //    occupyUI.SetUI(ov.redGauge, ov.blueGauge, ov.areaName);
+            //}
         }
     }
 

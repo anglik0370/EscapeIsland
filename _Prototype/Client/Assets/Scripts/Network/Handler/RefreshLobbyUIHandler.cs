@@ -9,6 +9,6 @@ public class RefreshLobbyUiHandler : MonoBehaviour,IMsgHandler
         LobbyUIVO vo = JsonUtility.FromJson<LobbyUIVO>(payload);
 
         //NetworkManager.SetUserCount(roomVO);
-        RefreshLobbyUI.SetRefreshUI(vo);
+        RefreshUI.SetRefreshUI(vo);
     }
 }
