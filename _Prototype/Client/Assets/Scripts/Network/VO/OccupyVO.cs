@@ -14,5 +14,6 @@ public class OccupyVO
 [System.Serializable]
 public class OccupyListVO
 {
+    public bool isOpen;
     public List<OccupyVO> areaDataList;
 }

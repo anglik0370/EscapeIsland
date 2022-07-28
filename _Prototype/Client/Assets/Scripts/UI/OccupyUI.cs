@@ -19,7 +19,7 @@ public class OccupyUI : MonoBehaviour
     private Sequence seq;
     private float duration = 0.2f;
 
-    public bool IsOpen => cvs.interactable;
+    public bool IsOpen => cvs.alpha == 1;
 
     private void Awake()
     {

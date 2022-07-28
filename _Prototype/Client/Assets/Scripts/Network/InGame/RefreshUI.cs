@@ -11,7 +11,7 @@ public class RefreshUI : ISetAble
 
     private LobbyUIVO lobbyUIVO;
 
-    private List<OccupyVO> occupyList;
+    private OccupyListVO occupyData;
 
     private bool needLobbyUIRefresh = false;
     private bool needOccupyUIRefresh = false;
@@ -45,29 +45,36 @@ public class RefreshUI : ISetAble
         }
     }
 
-    public static void SetOccupyRefresh(List<OccupyVO> list)
+    public static void SetOccupyRefresh(OccupyListVO data)
     {
         lock(Instance.lockObj)
         {
-            Instance.occupyList = list;
+            Instance.occupyData = data;
             Instance.needOccupyUIRefresh = true;
         }
     }
 
     private void OccupyUIRefresh()
     {
-        foreach (OccupyVO ov in occupyList)
+        if(!occupyData.isOpen)
+        {
+            occupyUI.DisableUI();
+            return;
+        }
+
+        foreach (OccupyVO ov in occupyData.areaDataList)
         {
             if (ov.area != user.Area) continue;
 
-            //if(occupyUI.IsOpen)
-            //{
-            //    occupyUI.UpdateUI(ov.redGauge, ov.blueGauge);
-            //}
-            //else
-            //{
-            //    occupyUI.SetUI(ov.redGauge, ov.blueGauge, ov.areaName);
-            //}
+            if (occupyUI.IsOpen)
+            {
+                occupyUI.UpdateUI(ov.redGauge, ov.blueGauge);
+            }
+            else
+            {
+                occupyUI.SetUI(ov.redGauge, ov.blueGauge, ov.areaName);
+                occupyUI.EnableUI();
+            }
         }
     }
 

@@ -8,6 +8,6 @@ public class RefreshAreaHandler : MonoBehaviour,IMsgHandler
     {
         OccupyListVO occupyList = JsonUtility.FromJson<OccupyListVO>(payload);
 
-        RefreshUI.SetOccupyRefresh(occupyList.areaDataList);
+        RefreshUI.SetOccupyRefresh(occupyList);
     }
 }
