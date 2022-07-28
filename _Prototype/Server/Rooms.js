@@ -225,7 +225,7 @@ class Rooms {
 
             let areaDataList = room.getAreaListData();
 
-            room.broadcast(JSON.stringify({type:"REFRESH_AREA",payload:JSON.stringify({areaDataList})}));
+            room.broadcast(JSON.stringify({type:"REFRESH_AREA",payload:JSON.stringify({isOpen:true,areaDataList})}));
         }
     }
 

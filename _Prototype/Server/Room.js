@@ -133,6 +133,7 @@ class Room {
 
             if(this.areaList[user.areaState] !== undefined) {
                 this.areaList[user.areaState].removeUserList(isBlue);
+                socket.send(JSON.stringify({type:"REFRESH_AREA",payload:JSON.stringify({isOpen:false})}))
             }
 
             this.userList[socket.id].areaState = areaState;
