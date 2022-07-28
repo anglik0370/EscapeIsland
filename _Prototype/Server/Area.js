@@ -71,7 +71,7 @@ class Area {
     occupy() {
         this.occupyTeam = this.blueGauge >= 1 ? team.BLUE : team.RED;
 
-        this.clearTimeout(this.curTimer);
+        clearTimeout(this.curTimer);
         this.curTimer = setTimeout(this.startTimer.bind(this),this.occupyTime);
     }
 

@@ -1,5 +1,6 @@
 const Vector2 = require("./Utils/Vector2");
 const team = require('./Utils/Team.js');
+const AreaState = require("./Utils/AreaState");
 
 class Player {
     constructor() {
@@ -10,7 +11,7 @@ class Player {
         this.socketId = -1;
         this.charId = 0;
         this.roomNum = -1;
-        this.areaState = 0;
+        this.areaState = AreaState.None;
 
         this.master = false;
         this.ready = false;
