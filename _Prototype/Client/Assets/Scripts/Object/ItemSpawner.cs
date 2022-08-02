@@ -63,6 +63,8 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
 
     public bool isInteractionAble = true;
 
+    public Area area;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
