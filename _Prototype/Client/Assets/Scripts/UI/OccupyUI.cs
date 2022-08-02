@@ -64,9 +64,14 @@ public class OccupyUI : MonoBehaviour
         }
 
         seq = DOTween.Sequence();
-
         seq.Append(DOTween.To(() => redGauge.fillAmount, x => redGauge.fillAmount = x, redProgress, duration));
-        seq.Join(DOTween.To(() => blueGauge.fillAmount, x => blueGauge.fillAmount = x, blueProgress, duration));
+        seq.Join(DOTween.To(() => blueGauge.fillAmount, x => blueGauge.fillAmount = x, blueProgress, duration).OnComplete(() => 
+        {
+            if(redGauge.fillAmount >= 1f || blueGauge.fillAmount >= 1f)
+            {
+                DisableUI();
+            }
+        }));
     }
 
     public void DisableUI()

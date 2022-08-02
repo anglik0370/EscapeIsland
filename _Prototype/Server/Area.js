@@ -25,7 +25,9 @@ class Area {
 
 
     getPayload() {
-        return {area:this.areaState,areaName:this.areaName, blueGauge:this.blueGauge, redGauge:this.redGauge};
+        let isOccupy = this.occupyTeam != team.NONE;
+
+        return {area:this.areaState,areaName:this.areaName, blueGauge:this.blueGauge, redGauge:this.redGauge,isOccupy};
     }
 
     canMission(user) {
@@ -69,7 +71,7 @@ class Area {
     }
 
     occupy() {
-        this.occupyTeam = this.blueGauge >= 1 ? team.BLUE : team.RED;
+        this.occupyTeam = this.blueGauge >= this.redGauge ? team.BLUE : team.RED;
 
         clearTimeout(this.curTimer);
         this.curTimer = setTimeout(this.startTimer.bind(this),this.occupyTime);

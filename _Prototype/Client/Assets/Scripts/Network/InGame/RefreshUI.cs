@@ -66,7 +66,7 @@ public class RefreshUI : ISetAble
         {
             if (ov.area != user.Area) continue;
 
-            if (occupyUI.IsOpen)
+            if (occupyUI.IsOpen || ov.isOccupy)
             {
                 occupyUI.UpdateUI(ov.redGauge, ov.blueGauge);
             }
