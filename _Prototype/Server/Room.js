@@ -64,11 +64,17 @@ class Room {
         }
     }
 
+    IsAbleMission(data) {
+        
+    }
+
     getSelectedIdList(team) {
         return this.selectedIdList[team];
     }
 
     setSpawnerData(socket,data) {
+        let userTeam = data.team == team.RED ? team.RED : team.BLUE;
+
         let value = data.team == team.RED ? this.redSpawnerList[data.missionType] : this.blueSpawnerList[data.missionType];
 
         if(data.isOpen && value[data.spawnerId] !== undefined) {
