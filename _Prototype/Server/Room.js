@@ -64,16 +64,15 @@ class Room {
         }
     }
 
-    IsAbleMission(data) {
-        
-    }
-
     getSelectedIdList(team) {
         return this.selectedIdList[team];
     }
 
     setSpawnerData(socket,data) {
-        let userTeam = data.team == team.RED ? team.RED : team.BLUE;
+        if(!this.areaList[data.area].canMission(this.userList[socket.id])) {
+            sendError("현재 이 미션을 이용하실 수 없습니다.", socket);
+            return;
+        }
 
         let value = data.team == team.RED ? this.redSpawnerList[data.missionType] : this.blueSpawnerList[data.missionType];
 

@@ -66,7 +66,14 @@ public class RefreshUI : ISetAble
         {
             if (ov.area != user.Area) continue;
 
-            if (occupyUI.IsOpen || ov.isOccupy)
+            if(ov.isOccupy)
+            {
+                occupyUI.UpdateUI(ov.redGauge, ov.blueGauge);
+                MissionPanel.Instance.CloseGetMissionPanel();
+                break;
+            }
+
+            if (occupyUI.IsOpen)
             {
                 occupyUI.UpdateUI(ov.redGauge, ov.blueGauge);
             }
