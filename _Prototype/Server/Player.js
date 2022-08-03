@@ -11,7 +11,7 @@ class Player {
         this.socketId = -1;
         this.charId = 0;
         this.roomNum = -1;
-        this.areaState = AreaState.None;
+        this.area = AreaState.None;
 
         this.master = false;
         this.ready = false;
@@ -40,7 +40,7 @@ class Player {
         this.roomNum = 0;
         this.charId = 0;
         this.master = false; 
-        this.areaState = 0;
+        this.area = 0;
         this.ready = false;
 
         this.curTeam = team.NONE;

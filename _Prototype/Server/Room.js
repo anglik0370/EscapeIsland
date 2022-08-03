@@ -130,18 +130,17 @@ class Room {
         if(user !== undefined) {
 
             let isBlue = user.curTeam == team.BLUE;
-
-            if(user.areaState == areaState) {
+            if(user.area == areaState) {
                 //구역이 같음
                 return;
             }
 
-            if(this.areaList[user.areaState] !== undefined) {
-                this.areaList[user.areaState].removeUserList(isBlue);
+            if(this.areaList[user.area] !== undefined) {
+                this.areaList[user.area].removeUserList(isBlue);
                 socket.send(JSON.stringify({type:"REFRESH_AREA",payload:JSON.stringify({isOpen:false})}))
             }
 
-            this.userList[socket.id].areaState = areaState;
+            this.userList[socket.id].area = areaState;
 
             if(this.areaList[areaState] !== undefined) {
                 this.areaList[areaState].addUserList(isBlue);
