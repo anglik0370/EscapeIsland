@@ -3,19 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum CharacterType
-{
-    Amber = 0,
-    Cherry,
-    IAN,
-    Joshua,
-    Rai,
-    Randy,
-    Sarsu,
-    Wonsong,
-    Ander
-}
-
 public class SkillManager : MonoBehaviour
 {
     private const int AMBER = 0;
