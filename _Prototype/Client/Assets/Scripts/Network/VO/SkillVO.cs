@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class SkillVO
 {
-    public SkillType skillType;
+    public CharacterType skillType;
     public int useSkillPlayerId;
     public int targetId;
     public string skillName;
@@ -17,7 +17,7 @@ public class SkillVO
     /// 기본 생성자
     /// </summary>
     /// <param name="type"></param>
-    public SkillVO(SkillType type,int useSkillPlayerId,string skillName)
+    public SkillVO(CharacterType type,int useSkillPlayerId,string skillName)
     {
         this.skillType = type;
         this.useSkillPlayerId = useSkillPlayerId;
@@ -30,7 +30,7 @@ public class SkillVO
     /// </summary>
     /// <param name="skillType"></param>
     /// <param name="team"></param>
-    public SkillVO(SkillType skillType, int useSkillPlayerId, Team team,string skillName)
+    public SkillVO(CharacterType skillType, int useSkillPlayerId, Team team,string skillName)
     {
         this.skillType = skillType;
         this.useSkillPlayerId = useSkillPlayerId;
@@ -42,7 +42,7 @@ public class SkillVO
     /// 레이 생성자
     /// </summary>
     /// <param name="targetId"></param>
-    public SkillVO(SkillType skillType,int useSkillPlayerId, int targetId,string skillName)
+    public SkillVO(CharacterType skillType,int useSkillPlayerId, int targetId,string skillName)
     {
         this.skillType = skillType;
         this.useSkillPlayerId = useSkillPlayerId;
@@ -55,7 +55,7 @@ public class SkillVO
     /// </summary>
     /// <param name="team"></param>
     /// <param name="targetIdList"></param>
-    public SkillVO(SkillType skillType,int useSkillPlayerId, Team team, List<int> targetIdList, string skillName)
+    public SkillVO(CharacterType skillType,int useSkillPlayerId, Team team, List<int> targetIdList, string skillName)
     {
         this.skillType = skillType;
         this.useSkillPlayerId = useSkillPlayerId;

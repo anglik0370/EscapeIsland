@@ -43,28 +43,28 @@ public class Skill : ISetAble
     {
         switch (skillData.skillType)
         {
-            case SkillType.Amber:
+            case CharacterType.Amber:
                 break;
-            case SkillType.Cherry:
+            case CharacterType.Cherry:
                 CherrySkill();
                 break;
-            case SkillType.IAN:
+            case CharacterType.IAN:
                 RemoveAllDebuff();
                 break;
-            case SkillType.Joshua:
+            case CharacterType.Joshua:
                 JoshuaSkill();
                 break;
-            case SkillType.Rai:
+            case CharacterType.Rai:
                 RaiSkill();
                 break;
-            case SkillType.Randy:
+            case CharacterType.Randy:
                 DissRap();
                 break;
-            case SkillType.Sarsu:
+            case CharacterType.Sarsu:
                 break;
-            case SkillType.Wonsong:
+            case CharacterType.Wonsong:
                 break;
-            case SkillType.Ander:
+            case CharacterType.Ander:
                 break;
             default:
                 break;
