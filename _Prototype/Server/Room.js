@@ -26,6 +26,7 @@ class Room {
 
         this.inGameTimer = new InGameTimer(this,20,() => {});
         this.arsonTimer = new ArsonTimer(this,20, () => this.arsonCallback());
+        this.altarTimer = new Timer(this,30,() => {});
 
         this.skipCount = 0;
 
@@ -90,6 +91,17 @@ class Room {
 
         socket.send(JSON.stringify({type:"OPEN_MISSION",
         payload:null}));
+    }
+
+    altar(socket,data) {
+        if(this.altarTimer.isTimer) {
+            sendError("쿨타임 도는중",socket);
+            return;
+        }
+
+        this.broadcast(JSON.stringify({type:"ALTAR",
+        payload:JSON.stringify(data)}))
+        this.altarTimer.startTimer(true);
     }
 
     arsonCallback() {
@@ -221,6 +233,7 @@ class Room {
         
         this.inGameTimer.stopTimer(true);
         this.arsonTimer.stopTimer(true);
+        this.altarTimer.stopTimer(true);
 
         let key = Object.keys(this.areaList);
 
