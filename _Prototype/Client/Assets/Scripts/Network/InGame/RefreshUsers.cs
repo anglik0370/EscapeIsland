@@ -136,6 +136,8 @@ public class RefreshUsers : ISetAble
             EventManager.OccurEnterRoom(user);
         }
 
+        MapPanel.Instance.InitMapAreaInfoUI();
+
         foreach (UserVO uv in userDataList)
         {
             if (uv.socketId != socketId)
@@ -159,6 +161,11 @@ public class RefreshUsers : ISetAble
                     p.SetTransform(uv.position);
 
                     p.Area = uv.area;
+
+                    if(user.CurTeam == p.CurTeam)
+                    {
+                        MapPanel.Instance.GetMapAreaInfoUI(p.Area).Add(p.curSO.profileImg);
+                    }
 
                     if (uv.voiceData != null && uv.voiceData.Length > 0)
                     {

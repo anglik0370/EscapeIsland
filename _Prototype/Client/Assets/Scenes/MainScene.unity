@@ -6650,7 +6650,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 717745135}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Panel, Assembly-CSharp
         m_MethodName: Close
         m_Mode: 6
@@ -12059,6 +12059,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8605027170413563905, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
+      propertyPath: area
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
 --- !u!224 &370947773 stripped
@@ -14995,6 +14999,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8605027170413563905, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
+      propertyPath: area
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
 --- !u!224 &453434454 stripped
@@ -16396,6 +16404,10 @@ PrefabInstance:
     - target: {fileID: 1901558197180460990, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605027170413563905, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
+      propertyPath: area
+      value: 128
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
@@ -23908,6 +23920,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8605027170413563905, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
+      propertyPath: area
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
 --- !u!224 &706261987 stripped
@@ -24466,7 +24482,7 @@ GameObject:
   - component: {fileID: 717745131}
   - component: {fileID: 717745133}
   - component: {fileID: 717745134}
-  - component: {fileID: 717745135}
+  - component: {fileID: 717745132}
   m_Layer: 5
   m_Name: MapPanel
   m_TagString: Untagged
@@ -24495,6 +24511,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &717745132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717745130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a18a17d8bc5b76409177fa299c43bab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &717745133
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24515,18 +24543,6 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!114 &717745135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 717745130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e26a131333a2b6f41a163aef7669d75d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &720967639
 GameObject:
   m_ObjectHideFlags: 0
@@ -33147,6 +33163,10 @@ PrefabInstance:
     - target: {fileID: 1901558197180460990, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605027170413563905, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
+      propertyPath: area
+      value: 1024
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
@@ -58710,6 +58730,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8605027170413563905, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
+      propertyPath: area
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
 --- !u!224 &1678794251 stripped
@@ -59693,6 +59717,10 @@ PrefabInstance:
     - target: {fileID: 1901558197180460990, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605027170413563905, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
+      propertyPath: area
+      value: 512
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
@@ -65551,7 +65579,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 717745135}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Panel, Assembly-CSharp
         m_MethodName: Open
         m_Mode: 6
@@ -69147,6 +69175,10 @@ PrefabInstance:
     - target: {fileID: 1901558197180460990, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605027170413563905, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}
+      propertyPath: area
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daa60a8ef8723c4ba43cb0a69b684fd, type: 3}

@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class MapAreaInfoUI : MonoBehaviour
 {
     [SerializeField]
-    private List<Sprite> profileSpriteList = new List<Sprite>();
+    private Area area;
+    public Area Area => area;
 
     private List<Image> profileImgList = new List<Image>();
 
@@ -28,27 +29,24 @@ public class MapAreaInfoUI : MonoBehaviour
         });
     }
 
-    private void Init()
+    public void Init()
     {
+        userCount = 0;
+
         for (int i = 0; i < profileImgList.Count; i++)
         {
             profileImgList[i].color = UtilClass.limpidityColor;
         }
     }
 
-    public void Add(CharacterType type)
+    public void Add(Sprite sprite)
     {
         if(userCount < profileImgList.Count)
         {
-            profileImgList[++userCount].color = UtilClass.opacityColor;
-        }
-    }
+            userCount++;
 
-    public void Sub()
-    {
-        if(userCount > 0)
-        {
-            profileImgList[--userCount].color = UtilClass.limpidityColor;
+            profileImgList[userCount].sprite = sprite;
+            profileImgList[userCount].color = UtilClass.opacityColor;
         }
     }
 }
