@@ -19,7 +19,7 @@ public class LogTable : MonoBehaviour, IInteractionObject
     public InteractionSO InGameHandlerSO => GetInteractionSO();
 
     public Action LobbyCallback => () => CharacterSelectPanel.Instance.Open();
-    public Action IngameCallback => () => { };
+    public Action IngameCallback => () => AltarPanel.Instance.Open();
 
     public bool CanInteraction => true;
 

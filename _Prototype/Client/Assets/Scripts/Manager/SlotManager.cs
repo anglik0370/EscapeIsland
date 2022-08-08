@@ -240,6 +240,18 @@ public class SlotManager : MonoBehaviour
                     }
                 }
             }
+            else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.AltarSlot)
+            {
+
+            }
+            else if (beginSlot.Kind == ItemSlot.SlotKind.AltarSlot && endSlot.Kind == ItemSlot.SlotKind.Inventory)
+            {
+                if (endSlot.IsEmpty)
+                {
+                    endSlot.SetItem(beginSlot.GetItem());
+                    beginSlot.SetItem(null);
+                }
+            }
             else
             {
                 print($"Begin = {beginSlot.transform.gameObject.name}, End = {endSlot.transform.gameObject.name}");

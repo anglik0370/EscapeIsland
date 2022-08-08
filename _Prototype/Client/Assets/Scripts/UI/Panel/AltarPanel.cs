@@ -6,10 +6,7 @@ using UnityEngine.UI;
 
 public class AltarPanel : Panel
 {
-    [SerializeField]
-    private int maxItemCnt = 0;
-    [SerializeField]
-    private int itemCnt = 0;
+    public static AltarPanel Instance { get; private set; }
 
     [SerializeField]
     private Transform slotParentTrm;
@@ -42,7 +39,7 @@ public class AltarPanel : Panel
             0,15,20,25
         };
 
-        maxItemCnt = slots.Count;
+        Instance = this;
     }
 
     protected override void Start()
@@ -90,23 +87,5 @@ public class AltarPanel : Panel
         }
 
         SendManager.Instance.SendAltar(new AltarVO(NetworkManager.instance.socketId, buffId));
-    }
-
-    public void DropItem()
-    {
-        if(itemCnt < maxItemCnt)
-        {
-            itemCnt++;
-        }
-        else
-        {
-            itemCnt = 0;
-
-            //슬롯 초기화 해주고
-            slots.ForEach(x => x.SetItem(null));
-
-            //여기서 버프를 주면 됨
-
-        }
     }
 }

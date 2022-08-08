@@ -4,5 +4,33 @@ using UnityEngine;
 
 public class Altar : ISetAble
 {
-    
+    private AltarVO data;
+
+    private bool isAltar = false;
+
+    public void SetAltarData(AltarVO vo)
+    {
+        lock(lockObj)
+        {
+            data = vo;
+            isAltar = true;
+        }
+    }
+
+    private void Update()
+    {
+        if(isAltar)
+        {
+            AltarFunc();
+            isAltar = false;
+        }
+    }
+
+    private void AltarFunc()
+    {
+        if(data.id.Equals(user.socketId))
+        {
+            BuffManager.Instance.GetBuffSO(data.altarBuffId)?.InitializeBuff(user.gameObject);
+        }
+    }
 }

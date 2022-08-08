@@ -8,6 +8,6 @@ public class AltarHandler : IMsgHandler<Altar>
     {
         base.HandleMsg(payload);
 
-
+        generic.SetAltarData(JsonUtility.FromJson<AltarVO>(payload));
     }
 }
