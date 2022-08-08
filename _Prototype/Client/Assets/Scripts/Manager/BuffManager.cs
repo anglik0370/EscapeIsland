@@ -9,9 +9,22 @@ public class BuffManager : MonoBehaviour
 
     private List<BuffSO> buffList;
 
+    private int minAltarId = 200;
+    private int maxAltarId = 200;
+
     private void Awake()
     {
         buffList = Resources.LoadAll<BuffSO>("BuffSO").ToList();
+
+        for (int i = 0; i < buffList.Count; i++)
+        {
+            BuffSO buff = buffList[i];
+            if (buff.id >= 200)
+            {
+                maxAltarId = Mathf.Max(maxAltarId, buff.id);
+            }
+        }
+        maxAltarId++;
 
         Instance = this;
     }
@@ -19,5 +32,10 @@ public class BuffManager : MonoBehaviour
     public BuffSO GetBuffSO(int id)
     {
         return buffList.Find(buff => buff.id.Equals(id));
+    }
+
+    public int GetAltarBuffId()
+    {
+        return Random.Range(minAltarId, maxAltarId);
     }
 }

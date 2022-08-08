@@ -5,6 +5,8 @@ class Timer {
 
         this.sec = 1;
 
+        this.isTimer = false;
+
         this.curTimer = undefined;
 
         this.interval = 1000;
@@ -38,10 +40,12 @@ class Timer {
         }
         this.expected = Date.now() + 1000;
         this.curTimer = setTimeout(this.timer.bind(this),this.interval);
+        this.isTimer = true;
     }
 
     stopTimer(isInit = false) {
         clearTimeout(this.curTimer);
+        this.isTimer = false;
 
         if(isInit)
             this.initTimer();
@@ -53,6 +57,7 @@ class Timer {
         if(this.timeReferesh()) {
             //게임끝
             this.callback();
+            this.isTimer = false;
             return;
         }
 

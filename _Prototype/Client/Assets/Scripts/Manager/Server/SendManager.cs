@@ -212,4 +212,11 @@ public class SendManager : MonoBehaviour
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
+
+    public void SendAltar(AltarVO vo)
+    {
+        DataVO dataVO = new DataVO("ALTAR", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 }
