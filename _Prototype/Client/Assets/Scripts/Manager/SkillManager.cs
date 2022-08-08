@@ -75,13 +75,21 @@ public class SkillManager : MonoBehaviour
         List<Player> playerList = NetworkManager.instance.GetPlayerList();
         List<int> socketIdList = new List<int>();
 
-        WideAreaSkillSO cherrySO = (WideAreaSkillSO)skillList[CHERRY];
+        //WideAreaSkillSO cherrySO = (WideAreaSkillSO)skillList[CHERRY];
+
+        //foreach (Player p in playerList)
+        //{
+        //    if(Vector2.Distance(user.transform.position,p.transform.position) <= cherrySO.skillRange)
+        //    {
+        //        socketIdList.Add(p.socketId);
+        //    }
+        //}
 
         foreach (Player p in playerList)
         {
-            if(Vector2.Distance(user.transform.position,p.transform.position) <= cherrySO.skillRange)
+            if(user.Area.Equals(p.Area)) //같은 구역 안에 있다면
             {
-                socketIdList.Add(p.socketId);
+                socketIdList.Add(p.socketId); //버프 적용해
             }
         }
 

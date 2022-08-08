@@ -75,7 +75,7 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     {
         if(!isInteractionAble)
         {
-            curCoolTime -= (Time.deltaTime / coolTimeMag);
+            curCoolTime -= (Time.deltaTime * coolTimeMag);
 
             if(curCoolTime <= 0f)
             {
