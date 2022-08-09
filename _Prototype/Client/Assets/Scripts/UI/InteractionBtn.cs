@@ -16,6 +16,7 @@ public enum InteractionCase
     GameStart,
     SelectCharacter,
     Ready,
+    Altar,
 }
 
 public class InteractionBtn : MonoBehaviour
