@@ -206,6 +206,11 @@ public class InteractionBtn : MonoBehaviour
             coolTimeImg.fillAmount = spawner.GetFillCoolTime();
             btnImg.raycastTarget = spawner.isInteractionAble;
         }
+        else if(state == InteractionCase.Altar)
+        {
+            coolTimeImg.fillAmount = AltarPanel.Instance.GetAmount();
+            btnImg.raycastTarget = AltarPanel.Instance.IsAltarAble;
+        }
         else
         {
             coolTimeImg.fillAmount = 0f;

@@ -33,6 +33,14 @@ public class AltarPanel : Panel
 
     private BuffSO lastBuff = null;
 
+    [Header("AltarTimter")]
+    [SerializeField]
+    private float maxTime = 30f;
+    private float remainTime = 30f;
+
+    private bool isAltarAble = false;
+    public bool IsAltarAble => isAltarAble;
+
     protected override void Awake()
     {
         base.Awake();
@@ -50,9 +58,44 @@ public class AltarPanel : Panel
     protected override void Start()
     {
         base.Start();
+
+        InitTimer(true);
         SetProbability();
         offerBtn.onClick.AddListener(OnClickOfferBtn);
     }
+
+    private void Update()
+    {
+        if(!isAltarAble)
+        {
+            remainTime -= Time.deltaTime;
+
+            if(remainTime <= 0f)
+            {
+                isAltarAble = true;
+            }
+        }
+    }
+
+    #region AltarTimer
+    public float GetAmount()
+    {
+        return remainTime / maxTime;
+    }
+
+    public void InitTimer(bool isStart = false)
+    {
+        if(isStart)
+        {
+            remainTime = 0f;
+            isAltarAble = true;
+            return;
+        }
+
+        remainTime = maxTime;
+        isAltarAble = false;
+    }
+    #endregion
 
     public void SetProbability()
     {
