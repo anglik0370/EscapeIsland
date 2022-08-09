@@ -10,6 +10,7 @@ public class MapAreaInfoUI : MonoBehaviour
     private Area area;
     public Area Area => area;
 
+    [SerializeField]
     private List<Image> profileImgList = new List<Image>();
 
     private int userCount;

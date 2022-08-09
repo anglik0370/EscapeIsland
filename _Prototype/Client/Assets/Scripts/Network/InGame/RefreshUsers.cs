@@ -162,9 +162,14 @@ public class RefreshUsers : ISetAble
 
                     p.Area = uv.area;
 
-                    if(user.CurTeam == p.CurTeam)
+                    if (user.CurTeam == p.CurTeam)
                     {
-                        MapPanel.Instance.GetMapAreaInfoUI(p.Area).Add(p.curSO.profileImg);
+                        MapAreaInfoUI ui = MapPanel.Instance.GetMapAreaInfoUI(p.Area);
+
+                        if(ui != null)
+                        {
+                            ui.Add(p.curSO.profileImg);
+                        }
                     }
 
                     if (uv.voiceData != null && uv.voiceData.Length > 0)

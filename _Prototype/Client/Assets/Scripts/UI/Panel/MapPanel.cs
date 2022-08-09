@@ -6,7 +6,8 @@ public class MapPanel : Panel
 {
     public static MapPanel Instance { get; private set; }
 
-    private Dictionary<Area, MapAreaInfoUI> mapAreaInfoDic = new Dictionary<Area, MapAreaInfoUI>();
+    [SerializeField]
+    private SerializableDictionary<Area, MapAreaInfoUI> mapAreaInfoDic = new SerializableDictionary<Area, MapAreaInfoUI>();
 
     protected override void Awake()
     {
@@ -39,6 +40,7 @@ public class MapPanel : Panel
 
         if(mapAreaInfoDic.ContainsKey(area))
         {
+            print("ÀÖ¾î");
             mapAreaInfoUI = mapAreaInfoDic[area];
         }
 

@@ -125,6 +125,8 @@ public class PlayerManager : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(STATE_UPDATE_DELAY);
         bool isTouching;
 
+        player.SetAreaState(Area.Altar);
+
         while (true)
         {
             isTouching = false;
@@ -133,6 +135,8 @@ public class PlayerManager : MonoBehaviour
             {
                 if(Physics2D.IsTouching(ac.collider, player.FootCollider))
                 {
+                    print(ac.area);
+
                     player.SetAreaState(ac.area);
                     isTouching = true;
                     break;
@@ -141,7 +145,7 @@ public class PlayerManager : MonoBehaviour
 
             if (!isTouching)
             {
-                player.SetAreaState(Area.None);
+                //player.SetAreaState(Area.None);
             }
 
             //if(areaList.Contains(player.Area))

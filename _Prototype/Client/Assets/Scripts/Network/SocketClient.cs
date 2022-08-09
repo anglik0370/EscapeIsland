@@ -7,7 +7,7 @@ using WebSocketSharp;
 
 public class SocketClient : MonoBehaviour
 {
-    private string url = "54.180.103.32";
+    private string url = "54.180.26.46";
     public int port = 31012;
 
     public GameObject handlerParent;
