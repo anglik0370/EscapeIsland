@@ -11,5 +11,10 @@ public abstract class BuffSO : ScriptableObject
     public bool isEffectStacked;
     public bool isBuffed;
 
+    /// <summary>
+    /// Á¦´Ü¿ë
+    /// </summary>
+    public string buffExplanation;
+
     public abstract TimedBuff InitializeBuff(GameObject obj);
 }

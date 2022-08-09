@@ -119,6 +119,11 @@ public class AltarPanel : Panel
         probabilityText.text = $"{currentProbability}%";
     }
 
+    public void SetEffectText(string msg)
+    {
+        effectText.text = msg;
+    }
+
     private void SetFillImg()
     {
         probabilityFillImg.fillAmount = (float)currentProbability / 100;
