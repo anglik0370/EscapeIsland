@@ -38,7 +38,6 @@ public class Altar : ISetAble
                 so.InitializeBuff(user.gameObject);
             }
         }
-        AltarPanel.Instance.InitTimer();
-
+        AltarPanel.Instance.ClosePanel(1f);
     }
 }
