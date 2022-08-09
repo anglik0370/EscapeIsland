@@ -164,12 +164,7 @@ public class RefreshUsers : ISetAble
 
                     if (user.CurTeam == p.CurTeam)
                     {
-                        MapAreaInfoUI ui = MapPanel.Instance.GetMapAreaInfoUI(p.Area);
-
-                        if(ui != null)
-                        {
-                            ui.Add(p.curSO.profileImg);
-                        }
+                        MapPanel.Instance.GetMapAreaInfoUI(p.Area).Add(p.curSO.profileImg);
                     }
 
                     if (uv.voiceData != null && uv.voiceData.Length > 0)
@@ -177,6 +172,13 @@ public class RefreshUsers : ISetAble
                         p.PlayVoice(MicManager.Instance.GetClip(uv.voiceData));
                         print("play");
                     }
+                }
+            }
+            else
+            {
+                if(user != null)
+                {
+                    MapPanel.Instance.GetMapAreaInfoUI(user.Area).Add(user.curSO.profileImg);
                 }
             }
         }

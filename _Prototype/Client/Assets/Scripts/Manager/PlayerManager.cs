@@ -135,8 +135,6 @@ public class PlayerManager : MonoBehaviour
             {
                 if(Physics2D.IsTouching(ac.collider, player.FootCollider))
                 {
-                    print(ac.area);
-
                     player.SetAreaState(ac.area);
                     isTouching = true;
                     break;

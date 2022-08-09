@@ -39,9 +39,13 @@ public class MapPanel : Panel
         MapAreaInfoUI mapAreaInfoUI = null;
 
         if(mapAreaInfoDic.ContainsKey(area))
-        {
-            print("ÀÖ¾î");
+        { 
             mapAreaInfoUI = mapAreaInfoDic[area];
+        }
+
+        if(mapAreaInfoUI == null)
+        {
+            mapAreaInfoUI = mapAreaInfoDic[Area.Altar];
         }
 
         return mapAreaInfoUI;
