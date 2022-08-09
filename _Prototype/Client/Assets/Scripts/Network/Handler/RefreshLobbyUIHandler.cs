@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefreshLobbyUiHandler : MonoBehaviour, IMsgHandler
+public class RefreshLobbyUIHandler : MonoBehaviour, IMsgHandler
 {
     public void HandleMsg(string payload)
     {
