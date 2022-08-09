@@ -19,6 +19,8 @@ public class AltarPanel : Panel
     private Image probabilityFillImg;
 
     [SerializeField]
+    private Text probabilityText;
+    [SerializeField]
     private Text effectText;
 
     [SerializeField]
@@ -30,6 +32,14 @@ public class AltarPanel : Panel
     private List<int> probabilityList;
 
     private BuffSO lastBuff = null;
+
+    [Header("AltarTimter")]
+    [SerializeField]
+    private float maxTime = 30f;
+    private float remainTime = 30f;
+
+    private bool isAltarAble = false;
+    public bool IsAltarAble => isAltarAble;
 
     protected override void Awake()
     {
@@ -49,10 +59,45 @@ public class AltarPanel : Panel
     {
         base.Start();
 
+        InitTimer(true);
+        SetProbability();
         offerBtn.onClick.AddListener(OnClickOfferBtn);
     }
 
-    private void OnClickOfferBtn()
+    private void Update()
+    {
+        if(!isAltarAble)
+        {
+            remainTime -= Time.deltaTime;
+
+            if(remainTime <= 0f)
+            {
+                isAltarAble = true;
+            }
+        }
+    }
+
+    #region AltarTimer
+    public float GetAmount()
+    {
+        return remainTime / maxTime;
+    }
+
+    public void InitTimer(bool isStart = false)
+    {
+        if(isStart)
+        {
+            remainTime = 0f;
+            isAltarAble = true;
+            return;
+        }
+
+        remainTime = maxTime;
+        isAltarAble = false;
+    }
+    #endregion
+
+    public void SetProbability()
     {
         currentProbability = defaultProbability;
 
@@ -60,7 +105,7 @@ public class AltarPanel : Panel
         {
             AltarSlot slot = slots[i];
 
-            if(slot.IsEmpty) continue;
+            if (slot.IsEmpty) continue;
 
             currentProbability += probabilityList[slot.GetItem().tier];
         }
@@ -70,10 +115,26 @@ public class AltarPanel : Panel
             currentProbability += lastBuffIsNerfProbability;
         }
 
+        SetFillImg();
+        probabilityText.text = $"{currentProbability}%";
+    }
+
+    private void SetFillImg()
+    {
+        probabilityFillImg.fillAmount = (float)currentProbability / 100;
+    }
+
+    private void OnClickOfferBtn()
+    {
         if(currentProbability <= defaultProbability)
         {
             UIManager.Instance.AlertText("최소 한개 이상의 재료가 필요합니다.", AlertType.Warning);
             return;
+        }
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            slots[i].SetItem(null);
         }
 
         int idx = Random.Range(1, 101);

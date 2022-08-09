@@ -2591,7 +2591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nothingSO: {fileID: 11400000, guid: 2c46781745509fb4da20dea432282d2c, type: 2}
   lobbyHandlerSO: {fileID: 11400000, guid: 863400af48f22654fb3192b277c60157, type: 2}
-  ingameHandlerSO: {fileID: 11400000, guid: 2c46781745509fb4da20dea432282d2c, type: 2}
+  ingameHandlerSO: {fileID: 11400000, guid: c8c42c8746f849745a1197c0e19789c1, type: 2}
   interactionCol: {fileID: 58405529}
 --- !u!212 &98418185
 SpriteRenderer:
@@ -5332,7 +5332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  itemImgDepth: 0
+  itemImgDepth: 1
   kind: 10
 --- !u!222 &191386046
 CanvasRenderer:
@@ -36049,7 +36049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  itemImgDepth: 0
+  itemImgDepth: 1
   kind: 10
 --- !u!222 &1064701915
 CanvasRenderer:
@@ -51151,8 +51151,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ConvertPanel, Assembly-CSharp
+      - m_Target: {fileID: 495697092}
+        m_TargetAssemblyTypeName: Panel, Assembly-CSharp
         m_MethodName: Close
         m_Mode: 6
         m_Arguments:
@@ -66820,7 +66820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  itemImgDepth: 0
+  itemImgDepth: 1
   kind: 10
 --- !u!222 &1881118868
 CanvasRenderer:
