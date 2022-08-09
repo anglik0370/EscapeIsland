@@ -16,6 +16,9 @@ public class AltarPanel : Panel
     private Button offerBtn;
 
     [SerializeField]
+    private Image probabilityFillImg;
+
+    [SerializeField]
     private Text effectText;
 
     [SerializeField]
