@@ -16355,6 +16355,7 @@ MonoBehaviour:
   slotParentTrm: {fileID: 1653474668}
   offerBtn: {fileID: 452207551}
   probabilityFillImg: {fileID: 1599176933}
+  probabilityText: {fileID: 516209830}
   effectText: {fileID: 737687483}
   defaultProbability: 30
   lastBuffIsNerfProbability: 5
@@ -49518,12 +49519,12 @@ GameObject:
   - component: {fileID: 1437647247}
   - component: {fileID: 1437647249}
   - component: {fileID: 1437647250}
-  - component: {fileID: 1437647251}
   - component: {fileID: 1437647252}
   - component: {fileID: 1437647235}
   - component: {fileID: 1437647234}
   - component: {fileID: 1437647237}
   - component: {fileID: 1437647238}
+  - component: {fileID: 1437647240}
   m_Layer: 0
   m_Name: HandlerParent
   m_TagString: Untagged
@@ -49797,6 +49798,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a63a8f93b1e3f49ade04d9ca0bf5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1437647240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437647217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca22d72af92c82f4e96a7b2aabd92919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1437647241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49903,18 +49916,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84216e35bc5255c46919dedc2d012a80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1437647251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1437647217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca22d72af92c82f4e96a7b2aabd92919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1437647252
