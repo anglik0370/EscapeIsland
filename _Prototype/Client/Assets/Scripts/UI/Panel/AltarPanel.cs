@@ -19,6 +19,8 @@ public class AltarPanel : Panel
     private Image probabilityFillImg;
 
     [SerializeField]
+    private Text probabilityText;
+    [SerializeField]
     private Text effectText;
 
     [SerializeField]
@@ -48,11 +50,11 @@ public class AltarPanel : Panel
     protected override void Start()
     {
         base.Start();
-
+        SetProbability();
         offerBtn.onClick.AddListener(OnClickOfferBtn);
     }
 
-    private void OnClickOfferBtn()
+    public void SetProbability()
     {
         currentProbability = defaultProbability;
 
@@ -60,7 +62,7 @@ public class AltarPanel : Panel
         {
             AltarSlot slot = slots[i];
 
-            if(slot.IsEmpty) continue;
+            if (slot.IsEmpty) continue;
 
             currentProbability += probabilityList[slot.GetItem().tier];
         }
@@ -70,10 +72,26 @@ public class AltarPanel : Panel
             currentProbability += lastBuffIsNerfProbability;
         }
 
+        SetFillImg();
+        probabilityText.text = $"{currentProbability}%";
+    }
+
+    private void SetFillImg()
+    {
+        probabilityFillImg.fillAmount = (float)currentProbability / 100;
+    }
+
+    private void OnClickOfferBtn()
+    {
         if(currentProbability <= defaultProbability)
         {
             UIManager.Instance.AlertText("최소 한개 이상의 재료가 필요합니다.", AlertType.Warning);
             return;
+        }
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            slots[i].SetItem(null);
         }
 
         int idx = Random.Range(1, 101);

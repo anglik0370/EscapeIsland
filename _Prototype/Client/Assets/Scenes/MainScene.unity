@@ -5332,7 +5332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  itemImgDepth: 0
+  itemImgDepth: 1
   kind: 10
 --- !u!222 &191386046
 CanvasRenderer:
@@ -35883,7 +35883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  itemImgDepth: 0
+  itemImgDepth: 1
   kind: 10
 --- !u!222 &1064701915
 CanvasRenderer:
@@ -51477,8 +51477,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ConvertPanel, Assembly-CSharp
+      - m_Target: {fileID: 495697092}
+        m_TargetAssemblyTypeName: Panel, Assembly-CSharp
         m_MethodName: Close
         m_Mode: 6
         m_Arguments:
@@ -66654,7 +66654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  itemImgDepth: 0
+  itemImgDepth: 1
   kind: 10
 --- !u!222 &1881118868
 CanvasRenderer:

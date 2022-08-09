@@ -242,14 +242,22 @@ public class SlotManager : MonoBehaviour
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.AltarSlot)
             {
+                if (endSlot.IsEmpty)
+                {
+                    AltarSlot slot = endSlot as AltarSlot;
 
+                    slot.SetItem(beginSlot.GetItem());
+                    beginSlot.SetItem(null);
+                }
             }
             else if (beginSlot.Kind == ItemSlot.SlotKind.AltarSlot && endSlot.Kind == ItemSlot.SlotKind.Inventory)
             {
                 if (endSlot.IsEmpty)
                 {
+                    AltarSlot slot = beginSlot as AltarSlot;
+
                     endSlot.SetItem(beginSlot.GetItem());
-                    beginSlot.SetItem(null);
+                    slot.SetItem(null);
                 }
             }
             else
