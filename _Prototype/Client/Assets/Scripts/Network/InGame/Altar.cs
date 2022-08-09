@@ -30,8 +30,15 @@ public class Altar : ISetAble
     {
         if(data.id.Equals(user.socketId))
         {
-            AltarPanel.Instance.InitTimer();
-            BuffManager.Instance.GetBuffSO(data.altarBuffId)?.InitializeBuff(user.gameObject);
+            BuffSO so = BuffManager.Instance.GetBuffSO(data.altarBuffId);
+
+            if(so!= null)
+            {
+                AltarPanel.Instance.SetEffectText(so.buffExplanation);
+                so.InitializeBuff(user.gameObject);
+            }
         }
+        AltarPanel.Instance.InitTimer();
+
     }
 }
