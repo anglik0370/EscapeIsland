@@ -27,6 +27,10 @@ public class AltarPanel : Panel
     private int defaultProbability = 30;
     private int currentProbability = 30;
 
+    private float panelOffTime = 0.2f;
+
+    private WaitForSeconds panelOff;
+
     [SerializeField]
     private int lastBuffIsNerfProbability = 5;
     private List<int> probabilityList;
@@ -40,6 +44,8 @@ public class AltarPanel : Panel
 
     private bool isAltarAble = false;
     public bool IsAltarAble => isAltarAble;
+
+    public bool IsAltarPanelOpen { get; private set; }
 
     protected override void Awake()
     {
@@ -58,6 +64,8 @@ public class AltarPanel : Panel
     protected override void Start()
     {
         base.Start();
+
+        panelOff = new WaitForSeconds(panelOffTime);
 
         InitTimer(true);
         SetProbability();
@@ -96,6 +104,18 @@ public class AltarPanel : Panel
         isAltarAble = false;
     }
     #endregion
+
+    public void ClosePanel(float time)
+    {
+        InitTimer();
+
+        if (!IsAltarPanelOpen) return;
+
+        panelOffTime = time;
+        panelOff = new WaitForSeconds(time);
+
+        StartCoroutine(PanelOff());
+    }
 
     public void SetProbability()
     {
@@ -157,4 +177,27 @@ public class AltarPanel : Panel
 
         SendManager.Instance.SendAltar(new AltarVO(NetworkManager.instance.socketId, buffId));
     }
+
+    IEnumerator PanelOff()
+    {
+        yield return panelOff;
+
+        Close();
+    }
+
+    #region override 
+
+    public override void Open(bool isTweenSkip = false)
+    {
+        base.Open(isTweenSkip);
+
+        IsAltarPanelOpen = true;
+    }
+
+    public override void Close(bool isTweenSkip = false)
+    {
+        base.Close(isTweenSkip);
+        IsAltarPanelOpen = false;
+    }
+    #endregion
 }
