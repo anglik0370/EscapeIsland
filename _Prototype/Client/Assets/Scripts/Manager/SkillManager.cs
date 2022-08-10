@@ -136,6 +136,8 @@ public class SkillManager : MonoBehaviour
     private void SarsuSkill()
     {
         print($"{skillList[SARSU].skillName} »ç¿ë");
+
+        user.inventory.AddItem(MissionPanel.Instance.MissionItemList[Random.Range(0, MissionPanel.Instance.MissionItemList.Count)]);
     }
 
     private void WonsongSkill()
