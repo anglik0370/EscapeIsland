@@ -24,6 +24,10 @@ public class MissionPanel : Panel
     public static MissionPanel Instance { get; private set; }
 
     [SerializeField]
+    private List<ItemSO> missionItemList = new List<ItemSO>();
+    public List<ItemSO> MissionItemList => missionItemList;
+
+    [SerializeField]
     private List<IGetMission> getMissionList = new List<IGetMission>();
     private List<IStorageMission> storageMissionList = new List<IStorageMission>();
 
@@ -230,55 +234,5 @@ public class MissionPanel : Panel
     public IMission FindMissionByType(MissionType type)
     {
         return getMissionList.Find(x => x.MissionType.Equals(type));
-    }
-
-    public void OpenCoconut()
-    {
-        OpenGetMission(MissionType.Coconut);
-    }
-
-    public void OpenBerry()
-    {
-        OpenGetMission(MissionType.Berry);
-    }
-
-    public void OpenWood()
-    {
-        OpenGetMission(MissionType.Wood);
-    }
-
-    public void OpenOre()
-    {
-        OpenGetMission(MissionType.Ore);
-    }
-
-    public void OpenBottle()
-    {
-        OpenGetMission(MissionType.Bottle);
-    }
-
-    public void OpenWater()
-    {
-        OpenGetMission(MissionType.Water);
-    }
-
-    public void OpenEngine()
-    {
-        OpenGetMission(MissionType.Engine);
-    }
-
-    public void OpenCharge()
-    {
-        OpenGetMission(MissionType.Charge);
-    }
-
-    public void OpenBattery()
-    {
-        OpenGetMission(MissionType.Battery);
-    }
-
-    public void OpenSand()
-    {
-        OpenGetMission(MissionType.Sand);
     }
 }
