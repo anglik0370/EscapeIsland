@@ -268,11 +268,11 @@ public class EyesightManager : MonoBehaviour
             shadowList[3].SetActive(true);
         }
 
-        if(area == Area.ShipInside)
+        if(area == Area.RedShipInside)
         {
             objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.limpidityColor, duration)); //바다 끄기
         }
-        else if(oldArea == Area.ShipInside)
+        else if(oldArea == Area.RedShipInside)
         {
             objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.opacityColor, duration)); //바다 켜기
         }

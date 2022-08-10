@@ -15,9 +15,11 @@ public enum Area
     BottleRoom = 256,
     BlueLobby = 512,
     RedLobby = 1024,
-    ShipInside = 2048,
-    Ship = 4096,
+    BlueShipInside = 2048,
+    RedShipInside = 4096,
+    BlueShip = 8192,
+    RedShip = 16384,
 
-    OutSide = Forest | Field | Altar | BlueLobby | RedLobby | Ship | Beach,
-    InSide = Cave | EngineRoom | ChargeRoom | BatteryRoom | BottleRoom | ShipInside,
+    OutSide = Forest | Field | Altar | BlueLobby | RedLobby | BlueShip | RedShip | Beach,
+    InSide = Cave | EngineRoom | ChargeRoom | BatteryRoom | BottleRoom | BlueShipInside | RedShipInside,
 }

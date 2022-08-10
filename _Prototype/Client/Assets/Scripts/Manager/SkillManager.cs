@@ -62,16 +62,6 @@ public class SkillManager : MonoBehaviour
         List<Player> playerList = NetworkManager.instance.GetPlayerList();
         List<int> socketIdList = new List<int>();
 
-        //WideAreaSkillSO cherrySO = (WideAreaSkillSO)skillList[CHERRY];
-
-        //foreach (Player p in playerList)
-        //{
-        //    if(Vector2.Distance(user.transform.position,p.transform.position) <= cherrySO.skillRange)
-        //    {
-        //        socketIdList.Add(p.socketId);
-        //    }
-        //}
-
         foreach (Player p in playerList)
         {
             if(user.Area.Equals(p.Area)) //같은 구역 안에 있다면
@@ -129,7 +119,6 @@ public class SkillManager : MonoBehaviour
     private void RandySkill()
     {
         print($"{skillList[RANDY].skillName} 사용");
-        //SendManager.Instance.Send("DISS_RAP");
         SendManager.Instance.SendSKill(new SkillVO(CharacterType.Randy,user.socketId,PlayerManager.Instance.Player.CurTeam, skillList[RANDY].skillName));
     }
 
