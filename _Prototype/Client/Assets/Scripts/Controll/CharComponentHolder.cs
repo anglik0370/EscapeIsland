@@ -14,7 +14,10 @@ public class CharComponentHolder : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            anim = GetComponent<Animator>();
+        }
         srList = GetComponentsInChildren<SpriteRenderer>().ToList();
         boneTrmList = GetComponentsInChildren<Transform>().Where(x => x.gameObject.name.Contains(containStr)).ToList();
     }
