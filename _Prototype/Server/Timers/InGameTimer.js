@@ -34,6 +34,11 @@ class InGameTimer extends Timer{
             this.remainTime = this.maxTime;
             this.isLightTime = !this.isLightTime;
 
+            if(this.day >= 30) {
+                this.room.timerEnd();
+                return;
+            }
+
             this.room.broadcast(JSON.stringify({type:"TIME_REFRESH",payload:this.returnPayload()}));
         }
 

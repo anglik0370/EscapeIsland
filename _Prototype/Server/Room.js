@@ -277,12 +277,32 @@ class Room {
         this.broadcast(JSON.stringify({type:"STORAGE_DROP",payload:JSON.stringify(data)}));
 
         if(this.storageItemList[data.team].IsFullStorage()) {
-            this.setSpawnPos();
-    
-            let dataList = this.getUsersData();
-            this.broadcast(JSON.stringify({type:"WIN",payload:JSON.stringify({dataList,gameOverCase:data.team})}),true);
-            this.initRoom();
+            this.gameEnd(data.team);
         }
+    }
+
+    gameEnd(winTeam) {
+        this.setSpawnPos();
+    
+        let dataList = this.getUsersData();
+        this.broadcast(JSON.stringify({type:"WIN",payload:JSON.stringify({dataList,gameOverCase:winTeam})}),true);
+        this.initRoom();
+    }
+
+    timerEnd() {
+        let redAmount = this.storageItemList[team.RED].totalCollectedItemAmount;
+        let blueAmount = this.storageItemList[team.BLUE].totalCollectedItemAmount;
+
+        let winTeam = team.NONE;
+
+        if(redAmount == blueAmount) {
+            winTeam = team.NONE;
+        }
+        else {
+            winTeam = redAmount > blueAmount ? team.RED : team.BLUE
+        }
+
+        this.gameEnd(winTeam);
     }
 
     setTimersTime(socket){
