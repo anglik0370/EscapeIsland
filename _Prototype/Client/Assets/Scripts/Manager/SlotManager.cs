@@ -217,19 +217,19 @@ public class SlotManager : MonoBehaviour
                     int curItemCount = StorageManager.Instance.FindItemAmount(false, mission.Team, mission.StorageItem).amount;
                     int maxItemCount = StorageManager.Instance.FindItemAmount(true, mission.Team, mission.StorageItem).amount;
 
-                    if (StorageManager.Instance.IsItemFull(mission.Team))
-                    {
-                        //²ËÃ¡À¸´Ï ²ËÃ¡´Ù°í ¼­¹ö¿¡ º¸³»Áà¾ß ÇÑ´Ù.
-                        TeamVO vo = new TeamVO(mission.Team);
-                        DataVO dataVO = new DataVO("STORAGE_FULL", JsonUtility.ToJson(vo));
+                    //if (StorageManager.Instance.IsItemFull(mission.Team))
+                    //{
+                    //    //²ËÃ¡À¸´Ï ²ËÃ¡´Ù°í ¼­¹ö¿¡ º¸³»Áà¾ß ÇÑ´Ù.
+                    //    TeamVO vo = new TeamVO(mission.Team);
+                    //    DataVO dataVO = new DataVO("STORAGE_FULL", JsonUtility.ToJson(vo));
 
-                        Debug.Log("²ËÂü");
+                    //    Debug.Log("²ËÂü");
 
-                        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-                        return;
-                    }
+                    //    SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+                    //    return;
+                    //}
 
-                    if (curItemCount < maxItemCount)
+                    //if (curItemCount < maxItemCount)
                     {
                         if (msSlot.IsEmpty)
                         {
