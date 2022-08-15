@@ -15,6 +15,7 @@ const InGameTimer = require('./Timers/InGameTimer.js');
 const ArsonTimer = require('./Timers/ArsonTimer.js');
 
 const Area = require('./Area.js');
+const Storage = require('./Utils/Storage.js');
 
 class Room {
     constructor(roomName,roomNum,curUserNum,userNum,playing) {
@@ -29,10 +30,11 @@ class Room {
         this.altarTimer = new Timer(this,30,() => {});
 
         this.skipCount = 0;
+        this.isOnce = false;
 
         this.socketList = [];
-        this.storageItemList = [];
 
+        this.storageItemList = {};
         this.areaList = {};
         this.selectedIdList = {};
         this.userList = {};
@@ -42,6 +44,12 @@ class Room {
         this.initSpawnerList();
         this.initSelectedIdList();
         this.initAreaList();
+        this.initStorageItemList();
+    }
+
+    initStorageItemList() {
+        this.storageItemList[team.RED] = new Storage();
+        this.storageItemList[team.BLUE] = new Storage();
     }
 
     initAreaList() {
@@ -104,19 +112,19 @@ class Room {
         this.altarTimer.startTimer(true);
     }
 
-    arsonCallback() {
-        if(this.storageItemList.length <= 0)  {
-            return;
-        }
+    // arsonCallback() {
+    //     if(this.storageItemList.length <= 0)  {
+    //         return;
+    //     }
 
-        let idx = Math.floor(Math.random() * this.storageItemList.length);
-        let itemSOId = this.storageItemList[idx];
+    //     let idx = Math.floor(Math.random() * this.storageItemList.length);
+    //     let itemSOId = this.storageItemList[idx];
 
-        this.storageItemList.splice(idx,1);
+    //     this.storageItemList.splice(idx,1);
 
-        this.broadcast(JSON.stringify({type:"ARSON",
-        payload:JSON.stringify({team:this.arsonTimer.team,itemSOId})}));
-    }
+    //     this.broadcast(JSON.stringify({type:"ARSON",
+    //     payload:JSON.stringify({team:this.arsonTimer.team,itemSOId})}));
+    // }
 
     addVoiceData(socketId,voiceData) {
         this.userList[socketId].setVoiceData(voiceData);
@@ -185,7 +193,7 @@ class Room {
         return true;
     }
 
-    gameStart(socket) {
+    gameStart(socket,data) {
         if(socket.state !== SocketState.IN_ROOM){
             sendError("방이 아닌 곳에서 시도를 하였습니다.", socket);
             return;
@@ -210,6 +218,24 @@ class Room {
             sendError("모든 사람이 준비하지 않았습니다.",socket);
             return;
         }
+
+        //게임 데이터 세팅
+
+        if(!this.isOnce) {
+            for(let i = 0; i < data.itemAmountList.length; i++) {
+                let itemAmount = data.itemAmountList[i];
+    
+                this.storageItemList[team.RED].setItemAmount(itemAmount.itemId,itemAmount.amount);
+                this.storageItemList[team.BLUE].setItemAmount(itemAmount.itemId,itemAmount.amount);
+            }
+
+            this.isOnce = true;
+        }
+        else {
+            this.storageItemList[team.RED].initStorage();
+            this.storageItemList[team.BLUE].initStorage();
+        }
+        
 
         this.setSpawnPos();
         
@@ -241,9 +267,22 @@ class Room {
             this.areaList[key[i]].initTimer();
         }
 
-        this.storageItemList = [];
+        //this.initStorageItemList();
         this.initSelectedIdList();
         this.initSpawnerList();
+    }
+
+    storageDrop(data) {
+        this.storageItemList[data.team].addItemAmount(data.itemSOId);
+        this.broadcast(JSON.stringify({type:"STORAGE_DROP",payload:JSON.stringify(data)}));
+
+        if(this.storageItemList[data.team].IsFullStorage()) {
+            this.setSpawnPos();
+    
+            let dataList = this.getUsersData();
+            this.broadcast(JSON.stringify({type:"WIN",payload:JSON.stringify({dataList,gameOverCase:data.team})}),true);
+            this.initRoom();
+        }
     }
 
     setTimersTime(socket){

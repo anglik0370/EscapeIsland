@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 [System.Serializable]
 public class RoomVO
 {
@@ -6,6 +8,8 @@ public class RoomVO
     public int curUserNum;
     public int userNum;
     public int kidnapperNum;
+
+    public NeedItemVO data;
 
     public RoomVO()
     {
@@ -19,5 +23,34 @@ public class RoomVO
         this.curUserNum = curUserNum;
         this.userNum = userNum;
         this.kidnapperNum = kidnapperNum;
+    }
+}
+
+[System.Serializable]
+public class NeedItemVO
+{
+    public List<ItemAmountVO> itemAmountList;
+
+    public NeedItemVO(List<ItemAmountVO> data)
+    {
+        itemAmountList = data;
+    }
+}
+
+[System.Serializable]
+public class ItemAmountVO
+{
+    public int itemId;
+    public int amount;
+
+    public ItemAmountVO(int id, int amount)
+    {
+        this.itemId = id;
+        this.amount = amount;
+    }
+
+    public ItemAmountVO()
+    {
+
     }
 }

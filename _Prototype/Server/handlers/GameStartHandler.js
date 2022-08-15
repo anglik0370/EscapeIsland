@@ -7,6 +7,6 @@ module.exports = {
 
         if(room === undefined) return;
 
-        room.gameStart(socket);
+        room.gameStart(socket,data.data);
     }
 }

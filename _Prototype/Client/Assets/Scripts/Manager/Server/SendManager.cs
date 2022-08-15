@@ -12,6 +12,9 @@ public class SendManager : MonoBehaviour
 
     private Player user;
 
+    [SerializeField]
+    private NeedItemSO needItemSO;
+
     void Awake()
     {
         Instance = this;
@@ -77,7 +80,17 @@ public class SendManager : MonoBehaviour
         if (!user.master) return;
 
         RoomVO vo = new RoomVO();
+        List<ItemAmountVO> itemAmountList = new List<ItemAmountVO>();
         vo.roomNum = roomNum;
+
+        for (int i = 0; i < needItemSO.itemAmountList.Count; i++)
+        {
+            ItemAmount amount = needItemSO.itemAmountList[i];
+
+            itemAmountList.Add(new ItemAmountVO(amount.item.itemId,amount.amount));
+        }
+
+        vo.data = new NeedItemVO(itemAmountList);
 
         DataVO dataVO = new DataVO("GameStart", JsonUtility.ToJson(vo));
 

@@ -1,4 +1,5 @@
 const {Rooms} = require('../Rooms.js');
+const team = require('../Utils/Team.js');
 
 module.exports = {
     type:"STORAGE_DROP",
@@ -7,7 +8,6 @@ module.exports = {
         
         if(room === undefined) return;
         
-        room.storageItemList.push(data.itemSOId);
-        room.broadcast(JSON.stringify({type:"STORAGE_DROP",payload:JSON.stringify(data)}));
+        room.storageDrop(data);
     }
 }
