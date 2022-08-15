@@ -34,9 +34,12 @@ public class GameOverPanel : Panel
     private ColorPicker redTeamColor;
     [SerializeField]
     private ColorPicker blueTeamColor;
+    [SerializeField]
+    private ColorPicker noneColor;
 
     private readonly string BLUE_WIN = "ºí·çÆÀ ½Â¸®";
     private readonly string RED_WIN = "·¹µåÆÀ ½Â¸®";
+    private readonly string NONE = "½Â¸®ÀÚ°¡ ¾øÀ½";
 
     protected override void Awake()
     {
@@ -61,6 +64,10 @@ public class GameOverPanel : Panel
     {
         switch (gameOverCase)
         {
+            case GameOverCase.None:
+                SetWin(true, true);
+                CanvasGroupOpenAndClose(true);
+                break;
             case GameOverCase.BlueWin:
                 {
                     SetWin(true);
@@ -85,8 +92,15 @@ public class GameOverPanel : Panel
         NetworkManager.instance.GameEnd();
     }
 
-    private void SetWin(bool isBlueWin)
+    private void SetWin(bool isBlueWin,bool isNone = false)
     {
+        if(isNone)
+        {
+            topBar.color = noneColor.pickColor;
+            winText.text = NONE;
+            return;
+        }
+
         topBar.color = isBlueWin ? blueTeamColor.pickColor : redTeamColor.pickColor;
         winText.text = isBlueWin ? BLUE_WIN : RED_WIN;
     }
