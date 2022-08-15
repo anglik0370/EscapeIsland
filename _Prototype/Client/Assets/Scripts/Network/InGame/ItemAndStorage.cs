@@ -6,10 +6,8 @@ public class ItemAndStorage : ISetAble
 {
     public static ItemAndStorage Instance { get; private set; }
 
-    private bool needStorageFullRefresh = false;
     private bool needSetMissionCool = false;
 
-    private string msg = string.Empty;
     private ItemSpawnerVO missionData = null;
 
     private void Awake()
@@ -20,23 +18,10 @@ public class ItemAndStorage : ISetAble
 
     void Update()
     {
-        if (needStorageFullRefresh)
-        {
-            SetStorageFull();
-            needStorageFullRefresh = false;
-        }
         if(needSetMissionCool)
         {
             SetMissionCoolTime();
             needSetMissionCool = false;
-        }
-    }
-    public static void SetStorageFullData(string msg)
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.needStorageFullRefresh = true;
-            Instance.msg = msg;
         }
     }
     public static void SetMissionCool(ItemSpawnerVO vo)
@@ -46,12 +31,6 @@ public class ItemAndStorage : ISetAble
             Instance.missionData = vo;
             Instance.needSetMissionCool = true;
         }
-    }
-
-    public void SetStorageFull()
-    {
-        //msg¶ç¿öÁÖ±â
-        UIManager.Instance.AlertText(msg, AlertType.GameEvent);
     }
 
     public void SetMissionCoolTime()

@@ -118,21 +118,6 @@ public class GameStart : ISetAble
             }
         }
 
-        //if(user.isKidnapper)
-        //{
-        //    if(user.UI != null)
-        //    {
-        //        user.UI.SetNameTextColor(Color.red);
-        //    }
-
-        //    foreach (int key in playerList.Keys)
-        //    {
-        //        if(playerList[key].isKidnapper && playerList[key].UI != null)
-        //        {
-        //            playerList[key].UI.SetNameTextColor(Color.red);
-        //        }
-        //    }
-        //}
         EventManager.OccurGameInit();
         EventManager.OccurGameStart(user);
     }
