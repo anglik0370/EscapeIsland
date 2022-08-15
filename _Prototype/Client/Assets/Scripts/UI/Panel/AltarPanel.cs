@@ -135,6 +135,8 @@ public class AltarPanel : Panel
             currentProbability += lastBuffIsNerfProbability;
         }
 
+        if (currentProbability > 100) currentProbability = 100;
+
         SetFillImg();
         probabilityText.text = $"{currentProbability}%";
     }
