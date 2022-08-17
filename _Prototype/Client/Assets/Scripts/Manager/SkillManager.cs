@@ -14,6 +14,8 @@ public class SkillManager : MonoBehaviour
     private const int SARSU = 6;
     private const int WONSONG = 7;
     private const int ANDER = 8;
+    private const int SIMON = 9;
+    private const int LEON = 10;
 
     private List<SkillSO> skillList;
 
@@ -40,6 +42,8 @@ public class SkillManager : MonoBehaviour
         skillList[SARSU].Callback = SarsuSkill;
         skillList[WONSONG].Callback = WonsongSkill;
         skillList[ANDER].Callback = AnderSkill;
+        skillList[SIMON].Callback = SimonSkill;
+        skillList[LEON].Callback = LeonSkill;
     }
 
     private void Start()
