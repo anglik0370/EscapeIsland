@@ -200,7 +200,7 @@ public class Sabotage : ISetAble
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(ANDER_ID).InitializeBuff(user.gameObject));
         }
 
-        Trap trap = FindTrap(trapData.trapId);
+        Trap trap = FindTrap(trapData.id);
 
         if (trap != null)
         {

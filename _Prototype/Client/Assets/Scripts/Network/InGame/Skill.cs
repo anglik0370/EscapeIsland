@@ -7,15 +7,26 @@ public class Skill : ISetAble
     public static Skill Instance { get; private set; }
 
     private bool needSkillRefresh = false;
+    private bool needFlyPaperRefresh = false;
 
     private SkillVO skillData;
+    private FlyPaperVO flyPaperData;
 
     [SerializeField] private const int JOSHUA_BUFF_ID = 3;
     [SerializeField] private const int RAI_BUFF_ID = 4;
+    [SerializeField] private const int KION_BUFF_ID = 12;
 
     [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID = 111;
     [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID2 = 112;
     [SerializeField] private const int CHERRY_SAME_TEAM_BUFF_ID = 113;
+
+
+    [Header("기온")]
+    private List<FlyPaper> flyPaperList = new List<FlyPaper>();
+
+    [SerializeField] private FlyPaper flyPaperPrefab;
+
+    private int lastFlyPaperId = 1;
 
     private void Awake()
     {
@@ -29,14 +40,48 @@ public class Skill : ISetAble
             SkillRefresh();
             needSkillRefresh = false;
         }
+
+        if(needFlyPaperRefresh)
+        {
+            FlyPaperRefresh();
+            needFlyPaperRefresh = false;
+        }
     }
     public static void SetSkill(SkillVO vo)
     {
         lock(Instance.lockObj)
         {
-            Instance.needSkillRefresh = true;
             Instance.skillData = vo;
+            Instance.needSkillRefresh = true;
         }
+    }
+
+    public static void EnterFlyPaper(FlyPaperVO vo)
+    {
+        lock(Instance.lockObj)
+        {
+            Instance.flyPaperData = vo;
+            Instance.needFlyPaperRefresh = true;
+        }
+    }
+
+    private void FlyPaperRefresh()
+    {
+        FlyPaper flyPaper = flyPaperList.Find(x => x.id.Equals(flyPaperData.id) && x.userId.Equals(flyPaperData.userId));
+
+        if(flyPaper != null)
+        {
+            flyPaper.Init();
+        }
+
+        if (flyPaperData.socketId.Equals(user.socketId))
+        {
+            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(KION_BUFF_ID).InitializeBuff(user.gameObject));
+        }
+        //else if(playerList.TryGetValue(flyPaperData.socketId,out Player p))
+        //{
+        //    //이펙트 재생시 여기에서
+        //}
     }
 
     private void SkillRefresh()
@@ -66,9 +111,33 @@ public class Skill : ISetAble
                 break;
             case CharacterType.Ander:
                 break;
+            case CharacterType.Kion:
+                KionSkill();
+                break;
             default:
                 break;
         }
+    }
+
+    private void KionSkill()
+    {
+        CreateSkillLog(false);
+
+        FlyPaper paper = null;
+
+        if (flyPaperList.Count > 0)
+        {
+            paper = flyPaperList.Find(x => !x.gameObject.activeSelf);
+        }
+
+        if(paper == null)
+            paper = Instantiate(flyPaperPrefab, transform);
+
+        paper.id = lastFlyPaperId++;
+        paper.userId = skillData.useSkillPlayerId;
+        paper.team = skillData.team;
+        paper.transform.position = skillData.point;
+        paper.SetEnable();
     }
 
     private void DissRap()
