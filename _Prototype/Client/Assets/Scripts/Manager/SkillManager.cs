@@ -149,4 +149,53 @@ public class SkillManager : MonoBehaviour
         SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId,TRAP_NAME,PlayerManager.Instance.Player.CurTeam);
         trapCount++;
     }
+
+    private void SimonSkill()
+    {
+        //일단은 랜덤으로 구현
+        ItemSO item = ItemManager.Instance.ItemList[Random.Range(0, ItemManager.Instance.ItemList.Count)];
+
+        Team team = user.CurTeam == Team.RED ? Team.RED : Team.BLUE;
+
+        //여기를 동기화 해줘야됨
+        StorageManager.Instance.RemoveItem(team, item);
+
+        if (!user.inventory.IsAllSlotFull)
+        {
+            user.inventory.AddItem(item);
+        }
+    }
+
+    private void LeonSkill()
+    {
+        //상대팀만 가져와서
+        List<Player> playerList = NetworkManager.instance.GetPlayerList().Where(x => x.CurTeam != user.CurTeam).ToList();
+        //랜덤으로 한명 뽑고
+        Player targetPlayer = playerList[Random.Range(0, playerList.Count)];
+
+        List<int> targetIdxList = new List<int>();
+
+        for (int i = 0; i < targetPlayer.inventory.slotList.Count; i++)
+        {
+            if(targetPlayer.inventory.slotList[i].GetItem() != null)
+            {
+                targetIdxList.Add(i);
+            }
+        }
+
+        if(targetIdxList.Count == 0)
+        {
+            print("이러면 꽝이긴 한데");
+        }
+
+        int targetIdx = targetIdxList[Random.Range(0, targetIdxList.Count)];
+
+        if(!user.inventory.IsAllSlotFull)
+        {
+            user.inventory.AddItem(targetPlayer.inventory.slotList[targetIdx].GetItem());
+        }
+
+        //이부분을 동기화 해줘야됨 SetNull 하는 부분
+        targetPlayer.inventory.slotList[targetIdx].SetItem(null);
+    }
 }

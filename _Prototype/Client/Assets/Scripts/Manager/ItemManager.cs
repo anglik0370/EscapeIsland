@@ -9,6 +9,7 @@ public class ItemManager : MonoBehaviour
 
     [SerializeField]
     private List<ItemSO> itemList = new List<ItemSO>();
+    public List<ItemSO> ItemList => itemList;
 
     private void Awake()
     {
