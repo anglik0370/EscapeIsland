@@ -16,6 +16,7 @@ public class SkillManager : MonoBehaviour
     private const int ANDER = 8;
     private const int SIMON = 9;
     private const int LEON = 10;
+    private const int KION = 12;
 
     private List<SkillSO> skillList;
 
@@ -44,6 +45,7 @@ public class SkillManager : MonoBehaviour
         skillList[ANDER].Callback = AnderSkill;
         skillList[SIMON].Callback = SimonSkill;
         skillList[LEON].Callback = LeonSkill;
+        skillList[KION].Callback = KionSkill;
     }
 
     private void Start()
@@ -153,7 +155,6 @@ public class SkillManager : MonoBehaviour
         SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId,TRAP_NAME,PlayerManager.Instance.Player.CurTeam);
         trapCount++;
     }
-}
 
     private void SimonSkill()
     {
@@ -182,25 +183,31 @@ public class SkillManager : MonoBehaviour
 
         for (int i = 0; i < targetPlayer.inventory.slotList.Count; i++)
         {
-            if(targetPlayer.inventory.slotList[i].GetItem() != null)
+            if (targetPlayer.inventory.slotList[i].GetItem() != null)
             {
                 targetIdxList.Add(i);
             }
         }
 
-        if(targetIdxList.Count == 0)
+        if (targetIdxList.Count == 0)
         {
             print("이러면 꽝이긴 한데");
         }
 
         int targetIdx = targetIdxList[Random.Range(0, targetIdxList.Count)];
 
-        if(!user.inventory.IsAllSlotFull)
+        if (!user.inventory.IsAllSlotFull)
         {
             user.inventory.AddItem(targetPlayer.inventory.slotList[targetIdx].GetItem());
         }
 
         //이부분을 동기화 해줘야됨 SetNull 하는 부분
         targetPlayer.inventory.slotList[targetIdx].SetItem(null);
+    }
+
+    private void KionSkill()
+    {
+        print($"{skillList[AMBER].skillName} 사용");
+        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Kion, user.socketId, skillList[KION].skillName, user.CurTeam, user.transform.position));
     }
 }
