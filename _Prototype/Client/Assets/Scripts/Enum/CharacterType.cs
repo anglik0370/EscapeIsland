@@ -12,5 +12,6 @@ public enum CharacterType
     Randy,
     Sarsu,
     Wonsong,
-    Ander
+    Ander,
+    Kion,
 }

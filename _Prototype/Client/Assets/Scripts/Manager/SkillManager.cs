@@ -14,6 +14,7 @@ public class SkillManager : MonoBehaviour
     private const int SARSU = 6;
     private const int WONSONG = 7;
     private const int ANDER = 8;
+    private const int KION = 12;
 
     private List<SkillSO> skillList;
 
@@ -40,6 +41,7 @@ public class SkillManager : MonoBehaviour
         skillList[SARSU].Callback = SarsuSkill;
         skillList[WONSONG].Callback = WonsongSkill;
         skillList[ANDER].Callback = AnderSkill;
+        skillList[KION].Callback = KionSkill;
     }
 
     private void Start()
@@ -148,5 +150,12 @@ public class SkillManager : MonoBehaviour
 
         SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId,TRAP_NAME,PlayerManager.Instance.Player.CurTeam);
         trapCount++;
+    }
+
+    private void KionSkill()
+    {
+        print($"{skillList[KION].skillName} »ç¿ë");
+
+        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Kion, user.socketId, skillList[KION].skillName,user.CurTeam, user.transform.position));
     }
 }

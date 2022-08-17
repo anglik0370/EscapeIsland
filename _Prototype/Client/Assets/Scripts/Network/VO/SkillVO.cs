@@ -10,6 +10,8 @@ public class SkillVO
     public int targetId;
     public string skillName;
 
+    public Vector2 point;
+
     public Team team;
     public List<int> targetIdList;
 
@@ -48,6 +50,23 @@ public class SkillVO
         this.useSkillPlayerId = useSkillPlayerId;
         this.targetId = targetId;
         this.skillName = skillName;
+    }
+
+    /// <summary>
+    /// 기온 생성자
+    /// </summary>
+    /// <param name="skillType"></param>
+    /// <param name="useSkillPlayerId"></param>
+    /// <param name="skillName"></param>
+    /// <param name="point"></param>
+    public SkillVO(CharacterType skillType, int useSkillPlayerId, string skillName, Team team, Vector2 point)
+    {
+        this.skillType = skillType;
+        this.useSkillPlayerId = useSkillPlayerId;
+
+        this.team = team;
+        this.skillName = skillName;
+        this.point = point;
     }
 
     /// <summary>

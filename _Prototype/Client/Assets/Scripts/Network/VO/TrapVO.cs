@@ -6,7 +6,7 @@ using UnityEngine;
 public class TrapVO
 {
     public int socketId;
-    public int trapId;
+    public int id;
 
     public TrapVO()
     {
@@ -15,6 +15,25 @@ public class TrapVO
     public TrapVO(int socketId,int trapId)
     {
         this.socketId = socketId;
-        this.trapId = trapId;
+        this.id = trapId;
+    }
+}
+
+[System.Serializable]
+public class FlyPaperVO
+{
+    public int socketId;
+    public int id;
+    public int userId;
+
+    public FlyPaperVO()
+    {
+
+    }
+    public FlyPaperVO(int socketId, int trapId, int userId)
+    {
+        this.socketId = socketId;
+        this.id = trapId;
+        this.userId = userId;
     }
 }

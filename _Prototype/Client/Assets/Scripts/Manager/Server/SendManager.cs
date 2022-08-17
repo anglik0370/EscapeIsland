@@ -197,6 +197,14 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
+    public void EnterFlyPaper(int socketId, int id,int userId) 
+    {
+        FlyPaperVO vo = new FlyPaperVO(socketId, id,userId);
+        DataVO dataVO = new DataVO("ENTER_FLY_PAPER", JsonUtility.ToJson(vo));
+
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
+
     public void SendCantUseRefinery(CantUseRefineryVO vo)
     {
         DataVO dataVO = new DataVO("CANT_USE_REFINERY", JsonUtility.ToJson(vo));
