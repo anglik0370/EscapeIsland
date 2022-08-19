@@ -16,7 +16,7 @@ public class SkillManager : MonoBehaviour
     private const int ANDER = 8;
     private const int SIMON = 9;
     private const int LEON = 10;
-    private const int KION = 12;
+    private const int KION = 11;
 
     private List<SkillSO> skillList;
 
