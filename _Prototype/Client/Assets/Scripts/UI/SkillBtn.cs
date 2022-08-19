@@ -6,8 +6,11 @@ using UnityEngine.UI;
 public class SkillBtn : MonoBehaviour
 {
     private Button btn;
+
     private Image btnImage;
     private Image coolTimeImg;
+
+    private Sprite originSprite;
 
     private SkillSO curSkill => PlayerManager.Instance.Player.curSO.skill;
 
@@ -26,6 +29,8 @@ public class SkillBtn : MonoBehaviour
         coolTimeImg = transform.Find("CooltimeImg").GetComponent<Image>();
 
         btn.onClick.AddListener(UseSkill);
+
+        originSprite = btnImage.sprite;
     }
 
     private void Start()
@@ -39,6 +44,10 @@ public class SkillBtn : MonoBehaviour
         EventManager.SubGameStart(p =>
         {
             isGameStart = true;
+
+            Sprite skillIcon = PlayerManager.Instance.Player.curSO.skill.skillIcon;
+
+            btn.image.sprite = skillIcon ?? originSprite;
         });
 
         EventManager.SubExitRoom(() =>
