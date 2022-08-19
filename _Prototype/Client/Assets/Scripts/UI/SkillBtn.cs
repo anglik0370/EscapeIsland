@@ -20,7 +20,9 @@ public class SkillBtn : MonoBehaviour
     private bool isPassiveCalled;
 
     public bool CanTouch => btnImage.raycastTarget;
-    private bool IsTargetingSkill => PlayerManager.Instance.Player.curSO.skill is TargetingSkillSO;
+
+    private bool IsTargetingSkill => curSkill is TargetingSkillSO;
+    private bool IsAreaRestrictionSkill => curSkill is AreaRestrictionSkillSO;
 
     private void Awake()
     {
@@ -45,8 +47,7 @@ public class SkillBtn : MonoBehaviour
         {
             isGameStart = true;
 
-            Sprite skillIcon = PlayerManager.Instance.Player.curSO.skill.skillIcon;
-
+            Sprite skillIcon = curSkill.skillIcon;
             btn.image.sprite = skillIcon ?? originSprite;
         });
 
@@ -99,6 +100,27 @@ public class SkillBtn : MonoBehaviour
                 coolTimeImg.fillAmount = so.IsCoolTime ? curSkill.timer / curSkill.coolTime : 1f;
                 btnImage.raycastTarget = false;
 
+                return;
+            }
+        }
+
+        if(isGameStart && IsAreaRestrictionSkill)
+        {
+            AreaRestrictionSkillSO so = (AreaRestrictionSkillSO)curSkill;
+
+            bool isTouching = false;
+
+            foreach (var col in so.colliderList)
+            {
+                if (Physics2D.IsTouching(col, PlayerManager.Instance.Player.FootCollider))
+                {
+                    isTouching = true;
+                    break;
+                }
+            }
+
+            if(!isTouching)
+            {
                 return;
             }
         }
