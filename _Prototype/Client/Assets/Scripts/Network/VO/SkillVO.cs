@@ -39,6 +39,23 @@ public class SkillVO
         this.team = team;
         this.skillName = skillName;
     }
+
+    /// <summary>
+    /// 사이먼 생성자
+    /// </summary>
+    /// <param name="skillType"></param>
+    /// <param name="useSkillPlayerId"></param>
+    /// <param name="itemId"></param>
+    /// <param name="team"></param>
+    /// <param name="skillName"></param>
+    public SkillVO(CharacterType skillType, int useSkillPlayerId, int itemId, Team team, string skillName)
+    {
+        this.skillType = skillType;
+        this.useSkillPlayerId = useSkillPlayerId;
+        this.targetId = itemId;
+        this.team = team;
+        this.skillName = skillName;
+    }
     
     /// <summary>
     /// 레이 생성자

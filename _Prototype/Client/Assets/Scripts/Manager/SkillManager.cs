@@ -161,15 +161,10 @@ public class SkillManager : MonoBehaviour
         //일단은 랜덤으로 구현
         ItemSO item = ItemManager.Instance.ItemList[Random.Range(0, ItemManager.Instance.ItemList.Count)];
 
-        Team team = user.CurTeam == Team.RED ? Team.RED : Team.BLUE;
+        Team team = user.CurTeam == Team.RED ? Team.BLUE : Team.RED;
 
         //여기를 동기화 해줘야됨
-        StorageManager.Instance.RemoveItem(team, item);
-
-        if (!user.inventory.IsAllSlotFull)
-        {
-            user.inventory.AddItem(item);
-        }
+        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Simon, user.socketId, item.itemId, team, skillList[SIMON].skillName));
     }
 
     private void LeonSkill()

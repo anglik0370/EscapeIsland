@@ -13,5 +13,6 @@ public enum CharacterType
     Sarsu,
     Wonsong,
     Ander,
+    Simon,
     Kion,
 }
