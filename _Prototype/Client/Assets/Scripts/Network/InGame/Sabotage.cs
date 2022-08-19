@@ -22,7 +22,6 @@ public class Sabotage : ISetAble
 
     private bool needSabotageRefresh = false;
     private bool needTrapRefresh = false;
-    private bool needCantUseRefineryRefresh = false;
     private bool needExtinguishRefresh = false;
     private bool needArsonRefresh = false;
 
@@ -31,15 +30,11 @@ public class Sabotage : ISetAble
     private List<Trap> trapList = new List<Trap>();
     private List<LabDoor> doorList = new List<LabDoor>();
 
-    private CantUseRefineryVO refineryData;
     private TrapVO trapData;
     private ArsonVO arsonData;
 
     [SerializeField]
     private Transform doorParent;
-
-    public bool CanEmergency => !ArsonManager.Instance.isArson && ConvertPanel.Instance.EndSabotage();
-
 
     private void Awake()
     {
@@ -79,12 +74,6 @@ public class Sabotage : ISetAble
             needTrapRefresh = false;
         }
 
-        if (needCantUseRefineryRefresh)
-        {
-            SetRefinery();
-            needCantUseRefineryRefresh = false;
-        }
-
         if (needExtinguishRefresh)
         {
             SetExtinguish();
@@ -116,15 +105,6 @@ public class Sabotage : ISetAble
         }
     }
 
-    public static void SetRefineryData(CantUseRefineryVO vo)
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.refineryData = vo;
-            Instance.needCantUseRefineryRefresh = true;
-        }
-    }
-
     public static void SetExtinguishData()
     {
         lock (Instance.lockObj)
@@ -150,16 +130,6 @@ public class Sabotage : ISetAble
     private void SetArson()
     {
         StorageManager.Instance.RemoveItem(arsonData.team, ItemManager.Instance.FindItemSO(arsonData.itemSOId));
-    }
-
-    public void SetRefinery()
-    {
-        ItemConverter converter = ConverterManager.Instance.GetRefinery(refineryData.refineryId);
-
-        converter.isEmpty[refineryData.slotIdx] = false;
-        converter.CanUse = converter.CanUseConverter();
-
-        ConvertPanel.Instance.UpdateUIs();
     }
 
     public void StartSabotage()
