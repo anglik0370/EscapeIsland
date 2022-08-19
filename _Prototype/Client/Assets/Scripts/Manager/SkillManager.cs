@@ -65,10 +65,11 @@ public class SkillManager : MonoBehaviour
 
             List<ItemStorage> itemStorageList = new List<ItemStorage>();
 
+            simonSkill.colliderList?.Clear();
+
             if (user.CurTeam == Team.RED)
             {
                 itemStorageList = blueShipParentTrm.GetComponentsInChildren<ItemStorage>().ToList();
-                
             }
             else
             {
@@ -189,9 +190,9 @@ public class SkillManager : MonoBehaviour
 
         AreaRestrictionSkillSO skill = skillList[SIMON] as AreaRestrictionSkillSO;
 
-        Collider2D touchingCol = skill.colliderList.Find(x => Physics2D.IsTouching(x, user.FootCollider));
+        Collider2D touchingCol = skill.colliderList.Find(x => Physics2D.IsTouching(x, user.BodyCollider));
 
-        ItemSO item = touchingCol.transform.parent.GetComponent<ItemStorage>().Item;
+        ItemSO item = touchingCol.transform.GetComponentInParent<ItemStorage>().Item;
 
         ////일단은 랜덤으로 구현
         //ItemSO item = ItemManager.Instance.ItemList[Random.Range(0, ItemManager.Instance.ItemList.Count)];

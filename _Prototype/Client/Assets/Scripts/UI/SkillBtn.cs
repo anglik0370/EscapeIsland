@@ -121,6 +121,9 @@ public class SkillBtn : MonoBehaviour
 
             if(!isTouching)
             {
+                coolTimeImg.fillAmount = 1f;
+                btnImage.raycastTarget = false;
+
                 return;
             }
         }
