@@ -9,6 +9,8 @@ public class SkillSO : ScriptableObject
     public int id; //고유 id
     public string skillName; //스킬 이름
 
+    public Sprite skillIcon; //스킬 아이콘
+
     public float coolTime = 10f; //쿨타임
     public float timer = 10f; //쿨타임 계산하는 타이머
 
