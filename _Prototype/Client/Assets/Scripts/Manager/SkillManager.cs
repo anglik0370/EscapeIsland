@@ -16,7 +16,7 @@ public class SkillManager : MonoBehaviour
     private const int ANDER = 8;
     private const int SIMON = 9;
     private const int LEON = 10;
-    private const int KION = 12;
+    private const int KION = 11;
 
     private List<SkillSO> skillList;
 
@@ -207,7 +207,7 @@ public class SkillManager : MonoBehaviour
 
     private void KionSkill()
     {
-        print($"{skillList[AMBER].skillName} 사용");
+        print($"{skillList[KION].skillName} 사용");
         SendManager.Instance.SendSKill(new SkillVO(CharacterType.Kion, user.socketId, skillList[KION].skillName, user.CurTeam, user.transform.position));
     }
 }
