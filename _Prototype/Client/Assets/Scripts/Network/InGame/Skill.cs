@@ -131,7 +131,10 @@ public class Skill : ISetAble
         }
 
         if(paper == null)
+        {
             paper = Instantiate(flyPaperPrefab, transform);
+            flyPaperList.Add(paper);
+        }
 
         paper.id = lastFlyPaperId++;
         paper.userId = skillData.useSkillPlayerId;
