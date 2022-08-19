@@ -207,7 +207,7 @@ public class SkillManager : MonoBehaviour
 
     private void KionSkill()
     {
-        print($"{skillList[AMBER].skillName} 사용");
+        print($"{skillList[KION].skillName} 사용");
         SendManager.Instance.SendSKill(new SkillVO(CharacterType.Kion, user.socketId, skillList[KION].skillName, user.CurTeam, user.transform.position));
     }
 }
