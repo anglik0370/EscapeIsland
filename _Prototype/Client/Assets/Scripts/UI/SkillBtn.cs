@@ -47,8 +47,8 @@ public class SkillBtn : MonoBehaviour
         {
             isGameStart = true;
 
-            Sprite skillIcon = curSkill.skillIcon;
-            btn.image.sprite = skillIcon ?? originSprite;
+            //Sprite skillIcon = curSkill.skillIcon ?? originSprite;
+            //btn.image.sprite = skillIcon;
         });
 
         EventManager.SubExitRoom(() =>
@@ -112,7 +112,7 @@ public class SkillBtn : MonoBehaviour
 
             foreach (var col in so.colliderList)
             {
-                if (Physics2D.IsTouching(col, PlayerManager.Instance.Player.FootCollider))
+                if (Physics2D.IsTouching(col, PlayerManager.Instance.Player.BodyCollider))
                 {
                     isTouching = true;
                     break;

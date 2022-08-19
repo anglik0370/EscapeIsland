@@ -20,12 +20,12 @@ public class SkillSO : ScriptableObject
 
     public bool isPassive; //패시브인지
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         InitTimer();
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         InitTimer();
     }

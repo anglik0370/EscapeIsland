@@ -25,6 +25,11 @@ public class SkillManager : MonoBehaviour
     [SerializeField]
     private const string ARSON_NAME = "방화";
 
+    [SerializeField]
+    private Transform redShipParentTrm;
+    [SerializeField]
+    private Transform blueShipParentTrm;
+
     private Player user;
 
     private int trapCount = 0;
@@ -53,6 +58,28 @@ public class SkillManager : MonoBehaviour
         EventManager.SubGameInit(() => trapCount = 0);
 
         EventManager.SubEnterRoom(p => user = p);
+
+        EventManager.SubGameStart(p =>
+        {
+            AreaRestrictionSkillSO simonSkill = skillList[SIMON] as AreaRestrictionSkillSO;
+
+            List<ItemStorage> itemStorageList = new List<ItemStorage>();
+
+            if (user.CurTeam == Team.RED)
+            {
+                itemStorageList = blueShipParentTrm.GetComponentsInChildren<ItemStorage>().ToList();
+                
+            }
+            else
+            {
+                itemStorageList = redShipParentTrm.GetComponentsInChildren<ItemStorage>().ToList();
+            }
+
+            for (int i = 0; i < itemStorageList.Count; i++)
+            {
+                simonSkill.colliderList.Add(itemStorageList[i].InteractionCol);
+            }
+        });
     }
 
     private void AmberSkill()
@@ -158,8 +185,16 @@ public class SkillManager : MonoBehaviour
 
     private void SimonSkill()
     {
-        //일단은 랜덤으로 구현
-        ItemSO item = ItemManager.Instance.ItemList[Random.Range(0, ItemManager.Instance.ItemList.Count)];
+        print($"{skillList[SIMON].skillName} 사용");
+
+        AreaRestrictionSkillSO skill = skillList[SIMON] as AreaRestrictionSkillSO;
+
+        Collider2D touchingCol = skill.colliderList.Find(x => Physics2D.IsTouching(x, user.FootCollider));
+
+        ItemSO item = touchingCol.transform.parent.GetComponent<ItemStorage>().Item;
+
+        ////일단은 랜덤으로 구현
+        //ItemSO item = ItemManager.Instance.ItemList[Random.Range(0, ItemManager.Instance.ItemList.Count)];
 
         Team team = user.CurTeam == Team.RED ? Team.BLUE : Team.RED;
 

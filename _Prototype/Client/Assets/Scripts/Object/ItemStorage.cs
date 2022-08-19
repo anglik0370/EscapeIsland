@@ -31,6 +31,7 @@ public class ItemStorage : MonoBehaviour, IInteractionObject
 
     [SerializeField]
     private ItemSO item;
+    public ItemSO Item => item;
 
     private void Awake()
     {
