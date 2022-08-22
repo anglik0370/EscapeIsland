@@ -71,4 +71,17 @@ public class BuffHandler : MonoBehaviour
             _buffs.Remove(buff.Buff);
         }
     }
+
+    public bool IsDebuffed()
+    {
+        foreach (TimedBuff buff in _buffs.Values)
+        {
+            if (!buff.Buff.isBuffed)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

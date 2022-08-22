@@ -14,6 +14,7 @@ public class Skill : ISetAble
 
     [SerializeField] private const int JOSHUA_BUFF_ID = 3;
     [SerializeField] private const int RAI_BUFF_ID = 4;
+    [SerializeField] private const int IAN_BUFF_ID = 6;
     [SerializeField] private const int KION_BUFF_ID = 12;
 
     [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID = 111;
@@ -222,7 +223,14 @@ public class Skill : ISetAble
 
         if (user.CurTeam.Equals(skillData.team))
         {
-            user.BuffHandler.RemoveAllDebuff();
+            if(user.BuffHandler.IsDebuffed())
+            {
+                user.BuffHandler.RemoveAllDebuff();
+            }
+            else
+            {
+                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(user.gameObject));
+            }
         }
 
     }
