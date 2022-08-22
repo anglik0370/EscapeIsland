@@ -210,30 +210,7 @@ public class SkillManager : MonoBehaviour
         //랜덤으로 한명 뽑고
         Player targetPlayer = playerList[Random.Range(0, playerList.Count)];
 
-        List<int> targetIdxList = new List<int>();
-
-        for (int i = 0; i < targetPlayer.inventory.slotList.Count; i++)
-        {
-            if (targetPlayer.inventory.slotList[i].GetItem() != null)
-            {
-                targetIdxList.Add(i);
-            }
-        }
-
-        if (targetIdxList.Count == 0)
-        {
-            print("이러면 꽝이긴 한데");
-        }
-
-        int targetIdx = targetIdxList[Random.Range(0, targetIdxList.Count)];
-
-        if (!user.inventory.IsAllSlotFull)
-        {
-            user.inventory.AddItem(targetPlayer.inventory.slotList[targetIdx].GetItem());
-        }
-
-        //이부분을 동기화 해줘야됨 SetNull 하는 부분
-        targetPlayer.inventory.slotList[targetIdx].SetItem(null);
+        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Leon, user.socketId, targetPlayer.socketId, skillList[LEON].skillName));
     }
 
     private void KionSkill()
