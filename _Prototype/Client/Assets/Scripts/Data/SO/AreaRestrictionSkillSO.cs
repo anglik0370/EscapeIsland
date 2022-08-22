@@ -6,4 +6,13 @@ using UnityEngine;
 public class AreaRestrictionSkillSO : SkillSO
 {
     public List<Collider2D> colliderList;
+
+    public bool isInShip;
+
+    public override void UpdateTimer()
+    {
+        if (isInShip) return;
+
+        base.UpdateTimer();
+    }
 }

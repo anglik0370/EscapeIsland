@@ -121,9 +121,9 @@ public class SkillBtn : MonoBehaviour
 
             if(!isTouching)
             {
-                coolTimeImg.fillAmount = 1f;
+                coolTimeImg.fillAmount = curSkill.IsCoolTime ? curSkill.timer / curSkill.coolTime : 1f;
                 btnImage.raycastTarget = false;
-
+                so.isInShip = false;
                 return;
             }
         }
@@ -144,7 +144,13 @@ public class SkillBtn : MonoBehaviour
     {
         if (!isEnterRoom || !isGameStart || curSkill.isPassive || PlayerManager.Instance.Player.IsSturned) return;
 
+        if(IsAreaRestrictionSkill)
+        {
+            ((AreaRestrictionSkillSO)curSkill).isInShip = true;
+        }
+
         curSkill.Callback?.Invoke();
         curSkill.timer = curSkill.coolTime;
+
     }
 }
