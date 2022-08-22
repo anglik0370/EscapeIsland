@@ -114,12 +114,35 @@ public class Skill : ISetAble
             case CharacterType.Simon:
                 SimonSkill();
                 break;
+            case CharacterType.Leon:
+                LeonSkill();
+                break;
             case CharacterType.Kion:
                 KionSkill();
                 break;
             default:
                 break;
         }
+    }
+
+    private void LeonSkill()
+    {
+        CreateSkillLog(true);
+
+        ItemSO item = ItemManager.Instance.FindItemSO(skillData.itemId);
+
+        if(item != null)
+        {
+            if (user.socketId.Equals(skillData.useSkillPlayerId) && !user.inventory.IsAllSlotFull)
+            {
+                user.inventory.AddItem(item);
+            }
+            else if (user.socketId.Equals(skillData.targetId))
+            {
+                user.inventory.RemoveItem(item);
+            }
+        }
+        
     }
 
     private void SimonSkill()
