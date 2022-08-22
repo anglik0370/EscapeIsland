@@ -150,12 +150,22 @@ public class Skill : ISetAble
         CreateSkillLog(false);
 
         ItemSO item =  ItemManager.Instance.FindItemSO(skillData.targetId);
-        StorageManager.Instance.RemoveItem(skillData.team, item);
+        ItemAmount curAmount = StorageManager.Instance.FindItemAmount(false, skillData.team, item);
 
-        if(user.socketId.Equals(skillData.useSkillPlayerId) && !user.inventory.IsAllSlotFull)
+        if(curAmount.amount > 0)
         {
-            user.inventory.AddItem(item);
+            StorageManager.Instance.RemoveItem(skillData.team, item);
+
+            if (user.socketId.Equals(skillData.useSkillPlayerId) && !user.inventory.IsAllSlotFull)
+            {
+                user.inventory.AddItem(item);
+            }
         }
+        else
+        {
+            Debug.LogError("아이템이 없음");
+        }
+        
     }
 
     private void KionSkill()
