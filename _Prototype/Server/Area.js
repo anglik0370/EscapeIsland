@@ -6,8 +6,8 @@ class Area {
         this.areaState = areaState;
         this.areaName = areaName;
 
-        this.redTeamUserLength = 0;
-        this.blueTeamUserLength = 0;
+        this.redTeamUserLength = 0.0;
+        this.blueTeamUserLength = 0.0;
 
         this.blueGauge = 0.0;
         this.redGauge = 0.0;
@@ -77,21 +77,25 @@ class Area {
         this.curTimer = setTimeout(this.startTimer.bind(this),this.occupyTime);
     }
 
-    addUserList(isBlue) {
+    addUserList(isBlue,isWonsong = false) {
         if(isBlue) {
-            this.blueTeamUserLength++;
+            let add = this.blueTeamUserLength + (isWonsong ? 1.5 : 1);
+            this.blueTeamUserLength = add;
         }
         else if(!isBlue) {
-            this.redTeamUserLength++;
+            let add = this.redTeamUserLength + (isWonsong ? 1.5 : 1);
+            this.redTeamUserLength = add;
         }
     }
 
-    removeUserList(isBlue) {
+    removeUserList(isBlue,isWonsong = false) {
         if(isBlue) {
-            this.blueTeamUserLength--;
+            let remove = this.blueTeamUserLength - (isWonsong ? 1.5 : 1);
+            this.blueTeamUserLength = remove;
         }
         else {
-            this.redTeamUserLength--;
+            let remove = this.redTeamUserLength - (isWonsong ? 1.5 : 1);
+            this.redTeamUserLength = remove;
         }
     }
 }   

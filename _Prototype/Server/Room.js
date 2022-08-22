@@ -156,14 +156,14 @@ class Room {
             }
 
             if(this.areaList[user.area] !== undefined) {
-                this.areaList[user.area].removeUserList(isBlue);
+                this.areaList[user.area].removeUserList(isBlue, user.charId == 7);
                 socket.send(JSON.stringify({type:"REFRESH_AREA",payload:JSON.stringify({isOpen:false})}))
             }
 
             this.userList[socket.id].area = areaState;
 
             if(this.areaList[areaState] !== undefined) {
-                this.areaList[areaState].addUserList(isBlue);
+                this.areaList[areaState].addUserList(isBlue, user.charId == 7);
             }
         }
     }
