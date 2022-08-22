@@ -400,7 +400,7 @@ public class Player : MonoBehaviour, IInteractionObject
         {
             yield return ws;
 
-            TransformVO vo = new TransformVO(transform.position, socketId);
+            TransformVO vo = new TransformVO(transform.position, socketId, new List<int>(inventory?.GetItemIdList()));
             DataVO dataVO = new DataVO("TRANSFORM", JsonUtility.ToJson(vo));
 
             SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
