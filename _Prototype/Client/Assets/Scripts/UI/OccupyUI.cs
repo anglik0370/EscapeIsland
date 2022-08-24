@@ -58,6 +58,12 @@ public class OccupyUI : MonoBehaviour
 
     public void UpdateUI(float redProgress = 0f, float blueProgress = 0f)
     {
+        if(redGauge.fillAmount >= 1f || blueGauge.fillAmount >= 1f)
+        {
+            DisableUI();
+            return;
+        }
+
         if(seq != null)
         {
             seq.Kill();
@@ -67,7 +73,7 @@ public class OccupyUI : MonoBehaviour
         seq.Append(DOTween.To(() => redGauge.fillAmount, x => redGauge.fillAmount = x, redProgress, duration));
         seq.Join(DOTween.To(() => blueGauge.fillAmount, x => blueGauge.fillAmount = x, blueProgress, duration).OnComplete(() => 
         {
-            if(redGauge.fillAmount >= 1f || blueGauge.fillAmount >= 1f)
+            if(redProgress >= 1f || blueProgress >= 1f)
             {
                 DisableUI();
             }

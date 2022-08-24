@@ -9,7 +9,7 @@ public class OccupyVO
     public string areaName;
     public float blueGauge;
     public float redGauge;
-    public bool isOccupy;
+    public Team occupyTeam;
 }
 
 [System.Serializable]
