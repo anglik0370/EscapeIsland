@@ -89,8 +89,6 @@ public class Skill : ISetAble
     {
         switch (skillData.skillType)
         {
-            case CharacterType.Amber:
-                break;
             case CharacterType.Cherry:
                 CherrySkill();
                 break;
@@ -106,12 +104,6 @@ public class Skill : ISetAble
             case CharacterType.Randy:
                 DissRap();
                 break;
-            case CharacterType.Sarsu:
-                break;
-            case CharacterType.Wonsong:
-                break;
-            case CharacterType.Ander:
-                break;
             case CharacterType.Simon:
                 SimonSkill();
                 break;
@@ -122,6 +114,7 @@ public class Skill : ISetAble
                 KionSkill();
                 break;
             default:
+                CreateSkillLog(false);
                 break;
         }
     }
@@ -320,6 +313,8 @@ public class Skill : ISetAble
 
         if(single)
         {
+            print("싱글 로그");
+
             if (user.socketId.Equals(skillData.useSkillPlayerId))
             {
                 //플레이어가 스킬 사용했을 시
@@ -334,6 +329,8 @@ public class Skill : ISetAble
         }
         else
         {
+            print("글로벌 로그");
+
             if (user.socketId.Equals(skillData.useSkillPlayerId))
             {
                 //플레이어가 스킬 사용했을 시

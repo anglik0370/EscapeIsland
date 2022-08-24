@@ -205,6 +205,11 @@ public class ChatPanel : Panel
             }
         }
 
+        chatStateTxt.text = CHAT_STRING;
+
+        UtilClass.SetCanvasGroup(cvsLog);
+        UtilClass.SetCanvasGroup(cvsChat, 1f, true, true);
+
         Init();
     }
 

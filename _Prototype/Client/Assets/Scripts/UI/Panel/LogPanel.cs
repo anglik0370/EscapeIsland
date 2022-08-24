@@ -30,6 +30,8 @@ public class LogPanel : MonoBehaviour
 
     public void CreateLogText(string str)
     {
+        print(str);
+
         UIManager.Instance.AlertText(str, AlertType.GameEvent);
 
         LogText logText = Instantiate(logTextPrefab, contentTrm);

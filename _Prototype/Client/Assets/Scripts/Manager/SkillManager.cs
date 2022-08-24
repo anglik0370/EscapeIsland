@@ -85,14 +85,12 @@ public class SkillManager : MonoBehaviour
 
     private void AmberSkill()
     {
-        print($"{skillList[AMBER].skillName} 사용");
         PlayerManager.Instance.AccelerationPlayer(AMBER);
+        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Amber, user.socketId, skillList[AMBER].skillName));
     }
 
     private void CherrySkill()
     {
-        print($"{skillList[CHERRY].skillName} 사용");
-
         List<Player> playerList = NetworkManager.instance.GetPlayerList();
         List<int> socketIdList = new List<int>();
 
@@ -111,15 +109,11 @@ public class SkillManager : MonoBehaviour
 
     private void IanSkill()
     {
-        print($"{skillList[IAN].skillName} 사용");
-
         SendManager.Instance.SendSKill(new SkillVO(CharacterType.IAN,user.socketId, user.CurTeam, skillList[IAN].skillName));
     }
 
     private void JosuhaSkill()
     {
-        print($"{skillList[JOSUHA].skillName} 사용");
-
         List<Player> playerList = NetworkManager.instance.GetPlayerList();
         List<int> socketIdList = new List<int>();
 
@@ -138,8 +132,6 @@ public class SkillManager : MonoBehaviour
 
     private void RaiSkill()
     {
-        print($"{skillList[RAI].skillName} 사용");
-
         TargetingSkillSO raiSO = (TargetingSkillSO)skillList[RAI];
 
         int targetSocketId = PlayerManager.Instance.GetRangeInPlayerId(raiSO.skillRange);
@@ -152,27 +144,22 @@ public class SkillManager : MonoBehaviour
 
     private void RandySkill()
     {
-        print($"{skillList[RANDY].skillName} 사용");
         SendManager.Instance.SendSKill(new SkillVO(CharacterType.Randy,user.socketId,PlayerManager.Instance.Player.CurTeam, skillList[RANDY].skillName));
     }
 
     private void SarsuSkill()
     {
-        print($"{skillList[SARSU].skillName} 사용");
-
         user.inventory.AddItem(MissionPanel.Instance.MissionItemList[Random.Range(0, MissionPanel.Instance.MissionItemList.Count)]);
+        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Sarsu, user.socketId, skillList[SARSU].skillName));
     }
 
     private void WonsongSkill()
     {
-        print($"{skillList[WONSONG].skillName} 사용");
         PlayerManager.Instance.Inventory.CreateInventory(9);
     }
 
     private void AnderSkill()
     {
-        print($"{skillList[ANDER].skillName} 사용");
-
         //if(trapCount >= 10)
         //{
         //    SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId, ARSON_NAME, PlayerManager.Instance.Player.CurTeam);
@@ -186,8 +173,6 @@ public class SkillManager : MonoBehaviour
 
     private void SimonSkill()
     {
-        print($"{skillList[SIMON].skillName} 사용");
-
         AreaRestrictionSkillSO skill = skillList[SIMON] as AreaRestrictionSkillSO;
 
         Collider2D touchingCol = skill.colliderList.Find(x => Physics2D.IsTouching(x, user.BodyCollider));
@@ -215,7 +200,6 @@ public class SkillManager : MonoBehaviour
 
     private void KionSkill()
     {
-        print($"{skillList[KION].skillName} 사용");
         SendManager.Instance.SendSKill(new SkillVO(CharacterType.Kion, user.socketId, skillList[KION].skillName, user.CurTeam, user.transform.position));
     }
 }
