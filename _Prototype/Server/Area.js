@@ -25,9 +25,7 @@ class Area {
 
 
     getPayload() {
-        let isOccupy = this.occupyTeam != team.NONE;
-
-        return {area:this.areaState,areaName:this.areaName, blueGauge:this.blueGauge, redGauge:this.redGauge,isOccupy};
+        return {area:this.areaState,areaName:this.areaName, blueGauge:this.blueGauge, redGauge:this.redGauge, occupyTeam : this.occupyTeam};
     }
 
     canMission(user) {
