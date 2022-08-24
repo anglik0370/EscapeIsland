@@ -169,11 +169,29 @@ class Room {
     }
 
     setSpawnPos() {
-        let keys = Object.keys(this.userList);
-        let posList = SetSpawnPoint(keys.length);
-    
-        for(let i = 0; i < keys.length; i++) {
-            this.userList[keys[i]].position = posList[i];
+        let redTeamList = [];
+        let blueTeamList = [];
+
+        for(let key in this.userList) {
+            if(this.userList[key].curTeam == team.NONE) continue;
+
+            if(this.userList[key].curTeam == team.RED) {
+                redTeamList.push(this.userList[key]);
+            }
+            else {
+                blueTeamList.push(this.userList[key]);
+            }
+        }
+
+        let redTeamPos = SetSpawnPoint(redTeamList.length,false);
+        let blueTeamPos = SetSpawnPoint(blueTeamList.length,true);
+
+        for(let i = 0; i < redTeamList.length; i++) {
+            redTeamList[i].position = redTeamPos[i];
+        }
+
+        for(let i = 0; i < blueTeamList.length; i++) {
+            blueTeamList[i].position = blueTeamPos[i];
         }
     }
 

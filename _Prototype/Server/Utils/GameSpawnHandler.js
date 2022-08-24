@@ -1,12 +1,14 @@
 const Vector2 = require("./Vector2.js");
 
-let spawnTrm = new Vector2(-12.93,-5.07);;
+let redSpawnTrm = new Vector2(16.56,-5.72);
+let blueSpawnTrm = new Vector2(-42.25,-5);
 
 let spawnDistance = 3;
 
-let spawnPoint = [];
+function SetSpawnPoint(userLength, isBlue) {
+    let spawnPoint = [];
+    let spawnTrm = isBlue ? blueSpawnTrm : redSpawnTrm;
 
-function SetSpawnPoint(userLength) {
     for(let i = 0; i < userLength; i++) {
         let radian = (2.0 * Math.PI) / userLength;
         radian *= i;
