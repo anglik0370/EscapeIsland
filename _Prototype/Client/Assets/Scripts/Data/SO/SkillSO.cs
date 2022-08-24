@@ -35,7 +35,7 @@ public class SkillSO : ScriptableObject
         timer = 0;
     }
 
-    public void UpdateTimer() //Update에서 실행해주면 됨
+    public virtual void UpdateTimer() //Update에서 실행해주면 됨
     {
         if(IsCoolTime)
         {

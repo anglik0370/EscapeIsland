@@ -14,5 +14,6 @@ public enum CharacterType
     Wonsong,
     Ander,
     Simon,
+    Leon,
     Kion,
 }

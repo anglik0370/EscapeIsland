@@ -66,7 +66,7 @@ public class RefreshUI : ISetAble
         {
             if (ov.area != user.Area) continue;
 
-            if(ov.isOccupy)
+            if (ov.occupyTeam != Team.NONE && ov.occupyTeam != user.CurTeam)
             {
                 occupyUI.UpdateUI(ov.redGauge, ov.blueGauge);
                 MissionPanel.Instance.CloseGetMissionPanel();
@@ -79,6 +79,7 @@ public class RefreshUI : ISetAble
             }
             else
             {
+                if (ov.redGauge >= 1f || ov.blueGauge >= 1f) continue;
                 occupyUI.SetUI(ov.redGauge, ov.blueGauge, ov.areaName);
                 occupyUI.EnableUI();
             }

@@ -9,6 +9,7 @@ public class Inventory : MonoBehaviour
     private ItemSlot inventoryPrefab;
 
     public List<ItemSlot> slotList = new List<ItemSlot>();
+    private List<int> itemIdList = new List<int>();
 
     public bool IsAllSlotFull => CheckAllSlotFull();
 
@@ -69,6 +70,20 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void RemoveItem(ItemSO item)
+    {
+        ItemSlot emptySlot = slotList.Find(x => !x.IsEmpty && x.GetItem().itemId == item.itemId);
+
+        if (emptySlot != null)
+        {
+            emptySlot.SetItem(null);
+        }
+        else
+        {
+            Debug.Log("이 아이템이 없습니다");
+        }
+    }
+
     private void ClearSlots()
     {
         foreach (ItemSlot slot in slotList)
@@ -88,5 +103,20 @@ public class Inventory : MonoBehaviour
         }
 
         return true;
+    }
+
+    public List<int> GetItemIdList()
+    {
+        itemIdList.Clear();
+
+        foreach (ItemSlot slot in slotList)
+        {
+            if (!slot.IsEmpty)
+            {
+                itemIdList.Add(slot.GetItem().itemId);
+            }
+        }
+
+        return itemIdList;
     }
 }

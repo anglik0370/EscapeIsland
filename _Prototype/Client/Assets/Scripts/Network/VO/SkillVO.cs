@@ -11,6 +11,7 @@ public class SkillVO
     public string skillName;
 
     public Vector2 point;
+    public int itemId;
 
     public Team team;
     public List<int> targetIdList;
@@ -58,7 +59,7 @@ public class SkillVO
     }
     
     /// <summary>
-    /// 레이 생성자
+    /// 레이, 레옹 생성자
     /// </summary>
     /// <param name="targetId"></param>
     public SkillVO(CharacterType skillType,int useSkillPlayerId, int targetId,string skillName)

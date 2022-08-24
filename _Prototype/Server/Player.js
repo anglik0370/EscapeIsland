@@ -19,6 +19,18 @@ class Player {
         this.curTeam = team.NONE;
 
         this.voiceData = [];
+        this.itemList = [];
+    }
+
+    getItem() {
+        if(this.itemList.length <= 0) return -1;
+
+        let idx = Math.floor(Math.random() * this.itemList.length);
+        let item = this.itemList[idx];
+        
+        this.itemList.splice(idx,1);
+
+        return item;
     }
 
     setVoiceData(newData) {

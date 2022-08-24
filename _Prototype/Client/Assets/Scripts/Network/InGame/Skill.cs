@@ -14,6 +14,7 @@ public class Skill : ISetAble
 
     [SerializeField] private const int JOSHUA_BUFF_ID = 3;
     [SerializeField] private const int RAI_BUFF_ID = 4;
+    [SerializeField] private const int IAN_BUFF_ID = 6;
     [SerializeField] private const int KION_BUFF_ID = 12;
 
     [SerializeField] private const int CHERRY_ENEMY_TEAM_DEBUFF_ID = 111;
@@ -114,6 +115,9 @@ public class Skill : ISetAble
             case CharacterType.Simon:
                 SimonSkill();
                 break;
+            case CharacterType.Leon:
+                LeonSkill();
+                break;
             case CharacterType.Kion:
                 KionSkill();
                 break;
@@ -122,17 +126,47 @@ public class Skill : ISetAble
         }
     }
 
+    private void LeonSkill()
+    {
+        CreateSkillLog(true);
+
+        ItemSO item = ItemManager.Instance.FindItemSO(skillData.itemId);
+
+        if(item != null)
+        {
+            if (user.socketId.Equals(skillData.useSkillPlayerId) && !user.inventory.IsAllSlotFull)
+            {
+                user.inventory.AddItem(item);
+            }
+            else if (user.socketId.Equals(skillData.targetId))
+            {
+                user.inventory.RemoveItem(item);
+            }
+        }
+        
+    }
+
     private void SimonSkill()
     {
         CreateSkillLog(false);
 
         ItemSO item =  ItemManager.Instance.FindItemSO(skillData.targetId);
-        StorageManager.Instance.RemoveItem(skillData.team, item);
+        ItemAmount curAmount = StorageManager.Instance.FindItemAmount(false, skillData.team, item);
 
-        if(user.socketId.Equals(skillData.useSkillPlayerId) && !user.inventory.IsAllSlotFull)
+        if(curAmount.amount > 0)
         {
-            user.inventory.AddItem(item);
+            StorageManager.Instance.RemoveItem(skillData.team, item);
+
+            if (user.socketId.Equals(skillData.useSkillPlayerId) && !user.inventory.IsAllSlotFull)
+            {
+                user.inventory.AddItem(item);
+            }
         }
+        else
+        {
+            Debug.LogError("아이템이 없음");
+        }
+        
     }
 
     private void KionSkill()
@@ -189,7 +223,14 @@ public class Skill : ISetAble
 
         if (user.CurTeam.Equals(skillData.team))
         {
-            user.BuffHandler.RemoveAllDebuff();
+            if(user.BuffHandler.IsDebuffed())
+            {
+                user.BuffHandler.RemoveAllDebuff();
+            }
+            else
+            {
+                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(user.gameObject));
+            }
         }
 
     }
