@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class SkillBtn : MonoBehaviour
 {
+    private RectTransform rect;
     private Button btn;
 
     private Image btnImage;
     private Image coolTimeImg;
+
+    private Text skillText;
 
     private Sprite originSprite;
 
@@ -26,9 +29,13 @@ public class SkillBtn : MonoBehaviour
 
     private void Awake()
     {
+        rect = GetComponent<RectTransform>();
         btn = GetComponent<Button>();
+
         btnImage = GetComponent<Image>();
         coolTimeImg = transform.Find("CooltimeImg").GetComponent<Image>();
+
+        skillText = transform.Find("text").GetComponent<Text>();
 
         btn.onClick.AddListener(UseSkill);
 
@@ -47,8 +54,20 @@ public class SkillBtn : MonoBehaviour
         {
             isGameStart = true;
 
-            //Sprite skillIcon = curSkill.skillIcon ?? originSprite;
-            //btn.image.sprite = skillIcon;
+            if(curSkill.skillIcon == null)
+            {
+                btn.image.sprite = originSprite;
+                skillText.text = "Skill";
+
+                rect.sizeDelta = new Vector2(220, 220);
+            }
+            else
+            {
+                btn.image.sprite = curSkill.skillIcon;
+                skillText.text = "";
+
+                rect.sizeDelta = new Vector2(170, 170);
+            }
         });
 
         EventManager.SubExitRoom(() =>
