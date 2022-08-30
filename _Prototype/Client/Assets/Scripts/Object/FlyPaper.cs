@@ -34,6 +34,7 @@ public class FlyPaper : MonoBehaviour
 
     public void SetEnable()
     {
+        gameObject.SetActive(true);
         if (co != null)
         {
             StopCoroutine(co);
