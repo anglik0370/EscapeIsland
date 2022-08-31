@@ -268,30 +268,30 @@ public class EyesightManager : MonoBehaviour
             shadowList[3].SetActive(true);
         }
 
-        if(area == Area.RedShipInside)
-        {
-            objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.limpidityColor, duration)); //바다 끄기
-        }
-        else if(oldArea == Area.RedShipInside)
-        {
-            objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.opacityColor, duration)); //바다 켜기
-        }
+        //if(area == Area.RedShipInside)
+        //{
+        //    objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.limpidityColor, duration)); //바다 끄기
+        //}
+        //else if(oldArea == Area.RedShipInside)
+        //{
+        //    objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.opacityColor, duration)); //바다 켜기
+        //}
 
-        if (ArsonManager.Instance.isArson)
-        {
-            for (int i = 0; i < arsonSlotList.Count; i++)
-            {
-                arsonSlotList[i].EyeActive(UtilClass.limpidityColor);
-            }
+        //if (ArsonManager.Instance.isArson)
+        //{
+        //    for (int i = 0; i < arsonSlotList.Count; i++)
+        //    {
+        //        arsonSlotList[i].EyeActive(UtilClass.limpidityColor);
+        //    }
 
-            var areaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().Area == area).ToList();
+        //    var areaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().Area == area).ToList();
 
-            for (int i = 0; i < areaArsonList.Count; i++)
-            {
-                int j = i;
-                objSeq.Join(areaArsonList[j].backgroundImg.DOColor(UtilClass.opacityColor, duration));
-            }
-        }
+        //    for (int i = 0; i < areaArsonList.Count; i++)
+        //    {
+        //        int j = i;
+        //        objSeq.Join(areaArsonList[j].backgroundImg.DOColor(UtilClass.opacityColor, duration));
+        //    }
+        //}
     }
 
     public void Dark()
