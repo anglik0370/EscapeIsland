@@ -78,6 +78,12 @@ class Room {
     }
 
     setSpawnerData(socket,data) {
+        if(this.areaList[data.area] === undefined) {
+            if(!data.isOpen) return;
+            socket.send(JSON.stringify({type:"OPEN_MISSION",payload:null}));
+            return;
+        }
+
         if(!this.areaList[data.area].canMission(this.userList[socket.id])) {
             sendError("현재 이 미션을 이용하실 수 없습니다.", socket);
             return;
