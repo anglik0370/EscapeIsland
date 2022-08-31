@@ -85,8 +85,8 @@ public class SkillManager : MonoBehaviour
 
     private void AmberSkill()
     {
-        PlayerManager.Instance.AccelerationPlayer(AMBER);
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Amber, user.socketId, skillList[AMBER].skillName));
+        //PlayerManager.Instance.AccelerationPlayer(AMBER);
+        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Amber, user.socketId, user.CurTeam, skillList[AMBER].skillName));
     }
 
     private void CherrySkill()

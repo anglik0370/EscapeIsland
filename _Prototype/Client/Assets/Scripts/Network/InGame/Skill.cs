@@ -113,10 +113,20 @@ public class Skill : ISetAble
             case CharacterType.Kion:
                 KionSkill();
                 break;
+            case CharacterType.Amber:
+                AmberSkill();
+                break;
             default:
                 CreateSkillLog(false);
                 break;
         }
+    }
+
+    private void AmberSkill()
+    {
+        CreateSkillLog(false);
+
+        ConvertPanel.Instance.ConvertLimit(skillData.team);
     }
 
     private void LeonSkill()

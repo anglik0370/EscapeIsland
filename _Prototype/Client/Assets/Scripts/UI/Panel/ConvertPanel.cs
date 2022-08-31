@@ -30,6 +30,11 @@ public class ConvertPanel : Panel
     private ItemConverter curOpenConverter;
     public ItemConverter CurOpenConverter => curOpenConverter;
 
+    private bool isBlueLimit = false;
+    private bool isRedLimit = false;
+
+    private WaitForSeconds limitWs;
+
     protected override void Awake()
     {
         if(Instance == null)
@@ -40,6 +45,8 @@ public class ConvertPanel : Panel
         base.Awake();
 
         ResetUIs();
+
+        limitWs = new WaitForSeconds(30f);
     }
 
     protected override void Start()
@@ -112,6 +119,26 @@ public class ConvertPanel : Panel
 
     public void Open(ItemConverter converter)
     {
+        //앰버 체크
+        {
+            if (isBlueLimit)
+            {
+                if (converter.AreaStateHolder.Area.Equals(Area.BlueLobby) && PlayerManager.Instance.Player.CurTeam.Equals(Team.RED))
+                {
+                    UIManager.Instance.AlertText("현재 사용하실 수 없습니다", AlertType.Warning);
+                    return;
+                }
+            }
+            else if (isRedLimit)
+            {
+                if (converter.AreaStateHolder.Area.Equals(Area.RedLobby) && PlayerManager.Instance.Player.CurTeam.Equals(Team.BLUE))
+                {
+                    UIManager.Instance.AlertText("현재 사용하실 수 없습니다", AlertType.Warning);
+                    return;
+                }
+            }
+        }
+
         base.Open();
 
         curOpenConverter = converter;
@@ -129,5 +156,32 @@ public class ConvertPanel : Panel
     public bool IsOpenRefinery(ItemConverter converter)
     {
         return curOpenConverter == converter;
+    }
+
+    public void ConvertLimit(Team team)
+    {
+        StartCoroutine(LimitCo(team.Equals(Team.BLUE)));
+    }
+
+    private IEnumerator LimitCo(bool isBlue)
+    {
+        yield return null;
+
+        if(isBlue)
+        {
+            isBlueLimit = true;
+
+            yield return limitWs;
+
+            isBlueLimit = false;
+        }
+        else
+        {
+            isRedLimit = true;
+
+            yield return limitWs;
+
+            isRedLimit = false;
+        }
     }
 }

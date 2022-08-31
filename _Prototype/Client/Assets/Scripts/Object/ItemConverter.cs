@@ -24,6 +24,9 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     private Collider2D interactionCol;
     public Collider2D InteractionCol => interactionCol;
 
+    private AreaStateHolder areaStateHolder;
+    public AreaStateHolder AreaStateHolder => areaStateHolder;
+
     public int id;
 
     private ItemSO beforeItem;
@@ -56,6 +59,7 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     private void Awake() 
     {
         sr = GetComponent<SpriteRenderer>();
+        areaStateHolder = GetComponent<AreaStateHolder>();
         interactionCol = GetComponentInChildren<Collider2D>();
 
         convertRecipeDic = new Dictionary<ItemSO, ItemSO>();

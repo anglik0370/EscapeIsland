@@ -29,7 +29,7 @@ public class SkillVO
     }
 
     /// <summary>
-    /// 이안,랜디 생성자
+    /// 이안,랜디, 앰버 생성자
     /// </summary>
     /// <param name="skillType"></param>
     /// <param name="team"></param>
