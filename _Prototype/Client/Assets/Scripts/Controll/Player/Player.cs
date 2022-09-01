@@ -169,13 +169,13 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         bool isBlueTeam = vo.curTeam.Equals(Team.BLUE);
         isReady = vo.ready;
+        curTeam = isBlueTeam ? Team.BLUE : Team.RED;
         ui.SetTeamImgColor(isBlueTeam ? Color.blue : Color.red);
         teamUI.SetParent(TeamPanel.Instance.GetParent(isBlueTeam));
-        curTeam = isBlueTeam ? Team.BLUE : Team.RED;
 
-        if(!master)
+        if (!master)
         {
-            teamUI.SetReadyText(vo.ready, UtilClass.READY_TEXT);
+            teamUI.SetReadyImg(vo.ready, false);
             ui.SetNameTextColor(vo.ready ? Color.black : Color.grey);
         }
 
