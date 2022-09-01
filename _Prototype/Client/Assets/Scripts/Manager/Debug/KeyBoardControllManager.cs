@@ -58,6 +58,7 @@ public class KeyBoardControllManager : MonoBehaviour
             if(!joyStick.isTouch)
             {
                 player.Animator.SetBool("isMoving", false);
+                player.PetMonkey?.SetAnimation(false);
             }
         }
 
