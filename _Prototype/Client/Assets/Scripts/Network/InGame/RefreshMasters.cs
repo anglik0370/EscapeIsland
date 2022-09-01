@@ -60,7 +60,7 @@ public class RefreshMasters : ISetAble
                 if(user.master)
                 {
                     user.UI.SetNameTextColor(Color.black);
-                    user.TeamUI.SetReadyText(true, UtilClass.HOST_TEXT);
+                    user.TeamUI.SetReadyImg(true, true);
                 }
                 //user.isImposter = uv.isImposter;
             }
@@ -77,7 +77,7 @@ public class RefreshMasters : ISetAble
                     if(p.master)
                     {
                         p.UI.SetNameTextColor(Color.black);
-                        p.TeamUI.SetReadyText(true, UtilClass.HOST_TEXT);
+                        p.TeamUI.SetReadyImg(true, true);
                     }
                     //p.isImposter = uv.isImposter;
                 }

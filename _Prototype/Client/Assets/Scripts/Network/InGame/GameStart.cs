@@ -66,7 +66,7 @@ public class GameStart : ISetAble
         {
             user.isReady = userVO.ready;
             user.UI.SetNameTextColor(userVO.ready ? Color.black : Color.gray);
-            user.TeamUI.SetReadyText(userVO.ready, UtilClass.READY_TEXT);
+            user.TeamUI.SetReadyImg(userVO.ready, false);
             return;
         }
 
@@ -75,7 +75,7 @@ public class GameStart : ISetAble
         if(p != null)
         {
             p.isReady = userVO.ready;
-            p.TeamUI.SetReadyText(userVO.ready, UtilClass.READY_TEXT);
+            p.TeamUI.SetReadyImg(userVO.ready, false);
             p.UI.SetNameTextColor(userVO.ready ? Color.black : Color.gray);
         }
     }

@@ -101,13 +101,14 @@ public class EyesightManager : MonoBehaviour
         {
             player = p;
 
-            ChangeVisibleObjects(Area.OutSide);
             shadowList.ForEach(x => x.SetActive(false));
 
             Light2D[] lights = p.GetComponentsInChildren<Light2D>();
 
             lightMapPoint = lights[0];
             shadowPoint = lights[1];
+
+            areaStateHolderList.ForEach(x => x.Sr.color = Area.InSide.HasFlag(x.Area) ? UtilClass.limpidityColor : UtilClass.opacityColor);
         });
 
         EventManager.SubPlayerDead(() =>
@@ -198,26 +199,26 @@ public class EyesightManager : MonoBehaviour
 
         objSeq = DOTween.Sequence();
 
-        Area flag = Area.OutSide;
+        Area flag;
 
         if(Area.OutSide.HasFlag(area))
         {
             flag = Area.OutSide;
         }
-        else if(Area.InSide.HasFlag(area))
+        else
         {
-            flag = Area.InSide;
+            flag = area;
         }
 
-        Area oldFlag = Area.OutSide;
+        Area oldFlag;
 
         if (Area.OutSide.HasFlag(oldArea))
         {
             oldFlag = Area.OutSide;
         }
-        else if (Area.InSide.HasFlag(oldArea))
+        else
         {
-            oldFlag = Area.InSide;
+            oldFlag = oldArea;
         }
 
         if (flag == oldFlag) return;
@@ -267,31 +268,6 @@ public class EyesightManager : MonoBehaviour
         {
             shadowList[3].SetActive(true);
         }
-
-        //if(area == Area.RedShipInside)
-        //{
-        //    objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.limpidityColor, duration)); //바다 끄기
-        //}
-        //else if(oldArea == Area.RedShipInside)
-        //{
-        //    objSeq.Join(seaObject.GetComponent<SpriteRenderer>().DOColor(UtilClass.opacityColor, duration)); //바다 켜기
-        //}
-
-        //if (ArsonManager.Instance.isArson)
-        //{
-        //    for (int i = 0; i < arsonSlotList.Count; i++)
-        //    {
-        //        arsonSlotList[i].EyeActive(UtilClass.limpidityColor);
-        //    }
-
-        //    var areaArsonList = arsonSlotList.Where(x => x.isArson && x.GetComponent<AreaStateHolder>().Area == area).ToList();
-
-        //    for (int i = 0; i < areaArsonList.Count; i++)
-        //    {
-        //        int j = i;
-        //        objSeq.Join(areaArsonList[j].backgroundImg.DOColor(UtilClass.opacityColor, duration));
-        //    }
-        //}
     }
 
     public void Dark()

@@ -136,6 +136,9 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public CharacterSO curSO;
 
+    private PetMonkey petMonkey;
+    public PetMonkey PetMonkey => petMonkey;
+
     private void Awake()
     {
         flipRot = new Vector3(0, 180, 0);
@@ -169,13 +172,13 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         bool isBlueTeam = vo.curTeam.Equals(Team.BLUE);
         isReady = vo.ready;
+        curTeam = isBlueTeam ? Team.BLUE : Team.RED;
         ui.SetTeamImgColor(isBlueTeam ? Color.blue : Color.red);
         teamUI.SetParent(TeamPanel.Instance.GetParent(isBlueTeam));
-        curTeam = isBlueTeam ? Team.BLUE : Team.RED;
 
-        if(!master)
+        if (!master)
         {
-            teamUI.SetReadyText(vo.ready, UtilClass.READY_TEXT);
+            teamUI.SetReadyImg(vo.ready, false);
             ui.SetNameTextColor(vo.ready ? Color.black : Color.grey);
         }
 
@@ -234,6 +237,8 @@ public class Player : MonoBehaviour, IInteractionObject
         anim.ResetTrigger(ANIMT_ATTACK);
 
         curSO.skill.InitTimer(); //스킬 쿨 초기화
+
+        petMonkey = GetComponentInChildren<PetMonkey>();
 
         dummyPlayer.SetActive(true);
     }
@@ -384,11 +389,15 @@ public class Player : MonoBehaviour, IInteractionObject
             playerTrm.localPosition = isFlip ? flipPos : defaultPos;
             playerTrm.localScale = new Vector3(playerTrm.localScale.x, playerTrm.localScale.y, isFlip ? FLIP_SCALE_Z : DEFAULT_SCALE_Z);
 
+            petMonkey?.FlipSprite(isFlip);
+
             anim.SetBool(ANIMB_MOVE, true);
+            petMonkey?.SetAnimation(true);
         }
         else
         {
             anim.SetBool(ANIMB_MOVE, false);
+            petMonkey?.SetAnimation(false);
         }
 
         transform.position += dir * speed * Time.deltaTime;
