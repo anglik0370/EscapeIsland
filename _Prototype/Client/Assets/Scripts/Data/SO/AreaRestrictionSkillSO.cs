@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/AreaRestrictionSkillSO", fileName = "New AreaRestrictionSkillSO")]
 public class AreaRestrictionSkillSO : SkillSO
 {
+    [HideInInspector]
     public List<Collider2D> colliderList;
 
     public bool isInShip;

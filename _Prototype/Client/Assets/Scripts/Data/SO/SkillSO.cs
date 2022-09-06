@@ -10,8 +10,13 @@ public class SkillSO : ScriptableObject
     public string skillName; //스킬 이름
 
     public Sprite skillIcon; //스킬 아이콘
+    [TextArea]
+    public string skillExplanation; //스킬 설명
+
+    public SkillType skillType; //스킬 타입
 
     public float coolTime = 10f; //쿨타임
+    [HideInInspector]
     public float timer = 10f; //쿨타임 계산하는 타이머
 
     public bool IsCoolTime => timer > 0; //현재 쿨타임인지

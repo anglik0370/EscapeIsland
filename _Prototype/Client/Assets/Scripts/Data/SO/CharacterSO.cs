@@ -21,6 +21,7 @@ public class CharacterSO : ScriptableObject
     public Sprite deadImg;
 
     public string charName;
+    public string jobName;
     public Sex sex;
 
     public Vector3 adjsutPos;
