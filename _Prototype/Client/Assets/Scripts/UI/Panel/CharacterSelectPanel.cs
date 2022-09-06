@@ -15,6 +15,10 @@ public class CharacterSelectPanel : Panel
     [SerializeField]
     private Transform profileParent;
 
+    [SerializeField]
+    private CharInfoPanel characterInfoPanel;
+    public CharInfoPanel CharInfoPanel => characterInfoPanel;
+
     protected override void Awake()
     {
         Instance = this;
