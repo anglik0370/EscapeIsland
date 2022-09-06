@@ -44,6 +44,7 @@ public class CharInfoPanel : Panel
     private Sprite femaleSprite;
 
     private CharacterSO curOpenCharSO; // 현재 열려있는 CharacterSO
+    public CharacterSO CurOpenCharSO => curOpenCharSO;
 
     protected override void Start()
     {
@@ -57,6 +58,8 @@ public class CharInfoPanel : Panel
 
     public void Open(CharacterSO characterSO)
     {
+        selectBtn.interactable = true;
+
         this.curOpenCharSO = characterSO;
 
         charImg.sprite = characterSO.standImg;
@@ -83,5 +86,10 @@ public class CharInfoPanel : Panel
         skillExplanationTxt.text = characterSO.skill.skillExplanation;
 
         base.Open(false);
+    }
+    
+    public void DisableConfirmBtn()
+    {
+        selectBtn.interactable = false;
     }
 }

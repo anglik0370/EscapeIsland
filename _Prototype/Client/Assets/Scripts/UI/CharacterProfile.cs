@@ -76,5 +76,10 @@ public class CharacterProfile : MonoBehaviour
 
         SelectBtn(enable);
         MaskOnOff(!enable);
+
+        if(CharacterSelectPanel.Instance.CharInfoPanel.CurOpenCharSO == charSO)
+        {
+            CharacterSelectPanel.Instance.CharInfoPanel.DisableConfirmBtn();
+        }
     }
 }
