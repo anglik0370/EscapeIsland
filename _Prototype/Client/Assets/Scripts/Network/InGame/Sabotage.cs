@@ -147,8 +147,6 @@ public class Sabotage : ISetAble
 
     public void SpawnTrap()
     {
-        LogPanel.Instance.GlobalSkillLog(user, ANDER_SKILL_NAME);
-
         Trap trap = PoolManager.GetItem<Trap>();
 
         if (!trapList.Contains(trap))
@@ -161,6 +159,18 @@ public class Sabotage : ISetAble
                 trap.transform.position = uv.position;
                 trap.id = lastTrapIdx++;
                 trap.team = sabotageData.team;
+
+                Player p;
+
+                if(NetworkManager.instance.GetPlayerDic().TryGetValue(uv.socketId, out p))
+                {
+                    LogPanel.Instance.GlobalSkillLog(p, ANDER_SKILL_NAME);
+                }
+                else
+                {
+                    LogPanel.Instance.GlobalSkillLog(user, ANDER_SKILL_NAME);
+                }
+
                 break;
             }
         }
