@@ -20,6 +20,8 @@ public class Sabotage : ISetAble
     private SabotageVO sabotageData;
 
     private const int ANDER_ID = 8; //¿£´õ 
+    [SerializeField]
+    private string ANDER_SKILL_NAME;
 
     private bool needSabotageRefresh = false;
     private bool needTrapRefresh = false;
@@ -140,11 +142,13 @@ public class Sabotage : ISetAble
         SabotageSO so = GetSabotageSO(sabotageData.sabotageName);
         so.callback?.Invoke();
 
-        UIManager.Instance.AlertText(sabotageData.sabotageName, AlertType.Warning);
+        //UIManager.Instance.AlertText(sabotageData.sabotageName, AlertType.Warning);
     }
 
     public void SpawnTrap()
     {
+        LogPanel.Instance.GlobalSkillLog(user, ANDER_SKILL_NAME);
+
         Trap trap = PoolManager.GetItem<Trap>();
 
         if (!trapList.Contains(trap))
