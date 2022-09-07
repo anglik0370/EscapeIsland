@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using static UnityEngine.Random;
 
 public class Sabotage : ISetAble
 {
@@ -168,6 +169,7 @@ public class Sabotage : ISetAble
         if(user.socketId.Equals(trapData.socketId))
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(ANDER_ID).InitializeBuff(user.gameObject));
+            user.inventory.RemoveItem(MissionPanel.Instance.MissionItemList[Range(0, MissionPanel.Instance.MissionItemList.Count)]);
         }
 
         Trap trap = FindTrap(trapData.id);
