@@ -169,7 +169,11 @@ public class Sabotage : ISetAble
         if(user.socketId.Equals(trapData.socketId))
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(ANDER_ID).InitializeBuff(user.gameObject));
-            user.inventory.RemoveItem(MissionPanel.Instance.MissionItemList[Range(0, MissionPanel.Instance.MissionItemList.Count)]);
+            
+            var slotList = user.inventory.slotList.Where(x => !x.IsEmpty).ToList();
+            ItemSO item = slotList[Range(0, slotList.Count)].GetItem();
+
+            user.inventory.RemoveItem(item); 
         }
 
         Trap trap = FindTrap(trapData.id);
