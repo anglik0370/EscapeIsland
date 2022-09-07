@@ -52,7 +52,11 @@ public class CharInfoPanel : Panel
         StartCoroutine(CoroutineHandler.Frame(() =>
         {
             SetCharacter sc = NetworkManager.instance.FindSetDataScript<SetCharacter>();
-            selectBtn.onClick.AddListener(() => sc.ChangeCharacter(curOpenCharSO));
+            selectBtn.onClick.AddListener(() => 
+            {
+                sc.ChangeCharacter(curOpenCharSO);
+                Close(false);
+            });
         }));
     }
 
