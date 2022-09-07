@@ -43,6 +43,14 @@ public class CharInfoPanel : Panel
     [SerializeField]
     private Sprite femaleSprite;
 
+    [Header("타입 스프라이트")]
+    [SerializeField]
+    private Sprite attackSprite;
+    [SerializeField]
+    private Sprite supportSprite;
+    [SerializeField]
+    private Sprite utillSprite;
+
     private CharacterSO curOpenCharSO; // 현재 열려있는 CharacterSO
     public CharacterSO CurOpenCharSO => curOpenCharSO;
 
@@ -75,12 +83,15 @@ public class CharInfoPanel : Panel
         {
             case SkillType.Attack:
                 skillTypeTxt.text = "공격형";
+                skillTypeImg.sprite = attackSprite;
                 break;
             case SkillType.Support:
                 skillTypeTxt.text = "지원형";
+                skillTypeImg.sprite = supportSprite;
                 break;
             case SkillType.Utill:
                 skillTypeTxt.text = "유틸형";
+                skillTypeImg.sprite = utillSprite;
                 break;
         }
 
