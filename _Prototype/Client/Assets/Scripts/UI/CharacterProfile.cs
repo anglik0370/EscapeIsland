@@ -66,20 +66,4 @@ public class CharacterProfile : MonoBehaviour
     {
         maskImg.alpha = on ? 1f : 0f;
     }
-
-    public void BtnEnabled(bool enable)
-    {
-        if(!enable && charSO.id <= 0)
-        {
-            return;
-        }
-
-        SelectBtn(enable);
-        MaskOnOff(!enable);
-
-        if(CharacterSelectPanel.Instance.CharInfoPanel.CurOpenCharSO == charSO)
-        {
-            CharacterSelectPanel.Instance.CharInfoPanel.DisableConfirmBtn();
-        }
-    }
 }

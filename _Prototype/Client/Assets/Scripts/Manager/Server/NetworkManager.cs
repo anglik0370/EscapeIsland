@@ -167,8 +167,7 @@ public class NetworkManager : MonoBehaviour
 
         foreach (int id in selectedIdList)
         {
-            CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(id);
-            profile.BtnEnabled(false);
+            CharacterSelectPanel.Instance.SetCharecterSelection(id, true);
         }
 
     }

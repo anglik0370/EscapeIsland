@@ -13,6 +13,9 @@ public class CharacterSelectPanel : Panel
     private Dictionary<int,List<GameObject>> charPool = new Dictionary<int,List<GameObject>>();
 
     [SerializeField]
+    private SerializableDictionary<int, bool> profileEnableDic = new SerializableDictionary<int, bool>();
+
+    [SerializeField]
     private Transform profileParent;
 
     [SerializeField]
@@ -32,6 +35,7 @@ public class CharacterSelectPanel : Panel
             CharacterProfile temp = Instantiate(profilePrefab, profileParent);
             temp.Init(charSOList[i]);
             charPool.Add(charSOList[i].id, new List<GameObject>());
+            profileEnableDic.Add(charSOList[i].id, false);
             profileList.Add(temp);
         }
 
@@ -77,8 +81,23 @@ public class CharacterSelectPanel : Panel
     {
         foreach (CharacterProfile profile in profileList)
         {
-            profile.BtnEnabled(true);
+            profileEnableDic[profile.GetSO().id] = false;
         }
+    }
+
+    public void SetCharecterSelection(int charId, bool enable)
+    {
+        profileEnableDic[charId] = enable;
+
+        if(CharInfoPanel.CurOpenCharSO != null && CharInfoPanel.CurOpenCharSO.id == charId)
+        {
+            CharInfoPanel.SetConfimBtnEnable(!enable);
+        }
+    }
+
+    public bool GetCharacterSelection(int charId)
+    {
+        return profileEnableDic[charId];
     }
 
     public CharacterProfile GetNotSelectedProfile()

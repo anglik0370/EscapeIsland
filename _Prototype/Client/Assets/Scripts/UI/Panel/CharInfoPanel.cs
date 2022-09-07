@@ -70,9 +70,9 @@ public class CharInfoPanel : Panel
 
     public void Open(CharacterSO characterSO)
     {
-        selectBtn.interactable = true;
-
         this.curOpenCharSO = characterSO;
+
+        selectBtn.interactable = !CharacterSelectPanel.Instance.GetCharacterSelection(characterSO.id);
 
         charImg.sprite = characterSO.standImg;
         nameTxt.text = characterSO.charName;
@@ -103,8 +103,8 @@ public class CharInfoPanel : Panel
         base.Open(false);
     }
     
-    public void DisableConfirmBtn()
+    public void SetConfimBtnEnable(bool enable)
     {
-        selectBtn.interactable = false;
+        selectBtn.interactable = enable;
     }
 }

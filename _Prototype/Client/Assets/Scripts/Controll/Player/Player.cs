@@ -210,8 +210,7 @@ public class Player : MonoBehaviour, IInteractionObject
         {
             if (curSO != null)
             {
-                CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
-                pr.BtnEnabled(false);
+                CharacterSelectPanel.Instance.SetCharecterSelection(curSO.id, true);
             }
         }
 
@@ -275,17 +274,18 @@ public class Player : MonoBehaviour, IInteractionObject
         if (curSO != null)
         {
             beforeSoId = curSO.id;
-            CharacterProfile pr = CharacterSelectPanel.Instance.GetCharacterProfile(curSO.id);
 
             if(isSameTeam)
-                pr.BtnEnabled(true);
+            {
+                CharacterSelectPanel.Instance.SetCharecterSelection(curSO.id, false);
+            }
         }
         curSO = so;
 
-        CharacterProfile profile = CharacterSelectPanel.Instance.GetCharacterProfile(so.id);
-
         if(isSameTeam)
-            profile.BtnEnabled(false);
+        {
+            CharacterSelectPanel.Instance.SetCharecterSelection(curSO.id, true);
+        }
         //플레이어 오브젝트 체인지
 
         teamUI.RefreshProfile();
@@ -320,7 +320,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
         if (profile == null) return;
 
-        profile.BtnEnabled(true);
+        CharacterSelectPanel.Instance.SetCharecterSelection(curSO.id, false);
         curSO = null;
     }
 
