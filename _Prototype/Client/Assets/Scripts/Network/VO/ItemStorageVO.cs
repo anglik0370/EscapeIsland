@@ -3,6 +3,7 @@ public class ItemStorageVO
 {
     public Team team;
     public int itemSOId;
+    public bool isFull;
 
     public ItemStorageVO()
     {
