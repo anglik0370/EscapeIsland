@@ -1,7 +1,8 @@
 const team = require("./Utils/Team.js");
 
 class Area {
-    constructor(areaState,areaName) {
+    constructor(areaState,areaName,room) {
+        this.curRoom = room;
 
         this.areaState = areaState;
         this.areaName = areaName;
@@ -70,6 +71,8 @@ class Area {
 
     occupy() {
         this.occupyTeam = this.blueGauge >= this.redGauge ? team.BLUE : team.RED;
+
+        this.curRoom.broadcast(JSON.stringify({type:"OCCUPY",payload:JSON.stringify(this.getPayload())}));
 
         clearTimeout(this.curTimer);
         this.curTimer = setTimeout(this.startTimer.bind(this),this.occupyTime);

@@ -18,6 +18,8 @@ class Storage {
     addItemAmount(itemId) {
         this.curAmountItemList[itemId]++;
         this.totalCollectedItemAmount++;
+
+        return this.maxAmountItemList[itemId] <= this.curAmountItemList[itemId];
     }
 
     setItemAmount(itemId,amount) {

@@ -57,5 +57,10 @@ public class ItemAndStorage : ISetAble
 
         StorageManager.Instance.AddItem(vo.team, so);
         mission.UpdateCurItem();
+
+        if(vo.isFull)
+        {
+            LogPanel.Instance.StorageFullLog(vo.team, so);
+        }
     }
 }

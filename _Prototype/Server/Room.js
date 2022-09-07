@@ -53,10 +53,10 @@ class Room {
     }
 
     initAreaList() {
-        this.areaList[AreaState.Cave] = new Area(AreaState.Cave, "동굴");
-        this.areaList[AreaState.Beach] = new Area(AreaState.Beach,"모래사장");
-        this.areaList[AreaState.Field] = new Area(AreaState.Field,"밭");
-        this.areaList[AreaState.Forest] = new Area(AreaState.Forest,"숲");
+        this.areaList[AreaState.Cave] = new Area(AreaState.Cave, "동굴",this);
+        this.areaList[AreaState.Beach] = new Area(AreaState.Beach,"모래사장",this);
+        this.areaList[AreaState.Field] = new Area(AreaState.Field,"밭",this);
+        this.areaList[AreaState.Forest] = new Area(AreaState.Forest,"숲",this);
     }
 
     initSpawnerList() {
@@ -297,7 +297,9 @@ class Room {
     }
 
     storageDrop(data) {
-        this.storageItemList[data.team].addItemAmount(data.itemSOId);
+        let isFull = this.storageItemList[data.team].addItemAmount(data.itemSOId);
+
+        data.isFull = isFull;
         this.broadcast(JSON.stringify({type:"STORAGE_DROP",payload:JSON.stringify(data)}));
 
         if(this.storageItemList[data.team].IsFullStorage()) {
