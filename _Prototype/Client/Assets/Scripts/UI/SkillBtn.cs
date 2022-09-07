@@ -17,13 +17,16 @@ public class SkillBtn : MonoBehaviour
 
     private SkillSO curSkill => PlayerManager.Instance.Player.curSO.skill;
 
+    [SerializeField]
+    private SkillSO amberSkill; //기본이 엠버라 엠버쓰는거
+
     private bool isGameStart;
     private bool isEnterRoom;
 
     private bool isPassiveCalled;
 
     public bool CanTouch => btnImage.raycastTarget;
-
+ 
     private bool IsTargetingSkill => curSkill is TargetingSkillSO;
     private bool IsAreaRestrictionSkill => curSkill is AreaRestrictionSkillSO;
 
@@ -45,7 +48,7 @@ public class SkillBtn : MonoBehaviour
     private void Start()
     {
         EventManager.SubEnterRoom(p =>
-        {
+        {   
             isEnterRoom = true;
             isPassiveCalled = false;
         });
@@ -53,21 +56,6 @@ public class SkillBtn : MonoBehaviour
         EventManager.SubGameStart(p =>
         {
             isGameStart = true;
-
-            if(curSkill.skillIcon == null)
-            {
-                btn.image.sprite = originSprite;
-                skillText.text = "Skill";
-
-                rect.sizeDelta = new Vector2(220, 220);
-            }
-            else
-            {
-                btn.image.sprite = curSkill.skillIcon;
-                skillText.text = "";
-
-                rect.sizeDelta = new Vector2(170, 170);
-            }
         });
 
         EventManager.SubExitRoom(() =>
@@ -109,7 +97,27 @@ public class SkillBtn : MonoBehaviour
 
     private void UpdateImage()
     {
-        if (isGameStart && IsTargetingSkill)
+        if(!isGameStart)
+        {
+            if(curSkill.skillIcon == null)
+            {
+                btn.image.sprite = originSprite;
+                skillText.text = "Skill";
+
+                rect.sizeDelta = new Vector2(220, 220);
+            }
+            else
+            {
+                btn.image.sprite = curSkill.skillIcon;
+                skillText.text = "";
+
+                rect.sizeDelta = new Vector2(170, 170);
+            }
+
+            return;
+        }
+
+        if (IsTargetingSkill)
         {
             TargetingSkillSO so = (TargetingSkillSO)curSkill;
             int targetSocId = PlayerManager.Instance.GetRangeInPlayerId(so.skillRange);
@@ -123,7 +131,7 @@ public class SkillBtn : MonoBehaviour
             }
         }
 
-        if(isGameStart && IsAreaRestrictionSkill)
+        if(IsAreaRestrictionSkill)
         {
             AreaRestrictionSkillSO so = (AreaRestrictionSkillSO)curSkill;
 
@@ -147,7 +155,7 @@ public class SkillBtn : MonoBehaviour
             }
         }
 
-        if (isGameStart && !curSkill.isPassive && !PlayerManager.Instance.Player.IsSturned)
+        if (!curSkill.isPassive && !PlayerManager.Instance.Player.IsSturned)
         {
             coolTimeImg.fillAmount = curSkill.timer / curSkill.coolTime;
             btnImage.raycastTarget = (curSkill.timer / curSkill.coolTime) <= 0;
