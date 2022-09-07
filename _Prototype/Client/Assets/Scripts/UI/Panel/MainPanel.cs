@@ -62,6 +62,7 @@ public class MainPanel : MonoBehaviour
             SetCvsActive(cvsList[INTERACTIONBTN]);
             SetCvsActive(cvsList[SETTINGBTN]);
             SetCvsActive(cvsList[USERCOUNT]);
+            SetCvsActive(cvsList[CHATBTN]);
         });
     }
 
