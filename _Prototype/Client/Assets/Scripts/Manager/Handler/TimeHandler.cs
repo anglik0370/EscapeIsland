@@ -64,4 +64,9 @@ public class TimeHandler : MonoBehaviour
         day = 1;
         dayAndSlotText.text = $"{day}번째 낮";
     }
+
+    public string GetCurTime()
+    {
+        return $"{dayAndSlotText.text} {inGameTimerText.text}";
+    }
 }

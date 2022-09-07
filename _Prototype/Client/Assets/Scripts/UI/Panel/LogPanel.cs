@@ -35,7 +35,7 @@ public class LogPanel : MonoBehaviour
         UIManager.Instance.AlertText(str, AlertType.GameEvent);
 
         LogText logText = Instantiate(logTextPrefab, contentTrm);
-        logText.SetText(str);
+        logText.SetText($"[{TimeHandler.Instance.GetCurTime()}] {str}");
 
         logTexts.Enqueue(logText);
 
