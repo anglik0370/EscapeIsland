@@ -6,46 +6,37 @@ using DG.Tweening;
 
 public class TitlePanel : MonoBehaviour
 {
+    [SerializeField]
     private Button btn;
-    private Image img;
-
-    private RectTransform imageRect;
-    private RectTransform textRect;
 
     [SerializeField]
-    private List<CanvasGroup> cvsList = new List<CanvasGroup>();
+    private RectTransform topPanelRect;
+    [SerializeField]
+    private RectTransform bottomPanelRect;
 
     [SerializeField]
-    private float imageMinWidth;
+    private CanvasGroup titleCvs;
     [SerializeField]
-    private float imageMinHeight;
-
-    private float originMinWidth;
-    private float originMinHeight;
-
-    [SerializeField]
-    private float textDownYPos;
-
-    private float originYPos;
+    private CanvasGroup loginCvs;
 
     private Sequence seq;
 
     private void Awake()
     {
-        btn = GetComponent<Button>();
-        img = GetComponent<Image>();
-
-        imageRect = transform.Find("TitleImage").GetComponent<RectTransform>();
-        textRect = transform.Find("TitleText").GetComponent<RectTransform>();
-
-        originMinWidth = imageRect.offsetMax.x;
-        originMinHeight = imageRect.offsetMax.y;
-
-        originYPos = textRect.anchoredPosition.y;
-
         btn.onClick.AddListener(Close);
 
-        cvsList.ForEach(x => UtilClass.SetCanvasGroup(x));
+        topPanelRect.SetTop(0);
+        topPanelRect.SetBottom(0);
+        topPanelRect.SetLeft(0);
+        topPanelRect.SetRight(0);
+
+        bottomPanelRect.SetTop(Screen.height);
+        bottomPanelRect.SetBottom(-Screen.height);
+        bottomPanelRect.SetLeft(0);
+        bottomPanelRect.SetRight(0);
+
+        UtilClass.SetCanvasGroup(titleCvs);
+        UtilClass.SetCanvasGroup(loginCvs);
     }
 
     public void Init()
@@ -55,12 +46,18 @@ public class TitlePanel : MonoBehaviour
             seq.Kill();
         }
 
-        imageRect.offsetMax = new Vector2(originMinWidth, originMinHeight);
-        textRect.anchoredPosition = new Vector2(textRect.anchoredPosition.x, originYPos);
+        topPanelRect.SetTop(0);
+        topPanelRect.SetBottom(0);
+        topPanelRect.SetLeft(0);
+        topPanelRect.SetRight(0);
 
-        img.raycastTarget = true;
+        bottomPanelRect.SetTop(Screen.height);
+        bottomPanelRect.SetBottom(-Screen.height);
+        bottomPanelRect.SetLeft(0);
+        bottomPanelRect.SetRight(0);
 
-        cvsList.ForEach(x => UtilClass.SetCanvasGroup(x));
+        UtilClass.SetCanvasGroup(titleCvs);
+        UtilClass.SetCanvasGroup(loginCvs);
     }
 
     public void Close()
@@ -72,11 +69,19 @@ public class TitlePanel : MonoBehaviour
 
         seq = DOTween.Sequence();
 
-        seq.Append(DOTween.To(() => imageRect.offsetMax, x => imageRect.offsetMax = x, new Vector2(-imageMinWidth, -imageMinHeight), 1f));
-        seq.Join(textRect.DOAnchorPosY(textDownYPos, 1f));
+        seq.Append(DOTween.To(() => topPanelRect.offsetMax, x => topPanelRect.offsetMax = x, new Vector2(topPanelRect.offsetMax.x, Screen.height), 1f).SetEase(Ease.InCubic));
+        seq.Join(DOTween.To(() => topPanelRect.offsetMin, x => topPanelRect.offsetMin = x, new Vector2(topPanelRect.offsetMin.x, Screen.height), 1f).SetEase(Ease.InCubic));
+        seq.Join(DOTween.To(() => bottomPanelRect.offsetMax, x => bottomPanelRect.offsetMax = x, new Vector2(bottomPanelRect.offsetMax.x, 0), 1f).SetEase(Ease.InCubic));
+        seq.Join(DOTween.To(() => bottomPanelRect.offsetMin, x => bottomPanelRect.offsetMin = x, new Vector2(bottomPanelRect.offsetMin.x, -0), 1f).SetEase(Ease.InCubic));
+        seq.Append(titleCvs.DOFade(1f, 1f));
+        seq.Join(loginCvs.DOFade(1f, 1f));
+        seq.AppendCallback(() => {
+            print(true);
 
-        img.raycastTarget = false;
-
-        cvsList.ForEach(x => UtilClass.SetCanvasGroup(x, 1, true, true, false));
+            titleCvs.interactable = true;
+            titleCvs.blocksRaycasts = true;
+            loginCvs.interactable = true;
+            loginCvs.blocksRaycasts = true;
+        });
     }
 }
