@@ -44,13 +44,13 @@ public class LogPanel : MonoBehaviour
 
     public void GlobalSkillLog(Player caster, string skillName)
     {
-        string str = $"<color={caster.CurTeam.ToString().ToLower()}>{caster.socketName}</color>이 {skillName}을(를) 사용하였습니다";
+        string str = $"<color={caster.CurTeam.ToString().ToLower()}>{caster.socketName}</color>이(가) {skillName}을(를) 사용하였습니다";
         CreateLogText(str);
     }
 
     public void SingleSkillLog(Player caster, Player victim, string skillName)
     {
-        string str = $"<color={caster.CurTeam.ToString().ToLower()}>{caster.socketName}</color>이 <color={victim.CurTeam.ToString().ToLower()}>{victim.socketName}</color> 에게 {skillName}을(를) 사용하였습니다";
+        string str = $"<color={caster.CurTeam.ToString().ToLower()}>{caster.socketName}</color>이(가) <color={victim.CurTeam.ToString().ToLower()}>{victim.socketName}</color> 에게 {skillName}을(를) 사용하였습니다";
         CreateLogText(str);
     }
 
