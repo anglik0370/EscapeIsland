@@ -7,6 +7,6 @@ public class ImmediateBuffSO : BuffSO
 {
     public override TimedBuff InitializeBuff(GameObject obj)
     {
-        throw new System.NotImplementedException();
+        return new ImmediateBuff(this, obj);
     }
 }
