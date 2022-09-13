@@ -19,24 +19,18 @@ public class TitlePanel : MonoBehaviour
     [SerializeField]
     private CanvasGroup loginCvs;
 
+    [SerializeField]
+    private CanvasScaler cvsScaler;
+
     private Sequence seq;
 
     private void Awake()
     {
+        cvsScaler = GetComponentInParent<CanvasScaler>();
+
         btn.onClick.AddListener(Close);
 
-        topPanelRect.SetTop(0);
-        topPanelRect.SetBottom(0);
-        topPanelRect.SetLeft(0);
-        topPanelRect.SetRight(0);
-
-        bottomPanelRect.SetTop(Screen.height);
-        bottomPanelRect.SetBottom(-Screen.height);
-        bottomPanelRect.SetLeft(0);
-        bottomPanelRect.SetRight(0);
-
-        UtilClass.SetCanvasGroup(titleCvs);
-        UtilClass.SetCanvasGroup(loginCvs);
+        Init();
     }
 
     public void Init()
@@ -51,8 +45,8 @@ public class TitlePanel : MonoBehaviour
         topPanelRect.SetLeft(0);
         topPanelRect.SetRight(0);
 
-        bottomPanelRect.SetTop(Screen.height);
-        bottomPanelRect.SetBottom(-Screen.height);
+        bottomPanelRect.SetTop(cvsScaler.referenceResolution.y);
+        bottomPanelRect.SetBottom(-cvsScaler.referenceResolution.y);
         bottomPanelRect.SetLeft(0);
         bottomPanelRect.SetRight(0);
 
@@ -69,8 +63,8 @@ public class TitlePanel : MonoBehaviour
 
         seq = DOTween.Sequence();
 
-        seq.Append(DOTween.To(() => topPanelRect.offsetMax, x => topPanelRect.offsetMax = x, new Vector2(topPanelRect.offsetMax.x, Screen.height), 1f).SetEase(Ease.InCubic));
-        seq.Join(DOTween.To(() => topPanelRect.offsetMin, x => topPanelRect.offsetMin = x, new Vector2(topPanelRect.offsetMin.x, Screen.height), 1f).SetEase(Ease.InCubic));
+        seq.Append(DOTween.To(() => topPanelRect.offsetMax, x => topPanelRect.offsetMax = x, new Vector2(topPanelRect.offsetMax.x, cvsScaler.referenceResolution.y), 1f).SetEase(Ease.InCubic));
+        seq.Join(DOTween.To(() => topPanelRect.offsetMin, x => topPanelRect.offsetMin = x, new Vector2(topPanelRect.offsetMin.x, cvsScaler.referenceResolution.y), 1f).SetEase(Ease.InCubic));
         seq.Join(DOTween.To(() => bottomPanelRect.offsetMax, x => bottomPanelRect.offsetMax = x, new Vector2(bottomPanelRect.offsetMax.x, 0), 1f).SetEase(Ease.InCubic));
         seq.Join(DOTween.To(() => bottomPanelRect.offsetMin, x => bottomPanelRect.offsetMin = x, new Vector2(bottomPanelRect.offsetMin.x, -0), 1f).SetEase(Ease.InCubic));
         seq.Append(titleCvs.DOFade(1f, 1f));
