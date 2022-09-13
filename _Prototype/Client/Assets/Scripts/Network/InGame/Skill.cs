@@ -221,13 +221,30 @@ public class Skill : ISetAble
         //trap Ã³¸®
         {
             List<Trap> trapList = Sabotage.Instance.GetTrapList();
+            List<Trap> idList = new List<Trap>();
 
             foreach (Trap trap in trapList)
             {
-                if (trap.enterPlayerId.Equals(user.socketId))
+                if(trap.enterPlayerId != -1 && trap.gameObject.activeSelf)
                 {
-                    trap.Init();
-                    break;
+                    idList.Add(trap);
+                }
+            }
+
+            Trap t = idList.Find(x => x.enterPlayerId.Equals(user.socketId));
+
+            if(t != null && user.CurTeam.Equals(skillData.team))
+            {
+                t.Init();
+            }
+
+            foreach (Player p in NetworkManager.instance.GetPlayerList())
+            {
+                t = idList.Find(x => x.enterPlayerId.Equals(p.socketId));
+
+                if (t != null && p.CurTeam.Equals(skillData.team))
+                {
+                    t.Init();
                 }
             }
         }
