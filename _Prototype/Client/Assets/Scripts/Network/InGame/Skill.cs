@@ -37,13 +37,13 @@ public class Skill : ISetAble
 
     private void Update()
     {
-        if(needSkillRefresh)
+        if (needSkillRefresh)
         {
             SkillRefresh();
             needSkillRefresh = false;
         }
 
-        if(needFlyPaperRefresh)
+        if (needFlyPaperRefresh)
         {
             FlyPaperRefresh();
             needFlyPaperRefresh = false;
@@ -51,7 +51,7 @@ public class Skill : ISetAble
     }
     public static void SetSkill(SkillVO vo)
     {
-        lock(Instance.lockObj)
+        lock (Instance.lockObj)
         {
             Instance.skillData = vo;
             Instance.needSkillRefresh = true;
@@ -60,7 +60,7 @@ public class Skill : ISetAble
 
     public static void EnterFlyPaper(FlyPaperVO vo)
     {
-        lock(Instance.lockObj)
+        lock (Instance.lockObj)
         {
             Instance.flyPaperData = vo;
             Instance.needFlyPaperRefresh = true;
@@ -71,7 +71,7 @@ public class Skill : ISetAble
     {
         FlyPaper flyPaper = flyPaperList.Find(x => x.id.Equals(flyPaperData.id) && x.userId.Equals(flyPaperData.userId));
 
-        if(flyPaper != null)
+        if (flyPaper != null)
         {
             flyPaper.Init();
         }
@@ -139,7 +139,7 @@ public class Skill : ISetAble
 
         ItemSO item = ItemManager.Instance.FindItemSO(skillData.itemId);
 
-        if(item != null)
+        if (item != null)
         {
             if (user.socketId.Equals(skillData.useSkillPlayerId) && !user.inventory.IsAllSlotFull)
             {
@@ -151,7 +151,7 @@ public class Skill : ISetAble
                 user.inventory.RemoveItem(item);
             }
         }
-        
+
     }
 
     public Color GetStateColor(bool isBuff)
@@ -163,10 +163,10 @@ public class Skill : ISetAble
     {
         CreateSkillLog(false);
 
-        ItemSO item =  ItemManager.Instance.FindItemSO(skillData.targetId);
+        ItemSO item = ItemManager.Instance.FindItemSO(skillData.targetId);
         ItemAmount curAmount = StorageManager.Instance.FindItemAmount(false, skillData.team, item);
 
-        if(curAmount.amount > 0)
+        if (curAmount.amount > 0)
         {
             StorageManager.Instance.RemoveItem(skillData.team, item);
 
@@ -179,7 +179,7 @@ public class Skill : ISetAble
         {
             Debug.LogError("아이템이 없음");
         }
-        
+
     }
 
     private void KionSkill()
@@ -193,7 +193,7 @@ public class Skill : ISetAble
             paper = flyPaperList.Find(x => !x.gameObject.activeSelf);
         }
 
-        if(paper == null)
+        if (paper == null)
         {
             paper = Instantiate(flyPaperPrefab, transform);
             flyPaperList.Add(paper);
@@ -218,42 +218,31 @@ public class Skill : ISetAble
 
     private void RemoveAllDebuff()
     {
-        //trap 처리
+        CreateSkillLog(false);
+
+        List<Trap> trapList = Sabotage.Instance.GetTrapList();
+        List<Trap> idList = new List<Trap>();
+
+        foreach (Trap trap in trapList)
         {
-            List<Trap> trapList = Sabotage.Instance.GetTrapList();
-            List<Trap> idList = new List<Trap>();
-
-            foreach (Trap trap in trapList)
+            if (trap.enterPlayerId != -1 && trap.gameObject.activeSelf)
             {
-                if(trap.enterPlayerId != -1 && trap.gameObject.activeSelf)
-                {
-                    idList.Add(trap);
-                }
+                idList.Add(trap);
             }
+        }
 
-            Trap t = idList.Find(x => x.enterPlayerId.Equals(user.socketId));
+        Trap t = null;
 
-            if(t != null && user.CurTeam.Equals(skillData.team))
+        if (user.CurTeam.Equals(skillData.team))
+        {
+            t = idList.Find(x => x.enterPlayerId.Equals(user.socketId));
+
+            if (t != null && user.CurTeam.Equals(skillData.team))
             {
                 t.Init();
             }
 
-            foreach (Player p in NetworkManager.instance.GetPlayerList())
-            {
-                t = idList.Find(x => x.enterPlayerId.Equals(p.socketId));
-
-                if (t != null && p.CurTeam.Equals(skillData.team))
-                {
-                    t.Init();
-                }
-            }
-        }
-
-        CreateSkillLog(false);
-
-        if (user.CurTeam.Equals(skillData.team))
-        {
-            if(user.BuffHandler.IsDebuffed())
+            if (user.BuffHandler.IsDebuffed())
             {
                 user.UI.SetState("디버프 해제", GetStateColor(true));
                 user.BuffHandler.RemoveAllDebuff();
@@ -265,6 +254,29 @@ public class Skill : ISetAble
             }
         }
 
+        foreach (Player p in NetworkManager.instance.GetPlayerList())
+        {
+            if (p.CurTeam.Equals(skillData.team))
+            {
+                t = idList.Find(x => x.enterPlayerId.Equals(p.socketId));
+
+                if (t != null)
+                {
+                    t.Init();
+                }
+
+                if (p.BuffHandler.IsDebuffed())
+                {
+                    p.UI.SetState("디버프 해제", GetStateColor(true));
+                    p.BuffHandler.RemoveAllDebuff();
+                }
+                else
+                {
+                    p.UI.SetState("빨라짐", GetStateColor(true));
+                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(user.gameObject));
+                }
+            }
+        }
     }
 
     private void CherrySkill()
@@ -361,7 +373,7 @@ public class Skill : ISetAble
     {
         Init();
 
-        if(single)
+        if (single)
         {
             print("싱글 로그");
 
@@ -384,7 +396,7 @@ public class Skill : ISetAble
             if (user.socketId.Equals(skillData.useSkillPlayerId))
             {
                 //플레이어가 스킬 사용했을 시
-                LogPanel.Instance.GlobalSkillLog(user,skillData.skillName);
+                LogPanel.Instance.GlobalSkillLog(user, skillData.skillName);
             }
             else if (playerList.TryGetValue(skillData.useSkillPlayerId, out Player p))
             {
@@ -392,12 +404,12 @@ public class Skill : ISetAble
                 LogPanel.Instance.GlobalSkillLog(p, skillData.skillName);
             }
         }
-       
+
     }
-        
+
     private Player GetTargetPlayer()
     {
-        if(user.socketId.Equals(skillData.targetId))
+        if (user.socketId.Equals(skillData.targetId))
         {
             return user;
         }
