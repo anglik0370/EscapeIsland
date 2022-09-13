@@ -78,11 +78,13 @@ public class Skill : ISetAble
 
         if (flyPaperData.socketId.Equals(user.socketId))
         {
+            BuffSO coolDebuffSO = BuffManager.Instance.GetBuffSO(KION_COOLTIME_DEBUFF_ID);
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(KION_SPEED_DEBUFF_ID).InitializeBuff(user.gameObject));
-            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(KION_COOLTIME_DEBUFF_ID).InitializeBuff(user.gameObject));
+            user.BuffHandler.AddBuff(coolDebuffSO.InitializeBuff(user.gameObject));
+            user.UI.SetState("미션 쿨타임 증가", GetStateColor(coolDebuffSO.isBuffed));
         }
         //else if(playerList.TryGetValue(flyPaperData.socketId,out Player p))
-        //{
+        //{ 
         //    //이펙트 재생시 여기에서
         //}
     }
@@ -145,10 +147,16 @@ public class Skill : ISetAble
             }
             else if (user.socketId.Equals(skillData.targetId))
             {
+                user.UI.SetState("재료 빼앗김", GetStateColor(false));
                 user.inventory.RemoveItem(item);
             }
         }
         
+    }
+
+    public Color GetStateColor(bool isBuff)
+    {
+        return isBuff ? Color.blue : Color.red;
     }
 
     private void SimonSkill()
@@ -230,10 +238,12 @@ public class Skill : ISetAble
         {
             if(user.BuffHandler.IsDebuffed())
             {
+                user.UI.SetState("디버프 해제", GetStateColor(true));
                 user.BuffHandler.RemoveAllDebuff();
             }
             else
             {
+                user.UI.SetState("빨라짐", GetStateColor(true));
                 user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(user.gameObject));
             }
         }
@@ -248,11 +258,14 @@ public class Skill : ISetAble
 
         if (skillData.targetIdList.Count <= 0) return;
 
+        BuffSO buffSO = BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID);
+
         if (skillData.targetIdList.Contains(user.socketId))
         {
             if (user.CurTeam.Equals(skillData.team))
             {
-                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(user.gameObject));
+                user.UI.SetState("미션 쿨타임 감소", GetStateColor(buffSO.isBuffed));
+                user.BuffHandler.AddBuff(buffSO.InitializeBuff(user.gameObject));
             }
             //else
             //{
@@ -269,7 +282,8 @@ public class Skill : ISetAble
 
             if (p.CurTeam.Equals(skillData.team))
             {
-                p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_SAME_TEAM_BUFF_ID).InitializeBuff(p.gameObject));
+                p.UI.SetState("미션 쿨타임 감소", GetStateColor(buffSO.isBuffed));
+                p.BuffHandler.AddBuff(buffSO.InitializeBuff(p.gameObject));
             }
             //else
             //{
@@ -287,17 +301,20 @@ public class Skill : ISetAble
 
         if (skillData.targetIdList.Count > 0)
         {
+            BuffSO buff = BuffManager.Instance.GetBuffSO(JOSHUA_BUFF_ID);
             if (skillData.targetIdList.Contains(user.socketId))
             {
-                user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(JOSHUA_BUFF_ID).InitializeBuff(user.gameObject));
+                user.UI.SetState("이동 불가", GetStateColor(buff.isBuffed));
+                user.BuffHandler.AddBuff(buff.InitializeBuff(user.gameObject));
             }
 
-            //foreach (Player p in NetworkManager.instance.GetPlayerList())
-            //{
-            //    if (!skillData.targetIdList.Contains(p.socketId)) continue;
+            foreach (Player p in NetworkManager.instance.GetPlayerList())
+            {
+                if (!skillData.targetIdList.Contains(p.socketId)) continue;
 
-            //    //이펙트 재생시 여기서
-            //}
+                //이펙트 재생시 여기서
+                p.UI.SetState("이동 불가", GetStateColor(buff.isBuffed));
+            }
         }
 
 
@@ -308,15 +325,19 @@ public class Skill : ISetAble
         print("raiSkill");
         CreateSkillLog(true);
 
+        BuffSO buff = BuffManager.Instance.GetBuffSO(RAI_BUFF_ID);
+
         if (skillData.targetId.Equals(user.socketId))
         {
-            user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(RAI_BUFF_ID).InitializeBuff(user.gameObject));
+            user.UI.SetState("기절", GetStateColor(buff.isBuffed));
+            user.BuffHandler.AddBuff(buff.InitializeBuff(user.gameObject));
             MissionPanel.Instance.Close();
         }
-        //else if(playerList.TryGetValue(skillData.targetId,out Player p))
-        //{
-        //    //이펙트 재생시 여기에서
-        //}
+        else if (playerList.TryGetValue(skillData.targetId, out Player p))
+        {
+            p.UI.SetState("기절", GetStateColor(buff.isBuffed));
+            //이펙트 재생시 여기에서
+        }
     }
 
     private void CreateSkillLog(bool single)
