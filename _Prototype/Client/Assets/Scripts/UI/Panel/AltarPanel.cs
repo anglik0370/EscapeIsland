@@ -69,7 +69,7 @@ public class AltarPanel : Panel
 
         InitTimer(true);
         SetProbability();
-        offerBtn.onClick.AddListener(OnClickOfferBtn);
+        offerBtn.onClick.AddListener(() => OnClickOfferBtn());
     }
 
     private void Update()
@@ -159,11 +159,6 @@ public class AltarPanel : Panel
             return;
         }
 
-        for (int i = 0; i < slots.Count; i++)
-        {
-            slots[i].SetItem(null);
-        }
-
         int idx = Random.Range(1, 101);
         int buffId = -1;
 
@@ -175,6 +170,11 @@ public class AltarPanel : Panel
         else
         {
             effectText.text = "²Î";
+        }
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            slots[i].SetItem(null);
         }
 
         SendManager.Instance.SendAltar(new AltarVO(NetworkManager.instance.socketId, buffId));
