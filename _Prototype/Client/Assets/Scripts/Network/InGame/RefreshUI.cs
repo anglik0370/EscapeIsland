@@ -66,7 +66,7 @@ public class RefreshUI : ISetAble
         {
             if (ov.area != user.Area) continue;
 
-            if (ov.occupyTeam != Team.NONE && ov.occupyTeam != user.CurTeam)
+            if (ov.occupyTeam != Team.NONE && (ov.occupyTeam != user.CurTeam && !user.CanEnemyGathering))
             {
                 occupyUI.UpdateUI(ov.redGauge, ov.blueGauge);
                 MissionPanel.Instance.CloseGetMissionPanel();

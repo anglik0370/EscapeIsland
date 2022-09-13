@@ -105,7 +105,7 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     {
         this.isOpen = isOpen;
 
-        SendManager.Instance.SendSpawnerOpen(area, missionType, NetworkManager.instance.User.CurTeam, id, isOpen);
+        SendManager.Instance.SendSpawnerOpen(area, missionType, NetworkManager.instance.User.CurTeam, id, isOpen,NetworkManager.instance.User.CanEnemyGathering);
 
         if(!isOpen)
         {

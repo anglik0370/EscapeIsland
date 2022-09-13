@@ -14,6 +14,7 @@ public class InfoUI : MonoBehaviour
     public Transform playerTrm;
     public float followSpeed = 50f;
     public Text txtName;
+    public Text stateText;
     public Image teamImg;
     public RectTransform txtRect;
 
@@ -24,11 +25,16 @@ public class InfoUI : MonoBehaviour
     [SerializeField]
     private float hideRange; //안보이는 거리
 
+    private Coroutine co;
+    private WaitForSeconds stateWs;
+
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
+        stateWs = new WaitForSeconds(2f);
 
         SetNameTextColor(Color.gray);
+        ClearStateText();
 
         EventManager.SubExitRoom(() => SetNameTextColor(Color.gray));
         EventManager.SubGameOver(goc =>
@@ -36,8 +42,11 @@ public class InfoUI : MonoBehaviour
             if(player != null && !player.master)
             {
                 SetNameTextColor(Color.gray);
+                ClearStateText();
             }
         });
+
+        EventManager.SubGameInit(() => ClearStateText());
     }
 
     private void Start()
@@ -115,8 +124,47 @@ public class InfoUI : MonoBehaviour
         txtName.color = color;
     }
 
+    private void SetStateText(string msg, Color color)
+    {
+        stateText.text = msg;
+        stateText.color = color;
+    }
+
+    public void SetState(string msg, Color color, bool isReady = false)
+    {
+        if(isReady)
+        {
+            SetStateText(msg, color);
+            return;
+        }
+
+        if(co != null)
+        {
+            StopCoroutine(co);
+        }
+
+        co = StartCoroutine(SetStateTextCo(msg, color));
+    }
+
+    public void ClearStateText()
+    {
+        if (co != null)
+        {
+            StopCoroutine(co);
+        }
+
+        SetStateText("", Color.black);
+    }
+
     public void SetTeamImgColor(Color color)
     {
         teamImg.color = color;
+    }
+
+    IEnumerator SetStateTextCo(string msg, Color color)
+    {
+        SetStateText(msg, color);
+        yield return stateWs;
+        SetStateText("", Color.black);
     }
 }
