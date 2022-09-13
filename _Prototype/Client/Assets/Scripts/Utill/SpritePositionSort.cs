@@ -24,6 +24,9 @@ public class SpritePositionSort : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    [SerializeField]
+    private bool isMaskParent = false;
+
     private void LateUpdate()
     {
         if(!bInitOnce)
@@ -62,12 +65,14 @@ public class SpritePositionSort : MonoBehaviour
         }
         else
         {
-            if (useSrList)
+            if(isMaskParent)
             {
-                Debug.LogWarning("이거 쓸라면 useOtherTrm도 키라고 헀잖아");
+                spriteRenderer.sortingOrder = GetComponentInParent<SpriteRenderer>().sortingOrder + 1;
             }
-
-            spriteRenderer.sortingOrder = (int)((0 - transform.position.y) * precisionMultiplier);
+            else
+            {
+                spriteRenderer.sortingOrder = (int)((0 - transform.position.y) * precisionMultiplier);
+            }
         }
 
         if(bRunOnce)
