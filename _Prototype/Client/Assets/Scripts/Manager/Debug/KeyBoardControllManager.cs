@@ -85,5 +85,10 @@ public class KeyBoardControllManager : MonoBehaviour
                 StoragePanel.Instance.Open(PlayerManager.Instance.Player.CurTeam);
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.V) && RefreshUsers.Instance.isTest)
+        {
+            EventManager.OccurGameOver(GameOverCase.BlueWin);
+        }
     }
 }

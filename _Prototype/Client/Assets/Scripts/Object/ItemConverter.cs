@@ -56,6 +56,9 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
     private float remainTime; //남은 재련시간
     public float RemainTime => remainTime;
 
+    [SerializeField]
+    private bool isWater;
+
     private void Awake() 
     {
         sr = GetComponent<SpriteRenderer>();

@@ -14,15 +14,10 @@ public class GameOverPanel : Panel
 {
     public static GameOverPanel Instance { get; private set; }
 
-    [SerializeField]
-    private CanvasGroup curCg;
-
     private List<Image> winImgList;
     
     [SerializeField]
     private Image standImgPrefab;
-    [SerializeField]
-    private Image topBar;
 
     [SerializeField]
     private Text winText;
@@ -30,15 +25,8 @@ public class GameOverPanel : Panel
     [SerializeField]
     private Transform winImgParent;
 
-    [SerializeField]
-    private ColorPicker redTeamColor;
-    [SerializeField]
-    private ColorPicker blueTeamColor;
-    [SerializeField]
-    private ColorPicker noneColor;
-
-    private readonly string BLUE_WIN = "ºí·çÆÀ ½Â¸®";
-    private readonly string RED_WIN = "·¹µåÆÀ ½Â¸®";
+    private readonly string BLUE_WIN = "<color=blue>ºí·çÆÀ</color> ½Â¸®";
+    private readonly string RED_WIN = "<color=red>·¹µåÆÀ</color> ½Â¸®";
     private readonly string NONE = "½Â¸®ÀÚ°¡ ¾øÀ½";
 
     protected override void Awake()
@@ -66,18 +54,18 @@ public class GameOverPanel : Panel
         {
             case GameOverCase.None:
                 SetWin(true, true);
-                CanvasGroupOpenAndClose(true);
+                UtilClass.SetCanvasGroup(cvs, 1, true, true);
                 break;
             case GameOverCase.BlueWin:
                 {
                     SetWin(true);
-                    CanvasGroupOpenAndClose(true);
+                    UtilClass.SetCanvasGroup(cvs, 1, true, true);
                 }
                 break;
             case GameOverCase.RedWin:
                 {
                     SetWin(false);
-                    CanvasGroupOpenAndClose(true);
+                    UtilClass.SetCanvasGroup(cvs, 1, true, true);
                 }
                 break;
             default:
@@ -96,12 +84,10 @@ public class GameOverPanel : Panel
     {
         if(isNone)
         {
-            topBar.color = noneColor.pickColor;
             winText.text = NONE;
             return;
         }
 
-        topBar.color = isBlueWin ? blueTeamColor.pickColor : redTeamColor.pickColor;
         winText.text = isBlueWin ? BLUE_WIN : RED_WIN;
     }
 
@@ -139,19 +125,11 @@ public class GameOverPanel : Panel
         }
     }
 
-    //ÀÏ´Ü ÀÌ·¸°Ô ¾²°í ³ªÁß¿¡ Æ®À§´×À» ¾²´ø°¡ ÇÏ¸é µÉ µí
-    public void CanvasGroupOpenAndClose(bool isOpen)
-    {
-        curCg.alpha = isOpen ? 1f : 0f;
-        curCg.interactable = isOpen;
-        curCg.blocksRaycasts = isOpen;
-    }
-
     public void CloseGameOverPanel()
     {
         NetworkManager.instance.User.canMove =true;
 
-        CanvasGroupOpenAndClose(false);
+        UtilClass.SetCanvasGroup(cvs);
         base.Close();
     }
 }
