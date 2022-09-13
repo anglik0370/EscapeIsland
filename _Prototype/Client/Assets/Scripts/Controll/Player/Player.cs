@@ -150,6 +150,8 @@ public class Player : MonoBehaviour, IInteractionObject
         buffHandler = GetComponent<BuffHandler>();
 
         originSpeed = speed;
+
+        EventManager.SubGameInit(() => isReady = false);
     }
 
     private void Update()
