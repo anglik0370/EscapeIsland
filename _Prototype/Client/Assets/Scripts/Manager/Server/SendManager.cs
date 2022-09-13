@@ -219,7 +219,7 @@ public class SendManager : MonoBehaviour
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }
 
-    public void SendSpawnerOpen(Area area, MissionType type,Team team, int spawnerId, bool isOpen, bool isGathering = false)
+    public void SendSpawnerOpen(Area area, MissionType type,Team team, int spawnerId, bool isOpen, bool isGathering)
     {
         OpenPanelVO vo = new OpenPanelVO(area, type, team, spawnerId, isOpen,isGathering);
         DataVO dataVO = new DataVO("SPAWNER_OPEN", JsonUtility.ToJson(vo));
