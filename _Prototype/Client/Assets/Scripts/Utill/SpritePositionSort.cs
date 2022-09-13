@@ -22,10 +22,10 @@ public class SpritePositionSort : MonoBehaviour
     [SerializeField]
     private bool useSrList = false;
 
-    private SpriteRenderer spriteRenderer;
-
     [SerializeField]
-    private bool isMaskParent = false;
+    private List<SpriteRenderer> maskSpriteList;
+
+    private SpriteRenderer spriteRenderer;
 
     private void LateUpdate()
     {
@@ -65,14 +65,12 @@ public class SpritePositionSort : MonoBehaviour
         }
         else
         {
-            if(isMaskParent)
-            {
-                spriteRenderer.sortingOrder = GetComponentInParent<SpriteRenderer>().sortingOrder + 1;
-            }
-            else
-            {
-                spriteRenderer.sortingOrder = (int)((0 - transform.position.y) * precisionMultiplier);
-            }
+            spriteRenderer.sortingOrder = (int)((0 - transform.position.y) * precisionMultiplier);
+        }
+
+        if(maskSpriteList.Count > 0)
+        {
+            maskSpriteList.ForEach(x => x.sortingOrder = spriteRenderer.sortingOrder + 1);
         }
 
         if(bRunOnce)
