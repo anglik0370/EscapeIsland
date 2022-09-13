@@ -31,17 +31,23 @@ public class OccupyUI : MonoBehaviour
     private void Start()
     {
         SetUI();
-        SetUI();
 
         DisableUI();
 
         EventManager.SubGameOver(goc =>
         {
             SetUI();
+
+            DisableUI();
+        });
+
+        EventManager.SubExitRoom(() =>
+        {
             SetUI();
 
             DisableUI();
         });
+
     }
 
     public void EnableUI()
