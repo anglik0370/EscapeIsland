@@ -35,6 +35,8 @@ public class TitlePanel : MonoBehaviour
 
     public void Init()
     {
+        btn.interactable = true;
+
         if (seq != null)
         {
             seq.Kill();
@@ -56,6 +58,8 @@ public class TitlePanel : MonoBehaviour
 
     public void Close()
     {
+        btn.interactable = false;
+
         if(seq != null)
         {
             seq.Kill();
@@ -70,8 +74,6 @@ public class TitlePanel : MonoBehaviour
         seq.Append(titleCvs.DOFade(1f, 1f));
         seq.Join(loginCvs.DOFade(1f, 1f));
         seq.AppendCallback(() => {
-            print(true);
-
             titleCvs.interactable = true;
             titleCvs.blocksRaycasts = true;
             loginCvs.interactable = true;
