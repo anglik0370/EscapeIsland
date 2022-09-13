@@ -97,7 +97,7 @@ class Room {
 
         if(data.isOpen && value[data.spawnerId] !== undefined) {
             if(value[data.spawnerId]) {
-                sendError("누군가 이 미션을 하는 중입니다",socket);
+                sendError(`누군가 이 미션을 하는 중입니다 ${data.spawnerId}`,socket);
                 return;
             }
         }
