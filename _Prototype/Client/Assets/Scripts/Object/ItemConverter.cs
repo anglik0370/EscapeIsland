@@ -58,6 +58,7 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
 
     [SerializeField]
     private bool isWater;
+    public bool IsWater => isWater;
 
     private void Awake() 
     {

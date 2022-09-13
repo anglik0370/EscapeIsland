@@ -19,6 +19,8 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         AltarSlot,
     }
 
+    [SerializeField]
+    private Image slotImg;
     protected Image image;
     [SerializeField]
     protected ItemSO item;
@@ -49,6 +51,11 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             image.sprite = item.itemSprite;
             image.color = UtilClass.opacityColor;
         }
+    }
+
+    public void SetSlotImage(Sprite sprite)
+    {
+        slotImg.sprite = sprite;
     }
 
     public void SetItem(ItemSO item)

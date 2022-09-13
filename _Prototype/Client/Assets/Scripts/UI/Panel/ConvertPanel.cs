@@ -35,6 +35,19 @@ public class ConvertPanel : Panel
 
     private WaitForSeconds limitWs;
 
+    [SerializeField]
+    private Image bgImg;
+
+    [SerializeField]
+    private Sprite smelterBG;
+    [SerializeField]
+    private Sprite refineryBG;
+
+    [SerializeField]
+    private Sprite smelterSlot;
+    [SerializeField]
+    private Sprite refinerySlot;
+
     protected override void Awake()
     {
         if(Instance == null)
@@ -83,6 +96,13 @@ public class ConvertPanel : Panel
     public void UpdateUIs()
     {
         if (curOpenConverter == null) return;
+
+        bgImg.sprite = curOpenConverter.IsWater ? refineryBG : smelterBG;
+
+        Sprite slotImg = curOpenConverter.IsWater ? refinerySlot : smelterSlot;
+
+        beforeSlot.SetSlotImage(slotImg);
+        afterSlot.SetSlotImage(slotImg);
 
         beforeSlot.SetItem(curOpenConverter.BeforeItem);
         afterSlot.SetItem(curOpenConverter.AfterItem);
