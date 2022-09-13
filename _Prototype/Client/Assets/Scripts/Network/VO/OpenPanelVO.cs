@@ -10,13 +10,15 @@ public class OpenPanelVO
     public Team team;
     public int spawnerId;
     public bool isOpen;
+    public bool isGathering;
 
-    public OpenPanelVO(Area area, MissionType type,Team team, int id, bool isOpen)
+    public OpenPanelVO(Area area, MissionType type,Team team, int id, bool isOpen, bool isGathering)
     {
         this.area = area;
         this.missionType = type;
         this.team = team;
         this.spawnerId = id;
         this.isOpen = isOpen;
+        this.isGathering = isGathering;
     }
 }

@@ -29,11 +29,11 @@ class Area {
         return {area:this.areaState,areaName:this.areaName, blueGauge:this.blueGauge, redGauge:this.redGauge, occupyTeam : this.occupyTeam};
     }
 
-    canMission(user) {
+    canMission(user,isGathering) {
         return (this.occupyTeam == team.NONE&& 
             (user.curTeam == team.RED ? this.blueTeamUserLength <= this.redTeamUserLength
             : this.blueTeamUserLength >= this.redTeamUserLength))
-                 || this.occupyTeam === user.curTeam;
+                 || (this.occupyTeam === user.curTeam) || isGathering;
     }
 
     startTimer() {

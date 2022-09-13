@@ -84,7 +84,7 @@ class Room {
             return;
         }
 
-        if(!this.areaList[data.area].canMission(this.userList[socket.id])) {
+        if(!this.areaList[data.area].canMission(this.userList[socket.id],data.isGathering)) {
             sendError("현재 이 미션을 이용하실 수 없습니다.", socket);
             return;
         }
