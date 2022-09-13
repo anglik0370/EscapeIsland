@@ -185,9 +185,12 @@ public class Sabotage : ISetAble
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(ANDER_ID).InitializeBuff(user.gameObject));
             
             var slotList = user.inventory.slotList.Where(x => !x.IsEmpty).ToList();
-            ItemSO item = slotList[Range(0, slotList.Count)].GetItem();
+            if(slotList.Count > 0)
+            {
+                ItemSO item = slotList[Range(0, slotList.Count)].GetItem();
 
-            user.inventory.RemoveItem(item); 
+                user.inventory.RemoveItem(item);
+            }
         }
 
         Trap trap = FindTrap(trapData.id);

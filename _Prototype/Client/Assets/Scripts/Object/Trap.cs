@@ -98,7 +98,7 @@ public class Trap : MonoBehaviour
         sr.enabled = true;
         isTrap = true;
 
-        yield return CoroutineHandler.fifteenSec;
+        yield return CoroutineHandler.tenSec;
 
         Init();
     }

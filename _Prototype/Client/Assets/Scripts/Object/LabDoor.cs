@@ -40,7 +40,7 @@ public class LabDoor : MonoBehaviour
         transform.DOLocalMove(closeTrm.localPosition, lerpSpeed);
         transform.DOScale(closeTrm.localScale, lerpSpeed);
 
-        yield return CoroutineHandler.fifteenSec;
+        yield return CoroutineHandler.tenSec;
 
         Open();
     }
