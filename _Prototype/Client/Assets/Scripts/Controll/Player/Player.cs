@@ -151,6 +151,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
         originSpeed = speed;
     }
+
     private void Update()
     {
         if(IsRemote && !isNotLerp)
@@ -182,9 +183,23 @@ public class Player : MonoBehaviour, IInteractionObject
             ui.SetNameTextColor(vo.ready ? Color.black : Color.grey);
         }
 
+        SetReadyText(isReady);
+
         if (lobbyUIRefresh) return;
 
         ChangeCharacter(CharacterSelectPanel.Instance.GetDefaultProfile().GetSO());
+    }
+
+    public void SetReadyText(bool isReady)
+    {
+        if (isReady)
+        {
+            ui.SetState("READY", Color.black,true);
+        }
+        else
+        {
+            ui.ClearStateText();
+        }
     }
 
     public void InitPlayer(UserVO vo,InfoUI ui,TeamInfoUI teamUI, bool isRemote,CharacterSO so)
