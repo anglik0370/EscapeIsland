@@ -70,6 +70,7 @@ public class Skill : ISetAble
     private void FlyPaperRefresh()
     {
         FlyPaper flyPaper = flyPaperList.Find(x => x.id.Equals(flyPaperData.id) && x.userId.Equals(flyPaperData.userId));
+        BuffSO coolDebuffSO = BuffManager.Instance.GetBuffSO(KION_COOLTIME_DEBUFF_ID);
 
         if (flyPaper != null)
         {
@@ -78,15 +79,15 @@ public class Skill : ISetAble
 
         if (flyPaperData.socketId.Equals(user.socketId))
         {
-            BuffSO coolDebuffSO = BuffManager.Instance.GetBuffSO(KION_COOLTIME_DEBUFF_ID);
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(KION_SPEED_DEBUFF_ID).InitializeBuff(user.gameObject));
             user.BuffHandler.AddBuff(coolDebuffSO.InitializeBuff(user.gameObject));
             user.UI.SetState("미션 쿨타임 증가", GetStateColor(coolDebuffSO.isBuffed));
         }
-        //else if(playerList.TryGetValue(flyPaperData.socketId,out Player p))
-        //{ 
-        //    //이펙트 재생시 여기에서
-        //}
+        else if (playerList.TryGetValue(flyPaperData.socketId, out Player p))
+        {
+            p.UI.SetState("미션 쿨타임 증가", GetStateColor(coolDebuffSO.isBuffed));
+            //이펙트 재생시 여기에서
+        }
     }
 
     private void SkillRefresh()
@@ -151,7 +152,6 @@ public class Skill : ISetAble
                 user.inventory.RemoveItem(item);
             }
         }
-
     }
 
     public Color GetStateColor(bool isBuff)
@@ -179,7 +179,6 @@ public class Skill : ISetAble
         {
             Debug.LogError("아이템이 없음");
         }
-
     }
 
     private void KionSkill()
@@ -296,11 +295,6 @@ public class Skill : ISetAble
                 user.UI.SetState("미션 쿨타임 감소", GetStateColor(buffSO.isBuffed));
                 user.BuffHandler.AddBuff(buffSO.InitializeBuff(user.gameObject));
             }
-            //else
-            //{
-            //    user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(user.gameObject));
-            //    user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(user.gameObject));
-            //}
 
             if (skillData.targetIdList.Count <= 1) return;
         }
@@ -314,13 +308,7 @@ public class Skill : ISetAble
                 p.UI.SetState("미션 쿨타임 감소", GetStateColor(buffSO.isBuffed));
                 p.BuffHandler.AddBuff(buffSO.InitializeBuff(p.gameObject));
             }
-            //else
-            //{
-            //    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID).InitializeBuff(p.gameObject));
-            //    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(CHERRY_ENEMY_TEAM_DEBUFF_ID2).InitializeBuff(p.gameObject));
-            //}
         }
-
     }
 
     private void JoshuaSkill()
@@ -345,8 +333,6 @@ public class Skill : ISetAble
                 p.UI.SetState("이동 불가", GetStateColor(buff.isBuffed));
             }
         }
-
-
     }
 
     private void RaiSkill()
