@@ -316,11 +316,34 @@ public class Skill : ISetAble
         print("joshuaSkill");
         CreateSkillLog(false);
 
+        if(skillData.useSkillPlayerId.Equals(user.socketId))
+        {
+            for (int i = 0; i < skillData.itemIdList.Count; i++)
+            {
+                if (user.inventory.IsAllSlotFull) break;
+
+                ItemSO so = ItemManager.Instance.FindItemSO(skillData.itemIdList[i]);
+
+                if(so != null)
+                {
+                    user.inventory.AddItem(so);
+                }
+            }
+        }
+
         if (skillData.targetIdList.Count > 0)
         {
             BuffSO buff = BuffManager.Instance.GetBuffSO(JOSHUA_BUFF_ID);
             if (skillData.targetIdList.Contains(user.socketId))
             {
+                int idx = skillData.targetIdList.FindIndex(x => x.Equals(user.socketId));
+                ItemSO so = ItemManager.Instance.FindItemSO(skillData.itemIdList[idx]);
+                
+                if(so != null)
+                {
+                    user.inventory.RemoveItem(so);
+                }
+
                 user.UI.SetState("이동 불가", GetStateColor(buff.isBuffed));
                 user.BuffHandler.AddBuff(buff.InitializeBuff(user.gameObject));
             }

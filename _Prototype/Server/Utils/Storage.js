@@ -23,8 +23,10 @@ class Storage {
     }
 
     removeItemAmount(itemId) {
-        this.curAmountItemList[itemId]--;
-        this.totalCollectedItemAmount--;
+        if(this.curAmountItemList[itemId] > 0) {
+            this.curAmountItemList[itemId]--;
+            this.totalCollectedItemAmount--;
+        }
     }
 
     setItemAmount(itemId,amount) {

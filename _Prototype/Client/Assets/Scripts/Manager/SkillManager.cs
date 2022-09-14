@@ -118,6 +118,7 @@ public class SkillManager : MonoBehaviour
         List<int> socketIdList = new List<int>();
 
         WideAreaSkillSO joshuaSO = (WideAreaSkillSO)skillList[JOSUHA];
+        Team team = user.CurTeam == Team.RED ? Team.BLUE : Team.RED;
 
         foreach (Player p in playerList)
         {
@@ -127,7 +128,7 @@ public class SkillManager : MonoBehaviour
             }
         }
 
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Joshua,user.socketId, user.CurTeam, socketIdList, skillList[JOSUHA].skillName));
+        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Joshua,user.socketId, team, socketIdList, skillList[JOSUHA].skillName));
     }
 
     private void RaiSkill()

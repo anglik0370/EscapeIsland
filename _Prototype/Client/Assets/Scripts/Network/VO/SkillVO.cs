@@ -15,6 +15,7 @@ public class SkillVO
 
     public Team team;
     public List<int> targetIdList;
+    public List<int> itemIdList;
 
     /// <summary>
     /// 기본 생성자
