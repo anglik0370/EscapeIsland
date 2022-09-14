@@ -33,7 +33,9 @@ public class ConvertPanel : Panel
     private bool isBlueLimit = false;
     private bool isRedLimit = false;
 
-    private WaitForSeconds limitWs;
+    private float defaultLimitTime = 30f;
+    private float curBlueLimitTime = 30f;
+    private float curRedLimitTime = 30f;
 
     [SerializeField]
     private Image bgImg;
@@ -50,7 +52,7 @@ public class ConvertPanel : Panel
 
     protected override void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -58,8 +60,6 @@ public class ConvertPanel : Panel
         base.Awake();
 
         ResetUIs();
-
-        limitWs = new WaitForSeconds(30f);
     }
 
     protected override void Start()
@@ -72,9 +72,27 @@ public class ConvertPanel : Panel
         });
     }
 
-    private void Update() 
+    private void Update()
     {
-        if(curOpenConverter == null) return;
+        if (isBlueLimit)
+        {
+            curBlueLimitTime -= Time.deltaTime;
+            if (curBlueLimitTime <= 0f)
+            {
+                isBlueLimit = false;
+            }
+        }
+
+        if (isRedLimit)
+        {
+            curRedLimitTime -= Time.deltaTime;
+            if (curRedLimitTime <= 0f)
+            {
+                isRedLimit = false;
+            }
+        }
+
+        if (curOpenConverter == null) return;
         if (!curOpenConverter.IsConverting)
         {
             ResetUIs();
@@ -181,28 +199,17 @@ public class ConvertPanel : Panel
 
     public void ConvertLimit(Team team)
     {
-        StartCoroutine(LimitCo(team.Equals(Team.BLUE)));
-    }
+        bool isBlue = team.Equals(Team.BLUE);
 
-    private IEnumerator LimitCo(bool isBlue)
-    {
-        yield return null;
-
-        if(isBlue)
+        if (isBlue)
         {
+            curBlueLimitTime = defaultLimitTime;
             isBlueLimit = true;
-
-            yield return limitWs;
-
-            isBlueLimit = false;
         }
         else
         {
+            curRedLimitTime = defaultLimitTime;
             isRedLimit = true;
-
-            yield return limitWs;
-
-            isRedLimit = false;
         }
     }
 }
