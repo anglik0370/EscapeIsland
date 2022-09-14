@@ -287,7 +287,7 @@ class Room {
         this.arsonTimer.stopTimer(true);
         this.altarTimer.stopTimer(true);
 
-        let key = Object.keys(this.areaList);
+        //let key = Object.keys(this.areaList);
 
         // for(let i = 0; i < key.length; i++) {
         //     this.areaList[key[i]].initTimer();
@@ -295,7 +295,7 @@ class Room {
 
         //this.initStorageItemList();
         this.initAreaList();
-        this.initSelectedIdList();
+        //his.initSelectedIdList();
         this.initSpawnerList();
     }
 
