@@ -289,11 +289,12 @@ class Room {
 
         let key = Object.keys(this.areaList);
 
-        for(let i = 0; i < key.length; i++) {
-            this.areaList[key[i]].initTimer();
-        }
+        // for(let i = 0; i < key.length; i++) {
+        //     this.areaList[key[i]].initTimer();
+        // }
 
         //this.initStorageItemList();
+        this.initAreaList();
         this.initSelectedIdList();
         this.initSpawnerList();
     }
