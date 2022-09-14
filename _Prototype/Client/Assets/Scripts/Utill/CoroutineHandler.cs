@@ -8,7 +8,7 @@ public static class CoroutineHandler
 {
     public static WaitForSeconds zeroEightSec = new WaitForSeconds(0.8f);
     public static WaitForSeconds oneSec = new WaitForSeconds(1f);
-    public static WaitForSeconds tenSec = new WaitForSeconds(10f);
+    public static WaitForSeconds tenSec = new WaitForSeconds(5f);
 
     public static IEnumerator Frame(Action act)
     {
