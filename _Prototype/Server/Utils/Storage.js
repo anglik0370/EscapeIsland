@@ -22,6 +22,11 @@ class Storage {
         return this.maxAmountItemList[itemId] <= this.curAmountItemList[itemId];
     }
 
+    removeItemAmount(itemId) {
+        this.curAmountItemList[itemId]--;
+        this.totalCollectedItemAmount--;
+    }
+
     setItemAmount(itemId,amount) {
         this.maxAmountItemList[itemId] = amount;
         this.curAmountItemList[itemId] = 0;

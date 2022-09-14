@@ -9,6 +9,8 @@ module.exports = {
 
         if(data.skillName == "마술") {
             data.itemId = room.userList[data.targetId].getItem();
+
+            room.storageItemList[data.team].removeItemAmount(data.itemId);
         }
 
         room.broadcast(JSON.stringify({type:"SKILL",
