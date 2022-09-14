@@ -88,7 +88,7 @@ public class KeyBoardControllManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.V) && RefreshUsers.Instance.isTest)
         {
-            EventManager.OccurGameOver(GameOverCase.BlueWin);
+            EventManager.OccurGameOver(player.CurTeam == Team.BLUE ? GameOverCase.BlueWin : GameOverCase.RedWin);
         }
     }
 }

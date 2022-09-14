@@ -20,14 +20,14 @@ public class GameOverPanel : Panel
     private Image standImgPrefab;
 
     [SerializeField]
-    private Text winText;
-
-    [SerializeField]
     private Transform winImgParent;
 
-    private readonly string BLUE_WIN = "<color=blue>ºí·çÆÀ</color> ½Â¸®";
-    private readonly string RED_WIN = "<color=red>·¹µåÆÀ</color> ½Â¸®";
-    private readonly string NONE = "½Â¸®ÀÚ°¡ ¾øÀ½";
+    [SerializeField]
+    private Image winTxtImg;
+    [SerializeField]
+    private Sprite blueteamTxtSprite;
+    [SerializeField]
+    private Sprite redteamTxtSprite;
 
     protected override void Awake()
     {
@@ -84,11 +84,11 @@ public class GameOverPanel : Panel
     {
         if(isNone)
         {
-            winText.text = NONE;
+            winTxtImg.sprite = null;
             return;
         }
 
-        winText.text = isBlueWin ? BLUE_WIN : RED_WIN;
+        winTxtImg.sprite = isBlueWin ? blueteamTxtSprite : redteamTxtSprite;
     }
 
     public bool FindWinImg(out Image img)
