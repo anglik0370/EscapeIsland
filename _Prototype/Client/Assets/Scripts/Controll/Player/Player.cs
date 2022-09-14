@@ -449,6 +449,8 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void SetTransform(Vector2 pos)
     {
+        if (isNotLerp) return;
+
         if(IsRemote)
         {
             Vector3 dir = (Vector3)pos - transform.position;
@@ -477,9 +479,21 @@ public class Player : MonoBehaviour, IInteractionObject
 
     public void SetPosition(Vector2 pos)
     {
+        //isNotLerp = true;
+        //transform.position = pos;
+        //targetPos = pos;
+        //isNotLerp = false;
+
+        StartCoroutine(SetPos(pos));
+    }
+
+    private IEnumerator SetPos(Vector2 pos)
+    {
         isNotLerp = true;
         transform.position = pos;
         targetPos = pos;
+
+        yield return null;
         isNotLerp = false;
     }
 

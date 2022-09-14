@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 
 const {Users} = require('./Users.js');
 const SetSpawnPoint = require('./Utils/GameSpawnHandler.js');
+const GetRandomPos = require('./Utils/SpawnPoint.js');
 const SocketState = require('./Utils/SocketState.js');
 const team = require('./Utils/Team.js');
 const MissionType = require('./Utils/MissionType.js');
@@ -311,7 +312,10 @@ class Room {
     }
 
     gameEnd(winTeam) {
-        this.setSpawnPos();
+        //this.setSpawnPos();
+        for(let key in this.userList) {
+            this.userList[key].position = GetRandomPos();
+        }
     
         let dataList = this.getUsersData();
         this.broadcast(JSON.stringify({type:"WIN",payload:JSON.stringify({dataList,gameOverCase:winTeam})}),true);
