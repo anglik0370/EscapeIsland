@@ -149,7 +149,8 @@ public class ConvertPanel : Panel
                     return;
                 }
             }
-            else if (isRedLimit)
+
+            if (isRedLimit)
             {
                 if (converter.AreaStateHolder.Area.Equals(Area.RedLobby) && PlayerManager.Instance.Player.CurTeam.Equals(Team.BLUE))
                 {
