@@ -272,7 +272,7 @@ public class Skill : ISetAble
                 else
                 {
                     p.UI.SetState("»¡¶óÁü", GetStateColor(true));
-                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(user.gameObject));
+                    p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(p.gameObject));
                 }
             }
         }
