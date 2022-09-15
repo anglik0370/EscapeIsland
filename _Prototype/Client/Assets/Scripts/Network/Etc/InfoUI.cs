@@ -36,10 +36,15 @@ public class InfoUI : MonoBehaviour
         SetNameTextColor(Color.gray);
         ClearStateText();
 
-        EventManager.SubExitRoom(() => SetNameTextColor(Color.gray));
+        EventManager.SubExitRoom(() =>
+        {
+            mainPlayer = player = null;
+            playerTrm = mainPlayerTrm = null;
+            SetNameTextColor(Color.gray);
+        });
         EventManager.SubGameOver(goc =>
         {
-            if(player != null && !player.master)
+            if (player != null && !player.master)
             {
                 SetNameTextColor(Color.gray);
                 ClearStateText();
@@ -55,7 +60,7 @@ public class InfoUI : MonoBehaviour
 
         EventManager.SubTimeChange(isLight =>
         {
-            if(isLight)
+            if (isLight)
             {
                 hideRange = EyesightManager.Instance.lightInnerRadius;
             }
@@ -92,7 +97,7 @@ public class InfoUI : MonoBehaviour
         if (mainPlayer == null) return;
         if (mainPlayerTrm == null) return;
         if (mainPlayerTrm == playerTrm) return;
-        
+
         {
             if (player.Area == mainPlayer.Area)
             {
@@ -132,13 +137,13 @@ public class InfoUI : MonoBehaviour
 
     public void SetState(string msg, Color color, bool isReady = false)
     {
-        if(isReady)
+        if (isReady)
         {
             SetStateText(msg, color);
             return;
         }
 
-        if(co != null)
+        if (co != null)
         {
             StopCoroutine(co);
         }
