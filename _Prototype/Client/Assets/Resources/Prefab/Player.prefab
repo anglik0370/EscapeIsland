@@ -64,7 +64,7 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0}
   speed: 6
   coolTimeMagnification: 1
-  areaState: 0
+  area: 0
   curSO: {fileID: 0}
 --- !u!114 &8668951428442010674
 MonoBehaviour:
@@ -108,7 +108,7 @@ AudioSource:
   m_GameObject: {fileID: 4941352829889900955}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 8286295497955881344, guid: bbe7e29739c844d4aba7d84287b3730f, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
