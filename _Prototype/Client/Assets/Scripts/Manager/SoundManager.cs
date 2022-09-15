@@ -1,13 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
+    private const string MASTER_NAME = "Master";
+    private const string MASTER_VOLUME_NAME = "MasterVolume";
+    private const string SFX_VOLUME_NAME = "SFXVolume";
+    private const string BGM_VOLUME_NAME = "BGMVolume";
+
     public static SoundManager Instance;
 
-    //[SerializeField]
-    //private AudioSource bgmSource;
+    [SerializeField]
+    private AudioMixer mainMixer;
+
+    private AudioMixerGroup sfxGroup;
+    private AudioMixerGroup bgmGroup;
+
+    [SerializeField]
+    private List<AudioSource> audioSourceList; //재생기 리스트
+
+    private Dictionary<int, AudioSource> bgmSourceDic; //배경음 재생기 Dictionary
+
+    private int bgmIdCount = 0; //BGM의 고유 ID
 
     private void Awake()
     {
@@ -16,38 +32,97 @@ public class SoundManager : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+
         DontDestroyOnLoad(this.gameObject);
         Instance = this;
+
+        sfxGroup = mainMixer.FindMatchingGroups(MASTER_NAME)[1];
+        bgmGroup = mainMixer.FindMatchingGroups(MASTER_NAME)[2];
+
+        audioSourceList = new List<AudioSource>();
     }
+
     private void Start()
     {
-        
-    }
-    //public void PlayBgmSound(AudioClip clip, float volume = 0.3f)
-    //{
-    //    if (bgmSource.isPlaying) bgmSource.Stop();
-    //    bgmSource.clip = clip;
-    //    bgmSource.volume = volume;
-    //    bgmSource.Play();
-    //}
-
-    //public void ChangeBgmSound(float volume = 0.3f)
-    //{
-    //    bgmSource.volume = volume;
-    //}
-
-    public void PlaySfxSound(Player p,AudioClip clip, float volume)
-    {
-        p.AudioSource.PlayOneShot(clip, volume);
+        CreateAudioSources(10);
     }
 
-    public void ChangeSfxSound(float volume)
+    private void CreateAudioSources(int count)
     {
-        NetworkManager.instance.User.AudioSource.volume = volume;
-
-        foreach (Player p in NetworkManager.instance.GetPlayerList())
+        for(int i = 0; i < count; i++)
         {
-            p.AudioSource.volume = volume;
+            CreateAudioSource();
         }
+    }
+
+    private AudioSource CreateAudioSource()
+    {
+        GameObject go = new GameObject("Audio Soucre");
+        go.transform.parent = this.transform;
+
+        AudioSource audio = go.AddComponent<AudioSource>();
+        audio.playOnAwake = false;
+        audioSourceList.Add(audio);
+
+        return audio;
+    }
+    
+    private AudioSource GetEmptyAudioSouce()
+    {
+        AudioSource audioSource = null;
+
+        for(int i = 0; i < audioSourceList.Count; i++)
+        {
+            if(!audioSourceList[i].isPlaying)
+            {
+                audioSource = audioSourceList[i];
+            }
+        }
+
+        if(audioSource == null)
+        {
+            audioSource = CreateAudioSource();
+        }
+
+        return audioSource;
+    }
+
+    public int PlayBGM(AudioClip clip)
+    {
+        AudioSource audio = GetEmptyAudioSouce();
+
+        audio.loop = true;
+        audio.clip = clip;
+        audio.Play();
+
+        bgmSourceDic.Add(bgmIdCount, audio);
+
+        return bgmIdCount++;
+    }
+
+    public void StopBGM(int id)
+    {
+        AudioSource audio = bgmSourceDic[id];
+
+        audio.Stop();
+        audio.loop = false;
+
+        bgmSourceDic.Remove(id);
+    }
+
+    public void PlaySFX(AudioClip clip)
+    {
+        AudioSource audio = GetEmptyAudioSouce();
+
+        audio.clip = clip;
+        audio.Play();
+    }
+
+    public void PlayCharacterSound(AudioClip clip, Player player)
+    {
+        AudioSource audio = player.AudioSource;
+
+        audio.clip = clip;
+        audio.Play();
     }
 }
