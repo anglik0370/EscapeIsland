@@ -35,7 +35,7 @@ public class Altar : ISetAble
             if(so!= null)
             {
                 AltarPanel.Instance.SetEffectText(so.buffExplanation);
-                so.InitializeBuff(user.gameObject);
+                user.BuffHandler.AddBuff(so.InitializeBuff(user.gameObject));
             }
         }
         AltarPanel.Instance.ClosePanel(1f);
