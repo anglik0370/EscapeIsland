@@ -148,4 +148,14 @@ public class SoundManager : MonoBehaviour
 
         audioSource.Stop();
     }
+
+    public void BGMVolumeControl(float value)
+    {
+        mainMixer.SetFloat(BGM_VOLUME_NAME, value);
+    }
+
+    public void SFXVolumeControl(float value)
+    {
+        mainMixer.SetFloat(SFX_VOLUME_NAME, value);
+    }
 }
