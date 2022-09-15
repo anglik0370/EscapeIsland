@@ -70,7 +70,7 @@ public class EyesightManager : MonoBehaviour
     private void Awake()
     {
         areaStateHolderList = objectParentTrm.GetComponentsInChildren<AreaStateHolder>().ToList();
-        arsonSlotList = arsonParentTrm.GetComponentsInChildren<ArsonSlot>().ToList();
+        //arsonSlotList = arsonParentTrm.GetComponentsInChildren<ArsonSlot>().ToList();
     }
 
     void Start()
