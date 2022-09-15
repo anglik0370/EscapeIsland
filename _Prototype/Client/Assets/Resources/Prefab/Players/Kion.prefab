@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c0693fbe7a328428e078a51aea23e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bRunOnce: 1
+  bRunOnce: 0
   otherTrm: {fileID: 895173879126080245}
   useOtherTrm: 1
   srList:
@@ -511,6 +511,7 @@ MonoBehaviour:
   - {fileID: 6426710206468961481}
   - {fileID: 7603078752898951460}
   useSrList: 1
+  maskSpriteList: []
 --- !u!114 &4271240998135578836
 MonoBehaviour:
   m_ObjectHideFlags: 0
