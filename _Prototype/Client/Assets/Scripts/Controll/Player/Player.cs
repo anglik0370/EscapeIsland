@@ -138,7 +138,11 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private PetMonkey petMonkey;
     public PetMonkey PetMonkey => petMonkey;
-
+    
+    [SerializeField]
+    private List<AudioClip> footStepClipList = new List<AudioClip>();
+    [SerializeField]
+    private List<Area> footStepAreaList = new List<Area>();
     private void Awake()
     {
         flipRot = new Vector3(0, 180, 0);
@@ -152,6 +156,12 @@ public class Player : MonoBehaviour, IInteractionObject
         originSpeed = speed;
 
         EventManager.SubGameInit(() => isReady = false);
+
+        footStepAreaList.Add(Area.ConcreteGround);
+        footStepAreaList.Add(Area.Beach);
+        footStepAreaList.Add(Area.SoilGround);
+        footStepAreaList.Add(Area.Ship);
+        footStepAreaList.Add(Area.Altar);
     }
 
     private void Update()
@@ -410,11 +420,21 @@ public class Player : MonoBehaviour, IInteractionObject
 
             anim.SetBool(ANIMB_MOVE, true);
             petMonkey?.SetAnimation(true);
+
+            for(int i = 0; i < footStepAreaList.Count; i++)
+            {
+                if(footStepAreaList[i].HasFlag(this.area))
+                {
+                    SoundManager.Instance.PlayFootStep(footStepClipList[i]);
+                }
+            }
         }
         else
         {
             anim.SetBool(ANIMB_MOVE, false);
             petMonkey?.SetAnimation(false);
+
+            SoundManager.Instance.StopFootStep();
         }
 
         transform.position += dir * speed * Time.deltaTime;

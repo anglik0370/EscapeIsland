@@ -19,11 +19,11 @@ public class SoundManager : MonoBehaviour
     private AudioMixerGroup bgmGroup;
 
     [SerializeField]
-    private List<AudioSource> audioSourceList; //재생기 리스트
-
-    private Dictionary<int, AudioSource> bgmSourceDic; //배경음 재생기 Dictionary
-
-    private int bgmIdCount = 0; //BGM의 고유 ID
+    private AudioSource bgmSource; //배경음 재생기
+    [SerializeField]
+    private AudioSource footstepSource; //발소리 재생기
+    [SerializeField]
+    private List<AudioSource> sfxSourceList; //재생기 리스트
 
     private void Awake()
     {
@@ -33,17 +33,23 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        DontDestroyOnLoad(this.gameObject);
         Instance = this;
 
         sfxGroup = mainMixer.FindMatchingGroups(MASTER_NAME)[1];
         bgmGroup = mainMixer.FindMatchingGroups(MASTER_NAME)[2];
 
-        audioSourceList = new List<AudioSource>();
+        sfxSourceList = new List<AudioSource>();
     }
 
     private void Start()
-    {
+    {   
+        bgmSource = CreateAudioSource();
+        bgmSource.outputAudioMixerGroup = bgmGroup;
+        bgmSource.loop = true;
+
+        footstepSource = CreateAudioSource();
+        footstepSource.loop = true;
+
         CreateAudioSources(10);
     }
 
@@ -62,7 +68,8 @@ public class SoundManager : MonoBehaviour
 
         AudioSource audio = go.AddComponent<AudioSource>();
         audio.playOnAwake = false;
-        audioSourceList.Add(audio);
+        audio.outputAudioMixerGroup = sfxGroup;
+        sfxSourceList.Add(audio);
 
         return audio;
     }
@@ -71,11 +78,11 @@ public class SoundManager : MonoBehaviour
     {
         AudioSource audioSource = null;
 
-        for(int i = 0; i < audioSourceList.Count; i++)
+        for(int i = 0; i < sfxSourceList.Count; i++)
         {
-            if(!audioSourceList[i].isPlaying)
+            if(!sfxSourceList[i].isPlaying)
             {
-                audioSource = audioSourceList[i];
+                audioSource = sfxSourceList[i];
             }
         }
 
@@ -87,35 +94,43 @@ public class SoundManager : MonoBehaviour
         return audioSource;
     }
 
-    public int PlayBGM(AudioClip clip)
+    public void PlayBGM(AudioClip clip)
+    {
+        bgmSource.clip = clip;
+        bgmSource.Play();
+    }
+    
+    public void StopBGM()
+    {
+        bgmSource.Stop();
+    }
+
+    public void PlayFootStep(AudioClip clip)
+    {
+        if(footstepSource.clip == clip) return;
+
+        footstepSource.clip = clip;
+        footstepSource.Play();
+    }   
+
+    public void StopFootStep()
+    {
+        if(!footstepSource.isPlaying) return;
+
+        footstepSource.Stop();
+    }
+
+    public void PlaySFX(AudioClip clip, float playTime = 0f)
     {
         AudioSource audio = GetEmptyAudioSouce();
 
-        audio.loop = true;
         audio.clip = clip;
         audio.Play();
 
-        bgmSourceDic.Add(bgmIdCount, audio);
-
-        return bgmIdCount++;
-    }
-
-    public void StopBGM(int id)
-    {
-        AudioSource audio = bgmSourceDic[id];
-
-        audio.Stop();
-        audio.loop = false;
-
-        bgmSourceDic.Remove(id);
-    }
-
-    public void PlaySFX(AudioClip clip)
-    {
-        AudioSource audio = GetEmptyAudioSouce();
-
-        audio.clip = clip;
-        audio.Play();
+        if(playTime > 0f)
+        {
+            StartCoroutine(SoundStopTimer(audio, playTime));
+        }
     }
 
     public void PlayCharacterSound(AudioClip clip, Player player)
@@ -124,5 +139,12 @@ public class SoundManager : MonoBehaviour
 
         audio.clip = clip;
         audio.Play();
+    }
+
+    private IEnumerator SoundStopTimer(AudioSource audioSource, float playTime)
+    {
+        yield return new WaitForSeconds(playTime);
+
+        audioSource.Stop();
     }
 }

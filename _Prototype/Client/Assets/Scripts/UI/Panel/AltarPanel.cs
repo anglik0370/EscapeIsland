@@ -47,6 +47,9 @@ public class AltarPanel : Panel
 
     public bool IsAltarPanelOpen { get; private set; }
 
+    [SerializeField]
+    private AudioClip alterOpenClip;
+
     protected override void Awake()
     {
         base.Awake();
@@ -155,7 +158,7 @@ public class AltarPanel : Panel
     {
         if(currentProbability <= defaultProbability)
         {
-            UIManager.Instance.AlertText("최소 한개 이상의 재료가 필요합니다.", AlertType.Warning);
+            UIManager.Instance.AlertText("최소 한개 이상의 아이템이 필요합니다.", AlertType.Warning);
             return;
         }
 
@@ -164,7 +167,6 @@ public class AltarPanel : Panel
 
         if (idx <= currentProbability)
         {
-            //버프 돌리기
             buffId = BuffManager.Instance.GetAltarBuffId();
         }
         else
@@ -192,6 +194,8 @@ public class AltarPanel : Panel
     public override void Open(bool isTweenSkip = false)
     {
         base.Open(isTweenSkip);
+
+        SoundManager.Instance.PlaySFX(alterOpenClip);
 
         IsAltarPanelOpen = true;
     }

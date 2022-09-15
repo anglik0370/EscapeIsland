@@ -8,9 +8,14 @@ public class Altar : ISetAble
 
     private bool isAltar = false;
 
+    [SerializeField]
+    private AudioClip successClip;
+    [SerializeField]
+    private AudioClip failClip;
+
     public void SetAltarData(AltarVO vo)
     {
-        lock(lockObj)
+        lock (lockObj)
         {
             data = vo;
             isAltar = true;
@@ -19,7 +24,7 @@ public class Altar : ISetAble
 
     private void Update()
     {
-        if(isAltar)
+        if (isAltar)
         {
             AltarFunc();
             isAltar = false;
@@ -28,14 +33,20 @@ public class Altar : ISetAble
 
     private void AltarFunc()
     {
-        if(data.id.Equals(user.socketId))
+        if (data.id.Equals(user.socketId))
         {
             BuffSO so = BuffManager.Instance.GetBuffSO(data.altarBuffId);
 
-            if(so!= null)
+            if (so != null)
             {
                 AltarPanel.Instance.SetEffectText(so.buffExplanation);
                 user.BuffHandler.AddBuff(so.InitializeBuff(user.gameObject));
+
+                SoundManager.Instance.PlaySFX(successClip);
+            }
+            else
+            {
+                SoundManager.Instance.PlaySFX(failClip);
             }
         }
         AltarPanel.Instance.ClosePanel(1f);

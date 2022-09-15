@@ -22,4 +22,8 @@ public enum Area
 
     OutSide = Forest | Field | Altar | BlueLobby | RedLobby | BlueShip | RedShip | Beach,
     InSide = Cave | EngineRoom | ChargeRoom | BatteryRoom | BottleRoom | BlueShipInside | RedShipInside,
+
+    Ship = RedShip | RedShipInside | BlueShip | BlueShipInside,
+    SoilGround = Field | Forest,
+    ConcreteGround = Cave | EngineRoom | ChargeRoom | BatteryRoom | BottleRoom | BlueLobby | RedLobby
 }
