@@ -26,7 +26,7 @@ public class SkillBtn : MonoBehaviour
     private bool isPassiveCalled;
 
     public bool CanTouch => btnImage.raycastTarget;
- 
+
     private bool IsTargetingSkill => curSkill is TargetingSkillSO;
     private bool IsAreaRestrictionSkill => curSkill is AreaRestrictionSkillSO;
 
@@ -48,7 +48,7 @@ public class SkillBtn : MonoBehaviour
     private void Start()
     {
         EventManager.SubEnterRoom(p =>
-        {   
+        {
             isEnterRoom = true;
             isPassiveCalled = false;
         });
@@ -76,9 +76,9 @@ public class SkillBtn : MonoBehaviour
     {
         if (!isEnterRoom) return;
 
-        if(isGameStart)
+        if (isGameStart)
         {
-            if(curSkill.isPassive)
+            if (curSkill.isPassive)
             {
                 if (!isPassiveCalled)
                 {
@@ -97,9 +97,9 @@ public class SkillBtn : MonoBehaviour
 
     private void UpdateImage()
     {
-        if(!isGameStart)
+        if (!isGameStart)
         {
-            if(curSkill.skillIcon == null)
+            if (curSkill.skillIcon == null)
             {
                 btn.image.sprite = originSprite;
                 skillText.text = "Skill";
@@ -113,6 +113,8 @@ public class SkillBtn : MonoBehaviour
 
                 rect.sizeDelta = new Vector2(170, 170);
             }
+
+            coolTimeImg.fillAmount = 0f;
 
             return;
         }
@@ -131,7 +133,7 @@ public class SkillBtn : MonoBehaviour
             }
         }
 
-        if(IsAreaRestrictionSkill)
+        if (IsAreaRestrictionSkill)
         {
             AreaRestrictionSkillSO so = (AreaRestrictionSkillSO)curSkill;
 
@@ -146,7 +148,7 @@ public class SkillBtn : MonoBehaviour
                 }
             }
 
-            if(!isTouching)
+            if (!isTouching)
             {
                 coolTimeImg.fillAmount = curSkill.IsCoolTime ? curSkill.timer / curSkill.coolTime : 1f;
                 btnImage.raycastTarget = false;
@@ -171,7 +173,7 @@ public class SkillBtn : MonoBehaviour
     {
         if (!isEnterRoom || !isGameStart || curSkill.isPassive || PlayerManager.Instance.Player.IsSturned) return;
 
-        if(IsAreaRestrictionSkill)
+        if (IsAreaRestrictionSkill)
         {
             ((AreaRestrictionSkillSO)curSkill).isInShip = true;
         }
