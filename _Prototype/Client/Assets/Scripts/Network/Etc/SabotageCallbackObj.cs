@@ -11,7 +11,7 @@ public class SabotageCallbackObj : MonoBehaviour
 
     public void ArsonCallback()
     {
-        ArsonManager.Instance.StartArson();
+        //ArsonManager.Instance.StartArson();
     }
 
     public void DoorCallback()

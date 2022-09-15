@@ -127,7 +127,7 @@ public class Sabotage : ISetAble
 
     public void SetExtinguish()
     {
-        ArsonManager.Instance.SlotActive(false);
+        //ArsonManager.Instance.SlotActive(false);
     }
 
     private void SetArson()
@@ -137,7 +137,7 @@ public class Sabotage : ISetAble
 
     public void StartSabotage()
     {
-        ArsonManager.Instance.isBlue = sabotageData.team.Equals(Team.BLUE);
+       // ArsonManager.Instance.isBlue = sabotageData.team.Equals(Team.BLUE);
 
         SabotageSO so = GetSabotageSO(sabotageData.sabotageName);
         so.callback?.Invoke();
