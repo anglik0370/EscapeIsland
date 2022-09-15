@@ -118,6 +118,7 @@ public class SoundManager : MonoBehaviour
         if(!footstepSource.isPlaying) return;
 
         footstepSource.Stop();
+        footstepSource.clip = null;
     }
 
     public void PlaySFX(AudioClip clip, float playTime = 0f)

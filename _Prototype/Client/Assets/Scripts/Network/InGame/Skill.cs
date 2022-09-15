@@ -390,11 +390,13 @@ public class Skill : ISetAble
             {
                 //플레이어가 스킬 사용했을 시
                 LogPanel.Instance.SingleSkillLog(user, GetTargetPlayer(), skillData.skillName);
+                SoundManager.Instance.PlayCharacterSound(user.curSO.skill.skillSFX, user);
             }
             else if (playerList.TryGetValue(skillData.useSkillPlayerId, out Player p))
             {
                 //다른유저가 스킬 사용했을 시
                 LogPanel.Instance.SingleSkillLog(p, GetTargetPlayer(), skillData.skillName);
+                SoundManager.Instance.PlayCharacterSound(p.curSO.skill.skillSFX, p);
             }
 
         }
@@ -406,11 +408,13 @@ public class Skill : ISetAble
             {
                 //플레이어가 스킬 사용했을 시
                 LogPanel.Instance.GlobalSkillLog(user, skillData.skillName);
+                SoundManager.Instance.PlayCharacterSound(user.curSO.skill.skillSFX, user);
             }
             else if (playerList.TryGetValue(skillData.useSkillPlayerId, out Player p))
             {
                 //다른유저가 스킬 사용했을 시
                 LogPanel.Instance.GlobalSkillLog(p, skillData.skillName);
+                SoundManager.Instance.PlayCharacterSound(p.curSO.skill.skillSFX, p);
             }
         }
 

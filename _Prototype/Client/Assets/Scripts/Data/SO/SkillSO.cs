@@ -16,6 +16,8 @@ public class SkillSO : ScriptableObject
     public SkillType skillType; //스킬 타입
 
     public float coolTime = 10f; //쿨타임
+
+    public AudioClip skillSFX;
     [HideInInspector]
     public float timer = 10f; //쿨타임 계산하는 타이머
 
