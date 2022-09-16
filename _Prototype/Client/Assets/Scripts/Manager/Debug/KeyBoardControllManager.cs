@@ -86,9 +86,30 @@ public class KeyBoardControllManager : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.V) && RefreshUsers.Instance.isTest)
+        if(Input.GetKeyDown(KeyCode.R) && RefreshUsers.Instance.isTest)
         {
-            EventManager.OccurGameOver(player.CurTeam == Team.BLUE ? GameOverCase.BlueWin : GameOverCase.RedWin);
+            StorageVO redVO = StorageManager.Instance.StorageDic[Team.RED];
+
+            foreach(var itemAmount in redVO.maxAmountItemList)
+            {
+                for(int i = 0; i < itemAmount.amount; i++)
+                {
+                    SendManager.Instance.StorageDrop(Team.RED, itemAmount.item.itemId);
+                }
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.B) && RefreshUsers.Instance.isTest)
+        {
+            StorageVO blueVO = StorageManager.Instance.StorageDic[Team.BLUE];
+
+            foreach(var itemAmount in blueVO.maxAmountItemList)
+            {
+                for(int i = 0; i < itemAmount.amount; i++)
+                {
+                    SendManager.Instance.StorageDrop(Team.RED, itemAmount.item.itemId);
+                }
+            }
         }
     }
 }

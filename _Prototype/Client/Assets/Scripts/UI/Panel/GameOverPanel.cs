@@ -129,6 +129,8 @@ public class GameOverPanel : Panel
     {
         NetworkManager.instance.User.canMove =true;
 
+        SoundManager.Instance.PlayBGM(SoundManager.Instance.DaylightBGM);
+
         UtilClass.SetCanvasGroup(cvs);
         base.Close();
     }
