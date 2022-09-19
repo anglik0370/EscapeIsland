@@ -24,8 +24,6 @@ public class EyesightManager : MonoBehaviour
 
     private List<AreaStateHolder> areaStateHolderList;
 
-    private List<ArsonSlot> arsonSlotList;
-
     [Header("쉐도우 캐스터 부모")]
     [SerializeField]
     private GameObject shadowCasterParent;
