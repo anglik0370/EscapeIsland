@@ -16,4 +16,10 @@ public class SettingPanel : Panel
 
         base.Awake();
     }
+
+    protected override void Start() {
+        SoundManager.Instance.SFXVolumeControl(sfxSlider.value);
+        SoundManager.Instance.BGMVolumeControl(bgmSlider.value);
+        base.Start();
+    }
 }

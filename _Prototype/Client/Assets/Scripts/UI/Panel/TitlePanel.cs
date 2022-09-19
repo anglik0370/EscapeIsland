@@ -19,6 +19,10 @@ public class TitlePanel : MonoBehaviour
     [SerializeField]
     private CanvasGroup loginCvs;
 
+    private bool isAutoClosed = false;
+    private float closeTimer = 0f;
+    private const float CLOSE_TIME = 3f;
+
     [SerializeField]
     private CanvasScaler cvsScaler;
 
@@ -35,6 +39,9 @@ public class TitlePanel : MonoBehaviour
 
     public void Init()
     {
+        isAutoClosed = false;
+        closeTimer = 0f;
+
         btn.interactable = true;
 
         if (seq != null)
@@ -58,6 +65,8 @@ public class TitlePanel : MonoBehaviour
 
     public void Close()
     {
+        isAutoClosed = true;
+
         btn.interactable = false;
 
         if(seq != null)
@@ -79,5 +88,17 @@ public class TitlePanel : MonoBehaviour
             loginCvs.interactable = true;
             loginCvs.blocksRaycasts = true;
         });
+    }
+
+    private void Update() 
+    {
+        if(closeTimer < CLOSE_TIME)
+        {
+            closeTimer += Time.deltaTime;
+        }
+        else
+        {
+            if(!isAutoClosed) Close();
+        }
     }
 }

@@ -12,6 +12,8 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager Instance;
 
+    private Player p;
+
     [SerializeField]
     private AudioMixer mainMixer;
 
@@ -24,6 +26,18 @@ public class SoundManager : MonoBehaviour
     private AudioSource footstepSource; //발소리 재생기
     [SerializeField]
     private List<AudioSource> sfxSourceList; //재생기 리스트
+
+    [SerializeField]
+    private AudioClip titleBGM;
+    [SerializeField]
+    private AudioClip daylightBGM;
+    public AudioClip DaylightBGM => daylightBGM;
+    [SerializeField]
+    private AudioClip nightBGM;
+    [SerializeField]
+    private AudioClip gameWinBGM;
+    [SerializeField]
+    private AudioClip gameLoseBGM;
 
     private void Awake()
     {
@@ -42,7 +56,7 @@ public class SoundManager : MonoBehaviour
     }
 
     private void Start()
-    {   
+    {           
         bgmSource = CreateAudioSource();
         bgmSource.outputAudioMixerGroup = bgmGroup;
         bgmSource.loop = true;
@@ -51,6 +65,46 @@ public class SoundManager : MonoBehaviour
         footstepSource.loop = true;
 
         CreateAudioSources(10);
+
+        EventManager.SubGameOver(goc => {
+            StopAllSFXSound();
+            
+            if(goc == GameOverCase.BlueWin)
+            {
+                PlaySFX(p.CurTeam == Team.BLUE ? gameWinBGM : gameLoseBGM);
+            }
+            else if(goc == GameOverCase.RedWin)
+            {
+                PlaySFX(p.CurTeam == Team.RED ? gameWinBGM : gameLoseBGM);
+            }
+        });
+
+        EventManager.SubExitRoom(() => {
+            StopAllSFXSound();
+            PlayBGM(titleBGM);
+        });
+
+        EventManager.SubEnterRoom(p => {
+            this.p = p;
+            PlayBGM(daylightBGM);
+        });
+
+        EventManager.SubGameStart(p => {
+            PlayBGM(daylightBGM);
+        });
+
+        EventManager.SubTimeChange(isLight => {
+            if(isLight)
+            {
+                PlayBGM(daylightBGM);
+            }
+            else
+            {
+                PlayBGM(nightBGM);
+            }
+        });
+
+        PlayBGM(titleBGM);
     }
 
     private void CreateAudioSources(int count)
@@ -96,6 +150,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBGM(AudioClip clip)
     {
+        if(bgmSource.clip == clip) bgmSource.Stop();
+
         bgmSource.clip = clip;
         bgmSource.Play();
     }
@@ -132,6 +188,12 @@ public class SoundManager : MonoBehaviour
         {
             StartCoroutine(SoundStopTimer(audio, playTime));
         }
+    }
+
+    private void StopAllSFXSound()
+    {
+        StopFootStep();
+        sfxSourceList.ForEach(x => x.Stop());
     }
 
     public void PlayCharacterSound(AudioClip clip, Player player)
