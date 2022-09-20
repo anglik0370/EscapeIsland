@@ -97,10 +97,10 @@ public class SlotManager : MonoBehaviour
                         //NowConverting
                         temp = endSlot.GetItem();
 
-                        SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Converter, BehaviourType.Reset);
+                        SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Reset, vo));
                     }
 
-                    SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Converter, BehaviourType.Start);
+                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Start, vo));
                     beginSlot.SetItem(temp);
                 }
             }
@@ -111,7 +111,8 @@ public class SlotManager : MonoBehaviour
                 ItemSO temp = beginSlot.GetItem();
 
                 SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
-                SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Converter, BehaviourType.Reset);
+                SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Reset, vo));
+
                 endSlot.SetItem(temp);
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.ConverterAfter && endSlot.Kind == ItemSlot.SlotKind.Inventory)
@@ -122,7 +123,7 @@ public class SlotManager : MonoBehaviour
                 {
                     //endSlot is Empty
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
-                    SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Converter, BehaviourType.Take);
+                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Take, vo));
                     endSlot.SetItem(beginSlot.GetItem());
                 }
             }
@@ -155,7 +156,7 @@ public class SlotManager : MonoBehaviour
                 if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty && !slot.MissionCharge.IsCharging)
                 {
                     SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
-                    SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Battery, BehaviourType.Start);
+                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Battery, BehaviourType.Start, vo));
                     //slot.SetEmptyBetteryItem();
                     //slot.StartCharging();
                     beginSlot.SetItem(null);
@@ -171,7 +172,7 @@ public class SlotManager : MonoBehaviour
                 {
 
                     SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
-                    SendManager.Instance.SendSyncObj(PlayerManager.Instance.Player.IsImmediate,vo, ObjType.Battery, BehaviourType.Take);
+                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Battery, BehaviourType.Take, vo));
 
                     //slot.SetNullItem();
 
@@ -210,7 +211,7 @@ public class SlotManager : MonoBehaviour
                         if (msSlot.IsEmpty)
                         {
                             //여기서 저장소로 날려주면 됨
-                            SendManager.Instance.StorageDrop(mission.Team, beginSlot.GetItem().itemId);
+                            SendManager.Instance.Send("STORAGE_DROP", new ItemStorageVO(mission.Team, beginSlot.GetItem().itemId));
                             beginSlot.SetItem(null);
                         }
                     }

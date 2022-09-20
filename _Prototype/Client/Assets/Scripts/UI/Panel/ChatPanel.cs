@@ -67,7 +67,7 @@ public class ChatPanel : Panel
     {
         base.Start();
 
-        EventManager.SubEnterRoom(p => 
+        EventManager.SubEnterRoom(p =>
         {
             InitChat();
             chatType = ChatType.All;
@@ -89,7 +89,7 @@ public class ChatPanel : Panel
         {
             if (chatInput.text == "") return;
 
-            SendManager.Instance.SendChat(chatInput.text,chatType);
+            SendManager.Instance.Send("CHAT", new ChatVO(NetworkManager.instance.socketId, chatInput.text, chatType));
             chatInput.text = "";
         });
 
@@ -106,7 +106,7 @@ public class ChatPanel : Panel
 
         chatOpenBtn.onClick.AddListener(() =>
         {
-            if(cvs.interactable)
+            if (cvs.interactable)
             {
                 Close();
                 return;
@@ -123,7 +123,7 @@ public class ChatPanel : Panel
 
         switchingBtn.onClick.AddListener(() =>
         {
-            if(chatStateTxt.text == CHAT_STRING)
+            if (chatStateTxt.text == CHAT_STRING)
             {
                 chatStateTxt.text = LOG_STRING;
 
@@ -194,8 +194,8 @@ public class ChatPanel : Panel
             ChatUI chat = t.GetComponent<ChatUI>();
 
             t.gameObject.SetActive(false);
-            
-            if(chat.nameText.text.Equals(NetworkManager.instance.socketName))
+
+            if (chat.nameText.text.Equals(NetworkManager.instance.socketName))
             {
                 myChatQueue.Enqueue(chat);
             }

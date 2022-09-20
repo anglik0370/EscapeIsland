@@ -39,22 +39,22 @@ public class MultiPlaformDebugManager : MonoBehaviour
 
     private void Login()
     {
-        SendManager.Instance.Login($"User{vo.clientId}");
+        //SendManager.Instance.Send("LOGIN", new LoginVO($"User{vo.clientId}",0));
     }
 
     private void CreateRoom()
     {
-        SendManager.Instance.CreateRoom("Room", 0, 10, 1, false);
+        //SendManager.Instance.CreateRoom("Room", 0, 10, 1, false);
     }
 
     private void JoinRoom()
     {
-        SendManager.Instance.JoinRoom(1);
+        //SendManager.Instance.JoinRoom(1);
     }
 
     private void StartGame()
     {
-        SendManager.Instance.GameStart();
+        //SendManager.Instance.GameStart();
     }
 
     private void AddKidnapperList()

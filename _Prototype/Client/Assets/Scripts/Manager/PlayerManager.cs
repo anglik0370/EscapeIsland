@@ -155,7 +155,7 @@ public class PlayerManager : MonoBehaviour
             //    occupyUI.DisableUI();
             //}
 
-            SendManager.Instance.SendAreaState(player.Area);
+            SendManager.Instance.Send("INSIDE_REFRESH", new UserVO().SetArea(player.Area));
             yield return delay;
         }
     }

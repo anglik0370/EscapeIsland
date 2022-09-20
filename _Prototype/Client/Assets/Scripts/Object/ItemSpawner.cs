@@ -103,15 +103,16 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
 
     public void SetOpen(bool isOpen)
     {
-        if (NetworkManager.instance.User == null) return;
+        Player user = NetworkManager.instance.User;
+        if (user == null) return;
 
         this.isOpen = isOpen;
-
-        SendManager.Instance.SendSpawnerOpen(area, missionType, NetworkManager.instance.User.CurTeam, id, isOpen,NetworkManager.instance.User.CanEnemyGathering);
+        SendManager.Instance.Send("SPAWNER_OPEN", new OpenPanelVO(area, missionType, user.CurTeam, id, isOpen, user.CanEnemyGathering));
 
         if(!isOpen)
         {
-            SendManager.Instance.StartMission(id,NetworkManager.instance.socketId, MissionType,NetworkManager.instance.User.CurTeam);
+            SendManager.Instance.Send("");
+            SendManager.Instance.Send("MISSION", new ItemSpawnerVO(id, user.socketId, MissionType, user.CurTeam));
         }
     }
 

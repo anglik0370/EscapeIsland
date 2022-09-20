@@ -50,7 +50,7 @@ public class FlyPaper : MonoBehaviour
 
             if (p != null && !p.IsRemote && !p.CurTeam.Equals(team))
             {
-                SendManager.Instance.EnterFlyPaper(p.socketId, id, userId);
+                SendManager.Instance.Send("ENTER_FLY_PAPER", new FlyPaperVO(p.socketId, id, userId));
             }
         }
     }

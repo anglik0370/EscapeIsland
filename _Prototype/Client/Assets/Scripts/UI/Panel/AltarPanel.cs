@@ -178,8 +178,7 @@ public class AltarPanel : Panel
         {
             slots[i].SetItem(null);
         }
-
-        SendManager.Instance.SendAltar(new AltarVO(NetworkManager.instance.socketId, buffId));
+        SendManager.Instance.Send("ALTAR", new AltarVO(NetworkManager.instance.socketId, buffId));
     }
 
     IEnumerator PanelOff()

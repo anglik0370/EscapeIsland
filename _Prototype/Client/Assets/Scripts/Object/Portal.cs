@@ -16,7 +16,7 @@ public class Portal : MonoBehaviour
 
         if(!p.IsRemote && p != null)
         {
-            SendManager.Instance.SendNotLerpMove(new NotLerpMoveVO(NetworkManager.instance.socketId, warpPoint.position));
+            SendManager.Instance.Send("NOT_LERP_MOVE", new NotLerpMoveVO(NetworkManager.instance.socketId, warpPoint.position));
         }
     }
 }

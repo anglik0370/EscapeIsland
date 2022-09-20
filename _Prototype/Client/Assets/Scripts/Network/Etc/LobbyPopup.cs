@@ -40,7 +40,7 @@ public class LobbyPopup : Popup
 
         refreshBtn.onClick.AddListener(() =>
         {
-            SendManager.Instance.ReqRoomRefresh();
+            SendManager.Instance.Send("ROOM_REFRESH_REQ");
         });
         createPopupOpenBtn.onClick.AddListener(() =>
         {
@@ -55,7 +55,8 @@ public class LobbyPopup : Popup
 
         createRoomBtn.onClick.AddListener(() =>
         {
-            SendManager.Instance.CreateRoom(roomNameInput.text,0,(int)userNumslider.value,(int)0,testToggle.isOn);
+            NetworkManager.instance.FindSetDataScript<RefreshUsers>().isTest = testToggle.isOn;
+            SendManager.Instance.Send("CREATE_ROOM", new RoomVO(roomNameInput.text, 0, 0, (int)userNumslider.value, 0));
             OpenCreateRoomPopup(false);
         });
         cancelBtn.onClick.AddListener(() =>
@@ -73,7 +74,7 @@ public class LobbyPopup : Popup
         joinBtn.onClick.AddListener(() =>
         {
             //JoinRoom 보내 nameInput text로 
-            SendManager.Instance.SendFindRoom(joinRoomNameInput.text);
+            SendManager.Instance.Send("FIND_ROOM", new RoomVO().SetRoomName(joinRoomNameInput.text));
             OpenJoinRoomPopup(false);
         });
 

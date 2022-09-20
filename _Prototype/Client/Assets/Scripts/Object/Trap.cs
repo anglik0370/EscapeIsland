@@ -76,7 +76,7 @@ public class Trap : MonoBehaviour
             
             if(p != null && !p.IsRemote && !p.CurTeam.Equals(team) &&!isTrap)
             {
-                SendManager.Instance.SendTrap(p.socketId, id);
+                SendManager.Instance.Send("ENTER_TRAP", new TrapVO(p.socketId, id));
             }
         }
     }

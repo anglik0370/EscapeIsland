@@ -24,6 +24,27 @@ public class RoomVO : VO
         this.userNum = userNum;
         this.kidnapperNum = kidnapperNum;
     }
+
+    public RoomVO SetRoomNum(int roomNum)
+    {
+        this.roomNum = roomNum;
+
+        return this;
+    }
+
+    public RoomVO SetRoomName(string name)
+    {
+        this.name = name;
+
+        return this;
+    }
+
+    public RoomVO SetData(NeedItemVO data)
+    {
+        this.data = data;
+
+        return this;
+    }
 }
 
 [System.Serializable]
