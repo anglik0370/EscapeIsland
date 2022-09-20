@@ -30,10 +30,10 @@ class Area {
     }
 
     canMission(user,isGathering) {
-        return (this.occupyTeam == team.NONE&& 
+        return isGathering || (this.occupyTeam == team.NONE&& 
             (user.curTeam == team.RED ? this.blueTeamUserLength <= this.redTeamUserLength
             : this.blueTeamUserLength >= this.redTeamUserLength))
-                 || (this.occupyTeam === user.curTeam) || isGathering;
+                 || (this.occupyTeam === user.curTeam);
     }
 
     startTimer() {
@@ -83,7 +83,7 @@ class Area {
             let add = this.blueTeamUserLength + (isWonsong ? 1.5 : 1);
             this.blueTeamUserLength = add;
         }
-        else if(!isBlue) {
+        else {
             let add = this.redTeamUserLength + (isWonsong ? 1.5 : 1);
             this.redTeamUserLength = add;
         }
@@ -92,10 +92,12 @@ class Area {
     removeUserList(isBlue,isWonsong = false) {
         if(isBlue) {
             let remove = this.blueTeamUserLength - (isWonsong ? 1.5 : 1);
+            if(remove < 0) remove = 0;
             this.blueTeamUserLength = remove;
         }
         else {
             let remove = this.redTeamUserLength - (isWonsong ? 1.5 : 1);
+            if(remove < 0) remove = 0;
             this.redTeamUserLength = remove;
         }
     }

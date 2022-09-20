@@ -114,7 +114,6 @@ class Rooms {
         if(room === undefined) return;
         
         let user = room.userList[socket.id];
-
         if(user === undefined) return;
 
         let master = user.master;
@@ -129,7 +128,6 @@ class Rooms {
             // 초기화
             user.initExitData();
         }
-        
         
         if(room.curUserNum <= 0){ //사람이 0명일때 room delete
             room.initRoom();
@@ -149,6 +147,28 @@ class Rooms {
             if(soc.id === socket.id) return;
             soc.send(JSON.stringify({type:"DISCONNECT",payload:socket.id}))
         });
+
+        //게임 종료처리
+        if(room.playing)
+        {
+            let blueTeamLength = 0;
+            let redTeamLength = 0;
+    
+            for(let key in room.userList) {
+                if(room.userList[key].curTeam == team.NONE) continue;
+    
+                if(room.userList[key].curTeam == team.BLUE) {
+                    blueTeamLength++;
+                }
+                else {
+                    redTeamLength++;
+                }
+            }
+
+            if(redTeamLength == 0 || blueTeamLength == 0) {
+                room.gameEnd(redTeamLength == 0 ? team.BLUE : team.RED);
+            }
+        }
     }
 
     join(socket,isMaster) {
