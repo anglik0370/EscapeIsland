@@ -7,6 +7,7 @@ public class CharacterSelectPanel : Panel
 {
     public static CharacterSelectPanel Instance { get; set; }
 
+    [SerializeField]
     private CharacterProfile profilePrefab;
     private List<CharacterSO> charSOList;
     private List<CharacterProfile> profileList = new List<CharacterProfile>();
@@ -25,8 +26,6 @@ public class CharacterSelectPanel : Panel
     protected override void Awake()
     {
         Instance = this;
-
-        profilePrefab = Resources.Load<CharacterProfile>("SelectUI/Profile");
 
         charSOList = Resources.LoadAll<CharacterSO>("CharacterSO/").ToList();
 
