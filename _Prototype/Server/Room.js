@@ -13,7 +13,6 @@ const values = Object.values(MissionType);
 
 const Timer = require('./Timers/Timer.js');
 const InGameTimer = require('./Timers/InGameTimer.js');
-const ArsonTimer = require('./Timers/ArsonTimer.js');
 
 const Area = require('./Area.js');
 const Storage = require('./Utils/Storage.js');
@@ -27,7 +26,6 @@ class Room {
         this.playing = playing;
 
         this.inGameTimer = new InGameTimer(this,20,() => {});
-        this.arsonTimer = new ArsonTimer(this,20, () => this.arsonCallback());
         this.altarTimer = new Timer(this,30,() => {});
 
         this.skipCount = 0;
@@ -120,20 +118,6 @@ class Room {
         payload:JSON.stringify(data)}))
         this.altarTimer.startTimer(true);
     }
-
-    // arsonCallback() {
-    //     if(this.storageItemList.length <= 0)  {
-    //         return;
-    //     }
-
-    //     let idx = Math.floor(Math.random() * this.storageItemList.length);
-    //     let itemSOId = this.storageItemList[idx];
-
-    //     this.storageItemList.splice(idx,1);
-
-    //     this.broadcast(JSON.stringify({type:"ARSON",
-    //     payload:JSON.stringify({team:this.arsonTimer.team,itemSOId})}));
-    // }
 
     addVoiceData(socketId,voiceData) {
         this.userList[socketId].setVoiceData(voiceData);
@@ -285,7 +269,6 @@ class Room {
         }
         
         this.inGameTimer.stopTimer(true);
-        this.arsonTimer.stopTimer(true);
         this.altarTimer.stopTimer(true);
 
         //let key = Object.keys(this.areaList);

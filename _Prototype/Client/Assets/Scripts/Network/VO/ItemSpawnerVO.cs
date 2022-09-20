@@ -6,4 +6,12 @@ public class ItemSpawnerVO : VO
 
     public MissionType missionType;
     public Team team;
+
+    public ItemSpawnerVO(int spawnerId,int senderId, MissionType missionType, Team team)
+    {
+        this.spawnerId = spawnerId;
+        this.senderId = senderId;
+        this.missionType = missionType;
+        this.team = team;
+    }
 }

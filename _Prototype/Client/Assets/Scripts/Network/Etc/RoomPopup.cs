@@ -19,7 +19,7 @@ public class RoomPopup : Popup
 
         exitBtn.onClick.AddListener(() =>
         {
-            SendManager.Instance.ExitRoomSend();
+            SendManager.Instance.Send("EXIT_ROOM");
         });
     }
 }

@@ -20,4 +20,11 @@ public class UserVO : VO
     {
 
     }
+
+    public UserVO SetArea(Area area)
+    {
+        this.area = area;
+
+        return this; ;
+    }
 }

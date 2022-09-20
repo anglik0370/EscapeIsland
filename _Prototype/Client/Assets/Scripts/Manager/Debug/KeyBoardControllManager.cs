@@ -94,7 +94,7 @@ public class KeyBoardControllManager : MonoBehaviour
             {
                 for(int i = 0; i < itemAmount.amount; i++)
                 {
-                    SendManager.Instance.StorageDrop(Team.RED, itemAmount.item.itemId);
+                    SendManager.Instance.Send("STORAGE_DROP", new ItemStorageVO(Team.RED, itemAmount.item.itemId));
                 }
             }
         }
@@ -107,7 +107,7 @@ public class KeyBoardControllManager : MonoBehaviour
             {
                 for(int i = 0; i < itemAmount.amount; i++)
                 {
-                    SendManager.Instance.StorageDrop(Team.RED, itemAmount.item.itemId);
+                    SendManager.Instance.Send("STORAGE_DROP", new ItemStorageVO(Team.BLUE, itemAmount.item.itemId));
                 }
             }
         }

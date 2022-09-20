@@ -16,10 +16,10 @@ public class LoginPopup : Popup
         connectBtn.onClick.AddListener(() =>
         {
             //�α��� ���� �� �κ�� �̵��ؾ���
-            SendManager.Instance.Login(nameInput.text);
+            SendManager.Instance.Send("LOGIN", new LoginVO(nameInput.text, 0));
             nameInput.text = "";
 
-            SendManager.Instance.ReqRoomRefresh();
+            SendManager.Instance.Send("ROOM_REFRESH_REQ");
         });
     }
 }

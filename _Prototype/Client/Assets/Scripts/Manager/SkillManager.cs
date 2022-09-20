@@ -22,8 +22,6 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField]
     private const string TRAP_NAME = "µ£ º≥ƒ°";
-    [SerializeField]
-    private const string ARSON_NAME = "πÊ»≠";
 
     [SerializeField]
     private Transform redShipParentTrm;
@@ -31,8 +29,6 @@ public class SkillManager : MonoBehaviour
     private Transform blueShipParentTrm;
 
     private Player user;
-
-    private int trapCount = 0;
 
     private void Awake()
     {
@@ -55,8 +51,6 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-        EventManager.SubGameInit(() => trapCount = 0);
-
         EventManager.SubEnterRoom(p => user = p);
 
         EventManager.SubGameStart(p =>
@@ -86,7 +80,7 @@ public class SkillManager : MonoBehaviour
     private void AmberSkill()
     {
         //PlayerManager.Instance.AccelerationPlayer(AMBER);
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Amber, user.socketId, skillList[AMBER].skillName).SetTeam(user.CurTeam));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Amber, user.socketId, skillList[AMBER].skillName).SetTeam(user.CurTeam));
     }
 
     private void CherrySkill()
@@ -104,12 +98,12 @@ public class SkillManager : MonoBehaviour
 
         socketIdList.Add(user.socketId);
 
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Cherry,user.socketId, skillList[CHERRY].skillName).SetTeam(user.CurTeam).SetTargetIdList(socketIdList));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Cherry, user.socketId, skillList[CHERRY].skillName).SetTeam(user.CurTeam).SetTargetIdList(socketIdList));
     }
 
     private void IanSkill()
     {
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.IAN,user.socketId, skillList[IAN].skillName).SetTeam(user.CurTeam));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.IAN, user.socketId, skillList[IAN].skillName).SetTeam(user.CurTeam));
     }
 
     private void JosuhaSkill()
@@ -128,7 +122,7 @@ public class SkillManager : MonoBehaviour
             }
         }
 
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Joshua,user.socketId, skillList[JOSUHA].skillName).SetTeam(user.CurTeam).SetTargetIdList(socketIdList));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Joshua, user.socketId, skillList[JOSUHA].skillName).SetTeam(user.CurTeam).SetTargetIdList(socketIdList));
     }
 
     private void RaiSkill()
@@ -139,19 +133,19 @@ public class SkillManager : MonoBehaviour
 
         if(targetSocketId != 0)
         {
-            SendManager.Instance.SendSKill(new SkillVO(CharacterType.Rai, user.socketId, skillList[RAI].skillName).SetTargetId(targetSocketId));
+            SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Rai, user.socketId, skillList[RAI].skillName).SetTargetId(targetSocketId));
         }
     }
 
     private void RandySkill()
     {
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Randy,user.socketId, skillList[RANDY].skillName).SetTeam(user.CurTeam));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Randy, user.socketId, skillList[RANDY].skillName).SetTeam(user.CurTeam));
     }
 
     private void SarsuSkill()
     {
         user.inventory.AddItem(MissionPanel.Instance.MissionItemList[Random.Range(0, MissionPanel.Instance.MissionItemList.Count)]);
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Sarsu, user.socketId, skillList[SARSU].skillName));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Sarsu, user.socketId, skillList[SARSU].skillName));
     }
 
     private void WonsongSkill()
@@ -161,15 +155,7 @@ public class SkillManager : MonoBehaviour
 
     private void AnderSkill()
     {
-        //if(trapCount >= 10)
-        //{
-        //    SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId, ARSON_NAME, PlayerManager.Instance.Player.CurTeam);
-        //    trapCount = 0;
-        //    return;
-        //}
-
-        SendManager.Instance.SendSabotage(PlayerManager.Instance.Player.socketId,TRAP_NAME,PlayerManager.Instance.Player.CurTeam);
-        trapCount++;
+        SendManager.Instance.Send("SABOTAGE", new SabotageVO(PlayerManager.Instance.Player.socketId, TRAP_NAME, PlayerManager.Instance.Player.CurTeam));
     }
 
     private void SimonSkill()
@@ -186,7 +172,7 @@ public class SkillManager : MonoBehaviour
         Team team = user.CurTeam == Team.RED ? Team.BLUE : Team.RED;
 
         //ø©±‚∏¶ µø±‚»≠ «ÿ¡‡æﬂµ 
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Simon, user.socketId, skillList[SIMON].skillName).SetItemId(item.itemId).SetTeam(team));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Simon, user.socketId, skillList[SIMON].skillName).SetItemId(item.itemId).SetTeam(team));
     }
 
     private void LeonSkill()
@@ -196,11 +182,11 @@ public class SkillManager : MonoBehaviour
         //∑£¥˝¿∏∑Œ «—∏Ì ªÃ∞Ì
         Player targetPlayer = playerList[Random.Range(0, playerList.Count)];
 
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Leon, user.socketId, skillList[LEON].skillName).SetTargetId(targetPlayer.socketId));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Leon, user.socketId, skillList[LEON].skillName).SetTargetId(targetPlayer.socketId));
     }
 
     private void KionSkill()
     {
-        SendManager.Instance.SendSKill(new SkillVO(CharacterType.Kion, user.socketId, skillList[KION].skillName).SetTeam(user.CurTeam).SetPoint(user.transform.position));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Kion, user.socketId, skillList[KION].skillName).SetTeam(user.CurTeam).SetPoint(user.transform.position));
     }
 }

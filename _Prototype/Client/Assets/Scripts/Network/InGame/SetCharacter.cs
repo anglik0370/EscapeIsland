@@ -50,6 +50,6 @@ public class SetCharacter : ISetAble
 
         int beforeId = user.ChangeCharacter(so);
 
-        SendManager.Instance.SendCharacterChange(so.id, beforeId);
+        SendManager.Instance.Send("CHARACTER_CHANGE", new CharacterVO(user.CurTeam, so.id, beforeId, user.socketId));
     }
 }
