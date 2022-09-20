@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CharacterVO
+public class CharacterVO : VO
 {
     public Team team;
     public int characterId;

@@ -25,19 +25,12 @@ public class Sabotage : ISetAble
 
     private bool needSabotageRefresh = false;
     private bool needTrapRefresh = false;
-    private bool needExtinguishRefresh = false;
-    private bool needArsonRefresh = false;
 
     private int lastTrapIdx = 1;
 
     private List<Trap> trapList = new List<Trap>();
-    private List<LabDoor> doorList = new List<LabDoor>();
 
     private TrapVO trapData;
-    private ArsonVO arsonData;
-
-    [SerializeField]
-    private Transform doorParent;
 
     private void Awake()
     {
@@ -76,18 +69,6 @@ public class Sabotage : ISetAble
             EnterTrap();
             needTrapRefresh = false;
         }
-
-        if (needExtinguishRefresh)
-        {
-            SetExtinguish();
-            needExtinguishRefresh = false;
-        }
-
-        if(needArsonRefresh)
-        {
-            SetArson();
-            needArsonRefresh = false;
-        }
     }
 
     public static void SetSabotageData(SabotageVO vo)
@@ -108,46 +89,16 @@ public class Sabotage : ISetAble
         }
     }
 
-    public static void SetExtinguishData()
-    {
-        lock (Instance.lockObj)
-        {
-            Instance.needExtinguishRefresh = true;
-        }
-    }
-
-    public static void SetArsonData(ArsonVO vo)
-    {
-        lock(Instance.lockObj)
-        {
-            Instance.arsonData = vo;
-            Instance.needArsonRefresh = true;
-        }
-    }
-
-    public void SetExtinguish()
-    {
-        //ArsonManager.Instance.SlotActive(false);
-    }
-
-    private void SetArson()
-    {
-        StorageManager.Instance.RemoveItem(arsonData.team, ItemManager.Instance.FindItemSO(arsonData.itemSOId));
-    }
-
     public void StartSabotage()
     {
-       // ArsonManager.Instance.isBlue = sabotageData.team.Equals(Team.BLUE);
-
         SabotageSO so = GetSabotageSO(sabotageData.sabotageName);
         so.callback?.Invoke();
-
-        //UIManager.Instance.AlertText(sabotageData.sabotageName, AlertType.Warning);
     }
 
     public void SpawnTrap()
     {
         Trap trap = PoolManager.GetItem<Trap>();
+        Dictionary<int, Player> dic = NetworkManager.instance.GetPlayerDic();
 
         if (!trapList.Contains(trap))
             trapList.Add(trap);
@@ -162,7 +113,7 @@ public class Sabotage : ISetAble
 
                 Player p;
 
-                if(NetworkManager.instance.GetPlayerDic().TryGetValue(uv.socketId, out p))
+                if(dic.TryGetValue(uv.socketId, out p))
                 {
                     LogPanel.Instance.GlobalSkillLog(p, ANDER_SKILL_NAME);
                 }
@@ -180,10 +131,13 @@ public class Sabotage : ISetAble
 
     public void EnterTrap()
     {
+        Init();
+
         if(user.socketId.Equals(trapData.socketId))
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(ANDER_ID).InitializeBuff(user.gameObject));
-            
+            user.UI.SetState("이동 불가", UtilClass.GetStateColor(true));
+
             var slotList = user.inventory.slotList.Where(x => !x.IsEmpty).ToList();
             if(slotList.Count > 0)
             {
@@ -191,6 +145,10 @@ public class Sabotage : ISetAble
 
                 user.inventory.RemoveItem(item);
             }
+        }
+        else if(playerList.TryGetValue(trapData.socketId,out Player p))
+        {
+            p.UI.SetState("이동 불가", UtilClass.GetStateColor(true));
         }
 
         Trap trap = FindTrap(trapData.id);
@@ -215,14 +173,6 @@ public class Sabotage : ISetAble
     public List<Trap> GetTrapList()
     {
         return trapList;
-    }
-
-    public void CloseDoor()
-    {
-        for (int i = 0; i < doorList.Count; i++)
-        {
-            doorList[i].CloseDoor();
-        }
     }
 
     public SabotageSO GetSabotageSO(string sabotageName)

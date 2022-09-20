@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 [System.Serializable]
-public class RoomListVO
+public class RoomListVO : VO
 {
     public List<RoomVO> dataList;
 

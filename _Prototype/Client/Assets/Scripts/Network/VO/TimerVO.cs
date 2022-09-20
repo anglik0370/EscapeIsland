@@ -1,6 +1,6 @@
 
 [System.Serializable]
-public class TimerVO
+public class TimerVO : VO
 {
     public string type;
     public bool isStart;

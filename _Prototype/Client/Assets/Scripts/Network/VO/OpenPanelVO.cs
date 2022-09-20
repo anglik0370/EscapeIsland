@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class OpenPanelVO
+public class OpenPanelVO : VO
 {
     public Area area;
     public MissionType missionType;

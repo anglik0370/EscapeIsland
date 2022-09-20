@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class MicVO
+public class MicVO : VO
 {
     public float[] voiceData;
 

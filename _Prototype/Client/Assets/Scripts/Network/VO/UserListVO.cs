@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 [System.Serializable]
-public class UserListVO
+public class UserListVO : VO
 {
     public List<UserVO> dataList;
 

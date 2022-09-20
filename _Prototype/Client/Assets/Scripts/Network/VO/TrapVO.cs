@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class TrapVO
+public class TrapVO : VO
 {
     public int socketId;
     public int id;
@@ -20,7 +20,7 @@ public class TrapVO
 }
 
 [System.Serializable]
-public class FlyPaperVO
+public class FlyPaperVO : VO
 {
     public int socketId;
     public int id;

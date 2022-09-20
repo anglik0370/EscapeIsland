@@ -8,14 +8,4 @@ public class SabotageCallbackObj : MonoBehaviour
     {
         Sabotage.Instance.SpawnTrap();
     }
-
-    public void ArsonCallback()
-    {
-        //ArsonManager.Instance.StartArson();
-    }
-
-    public void DoorCallback()
-    {
-        Sabotage.Instance.CloseDoor();
-    }
 }

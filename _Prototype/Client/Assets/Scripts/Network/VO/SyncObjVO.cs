@@ -1,5 +1,5 @@
 [System.Serializable]
-public class SyncObjVO
+public class SyncObjVO : VO
 {
     public bool isImmediate;
     public ObjType objType;
@@ -21,7 +21,7 @@ public class SyncObjVO
 }
 
 [System.Serializable]
-public class RefineryVO
+public class RefineryVO : VO
 {
     public int refineryId;
     public int itemSOId;
@@ -39,7 +39,7 @@ public class RefineryVO
 }
 
 [System.Serializable]
-public class SyncObjDataVO
+public class SyncObjDataVO : VO
 {
     public int objId;
     public int data;

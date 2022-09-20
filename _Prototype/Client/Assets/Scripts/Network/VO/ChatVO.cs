@@ -1,5 +1,5 @@
 [System.Serializable]
-public class ChatVO
+public class ChatVO : VO
 {
     public int socketId;
     public string msg;

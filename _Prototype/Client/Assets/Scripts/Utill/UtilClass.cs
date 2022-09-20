@@ -131,4 +131,9 @@ public class UtilClass
 
         camera.rect = rect;
     }
+
+    public static Color GetStateColor(bool isBuff)
+    {
+        return isBuff ? Color.blue : Color.red;
+    }
 }

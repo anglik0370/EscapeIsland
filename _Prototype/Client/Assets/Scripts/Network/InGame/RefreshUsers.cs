@@ -167,11 +167,11 @@ public class RefreshUsers : ISetAble
                         MapPanel.Instance.GetMapAreaInfoUI(p.Area).Add(p.curSO.profileImg);
                     }
 
-                    if (uv.voiceData != null && uv.voiceData.Length > 0)
-                    {
-                        p.PlayVoice(MicManager.Instance.GetClip(uv.voiceData));
-                        print("play");
-                    }
+                    //if (uv.voiceData != null && uv.voiceData.Length > 0)
+                    //{
+                    //    p.PlayVoice(MicManager.Instance.GetClip(uv.voiceData));
+                    //    print("play");
+                    //}
                 }
             }
             else

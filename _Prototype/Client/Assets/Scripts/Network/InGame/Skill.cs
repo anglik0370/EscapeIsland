@@ -81,11 +81,11 @@ public class Skill : ISetAble
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(KION_SPEED_DEBUFF_ID).InitializeBuff(user.gameObject));
             user.BuffHandler.AddBuff(coolDebuffSO.InitializeBuff(user.gameObject));
-            user.UI.SetState("미션 쿨타임 증가", GetStateColor(coolDebuffSO.isBuffed));
+            user.UI.SetState("미션 쿨타임 증가", UtilClass.GetStateColor(coolDebuffSO.isBuffed));
         }
         else if (playerList.TryGetValue(flyPaperData.socketId, out Player p))
         {
-            p.UI.SetState("미션 쿨타임 증가", GetStateColor(coolDebuffSO.isBuffed));
+            p.UI.SetState("미션 쿨타임 증가", UtilClass.GetStateColor(coolDebuffSO.isBuffed));
             //이펙트 재생시 여기에서
         }
     }
@@ -148,16 +148,13 @@ public class Skill : ISetAble
             }
             else if (user.socketId.Equals(skillData.targetId))
             {
-                user.UI.SetState("재료 빼앗김", GetStateColor(false));
+                user.UI.SetState("재료 빼앗김", UtilClass.GetStateColor(false));
                 user.inventory.RemoveItem(item);
             }
         }
     }
 
-    public Color GetStateColor(bool isBuff)
-    {
-        return isBuff ? Color.blue : Color.red;
-    }
+    
 
     private void SimonSkill()
     {
@@ -243,12 +240,12 @@ public class Skill : ISetAble
 
             if (user.BuffHandler.IsDebuffed())
             {
-                user.UI.SetState("디버프 해제", GetStateColor(true));
+                user.UI.SetState("디버프 해제", UtilClass.GetStateColor(true));
                 user.BuffHandler.RemoveAllDebuff();
             }
             else
             {
-                user.UI.SetState("빨라짐", GetStateColor(true));
+                user.UI.SetState("빨라짐", UtilClass.GetStateColor(true));
                 user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(user.gameObject));
             }
         }
@@ -266,12 +263,12 @@ public class Skill : ISetAble
 
                 if (p.BuffHandler.IsDebuffed())
                 {
-                    p.UI.SetState("디버프 해제", GetStateColor(true));
+                    p.UI.SetState("디버프 해제", UtilClass.GetStateColor(true));
                     p.BuffHandler.RemoveAllDebuff();
                 }
                 else
                 {
-                    p.UI.SetState("빨라짐", GetStateColor(true));
+                    p.UI.SetState("빨라짐", UtilClass.GetStateColor(true));
                     p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(p.gameObject));
                 }
             }
@@ -292,7 +289,7 @@ public class Skill : ISetAble
         {
             if (user.CurTeam.Equals(skillData.team))
             {
-                user.UI.SetState("미션 쿨타임 감소", GetStateColor(buffSO.isBuffed));
+                user.UI.SetState("미션 쿨타임 감소", UtilClass.GetStateColor(buffSO.isBuffed));
                 user.BuffHandler.AddBuff(buffSO.InitializeBuff(user.gameObject));
             }
 
@@ -305,7 +302,7 @@ public class Skill : ISetAble
 
             if (p.CurTeam.Equals(skillData.team))
             {
-                p.UI.SetState("미션 쿨타임 감소", GetStateColor(buffSO.isBuffed));
+                p.UI.SetState("미션 쿨타임 감소", UtilClass.GetStateColor(buffSO.isBuffed));
                 p.BuffHandler.AddBuff(buffSO.InitializeBuff(p.gameObject));
             }
         }
@@ -344,7 +341,7 @@ public class Skill : ISetAble
                     user.inventory.RemoveItem(so);
                 }
 
-                user.UI.SetState("이동 불가", GetStateColor(buff.isBuffed));
+                user.UI.SetState("이동 불가", UtilClass.GetStateColor(buff.isBuffed));
                 user.BuffHandler.AddBuff(buff.InitializeBuff(user.gameObject));
             }
 
@@ -353,7 +350,7 @@ public class Skill : ISetAble
                 if (!skillData.targetIdList.Contains(p.socketId)) continue;
 
                 //이펙트 재생시 여기서
-                p.UI.SetState("이동 불가", GetStateColor(buff.isBuffed));
+                p.UI.SetState("이동 불가", UtilClass.GetStateColor(buff.isBuffed));
             }
         }
     }
@@ -367,13 +364,13 @@ public class Skill : ISetAble
 
         if (skillData.targetId.Equals(user.socketId))
         {
-            user.UI.SetState("기절", GetStateColor(buff.isBuffed));
+            user.UI.SetState("기절", UtilClass.GetStateColor(buff.isBuffed));
             user.BuffHandler.AddBuff(buff.InitializeBuff(user.gameObject));
             MissionPanel.Instance.Close();
         }
         else if (playerList.TryGetValue(skillData.targetId, out Player p))
         {
-            p.UI.SetState("기절", GetStateColor(buff.isBuffed));
+            p.UI.SetState("기절", UtilClass.GetStateColor(buff.isBuffed));
             //이펙트 재생시 여기에서
         }
     }
