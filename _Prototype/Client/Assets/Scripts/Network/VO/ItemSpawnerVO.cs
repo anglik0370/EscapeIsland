@@ -1,5 +1,5 @@
 [System.Serializable]
-public class ItemSpawnerVO
+public class ItemSpawnerVO : VO
 {
     public int spawnerId;
     public int senderId;

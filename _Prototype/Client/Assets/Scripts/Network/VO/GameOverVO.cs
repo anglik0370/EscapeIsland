@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class GameOverVO
+public class GameOverVO : VO
 {
     public List<UserVO> dataList;
     public GameOverCase gameOverCase;

@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class DataVO
+public class DataVO : VO
 {
     public string type;
     public string payload;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class TeamVO
+public class TeamVO : VO
 {
     public Team team;
 

@@ -1,5 +1,5 @@
 [System.Serializable]
-public class ItemStorageVO
+public class ItemStorageVO : VO
 {
     public Team team;
     public int itemSOId;

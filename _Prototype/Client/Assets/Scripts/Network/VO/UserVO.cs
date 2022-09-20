@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class UserVO
+public class UserVO : VO
 {
     public int socketId;
     public int charId;

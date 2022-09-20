@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class AltarVO
+public class AltarVO : VO
 {
     public int id;
     public int altarBuffId;

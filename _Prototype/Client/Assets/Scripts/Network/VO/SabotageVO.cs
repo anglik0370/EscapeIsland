@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 [System.Serializable]
 
-public class SabotageVO
+public class SabotageVO : VO
 {
     public int starterId;
     public string sabotageName;

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ArsonVO
+public abstract class VO
 {
-    public Team team;
-    public int itemSOId;
+    public string ToJson() => JsonUtility.ToJson(this);
 }

@@ -1,5 +1,5 @@
 [System.Serializable]
-public class LoginVO
+public class LoginVO : VO
 {
     public string name;
     public int socketId;

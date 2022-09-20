@@ -29,6 +29,12 @@ public class SendManager : MonoBehaviour
             roomNum = p.roomNum;
         });
     }
+    
+    public void Send(string type, VO vo)
+    {
+        DataVO dataVO = new DataVO(type, vo?.ToJson());
+        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
+    }
 
     public void Send(string type)
     {
@@ -201,13 +207,6 @@ public class SendManager : MonoBehaviour
     {
         FlyPaperVO vo = new FlyPaperVO(socketId, id,userId);
         DataVO dataVO = new DataVO("ENTER_FLY_PAPER", JsonUtility.ToJson(vo));
-
-        SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
-    }
-
-    public void SendCantUseRefinery(CantUseRefineryVO vo)
-    {
-        DataVO dataVO = new DataVO("CANT_USE_REFINERY", JsonUtility.ToJson(vo));
 
         SocketClient.SendDataToSocket(JsonUtility.ToJson(dataVO));
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class OccupyVO
+public class OccupyVO : VO
 {
     public Area area;
     public string areaName;
@@ -13,7 +13,7 @@ public class OccupyVO
 }
 
 [System.Serializable]
-public class OccupyListVO
+public class OccupyListVO : VO
 {
     public bool isOpen;
     public List<OccupyVO> areaDataList;

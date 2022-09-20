@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class NotLerpMoveVO
+public class NotLerpMoveVO : VO
 {
     public int socketId;
     public Vector2 pos;

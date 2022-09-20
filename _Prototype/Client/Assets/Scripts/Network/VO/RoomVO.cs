@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class RoomVO
+public class RoomVO : VO
 {
     public string name;
     public int roomNum;
@@ -27,7 +27,7 @@ public class RoomVO
 }
 
 [System.Serializable]
-public class NeedItemVO
+public class NeedItemVO : VO
 {
     public List<ItemAmountVO> itemAmountList;
 
@@ -38,7 +38,7 @@ public class NeedItemVO
 }
 
 [System.Serializable]
-public class ItemAmountVO
+public class ItemAmountVO : VO
 {
     public int itemId;
     public int amount;

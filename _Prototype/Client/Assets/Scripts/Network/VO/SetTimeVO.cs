@@ -1,5 +1,5 @@
 [System.Serializable]
-public class SetTimeVO
+public class SetTimeVO : VO
 {
     public int inGameTime;
     public float voteTime;
