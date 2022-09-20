@@ -122,7 +122,7 @@ public class SkillManager : MonoBehaviour
             }
         }
 
-        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Joshua, user.socketId, skillList[JOSUHA].skillName).SetTeam(user.CurTeam).SetTargetIdList(socketIdList));
+        SendManager.Instance.Send("SKILL", new SkillVO(CharacterType.Joshua, user.socketId, skillList[JOSUHA].skillName).SetTeam(team).SetTargetIdList(socketIdList));
     }
 
     private void RaiSkill()
