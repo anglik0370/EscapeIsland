@@ -78,7 +78,7 @@ class Area {
         this.curTimer = setTimeout(this.startTimer.bind(this),this.occupyTime);
     }
 
-    addUserList(isBlue,isWonsong = false) {
+    addUserList(isBlue,isWonsong) {
         if(isBlue) {
             let add = this.blueTeamUserLength + (isWonsong ? 1.5 : 1);
             this.blueTeamUserLength = add;
@@ -89,7 +89,7 @@ class Area {
         }
     }
 
-    removeUserList(isBlue,isWonsong = false) {
+    removeUserList(isBlue,isWonsong) {
         if(isBlue) {
             let remove = this.blueTeamUserLength - (isWonsong ? 1.5 : 1);
             if(remove < 0) remove = 0;

@@ -21,6 +21,12 @@ public class SpriteOutline : MonoBehaviour
 
     private bool isOccupy = false;
 
+    private void Start()
+    {
+        EventManager.SubGameOver(goc => SetOccupy(Team.NONE));
+        EventManager.SubExitRoom(() => SetOccupy(Team.NONE));
+    }
+
     void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
