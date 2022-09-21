@@ -218,11 +218,6 @@ class Room {
             sendError("최소 2명 이상의 인원이 있어야 합니다.",socket);
             return;
         }
-    
-        if(this.curUserNum <= this.kidnapperNum) {
-            sendError("현재 유저의 수가 납치자의 수보다 같거나 적습니다.",socket);
-            return;
-        }
 
         if(this.playing) {
             sendError("현재 방은 이미 시작되었습니다.",socket);

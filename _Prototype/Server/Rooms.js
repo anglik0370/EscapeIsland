@@ -116,6 +116,10 @@ class Rooms {
         let user = room.userList[socket.id];
         if(user === undefined) return;
 
+        if(room.areaList[user.area] !== undefined) {
+            room.areaList[user.area].removeUserList(user.curTeam == team.BLUE,user.charId == 7);
+        }
+
         let master = user.master;
     
         socket.room = 0; //나왔으니 룸 초기화
