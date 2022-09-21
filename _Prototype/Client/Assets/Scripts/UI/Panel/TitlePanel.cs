@@ -54,8 +54,8 @@ public class TitlePanel : MonoBehaviour
         topPanelRect.SetLeft(0);
         topPanelRect.SetRight(0);
 
-        bottomPanelRect.SetTop(Screen.height);
-        bottomPanelRect.SetBottom(-Screen.height);
+        bottomPanelRect.SetTop(cvsScaler.referenceResolution.y);
+        bottomPanelRect.SetBottom(-cvsScaler.referenceResolution.y);
         bottomPanelRect.SetLeft(0);
         bottomPanelRect.SetRight(0);
 
