@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterSelectPanel : Panel
 {
@@ -18,6 +19,9 @@ public class CharacterSelectPanel : Panel
 
     [SerializeField]
     private Transform profileParent;
+
+    [SerializeField]
+    private ScrollRect charRect;
 
     [SerializeField]
     private CharInfoPanel characterInfoPanel;
@@ -38,6 +42,7 @@ public class CharacterSelectPanel : Panel
             profileList.Add(temp);
         }
 
+        charRect.verticalNormalizedPosition = 1f;
         EventManager.SubExitRoom(InitEnable);
 
         base.Awake();
