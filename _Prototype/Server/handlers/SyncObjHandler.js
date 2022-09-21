@@ -7,7 +7,6 @@ module.exports = {
 
         if(room === undefined) return;
         
-        room.broadcast(JSON.stringify({type:"SYNC_OBJ",
-        payload:JSON.stringify(data)}));
+        room.syncObjRefresh(data);
     }
 }
