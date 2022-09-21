@@ -52,6 +52,10 @@ class Room {
     }
 
     initAreaList() {
+        for(let key in this.areaList) {
+            this.areaList[key].initTimer();
+        }
+
         this.areaList[AreaState.Cave] = new Area(AreaState.Cave, "동굴",this);
         this.areaList[AreaState.Beach] = new Area(AreaState.Beach,"모래사장",this);
         this.areaList[AreaState.Field] = new Area(AreaState.Field,"밭",this);
