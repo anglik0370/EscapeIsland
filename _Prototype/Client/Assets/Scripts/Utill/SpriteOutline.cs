@@ -11,6 +11,11 @@ public class SpriteOutline : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    [SerializeField]
+    private ColorPicker redTeamPicker;
+    [SerializeField]
+    private ColorPicker blueTeamPicker;
+
     void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -36,5 +41,19 @@ public class SpriteOutline : MonoBehaviour
         mpb.SetColor("_OutlineColor", color);
         mpb.SetFloat("_OutlineSize", outlineSize);
         spriteRenderer.SetPropertyBlock(mpb);
+    }
+
+    public void SetOccupy(Team team)
+    {
+        switch (team)
+        {
+            case Team.NONE:
+
+                break;
+            case Team.RED:
+                break;
+            case Team.BLUE:
+                break;
+        }
     }
 }
