@@ -20,6 +20,11 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public bool isTouch = false;
 
+    private void Awake() 
+    {
+        this.gameObject.SetActive(Application.platform == RuntimePlatform.Android);
+    }
+
     private void Start() 
     {
         parentRect = GetComponent<RectTransform>();
