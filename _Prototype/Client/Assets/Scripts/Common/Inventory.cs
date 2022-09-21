@@ -119,4 +119,17 @@ public class Inventory : MonoBehaviour
 
         return itemIdList;
     }
+
+    public int GetSlotIdx(ItemSlot slot)
+    {
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            if(slotList[i].Equals(slot))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }

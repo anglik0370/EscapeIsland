@@ -86,17 +86,32 @@ public class SyncObjs : ISetAble
     {
         ItemCharger charger = ChargerManager.Instance.FindChargerById(batteryChargerId);
         charger.StartCharging();
+
+        if (objVO.userId.Equals(user.socketId))
+        {
+            user.inventory.slotList[objVO.slotIdx].SetItem(null);
+        }
     }
 
     public void SetTakeBattery(int batteryChargerId)
     {
         ItemCharger charger = ChargerManager.Instance.FindChargerById(batteryChargerId);
         charger.Init();
+
+        if (objVO.userId.Equals(user.socketId))
+        {
+            user.inventory.slotList[objVO.slotIdx].SetItem(ItemManager.Instance.FindItemSO(objVO.itemId));
+        }
     }
 
     public void SetStartConverter(int converterId, int itemSOId)
     {
         ItemSO so = ItemManager.Instance.FindItemSO(itemSOId);
+
+        if(objVO.userId.Equals(user.socketId))
+        {
+            user.inventory.slotList[objVO.slotIdx].SetItem(null);
+        }
 
         Debug.Log($"변환기{converterId}에서 {so}변환 시작");
 
@@ -109,6 +124,11 @@ public class SyncObjs : ISetAble
     {
         ItemConverter converter = ConverterManager.Instance.ConverterList.Find(x => x.id == converterId);
         converter.ConvertingReset();
+
+        if (objVO.userId.Equals(user.socketId))
+        {
+            user.inventory.slotList[objVO.slotIdx].SetItem(ItemManager.Instance.FindItemSO(objVO.itemId));
+        }
         print("reset");
     }
 
@@ -116,6 +136,11 @@ public class SyncObjs : ISetAble
     {
         ItemConverter converter = ConverterManager.Instance.ConverterList.Find(x => x.id == converterId);
         converter.TakeIAfterItem();
+
+        if (objVO.userId.Equals(user.socketId))
+        {
+            user.inventory.slotList[objVO.slotIdx].SetItem(ItemManager.Instance.FindItemSO(objVO.itemId));
+        }
         //refinery.ingotItem = null;
         print("take");
     }
