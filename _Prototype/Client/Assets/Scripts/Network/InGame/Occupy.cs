@@ -55,5 +55,6 @@ public class Occupy : ISetAble
         //점령 이펙트 있을시도 처리해주면댐
 
         LogPanel.Instance.OccupationLog(data.occupyTeam, data.area);
+        areaOutlineDic[data.area].SetOccupy(data.occupyTeam);
     }
 }

@@ -16,11 +16,16 @@ public class SpriteOutline : MonoBehaviour
     [SerializeField]
     private ColorPicker blueTeamPicker;
 
+    private float defaultTime = 30f;
+    private float curTime = 0f;
+
+    private bool isOccupy = false;
+
     void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        UpdateOutline(true);
+        UpdateOutline(false);
     }
 
     void OnDisable()
@@ -30,7 +35,16 @@ public class SpriteOutline : MonoBehaviour
 
     void Update()
     {
-        UpdateOutline(true);
+        //UpdateOutline(true);
+        if (!isOccupy) return;
+
+        curTime -= Time.deltaTime;
+
+        if(curTime <= 0f)
+        {
+            isOccupy = false;
+            SetOccupy(Team.NONE);
+        }
     }
 
     void UpdateOutline(bool outline)
@@ -45,15 +59,20 @@ public class SpriteOutline : MonoBehaviour
 
     public void SetOccupy(Team team)
     {
-        switch (team)
+        if(Team.NONE.Equals(team))
         {
-            case Team.NONE:
+            color = UtilClass.limpidityColor;
+            spriteRenderer.color = UtilClass.opacityColor;
+            UpdateOutline(false);
+        }
+        else
+        {
+            color = UtilClass.GetTeamColor(team);
+            curTime = defaultTime;
+            spriteRenderer.color = team.Equals(Team.RED) ? redTeamPicker.pickColor : blueTeamPicker.pickColor;
 
-                break;
-            case Team.RED:
-                break;
-            case Team.BLUE:
-                break;
+            UpdateOutline(true);
+            isOccupy = true;
         }
     }
 }
