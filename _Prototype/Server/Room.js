@@ -270,13 +270,7 @@ class Room {
         
         this.inGameTimer.stopTimer(true);
         this.altarTimer.stopTimer(true);
-
-        //let key = Object.keys(this.areaList);
-
-        // for(let i = 0; i < key.length; i++) {
-        //     this.areaList[key[i]].initTimer();
-        // }
-
+        
         //this.initStorageItemList();
         this.initAreaList();
         //his.initSelectedIdList();
