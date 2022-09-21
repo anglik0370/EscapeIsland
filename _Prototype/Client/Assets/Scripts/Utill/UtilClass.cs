@@ -136,4 +136,17 @@ public class UtilClass
     {
         return isBuff ? Color.blue : Color.red;
     }
+
+    public  static Color GetTeamColor(Team team)
+    {
+        switch (team)
+        {
+            case Team.RED:
+                return Color.red;
+            case Team.BLUE:
+                return Color.blue;
+        }
+
+        return Color.black;
+    }
 }
