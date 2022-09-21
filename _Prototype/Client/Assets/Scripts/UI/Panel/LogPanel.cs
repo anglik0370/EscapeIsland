@@ -18,6 +18,10 @@ public class LogPanel : MonoBehaviour
     [SerializeField]
     private LogText logTextPrefab;
 
+    private bool isGameOver = false;
+
+    private Coroutine co;
+
     private void Awake()
     {
         if (Instance == null)
@@ -27,7 +31,28 @@ public class LogPanel : MonoBehaviour
 
         scrollRect = GetComponent<ScrollRect>();
     }
+    
+    private void Start() 
+    {
+        EventManager.SubGameOver(goc => 
+        {
+            isGameOver = true;
 
+            if(co != null) StopCoroutine(co);
+        });
+
+        EventManager.SubExitRoom(() => 
+        {
+            isGameOver = true;
+
+            if(co != null) StopCoroutine(co);
+        });
+
+        EventManager.SubGameStart(p => 
+        {
+            isGameOver = false;
+        });
+    } 
     public void CreateLogText(string str)
     {
         print(str);
@@ -39,7 +64,7 @@ public class LogPanel : MonoBehaviour
 
         logTexts.Enqueue(logText);
 
-        StartCoroutine(CoroutineHandler.EndFrame(() => scrollRect.verticalNormalizedPosition = 0f));
+        co = StartCoroutine(CoroutineHandler.EndFrame(() => scrollRect.verticalNormalizedPosition = 0f));
     }
 
     public void GlobalSkillLog(Player caster, string skillName)
