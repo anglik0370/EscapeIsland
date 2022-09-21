@@ -7,6 +7,7 @@ const SocketState = require('./Utils/SocketState.js');
 const team = require('./Utils/Team.js');
 const MissionType = require('./Utils/MissionType.js');
 const AreaState = require('./Utils/AreaState.js');
+const BehaviourType = require('./Utils/BehaviourType.js');
 const sendError = require('./Utils/SendError.js');
 
 const values = Object.values(MissionType);
@@ -39,11 +40,18 @@ class Room {
         this.userList = {};
         this.redSpawnerList = {};
         this.blueSpawnerList = {};
+        this.syncObjList = {};
 
         this.initSpawnerList();
         this.initSelectedIdList();
         this.initAreaList();
         this.initStorageItemList();
+    }
+
+    initSyncObjList() {
+        for(let key in this.syncObjList) {
+            this.syncObjList[key] = false;
+        }
     }
 
     initStorageItemList() {
@@ -139,6 +147,27 @@ class Room {
         if(characterId <= 0) return;
 
         this.selectedIdList[team].push(characterId);
+    }
+
+    syncObjRefresh(data) {
+        let objId = data.data.objId;
+
+        if(this.syncObjList[objId] !== undefined) {
+            if((data.behaviourType == BehaviourType.Reset || data.behaviourType == BehaviourType.Take)) {
+                if(!this.syncObjList[objId]) return;
+
+                this.syncObjList[objId] = false;
+            }
+            else {
+                if(this.syncObjList[objId]) return;
+            }
+        }
+        
+        if(data.behaviourType == BehaviourType.Start) {
+            this.syncObjList[objId] = true;
+        }
+
+        this.broadcast(JSON.stringify({type:"SYNC_OBJ", payload:JSON.stringify(data)}));
     }
 
     areaRefresh(socket,areaState) {
@@ -270,6 +299,7 @@ class Room {
         this.inGameTimer.stopTimer(true);
         this.altarTimer.stopTimer(true);
         
+        this.initSyncObjList();
         //this.initStorageItemList();
         this.initAreaList();
         //his.initSelectedIdList();
