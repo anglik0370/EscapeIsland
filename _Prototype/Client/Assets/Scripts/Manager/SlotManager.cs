@@ -89,19 +89,21 @@ public class SlotManager : MonoBehaviour
                 //Inventory To ConverterBefore
                 if (ConvertPanel.Instance.CurOpenConverter.IsCanConvert(beginSlot.GetItem()))
                 {
-                    ItemSO temp = null;
+                    //ItemSO temp = null;
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, beginSlot.GetItem().itemId);
 
                     if (ConvertPanel.Instance.CurOpenConverter.IsConverting)
                     {
                         //NowConverting
-                        temp = endSlot.GetItem();
+                        //temp = endSlot.GetItem();
 
-                        SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Reset, vo));
+                        //SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Reset, vo));
+                        return;
                     }
 
-                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Start, vo));
-                    beginSlot.SetItem(temp);
+                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(NetworkManager.instance.socketId, beginSlot.GetItem().itemId,
+                        NetworkManager.instance.User.inventory.GetSlotIdx(beginSlot),PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Start, vo));
+                    //beginSlot.SetItem(temp);
                 }
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.ConverterBefore && endSlot.Kind == ItemSlot.SlotKind.Inventory)
@@ -111,9 +113,10 @@ public class SlotManager : MonoBehaviour
                 ItemSO temp = beginSlot.GetItem();
 
                 SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
-                SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Reset, vo));
+                SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(NetworkManager.instance.socketId,temp.itemId, NetworkManager.instance.User.inventory.GetSlotIdx(endSlot),
+                    PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Reset, vo));
 
-                endSlot.SetItem(temp);
+                //endSlot.SetItem(temp);
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.ConverterAfter && endSlot.Kind == ItemSlot.SlotKind.Inventory)
             {
@@ -123,8 +126,9 @@ public class SlotManager : MonoBehaviour
                 {
                     //endSlot is Empty
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
-                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Take, vo));
-                    endSlot.SetItem(beginSlot.GetItem());
+                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(NetworkManager.instance.socketId, beginSlot.GetItem().itemId, 
+                        NetworkManager.instance.User.inventory.GetSlotIdx(endSlot), PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Take, vo));
+                    //endSlot.SetItem(beginSlot.GetItem());
                 }
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.MissionDropItem && endSlot.Kind == ItemSlot.SlotKind.Inventory)
@@ -156,10 +160,11 @@ public class SlotManager : MonoBehaviour
                 if(beginSlot.GetItem() == slot.EmptyBatterySO && slot.IsEmpty && !slot.MissionCharge.IsCharging)
                 {
                     SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
-                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Battery, BehaviourType.Start, vo));
+                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(NetworkManager.instance.socketId, beginSlot.GetItem().itemId,
+                        NetworkManager.instance.User.inventory.GetSlotIdx(beginSlot), PlayerManager.Instance.Player.IsImmediate, ObjType.Battery, BehaviourType.Start, vo));
                     //slot.SetEmptyBetteryItem();
                     //slot.StartCharging();
-                    beginSlot.SetItem(null);
+                    //beginSlot.SetItem(null);
                 }
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.MissionBatterySlot && endSlot.Kind == ItemSlot.SlotKind.Inventory)
@@ -172,12 +177,13 @@ public class SlotManager : MonoBehaviour
                 {
 
                     SyncObjDataVO vo = new SyncObjDataVO(slot.MissionCharge.CurOpenCharger.Id, -1);
-                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Battery, BehaviourType.Take, vo));
+                    SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(NetworkManager.instance.socketId,slot.BatterySO.itemId,
+                        NetworkManager.instance.User.inventory.GetSlotIdx(endSlot), PlayerManager.Instance.Player.IsImmediate, ObjType.Battery, BehaviourType.Take, vo));
 
                     //slot.SetNullItem();
 
                     //slot.InitCurCharger();
-                    endSlot.SetItem(slot.BatterySO);
+                    //endSlot.SetItem(slot.BatterySO);
                 }
             }
             else if(beginSlot.Kind == ItemSlot.SlotKind.Inventory && endSlot.Kind == ItemSlot.SlotKind.TrashCan)

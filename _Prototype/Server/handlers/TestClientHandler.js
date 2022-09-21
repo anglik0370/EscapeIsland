@@ -4,6 +4,7 @@ const WebSocket = require('ws');
 const SocketState = require('../Utils/SocketState.js');
 const _ = require('lodash');
 const GetRandomPos = require('../Utils/SpawnPoint.js');
+const team = require('../Utils/Team.js');
 
 let testIdx = 1000;
 
@@ -31,6 +32,7 @@ module.exports =  {
             user.name = `test${dummySocket.id - 1000}`;
             user.socketId = dummySocket.id;
             user.position = GetRandomPos();
+            user.curTeam = i % 2 == 0 ? team.RED : team.BLUE;
             
             //Rooms.join(dummySocket,false);
             room.addSocket(dummySocket,Users.userList[dummySocket.id]);
