@@ -8679,7 +8679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 893ae8e5294dc0249ad5bad3ca564a74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickColor: {r: 0.45660377, g: 0.56129026, b: 1, a: 0}
+  pickColor: {r: 0.45660377, g: 0.56129026, b: 1, a: 1}
 --- !u!1 &284094386
 GameObject:
   m_ObjectHideFlags: 0
@@ -12348,10 +12348,10 @@ MonoBehaviour:
     m_keys: 
     m_values: []
   outlineList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 770594564}
+  - {fileID: 960752550}
+  - {fileID: 1201203440}
+  - {fileID: 1567712583}
 --- !u!1 &352282750
 GameObject:
   m_ObjectHideFlags: 0
@@ -29229,6 +29229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 770594563}
   - component: {fileID: 770594565}
+  - component: {fileID: 770594564}
   m_Layer: 0
   m_Name: Cave
   m_TagString: Untagged
@@ -29250,6 +29251,22 @@ Transform:
   m_Father: {fileID: 180419072}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &770594564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770594562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2a503454bb6cb498fcb3b6d4fcac57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
+  outlineSize: 1
+  redTeamPicker: {fileID: 1571449592}
+  blueTeamPicker: {fileID: 283263611}
 --- !u!212 &770594565
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -36571,6 +36588,7 @@ GameObject:
   m_Component:
   - component: {fileID: 960752549}
   - component: {fileID: 960752551}
+  - component: {fileID: 960752550}
   m_Layer: 0
   m_Name: Forest
   m_TagString: Untagged
@@ -36592,6 +36610,22 @@ Transform:
   m_Father: {fileID: 180419072}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &960752550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960752548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2a503454bb6cb498fcb3b6d4fcac57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
+  outlineSize: 1
+  redTeamPicker: {fileID: 1571449592}
+  blueTeamPicker: {fileID: 283263611}
 --- !u!212 &960752551
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -46048,6 +46082,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1201203438}
   - component: {fileID: 1201203439}
+  - component: {fileID: 1201203440}
   m_Layer: 0
   m_Name: Beach
   m_TagString: Untagged
@@ -46120,6 +46155,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1201203440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201203437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2a503454bb6cb498fcb3b6d4fcac57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
+  outlineSize: 1
+  redTeamPicker: {fileID: 1571449592}
+  blueTeamPicker: {fileID: 283263611}
 --- !u!1 &1201918529
 GameObject:
   m_ObjectHideFlags: 0
@@ -59706,6 +59757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1567712582}
   - component: {fileID: 1567712584}
+  - component: {fileID: 1567712583}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -59727,6 +59779,22 @@ Transform:
   m_Father: {fileID: 180419072}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1567712583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567712581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2a503454bb6cb498fcb3b6d4fcac57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
+  outlineSize: 1
+  redTeamPicker: {fileID: 1571449592}
+  blueTeamPicker: {fileID: 283263611}
 --- !u!212 &1567712584
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -60021,7 +60089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 893ae8e5294dc0249ad5bad3ca564a74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickColor: {r: 1, g: 0.7490566, b: 0.7490566, a: 0}
+  pickColor: {r: 1, g: 0.7490566, b: 0.7490566, a: 1}
 --- !u!1 &1571691886
 GameObject:
   m_ObjectHideFlags: 0
