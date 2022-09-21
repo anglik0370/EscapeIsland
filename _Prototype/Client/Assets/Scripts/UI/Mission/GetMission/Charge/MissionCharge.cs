@@ -37,7 +37,6 @@ public class MissionCharge : MonoBehaviour, IGetMission
     public void Close()
     {
         guage.SetProgress(7, 0);
-
         
     }
 

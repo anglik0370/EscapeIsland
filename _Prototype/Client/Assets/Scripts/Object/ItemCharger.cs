@@ -17,6 +17,14 @@ public class ItemCharger : MonoBehaviour
     public float MaxChargingTime => maxChargingTime;
     public float CurChargingTime => curChargingTime;
 
+    private void Start() 
+    {
+        EventManager.SubGameStart(p =>
+        {
+            Init();
+        });
+    }
+
     public void StartCharging()
     {
         StartCoroutine(Charge_Routine());
