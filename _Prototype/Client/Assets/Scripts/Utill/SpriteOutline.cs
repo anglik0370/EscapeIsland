@@ -25,7 +25,7 @@ public class SpriteOutline : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        //UpdateOutline(false);
+        UpdateOutline(false);
     }
 
     void OnDisable()
@@ -63,7 +63,7 @@ public class SpriteOutline : MonoBehaviour
         {
             color = UtilClass.limpidityColor;
             spriteRenderer.color = UtilClass.opacityColor;
-            //UpdateOutline(false);
+            UpdateOutline(false);
         }
         else
         {
@@ -71,7 +71,7 @@ public class SpriteOutline : MonoBehaviour
             curTime = defaultTime;
             spriteRenderer.color = team.Equals(Team.RED) ? redTeamPicker.pickColor : blueTeamPicker.pickColor;
 
-            //UpdateOutline(true);
+            UpdateOutline(true);
             isOccupy = true;
         }
     }
