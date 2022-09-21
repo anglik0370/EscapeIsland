@@ -68,11 +68,11 @@ public class TeamInfoUI : MonoBehaviour
 
         if (player.CurTeam == Team.RED)
         {
-            backgroundImg.sprite = redbackgroundSprite;
+            //backgroundImg.sprite = redbackgroundSprite;
         }
         else if (player.CurTeam == Team.BLUE)
         {
-            backgroundImg.sprite = bluebackgroundSprite;
+            //backgroundImg.sprite = bluebackgroundSprite;
         }
 
         transform.SetParent(parent);
