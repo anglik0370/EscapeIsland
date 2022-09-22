@@ -25,4 +25,24 @@ public class PoolManager
         ObjectPool<T> pool = (ObjectPool<T>)poolDic[t.ToString()];
         return pool.GetOrCreate();
     }
+
+    /// <summary>
+    /// 이펙트 용으로 만듦
+    /// </summary>
+    /// <param name="key">문자열 키</param>=
+    public static void CreatePool<T>(GameObject prefab, Transform parent, string key, int count = 5) where T : MonoBehaviour
+    {
+        ObjectPool<T> pool = new ObjectPool<T>(prefab, parent, count);
+        poolDic.Add(key, pool);
+    }
+
+    /// <summary>
+    /// 이펙트 용으로 만듦
+    /// </summary>
+    /// <param name="key">문자열 키</param>
+    public static T GetItem<T>(string key) where T : MonoBehaviour
+    {
+        ObjectPool<T> pool = (ObjectPool<T>)poolDic[key];
+        return pool.GetOrCreate();
+    }
 }

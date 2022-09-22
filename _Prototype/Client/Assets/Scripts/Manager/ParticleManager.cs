@@ -16,12 +16,12 @@ public class ParticleManager : MonoBehaviour
             Instance = this;
         }
 
-        PoolManager.CreatePool<Effect>(bloodEffectPrefab.gameObject, transform, 5);
+        PoolManager.CreatePool<Effect>(bloodEffectPrefab.gameObject, transform,"blood", 5);
     }
 
     public void PlayBloodEffect(Vector3 position)
     {
-        Effect effect = PoolManager.GetItem<Effect>();
+        Effect effect = PoolManager.GetItem<Effect>("blood");
         effect.SetPosition(position);
         effect.Play();
     }
