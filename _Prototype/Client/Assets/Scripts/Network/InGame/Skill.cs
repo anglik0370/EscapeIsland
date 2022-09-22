@@ -160,7 +160,7 @@ public class Skill : ISetAble
     {
         CreateSkillLog(false);
 
-        ItemSO item = ItemManager.Instance.FindItemSO(skillData.targetId);
+        ItemSO item = ItemManager.Instance.FindItemSO(skillData.itemId);
         ItemAmount curAmount = StorageManager.Instance.FindItemAmount(false, skillData.team, item);
 
         if (curAmount.amount > 0)
