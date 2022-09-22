@@ -79,7 +79,7 @@ class Rooms {
         }
         let room = this.roomList[roomNum];
     
-        if(room === undefined || room.curUserNum >= room.userNum || room.playing) {
+        if(room === undefined || room.curUserNum >= room.userNum || room.playing || room.isTestRoom()) {
             sendError("들어갈 수 없는 방입니다.",socket);
             return;
         }
