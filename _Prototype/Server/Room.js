@@ -222,11 +222,11 @@ class Room {
     }
 
     allReady() {
-        for(let key in this.userList) {
-            if(this.userList[key].socketId >= 1000) {
-                return true;
-            }
-        }
+        // for(let key in this.userList) {
+        //     if(this.userList[key].socketId >= 1000) {
+        //         return true;
+        //     }
+        // }
 
         for(let key in this.userList) {
             if(!this.userList[key].ready && !this.userList[key].master) {

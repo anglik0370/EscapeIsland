@@ -33,9 +33,11 @@ module.exports =  {
             user.socketId = dummySocket.id;
             user.position = GetRandomPos();
             user.curTeam = i % 2 == 0 ? team.RED : team.BLUE;
+            user.area = 16;
+            user.ready = true;
             
-            //Rooms.join(dummySocket,false);
-            room.addSocket(dummySocket,Users.userList[dummySocket.id]);
+            Rooms.join(dummySocket,false);
+            //room.addSocket(dummySocket,Users.userList[dummySocket.id]);
     
         }
        

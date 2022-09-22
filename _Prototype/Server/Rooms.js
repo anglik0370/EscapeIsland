@@ -197,13 +197,14 @@ class Rooms {
             user.position = GetRandomPos();
         }
         
+        if(socket.id <= 1000) 
         socket.send(JSON.stringify({type:"ENTER_ROOM",payload:""}));
 
         setTimeout(() => {
             this.roomBroadcast(socket.room);
             room.refreshUserCount();
         },100);
-
+        if(socket.id <= 1000) 
         socket.server.clients.forEach(soc=>{
             if(soc.state === SocketState.IN_LOBBY) 
                 this.refreshRoom(soc);
