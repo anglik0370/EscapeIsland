@@ -39,6 +39,8 @@ public class LogPanel : MonoBehaviour
             isGameOver = true;
 
             if(co != null) StopCoroutine(co);
+
+            ClearLog();
         });
 
         EventManager.SubExitRoom(() => 
@@ -55,6 +57,8 @@ public class LogPanel : MonoBehaviour
     } 
     public void CreateLogText(string str)
     {
+        if(isGameOver) return;
+
         print(str);
 
         UIManager.Instance.AlertText(str, AlertType.GameEvent);
