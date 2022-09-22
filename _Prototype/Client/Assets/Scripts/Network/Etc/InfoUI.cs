@@ -40,7 +40,10 @@ public class InfoUI : MonoBehaviour
         {
             mainPlayer = player = null;
             playerTrm = mainPlayerTrm = null;
+            ClearStateText();
             SetNameTextColor(Color.gray);
+
+            gameObject.SetActive(false);
         });
         EventManager.SubGameOver(goc =>
         {
