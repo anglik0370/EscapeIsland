@@ -88,6 +88,14 @@ class Room {
         return this.selectedIdList[team];
     }
 
+    isTestRoom() {
+        for(let key in this.userList) {
+            if(this.userList[key].testClient) return true;
+        }
+
+        return false;
+    }
+
     setSpawnerData(socket,data) {
         let value = data.team == team.RED ? this.redSpawnerList[data.missionType] : this.blueSpawnerList[data.missionType];
 
@@ -292,6 +300,8 @@ class Room {
         this.skipCount = 0;
 
         for(let key in this.userList) {
+            if(this.userList[key].testClient) continue;
+
             this.userList[key].isInside = false;
             this.userList[key].ready = false;
         }

@@ -132,6 +132,18 @@ class Rooms {
             // 초기화
             user.initExitData();
         }
+
+        if(room.isTestRoom()) {
+            for(let i = 0; i < room.socketList.length; i++) {
+                if(room.socketList[i] !== undefined)
+                {
+                    room.socketList[i].close();
+                }
+            }
+            room.initRoom();
+            delete this.roomList[roomNum];
+            return;
+        }
         
         if(room.curUserNum <= 0){ //사람이 0명일때 room delete
             room.initRoom();
@@ -197,14 +209,15 @@ class Rooms {
             user.position = GetRandomPos();
         }
         
-        if(socket.id <= 1000) 
+        if(!user.testClient) 
         socket.send(JSON.stringify({type:"ENTER_ROOM",payload:""}));
 
         setTimeout(() => {
             this.roomBroadcast(socket.room);
             room.refreshUserCount();
         },100);
-        if(socket.id <= 1000) 
+        
+        if(!user.testClient) 
         socket.server.clients.forEach(soc=>{
             if(soc.state === SocketState.IN_LOBBY) 
                 this.refreshRoom(soc);

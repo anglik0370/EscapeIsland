@@ -15,6 +15,7 @@ class Player {
 
         this.master = false;
         this.ready = false;
+        this.testClient = false;
 
         this.curTeam = team.NONE;
 

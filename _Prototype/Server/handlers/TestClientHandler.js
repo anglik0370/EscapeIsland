@@ -6,7 +6,7 @@ const _ = require('lodash');
 const GetRandomPos = require('../Utils/SpawnPoint.js');
 const team = require('../Utils/Team.js');
 
-let testIdx = 1000;
+let testIdx = 10000;
 
 module.exports =  {
     type:"TEST_CLIENT",
@@ -19,7 +19,7 @@ module.exports =  {
             let dummySocket = new WebSocket("ws://localhost:31012");
             let testUserData = _.cloneDeep(Users.userList[socket.id]);
             dummySocket.id = 0;
-            dummySocket.id = ++testIdx + dummySocket.id;
+            dummySocket.id = ++testIdx;
     
             dummySocket.state = SocketState.IN_ROOM;
             dummySocket.room = socket.room;
@@ -29,12 +29,13 @@ module.exports =  {
             let user = Users.userList[dummySocket.id] = testUserData;
     
             user.master = false;
-            user.name = `test${dummySocket.id - 1000}`;
+            user.name = `test${dummySocket.id - 10000}`;
             user.socketId = dummySocket.id;
             user.position = GetRandomPos();
             user.curTeam = i % 2 == 0 ? team.RED : team.BLUE;
             user.area = 16;
             user.ready = true;
+            user.testClient = true;
             
             Rooms.join(dummySocket,false);
             //room.addSocket(dummySocket,Users.userList[dummySocket.id]);
