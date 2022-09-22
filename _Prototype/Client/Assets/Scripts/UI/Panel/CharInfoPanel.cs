@@ -75,22 +75,22 @@ public class CharInfoPanel : Panel
         selectBtn.interactable = !CharacterSelectPanel.Instance.GetCharacterSelection(characterSO.id);
 
         charImg.sprite = characterSO.standImg;
-        nameTxt.text = $"이름 | {characterSO.charName}";
-        sexTxt.text = characterSO.sex == Sex.Male ? "성별 | 남자" : "성별 | 여자";
+        nameTxt.text = $"{characterSO.charName}";
+        sexTxt.text = characterSO.sex == Sex.Male ? "남자" : "여자";
         sexImg.sprite = characterSO.sex == Sex.Male ? maleSprite : femaleSprite;
-        jobTxt.text = $"직업 | {characterSO.jobName}";
+        jobTxt.text = $"{characterSO.jobName}";
         switch (characterSO.skill.skillType)
         {
             case SkillType.Attack:
-                skillTypeTxt.text = "타입 | 공격형";
+                skillTypeTxt.text = "공격형";
                 skillTypeImg.sprite = attackSprite;
                 break;
             case SkillType.Support:
-                skillTypeTxt.text = "타입 | 지원형";
+                skillTypeTxt.text = "지원형";
                 skillTypeImg.sprite = supportSprite;
                 break;
             case SkillType.Utill:
-                skillTypeTxt.text = "타입 | 유틸형";
+                skillTypeTxt.text = "유틸형";
                 skillTypeImg.sprite = utillSprite;
                 break;
         }
