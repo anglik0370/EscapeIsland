@@ -51,9 +51,7 @@ public class KeyBoardControllManager : MonoBehaviour
             v = Input.GetAxisRaw("Vertical");
 
             dir = new Vector3(h, v, 0).normalized;
-
-            print(dir);
-
+            
             player.Move(dir);
         }
         else

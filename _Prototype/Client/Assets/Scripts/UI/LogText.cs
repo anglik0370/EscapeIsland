@@ -46,9 +46,7 @@ public class LogText : MonoBehaviour
 
         int lineBreakCnt = -1;
         int tempLength = tmpStr.Length;
-
-        print(tempLength);
-
+        
         while (tempLength > 0)
         {
             lineBreakCnt++;
