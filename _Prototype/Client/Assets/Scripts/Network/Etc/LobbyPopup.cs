@@ -49,8 +49,13 @@ public class LobbyPopup : Popup
         exitBtn.onClick.AddListener(() =>
         {
             //NetworkManager.instance.ExitRoom();
-            PopupManager.instance.CloseAndOpen("login");
-            titlePanel.Init();
+            // PopupManager.instance.CloseAndOpen("login");
+            // titlePanel.Init();
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                Application.Quit();
+            #endif
         });
 
         createRoomBtn.onClick.AddListener(() =>
