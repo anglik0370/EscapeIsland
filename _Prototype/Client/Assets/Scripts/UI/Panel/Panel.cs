@@ -53,6 +53,7 @@ public class Panel : MonoBehaviour
         }
 
         GameManager.Instance.IsPanelOpen = true;
+        PlayerManager.Instance.Player.Move(Vector3.zero);
     }
 
     public virtual void Close(bool isTweenSkip = false)

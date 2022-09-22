@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class MapPanel : Panel
 {
@@ -24,6 +25,32 @@ public class MapPanel : Panel
         for (int i = 0; i < uis.Length; i++)
         {
             mapAreaInfoDic.Add(uis[i].Area, uis[i]);
+        }
+    }
+
+    public override void Open(bool isTweenSkip = false)
+    {
+        if(isTweenSkip)
+        {
+            cvs.alpha = 1f;
+            cvs.blocksRaycasts = true;
+            cvs.interactable = true;
+        }
+        else
+        {
+            if (seq != null)
+            {
+                seq.Kill();
+            }
+
+            seq = DOTween.Sequence();
+
+            seq.Append(cvs.DOFade(1f, TWEEN_DURATION));
+            seq.AppendCallback(() =>
+            {
+                cvs.blocksRaycasts = true;
+                cvs.interactable = true;
+            });
         }
     }
 
