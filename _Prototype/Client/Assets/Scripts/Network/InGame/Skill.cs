@@ -366,11 +366,13 @@ public class Skill : ISetAble
         {
             user.UI.SetState("기절", UtilClass.GetStateColor(buff.isBuffed));
             user.BuffHandler.AddBuff(buff.InitializeBuff(user.gameObject));
+            ParticleManager.Instance.PlayEffect("faint", user.transform.position);
             MissionPanel.Instance.Close();
         }
         else if (playerList.TryGetValue(skillData.targetId, out Player p))
         {
             p.UI.SetState("기절", UtilClass.GetStateColor(buff.isBuffed));
+            ParticleManager.Instance.PlayEffect("faint", p.transform.position);
             //이펙트 재생시 여기에서
         }
     }
