@@ -23,6 +23,11 @@ public class Effect : MonoBehaviour
         transform.position = pos + offset;
     }
 
+    public void SetLocalPosition(Vector2 pos)
+    {
+        transform.localPosition = pos + offset;
+    }
+
     public void Play()
     {
         ps.Play();
