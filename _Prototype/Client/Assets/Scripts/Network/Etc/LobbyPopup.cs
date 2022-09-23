@@ -94,10 +94,12 @@ public class LobbyPopup : Popup
     {
         if (!isOpenPanel) return;
 
+#if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.C))
         {
             SendManager.Instance.Send("ROOM_DELETE_REQ");
         }
+#endif
     }
 
     public override void Open(object data = null, int closeCount = 1)
