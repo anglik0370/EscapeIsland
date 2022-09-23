@@ -25,6 +25,8 @@ public class KeyBoardControllManager : MonoBehaviour
 
     private Vector3 dir;
 
+    private bool isGameStart = false;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -38,6 +40,21 @@ public class KeyBoardControllManager : MonoBehaviour
         EventManager.SubEnterRoom(p =>
         {
             player = p;
+        });
+
+        EventManager.SubGameStart(p => 
+        {
+            isGameStart = true;
+        });
+
+        EventManager.SubGameOver(goc => 
+        {
+            isGameStart = false;
+        });
+
+        EventManager.SubExitRoom(() => 
+        {
+            isGameStart = false;
         });
     }
 
@@ -109,6 +126,14 @@ public class KeyBoardControllManager : MonoBehaviour
                 {
                     SendManager.Instance.Send("STORAGE_DROP", new ItemStorageVO(Team.BLUE, itemAmount.item.itemId));
                 }
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            if(isGameStart)
+            {
+                MapPanel.Instance.Open();
             }
         }
     }
