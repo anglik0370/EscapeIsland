@@ -37,4 +37,12 @@ public class ParticleManager : MonoBehaviour
         effect.SetPosition(pos);
         effect.Play();
     }
+
+    public void PlayEffect(string key, Transform parent)
+    {
+        Effect effect = PoolManager.GetItem<Effect>(key);
+        effect.transform.SetParent(parent);
+        effect.SetLocalPosition(Vector2.zero);
+        effect.Play();
+    }
 }

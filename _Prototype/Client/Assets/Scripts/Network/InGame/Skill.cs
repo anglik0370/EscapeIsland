@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Skill : ISetAble
@@ -209,6 +210,15 @@ public class Skill : ISetAble
         if (!user.CurTeam.Equals(skillData.team))
         {
             MissionPanel.Instance.CloseGetMissionPanel();
+            ParticleManager.Instance.PlayEffect("dissRap", user.transform);
+        }
+
+        foreach (Player p in playerList.Values)
+        {
+            if (!p.CurTeam.Equals(skillData.team))
+            {
+                ParticleManager.Instance.PlayEffect("dissRap", p.transform);
+            }
         }
     }
 

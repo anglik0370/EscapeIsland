@@ -35,6 +35,7 @@ public class FlyPaper : MonoBehaviour
     public void SetEnable()
     {
         gameObject.SetActive(true);
+        ParticleManager.Instance.PlayEffect("flyPaper", transform.position);
         if (co != null)
         {
             StopCoroutine(co);
