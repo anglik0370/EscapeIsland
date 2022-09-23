@@ -6,8 +6,15 @@ public class ParticleManager : MonoBehaviour
 {
     public static ParticleManager Instance { get; private set; }
 
+    //[SerializeField]
+    //private Effect faintEffectPrefab;
+    //[SerializeField]
+    //private Effect flyPaperEffectPrefab;
+    //[SerializeField]
+    //private Effect dissRapEffectPrefab;
+
     [SerializeField]
-    private Effect bloodEffectPrefab;
+    private List<Effect> effectPrefabList = new List<Effect>();
 
     private void Awake()
     {
@@ -16,16 +23,14 @@ public class ParticleManager : MonoBehaviour
             Instance = this;
         }
 
-        PoolManager.CreatePool<Effect>(bloodEffectPrefab.gameObject, transform,"blood", 5);
+        //PoolManager.CreatePool<Effect>(faintEffectPrefab.gameObject, transform,"faint", 5);
+
+        for (int i = 0; i < effectPrefabList.Count; i++)
+        {
+            PoolManager.CreatePool<Effect>(effectPrefabList[i].gameObject, transform, effectPrefabList[i].Key, 5);
+        }
     }
 
-    //public void PlayBloodEffect(Vector3 position)
-    //{
-    //    Effect effect = PoolManager.GetItem<Effect>("blood");
-    //    effect.SetPosition(position);
-    //    effect.Play();
-    //}
-    
     public void PlayEffect(string key, Vector3 pos)
     {
         Effect effect = PoolManager.GetItem<Effect>(key);

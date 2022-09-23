@@ -7,6 +7,10 @@ public class Effect : MonoBehaviour
     private ParticleSystem ps;
 
     [SerializeField]
+    private string key;
+    public string Key => key;
+
+    [SerializeField]
     private Vector2 offset;
 
     private void Awake()
