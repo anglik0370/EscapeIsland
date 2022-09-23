@@ -34,6 +34,8 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
     public Action LobbyCallback => () => SendManager.Instance.GameStart();
     public Action IngameCallback => () =>
     {
+        if (MissionPanel.Instance.IsGetMissionPanelOpen) return;
+
         if(missionType == MissionType.None)
         {
             SpawnerManager.Instance.PickUpSpawnerItem(this);

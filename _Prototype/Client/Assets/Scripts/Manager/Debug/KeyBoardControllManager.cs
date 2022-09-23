@@ -64,7 +64,7 @@ public class KeyBoardControllManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(interactionBtnUI.interactable && interactionBtn.CanTouch && !MissionPanel.Instance.IsGetMissionPanelOpen)
+            if(interactionBtnUI.interactable && interactionBtn.CanTouch)
             {
                 interactionBtnUI.onClick?.Invoke();
             }
