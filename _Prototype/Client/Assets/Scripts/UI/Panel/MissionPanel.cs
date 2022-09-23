@@ -43,6 +43,7 @@ public class MissionPanel : Panel
     private ItemSpawner oldSpawner = null;
 
     private bool isGetMissionPanelOpen = false;
+    public bool IsGetMissionPanelOpen => isGetMissionPanelOpen;
 
     protected override void Awake()
     {
