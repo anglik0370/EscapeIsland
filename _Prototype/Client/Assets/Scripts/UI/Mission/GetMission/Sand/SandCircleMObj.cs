@@ -103,18 +103,15 @@ public class SandCircleMObj : MonoBehaviour, IPointerClickHandler
                 if (bigCircle.localScale.x >= perfectScale - correctionValue
                     && bigCircle.localScale.x <= perfectScale + correctionValue)
                 {
-                    print("퍼펙 성공");
                     ClickSuccess?.Invoke(true);
                 }
                 else if (bigCircle.localScale.x >= perfectScale - goodCorrectionValue
                     && bigCircle.localScale.x <= perfectScale + goodCorrectionValue)
                 {
-                    print("굳 성공");
                     ClickSuccess?.Invoke(false);
                 }
                 else
                 {
-                    print("터치 실패");
                     ClickFail?.Invoke();
                 }
 
@@ -130,6 +127,5 @@ public class SandCircleMObj : MonoBehaviour, IPointerClickHandler
 
         UtilClass.SetCanvasGroup(cvs);
         ClickFail?.Invoke();
-        print("다 줄음");
     }
 }

@@ -135,8 +135,6 @@ public class MissionPanel : Panel
     {
         if (oldMission == null) return;
 
-        print(oldMission + "¿­±â");
-
         UtilClass.SetCanvasGroup(oldMission.Cvs, 1, true, true);
 
         oldMission.Open();
