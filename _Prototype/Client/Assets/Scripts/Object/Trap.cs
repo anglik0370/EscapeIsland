@@ -37,7 +37,8 @@ public class Trap : MonoBehaviour
     public void SetEnable()
     {
         gameObject.SetActive(true);
-        if(co != null)
+        ParticleManager.Instance.PlayEffect("flyPaper", transform.position);
+        if (co != null)
         {
             StopCoroutine(co);
         }

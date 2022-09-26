@@ -33,12 +33,14 @@ public class Altar : ISetAble
 
     private void AltarFunc()
     {
+        Init();
+        BuffSO so = BuffManager.Instance.GetBuffSO(data.altarBuffId);
+
         if (data.id.Equals(user.socketId))
         {
-            BuffSO so = BuffManager.Instance.GetBuffSO(data.altarBuffId);
-
             if (so != null)
             {
+                ParticleManager.Instance.PlayEffect("altar", user.FootCollider.transform);
                 AltarPanel.Instance.SetEffectText(so.buffExplanation);
                 user.BuffHandler.AddBuff(so.InitializeBuff(user.gameObject));
 
@@ -47,6 +49,13 @@ public class Altar : ISetAble
             else
             {
                 SoundManager.Instance.PlaySFX(failClip);
+            }
+        }
+        else if(playerList.TryGetValue(data.id, out Player p))
+        {
+            if(so != null)
+            {
+                ParticleManager.Instance.PlayEffect("altar", p.transform);
             }
         }
         AltarPanel.Instance.ClosePanel(1f);

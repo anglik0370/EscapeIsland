@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IInteractionObject
 
     private Animator anim;
     private Transform playerTrm;
+    private Transform footTrm;
     private Collider2D footCollider;
     private Collider2D bodyCollider;
 
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour, IInteractionObject
     public Collider2D BodyCollider => bodyCollider;
 
     public Animator Animator => anim;
+    public Transform FootTrm => footTrm;
 
     private AudioSource audioSource;
     public AudioSource AudioSource => audioSource;
@@ -256,6 +258,7 @@ public class Player : MonoBehaviour, IInteractionObject
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
         playerTrm = dummyPlayer.transform;
+        footTrm = dummyPlayer.transform.Find("FootTrm").transform;
 
         defaultPos = dummyPlayer.transform.localPosition;
         flipPos = new Vector3(-curSO.adjsutPos.x, curSO.adjsutPos.y, curSO.adjsutPos.z);

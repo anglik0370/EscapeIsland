@@ -137,6 +137,7 @@ public class Sabotage : ISetAble
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(ANDER_ID).InitializeBuff(user.gameObject));
             user.UI.SetState("이동 불가", UtilClass.GetStateColor(true));
+            ParticleManager.Instance.PlayEffect("enterTrap", user.FootTrm.position);
 
             var slotList = user.inventory.slotList.Where(x => !x.IsEmpty).ToList();
             if(slotList.Count > 0)
@@ -149,6 +150,7 @@ public class Sabotage : ISetAble
         else if(playerList.TryGetValue(trapData.socketId,out Player p))
         {
             p.UI.SetState("이동 불가", UtilClass.GetStateColor(true));
+            ParticleManager.Instance.PlayEffect("enterTrap", p.FootTrm.position);
         }
 
         Trap trap = FindTrap(trapData.id);

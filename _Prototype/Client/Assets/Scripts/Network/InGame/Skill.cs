@@ -78,15 +78,19 @@ public class Skill : ISetAble
             flyPaper.Init();
         }
 
+        print(flyPaper == null);
+
         if (flyPaperData.socketId.Equals(user.socketId))
         {
             user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(KION_SPEED_DEBUFF_ID).InitializeBuff(user.gameObject));
             user.BuffHandler.AddBuff(coolDebuffSO.InitializeBuff(user.gameObject));
             user.UI.SetState("미션 쿨타임 증가", UtilClass.GetStateColor(coolDebuffSO.isBuffed));
+            ParticleManager.Instance.PlayEffect("enterFlyPaper", user.FootTrm);
         }
         else if (playerList.TryGetValue(flyPaperData.socketId, out Player p))
         {
             p.UI.SetState("미션 쿨타임 증가", UtilClass.GetStateColor(coolDebuffSO.isBuffed));
+            ParticleManager.Instance.PlayEffect("enterFlyPaper", p.FootTrm);
             //이펙트 재생시 여기에서
         }
     }
