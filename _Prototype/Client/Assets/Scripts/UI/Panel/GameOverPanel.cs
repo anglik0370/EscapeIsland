@@ -29,6 +29,9 @@ public class GameOverPanel : Panel
     [SerializeField]
     private Sprite redteamTxtSprite;
 
+    [SerializeField]
+    private Effect[] gameEndEffects;
+
     protected override void Awake()
     {
         base.Awake();
@@ -76,6 +79,12 @@ public class GameOverPanel : Panel
         }
 
         base.Open();
+
+        for (int i = 0; i < gameEndEffects.Length; i++)
+        {
+            gameEndEffects[i].gameObject.SetActive(true);
+            gameEndEffects[i].LoopingPlay();
+        }
 
         NetworkManager.instance.GameEnd();
     }
@@ -128,6 +137,11 @@ public class GameOverPanel : Panel
     public void CloseGameOverPanel()
     {
         NetworkManager.instance.User.canMove =true;
+
+        for (int i = 0; i < gameEndEffects.Length; i++)
+        {
+            gameEndEffects[i].Disable();
+        }
 
         SoundManager.Instance.PlayBGM(SoundManager.Instance.DaylightBGM);
 
