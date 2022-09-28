@@ -161,7 +161,7 @@ public class ItemConverter : MonoBehaviour, IInteractionObject
         isConverting = false;
 
         //제련 끝나면 해줄일
-        if(isRefinery)
+        if(!isWater)
             ParticleManager.Instance.PlayEffect("endConvert", transform.position);
         afterItem = FindAfterItem(beforeItem);
         beforeItem = null;

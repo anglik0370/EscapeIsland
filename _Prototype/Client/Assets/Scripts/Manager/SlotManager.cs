@@ -122,7 +122,7 @@ public class SlotManager : MonoBehaviour
             {
                 //ConvertAfter To Inventory
 
-                if(endSlot.IsEmpty)
+                if(endSlot.IsEmpty && beginSlot.GetItem() != null)
                 {
                     //endSlot is Empty
                     SyncObjDataVO vo = new SyncObjDataVO(ConvertPanel.Instance.CurOpenConverter.id, -1);
