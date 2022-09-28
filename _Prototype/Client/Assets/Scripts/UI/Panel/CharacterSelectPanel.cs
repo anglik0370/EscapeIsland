@@ -8,6 +8,8 @@ public class CharacterSelectPanel : Panel
 {
     public static CharacterSelectPanel Instance { get; set; }
 
+    private CharInfoPanel infoPanel;
+
     [SerializeField]
     private CharacterProfile profilePrefab;
     private List<CharacterSO> charSOList;
@@ -31,6 +33,8 @@ public class CharacterSelectPanel : Panel
     {
         Instance = this;
 
+        infoPanel = GetComponentInChildren<CharInfoPanel>();
+
         charSOList = Resources.LoadAll<CharacterSO>("CharacterSO/").ToList();
 
         for (int i = 0; i < charSOList.Count; i++)
@@ -50,6 +54,12 @@ public class CharacterSelectPanel : Panel
 
     protected override void Start()
     {
+        EventManager.SubEnterRoom(p => 
+        {
+            Close(true);
+            infoPanel.Close(true);
+        });
+
         EventManager.SubGameStart(p =>
         {
             Close(true);

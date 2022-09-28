@@ -63,6 +63,7 @@ public class CharInfoPanel : Panel
             selectBtn.onClick.AddListener(() => 
             {
                 sc.ChangeCharacter(curOpenCharSO);
+                CharacterSelectPanel.Instance.Close(true);
                 Close(false);
             });
         }));
