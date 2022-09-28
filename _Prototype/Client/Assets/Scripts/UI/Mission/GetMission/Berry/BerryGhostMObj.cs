@@ -38,8 +38,10 @@ public class BerryGhostMObj : MonoBehaviour
         }
     }
 
-    public void Move(Vector2 point)
+    public void Move(Vector3 pos)
     {
-        rect.position = point;
+        pos.z = 10.0f;
+        
+        transform.position = Camera.main.ScreenToWorldPoint(pos);
     }
 }

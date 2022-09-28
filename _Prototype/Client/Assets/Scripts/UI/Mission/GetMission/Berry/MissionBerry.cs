@@ -8,7 +8,7 @@ public class MissionBerry : MonoBehaviour, IGetMission
     private CanvasGroup cvs;
     public CanvasGroup Cvs => cvs;
 
-    [Header("ÄÄÆ÷³ÍÆ® °¡Á®¿Ã ¶§ ¾²´Â ºÎ¸ð Transform")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ Transform")]
     [SerializeField]
     private Transform basketPosParent;
     [SerializeField]
@@ -20,24 +20,24 @@ public class MissionBerry : MonoBehaviour, IGetMission
     private List<BerryMObj> berryList;
     private List<MissionDropItemSlot> berrySlotList;
 
-    [Header("¹Ù±¸´Ï °ü·Ã")]
+    [Header("ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField]
     private BasketMObj basketMObj;
     [SerializeField]
     private int dropCount;
 
-    [Header("º£¸® ÀÌµ¿ °ü·Ã")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField]
     private BerryMObj curBerryMObj;
     [SerializeField]
     private BerryGhostMObj berryGhost;
 
-    [Header("¹Ì¼Ç Å¸ÀÔ")]
+    [Header("ï¿½Ì¼ï¿½ Å¸ï¿½ï¿½")]
     [SerializeField]
     private MissionType missionType;
     public MissionType MissionType => missionType;
 
-    [Header("ÀèÆÌ È®·ü")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½")]
     [SerializeField]
     private float jackPotPercent = 50;
 
@@ -93,7 +93,7 @@ public class MissionBerry : MonoBehaviour, IGetMission
 
             if(dropCount == basketTrmList.Count)
             {
-                //´Ù ´ã±ä °æ¿ì ÀÌÁ¦ °¡Á®°¥ ¼ö ÀÖ´Â ¹è¸®·Î ¹Ù²ãÁÖ¸é µÈ´Ù
+                //ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½è¸®ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö¸ï¿½ ï¿½È´ï¿½
 
                 if(UtilClass.GetResult(jackPotPercent))
                 {
