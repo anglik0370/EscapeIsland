@@ -116,10 +116,12 @@ public class Sabotage : ISetAble
                 if(dic.TryGetValue(uv.socketId, out p))
                 {
                     LogPanel.Instance.GlobalSkillLog(p, ANDER_SKILL_NAME);
+                    SoundManager.Instance.PlayCharacterSound(p.curSO.skill.skillSFX, p);
                 }
                 else
                 {
                     LogPanel.Instance.GlobalSkillLog(user, ANDER_SKILL_NAME);
+                    SoundManager.Instance.PlayCharacterSound(user.curSO.skill.skillSFX, user);
                 }
 
                 break;
