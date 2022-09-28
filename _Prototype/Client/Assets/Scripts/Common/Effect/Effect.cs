@@ -34,8 +34,15 @@ public class Effect : MonoBehaviour
         Invoke("Disable", ps.main.duration);
     }
 
-    private void Disable()
+    public void LoopingPlay()
     {
+        ps.Play();
+    }
+
+    public void Disable()
+    {
+        if (ps.isPlaying)
+            ps.Stop();
         gameObject.SetActive(false);
     }
 }
