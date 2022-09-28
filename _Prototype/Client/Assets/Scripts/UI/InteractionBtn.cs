@@ -31,6 +31,10 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private InteractionSO readySO;
 
+    [Header("캐릭터 선택 SO")]
+    [SerializeField]
+    private InteractionSO selectSO;
+
     [Header("텍스트")]
     [SerializeField]
     private Text txt;
@@ -103,42 +107,16 @@ public class InteractionBtn : MonoBehaviour
         if (!isEnterRoom) return;
         if (GameManager.Instance.IsPanelOpen) return;
 
-        //if(PlayerManager.Instance.AmIDead())
-        //{
-        //    UpdateBtnState(nothingSO);
-        //    UpdateBtnCallback(() => { });
-        //}
-        //else
-        //{
-
-        //}
-
         proximateObj = GameManager.Instance.GetProximateObject();
 
-        if (proximateObj != null)
+        if(!isGameStart)
         {
-            if (!isGameStart)
-            {
-                if(proximateObj.LobbyHandlerSO == gameStartSO)
-                {
-                    if (PlayerManager.Instance.AmIMaster())
-                    {
-                        UpdateBtnState(gameStartSO);
-                        UpdateBtnCallback(() => SendManager.Instance.GameStart());
-                    }
-                    else
-                    {
-                        UpdateBtnState(readySO);
-                        UpdateBtnCallback(() => SendManager.Instance.Send("READY"));
-                    }
-                }
-                else
-                {
-                    UpdateBtnState(proximateObj.LobbyHandlerSO);
-                    UpdateBtnCallback(proximateObj.LobbyCallback);
-                }
-            }
-            else
+            UpdateBtnState(selectSO);
+            UpdateBtnCallback(() => CharacterSelectPanel.Instance.Open());
+        }
+        else
+        {
+            if(proximateObj != null)
             {
                 if (PlayerManager.Instance.Player.IsSturned)
                 {
@@ -149,22 +127,6 @@ public class InteractionBtn : MonoBehaviour
                 {
                     UpdateBtnState(proximateObj.InGameHandlerSO);
                     UpdateBtnCallback(proximateObj.IngameCallback);
-                }
-            }
-        }
-        else
-        {
-            if (!isGameStart)
-            {
-                if (PlayerManager.Instance.AmIMaster())
-                {
-                    UpdateBtnState(gameStartSO);
-                    UpdateBtnCallback(() => SendManager.Instance.GameStart());
-                }
-                else
-                {
-                    UpdateBtnState(readySO);
-                    UpdateBtnCallback(() => SendManager.Instance.Send("READY"));
                 }
             }
             else
@@ -220,7 +182,7 @@ public class InteractionBtn : MonoBehaviour
 
     private void UpdateAccent()
     {
-        if (state == InteractionCase.GameStart || state == InteractionCase.Ready || state == InteractionCase.Nothing)
+        if (state == InteractionCase.GameStart || state == InteractionCase.Ready || state == InteractionCase.Nothing || state == InteractionCase.SelectCharacter)
         {
             accent.Disable();
         }
@@ -234,6 +196,7 @@ public class InteractionBtn : MonoBehaviour
         }
         else
         {
+            print(state);
             accent.Enable(proximateObj.GetSprite(), proximateObj.GetTrm(), proximateObj.GetFlipX());
         }
     }
