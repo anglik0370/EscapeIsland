@@ -13,7 +13,7 @@ public class TouchScreen : MonoBehaviour, IPointerDownHandler
         TouchCallback += Callback;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
         TouchCallback?.Invoke();
     }

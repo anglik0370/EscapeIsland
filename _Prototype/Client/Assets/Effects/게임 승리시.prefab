@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8125100985890406612}
   - component: {fileID: 5927358954164068249}
   - component: {fileID: 1643771499486499157}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Light Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4847,8 +4847,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 990481907
-  m_SortingLayer: 5
+  m_SortingLayerID: 932913389
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -4887,7 +4887,8 @@ GameObject:
   - component: {fileID: 1978689737715041618}
   - component: {fileID: 1978689737715041619}
   - component: {fileID: 1978689737715041616}
-  m_Layer: 0
+  - component: {fileID: 2954442622835049178}
+  m_Layer: 15
   m_Name: "\uAC8C\uC784 \uC2B9\uB9AC\uC2DC"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9496,8 +9497,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 990481907
-  m_SortingLayer: 5
+  m_SortingLayerID: 932913389
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -9531,7 +9532,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978689737715041617}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9205bc1bbacc90040a998067b5643d16, type: 3}
   m_Name: 
@@ -9572,6 +9573,20 @@ MonoBehaviour:
     shakesDelay: 0
   animatedLights: []
   fadeOutReference: {fileID: 0}
+--- !u!114 &2954442622835049178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978689737715041617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c80bb24b0f61673488e2526d8bb9c708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: gameWin
+  offset: {x: 0, y: 0}
 --- !u!1 &9034376611552921419
 GameObject:
   m_ObjectHideFlags: 0
@@ -9582,7 +9597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1358281123558238475}
   - component: {fileID: 4303868112905912029}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9673,6 +9688,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1978689737715041621}
     m_Modifications:
     - target: {fileID: 1791995480500357508, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791995480500357508, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -9710,11 +9729,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8791802859067882601, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
       propertyPath: m_SortingLayer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8791802859067882601, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
       propertyPath: m_SortingLayerID
-      value: 990481907
+      value: 932913389
       objectReference: {fileID: 0}
     - target: {fileID: 8791802859087233161, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
       propertyPath: m_RootOrder
@@ -9763,6 +9782,10 @@ PrefabInstance:
     - target: {fileID: 8791802859087666345, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
       propertyPath: m_Name
       value: CFXR4 Firework HDR (Big)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8791802859087666345, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8989881128925888840, guid: ae07f2a45f14a82428409cfe410e6002, type: 3}
       propertyPath: m_Color.b

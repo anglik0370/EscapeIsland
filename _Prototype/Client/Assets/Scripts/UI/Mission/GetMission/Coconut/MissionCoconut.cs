@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class MissionCoconut : MonoBehaviour, IGetMission
 {
-    private TouchScreen touchScreen;
+    private EffectTouchScreen touchScreen;
 
     private List<CoconutMObj> coconutPalmList;
 
@@ -53,7 +53,7 @@ public class MissionCoconut : MonoBehaviour, IGetMission
         coconutPalmList = new List<CoconutMObj>();
         originPalmPosList = new List<Vector2>();
 
-        touchScreen = GetComponentInChildren<TouchScreen>();
+        touchScreen = GetComponentInChildren<EffectTouchScreen>();
         coconutPalmList = GetComponentsInChildren<CoconutMObj>().ToList();
 
         cvs = GetComponent<CanvasGroup>();
@@ -93,7 +93,7 @@ public class MissionCoconut : MonoBehaviour, IGetMission
         touchCount = 0;
     }
 
-    private void AddTouchCount()
+    private void AddTouchCount(Vector2 pos)
     {
         CoconutMObj coconutPalm = coconutPalmList.Find(x => !x.IsDropped);
 
@@ -116,6 +116,7 @@ public class MissionCoconut : MonoBehaviour, IGetMission
 
             ShakeTree();
             touchCount++;
+            ParticleManager.Instance.PlayEffectOverlay("coconut", pos);
         }
     }
 
