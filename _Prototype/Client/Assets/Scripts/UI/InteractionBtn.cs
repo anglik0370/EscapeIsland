@@ -35,10 +35,6 @@ public class InteractionBtn : MonoBehaviour
     [SerializeField]
     private InteractionSO selectSO;
 
-    [Header("텍스트")]
-    [SerializeField]
-    private Text txt;
-
     [Header("이미지")]
     [SerializeField]
     private Image btnImg;
@@ -71,8 +67,6 @@ public class InteractionBtn : MonoBehaviour
     {
         btn = GetComponent<Button>();
         image = GetComponent<Image>();
-
-        txt.text = string.Empty;
 
         isGameStart = false;
         isEnterRoom = false;
@@ -145,7 +139,6 @@ public class InteractionBtn : MonoBehaviour
         state = so.interactoinCase;
 
         image.sprite = so.btnSprite;
-        txt.text = so.btnText;
     }
 
     private void UpdateBtnCallback(Action Callback)

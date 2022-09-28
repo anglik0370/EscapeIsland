@@ -10,7 +10,6 @@ public class InteractionSO : ScriptableObject
     public InteractionCase interactoinCase;
 
     public Sprite btnSprite;
-    public string btnText = string.Empty;
 
     public Action Callback;
 }

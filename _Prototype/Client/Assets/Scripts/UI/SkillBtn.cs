@@ -11,8 +11,6 @@ public class SkillBtn : MonoBehaviour
     private Image btnImage;
     private Image coolTimeImg;
 
-    private Text skillText;
-
     private Sprite originSprite;
 
     private SkillSO curSkill => PlayerManager.Instance.Player.curSO.skill;
@@ -37,8 +35,6 @@ public class SkillBtn : MonoBehaviour
 
         btnImage = GetComponent<Image>();
         coolTimeImg = transform.Find("CooltimeImg").GetComponent<Image>();
-
-        skillText = transform.Find("text").GetComponent<Text>();
 
         btn.onClick.AddListener(UseSkill);
 
@@ -99,20 +95,7 @@ public class SkillBtn : MonoBehaviour
     {
         if (!isGameStart)
         {
-            if (curSkill.skillIcon == null)
-            {
-                btn.image.sprite = originSprite;
-                skillText.text = "Skill";
-
-                rect.sizeDelta = new Vector2(220, 220);
-            }
-            else
-            {
-                btn.image.sprite = curSkill.skillIcon;
-                skillText.text = "";
-
-                rect.sizeDelta = new Vector2(170, 170);
-            }
+            btn.image.sprite = curSkill.skillIcon;
 
             coolTimeImg.fillAmount = 0f;
 
