@@ -259,6 +259,7 @@ public class Player : MonoBehaviour, IInteractionObject
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
         playerTrm = dummyPlayer.transform;
         footTrm = dummyPlayer.transform.Find("FootTrm").transform;
+        footTrm.SetParent(transform);
 
         defaultPos = dummyPlayer.transform.localPosition;
         flipPos = new Vector3(-curSO.adjsutPos.x, curSO.adjsutPos.y, curSO.adjsutPos.z);
@@ -332,6 +333,10 @@ public class Player : MonoBehaviour, IInteractionObject
             Transform child = transform.GetChild(i);
             if (child.CompareTag("PlayerPrefab"))
             {
+                if(child.gameObject.activeSelf)
+                {
+                    footTrm.SetParent(child);
+                }
                 child.gameObject.SetActive(false);
             }
         }
