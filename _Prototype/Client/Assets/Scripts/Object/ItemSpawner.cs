@@ -73,6 +73,21 @@ public class ItemSpawner : MonoBehaviour, IInteractionObject
         interactionCol = GetComponentInChildren<Collider2D>();
     }
 
+    private void Start()
+    {
+        EventManager.SubExitRoom(() =>
+        {
+            curCoolTime = 0f;
+            isInteractionAble = true;
+        });
+
+        EventManager.SubGameOver(goc =>
+        {
+            curCoolTime = 0f;
+            isInteractionAble = true;
+        });
+    }
+
     private void Update()
     {
         if(!isInteractionAble)
