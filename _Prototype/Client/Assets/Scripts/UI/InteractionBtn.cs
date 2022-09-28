@@ -196,7 +196,6 @@ public class InteractionBtn : MonoBehaviour
         }
         else
         {
-            print(state);
             accent.Enable(proximateObj.GetSprite(), proximateObj.GetTrm(), proximateObj.GetFlipX());
         }
     }
