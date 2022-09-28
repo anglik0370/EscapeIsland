@@ -28,7 +28,8 @@ public class ParticleManager : MonoBehaviour
         }
     }
 
-    public void PlayEffectOverlay(string key, Vector3 pos)
+    #region OverlayEffect
+    public void PlayEffectScreenToWorldPoint(string key, Vector3 pos)
     {
         pos = effectCam.ScreenToWorldPoint(pos);
         Effect effect = PoolManager.GetItem<Effect>(key);
@@ -37,6 +38,7 @@ public class ParticleManager : MonoBehaviour
         displayer.MoveToPosition(pos);
         effect.Play();
     }
+    #endregion
 
     public void PlayEffect(string key, Vector3 pos)
     {

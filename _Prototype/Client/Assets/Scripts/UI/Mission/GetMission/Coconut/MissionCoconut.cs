@@ -116,7 +116,7 @@ public class MissionCoconut : MonoBehaviour, IGetMission
 
             ShakeTree();
             touchCount++;
-            ParticleManager.Instance.PlayEffectOverlay("coconut", pos);
+            ParticleManager.Instance.PlayEffectScreenToWorldPoint("coconut", pos);
         }
     }
 
