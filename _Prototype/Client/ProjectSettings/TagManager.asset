@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerPrefab
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - PLAYERGHOST
   - PLAYERINTERACTOIN
   - PORTAL
-  - 
+  - OVERLAY EFFECT
   - 
   - 
   - 
@@ -68,4 +69,10 @@ TagManager:
     locked: 0
   - name: Shader
     uniqueID: 864098443
+    locked: 0
+  - name: UIOverEffect
+    uniqueID: 932913389
+    locked: 0
+  - name: Overlay
+    uniqueID: 1127784667
     locked: 0
