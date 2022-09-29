@@ -156,7 +156,9 @@ public class AltarPanel : Panel
 
     private void OnClickOfferBtn()
     {
-        if(currentProbability <= defaultProbability)
+        SoundManager.Instance.PlayBtnSfx();
+
+        if (currentProbability <= defaultProbability)
         {
             UIManager.Instance.AlertText("최소 한개 이상의 아이템이 필요합니다.", AlertType.Warning);
             return;
@@ -185,7 +187,13 @@ public class AltarPanel : Panel
     {
         yield return panelOff;
 
-        Close();
+        ClosePanel();
+    }
+
+    public void ClosePanel()
+    {
+        base.Close(false);
+        IsAltarPanelOpen = false;
     }
 
     #region override 
@@ -203,6 +211,7 @@ public class AltarPanel : Panel
     {
         base.Close(isTweenSkip);
         IsAltarPanelOpen = false;
+        SoundManager.Instance.PlayBtnSfx();
     }
     #endregion
 }

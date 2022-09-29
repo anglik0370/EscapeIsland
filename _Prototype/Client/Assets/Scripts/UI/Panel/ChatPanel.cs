@@ -91,6 +91,7 @@ public class ChatPanel : Panel
 
             SendManager.Instance.Send("CHAT", new ChatVO(NetworkManager.instance.socketId, chatInput.text, chatType));
             chatInput.text = "";
+            SoundManager.Instance.PlayBtnSfx();
         });
 
         chatInput.onEndEdit.AddListener(msg =>
@@ -113,7 +114,7 @@ public class ChatPanel : Panel
             }
 
             Open();
-
+            SoundManager.Instance.PlayBtnSfx();
             newChatAlertObj.SetActive(false);
             chatRect.verticalNormalizedPosition = 0f;
             //StartCoroutine(CoroutineHandler.Frame(() => chatRect.verticalNormalizedPosition = 0f));
@@ -137,6 +138,7 @@ public class ChatPanel : Panel
                 UtilClass.SetCanvasGroup(cvsLog);
                 UtilClass.SetCanvasGroup(cvsChat, 1f, true, true);
             }
+            SoundManager.Instance.PlayBtnSfx();
         });
 
         // chat ui 

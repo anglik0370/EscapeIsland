@@ -22,4 +22,16 @@ public class SettingPanel : Panel
         SoundManager.Instance.BGMVolumeControl(bgmSlider.value);
         base.Start();
     }
+
+    public override void Open(bool isTweenSkip = false)
+    {
+        base.Open(isTweenSkip);
+        SoundManager.Instance.PlayBtnSfx();
+    }
+
+    public override void Close(bool isTweenSkip = false)
+    {
+        base.Close(isTweenSkip);
+        SoundManager.Instance.PlayBtnSfx();
+    }
 }

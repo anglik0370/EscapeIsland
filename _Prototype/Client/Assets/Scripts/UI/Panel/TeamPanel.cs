@@ -69,9 +69,15 @@ public class TeamPanel : Panel
     {
         if (isGameStart) return;
 
+        SoundManager.Instance.PlayBtnSfx();
         base.Open(isTweenSkip);
     }
 
+    public override void Close(bool isTweenSkip = false)
+    {
+        base.Close(isTweenSkip);
+        SoundManager.Instance.PlayBtnSfx();
+    }
 
     private void SendChangeTeam(bool isBlueTeam)
     {

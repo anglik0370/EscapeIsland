@@ -145,6 +145,7 @@ public class InteractionBtn : MonoBehaviour
     {
         btn.onClick.RemoveAllListeners();
         btn.onClick.AddListener(() => Callback?.Invoke());
+        btn.onClick.AddListener(() => SoundManager.Instance.PlayBtnSfx());
     }
 
     private void UpdateCoolTimeImage()

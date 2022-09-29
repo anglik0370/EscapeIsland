@@ -163,6 +163,6 @@ public class SkillBtn : MonoBehaviour
 
         curSkill.Callback?.Invoke();
         curSkill.timer = curSkill.coolTime;
-
+        SoundManager.Instance.PlayBtnSfx();
     }
 }

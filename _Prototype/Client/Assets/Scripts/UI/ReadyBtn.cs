@@ -63,6 +63,7 @@ public class ReadyBtn : MonoBehaviour
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() => txt.text = !p.isReady ? "취소" : "준비");
             btn.onClick.AddListener(() => SendManager.Instance.Send("READY"));
+            btn.onClick.AddListener(() => SoundManager.Instance.PlayBtnSfx());
         }
     }
 }

@@ -188,7 +188,7 @@ public class ConvertPanel : Panel
     public override void Close(bool isTweenSkip = false)
     {
         base.Close();
-
+        SoundManager.Instance.PlayBtnSfx();
         curOpenConverter = null;
     }
 

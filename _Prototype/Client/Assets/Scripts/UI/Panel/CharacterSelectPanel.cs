@@ -90,6 +90,10 @@ public class CharacterSelectPanel : Panel
         return obj;
     }
 
+    public override void Close(bool isTweenSkip = false)
+    {
+        base.Close(isTweenSkip); SoundManager.Instance.PlayBtnSfx();
+    }
 
     public void InitEnable()
     {

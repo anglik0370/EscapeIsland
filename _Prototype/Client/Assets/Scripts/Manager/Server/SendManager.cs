@@ -46,6 +46,7 @@ public class SendManager : MonoBehaviour
     public void ExitRoomSend()
     {
         Send("EXIT_ROOM");
+        SoundManager.Instance.PlayBtnSfx();
     }
 
     public void GameStart()

@@ -56,14 +56,20 @@ public class CharInfoPanel : Panel
 
     protected override void Start()
     {
-        closeBtn.onClick.AddListener(() => Close(false));
+        closeBtn.onClick.AddListener(() =>
+        {
+            Close(false);
+            SoundManager.Instance.PlayBtnSfx();
+        });
+
         StartCoroutine(CoroutineHandler.Frame(() =>
         {
             SetCharacter sc = NetworkManager.instance.FindSetDataScript<SetCharacter>();
-            selectBtn.onClick.AddListener(() => 
+            selectBtn.onClick.AddListener(() =>
             {
                 sc.ChangeCharacter(curOpenCharSO);
                 CharacterSelectPanel.Instance.Close(true);
+                SoundManager.Instance.PlayBtnSfx();
                 Close(false);
             });
         }));
@@ -103,7 +109,7 @@ public class CharInfoPanel : Panel
 
         base.Open(false);
     }
-    
+
     public void SetConfimBtnEnable(bool enable)
     {
         selectBtn.interactable = enable;

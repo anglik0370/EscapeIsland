@@ -52,6 +52,13 @@ public class MapPanel : Panel
                 cvs.interactable = true;
             });
         }
+        SoundManager.Instance.PlayBtnSfx();
+    }
+
+    public override void Close(bool isTweenSkip = false)
+    {
+        base.Close(isTweenSkip);
+        SoundManager.Instance.PlayBtnSfx();
     }
 
     public void InitMapAreaInfoUI()
