@@ -122,8 +122,8 @@ public class InfoUI : MonoBehaviour
 
     private void LateUpdate()
     {
-        //Vector3 pos = Camera.main.WorldToScreenPoint(playerTrm.position);
-        Vector3 pos = playerTrm.position;
+        Vector3 pos = Camera.main.WorldToScreenPoint(playerTrm.position);
+        //Vector3 pos = playerTrm.position;
         Vector3 nextPos = Vector3.Lerp(transform.position, pos, Time.deltaTime * followSpeed);
         transform.position = nextPos;
     }
