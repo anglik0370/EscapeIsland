@@ -17,6 +17,11 @@ public class SlotManager : MonoBehaviour
     private ItemGhost ghost;
 
     [SerializeField]
+    private AudioClip dragEndClip;
+    [SerializeField]
+    private AudioClip waterClip;
+
+    [SerializeField]
     private bool isDraging = false;
 
     private void Awake()
@@ -99,6 +104,11 @@ public class SlotManager : MonoBehaviour
 
                         //SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(PlayerManager.Instance.Player.IsImmediate, ObjType.Converter, BehaviourType.Reset, vo));
                         return;
+                    }
+
+                    if(ConvertPanel.Instance.CurOpenConverter.IsWater)
+                    {
+                        SoundManager.Instance.PlaySFX(waterClip);
                     }
 
                     SendManager.Instance.Send("SYNC_OBJ", new SyncObjVO(NetworkManager.instance.socketId, beginSlot.GetItem().itemId,
@@ -219,6 +229,7 @@ public class SlotManager : MonoBehaviour
                             //여기서 저장소로 날려주면 됨
                             SendManager.Instance.Send("STORAGE_DROP", new ItemStorageVO(mission.Team, beginSlot.GetItem().itemId));
                             beginSlot.SetItem(null);
+                            SoundManager.Instance.PlaySFX(dragEndClip);
                         }
                     }
                 }
@@ -231,6 +242,7 @@ public class SlotManager : MonoBehaviour
 
                     slot.SetItem(beginSlot.GetItem());
                     beginSlot.SetItem(null);
+                    SoundManager.Instance.PlaySFX(dragEndClip);
                 }
             }
             else if (beginSlot.Kind == ItemSlot.SlotKind.AltarSlot && endSlot.Kind == ItemSlot.SlotKind.Inventory)

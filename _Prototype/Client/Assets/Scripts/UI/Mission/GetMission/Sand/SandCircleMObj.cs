@@ -37,6 +37,9 @@ public class SandCircleMObj : MonoBehaviour, IPointerClickHandler
 
     private Coroutine co;
 
+    [SerializeField]
+    private AudioClip touchClip;
+
     private void Awake()
     {
         cvs = GetComponent<CanvasGroup>();
@@ -90,6 +93,7 @@ public class SandCircleMObj : MonoBehaviour, IPointerClickHandler
         if (isTouch) return;
 
         isTouch = true;
+        SoundManager.Instance.PlaySFX(touchClip);
     }
 
     public IEnumerator ShrinkCircleRoutine()

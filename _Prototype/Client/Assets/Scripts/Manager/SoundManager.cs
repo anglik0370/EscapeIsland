@@ -27,6 +27,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private List<AudioSource> sfxSourceList; //재생기 리스트
 
+    [Header("BGM")]
     [SerializeField]
     private AudioClip titleBGM;
     [SerializeField]
@@ -38,6 +39,10 @@ public class SoundManager : MonoBehaviour
     private AudioClip gameWinBGM;
     [SerializeField]
     private AudioClip gameLoseBGM;
+
+    [Header("SFX")]
+    [SerializeField]
+    private AudioClip btnClickSfx;
 
     private void Awake()
     {
@@ -188,6 +193,11 @@ public class SoundManager : MonoBehaviour
         {
             StartCoroutine(SoundStopTimer(audio, playTime));
         }
+    }
+
+    public void PlayBtnSfx()
+    {
+        PlaySFX(btnClickSfx);
     }
 
     private void StopAllSFXSound()

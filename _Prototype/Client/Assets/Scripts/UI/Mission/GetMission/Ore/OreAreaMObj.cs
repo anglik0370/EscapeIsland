@@ -15,6 +15,9 @@ public class OreAreaMObj : MonoBehaviour
     [SerializeField]
     private int touchCnt = 0;
 
+    [SerializeField]
+    private AudioClip touchClip;
+
     private void Awake()
     {
         img = GetComponent<Image>();
@@ -50,6 +53,7 @@ public class OreAreaMObj : MonoBehaviour
             return;
         }
 
+        SoundManager.Instance.PlaySFX(touchClip);
         img.sprite = spriteList[++touchCnt];
 
         if (touchCnt >= spriteList.Count - 2) //-2인 이유는 원래 하나는 빼야되고 처음것도 들어가 있어서임
