@@ -103,6 +103,7 @@ public class KeyBoardControllManager : MonoBehaviour
             }
         }
 
+#if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.R) && RefreshUsers.Instance.isTest)
         {
             StorageVO redVO = StorageManager.Instance.StorageDic[Team.RED];
@@ -128,6 +129,7 @@ public class KeyBoardControllManager : MonoBehaviour
                 }
             }
         }
+#endif
 
         if(Input.GetKeyDown(KeyCode.M))
         {
