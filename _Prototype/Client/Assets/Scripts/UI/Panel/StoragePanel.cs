@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class StoragePanel : Panel
 {
@@ -88,7 +89,7 @@ public class StoragePanel : Panel
 
         print(team + " 저장소 열기");
 
-        base.Open();
+        Open();
 
         for(int i = 0; i < slotList.Count; i++)
         {
@@ -96,6 +97,32 @@ public class StoragePanel : Panel
             ItemAmount curAmount = StorageManager.Instance.FindItemAmount(false, team, slotList[i].OriginItem);
 
             slotList[i].SetAmountText(maxAmount.amount, curAmount.amount);
+        }
+    }
+
+    public override void Open(bool isTweenSkip = false)
+    {
+        if(isTweenSkip)
+        {
+            cvs.alpha = 1f;
+            cvs.blocksRaycasts = true;
+            cvs.interactable = true;
+        }
+        else
+        {
+            if (seq != null)
+            {
+                seq.Kill();
+            }
+
+            seq = DOTween.Sequence();
+
+            seq.Append(cvs.DOFade(1f, TWEEN_DURATION));
+            seq.AppendCallback(() =>
+            {
+                cvs.blocksRaycasts = true;
+                cvs.interactable = true;
+            });
         }
     }
 }

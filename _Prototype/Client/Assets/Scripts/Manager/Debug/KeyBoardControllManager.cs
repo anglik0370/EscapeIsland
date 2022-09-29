@@ -16,6 +16,8 @@ public class KeyBoardControllManager : MonoBehaviour
     private Button interactionBtnUI;
     [SerializeField]
     private Button skillBtnUI;
+    [SerializeField]
+    private Button readyBtnUI;
 
     private InteractionBtn interactionBtn;
     private SkillBtn skillBtn;
@@ -136,6 +138,14 @@ public class KeyBoardControllManager : MonoBehaviour
             if(isGameStart)
             {
                 MapPanel.Instance.Open();
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if(!isGameStart)
+            {
+                readyBtnUI.onClick?.Invoke();
             }
         }
     }
