@@ -383,6 +383,8 @@ public class Player : MonoBehaviour, IInteractionObject
     {
         if (!gameObject.activeSelf) return;
 
+        DeletePlayer();
+
         if (user)
         {
             for (int i = 0; i < transform.childCount; i++)
