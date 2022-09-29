@@ -16,6 +16,7 @@ public class LoginPopup : Popup
         connectBtn.onClick.AddListener(() =>
         {
             //�α��� ���� �� �κ�� �̵��ؾ���
+            SoundManager.Instance.PlayBtnSfx();
             SendManager.Instance.Send("LOGIN", new LoginVO(nameInput.text, 0));
             nameInput.text = "";
 

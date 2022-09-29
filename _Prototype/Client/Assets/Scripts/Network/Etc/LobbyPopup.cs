@@ -41,18 +41,21 @@ public class LobbyPopup : Popup
         refreshBtn.onClick.AddListener(() =>
         {
             SendManager.Instance.Send("ROOM_REFRESH_REQ");
+            SoundManager.Instance.PlayBtnSfx();
         });
         createPopupOpenBtn.onClick.AddListener(() =>
         {
             OpenCreateRoomPopup(true);
+            SoundManager.Instance.PlayBtnSfx();
         });
         exitBtn.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayBtnSfx();
             //NetworkManager.instance.ExitRoom();
             // PopupManager.instance.CloseAndOpen("login");
             // titlePanel.Init();
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
             #else
                 Application.Quit();
             #endif
@@ -60,27 +63,34 @@ public class LobbyPopup : Popup
 
         createRoomBtn.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayBtnSfx();
             NetworkManager.instance.FindSetDataScript<RefreshUsers>().isTest = testToggle.isOn;
             SendManager.Instance.Send("CREATE_ROOM", new RoomVO(roomNameInput.text, 0, 0, (int)userNumslider.value, 0));
             OpenCreateRoomPopup(false);
         });
         cancelBtn.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayBtnSfx();
             OpenCreateRoomPopup(false);
         });
 
         joinPopupOpenBtn.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayBtnSfx();
             OpenJoinRoomPopup(true);
         });
 
-        joinCancelBtn.onClick.AddListener(() => OpenJoinRoomPopup(false));
+        joinCancelBtn.onClick.AddListener(() => {
+            OpenJoinRoomPopup(false);
+            SoundManager.Instance.PlayBtnSfx();
+        });
 
         joinBtn.onClick.AddListener(() =>
         {
             //JoinRoom 보내 nameInput text로 
             SendManager.Instance.Send("FIND_ROOM", new RoomVO().SetRoomName(joinRoomNameInput.text));
             OpenJoinRoomPopup(false);
+            SoundManager.Instance.PlayBtnSfx();
         });
 
 
