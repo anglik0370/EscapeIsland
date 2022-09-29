@@ -126,9 +126,26 @@ public class Skill : ISetAble
             case CharacterType.Amber:
                 AmberSkill();
                 break;
+            case CharacterType.Sarsu:
+                SarsuSkill();
+                break;
             default:
                 CreateSkillLog(false);
                 break;
+        }
+    }
+
+    private void SarsuSkill()
+    {
+        CreateSkillLog(false);
+
+        if(user.socketId.Equals(skillData.useSkillPlayerId))
+        {
+            ParticleManager.Instance.PlayEffect("sarsu", user.transform);
+        }
+        else if(playerList.TryGetValue(skillData.useSkillPlayerId, out Player p))
+        {
+            ParticleManager.Instance.PlayEffect("sarsu", p.transform);
         }
     }
 
@@ -155,6 +172,13 @@ public class Skill : ISetAble
             {
                 user.UI.SetState("¿Á∑· ª©æ—±Ë", UtilClass.GetStateColor(false));
                 user.inventory.RemoveItem(item);
+                ParticleManager.Instance.PlayEffect("leon", user.transform);
+            }
+
+            if (playerList.TryGetValue(skillData.targetId, out Player p))
+            {
+                p.UI.SetState("¿Á∑· ª©æ—±Ë", UtilClass.GetStateColor(false));
+                ParticleManager.Instance.PlayEffect("leon", p.transform);
             }
         }
     }
@@ -262,6 +286,8 @@ public class Skill : ISetAble
                 user.UI.SetState("ª°∂Û¡¸", UtilClass.GetStateColor(true));
                 user.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(user.gameObject));
             }
+
+            ParticleManager.Instance.PlayEffect("ian", user.transform);
         }
 
         foreach (Player p in NetworkManager.instance.GetPlayerList())
@@ -285,6 +311,8 @@ public class Skill : ISetAble
                     p.UI.SetState("ª°∂Û¡¸", UtilClass.GetStateColor(true));
                     p.BuffHandler.AddBuff(BuffManager.Instance.GetBuffSO(IAN_BUFF_ID).InitializeBuff(p.gameObject));
                 }
+
+                ParticleManager.Instance.PlayEffect("ian", p.transform);
             }
         }
     }
@@ -301,6 +329,11 @@ public class Skill : ISetAble
 
         if (skillData.targetIdList.Contains(user.socketId))
         {
+            if (user.socketId.Equals(skillData.useSkillPlayerId))
+            {
+                ParticleManager.Instance.PlayEffect("cherry", user.transform);
+            }
+
             if (user.CurTeam.Equals(skillData.team))
             {
                 user.UI.SetState("πÃº« ƒ≈∏¿” ∞®º“", UtilClass.GetStateColor(buffSO.isBuffed));
@@ -313,6 +346,11 @@ public class Skill : ISetAble
         foreach (Player p in playerList.Values)
         {
             if (!skillData.targetIdList.Contains(p.socketId)) continue;
+
+            if(p.socketId.Equals(skillData.useSkillPlayerId))
+            {
+                ParticleManager.Instance.PlayEffect("cherry", p.transform);
+            }
 
             if (p.CurTeam.Equals(skillData.team))
             {
@@ -357,6 +395,7 @@ public class Skill : ISetAble
 
                 user.UI.SetState("¿Ãµø ∫“∞°", UtilClass.GetStateColor(buff.isBuffed));
                 user.BuffHandler.AddBuff(buff.InitializeBuff(user.gameObject));
+                ParticleManager.Instance.PlayEffect("joshua", user.transform);
             }
 
             foreach (Player p in NetworkManager.instance.GetPlayerList())
@@ -365,6 +404,7 @@ public class Skill : ISetAble
 
                 //¿Ã∆Â∆Æ ¿Áª˝Ω√ ø©±‚º≠
                 p.UI.SetState("¿Ãµø ∫“∞°", UtilClass.GetStateColor(buff.isBuffed));
+                ParticleManager.Instance.PlayEffect("joshua", p.transform);
             }
         }
     }

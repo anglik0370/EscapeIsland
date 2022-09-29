@@ -31,11 +31,13 @@ public class ParticleManager : MonoBehaviour
     #region OverlayEffect
     public void PlayEffectScreenToWorldPoint(string key, Vector3 pos)
     {
-        pos = effectCam.ScreenToWorldPoint(pos);
+        //pos = Camera.main.ScreenToWorldPoint(pos);
         Effect effect = PoolManager.GetItem<Effect>(key);
+
         effect.transform.SetParent(null);
         effect.SetPosition(pos);
         displayer.MoveToPosition(pos);
+
         effect.Play();
     }
     #endregion
