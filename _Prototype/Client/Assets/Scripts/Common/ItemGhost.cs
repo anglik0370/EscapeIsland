@@ -28,9 +28,7 @@ public class ItemGhost : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
-        pos.z = 10.0f;
-        
-        transform.position = Camera.main.ScreenToWorldPoint(pos);
+        transform.position = pos;
     }
 
     public void SetItem(ItemSO item)
