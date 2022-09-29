@@ -65,7 +65,7 @@ public class RefreshMasters : ISetAble
                     user.UI.SetNameTextColor(Color.black);
                     user.TeamUI.SetReadyImg(true, true);
                     user.UI.ClearStateText();
-
+                    readyBtn.Init();
                 }
                 //user.isImposter = uv.isImposter;
             }

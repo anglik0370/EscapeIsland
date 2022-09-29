@@ -47,7 +47,7 @@ public class ReadyBtn : MonoBehaviour
         });
     }
 
-    private void Init()
+    public void Init()
     {  
         if(p.master)
         {
