@@ -73,7 +73,7 @@ public class GameOverPanel : Panel
                 break;
             default:
                 {
-                    print("À¯È¿ÇÏÁö ¾ÊÀº CaseÀÔ´Ï´Ù");
+                    print("ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Caseï¿½Ô´Ï´ï¿½");
                 }
                 break;
         }
@@ -143,7 +143,7 @@ public class GameOverPanel : Panel
             gameEndEffects[i].Disable();
         }
 
-        SoundManager.Instance.PlayBGM(SoundManager.Instance.DaylightBGM);
+        SoundManager.Instance.PlayBGM(SoundManager.Instance.LobbyBGM);
 
         UtilClass.SetCanvasGroup(cvs);
         base.Close();

@@ -31,8 +31,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioClip titleBGM;
     [SerializeField]
+    private AudioClip lobbyBGM;
+    [SerializeField]
     private AudioClip daylightBGM;
-    public AudioClip DaylightBGM => daylightBGM;
+    public AudioClip LobbyBGM => lobbyBGM;
     [SerializeField]
     private AudioClip nightBGM;
     [SerializeField]
@@ -91,7 +93,7 @@ public class SoundManager : MonoBehaviour
 
         EventManager.SubEnterRoom(p => {
             this.p = p;
-            PlayBGM(daylightBGM);
+            PlayBGM(lobbyBGM);
         });
 
         EventManager.SubGameStart(p => {
