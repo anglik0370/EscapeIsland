@@ -61,7 +61,7 @@ public class ReadyBtn : MonoBehaviour
             img.sprite = readySprite;
             txt.text = "준비";
             btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => txt.text = p.isReady ? "취소" : "준비");
+            btn.onClick.AddListener(() => txt.text = !p.isReady ? "취소" : "준비");
             btn.onClick.AddListener(() => SendManager.Instance.Send("READY"));
         }
     }

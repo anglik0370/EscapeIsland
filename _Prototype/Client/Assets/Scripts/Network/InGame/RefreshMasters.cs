@@ -9,6 +9,9 @@ public class RefreshMasters : ISetAble
 
     private List<UserVO> userDataList;
 
+    [SerializeField]
+    private ReadyBtn readyBtn;
+
     protected override void Start()
     {
         base.Start();
@@ -62,6 +65,7 @@ public class RefreshMasters : ISetAble
                     user.UI.SetNameTextColor(Color.black);
                     user.TeamUI.SetReadyImg(true, true);
                     user.UI.ClearStateText();
+
                 }
                 //user.isImposter = uv.isImposter;
             }
