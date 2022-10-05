@@ -23,9 +23,14 @@ public class Effect : MonoBehaviour
         transform.position = pos + offset;
     }
 
-    public void SetLocalPosition(Vector2 pos)
+    public void SetLocalPosition(Vector2 pos, Player p = null)
     {
         transform.localPosition = pos + offset;
+
+        if(p != null)
+        {
+            transform.localPosition += p.curSO.adjsutPos;
+        }
     }
 
     public void Play()

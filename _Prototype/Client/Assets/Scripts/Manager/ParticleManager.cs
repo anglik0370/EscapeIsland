@@ -55,7 +55,7 @@ public class ParticleManager : MonoBehaviour
     {
         Effect effect = PoolManager.GetItem<Effect>(key);
         effect.transform.SetParent(parent);
-        effect.SetLocalPosition(Vector2.zero);
+        effect.SetLocalPosition(Vector2.zero, parent.GetComponent<Player>());
         displayer.MoveToPosition(effect.transform.position);
         effect.Play();
     }
