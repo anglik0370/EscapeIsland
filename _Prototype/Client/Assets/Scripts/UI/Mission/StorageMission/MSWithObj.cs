@@ -147,6 +147,9 @@ public class MSWithObj : MonoBehaviour, IStorageMission
 
         int objCount = 0;
 
+        redObjList.ForEach(x => x.Disable());
+        blueObjList.ForEach(x => x.Disable());
+
         for (int i = curItemCount - maxPanelCount; i >= 0; i -= maxPanelCount)
         {
             objCount++;
