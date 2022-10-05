@@ -225,9 +225,9 @@ public class MissionPanel : Panel
         return true;
     }
 
-    public IStorageMission FindStorageMissionByItemId(int itemId)
+    public IStorageMission FindStorageMissionByItemId(int itemId, Team team)
     {
-        return storageMissionList.Find(x => x.StorageItem.itemId.Equals(itemId));
+        return storageMissionList.Find(x => x.StorageItem.itemId.Equals(itemId) && x.Team.Equals(team));
     }
 
     public IMission FindMissionByType(MissionType type)

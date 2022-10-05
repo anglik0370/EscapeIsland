@@ -182,9 +182,6 @@ public class Skill : ISetAble
             }
         }
     }
-
-    
-
     private void SimonSkill()
     {
         CreateSkillLog(false);
@@ -196,6 +193,9 @@ public class Skill : ISetAble
         {
             StorageManager.Instance.RemoveItem(skillData.team, item);
 
+            IStorageMission sm = MissionPanel.Instance.FindStorageMissionByItemId(skillData.itemId, skillData.team);
+            sm.UpdateCurItem();
+
             if (user.socketId.Equals(skillData.useSkillPlayerId) && !user.inventory.IsAllSlotFull)
             {
                 user.inventory.AddItem(item);
@@ -203,10 +203,9 @@ public class Skill : ISetAble
         }
         else
         {
-            Debug.LogError("아이템이 없음");
+            Debug.Log("아이템이 없음");
         }
     }
-
     private void KionSkill()
     {
         CreateSkillLog(false);
