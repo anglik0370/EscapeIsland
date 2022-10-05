@@ -6,9 +6,7 @@ using DG.Tweening;
 public class Panel : MonoBehaviour
 {
     protected const float TWEEN_DURATION = 0.5f;
-
     protected CanvasGroup cvs;
-
     protected Sequence seq;
 
     protected virtual void Awake() 
@@ -23,7 +21,7 @@ public class Panel : MonoBehaviour
     protected virtual void Start()
     {
         EventManager.SubGameOver(goc => Close(true));
-        EventManager.SubStartMeet(mt => Close(true));
+        //EventManager.SubStartMeet(mt => Close(true));
         EventManager.SubExitRoom(() => Close(true));
     }
 

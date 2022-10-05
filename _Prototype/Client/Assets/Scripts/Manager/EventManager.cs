@@ -12,7 +12,6 @@ public class EventManager
     private static Action<bool> TimeChange = isLight => { };
     private static Action BackToRoom = () => { };
     private static Action ExitRoom = () => { };
-    private static Action<MeetingType> StartMeet = type => { };
     private static Action<GameOverCase> GameOver = overCase => { };
 
     public static void SubGameInit(Action Callback)
@@ -53,16 +52,6 @@ public class EventManager
     public static void OccurGameOver(GameOverCase type)
     {
         GameOver?.Invoke(type);
-    }
-
-    public static void SubStartMeet(Action<MeetingType> Callback)
-    {
-        StartMeet += Callback;
-    }
-
-    public static void OccurStartMeet(MeetingType type)
-    {
-        StartMeet?.Invoke(type);
     }
 
     public static void SubBackToRoom(Action Callback)
