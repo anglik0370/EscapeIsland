@@ -257,6 +257,10 @@ public class Player : MonoBehaviour, IInteractionObject
 
         footCollider = dummyPlayer.transform.Find("FootCollider").GetComponent<Collider2D>();
         bodyCollider = dummyPlayer.transform.Find("BodyCollider").GetComponent<Collider2D>();
+
+        footCollider.enabled = !isRemote;
+        bodyCollider.enabled = !isRemote;
+
         playerTrm = dummyPlayer.transform;
         footTrm = dummyPlayer.transform.Find("FootTrm").transform;
         footTrm.SetParent(transform);
