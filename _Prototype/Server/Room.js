@@ -27,7 +27,7 @@ class Room {
         this.playing = playing;
 
         this.inGameTimer = new InGameTimer(this,20,() => {});
-        this.altarTimer = new Timer(this,30,() => {});
+        this.altarTimer = new Timer(this,15,() => {});
 
         this.skipCount = 0;
         this.isOnce = false;

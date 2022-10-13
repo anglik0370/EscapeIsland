@@ -38,9 +38,8 @@ public class AltarPanel : Panel
     private BuffSO lastBuff = null;
 
     [Header("AltarTimter")]
-    [SerializeField]
-    private float maxTime = 30f;
-    private float remainTime = 30f;
+    private float maxTime = 15f;
+    private float remainTime = 15f;
 
     private bool isAltarAble = false;
     public bool IsAltarAble => isAltarAble;
